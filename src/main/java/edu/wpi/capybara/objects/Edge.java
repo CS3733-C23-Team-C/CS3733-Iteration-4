@@ -1,4 +1,7 @@
-package edu.wpi.teamname.pathfinding;
+package edu.wpi.capybara.objects;
+
+import edu.wpi.capybara.database.DBUpdate;
+import edu.wpi.capybara.database.DatabaseConnect;
 
 public class Edge {
   private Node startNode, endNode;
@@ -6,6 +9,12 @@ public class Edge {
 
   public Edge(String id) {
     this.edgeID = id;
+  }
+
+  public Edge(String id, Node startNode, Node endNode) {
+    this.edgeID = id;
+    this.startNode = startNode;
+    this.endNode = endNode;
   }
 
   public Node getStartNode() {
@@ -44,16 +53,22 @@ public class Edge {
     this.edgeID = edgeID;
   }
 
+  public void deleteEdge() {
+    // remove from hashmap
+    DBUpdate.delete("l1edges", this.edgeID, "edgeid");
+    DatabaseConnect.deleteEdge(this.edgeID);
+  }
+
   @Override
   public String toString() {
     return "ID : "
         + this.edgeID
         + "\n"
         + "Starting Node : "
-        + this.startNode.getID()
+        + this.startNode.getNodeID()
         + "\n"
         + "Ending Node : "
-        + this.endNode.getID()
+        + this.endNode.getNodeID()
         + "\n";
   }
 

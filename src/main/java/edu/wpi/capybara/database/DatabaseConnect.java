@@ -1,12 +1,14 @@
-package edu.wpi.teamname.database;
+package edu.wpi.capybara.database;
 
 import java.sql.*;
 import java.util.*;
+import edu.wpi.capybara.objects.Node;
+import edu.wpi.capybara.objects.Edge;
 
 public class DatabaseConnect {
   static Connection connection;
-  static HashMap<String, L1Nodes> nodes;
-  static HashMap<String, L1Edges> edges;
+  public static HashMap<String, Node> nodes;
+  public static HashMap<String, Edge> edges;
   static Scanner in = new Scanner(System.in);
 
   public static void main(String args[]) {
@@ -21,6 +23,14 @@ public class DatabaseConnect {
     } catch (SQLException e) {
       System.out.println(e);
     }
+  }
+
+  public static void deleteNode(String nodeID) {
+    nodes.remove(nodeID);
+  }
+
+  public static void deleteEdge(String edgeID) {
+    edges.remove(edgeID);
   }
 
   public static void menu() {
@@ -58,12 +68,12 @@ public class DatabaseConnect {
         if (option.equals("1") || option.equals("3")) {
           System.out.println("enter the new xcoord value");
           String xcoord = in.nextLine();
-          nodes.get(nodeid).setXcoord(Integer.valueOf(xcoord));
+          nodes.get(nodeid).setXCoord(Integer.valueOf(xcoord));
         }
         if (option.equals("2") || option.equals("3")) {
           System.out.println("enter the new ycoord value");
           String ycoord = in.nextLine();
-          nodes.get(nodeid).setYcoord(Integer.valueOf(ycoord));
+          nodes.get(nodeid).setYCoord(Integer.valueOf(ycoord));
         }
       } else if (option.equals("3")) {
         System.out.println("do you want to update 1. building 2. floor 3. both");
@@ -148,7 +158,7 @@ public class DatabaseConnect {
   }
 
   private static void importL1Nodes() {
-    nodes = new HashMap<String, L1Nodes>();
+    nodes = new HashMap<String, Node>();
 
     try {
       Statement stmt = connection.createStatement(); // initialize the statement
@@ -159,7 +169,7 @@ public class DatabaseConnect {
       while (rset.next()) { // loop through the table
         nodes.put(
             rset.getString("nodeid"),
-            new L1Nodes(
+            new Node(
                 rset.getString("nodeid"),
                 rset.getInt("xcoord"),
                 rset.getInt("ycoord"),
@@ -176,8 +186,9 @@ public class DatabaseConnect {
     }
   }
 
+  // NOTE: YOU MUST RUN THIS AFTER IMPORTING THE NODES
   private static void importL1Edges() {
-    edges = new HashMap<String, L1Edges>();
+    edges = new HashMap<String, Edge>();
 
     try {
       Statement stmt = connection.createStatement(); // initialize the statement
@@ -188,8 +199,8 @@ public class DatabaseConnect {
       while (rset.next()) { // loop through the table
         edges.put(
             rset.getString("edgeid"),
-            new L1Edges(
-                rset.getString("edgeid"), rset.getString("startnode"), rset.getString("endnode")));
+            new Edge(
+                rset.getString("edgeid"), nodes.get(rset.getString("startnode")), nodes.get(rset.getString("endnode"))));
       }
       rset.close();
       stmt.close();
@@ -199,8 +210,8 @@ public class DatabaseConnect {
   }
 
   public static void test() {
-    L1Nodes temp =
-        new L1Nodes(
+    Node temp =
+        new Node(
             "CCONF001L1",
             2255,
             849,
@@ -211,19 +222,19 @@ public class DatabaseConnect {
             "Conf C001L1");
 
     // Xcoord
-    System.out.println(temp.getXcoord());
-    temp.setXcoord(12);
-    System.out.println(temp.getXcoord());
-    temp.setXcoord(2255);
-    System.out.println(temp.getXcoord());
+    System.out.println(temp.getXCoord());
+    temp.setXCoord(12);
+    System.out.println(temp.getXCoord());
+    temp.setXCoord(2255);
+    System.out.println(temp.getXCoord());
     System.out.println();
 
     // Ycoord
-    System.out.println(temp.getYcoord());
-    temp.setYcoord(11);
-    System.out.println(temp.getYcoord());
-    temp.setYcoord(849);
-    System.out.println(temp.getYcoord());
+    System.out.println(temp.getYCoord());
+    temp.setYCoord(11);
+    System.out.println(temp.getYCoord());
+    temp.setYCoord(849);
+    System.out.println(temp.getYCoord());
     System.out.println();
 
     // floor

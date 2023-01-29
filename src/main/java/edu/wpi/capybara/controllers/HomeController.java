@@ -1,6 +1,6 @@
-package edu.wpi.teamname.controllers;
+package edu.wpi.capybara.controllers;
 
-import edu.wpi.teamname.App;
+import edu.wpi.capybara.App;
 import java.io.IOException;
 import java.net.URL;
 import javafx.event.ActionEvent;

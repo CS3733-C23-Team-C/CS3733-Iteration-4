@@ -1,12 +1,12 @@
-package edu.wpi.teamname.database;
+package edu.wpi.capybara.database;
 
-import static edu.wpi.teamname.database.DatabaseConnect.connection;
+import static edu.wpi.capybara.database.DatabaseConnect.connection;
 
 import java.sql.SQLException;
 import java.sql.Statement;
 
-class DBUpdate {
-  static void update(String table, String pk, String attribute, String value, String pkType) {
+public class DBUpdate {
+  public static void update(String table, String pk, String attribute, String value, String pkType) {
 
     try {
       Statement stmt = connection.createStatement();
@@ -21,7 +21,7 @@ class DBUpdate {
     }
   }
 
-  static void delete(String table, String pk, String pkType) {
+  public static void delete(String table, String pk, String pkType) {
     try {
       Statement stmt = connection.createStatement();
       String delete = "DELETE FROM " + table + " WHERE " + pkType + " = '" + pk + "'";

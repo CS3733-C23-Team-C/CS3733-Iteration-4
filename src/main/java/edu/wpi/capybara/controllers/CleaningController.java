@@ -1,6 +1,6 @@
-package edu.wpi.teamname.controllers;
+package edu.wpi.capybara.controllers;
 
-import edu.wpi.teamname.App;
+import edu.wpi.capybara.App;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import java.net.URL;

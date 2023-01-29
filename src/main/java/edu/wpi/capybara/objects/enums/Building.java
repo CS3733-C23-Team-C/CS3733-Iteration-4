@@ -1,4 +1,4 @@
-package edu.wpi.teamname.pathfinding;
+package edu.wpi.capybara.objects.enums;
 
 public enum Building {
   FRANCIS,
