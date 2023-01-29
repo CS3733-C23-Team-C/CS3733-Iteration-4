@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.teamname.controllers.CleaningController">
+   <top>
+      <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: #252526;" BorderPane.alignment="CENTER">
+         <children>
+            <MFXButton fx:id="ReturnButton" cancelButton="true" mnemonicParsing="false" onAction="#back" style="-fx-background-color: #00000000; -fx-border-color: white; -fx-border-radius: 4;" text="Back" textFill="WHITE" />
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Cleaning Request" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+   </top>
+   <bottom>
+      <MFXButton fx:id="SubmitButton" buttonType="RAISED" mnemonicParsing="false" onAction="#submit" text="Submit" BorderPane.alignment="CENTER_RIGHT">
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </BorderPane.margin>
+      </MFXButton>
+   </bottom>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" />
+            <TextField fx:id="Location" promptText="Please state the location that needs cleaned" />
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" />
+            <TextArea fx:id="Description" prefHeight="200.0" prefWidth="200.0" promptText="Please describe what needs cleaning" />
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </VBox>
+   </center>
+</BorderPane>
