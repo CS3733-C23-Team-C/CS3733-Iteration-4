@@ -1,6 +1,6 @@
-package edu.wpi.teamname.navigation;
+package edu.wpi.capybara.navigation;
 
-import edu.wpi.teamname.App;
+import edu.wpi.capybara.App;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 
