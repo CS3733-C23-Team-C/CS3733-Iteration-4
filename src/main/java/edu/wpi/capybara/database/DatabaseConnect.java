@@ -1,9 +1,9 @@
 package edu.wpi.capybara.database;
 
+import edu.wpi.capybara.objects.Edge;
+import edu.wpi.capybara.objects.Node;
 import java.sql.*;
 import java.util.*;
-import edu.wpi.capybara.objects.Node;
-import edu.wpi.capybara.objects.Edge;
 
 public class DatabaseConnect {
   static Connection connection;
@@ -200,7 +200,9 @@ public class DatabaseConnect {
         edges.put(
             rset.getString("edgeid"),
             new Edge(
-                rset.getString("edgeid"), nodes.get(rset.getString("startnode")), nodes.get(rset.getString("endnode"))));
+                rset.getString("edgeid"),
+                nodes.get(rset.getString("startnode")),
+                nodes.get(rset.getString("endnode"))));
       }
       rset.close();
       stmt.close();

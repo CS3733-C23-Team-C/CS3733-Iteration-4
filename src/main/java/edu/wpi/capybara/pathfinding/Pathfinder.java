@@ -1,9 +1,9 @@
 package edu.wpi.capybara.pathfinding;
 
-import java.io.InputStream;
-import java.util.*;
 import edu.wpi.capybara.objects.Edge;
 import edu.wpi.capybara.objects.Node;
+import java.io.InputStream;
+import java.util.*;
 
 public class Pathfinder {
   private Map<String, Node> nodes;

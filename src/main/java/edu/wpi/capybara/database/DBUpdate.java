@@ -6,7 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DBUpdate {
-  public static void update(String table, String pk, String attribute, String value, String pkType) {
+  public static void update(
+      String table, String pk, String attribute, String value, String pkType) {
 
     try {
       Statement stmt = connection.createStatement();

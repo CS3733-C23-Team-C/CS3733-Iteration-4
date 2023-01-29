@@ -1,30 +1,22 @@
 package edu.wpi.capybara.objects;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import edu.wpi.capybara.database.DBUpdate;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.enums.Building;
 import edu.wpi.capybara.objects.enums.Floor;
 import edu.wpi.capybara.objects.enums.NodeType;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Getter;
-import edu.wpi.capybara.database.DBUpdate;
 
 public class Node {
-  @Getter
-  String nodeID;
-  @Getter
-  int xCoord, yCoord;
-  @Getter
-  Floor floor;
-  @Getter
-  Building building;
-  @Getter
-  NodeType nodeType;
-  @Getter
-  String longName, shortName;
-  @Getter
-  Set<Edge> edges;
+  @Getter String nodeID;
+  @Getter int xCoord, yCoord;
+  @Getter Floor floor;
+  @Getter Building building;
+  @Getter NodeType nodeType;
+  @Getter String longName, shortName;
+  @Getter Set<Edge> edges;
 
   public Node(
       String nodeID,
@@ -47,14 +39,14 @@ public class Node {
   }
 
   public Node(
-          String nodeID,
-          int xCoord,
-          int yCoord,
-          String floor,
-          String building,
-          String nodeType,
-          String longName,
-          String shortName) {
+      String nodeID,
+      int xCoord,
+      int yCoord,
+      String floor,
+      String building,
+      String nodeType,
+      String longName,
+      String shortName) {
     this.nodeID = nodeID;
     this.xCoord = xCoord;
     this.yCoord = yCoord;
@@ -100,42 +92,35 @@ public class Node {
     DBUpdate.update("l1nodes", this.nodeID, "nodeid", "'" + nodeID + "'", "nodeid");
   }
 
-
   public void setXCoord(int xcoord) {
     this.xCoord = xcoord;
     DBUpdate.update("l1nodes", this.nodeID, "xcoord", String.valueOf(xcoord), "nodeid");
   }
-
 
   public void setYCoord(int ycoord) {
     this.yCoord = ycoord;
     DBUpdate.update("l1nodes", this.nodeID, "ycoord", String.valueOf(ycoord), "nodeid");
   }
 
-
   public void setFloor(String floor) {
     this.floor = Floor.strToFloor(floor);
     DBUpdate.update("l1nodes", this.nodeID, "floor", "'" + floor + "'", "nodeid");
   }
-
 
   public void setBuilding(String building) {
     this.building = Building.strToBuilding(building);
     DBUpdate.update("l1nodes", this.nodeID, "building", "'" + building + "'", "nodeid");
   }
 
-
   public void setNodeType(String nodeType) {
     this.nodeType = NodeType.strToNode(nodeType);
     DBUpdate.update("l1nodes", this.nodeID, "nodetype", "'" + nodeType + "'", "nodeid");
   }
 
-
   public void setLongName(String longName) {
     this.longName = longName;
     DBUpdate.update("l1nodes", this.nodeID, "longname", "'" + longName + "'", "nodeid");
   }
-
 
   public void setShortName(String shortName) {
     this.shortName = shortName;

@@ -93,32 +93,32 @@ public class TransportationController {
     if (selection.equals("Lower Level 2")) {
       Image newImage =
           new Image(
-              "C:\\Users\\Johnk\\Documents\\CS\\Soft Eng\\CS3733-C23-Team-C-Prototype-1\\src\\main\\resources\\edu\\wpi\\teamname\\images\\thelowerlevel2.png");
+              "C:\\Users\\Johnk\\Documents\\CS\\Soft Eng\\CS3733-C23-Team-C-Prototype-1\\src\\main\\resources\\edu\\wpi\\capybara\\images\\thelowerlevel2.png");
       map.setImage(newImage);
     } else if (selection.equals("Lower Level 1")) {
       Image newImage =
           new Image(
-              "C:\\Users\\Johnk\\Documents\\CS\\Soft Eng\\CS3733-C23-Team-C-Prototype-1\\src\\main\\resources\\edu\\wpi\\teamname\\images\\thelowerlevel1.png");
+              "C:\\Users\\Johnk\\Documents\\CS\\Soft Eng\\CS3733-C23-Team-C-Prototype-1\\src\\main\\resources\\edu\\wpi\\capybara\\images\\thelowerlevel1.png");
       map.setImage(newImage);
     } else if (selection.equals("Ground Floor")) {
       Image newImage =
           new Image(
-              "C:\\Users\\Johnk\\Documents\\CS\\Soft Eng\\CS3733-C23-Team-C-Prototype-1\\src\\main\\resources\\edu\\wpi\\teamname\\images\\thegroundfloor.png");
+              "C:\\Users\\Johnk\\Documents\\CS\\Soft Eng\\CS3733-C23-Team-C-Prototype-1\\src\\main\\resources\\edu\\wpi\\capybara\\images\\thegroundfloor.png");
       map.setImage(newImage);
     } else if (selection.equals("First Floor")) {
       Image newImage =
           new Image(
-              "C:\\Users\\Johnk\\Documents\\CS\\Soft Eng\\CS3733-C23-Team-C-Prototype-1\\src\\main\\resources\\edu\\wpi\\teamname\\images\\thefirstfloor.png");
+              "C:\\Users\\Johnk\\Documents\\CS\\Soft Eng\\CS3733-C23-Team-C-Prototype-1\\src\\main\\resources\\edu\\wpi\\capybara\\images\\thefirstfloor.png");
       map.setImage(newImage);
     } else if (selection.equals("Second Floor")) {
       Image newImage =
           new Image(
-              "C:\\Users\\Johnk\\Documents\\CS\\Soft Eng\\CS3733-C23-Team-C-Prototype-1\\src\\main\\resources\\edu\\wpi\\teamname\\images\\thesecondfloor.png");
+              "C:\\Users\\Johnk\\Documents\\CS\\Soft Eng\\CS3733-C23-Team-C-Prototype-1\\src\\main\\resources\\edu\\wpi\\capybara\\images\\thesecondfloor.png");
       map.setImage(newImage);
     } else {
       Image newImage =
           new Image(
-              "C:\\Users\\Johnk\\Documents\\CS\\Soft Eng\\CS3733-C23-Team-C-Prototype-1\\src\\main\\resources\\edu\\wpi\\teamname\\images\\thethirdfloor.png");
+              "C:\\Users\\Johnk\\Documents\\CS\\Soft Eng\\CS3733-C23-Team-C-Prototype-1\\src\\main\\resources\\edu\\wpi\\capybara\\images\\thethirdfloor.png");
       map.setImage(newImage);
     }
   }
