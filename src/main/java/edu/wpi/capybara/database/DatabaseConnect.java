@@ -203,7 +203,7 @@ public class DatabaseConnect {
       while (rset.next()) { // loop through the table
         edges.put(
             rset.getString("startnode") + rset.getString("endnode"),
-            new Edge(nodes.get(rset.getString("startnode")), nodes.get(rset.getString("endnode"))));
+            new Edge(rset.getString("startnode"), rset.getString("endnode")));
       }
       rset.close();
       stmt.close();

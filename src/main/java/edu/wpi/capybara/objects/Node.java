@@ -6,6 +6,9 @@ import edu.wpi.capybara.objects.enums.Building;
 import edu.wpi.capybara.objects.enums.Floor;
 import lombok.Getter;
 
+import java.sql.ResultSet;
+import java.util.HashSet;
+
 public class Node {
   @Getter String nodeID;
   @Getter int xCoord, yCoord;
@@ -126,5 +129,19 @@ public class Node {
     // remove from hashmap
     DBUpdate.delete("nodes", this.nodeID, "nodeid");
     DatabaseConnect.deleteNode(this.nodeID);
+  }
+
+  public HashSet<Edge> getEdges(){
+    HashSet<Edge> ret = new HashSet<Edge>();
+    ResultSet rset = DBUpdate.edges(nodeID);
+    try {
+      while (rset.next()) { // loop through the table
+        ret.add(new Edge(rset.getString("node1"), rset.getString("node2")));
+      }
+    }
+    catch (java.sql.SQLException e){
+      System.out.println(e);
+    }
+    return ret;
   }
 }

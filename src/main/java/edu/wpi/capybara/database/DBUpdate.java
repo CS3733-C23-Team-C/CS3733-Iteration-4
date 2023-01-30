@@ -2,6 +2,7 @@ package edu.wpi.capybara.database;
 
 import static edu.wpi.capybara.database.DatabaseConnect.connection;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -28,7 +29,7 @@ public class DBUpdate {
     try {
       Statement stmt = connection.createStatement();
       String insert =
-              "UPDATE " + table + " SET " + attribute + " = " + value + " WHERE " + pkType1 + " = '" + pk2
+              "UPDATE " + table + " SET " + attribute + " = " + value + " WHERE " + pkType1 + " = '" + pk1
                       + "' & '" + pkType2 + " = '" + pk2 + "'";
       System.out.println(insert);
       stmt.execute(insert);
@@ -48,5 +49,20 @@ public class DBUpdate {
     } catch (SQLException e) {
       System.out.println(e);
     }
+  }
+
+  public static ResultSet edges(String curNode){
+    try {
+      Statement stmt = connection.createStatement();
+      String edges = "SELECT * FROM edge WHERE node1 = '" + curNode + "' OR node2 = '" + curNode + "'";
+      ResultSet rset = stmt.executeQuery(edges);
+      System.out.println(edges);
+      stmt.execute(edges);
+      stmt.close();
+      return rset;
+    } catch (SQLException e) {
+      System.out.println(e);
+    }
+    return null;
   }
 }
