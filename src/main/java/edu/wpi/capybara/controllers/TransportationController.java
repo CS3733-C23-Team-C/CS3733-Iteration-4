@@ -1,7 +1,9 @@
 package edu.wpi.capybara.controllers;
 
+import edu.wpi.capybara.App;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
+import edu.wpi.capybara.objects.submissions.transportationSubmission;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -19,6 +21,8 @@ public class TransportationController {
   @FXML public Stage primaryStage;
   @FXML private MFXButton backButton;
   @FXML private MFXButton submitButton;
+  @FXML private MFXButton clearButton;
+  @FXML private MFXTextField idField;
   @FXML private MFXTextField currRoom;
   @FXML private MFXTextField destRoom;
   @FXML private VBox imageVBox;
@@ -60,9 +64,24 @@ public class TransportationController {
   }
 
   public void submitForm(ActionEvent actionEvent) throws IOException {
+    String outputID = idField.getText();
     String outputCurrRoom = currRoom.getText();
     String outputDestRoom = destRoom.getText();
-    System.out.println("Current Room: " + outputCurrRoom + " Destination Room: " + outputDestRoom);
+    // System.out.println("Current Room: " + outputCurrRoom + " Destination Room: " +
+    // outputDestRoom);
+    transportationSubmission newSubmission =
+        new transportationSubmission(outputID, outputCurrRoom, outputDestRoom);
+    App.totalSubmissions.newTransportationSubmission(newSubmission);
+    System.out.println(App.totalSubmissions.getTransportationData());
+    currRoom.setText("");
+    destRoom.setText("");
+    idField.setText("");
+  }
+
+  public void clearFields(ActionEvent actionEvent) throws IOException {
+    currRoom.setText("");
+    destRoom.setText("");
+    idField.setText("");
   }
 
   //  public void resizeImg(ActionEvent actionEvent) throws IOException {
