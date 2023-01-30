@@ -1,23 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="homePagePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #a9cbde;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.HomeController">
-   <center>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-         <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0">
+<StackPane fx:id="homeStackPane" styleClass="body" stylesheets="@../styles/home_style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.HomeController">
+   <children>
+      <BorderPane fx:id="homePagePane" prefHeight="400.0" prefWidth="600.0">
+         <top>
+            <VBox alignment="CENTER" prefHeight="86.0" prefWidth="600.0" style="-fx-background-color: #252526E6;" BorderPane.alignment="CENTER">
                <children>
-                  <MFXButton fx:id="transportationButton" alignment="TOP_CENTER" onAction="#showTransportationPage" prefHeight="119.0" prefWidth="120.0" style="-fx-content-display: top; -fx-border-color: #5a6673; -fx-border-width: 4; -fx-border-radius: 2;" text="Transportation">
+                  <HBox alignment="CENTER" prefHeight="73.0" prefWidth="600.0">
+                     <children>
+                        <Text fx:id="welcomeHomeText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Home Page!">
+                           <font>
+                              <Font name="Segoe UI Black" size="30.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </top>
+         <center>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" BorderPane.alignment="CENTER">
+               <children>
+                  <MFXButton fx:id="transportationButton" alignment="TOP_CENTER" onAction="#showTransportationPage" prefHeight="100.0" prefWidth="100.0" style="-fx-content-display: top; -fx-border-color: #5a6673; -fx-border-width: 4; -fx-border-radius: 2;" text="Transportation Service">
                      <graphic>
-                        <ImageView fitHeight="88.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="64.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/map_icon.png" />
                            </image>
@@ -26,10 +43,13 @@
                      <font>
                         <Font name="Segoe UI Black" size="12.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </MFXButton>
-                  <MFXButton fx:id="cleaningButton" alignment="TOP_CENTER" onAction="#showCleaningPage" prefHeight="119.0" prefWidth="120.0" style="-fx-content-display: top; -fx-border-color: #5a6673; -fx-border-width: 4; -fx-border-radius: 2;" text="Cleaning Service">
+                  <MFXButton fx:id="cleaningButton" alignment="TOP_CENTER" onAction="#showCleaningPage" prefHeight="100.0" prefWidth="100.0" style="-fx-content-display: top; -fx-border-color: #5a6673; -fx-border-width: 4; -fx-border-radius: 2;" text="Cleaning Service">
                      <graphic>
-                        <ImageView fitHeight="88.0" fitWidth="84.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="63.0" fitWidth="69.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/clean_icon.png" />
                            </image>
@@ -38,34 +58,43 @@
                      <font>
                         <Font name="Segoe UI Black" size="12.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </MFXButton>
+                  <MFXButton fx:id="securityButton" alignment="BOTTOM_CENTER" onAction="#showSecurityPage" prefHeight="100.0" prefWidth="100.0" style="-fx-content-display: top; -fx-border-color: #5a6673; -fx-border-width: 4; -fx-border-radius: 2;" text="Security Service">
+                     <graphic>
+                        <ImageView fitHeight="56.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/security_icon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="Segoe UI Black" size="12.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </MFXButton>
+                  <MFXButton fx:id="mapEditorButton" alignment="BOTTOM_CENTER" onAction="#showMapEditor" prefHeight="100.0" prefWidth="100.0" style="-fx-content-display: top; -fx-border-color: #5a6673; -fx-border-width: 4; -fx-border-radius: 2;" text="Map Editor">
+                     <graphic>
+                        <ImageView fitHeight="52.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../images/map_editor_icon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <font>
+                        <Font name="Segoe UI Black" size="12.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </MFXButton>
                </children>
             </HBox>
-         </children>
-      </VBox>
-   </center>
-   <top>
-      <VBox alignment="CENTER" prefHeight="86.0" prefWidth="600.0" style="-fx-background-color: #252526;" BorderPane.alignment="CENTER">
-         <children>
-            <HBox alignment="TOP_RIGHT" prefHeight="0.0" prefWidth="600.0">
-               <children>
-                  <MFXButton fx:id="exitButton" cancelButton="true" onAction="#exitApplication" prefHeight="31.0" prefWidth="54.0" style="-fx-background-color: #c96f6f;" text="X" textAlignment="CENTER">
-                     <font>
-                        <Font name="Segoe UI Black" size="15.0" />
-                     </font>
-                  </MFXButton>
-               </children>
-            </HBox>
-            <HBox alignment="CENTER" prefHeight="73.0" prefWidth="600.0">
-               <children>
-                  <Text fx:id="welcomeHomeText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Home Page!">
-                     <font>
-                        <Font name="Segoe UI Black" size="30.0" />
-                     </font>
-                  </Text>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </top>
-</BorderPane>
+         </center>
+      </BorderPane>
+   </children>
+</StackPane>

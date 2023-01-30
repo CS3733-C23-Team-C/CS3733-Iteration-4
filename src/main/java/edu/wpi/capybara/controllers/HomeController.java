@@ -1,15 +1,11 @@
 package edu.wpi.capybara.controllers;
 
-import edu.wpi.capybara.App;
+import edu.wpi.capybara.navigation.Navigation;
+import edu.wpi.capybara.navigation.Screen;
 import java.io.IOException;
-import java.net.URL;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class HomeController {
@@ -53,29 +49,18 @@ public class HomeController {
   @FXML public Stage primaryStage;
 
   public void showTransportationPage(ActionEvent actionEvent) throws IOException {
-    final URL path = App.class.getResource("views/Transportation.fxml");
-    final FXMLLoader loader = new FXMLLoader(path);
-    primaryStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-    final BorderPane mainScene = loader.load();
-    final Scene scene = new Scene(mainScene);
-
-    primaryStage.setScene(scene);
-    primaryStage.show();
+    Navigation.navigate(Screen.SERVICE_REQUEST_TRANSPORTATION);
   }
 
   public void showCleaningPage(ActionEvent actionEvent) throws IOException {
-    final URL path = App.class.getResource("views/Cleaning.fxml");
-    final FXMLLoader loader = new FXMLLoader(path);
-    primaryStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-    final BorderPane mainScene = loader.load();
-    final Scene scene = new Scene(mainScene);
-
-    primaryStage.setScene(scene);
-    primaryStage.show();
+    Navigation.navigate(Screen.SERVICE_REQUEST_CLEANING);
   }
 
-  public void exitApplication(ActionEvent actionEvent) {
-    Stage stage = (Stage) exitButton.getScene().getWindow();
-    stage.close();
+  public void showSecurityPage(ActionEvent actionEvent) {
+    Navigation.navigate(Screen.SERVICE_REQUEST_SECURITY);
+  }
+
+  public void showMapEditor(ActionEvent actionEvent) {
+    Navigation.navigate(Screen.MAP_EDITOR);
   }
 }

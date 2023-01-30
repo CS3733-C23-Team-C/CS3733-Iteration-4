@@ -3,73 +3,76 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
-<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="transportationPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.TransportationController">
-   <top>
-      <HBox alignment="CENTER" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #a9cbde;" BorderPane.alignment="CENTER">
-         <children>
-            <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+<StackPane fx:id="transportationStackPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.TransportationController">
+   <children>
+      <BorderPane fx:id="transportationPane" prefHeight="400.0" prefWidth="600.0">
+         <top>
+            <HBox alignment="CENTER" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #a9cbde;" BorderPane.alignment="CENTER">
                <children>
-                  <MFXButton fx:id="backButton" alignment="TOP_CENTER" contentDisplay="CENTER" onAction="#returnHome" rippleColor="#b77777" style="-fx-background-color: #ffd300;" text=" ">
-                     <graphic>
-                        <ImageView fitHeight="28.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/back_button.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </MFXButton>
+                  <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <MFXButton fx:id="backButton" alignment="TOP_CENTER" contentDisplay="CENTER" onAction="#returnHome" rippleColor="#b77777" style="-fx-background-color: #ffd300;" text=" ">
+                           <graphic>
+                              <ImageView fitHeight="28.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/back_button.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+                  <VBox alignment="CENTER" prefHeight="50.0" prefWidth="405.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Internal Paitent Transportation Request Form">
+                           <font>
+                              <Font name="Segoe UI Black" size="18.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </VBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                </children>
             </HBox>
-            <VBox alignment="CENTER" prefHeight="50.0" prefWidth="405.0">
+         </top>
+         <center>
+            <VBox fx:id="imageVBox" alignment="CENTER" prefHeight="591.0" prefWidth="771.0" styleClass="body" stylesheets="@../styles/transportation_style.css" BorderPane.alignment="CENTER" />
+         </center>
+         <right>
+            <VBox alignment="CENTER" minWidth="200.0" prefHeight="516.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Internal Paitent Transportation Request Form">
-                     <font>
-                        <Font name="Segoe UI Black" size="18.0" />
-                     </font>
-                  </Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select Floor" VBox.vgrow="ALWAYS" />
+                  <MFXComboBox fx:id="dropDown" alignment="CENTER" floatMode="ABOVE" floatingTextGap="10.0" onAction="#updateMap" prefHeight="32.0" prefWidth="163.0" promptText="Lower Level 1" VBox.vgrow="ALWAYS">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></MFXComboBox>
+                  <HBox alignment="CENTER" maxHeight="50.0" prefHeight="226.0" prefWidth="150.0" VBox.vgrow="ALWAYS" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Room Number" VBox.vgrow="ALWAYS" />
+                  <MFXTextField fx:id="currRoom" alignment="TOP_CENTER" borderGap="0.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="124.0" measureUnitGap="1.0" prefHeight="50.0" prefWidth="124.0" VBox.vgrow="ALWAYS" />
+                  <HBox prefHeight="34.0" prefWidth="150.0" />
+                  <Text fx:id="DestinationRoomNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="Destination Room Number" VBox.vgrow="ALWAYS" />
+                  <MFXTextField fx:id="destRoom" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="124.0" measureUnitGap="1.0" prefHeight="18.0" prefWidth="124.0" VBox.vgrow="ALWAYS" />
+                  <HBox prefHeight="50.0" prefWidth="84.0" />
+                  <MFXButton fx:id="submitButton" onAction="#submitForm" style="-fx-background-color: #b9fbb9;" text="Find Directions!" VBox.vgrow="ALWAYS">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></MFXButton>
                </children>
             </VBox>
-            <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-         </children>
-      </HBox>
-   </top>
-   <center>
-      <VBox fx:id="imageVBox" alignment="CENTER" prefHeight="591.0" prefWidth="771.0" BorderPane.alignment="CENTER">
-         <children>
-            <ImageView fx:id="map" fitHeight="475.0" fitWidth="873.0" onMouseReleased="#resizeImg" pickOnBounds="true" preserveRatio="true" smooth="false" VBox.vgrow="NEVER">
-               <image>
-                  <Image url="@../images/thelowerlevel1.png" />
-               </image>
-               <viewport>
-                  <Rectangle2D />
-               </viewport>
-            </ImageView>
-         </children>
-      </VBox>
-   </center>
-   <right>
-      <VBox alignment="CENTER" minWidth="200.0" prefHeight="516.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select Floor" VBox.vgrow="ALWAYS" />
-            <MFXComboBox fx:id="dropDown" alignment="CENTER" floatMode="ABOVE" floatingTextGap="10.0" onAction="#updateMap" prefHeight="32.0" prefWidth="163.0" promptText="Lower Level 1" VBox.vgrow="ALWAYS" />
-            <HBox alignment="CENTER" maxHeight="50.0" prefHeight="226.0" prefWidth="150.0" VBox.vgrow="ALWAYS" />
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Room Number" VBox.vgrow="ALWAYS" />
-            <MFXTextField fx:id="currRoom" alignment="TOP_CENTER" borderGap="0.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="124.0" measureUnitGap="1.0" prefHeight="50.0" prefWidth="124.0" VBox.vgrow="ALWAYS" />
-            <HBox prefHeight="34.0" prefWidth="150.0" />
-            <Text fx:id="DestinationRoomNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="Destination Room Number" VBox.vgrow="ALWAYS" />
-            <MFXTextField fx:id="destRoom" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="124.0" measureUnitGap="1.0" prefHeight="18.0" prefWidth="124.0" VBox.vgrow="ALWAYS" />
-            <HBox prefHeight="50.0" prefWidth="84.0" />
-            <MFXButton fx:id="submitButton" onAction="#submitForm" style="-fx-background-color: #b9fbb9;" text="Find Directions!" VBox.vgrow="ALWAYS" />
-         </children>
-      </VBox>
-   </right>
-</BorderPane>
+         </right>
+      </BorderPane>
+   </children>
+</StackPane>
