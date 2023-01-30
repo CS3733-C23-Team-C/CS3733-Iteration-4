@@ -24,7 +24,6 @@ public class CleaningController {
   @FXML public Button ClearButton;
   @FXML public TextField MemberID;
 
-
   public void submit(ActionEvent actionEvent) {
     String locationInfo = Location.getText();
     String descriptionInfo = Description.getText();
@@ -36,8 +35,9 @@ public class CleaningController {
     Navigation.navigate(Screen.HOME);
   }
 
-  public void clearRequest(ActionEvent actionEvent){
+  public void clearRequest(ActionEvent actionEvent) {
     Location.clear();
     Description.clear();
+    MemberID.clear();
   }
 }
