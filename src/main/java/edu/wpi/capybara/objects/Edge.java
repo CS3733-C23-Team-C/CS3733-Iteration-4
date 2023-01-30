@@ -49,10 +49,10 @@ public class Edge {
   @Override
   public String toString() {
     return "Starting Node : "
-        + this.startNode.getNodeID()
+        + this.startNode
         + "\n"
         + "Ending Node : "
-        + this.endNode.getNodeID()
+        + this.endNode
         + "\n";
   }
 
