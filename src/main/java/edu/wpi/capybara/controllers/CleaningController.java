@@ -6,6 +6,7 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -20,6 +21,10 @@ public class CleaningController {
   @FXML public TextArea Description;
   @FXML public Stage primaryStage;
 
+  @FXML public Button ClearButton;
+  @FXML public TextField MemberID;
+
+
   public void submit(ActionEvent actionEvent) {
     String locationInfo = Location.getText();
     String descriptionInfo = Description.getText();
@@ -29,5 +34,10 @@ public class CleaningController {
 
   public void back(ActionEvent actionEvent) throws IOException {
     Navigation.navigate(Screen.HOME);
+  }
+
+  public void clearRequest(ActionEvent actionEvent){
+    Location.clear();
+    Description.clear();
   }
 }
