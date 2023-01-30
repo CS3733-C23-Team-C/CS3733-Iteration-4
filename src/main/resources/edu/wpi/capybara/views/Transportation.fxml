@@ -61,13 +61,13 @@
                      </cursor></MFXComboBox>
                   <HBox alignment="CENTER" maxHeight="30.0" prefHeight="226.0" prefWidth="150.0" VBox.vgrow="ALWAYS" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Room Number" VBox.vgrow="ALWAYS" />
-                  <MFXTextField fx:id="currRoom" alignment="TOP_CENTER" borderGap="0.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="124.0" measureUnitGap="1.0" prefHeight="50.0" prefWidth="124.0" VBox.vgrow="ALWAYS" />
+                  <MFXTextField fx:id="currRoom" alignment="TOP_CENTER" borderGap="0.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="124.0" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="124.0" VBox.vgrow="ALWAYS" />
                   <HBox maxHeight="20.0" prefHeight="34.0" prefWidth="150.0" />
                   <Text fx:id="DestinationRoomNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="Destination Room Number" VBox.vgrow="ALWAYS" />
-                  <MFXTextField fx:id="destRoom" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="124.0" measureUnitGap="1.0" prefHeight="18.0" prefWidth="124.0" VBox.vgrow="ALWAYS" />
+                  <MFXTextField fx:id="destRoom" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="124.0" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="18.0" prefWidth="124.0" VBox.vgrow="ALWAYS" />
                   <HBox maxHeight="20.0" prefHeight="100.0" prefWidth="200.0" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID" />
-                  <MFXTextField fx:id="idField" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="5.0" maxWidth="124.0" />
+                  <MFXTextField fx:id="idField" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="5.0" maxWidth="124.0" onKeyReleased="#validateButton" />
                   <HBox maxHeight="20.0" prefHeight="100.0" prefWidth="200.0" />
                   <HBox alignment="CENTER" maxHeight="40.0" prefHeight="40.0" prefWidth="200.0">
                      <children>
@@ -77,7 +77,7 @@
                            </cursor>
                         </MFXButton>
                      </children></HBox>
-                  <MFXButton fx:id="submitButton" onAction="#submitForm" style="-fx-background-color: #b9fbb9;" text="Find Directions!" VBox.vgrow="ALWAYS">
+                  <MFXButton fx:id="submitButton" disable="true" onAction="#submitForm" style="-fx-background-color: #b9fbb9;" text="Find Directions!" VBox.vgrow="ALWAYS">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
