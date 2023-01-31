@@ -25,12 +25,9 @@ public class CleaningController {
   @FXML public TextField MemberID;
   @FXML public TextField hazardLevel;
 
-<<<<<<< HEAD
   /** enumeration for status of request*/
-  private enum submissionStatus{
-=======
+
   private enum submissionStatus {
->>>>>>> main
     BLANK,
     PROCESSING,
     DONE
