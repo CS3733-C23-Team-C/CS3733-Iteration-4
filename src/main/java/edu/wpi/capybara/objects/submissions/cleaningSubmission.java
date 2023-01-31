@@ -19,14 +19,11 @@ public class cleaningSubmission {
     this.status = submissionStatus.BLANK;
   }
 
-<<<<<<< HEAD
-=======
   public enum submissionStatus {
     BLANK,
     PROCESSING,
     DONE
   }
->>>>>>> main
 
   public String getMemberID() {
     return this.memberID;

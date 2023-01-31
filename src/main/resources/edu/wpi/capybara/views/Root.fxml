@@ -10,7 +10,8 @@
           <Menu fx:id="menuM" mnemonicParsing="false" text="Menu">
                <items>
                   <MenuItem fx:id="mapEditorM" mnemonicParsing="false" onAction="#showMapEditorPage" text="Map Editor" />
-                  <MenuItem fx:id = "requestButton" mnemonicParsing="false" text="Service Requests" onAction="#showRequestPage" />
+                  <MenuItem fx:id="requestButton" mnemonicParsing="false" onAction="#showRequestPage" text="Service Requests" />
+                  <MenuItem mnemonicParsing="false" text="Current Requests" />
                   <MenuItem fx:id="exitButtonM" mnemonicParsing="false" onAction="#exitApplication" text="Exit" />
                </items>
           </Menu>
