@@ -2,6 +2,8 @@ package edu.wpi.capybara.database;
 
 import edu.wpi.capybara.objects.Edge;
 import edu.wpi.capybara.objects.Node;
+import edu.wpi.capybara.objects.locationname;
+import edu.wpi.capybara.objects.move;
 import java.sql.*;
 import java.util.*;
 
@@ -9,6 +11,9 @@ public class DatabaseConnect {
   static Connection connection;
   public static HashMap<String, Node> nodes;
   public static HashMap<String, Edge> edges;
+  public static HashMap<String, locationname> locationNames;
+  public static HashMap<String, move> moves;
+
   static Scanner in = new Scanner(System.in);
 
   public static void main(String args[]) {
@@ -16,8 +21,8 @@ public class DatabaseConnect {
     // connect();
     // test();
     // query();
-    importData();
-    menu();
+    // importData();
+    // menu();
     try {
       connection.close(); // close the connection
     } catch (SQLException e) {
@@ -101,7 +106,7 @@ public class DatabaseConnect {
         } else if (option.equals("2")) {
           System.out.println("enter the edgeid of the edge you want to delete");
           String edgeid = in.nextLine();
-          edges.get(edgeid).deleteEdge();
+          // edges.get(edgeid).deleteEdge();
         } else {
           System.out.println("invalid option");
         }
@@ -153,16 +158,18 @@ public class DatabaseConnect {
   }
 
   public static void importData() {
-    importL1Nodes();
-    importL1Edges(); // String is the ID
+    importNodes();
+    importEdges();
+    importLocationName();
+    importMoves(); // String is the ID
   }
 
-  private static void importL1Nodes() {
+  private static void importNodes() {
     nodes = new HashMap<String, Node>();
 
     try {
       Statement stmt = connection.createStatement(); // initialize the statement
-      String query = "SELECT * FROM l1nodes"; // write out the query as a string
+      String query = "SELECT * FROM nodes"; // write out the query as a string
       ResultSet rset = stmt.executeQuery(query); // run the query
 
       String name;
@@ -174,10 +181,7 @@ public class DatabaseConnect {
                 rset.getInt("xcoord"),
                 rset.getInt("ycoord"),
                 rset.getString("floor"),
-                rset.getString("building"),
-                rset.getString("nodetype"),
-                rset.getString("longname"),
-                rset.getString("shortname")));
+                rset.getString("building")));
       }
       rset.close();
       stmt.close();
@@ -187,22 +191,19 @@ public class DatabaseConnect {
   }
 
   // NOTE: YOU MUST RUN THIS AFTER IMPORTING THE NODES
-  private static void importL1Edges() {
+  private static void importEdges() {
     edges = new HashMap<String, Edge>();
 
     try {
       Statement stmt = connection.createStatement(); // initialize the statement
-      String query = "SELECT * FROM l1edges"; // write out the query as a string
+      String query = "SELECT * FROM edges"; // write out the query as a string
       ResultSet rset = stmt.executeQuery(query); // run the query
 
       String name;
       while (rset.next()) { // loop through the table
         edges.put(
-            rset.getString("edgeid"),
-            new Edge(
-                rset.getString("edgeid"),
-                nodes.get(rset.getString("startnode")),
-                nodes.get(rset.getString("endnode"))));
+            rset.getString("startnode") + rset.getString("endnode"),
+            new Edge(rset.getString("startnode"), rset.getString("endnode")));
       }
       rset.close();
       stmt.close();
@@ -211,74 +212,124 @@ public class DatabaseConnect {
     }
   }
 
-  public static void test() {
-    Node temp =
-        new Node(
-            "CCONF001L1",
-            2255,
-            849,
-            "L1",
-            "45 Francis",
-            "CONF",
-            "Anesthesia Conf Floor L1",
-            "Conf C001L1");
+  private static void importLocationName() {
+    locationNames = new HashMap<String, locationname>();
 
-    // Xcoord
-    System.out.println(temp.getXCoord());
-    temp.setXCoord(12);
-    System.out.println(temp.getXCoord());
-    temp.setXCoord(2255);
-    System.out.println(temp.getXCoord());
-    System.out.println();
+    try {
+      Statement stmt = connection.createStatement(); // initialize the statement
+      String query = "SELECT * FROM locationname"; // write out the query as a string
+      ResultSet rset = stmt.executeQuery(query); // run the query
 
-    // Ycoord
-    System.out.println(temp.getYCoord());
-    temp.setYCoord(11);
-    System.out.println(temp.getYCoord());
-    temp.setYCoord(849);
-    System.out.println(temp.getYCoord());
-    System.out.println();
-
-    // floor
-    System.out.println(temp.getFloor());
-    temp.setFloor("L2");
-    System.out.println(temp.getFloor());
-    temp.setFloor("L1");
-    System.out.println(temp.getFloor());
-    System.out.println();
-
-    // building
-    System.out.println(temp.getBuilding());
-    temp.setBuilding("100 Institute");
-    System.out.println(temp.getBuilding());
-    temp.setBuilding("45 Francis");
-    System.out.println(temp.getBuilding());
-    System.out.println();
-
-    // nodetype
-    System.out.println(temp.getNodeType());
-    temp.setNodeType("ELEV");
-    System.out.println(temp.getNodeType());
-    temp.setNodeType("CONF");
-    System.out.println(temp.getNodeType());
-    System.out.println();
-
-    // longname
-    System.out.println(temp.getLongName());
-    temp.setLongName("Worcester Polytechnic Institute");
-    System.out.println(temp.getLongName());
-    temp.setLongName("Anesthesia Conf Floor L1");
-    System.out.println(temp.getLongName());
-    System.out.println();
-
-    // shortname
-    System.out.println(temp.getShortName());
-    temp.setShortName("WPI");
-    System.out.println(temp.getShortName());
-    temp.setShortName("Conf C001L1");
-    System.out.println(temp.getShortName());
-    System.out.println();
+      String name;
+      while (rset.next()) { // loop through the table
+        locationNames.put(
+            rset.getString("longname"),
+            new locationname(
+                rset.getString("longname"),
+                rset.getString("shortname"),
+                rset.getString("locationtype")));
+      }
+      rset.close();
+      stmt.close();
+    } catch (SQLException e) {
+      System.out.println(e);
+    }
   }
+
+  private static void importMoves() {
+    moves = new HashMap<String, move>();
+
+    try {
+      Statement stmt = connection.createStatement(); // initialize the statement
+      String query = "SELECT * FROM move"; // write out the query as a string
+      ResultSet rset = stmt.executeQuery(query); // run the query
+
+      String name;
+      while (rset.next()) { // loop through the table
+        moves.put(
+            rset.getString(
+                    rset.getString("nodeid")
+                        + rset.getString("longname")
+                        + rset.getDate("movedate"))
+                .toString(),
+            new move(
+                rset.getString("nodeid"), rset.getString("longname"), rset.getDate("movedate")));
+      }
+      rset.close();
+      stmt.close();
+    } catch (SQLException e) {
+      System.out.println(e);
+    }
+  }
+
+  //  public static void test() {
+  //    Node temp =
+  //        new Node(
+  //            "CCONF001L1",
+  //            2255,
+  //            849,
+  //            "L1",
+  //            "45 Francis",
+  //            "CONF",
+  //            "Anesthesia Conf Floor L1",
+  //            "Conf C001L1");
+  //
+  //    // Xcoord
+  //    System.out.println(temp.getXCoord());
+  //    temp.setXCoord(12);
+  //    System.out.println(temp.getXCoord());
+  //    temp.setXCoord(2255);
+  //    System.out.println(temp.getXCoord());
+  //    System.out.println();
+  //
+  //    // Ycoord
+  //    System.out.println(temp.getYCoord());
+  //    temp.setYCoord(11);
+  //    System.out.println(temp.getYCoord());
+  //    temp.setYCoord(849);
+  //    System.out.println(temp.getYCoord());
+  //    System.out.println();
+  //
+  //    // floor
+  //    System.out.println(temp.getFloor());
+  //    temp.setFloor("L2");
+  //    System.out.println(temp.getFloor());
+  //    temp.setFloor("L1");
+  //    System.out.println(temp.getFloor());
+  //    System.out.println();
+  //
+  //    // building
+  //    System.out.println(temp.getBuilding());
+  //    temp.setBuilding("100 Institute");
+  //    System.out.println(temp.getBuilding());
+  //    temp.setBuilding("45 Francis");
+  //    System.out.println(temp.getBuilding());
+  //    System.out.println();
+  //
+  //    // nodetype
+  //    System.out.println(temp.getNodeType());
+  //    temp.setNodeType("ELEV");
+  //    System.out.println(temp.getNodeType());
+  //    temp.setNodeType("CONF");
+  //    System.out.println(temp.getNodeType());
+  //    System.out.println();
+  //
+  //    // longname
+  //    System.out.println(temp.getLongName());
+  //    temp.setLongName("Worcester Polytechnic Institute");
+  //    System.out.println(temp.getLongName());
+  //    temp.setLongName("Anesthesia Conf Floor L1");
+  //    System.out.println(temp.getLongName());
+  //    System.out.println();
+  //
+  //    // shortname
+  //    System.out.println(temp.getShortName());
+  //    temp.setShortName("WPI");
+  //    System.out.println(temp.getShortName());
+  //    temp.setShortName("Conf C001L1");
+  //    System.out.println(temp.getShortName());
+  //    System.out.println();
+  //  }
 
   public static void query() {
     try {
