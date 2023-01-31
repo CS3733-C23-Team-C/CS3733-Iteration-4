@@ -1,5 +1,7 @@
 package edu.wpi.capybara.objects.submissions;
 
+import lombok.Getter;
+
 public class cleaningSubmission {
 
   public String memberID;
