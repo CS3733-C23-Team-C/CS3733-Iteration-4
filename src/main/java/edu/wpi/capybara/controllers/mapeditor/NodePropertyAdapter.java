@@ -1,9 +1,6 @@
 package edu.wpi.capybara.controllers.mapeditor;
 
 import edu.wpi.capybara.objects.Node;
-import edu.wpi.capybara.objects.enums.Building;
-import edu.wpi.capybara.objects.enums.Floor;
-import edu.wpi.capybara.objects.enums.NodeType;
 import javafx.beans.property.adapter.*;
 
 public class NodePropertyAdapter {
@@ -14,25 +11,11 @@ public class NodePropertyAdapter {
   private static final JavaBeanIntegerPropertyBuilder yCoordBuilder =
       JavaBeanIntegerPropertyBuilder.create().name("yCoord");
 
-  // JavaBeanObjectPropertyBuilder doesn't provide a mechanism to specify a type, since none of the
-  // methods rely on the parameterized type. Java will complain regardless of if you specify a type
-  // here or not, since you'll either be doing an unchecked cast or using a raw generic type.
-  @SuppressWarnings("unchecked")
-  private static final JavaBeanObjectPropertyBuilder<Floor> floorBuilder =
-      JavaBeanObjectPropertyBuilder.create().name("floor");
+  private static final JavaBeanStringPropertyBuilder floorBuilder =
+      JavaBeanStringPropertyBuilder.create().name("floor");
 
-  @SuppressWarnings("unchecked")
-  private static final JavaBeanObjectPropertyBuilder<Building> buildingBuilder =
-      JavaBeanObjectPropertyBuilder.create().name("building");
-
-  @SuppressWarnings("unchecked")
-  private static final JavaBeanObjectPropertyBuilder<NodeType> nodeTypeBuilder =
-      JavaBeanObjectPropertyBuilder.create().name("nodeType");
-
-  private static final JavaBeanStringPropertyBuilder longNameBuilder =
-      JavaBeanStringPropertyBuilder.create().name("longName");
-  private static final JavaBeanStringPropertyBuilder shortNameBuilder =
-      JavaBeanStringPropertyBuilder.create().name("shortName");
+  private static final JavaBeanStringPropertyBuilder buildingBuilder =
+      JavaBeanStringPropertyBuilder.create().name("building");
 
   // TODO: 1/31/23 Do we really need to hold on to this reference?
   private final Node node;
@@ -40,11 +23,8 @@ public class NodePropertyAdapter {
   private final JavaBeanStringProperty nodeID;
   private final JavaBeanIntegerProperty xCoord;
   private final JavaBeanIntegerProperty yCoord;
-  private final JavaBeanObjectProperty<Floor> floor;
-  private final JavaBeanObjectProperty<Building> building;
-  private final JavaBeanObjectProperty<NodeType> nodeType;
-  private final JavaBeanStringProperty longName;
-  private final JavaBeanStringProperty shortName;
+  private final JavaBeanStringProperty floor;
+  private final JavaBeanStringProperty building;
 
   /**
    * Constructs a new NodePropertyAdapter, for use with JavaFX Property APIs.
@@ -56,8 +36,6 @@ public class NodePropertyAdapter {
    *     shouldn't ever occur at runtime.
    */
   // TODO: 1/31/23 implement said unit test
-  @SuppressWarnings(
-      "unchecked") // see comment above on floorBuilder for why this @SuppressWarnings is needed
   public NodePropertyAdapter(Node node) throws NoSuchMethodException {
     this.node = node;
     nodeID = nodeIDBuilder.bean(node).build();
@@ -65,9 +43,6 @@ public class NodePropertyAdapter {
     yCoord = yCoordBuilder.bean(node).build();
     floor = floorBuilder.bean(node).build();
     building = buildingBuilder.bean(node).build();
-    nodeType = nodeTypeBuilder.bean(node).build();
-    longName = longNameBuilder.bean(node).build();
-    shortName = shortNameBuilder.bean(node).build();
   }
 
   // unfortunately, lombok doesn't seem to support the JavaFX Property conventions. thankfully,
@@ -109,63 +84,27 @@ public class NodePropertyAdapter {
     return yCoord;
   }
 
-  public Floor getFloor() {
+  public String getFloor() {
     return floor.get();
   }
 
-  public void setFloor(Floor floor) {
+  public void setFloor(String floor) {
     this.floor.set(floor);
   }
 
-  public JavaBeanObjectProperty<Floor> floorProperty() {
+  public JavaBeanStringProperty floorProperty() {
     return floor;
   }
 
-  public Building getBuilding() {
+  public String getBuilding() {
     return building.get();
   }
 
-  public void setBuilding(Building building) {
+  public void setBuilding(String building) {
     this.building.set(building);
   }
 
-  public JavaBeanObjectProperty<Building> buildingProperty() {
+  public JavaBeanStringProperty buildingProperty() {
     return building;
-  }
-
-  public NodeType getNodeType() {
-    return nodeType.get();
-  }
-
-  public void setNodeType(NodeType nodeType) {
-    this.nodeType.set(nodeType);
-  }
-
-  public JavaBeanObjectProperty<NodeType> nodeTypeProperty() {
-    return nodeType;
-  }
-
-  public String getLongName() {
-    return longName.get();
-  }
-
-  public void setLongName(String longName) {
-    this.longName.set(longName);
-  }
-
-  public JavaBeanStringProperty longNameProperty() {
-    return longName;
-  }
-
-  public String getShortName() {
-    return shortName.get();
-  }
-
-  public void setShortName(String shortName) {
-    this.shortName.set(shortName);
-  }
-
-  public JavaBeanStringProperty shortNameProperty() {
-    return shortName;
   }
 }
