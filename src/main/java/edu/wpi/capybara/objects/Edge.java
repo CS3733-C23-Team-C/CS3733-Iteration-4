@@ -24,7 +24,7 @@ public class Edge {
   }
 
   public String getOtherNode(Node node) {
-    if (node.equals(startNode)) return endNode;
+    if (node.getNodeID().equals(startNode)) return endNode;
     return startNode;
   }
 

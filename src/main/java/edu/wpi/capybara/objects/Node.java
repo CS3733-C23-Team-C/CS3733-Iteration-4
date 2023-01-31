@@ -131,7 +131,7 @@ public class Node {
     HashSet<Edge> ret = new HashSet<Edge>();
 
     for (Edge e : DatabaseConnect.getEdges().values()) {
-      if (e.getStartNode() == nodeID || e.getEndNode() == nodeID) {
+      if (e.getStartNode().equals(nodeID) || e.getEndNode().equals(nodeID)) {
         ret.add(e);
       }
     }

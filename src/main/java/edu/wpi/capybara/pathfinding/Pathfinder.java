@@ -162,6 +162,7 @@ public class Pathfinder {
     List<Edge> currentEdges = new ArrayList<>();
 
     while (true) {
+      // System.out.println("Current Node is " + current.getNodeID());
       List<Node> newPath = new ArrayList<>(List.copyOf(currentPath));
       newPath.add(current);
       if (current.equals(goal)) return newPath;
@@ -170,20 +171,24 @@ public class Pathfinder {
       if (edges == null) return null;
 
       for (Edge e : edges) {
+        // System.out.println("New Edge: " + e.toString());
         List<Edge> newEdges = new ArrayList<>(List.copyOf(currentEdges));
         newEdges.add(e);
 
         Node otherNode = nodes.get(e.getOtherNode(current));
+        // System.out.println("Other Node: " + otherNode.getNodeID());
+        // System.out.println(closedList);
 
         if (closedList.contains(otherNode)) continue;
+        // System.out.println("Adding Node to openList");
 
         PathNode pn = new PathNode(newPath, newEdges, otherNode, current, goal);
         openList.add(pn);
+        closedList.add(otherNode);
       }
 
-      closedList.add(current);
-
       if (openList.size() == 0) return null;
+      // System.out.println("openList is greater than 0");
 
       openList.sort(new PNComparator());
 
@@ -216,18 +221,6 @@ public class Pathfinder {
     DatabaseConnect.connect();
     DatabaseConnect.importData();
 
-    Collection<Node> daNodes = DatabaseConnect.getNodes().values();
-
-    for (Node n : daNodes) {
-      System.out.println(n.getNodeID());
-    }
-
-    System.out.println(
-        "nodes: "
-            + DatabaseConnect.getNodes().size()
-            + " edges: "
-            + DatabaseConnect.getEdges().size());
-
     Pathfinder pathfinder = new Pathfinder(DatabaseConnect.getNodes(), DatabaseConnect.getEdges());
     List<Node> path = pathfinder.findPath("22", "44");
     if (path == null) {
@@ -235,6 +228,7 @@ public class Pathfinder {
     } else {
       for (Node n : path) {
         System.out.println(n);
+        System.out.println();
       }
     }
   }
