@@ -24,13 +24,19 @@ public class DBUpdate {
   }
 
   public static void update(
-          String table, String pk1, String pk2, String attribute, String value, String pkType1, String pkType2) {
+      String table,
+      String pk1,
+      String pk2,
+      String attribute,
+      String value,
+      String pkType1,
+      String pkType2) {
 
     try {
       Statement stmt = connection.createStatement();
       String insert =
-              "UPDATE " + table + " SET " + attribute + " = " + value + " WHERE " + pkType1 + " = '" + pk1
-                      + "' & '" + pkType2 + " = '" + pk2 + "'";
+          "UPDATE " + table + " SET " + attribute + " = " + value + " WHERE " + pkType1 + " = '"
+              + pk1 + "' & '" + pkType2 + " = '" + pk2 + "'";
       System.out.println(insert);
       stmt.execute(insert);
       stmt.close();
@@ -51,10 +57,11 @@ public class DBUpdate {
     }
   }
 
-  public static ResultSet edges(String curNode){
+  public static ResultSet edges(String curNode) {
     try {
       Statement stmt = connection.createStatement();
-      String edges = "SELECT * FROM edge WHERE node1 = '" + curNode + "' OR node2 = '" + curNode + "'";
+      String edges =
+          "SELECT * FROM edge WHERE node1 = '" + curNode + "' OR node2 = '" + curNode + "'";
       ResultSet rset = stmt.executeQuery(edges);
       System.out.println(edges);
       stmt.execute(edges);

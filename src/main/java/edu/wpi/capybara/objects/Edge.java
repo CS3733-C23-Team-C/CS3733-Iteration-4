@@ -48,12 +48,7 @@ public class Edge {
 
   @Override
   public String toString() {
-    return "Starting Node : "
-        + this.startNode
-        + "\n"
-        + "Ending Node : "
-        + this.endNode
-        + "\n";
+    return "Starting Node : " + this.startNode + "\n" + "Ending Node : " + this.endNode + "\n";
   }
 
   //  public boolean equals(Edge e) {
