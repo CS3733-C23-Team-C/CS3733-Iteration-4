@@ -11,8 +11,13 @@ public class submissionCollector {
     allCleaningSubmissions = new LinkedList<cleaningSubmission>();
   }
 
+  public void newCleaningSub(cleaningSubmission cleaningSub) {
+    this.allCleaningSubmissions.add(cleaningSub);
+  }
+
   public submissionCollector() {
     transportationSubs = new LinkedList<transportationSubmission>();
+    allCleaningSubmissions = new LinkedList<cleaningSubmission>();
   }
 
   public void newTransportationSubmission(transportationSubmission submission) {
@@ -32,17 +37,17 @@ public class submissionCollector {
   public String getCleaningData() {
     String tableHeaders = "Employee ID, Location, Hazard Level, Description";
     String dataAdded = "";
-    for (cleaningSubmission data : allCleaningSubmissions) {
+    for (cleaningSubmission allSubs : allCleaningSubmissions) {
       dataAdded =
           dataAdded
               + "\r\n"
-              + data.getMemberID()
+              + allSubs.getMemberID()
               + ","
-              + data.getlocation()
+              + allSubs.getlocation()
               + ","
-              + data.getHazardLevel()
+              + allSubs.getHazardLevel()
               + ","
-              + data.getDescription();
+              + allSubs.getDescription();
     }
     return (tableHeaders + dataAdded);
   }

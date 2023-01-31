@@ -1,5 +1,6 @@
 package edu.wpi.capybara.controllers;
 
+import edu.wpi.capybara.App;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.submissions.cleaningSubmission;
@@ -11,7 +12,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import edu.wpi.capybara.objects.submissions.submissionCollector;
 
 public class CleaningController {
 
@@ -34,6 +34,8 @@ public class CleaningController {
     String hazardLevelInfo = hazardLevel.getText();
     cleaningSubmission addSubmission =
         new cleaningSubmission(memberID, locationInfo, hazardLevelInfo, descriptionInfo);
+    App.cleaningSubsTotal.newCleaningSub(addSubmission);
+    System.out.println(App.cleaningSubsTotal.getCleaningData());
     clearRequest();
   }
 
