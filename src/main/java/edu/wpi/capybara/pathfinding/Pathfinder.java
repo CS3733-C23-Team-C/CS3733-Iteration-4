@@ -166,7 +166,10 @@ public class Pathfinder {
       newPath.add(current);
       if (current.equals(goal)) return newPath;
 
-      for (Edge e : current.getEdges()) {
+      Collection<Edge> edges = current.getEdges();
+      if (edges == null) return null;
+
+      for (Edge e : edges) {
         List<Edge> newEdges = new ArrayList<>(List.copyOf(currentEdges));
         newEdges.add(e);
 
@@ -210,12 +213,29 @@ public class Pathfinder {
   public static void main(String[] args) {
     System.out.println("test");
 
-    Pathfinder pathfinder = new Pathfinder(DatabaseConnect.getNodes(), DatabaseConnect.getEdges());
+    DatabaseConnect.connect();
+    DatabaseConnect.importData();
 
-    System.out.println("test");
-    List<Node> path = pathfinder.findPath("CCONF001L1", "CLABS002L1");
-    for (Node n : path) {
-      System.out.println(n);
+    Collection<Node> daNodes = DatabaseConnect.getNodes().values();
+
+    for (Node n : daNodes) {
+      System.out.println(n.getNodeID());
+    }
+
+    System.out.println(
+        "nodes: "
+            + DatabaseConnect.getNodes().size()
+            + " edges: "
+            + DatabaseConnect.getEdges().size());
+
+    Pathfinder pathfinder = new Pathfinder(DatabaseConnect.getNodes(), DatabaseConnect.getEdges());
+    List<Node> path = pathfinder.findPath("22", "44");
+    if (path == null) {
+      System.out.println("no path :<");
+    } else {
+      for (Node n : path) {
+        System.out.println(n);
+      }
     }
   }
 }

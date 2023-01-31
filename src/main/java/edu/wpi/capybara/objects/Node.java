@@ -2,7 +2,6 @@ package edu.wpi.capybara.objects;
 
 import edu.wpi.capybara.database.DBUpdate;
 import edu.wpi.capybara.database.DatabaseConnect;
-import java.sql.ResultSet;
 import java.util.HashSet;
 import lombok.Getter;
 
@@ -131,11 +130,10 @@ public class Node {
   public HashSet<Edge> getEdges() {
     HashSet<Edge> ret = new HashSet<Edge>();
 
-    for(Edge e : DatabaseConnect.getEdges().values()){
-      if(e.getStartNode() == nodeID || e.getEndNode() == nodeID){
+    for (Edge e : DatabaseConnect.getEdges().values()) {
+      if (e.getStartNode() == nodeID || e.getEndNode() == nodeID) {
         ret.add(e);
       }
-
     }
     return ret;
   }
