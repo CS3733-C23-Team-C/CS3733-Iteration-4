@@ -25,8 +25,7 @@ public class CleaningController {
   @FXML public TextField MemberID;
   @FXML public TextField hazardLevel;
 
-  /** enumeration for status of request*/
-
+  /** enumeration for status of request */
   private enum submissionStatus {
     BLANK,
     PROCESSING,
@@ -40,8 +39,10 @@ public class CleaningController {
     currentStatus = submissionStatus.BLANK;
   }
 
-  /**submit that creates a cleaning request object and then displays all of the
-   * previously created request
+  /**
+   * submit that creates a cleaning request object and then displays all of the previously created
+   * request
+   *
    * @param actionEvent
    */
   public void submit(ActionEvent actionEvent) {
@@ -56,7 +57,8 @@ public class CleaningController {
     clearRequest();
   }
 
-  /**navigates back to home screen
+  /**
+   * navigates back to home screen
    *
    * @param actionEvent
    * @throws IOException
@@ -65,9 +67,7 @@ public class CleaningController {
     Navigation.navigate(Screen.HOME);
   }
 
-  /** clears all areas on the submission form
-   *
-   */
+  /** clears all areas on the submission form */
   public void clearRequest() {
     Location.clear();
     Description.clear();

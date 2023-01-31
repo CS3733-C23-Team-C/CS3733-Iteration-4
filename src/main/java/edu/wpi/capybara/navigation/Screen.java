@@ -7,7 +7,8 @@ public enum Screen {
   SERVICE_REQUEST_TRANSPORTATION("views/Transportation.fxml"),
   SERVICE_REQUEST_CLEANING("views/Cleaning.fxml"),
   SERVICE_REQUEST_SECURITY("views/Security.fxml"),
-  MAP_EDITOR("views/MapEditor.fxml");
+  MAP_EDITOR("views/MapEditor.fxml"),
+  REQUESTS("views/CleaningRequests.fxml");
 
   private final String filename;
 

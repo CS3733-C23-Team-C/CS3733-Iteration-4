@@ -5,13 +5,10 @@ import javafx.scene.control.TableColumn;
 
 public class CleaningRequestController {
 
-    @FXML TableColumn employeeID;
-    @FXML TableColumn location;
-    @FXML TableColumn hazardLevel;
-    @FXML TableColumn description;
+  @FXML TableColumn employeeID;
+  @FXML TableColumn location;
+  @FXML TableColumn hazardLevel;
+  @FXML TableColumn description;
 
-
-    public void addToColumn(){
-        
-    }
+  public void addToColumn() {}
 }
