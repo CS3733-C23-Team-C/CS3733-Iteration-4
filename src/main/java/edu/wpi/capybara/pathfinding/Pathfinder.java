@@ -9,13 +9,46 @@ public class Pathfinder {
   private Map<String, Node> nodes;
   private Map<String, Edge> edges;
 
-  private static class PathNode {
+  private static class PathNode implements Comparable<PathNode>{
     List<Node> path;
-    Node node;
+    List<Edge> edges;
+    Node node, current, goal;
 
-    PathNode(List<Node> list, Node node) {
+    PathNode(List<Node> list, List<Edge> edges, Node node) {
       this.path = list;
+      this.edges = edges;
       this.node = node;
+    }
+
+    PathNode(List<Node> list, List<Edge> edges, Node node, Node current, Node goal) {
+      this.path = list;
+      this.edges = edges;
+      this.node = node;
+      this.current = current;
+      this.goal = goal;
+    }
+
+    @Override
+    public int compareTo(PathNode o) {
+      if (current == null || o.current == null) return 0;
+      return Double.compare(getCost(), o.getCost());
+    }
+
+    private double getCost() {
+      return cost(current, node, goal);
+    }
+  }
+
+  private static class PNComparator implements Comparator<PathNode> {
+
+    @Override
+    public int compare(PathNode o1, PathNode o2) {
+      return o1.compareTo(o2);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      return false;
     }
   }
 
@@ -88,7 +121,7 @@ public class Pathfinder {
       throw new RuntimeException("One of the NodeID doesn't exist!");
     }
 
-    return dfs(new PathNode(new ArrayList<>(), startNode), endNode, new Stack<>(), new HashSet<>());
+    return dfs(new PathNode(new ArrayList<>(), new ArrayList<>(), startNode), endNode, new Stack<>(), new HashSet<>());
   }
 
   private List<Node> dfs(
@@ -109,14 +142,61 @@ public class Pathfinder {
     for (Edge e : current.node.getEdges()) {
       Node n = e.getOtherNode(current.node);
       // System.out.println("Found Border Node " + n.toString());
-      borderNodes.add(n);
-    }
-
-    for (Node n : borderNodes) {
-      nodesLeft.push(new PathNode(newPath, n));
+      List<Edge> newEdges = new ArrayList<>(List.copyOf(current.edges));
+      newEdges.add(e);
+      nodesLeft.push(new PathNode(newPath, newEdges, n));
     }
 
     return dfs(nodesLeft.pop(), goal, nodesLeft, nodesChecked);
+  }
+
+  private List<Node> aStar(Node start, Node goal) {
+    List<PathNode> openList = new ArrayList<>();
+    List<Node> closedList = new ArrayList<>();
+    Node current = start;
+    List<Node> currentPath = new ArrayList<>();
+    List<Edge> currentEdges = new ArrayList<>();
+
+    while (true) {
+      List<Node> newPath = new ArrayList<>(List.copyOf(currentPath));
+      newPath.add(current);
+      if (current.equals(goal)) return newPath;
+
+      for (Edge e: current.getEdges()) {
+        List<Edge> newEdges = new ArrayList<>(List.copyOf(currentEdges));
+        newEdges.add(e);
+
+        Node otherNode = e.getOtherNode(current);
+
+        if (closedList.contains(otherNode)) continue;
+
+        PathNode pn = new PathNode(newPath, newEdges, otherNode, current, goal);
+        openList.add(pn);
+      }
+
+      closedList.add(current);
+
+      if (openList.size() == 0) return null;
+
+      openList.sort(new PNComparator());
+
+      PathNode next = openList.remove(0);
+      current = next.node;
+      currentPath = next.path;
+      currentEdges = next.edges;
+    }
+
+  }
+
+  private static double cost(Node current, Node n, Node goal) {
+    return calculateWeight(current, n) + calculateWeight(n, goal);
+  }
+
+  private static double calculateWeight(Node n1, Node n2) { //move function for a*
+    float xDiff = Math.abs(n1.getXCoord() - n2.getXCoord());
+    float yDiff = Math.abs(n1.getYCoord() - n2.getYCoord());
+
+    return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
   }
 
   /*
