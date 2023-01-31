@@ -25,6 +25,8 @@ public class CleaningController {
   @FXML public TextField MemberID;
   @FXML public TextField hazardLevel;
 
+  public CleaningRequestController forRequests;
+
   /** enumeration for status of request */
   private enum submissionStatus {
     BLANK,

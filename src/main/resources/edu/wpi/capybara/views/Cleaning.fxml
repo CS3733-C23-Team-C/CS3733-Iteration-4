@@ -38,7 +38,7 @@
             </MFXButton>
          </bottom>
          <center>
-            <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="274.0" prefWidth="361.0" spacing="5.0" BorderPane.alignment="CENTER">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Member ID" />
                   <TextField fx:id="MemberID" promptText="Please Enter your Hospital ID" />

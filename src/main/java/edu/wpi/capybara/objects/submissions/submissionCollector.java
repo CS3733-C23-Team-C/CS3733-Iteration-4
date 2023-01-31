@@ -8,6 +8,10 @@ public class submissionCollector {
 
   LinkedList<cleaningSubmission> allCleaningSubmissions;
 
+  public LinkedList getCleaningSubmissions() {
+    return allCleaningSubmissions;
+  }
+
   /**
    * adds a cleaning submission to the linked list
    *

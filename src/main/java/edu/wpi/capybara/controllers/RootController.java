@@ -35,6 +35,7 @@ public class RootController {
   }
 
   public void showRequestPage(ActionEvent actionEvent) {
+    System.out.println("working");
     Navigation.navigate(Screen.REQUESTS);
   }
 }
