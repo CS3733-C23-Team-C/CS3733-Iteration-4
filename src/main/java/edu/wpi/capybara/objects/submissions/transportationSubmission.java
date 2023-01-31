@@ -19,7 +19,7 @@ public class transportationSubmission {
     this.currRoomNum = currRoom;
     this.destRoomNum = destRoom;
     this.reason = reason;
-    this.currStatus = submissionStatus.PROCESSING;
+    this.currStatus = submissionStatus.BLANK;
   }
 
   public String getID() {

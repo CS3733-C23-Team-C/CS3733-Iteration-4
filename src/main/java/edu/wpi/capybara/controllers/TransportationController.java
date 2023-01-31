@@ -26,7 +26,7 @@ public class TransportationController {
   @FXML private MFXTextField idField;
   @FXML private MFXTextField currRoom;
   @FXML private MFXTextField destRoom;
-  @FXML private MFXTextField reason;
+  @FXML private MFXTextField reasonField;
   @FXML private VBox imageVBox;
   @FXML private AnchorPane mapPane;
   // @FXML private ImageView map;
@@ -63,7 +63,7 @@ public class TransportationController {
     String outputID = idField.getText(); // then creates an object to store them, clears fields
     String outputCurrRoom = currRoom.getText();
     String outputDestRoom = destRoom.getText();
-    String outputReason = reason.getText();
+    String outputReason = reasonField.getText();
     // System.out.println("Current Room: " + outputCurrRoom + " Destination Room: " +
     // outputDestRoom);
     transportationSubmission newSubmission =
@@ -77,7 +77,7 @@ public class TransportationController {
     currRoom.setText("");
     destRoom.setText("");
     idField.setText("");
-    reason.setText("");
+    reasonField.setText("");
   }
 
   public void
@@ -86,10 +86,9 @@ public class TransportationController {
     if (!currRoom.getText().equals("")
         && !destRoom.getText().equals("")
         && !idField.getText().equals("")
-        && !reason.getText().equals("")) valid = true;
+        && !reasonField.getText().equals("")) valid = true;
     submitButton.setDisable(!valid);
   }
-
 
   public void backgroundMap(String path) {
     BackgroundSize backgroundSize =
