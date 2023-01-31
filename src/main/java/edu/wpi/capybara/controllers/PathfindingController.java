@@ -1,13 +1,24 @@
 package edu.wpi.capybara.controllers;
 
+import edu.wpi.capybara.App;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
+import edu.wpi.capybara.objects.Edge;
+import edu.wpi.capybara.objects.Node;
+import edu.wpi.capybara.pathfinding.Path;
+import edu.wpi.capybara.pathfinding.Pathfinder;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -21,12 +32,14 @@ public class PathfindingController {
   @FXML private MFXTextField currRoom;
   @FXML private MFXTextField destRoom;
   @FXML private MFXTextField dateField;
-  @FXML private MFXTableView pathTable;
+  @FXML private TableView<Path> pathTable;
+  @FXML private TableColumn startCol;
+  @FXML private TableColumn endCol;
   @FXML private VBox imageVBox;
   // @FXML private ImageView map;
   // @FXML private MFXComboBox<String> dropDown;
+  private ObservableList<Path> paths = FXCollections.observableArrayList();
 
-  // private ObservableList<String> options = FXCollections.observableArrayList();
   /** Initialize controller by FXML Loader. */
   @FXML
   public void initialize() {
@@ -43,12 +56,38 @@ public class PathfindingController {
     Navigation.navigate(Screen.HOME);
   }
 
-  public void submitForm(ActionEvent actionEvent)
-      throws IOException { // when submit button is pressed, collects text fields
-    String outputID = idField.getText(); // then creates an object to store them, clears fields
+  public void submitForm(ActionEvent actionEvent) throws IOException { //submissions for Curr
+    System.out.println("asdf");
+    String outputID = idField.getText();
     String outputCurrRoom = currRoom.getText();
     String outputDestRoom = destRoom.getText();
-    String outputDate = dateField.getText();
+    try {
+      InputStream edgesFile = App.class.getResourceAsStream("csv/L1Edges.csv");
+      InputStream nodesFile = App.class.getResourceAsStream("csv/L1Nodes.csv");
+      Pathfinder pathfinder = new Pathfinder(nodesFile, edgesFile);
+      List<Node> path = pathfinder.findPath(outputCurrRoom, outputDestRoom);
+      System.out.println("path successfully created");
+      System.out.println("Number of Nodes : " + path.size());
+      List<Edge> pathEdges = Pathfinder.getPathEdges(path);
+      System.out.println("Number of Edges : " + pathEdges.size());
+      pathTable.setVisible(true);
+      String outputForTable;
+      for (int i = 0; i < path.size(); i++) {
+        if (i == 0) {
+          // System.out.println("Start at " + path.get(0).getShortName());
+          outputForTable = "Start Node, End Node";
+        } else {
+          paths.add(new Path(path.get(i - 1).getShortName(), path.get(i).getShortName()));
+          outputForTable = "\r\n " + path.get(i - 1) + "," + path.get(i);
+        }
+      }
+      startCol.setCellValueFactory(new PropertyValueFactory<Path, String>("startNode"));
+      endCol.setCellValueFactory(new PropertyValueFactory<Path, String>("endNode"));
+      pathTable.setItems(paths);
+      System.out.println("Path successfully created");
+    } catch (Exception e) {
+      System.out.println("Error creating path");
+    }
     // System.out.println("Current Room: " + outputCurrRoom + " Destination Room: " +
     // outputDestRoom);
     clearFields();
