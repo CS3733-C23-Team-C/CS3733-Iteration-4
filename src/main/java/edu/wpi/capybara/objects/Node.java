@@ -130,13 +130,12 @@ public class Node {
 
   public HashSet<Edge> getEdges() {
     HashSet<Edge> ret = new HashSet<Edge>();
-    ResultSet rset = DBUpdate.edges(nodeID);
-    try {
-      while (rset.next()) { // loop through the table
-        ret.add(new Edge(rset.getString("node1"), rset.getString("node2")));
+
+    for(Edge e : DatabaseConnect.getEdges().values()){
+      if(e.getStartNode() == nodeID || e.getEndNode() == nodeID){
+        ret.add(e);
       }
-    } catch (java.sql.SQLException e) {
-      System.out.println(e);
+
     }
     return ret;
   }
