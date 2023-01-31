@@ -25,14 +25,20 @@ public class CleaningController {
   @FXML public TextField MemberID;
   @FXML public TextField hazardLevel;
 
+<<<<<<< HEAD
   /** enumeration for status of request*/
   private enum submissionStatus{
+=======
+  private enum submissionStatus {
+>>>>>>> main
     BLANK,
     PROCESSING,
     DONE
   }
+
   private submissionStatus currentStatus;
-  public void initializer(){
+
+  public void initializer() {
     System.out.println("I am from cleaningController");
     currentStatus = submissionStatus.BLANK;
   }
