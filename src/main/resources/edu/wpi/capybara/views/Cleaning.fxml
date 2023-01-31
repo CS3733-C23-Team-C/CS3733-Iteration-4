@@ -41,6 +41,7 @@
                   <TextField fx:id="MemberID" promptText="Please Enter your Hospital ID" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" />
                   <TextField fx:id="Location" promptText="Please state the location that needs cleaned" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hazard Level" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" />
                   <TextArea fx:id="Description" prefHeight="200.0" prefWidth="200.0" promptText="Please describe what needs cleaning" />
                   <MFXButton fx:id="ClearButton" mnemonicParsing="false" onAction="#clearRequest" text="Clear" />
