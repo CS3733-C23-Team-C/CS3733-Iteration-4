@@ -185,7 +185,7 @@ public class DatabaseConnect {
 
     try {
       Statement stmt = connection.createStatement(); // initialize the statement
-      String query = "SELECT * FROM nodes"; // write out the query as a string
+      String query = "SELECT * FROM node"; // write out the query as a string
       ResultSet rset = stmt.executeQuery(query); // run the query
 
       String name;
@@ -212,14 +212,14 @@ public class DatabaseConnect {
 
     try {
       Statement stmt = connection.createStatement(); // initialize the statement
-      String query = "SELECT * FROM edges"; // write out the query as a string
+      String query = "SELECT * FROM edge"; // write out the query as a string
       ResultSet rset = stmt.executeQuery(query); // run the query
 
       String name;
       while (rset.next()) { // loop through the table
         edges.put(
-            rset.getString("startnode") + rset.getString("endnode"),
-            new Edge(rset.getString("startnode"), rset.getString("endnode")));
+            rset.getString("node1") + rset.getString("node2"),
+            new Edge(rset.getString("node1"), rset.getString("node2")));
       }
       rset.close();
       stmt.close();
