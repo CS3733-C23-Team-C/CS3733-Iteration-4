@@ -10,10 +10,6 @@ public class cleaningSubmission {
   @Getter public String description;
   @Getter public submissionStatus status;
 
-
-
-
-
   public cleaningSubmission(
       String memberID, String location, String hazardLevel, String description) {
     this.memberID = memberID;
@@ -28,7 +24,6 @@ public class cleaningSubmission {
     PROCESSING,
     DONE
   }
-
 
   public String getMemberID() {
     return this.memberID;
