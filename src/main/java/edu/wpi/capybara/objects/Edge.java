@@ -24,7 +24,7 @@ public class Edge {
   }
 
   public String getOtherNode(Node node) {
-    if (node.equals(startNode)) return endNode;
+    if (node.getNodeID().equals(startNode)) return endNode;
     return startNode;
   }
 
@@ -51,7 +51,7 @@ public class Edge {
     return "Starting Node : " + this.startNode + "\n" + "Ending Node : " + this.endNode + "\n";
   }
 
-  //  public boolean equals(Edge e) {
-  //    return this.edgeID.equals(e.getEdgeID());
-  //  }
+  public boolean equals(Edge e) {
+    return this.startNode.equals(e.startNode) && this.endNode.equals(e.endNode);
+  }
 }
