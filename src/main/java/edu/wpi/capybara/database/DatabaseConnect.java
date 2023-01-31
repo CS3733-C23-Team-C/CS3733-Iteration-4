@@ -218,8 +218,8 @@ public class DatabaseConnect {
       String name;
       while (rset.next()) { // loop through the table
         edges.put(
-            rset.getString("startnode") + rset.getString("endnode"),
-            new Edge(rset.getString("startnode"), rset.getString("endnode")));
+            rset.getString("node1") + rset.getString("node2"),
+            new Edge(rset.getString("node1"), rset.getString("node2")));
       }
       rset.close();
       stmt.close();
