@@ -4,10 +4,10 @@ import lombok.Getter;
 
 public class cleaningSubmission {
 
-  @Getter public String memberID;
-  @Getter public String location;
-  @Getter public String hazardLevel;
-  @Getter public String description;
+  public String memberID;
+  public String location;
+  public String hazardLevel;
+  public String description;
   @Getter public submissionStatus status;
 
   public cleaningSubmission(
