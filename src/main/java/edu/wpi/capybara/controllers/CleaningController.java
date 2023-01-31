@@ -59,5 +59,6 @@ public class CleaningController {
     Description.clear();
     MemberID.clear();
     hazardLevel.clear();
+    currentStatus = submissionStatus.BLANK;
   }
 }
