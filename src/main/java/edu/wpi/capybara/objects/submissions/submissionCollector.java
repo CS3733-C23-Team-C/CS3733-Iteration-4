@@ -4,11 +4,9 @@ import java.util.LinkedList;
 
 public class submissionCollector { // stores all of the submissions in different collections
   LinkedList<transportationSubmission> transportationSubs;
-  LinkedList<pathfindingSubmission> pathfindingSubs;
 
   public submissionCollector() {
     transportationSubs = new LinkedList<transportationSubmission>();
-    pathfindingSubs = new LinkedList<pathfindingSubmission>();
   }
 
   public void newTransportationSubmission(transportationSubmission submission) {
@@ -33,32 +31,6 @@ public class submissionCollector { // stores all of the submissions in different
               + data.getReason()
               + ","
               + data.getStatus();
-    }
-    return (tableHeaders + dataAdded);
-  }
-
-  public void newPathfindingSubmission(pathfindingSubmission submission) {
-    this.pathfindingSubs.add(submission);
-  }
-
-  public String
-  getPathfindingData() { // creates a sort CSV file of all the data in the collection of
-    // transportation submissions
-    String tableHeaders = "Employee ID,Current Room,Destination Room,Move Date,Status";
-    String dataAdded = "";
-    for (pathfindingSubmission data : pathfindingSubs) {
-      dataAdded =
-              dataAdded
-                      + "\r\n"
-                      + data.getID()
-                      + ","
-                      + data.getCurrRoom()
-                      + ","
-                      + data.getDestRoom()
-                      + ","
-                      + data.getMoveDate()
-                      + ","
-                      + data.getStatus();
     }
     return (tableHeaders + dataAdded);
   }

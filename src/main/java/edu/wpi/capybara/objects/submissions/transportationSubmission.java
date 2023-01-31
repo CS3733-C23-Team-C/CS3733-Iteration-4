@@ -34,7 +34,7 @@ public class transportationSubmission {
     return this.destRoomNum;
   }
 
-  public String getReason(){
+  public String getReason() {
     return this.reason;
   }
 
@@ -54,7 +54,9 @@ public class transportationSubmission {
     return retVal;
   }
 
-  public void updateStatus(submissionStatus newStatus) { // when submission is updated in database call this to update state
+  public void updateStatus(
+      submissionStatus
+          newStatus) { // when submission is updated in database call this to update state
     this.currStatus = newStatus;
   }
 }

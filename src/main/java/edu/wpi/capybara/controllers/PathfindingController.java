@@ -1,9 +1,7 @@
 package edu.wpi.capybara.controllers;
 
-import edu.wpi.capybara.App;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
-import edu.wpi.capybara.objects.submissions.pathfindingSubmission;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTableView;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -12,7 +10,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javax.swing.*;
 
 public class PathfindingController {
 
@@ -54,10 +51,6 @@ public class PathfindingController {
     String outputDate = dateField.getText();
     // System.out.println("Current Room: " + outputCurrRoom + " Destination Room: " +
     // outputDestRoom);
-    pathfindingSubmission newSubmission =
-        new pathfindingSubmission(outputID, outputCurrRoom, outputDestRoom, outputDate);
-    App.totalSubmissions.newPathfindingSubmission(newSubmission);
-    System.out.println(App.totalSubmissions.getPathfindingData());
     clearFields();
   }
 
