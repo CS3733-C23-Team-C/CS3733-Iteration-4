@@ -8,13 +8,11 @@ public class submissionCollector {
 
   LinkedList<cleaningSubmission> allCleaningSubmissions;
 
-<<<<<<< HEAD
-  /**adds a cleaning submission to the linked list
+  /**
+   * adds a cleaning submission to the linked list
    *
    * @param cleaningSub
    */
-=======
->>>>>>> main
   public void newCleaningSub(cleaningSubmission cleaningSub) {
     DBUpdate.insertCleaning(
         cleaningSub.getMemberID(),
@@ -46,7 +44,8 @@ public class submissionCollector {
     return (tableHeaders + dataAdded);
   }
 
-  /**used to present all of the request to administor
+  /**
+   * used to present all of the request to administor
    *
    * @return String
    */
