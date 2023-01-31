@@ -5,11 +5,8 @@ import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.submissions.transportationSubmission;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
@@ -25,31 +22,23 @@ public class TransportationController {
   @FXML private MFXTextField idField;
   @FXML private MFXTextField currRoom;
   @FXML private MFXTextField destRoom;
+  @FXML private MFXTextField reason;
   @FXML private VBox imageVBox;
   // @FXML private ImageView map;
-  @FXML private MFXComboBox<String> dropDown;
+  // @FXML private MFXComboBox<String> dropDown;
 
-  private enum submissionState {
-    BLANK,
-    PROCESSING,
-    DONE
-  };
-
-  private submissionState currState;
-
-  private ObservableList<String> options = FXCollections.observableArrayList();
+  // private ObservableList<String> options = FXCollections.observableArrayList();
   /** Initialize controller by FXML Loader. */
   @FXML
   public void initialize() {
     System.out.println("I am from TransportationController.");
-    options.add("Lower Level 2");
-    options.add("Lower Level 1");
-    options.add("Ground Floor");
-    options.add("First Floor");
-    options.add("Second Floor");
-    options.add("Third Floor");
-    dropDown.setItems(options);
-    currState = submissionState.BLANK;
+    //    options.add("Lower Level 2");
+    //    options.add("Lower Level 1");
+    //    options.add("Ground Floor");
+    //    options.add("First Floor");
+    //    options.add("Second Floor");
+    //    options.add("Third Floor");
+    // dropDown.setItems(options);
 
     //    if (imageVBox.getWidth() / imageVBox.getHeight() <= 1.45) {
     //      map.setFitWidth(imageVBox.getWidth() / 1000);
@@ -67,53 +56,40 @@ public class TransportationController {
    *
    * @param actionEvent The event that triggered the method.
    */
-  public void returnHome(ActionEvent actionEvent) throws IOException {
+  public void returnHome(ActionEvent actionEvent)
+      throws IOException { // when back button is pressed
     Navigation.navigate(Screen.HOME);
   }
 
-  public void submitForm(ActionEvent actionEvent) throws IOException {
-    String outputID = idField.getText();
+  public void submitForm(ActionEvent actionEvent)
+      throws IOException { // when submit button is pressed, collects text fields
+    String outputID = idField.getText(); // then creates an object to store them, clears fields
     String outputCurrRoom = currRoom.getText();
     String outputDestRoom = destRoom.getText();
+    String outputReason = reason.getText();
     // System.out.println("Current Room: " + outputCurrRoom + " Destination Room: " +
     // outputDestRoom);
     transportationSubmission newSubmission =
-        new transportationSubmission(outputID, outputCurrRoom, outputDestRoom);
+        new transportationSubmission(outputID, outputCurrRoom, outputDestRoom, outputReason);
     App.totalSubmissions.newTransportationSubmission(newSubmission);
     System.out.println(App.totalSubmissions.getTransportationData());
     clearFields();
   }
 
-  public void clearFields() {
+  public void clearFields() { // clears fields of text
     currRoom.setText("");
     destRoom.setText("");
     idField.setText("");
-    currState = submissionState.BLANK;
+    reason.setText("");
   }
 
-  public void validateButton() {
+  public void
+      validateButton() { // ensures that information has been filled in before allowing submission
     boolean valid = false;
-    switch (currState) {
-      case BLANK:
-        if ((!currRoom.getText().equals("")
-                || !destRoom.getText().equals("")
-                || !idField.getText().equals(""))
-            && !(!currRoom.getText().equals("")
-                && !destRoom.getText().equals("")
-                && !idField.getText().equals(""))) currState = submissionState.PROCESSING;
-        break;
-      case PROCESSING:
-        if (currRoom.getText().equals("")
-            && destRoom.getText().equals("")
-            && idField.getText().equals("")) currState = submissionState.BLANK;
-        if (!currRoom.getText().equals("")
-            && !destRoom.getText().equals("")
-            && !idField.getText().equals("")) currState = submissionState.DONE;
-        break;
-      case DONE:
-        valid = true;
-        break;
-    }
+    if (!currRoom.getText().equals("")
+        && !destRoom.getText().equals("")
+        && !idField.getText().equals("")
+        && !reason.getText().equals("")) valid = true;
     submitButton.setDisable(!valid);
   }
 
@@ -127,11 +103,13 @@ public class TransportationController {
   //    }
   //  }
 
-  public void updateMap(ActionEvent actionEvent) throws IOException {
-    String selection = dropDown.getValue();
-    if (selection.equals("Lower Level 2")) {
-      imageVBox.setStyle("-fx-background-image: url(\"..edu/wpi/capybara/images/BWH.jpg\");");
-    }
+  public void updateMap(ActionEvent actionEvent)
+      throws IOException { // updates map depending on combobox
+    // String selection = dropDown.getValue();
+    //    if (selection.equals("Lower Level 2")) {
+    //      imageVBox.setStyle("-fx-background-image: url(\"..edu/wpi/capybara/images/BWH.jpg\");");
+    //    }
+
     //    String selection = dropDown.getValue();
     //    if (selection.equals("Lower Level 2")) {
     //      Image newImage =

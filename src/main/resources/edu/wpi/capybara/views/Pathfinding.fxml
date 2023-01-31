@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTableView?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="transportationStackPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.TransportationController">
+<StackPane fx:id="transportationStackPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.PathfindingController">
    <children>
       <BorderPane fx:id="transportationPane" prefHeight="400.0" prefWidth="600.0">
          <top>
@@ -37,7 +37,7 @@
                   </HBox>
                   <VBox alignment="CENTER" prefHeight="50.0" prefWidth="405.0">
                      <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Internal Paitent Transportation Request Form">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Office Move Pathfinding">
                            <font>
                               <Font name="Segoe UI Black" size="18.0" />
                            </font>
@@ -49,26 +49,26 @@
             </HBox>
          </top>
          <center>
-            <VBox fx:id="imageVBox" alignment="CENTER" prefHeight="591.0" prefWidth="771.0" style="-fx-background-color: #a9cbde;" styleClass="body" stylesheets="@../styles/transportation_style.css" BorderPane.alignment="CENTER" />
+            <VBox fx:id="imageVBox" alignment="CENTER" prefHeight="591.0" prefWidth="771.0" style="-fx-background-color: #a9cbde;" styleClass="body" stylesheets="@../styles/pathfinding_style.css" BorderPane.alignment="CENTER">
+               <children>
+                  <MFXTableView fx:id="pathTable" disable="true" footerVisible="false" visible="false" VBox.vgrow="ALWAYS" />
+               </children></VBox>
          </center>
          <right>
             <VBox alignment="CENTER" minWidth="200.0" prefHeight="516.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID" />
+                  <HBox maxHeight="10.0" prefHeight="100.0" prefWidth="200.0" />
                   <MFXTextField fx:id="idField" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="5.0" maxWidth="124.0" onKeyReleased="#validateButton" />
-                  <HBox maxHeight="10.0" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </HBox>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Room Number" VBox.vgrow="ALWAYS" />
+                  <HBox maxHeight="10.0" prefHeight="100.0" prefWidth="200.0" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Office Location" VBox.vgrow="ALWAYS" />
                   <MFXTextField fx:id="currRoom" alignment="TOP_CENTER" borderGap="0.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="124.0" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="124.0" VBox.vgrow="ALWAYS" />
                   <HBox maxHeight="10.0" prefHeight="34.0" prefWidth="150.0" />
-                  <Text fx:id="DestinationRoomNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="Destination Room Number" VBox.vgrow="ALWAYS" />
+                  <Text fx:id="DestinationRoomNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="New Office Location" VBox.vgrow="ALWAYS" />
                   <MFXTextField fx:id="destRoom" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="124.0" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="18.0" prefWidth="124.0" VBox.vgrow="ALWAYS" />
-                  <HBox maxHeight="10.0" prefHeight="100.0" prefWidth="200.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reason for Move" VBox.vgrow="ALWAYS" />
-                  <MFXTextField fx:id="reasonField" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="124.0" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="18.0" prefWidth="124.0" VBox.vgrow="ALWAYS" />
+                  <HBox maxHeight="10.0" prefHeight="34.0" prefWidth="150.0" />
+                  <Text fx:id="DestinationRoomNumber1" strokeType="OUTSIDE" strokeWidth="0.0" text="Move Date" VBox.vgrow="ALWAYS" />
+                  <MFXTextField fx:id="dateField" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="124.0" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="18.0" prefWidth="124.0" VBox.vgrow="ALWAYS" />
                   <HBox maxHeight="10.0" prefHeight="100.0" prefWidth="200.0" />
                   <HBox alignment="CENTER" maxHeight="40.0" prefHeight="40.0" prefWidth="200.0">
                      <children>
@@ -78,7 +78,7 @@
                            </cursor>
                         </MFXButton>
                      </children></HBox>
-                  <MFXButton fx:id="submitButton" disable="true" onAction="#submitForm" style="-fx-background-color: #b9fbb9;" text="Submit Request" VBox.vgrow="ALWAYS">
+                  <MFXButton fx:id="submitButton" disable="true" onAction="#submitForm" style="-fx-background-color: #b9fbb9;" text="Find Directions!" VBox.vgrow="ALWAYS">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

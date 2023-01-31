@@ -32,4 +32,8 @@ public class RootController {
   public void showMapEditorPage(ActionEvent actionEvent) {
     Navigation.navigate(Screen.MAP_EDITOR);
   }
+
+  public void showPathfindingPage(ActionEvent actionEvent) {
+    Navigation.navigate(Screen.PATHFINDING);
+  }
 }
