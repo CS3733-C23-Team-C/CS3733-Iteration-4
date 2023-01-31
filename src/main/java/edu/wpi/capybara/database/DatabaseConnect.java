@@ -38,120 +38,129 @@ public class DatabaseConnect {
     edges.remove(edgeID);
   }
 
-  public static HashMap<String, Edge> getEdges(){
+  public static HashMap<String, Edge> getEdges() {
     return edges;
   }
 
-  public static HashMap<String, Node> getNodes(){
+  public static HashMap<String, Node> getNodes() {
     return nodes;
   }
 
-  public static HashMap<String, move> getMoves(){
+  public static HashMap<String, move> getMoves() {
     return moves;
   }
 
-  public static HashMap<String, locationname> getLocationNames(){
+  public static HashMap<String, locationname> getLocationNames() {
     return locationNames;
   }
 
-//  public static void menu() {
-//    boolean cont = true;
-//    do {
-//      System.out.println("Select an option: ");
-//      System.out.println("1. Display node and edge information");
-//      System.out.println("2. Update node coordinates");
-//      System.out.println("3. Update name of location node");
-//      System.out.println("4. Delete a node or an edge");
-//      System.out.println("5. Display Help on how to use the database program");
-//      System.out.println("6. Exit the program");
-//      String option = in.nextLine();
-//
-//      if (option.equals("1")) {
-//        System.out.println("Do you want to display a 1. node or 2. edge?");
-//        option = in.nextLine();
-//
-//        if (option.equals("1")) {
-//          System.out.println("enter the nodeid of the edge you want to display");
-//          String nodeid = in.nextLine();
-//          System.out.println(nodes.get(nodeid));
-//        } else if (option.equals("2")) {
-//          System.out.println("enter the edgeid of the edge you want to display");
-//          String edgeid = in.nextLine();
-//          System.out.println(edges.get(edgeid));
-//        } else {
-//          System.out.println("invalid option");
-//        }
-//      } else if (option.equals("2")) {
-//        System.out.println("do you want to update 1. xcoord 2. ycoord 3. both");
-//        option = in.nextLine();
-//        System.out.println("enter the id of the node you want to update");
-//        String nodeid = in.nextLine();
-//        if (option.equals("1") || option.equals("3")) {
-//          System.out.println("enter the new xcoord value");
-//          String xcoord = in.nextLine();
-//          nodes.get(nodeid).setXCoord(Integer.valueOf(xcoord));
-//        }
-//        if (option.equals("2") || option.equals("3")) {
-//          System.out.println("enter the new ycoord value");
-//          String ycoord = in.nextLine();
-//          nodes.get(nodeid).setYCoord(Integer.valueOf(ycoord));
-//        }
-//      } else if (option.equals("3")) {
-//        System.out.println("do you want to update 1. building 2. floor 3. both");
-//        option = in.nextLine();
-//        System.out.println("enter the id of the node you want to update");
-//        String nodeid = in.nextLine();
-//        if (option.equals("1") || option.equals("3")) {
-//          System.out.println("enter the new building value");
-//          String building = in.nextLine();
-//          nodes.get(nodeid).setBuilding(building);
-//        }
-//        if (option.equals("2") || option.equals("3")) {
-//          System.out.println("enter the new floor value");
-//          String floor = in.nextLine();
-//          nodes.get(nodeid).setFloor(floor);
-//        }
-//      } else if (option.equals("4")) {
-//        System.out.println("Do you want to delete a 1. node or 2. edge?");
-//        option = in.nextLine();
-//
-//        if (option.equals("1")) {
-//          System.out.println("enter the nodeid of the node you want to delete");
-//          String nodeid = in.nextLine();
-//          nodes.get(nodeid).deleteNode();
-//        } else if (option.equals("2")) {
-//          System.out.println("enter the edgeid of the edge you want to delete");
-//          String edgeid = in.nextLine();
-//          // edges.get(edgeid).deleteEdge();
-//        } else {
-//          System.out.println("invalid option");
-//        }
-//      } else if (option.equals("5")) {
-//        System.out.println(
-//            "Hello dear users of our database!\n"
-//                + "If you want to see the information of a specific node or edge, enter '1'. Then, enter '1' if you "
-//                + "want to see a node, or '2' if you want to see an edge. After that, enter the nodeID or the "
-//                + "edgeID of a desired node/edge.\n"
-//                + "If you want to update the coordinates of the node, press '2'. Then, press '1' if you want to "
-//                + "update the X coordinate; press '2' if you want to update the Y coordinate, and press '3' if you "
-//                + "want to update both. After that, enter the nodeID. Lastly, you should be able to enter the "
-//                + "desired values.\n"
-//                + "If you want to update the location of the node, enter '3' and enter the nodeID. Then, enter '1' "
-//                + "if you want to update the building; '2' if you want to update the floor; '3' if you want to "
-//                + "update both. After that, enter the desired building and/or floor.\n"
-//                + "If you want to delete a node or an edge, enter '4'. Then, enter '1' if you want to delete a node "
-//                + "; enter '2' if you want to delete an edge. After that, type the nodeID/edgeID to delete the "
-//                + "desired node/edge.\n"
-//                + "If you want to exit the program, enter '6'.");
-//        System.out.println("enter any character to continue");
-//        in.nextLine();
-//      } else if (option.equals("6")) {
-//        cont = false;
-//      } else {
-//        System.out.println("Invalid input");
-//      }
-//    } while (cont);
-//  }
+  //  public static void menu() {
+  //    boolean cont = true;
+  //    do {
+  //      System.out.println("Select an option: ");
+  //      System.out.println("1. Display node and edge information");
+  //      System.out.println("2. Update node coordinates");
+  //      System.out.println("3. Update name of location node");
+  //      System.out.println("4. Delete a node or an edge");
+  //      System.out.println("5. Display Help on how to use the database program");
+  //      System.out.println("6. Exit the program");
+  //      String option = in.nextLine();
+  //
+  //      if (option.equals("1")) {
+  //        System.out.println("Do you want to display a 1. node or 2. edge?");
+  //        option = in.nextLine();
+  //
+  //        if (option.equals("1")) {
+  //          System.out.println("enter the nodeid of the edge you want to display");
+  //          String nodeid = in.nextLine();
+  //          System.out.println(nodes.get(nodeid));
+  //        } else if (option.equals("2")) {
+  //          System.out.println("enter the edgeid of the edge you want to display");
+  //          String edgeid = in.nextLine();
+  //          System.out.println(edges.get(edgeid));
+  //        } else {
+  //          System.out.println("invalid option");
+  //        }
+  //      } else if (option.equals("2")) {
+  //        System.out.println("do you want to update 1. xcoord 2. ycoord 3. both");
+  //        option = in.nextLine();
+  //        System.out.println("enter the id of the node you want to update");
+  //        String nodeid = in.nextLine();
+  //        if (option.equals("1") || option.equals("3")) {
+  //          System.out.println("enter the new xcoord value");
+  //          String xcoord = in.nextLine();
+  //          nodes.get(nodeid).setXCoord(Integer.valueOf(xcoord));
+  //        }
+  //        if (option.equals("2") || option.equals("3")) {
+  //          System.out.println("enter the new ycoord value");
+  //          String ycoord = in.nextLine();
+  //          nodes.get(nodeid).setYCoord(Integer.valueOf(ycoord));
+  //        }
+  //      } else if (option.equals("3")) {
+  //        System.out.println("do you want to update 1. building 2. floor 3. both");
+  //        option = in.nextLine();
+  //        System.out.println("enter the id of the node you want to update");
+  //        String nodeid = in.nextLine();
+  //        if (option.equals("1") || option.equals("3")) {
+  //          System.out.println("enter the new building value");
+  //          String building = in.nextLine();
+  //          nodes.get(nodeid).setBuilding(building);
+  //        }
+  //        if (option.equals("2") || option.equals("3")) {
+  //          System.out.println("enter the new floor value");
+  //          String floor = in.nextLine();
+  //          nodes.get(nodeid).setFloor(floor);
+  //        }
+  //      } else if (option.equals("4")) {
+  //        System.out.println("Do you want to delete a 1. node or 2. edge?");
+  //        option = in.nextLine();
+  //
+  //        if (option.equals("1")) {
+  //          System.out.println("enter the nodeid of the node you want to delete");
+  //          String nodeid = in.nextLine();
+  //          nodes.get(nodeid).deleteNode();
+  //        } else if (option.equals("2")) {
+  //          System.out.println("enter the edgeid of the edge you want to delete");
+  //          String edgeid = in.nextLine();
+  //          // edges.get(edgeid).deleteEdge();
+  //        } else {
+  //          System.out.println("invalid option");
+  //        }
+  //      } else if (option.equals("5")) {
+  //        System.out.println(
+  //            "Hello dear users of our database!\n"
+  //                + "If you want to see the information of a specific node or edge, enter '1'.
+  // Then, enter '1' if you "
+  //                + "want to see a node, or '2' if you want to see an edge. After that, enter the
+  // nodeID or the "
+  //                + "edgeID of a desired node/edge.\n"
+  //                + "If you want to update the coordinates of the node, press '2'. Then, press '1'
+  // if you want to "
+  //                + "update the X coordinate; press '2' if you want to update the Y coordinate,
+  // and press '3' if you "
+  //                + "want to update both. After that, enter the nodeID. Lastly, you should be able
+  // to enter the "
+  //                + "desired values.\n"
+  //                + "If you want to update the location of the node, enter '3' and enter the
+  // nodeID. Then, enter '1' "
+  //                + "if you want to update the building; '2' if you want to update the floor; '3'
+  // if you want to "
+  //                + "update both. After that, enter the desired building and/or floor.\n"
+  //                + "If you want to delete a node or an edge, enter '4'. Then, enter '1' if you
+  // want to delete a node "
+  //                + "; enter '2' if you want to delete an edge. After that, type the nodeID/edgeID
+  // to delete the "
+  //                + "desired node/edge.\n"
+  //                + "If you want to exit the program, enter '6'.");
+  //        System.out.println("enter any character to continue");
+  //        in.nextLine();
+  //      } else if (option.equals("6")) {
+  //        cont = false;
+  //      } else {
+  //        System.out.println("Invalid input");
+  //      }
+  //    } while (cont);
+  //  }
 
   public static void connect() {
     connection = null;

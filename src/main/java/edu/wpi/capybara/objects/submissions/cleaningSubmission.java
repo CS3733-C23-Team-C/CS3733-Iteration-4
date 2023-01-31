@@ -8,7 +8,11 @@ public class cleaningSubmission {
   @Getter public String location;
   @Getter public String hazardLevel;
   @Getter public String description;
-  public submissionStatus status;
+  @Getter public submissionStatus status;
+
+
+
+
 
   public cleaningSubmission(
       String memberID, String location, String hazardLevel, String description) {
@@ -16,9 +20,10 @@ public class cleaningSubmission {
     this.location = location;
     this.hazardLevel = hazardLevel;
     this.description = description;
+    this.status = submissionStatus.BLANK;
   }
 
-  private enum submissionStatus {
+  public enum submissionStatus {
     BLANK,
     PROCESSING,
     DONE
