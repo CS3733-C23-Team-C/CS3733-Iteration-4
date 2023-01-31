@@ -21,6 +21,8 @@ public class App extends Application {
 
   public static submissionCollector totalSubmissions = new submissionCollector();
 
+  public static submissionCollector cleaningSubsTotal = new submissionCollector();
+
   @Override
   public void init() {
     log.info("Starting Up");
