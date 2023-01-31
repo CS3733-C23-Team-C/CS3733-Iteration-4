@@ -9,18 +9,22 @@ public class cleaningSubmission {
   @Getter public String hazardLevel;
   @Getter public String description;
 
+  @Getter public submissionStatus status;
+
   public cleaningSubmission(
       String memberID, String location, String hazardLevel, String description) {
     this.memberID = memberID;
     this.location = location;
     this.hazardLevel = hazardLevel;
     this.description = description;
+    this.status = submissionStatus.NA;
   }
 
-  private enum submissionStatus {
+  public enum submissionStatus {
     BLANK,
     PROCESSING,
-    DONE
+    DONE,
+    NA
   }
 
   public String getMemberID() {
