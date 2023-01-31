@@ -17,11 +17,6 @@ public class cleaningSubmission {
     this.description = description;
   }
 
-  private enum submissionStatus {
-    BLANK,
-    PROCESSING,
-    DONE
-  }
 
   public String getMemberID() {
     return this.memberID;
