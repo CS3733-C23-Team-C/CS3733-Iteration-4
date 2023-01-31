@@ -7,9 +7,6 @@ public class submissionCollector {
 
   LinkedList<cleaningSubmission> allCleaningSubmissions;
 
-  public void addCleaningSub(cleaningSubmission cleaningSub) {
-    allCleaningSubmissions = new LinkedList<cleaningSubmission>();
-  }
 
   public void newCleaningSub(cleaningSubmission cleaningSub) {
     this.allCleaningSubmissions.add(cleaningSub);

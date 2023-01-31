@@ -27,6 +27,17 @@ public class CleaningController {
   @FXML public TextField MemberID;
   @FXML public TextField hazardLevel;
 
+  private enum submissionStatus{
+    BLANK,
+    PROCESSING,
+    DONE
+  }
+  private submissionStatus currentStatus;
+  public void initializer(){
+    System.out.println("I am from cleaningController");
+    currentStatus = submissionStatus.BLANK;
+  }
+
   public void submit(ActionEvent actionEvent) {
     String locationInfo = Location.getText();
     String descriptionInfo = Description.getText();
