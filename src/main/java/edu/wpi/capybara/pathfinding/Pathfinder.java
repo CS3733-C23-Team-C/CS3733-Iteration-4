@@ -1,25 +1,25 @@
 package edu.wpi.capybara.pathfinding;
 
-import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.Edge;
 import edu.wpi.capybara.objects.Node;
 import java.io.InputStream;
 import java.util.*;
 
 public class Pathfinder {
-  private Map<String, Node> nodes;
-  private Map<String, Edge> edges;
+  private final Map<String, Node> nodes;
+  private final Map<String, Edge> edges;
 
   private static class PathNode implements Comparable<PathNode> {
     List<Node> path;
     List<Edge> edges;
     Node node, current, goal;
 
+    /*
     PathNode(List<Node> list, List<Edge> edges, Node node) {
       this.path = list;
       this.edges = edges;
       this.node = node;
-    }
+    }*/
 
     PathNode(List<Node> list, List<Edge> edges, Node node, Node current, Node goal) {
       this.path = list;
@@ -128,6 +128,7 @@ public class Pathfinder {
         new HashSet<>());*/
   }
 
+  /*
   private List<Node> dfs(
       PathNode current, Node goal, Stack<PathNode> nodesLeft, Collection<Node> nodesChecked) {
     // System.out.println("DFS with: " + current.node.toString());
@@ -144,7 +145,7 @@ public class Pathfinder {
 
     Set<Node> borderNodes = new HashSet<>();
     for (Edge e : current.node.getEdges()) {
-      Node n = DatabaseConnect.getNodes().get(e.getOtherNode(current.node));
+      Node n = nodes.get(e.getOtherNode(current.node));
       // System.out.println("Found Border Node " + n.toString());
       List<Edge> newEdges = new ArrayList<>(List.copyOf(current.edges));
       newEdges.add(e);
@@ -153,6 +154,7 @@ public class Pathfinder {
 
     return dfs(nodesLeft.pop(), goal, nodesLeft, nodesChecked);
   }
+   */
 
   private List<Node> aStar(Node start, Node goal) {
     List<PathNode> openList = new ArrayList<>();
@@ -199,7 +201,7 @@ public class Pathfinder {
     }
   }
 
-  private static double cost(Node current, Node n, Node goal) {
+  public static double cost(Node current, Node n, Node goal) {
     return calculateWeight(current, n) + calculateWeight(n, goal);
   }
 
@@ -215,6 +217,7 @@ public class Pathfinder {
     this.edges = edges;
   }
 
+  /*
   public static void main(String[] args) {
     System.out.println("test");
 
@@ -231,5 +234,5 @@ public class Pathfinder {
         System.out.println();
       }
     }
-  }
+  }*/
 }
