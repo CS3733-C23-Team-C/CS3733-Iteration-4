@@ -1,5 +1,6 @@
 package edu.wpi.capybara.pathfinding;
 
+import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.Edge;
 import edu.wpi.capybara.objects.Node;
 import java.io.InputStream;
@@ -9,7 +10,7 @@ public class Pathfinder {
   private Map<String, Node> nodes;
   private Map<String, Edge> edges;
 
-  private static class PathNode implements Comparable<PathNode>{
+  private static class PathNode implements Comparable<PathNode> {
     List<Node> path;
     List<Edge> edges;
     Node node, current, goal;
@@ -69,13 +70,10 @@ public class Pathfinder {
       Node newNode =
           new Node(
               lineVals[0],
-              lineVals[1],
-              lineVals[2],
+              Integer.parseInt(lineVals[1]),
+              Integer.parseInt(lineVals[2]),
               lineVals[3],
-              lineVals[4],
-              lineVals[5],
-              lineVals[6],
-              lineVals[7]);
+              lineVals[4]);
       nodes.put(nodeID, newNode);
     }
 
@@ -91,8 +89,7 @@ public class Pathfinder {
       String[] lineVals = line.split(",");
       // System.out.println("vals: " + Arrays.toString(lineVals));
       String edgeID = lineVals[0];
-      Edge newEdge = new Edge(edgeID);
-      newEdge.setNodes(nodes.get(lineVals[1]), nodes.get(lineVals[2]));
+      Edge newEdge = new Edge(lineVals[1], lineVals[2]);
       edges.put(edgeID, newEdge);
     }
 
@@ -121,7 +118,14 @@ public class Pathfinder {
       throw new RuntimeException("One of the NodeID doesn't exist!");
     }
 
-    return dfs(new PathNode(new ArrayList<>(), new ArrayList<>(), startNode), endNode, new Stack<>(), new HashSet<>());
+    return aStar(startNode, endNode);
+
+    /*
+    return dfs(
+        new PathNode(new ArrayList<>(), new ArrayList<>(), startNode),
+        endNode,
+        new Stack<>(),
+        new HashSet<>());*/
   }
 
   private List<Node> dfs(
@@ -140,7 +144,7 @@ public class Pathfinder {
 
     Set<Node> borderNodes = new HashSet<>();
     for (Edge e : current.node.getEdges()) {
-      Node n = e.getOtherNode(current.node);
+      Node n = DatabaseConnect.getNodes().get(e.getOtherNode(current.node));
       // System.out.println("Found Border Node " + n.toString());
       List<Edge> newEdges = new ArrayList<>(List.copyOf(current.edges));
       newEdges.add(e);
@@ -162,11 +166,11 @@ public class Pathfinder {
       newPath.add(current);
       if (current.equals(goal)) return newPath;
 
-      for (Edge e: current.getEdges()) {
+      for (Edge e : current.getEdges()) {
         List<Edge> newEdges = new ArrayList<>(List.copyOf(currentEdges));
         newEdges.add(e);
 
-        Node otherNode = e.getOtherNode(current);
+        Node otherNode = nodes.get(e.getOtherNode(current));
 
         if (closedList.contains(otherNode)) continue;
 
@@ -185,23 +189,33 @@ public class Pathfinder {
       currentPath = next.path;
       currentEdges = next.edges;
     }
-
   }
 
   private static double cost(Node current, Node n, Node goal) {
     return calculateWeight(current, n) + calculateWeight(n, goal);
   }
 
-  private static double calculateWeight(Node n1, Node n2) { //move function for a*
+  private static double calculateWeight(Node n1, Node n2) { // move function for a*
     float xDiff = Math.abs(n1.getXCoord() - n2.getXCoord());
     float yDiff = Math.abs(n1.getYCoord() - n2.getYCoord());
 
     return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
   }
 
-  /*
-  public Pathfinder(Collection<Node> nodes, Collection<Edge> edges) {
+  public Pathfinder(Map<String, Node> nodes, Map<String, Edge> edges) {
     this.nodes = nodes;
     this.edges = edges;
-  }*/
+  }
+
+  public static void main(String[] args) {
+    System.out.println("test");
+
+    Pathfinder pathfinder = new Pathfinder(DatabaseConnect.getNodes(), DatabaseConnect.getEdges());
+
+    System.out.println("test");
+    List<Node> path = pathfinder.findPath("CCONF001L1", "CLABS002L1");
+    for (Node n : path) {
+      System.out.println(n);
+    }
+  }
 }

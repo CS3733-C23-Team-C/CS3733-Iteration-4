@@ -48,16 +48,10 @@ public class Edge {
 
   @Override
   public String toString() {
-    return "Starting Node : "
-        + this.startNode
-        + "\n"
-        + "Ending Node : "
-        + this.endNode
-        + "\n";
+    return "Starting Node : " + this.startNode + "\n" + "Ending Node : " + this.endNode + "\n";
   }
 
   public boolean equals(Edge e) {
-    return this.edgeID.equals(e.getEdgeID());
+    return this.startNode.equals(e.startNode) && this.endNode.equals(e.endNode);
   }
-
 }

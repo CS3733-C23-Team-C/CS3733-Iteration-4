@@ -2,12 +2,9 @@ package edu.wpi.capybara.objects;
 
 import edu.wpi.capybara.database.DBUpdate;
 import edu.wpi.capybara.database.DatabaseConnect;
-import edu.wpi.capybara.objects.enums.Building;
-import edu.wpi.capybara.objects.enums.Floor;
-import lombok.Getter;
-
 import java.sql.ResultSet;
 import java.util.HashSet;
+import lombok.Getter;
 
 public class Node {
   @Getter String nodeID;
@@ -131,15 +128,14 @@ public class Node {
     DatabaseConnect.deleteNode(this.nodeID);
   }
 
-  public HashSet<Edge> getEdges(){
+  public HashSet<Edge> getEdges() {
     HashSet<Edge> ret = new HashSet<Edge>();
     ResultSet rset = DBUpdate.edges(nodeID);
     try {
       while (rset.next()) { // loop through the table
         ret.add(new Edge(rset.getString("node1"), rset.getString("node2")));
       }
-    }
-    catch (java.sql.SQLException e){
+    } catch (java.sql.SQLException e) {
       System.out.println(e);
     }
     return ret;

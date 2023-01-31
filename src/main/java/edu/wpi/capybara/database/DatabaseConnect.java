@@ -4,12 +4,16 @@ import edu.wpi.capybara.objects.Edge;
 import edu.wpi.capybara.objects.Node;
 import edu.wpi.capybara.objects.locationname;
 import edu.wpi.capybara.objects.move;
+import lombok.Getter;
+
 import java.sql.*;
 import java.util.*;
 
 public class DatabaseConnect {
   static Connection connection;
+  @Getter
   public static HashMap<String, Node> nodes;
+  @Getter
   public static HashMap<String, Edge> edges;
   public static HashMap<String, locationname> locationNames;
   public static HashMap<String, move> moves;
