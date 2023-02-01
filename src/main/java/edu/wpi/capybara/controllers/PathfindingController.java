@@ -56,7 +56,7 @@ public class PathfindingController {
     Navigation.navigate(Screen.HOME);
   }
 
-  public void submitForm(ActionEvent actionEvent) throws IOException { //submissions for Curr
+  public void submitForm(ActionEvent actionEvent) throws IOException { // submissions for Curr
     System.out.println("asdf");
     String outputID = idField.getText();
     String outputCurrRoom = currRoom.getText();
