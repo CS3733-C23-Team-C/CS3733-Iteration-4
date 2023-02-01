@@ -33,7 +33,7 @@ public class AllObjectsTest {
         new cleaningSubmission("100101", "office 67", "big", "i spilt concentrated hcl oopsie");
 
     assertEquals(cs.getMemberID(), "100101");
-    assertEquals(cs.getlocation(), "office 67");
+    assertEquals(cs.getLocation(), "office 67");
     assertEquals(cs.getHazardLevel(), "big");
     assertEquals(cs.getDescription(), "i spilt concentrated hcl oopsie");
     assertEquals(cs.getStatus(), cleaningSubmission.submissionStatus.BLANK);
