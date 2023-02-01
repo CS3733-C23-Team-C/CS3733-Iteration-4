@@ -45,6 +45,7 @@ public class move {
 
   public void setMovedate(Date movedate) {
     this.movedate = movedate;
+
     DBUpdate.update(
         "move",
         this.nodeid,
