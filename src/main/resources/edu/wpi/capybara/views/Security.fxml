@@ -5,6 +5,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -14,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="securityStackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.SecurityController">
+<StackPane fx:id="securityStackPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.SecurityController">
    <children>
       <BorderPane fx:id="securityPane" prefHeight="400.0" prefWidth="600.0">
          <top>
@@ -38,7 +39,7 @@
                   </HBox>
                   <VBox alignment="CENTER" prefHeight="50.0" prefWidth="405.0">
                      <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Securty Request Form">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Security Request Form">
                            <font>
                               <Font name="Segoe UI Black" size="18.0" />
                            </font>
@@ -56,7 +57,7 @@
                      <children>
                         <HBox alignment="CENTER" prefHeight="162.0" prefWidth="440.0" style="-fx-border-radius: 100;">
                            <children>
-                              <MFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" prefHeight="89.0" prefWidth="94.0" rippleColor="BLACK" style="-fx-border-color: #5a667; -fx-border-width: 10;" text="Police" underline="true">
+                              <MFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" prefHeight="89.0" prefWidth="94.0" rippleColor="BLACK" text="Police" underline="true">
                                  <graphic>
                                     <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -71,7 +72,7 @@
                                     <Insets top="80.0" />
                                  </HBox.margin>
                               </MFXButton>
-                              <MFXButton contentDisplay="TOP" prefHeight="130.0" prefWidth="105.0" style="-fx-border-insets: 4;" text="Fire">
+                              <MFXButton contentDisplay="TOP" prefHeight="130.0" prefWidth="105.0" text="Fire">
                                  <graphic>
                                     <ImageView fitHeight="83.0" fitWidth="112.0" layoutX="100.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -86,7 +87,7 @@
                                     <Insets left="30.0" top="80.0" />
                                  </HBox.margin>
                               </MFXButton>
-                              <MFXButton contentDisplay="TOP" prefHeight="99.0" prefWidth="81.0" style="-fx-border-width: 20; -fx-border-color: #5a667;" text="Doctor">
+                              <MFXButton contentDisplay="TOP" prefHeight="99.0" prefWidth="81.0" text="Doctor">
                                  <graphic>
                                     <ImageView fx:id="doctorSecurtyRequest" fitHeight="114.0" fitWidth="103.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
@@ -115,29 +116,31 @@
             <VBox alignment="CENTER" minWidth="200.0" prefHeight="516.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID" />
-                  <MFXTextField fx:id="currRoom11" alignment="TOP_CENTER" borderGap="0.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="29.0" maxWidth="151.0" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="19.0" prefWidth="122.0" />
+                  <TextField fx:id="employeeID" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Room Number" VBox.vgrow="ALWAYS" />
                   <HBox alignment="CENTER" maxHeight="30.0" prefHeight="226.0" prefWidth="150.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <MFXTextField fx:id="currRoom1" alignment="TOP_CENTER" borderGap="0.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="29.0" maxWidth="151.0" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="29.0" prefWidth="151.0" />
+                        <TextField fx:id="roomNumber" prefHeight="25.0" prefWidth="244.0" />
                      </children></HBox>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Floor Number" VBox.vgrow="ALWAYS" />
-                  <MFXTextField fx:id="currRoom" alignment="TOP_CENTER" borderGap="0.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="32.0" maxWidth="155.0" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="32.0" prefWidth="155.0" VBox.vgrow="ALWAYS" />
-                  <HBox maxHeight="20.0" prefHeight="34.0" prefWidth="150.0" />
-                  <Text fx:id="DestinationRoomNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="Notes" VBox.vgrow="ALWAYS" />
-                  <MFXTextField fx:id="destRoom" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="103.0" maxWidth="153.0" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="103.0" prefWidth="153.0" VBox.vgrow="ALWAYS" />
+                  <HBox maxHeight="20.0" prefHeight="34.0" prefWidth="150.0">
+                     <children>
+                        <TextField fx:id="floorNumber" prefHeight="25.0" prefWidth="208.0" />
+                     </children></HBox>
+                  <Text fx:id="roomNumbers" strokeType="OUTSIDE" strokeWidth="0.0" text="Notes" VBox.vgrow="ALWAYS" />
+                  <MFXTextField fx:id="notesUpdate" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="103.0" maxWidth="153.0" measureUnitGap="1.0" prefHeight="103.0" prefWidth="153.0" VBox.vgrow="ALWAYS" />
                   <HBox maxHeight="20.0" prefHeight="100.0" prefWidth="200.0" />
                   <HBox maxHeight="20.0" prefHeight="100.0" prefWidth="200.0" />
                   <HBox alignment="CENTER" maxHeight="40.0" prefHeight="40.0" prefWidth="200.0">
                      <children>
-                        <MFXButton fx:id="clearButton" onAction="#clearFields" style="-fx-background-color: #ffffbf;" text="Clear/Cancel">
+                        <MFXButton fx:id="clearButton" style="-fx-background-color: #ffffbf;" text="Clear/Cancel">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </MFXButton>
                      </children>
                   </HBox>
-                  <MFXButton fx:id="submitButton" disable="true" onAction="#submitForm" style="-fx-background-color: #b9fbb9;" text="Submit" VBox.vgrow="ALWAYS">
+                  <MFXButton fx:id="SubmitButton" onAction="#submit" style="-fx-background-color: #90EE90;" text="Submit">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>

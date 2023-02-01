@@ -1,34 +1,32 @@
 package edu.wpi.capybara.controllers;
 
-
-import edu.wpi.capybara.App;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
-//import edu.wpi.capybara.objects.submissions.Submission;
+import edu.wpi.capybara.objects.submissions.securitySubmission;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import java.io.IOException;
-
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-
 import javax.swing.*;
 
 public class SecurityController {
 
-  @FXML private MFXButton returnButton;
-  @FXML private MFXButton submitButton;
-  @FXML private MFXButton clear;
-  @FXML private MFXTextField room;
-  @FXML private MFXTextField floorNumber;
-  @FXML private MFXTextField notes;
+  @FXML public MFXButton backButton;
+  @FXML public MFXButton SubmitButton;
+  @FXML public MFXButton clear;
+  @FXML public TextField roomNumber;
+  @FXML public TextField floorNumber;
+  @FXML public MFXTextField notesUpdate;
 
-  @FXML private MFXTextField employeeID;
+  @FXML public MFXButton Police;
 
+  @FXML public MFXButton Fire;
+
+  @FXML public TextField employeeID;
 
   @FXML public TextField Location;
   @FXML public TextArea Description;
@@ -38,76 +36,68 @@ public class SecurityController {
     Navigation.navigate(Screen.HOME);
   }
 
-//  public void submitForm(ActionEvent actionEvent) throws IOException {
-//    String outputRoomNumber = room.getText();
-//    String outputFloorNumber = floorNumber.getText();
-//    String outputNotes = notes.getText();
-//    // System.out.println("Current Room: " + outputCurrRoom + " Destination Room: " +
-//    // outputDestRoom);
-//    securtySubmission newSubmission =
-//            new securtySubmission(outputRoomNumber, outputFloorNumber, outputNotes);
-//    App.totalSubmissions.newTransportationSubmission(newSubmission);
-//    System.out.println(App.totalSubmissions.getTransportationData());
-//    clearFields();
-//  }
+  //  public void submitForm(ActionEvent actionEvent) throws IOException {
+  //    String outputRoomNumber = room.getText();
+  //    String outputFloorNumber = floorNumber.getText();
+  //    String outputNotes = notes.getText();
+  //    // System.out.println("Current Room: " + outputCurrRoom + " Destination Room: " +
+  //    // outputDestRoom);
+  //    securtySubmission newSubmission =
+  //            new securtySubmission(outputRoomNumber, outputFloorNumber, outputNotes);
+  //    App.totalSubmissions.newTransportationSubmission(newSubmission);
+  //    System.out.println(App.totalSubmissions.getTransportationData());
+  //    clearFields();
+  //  }
 
-
-
-public void clearFields(){
-    room.setText("");
+  public void clearFields() {
+    employeeID.setText("");
+    roomNumber.setText("");
     floorNumber.setText("");
-    notes.setText("");
-}
+    notesUpdate.setText("");
+  }
 
   public void back(ActionEvent actionEvent) throws IOException {
     Navigation.navigate(Screen.HOME);
   }
 
-
-
-  //clicking a department
-  public void clickedPolice(ActionEvent actionEvent) throws IOException{
+  // clicking a department
+  public void clickedPolice(ActionEvent actionEvent) throws IOException {
     printf("The Police Were Notified and was selected");
-
-
   }
 
-
-
-
-  public void clickedFireDepartment(ActionEvent actionEvent) throws IOException{
+  public void clickedFireDepartment(ActionEvent actionEvent) throws IOException {
     printf("The Fire Department was selected");
-
   }
 
-  public void clickedDoctor(ActionEvent actionEvent) throws IOException{
+  public void clickedDoctor(ActionEvent actionEvent) throws IOException {
     printf("The Doctor was selected");
-
   }
 
-
-  private void printf(String s) {
-  }
+  private void printf(String s) {}
   // end
 
+  // entered room number
 
-  //entered room number
-
-  public void submitSecurityRequestForm(ActionEvent actionEvent) throws IOException{
+  public void submit(ActionEvent actionEvent) {
     String outputeID = employeeID.getText();
-    String outputroomNumber = room.getText();
+    String outputroomNumber1 = roomNumber.getText();
     String outputfloorNumber = floorNumber.getText();
-    String outputnotes = notes.getText();
+    String outputnotes = notesUpdate.getText();
+    securitySubmission addSubmission =
+        new securitySubmission(outputnotes, outputeID, outputfloorNumber, outputroomNumber1);
 
-
+    clearFields();
   }
 
+  public void clearRequest() {
+    floorNumber.clear();
+    roomNumber.clear();
+    notesUpdate.clear();
+    employeeID.clear();
+  }
 
+  // entered notes/update
 
-
-  //entered notes/update
-
-  //entered floor number
-
+  // entered floor number
 
 }
