@@ -1,6 +1,7 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
+import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.Edge;
@@ -64,7 +65,7 @@ public class PathfindingController {
     try {
       InputStream edgesFile = App.class.getResourceAsStream("csv/L1Edges.csv");
       InputStream nodesFile = App.class.getResourceAsStream("csv/L1Nodes.csv");
-      Pathfinder pathfinder = new Pathfinder(nodesFile, edgesFile);
+      Pathfinder pathfinder = new Pathfinder(DatabaseConnect.getNodes(), DatabaseConnect.getEdges());
       List<Node> path = pathfinder.findPath(outputCurrRoom, outputDestRoom);
       System.out.println("path successfully created");
       System.out.println("Number of Nodes : " + path.size());

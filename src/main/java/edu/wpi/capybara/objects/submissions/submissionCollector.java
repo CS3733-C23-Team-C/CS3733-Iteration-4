@@ -20,7 +20,7 @@ public class submissionCollector { // stores all of the submissions in different
   public void newCleaningSub(cleaningSubmission cleaningSub) {
     DBUpdate.insertCleaning(
         cleaningSub.getMemberID(),
-        cleaningSub.getlocation(),
+        cleaningSub.getLocation(),
         cleaningSub.getHazardLevel(),
         cleaningSub.getDescription(),
         cleaningSub.getStatus());
@@ -78,7 +78,7 @@ public class submissionCollector { // stores all of the submissions in different
               + "\r\n"
               + allSubs.getMemberID()
               + ","
-              + allSubs.getlocation()
+              + allSubs.getLocation()
               + ","
               + allSubs.getHazardLevel()
               + ","

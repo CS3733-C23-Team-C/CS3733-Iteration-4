@@ -42,7 +42,7 @@ public class cleaningSubmission {
     return this.memberID;
   }
 
-  public String getlocation() {
+  public String getLocation() {
     return this.location;
   }
 
