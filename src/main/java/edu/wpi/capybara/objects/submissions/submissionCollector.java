@@ -3,7 +3,7 @@ package edu.wpi.capybara.objects.submissions;
 import edu.wpi.capybara.database.DBUpdate;
 import java.util.LinkedList;
 
-public class submissionCollector {
+public class submissionCollector { // stores all of the submissions in different collections
   LinkedList<transportationSubmission> transportationSubs;
 
   LinkedList<cleaningSubmission> allCleaningSubmissions;
@@ -20,7 +20,7 @@ public class submissionCollector {
   public void newCleaningSub(cleaningSubmission cleaningSub) {
     DBUpdate.insertCleaning(
         cleaningSub.getMemberID(),
-        cleaningSub.getlocation(),
+        cleaningSub.getLocation(),
         cleaningSub.getHazardLevel(),
         cleaningSub.getDescription(),
         cleaningSub.getStatus());
@@ -34,16 +34,37 @@ public class submissionCollector {
 
   public void newTransportationSubmission(transportationSubmission submission) {
     DBUpdate.insertTransportation(
-        submission.getID(), submission.getCurrRoom(), submission.getDestRoom());
+        submission.getID(),
+        submission.getCurrRoom(),
+        submission.getDestRoom(),
+        submission.getReason(),
+        submission.getRealStatus());
     this.transportationSubs.add(submission);
   }
 
-  public String getTransportationData() {
-    String tableHeaders = "Employee ID,Current Room,Destination Room";
+  /**
+   * used to present all of the request to administor
+   *
+   * @return String
+   */
+  public String
+      getTransportationData() { // creates a sort CSV file of all the data in the collection of
+    // transportation submissions
+    String tableHeaders = "Employee ID,Current Room,Destination Room,Reason,Status";
     String dataAdded = "";
     for (transportationSubmission data : transportationSubs) {
       dataAdded =
-          dataAdded + "\r\n" + data.getID() + "," + data.getCurrRoom() + "," + data.getDestRoom();
+          dataAdded
+              + "\r\n"
+              + data.getID()
+              + ","
+              + data.getCurrRoom()
+              + ","
+              + data.getDestRoom()
+              + ","
+              + data.getReason()
+              + ","
+              + data.getStatus();
     }
     return (tableHeaders + dataAdded);
   }
@@ -62,7 +83,7 @@ public class submissionCollector {
               + "\r\n"
               + allSubs.getMemberID()
               + ","
-              + allSubs.getlocation()
+              + allSubs.getLocation()
               + ","
               + allSubs.getHazardLevel()
               + ","

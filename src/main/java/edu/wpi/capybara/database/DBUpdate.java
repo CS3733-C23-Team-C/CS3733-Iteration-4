@@ -11,17 +11,22 @@ import java.util.LinkedList;
 
 public class DBUpdate {
 
-  public static void insertTransportation(String id, String curRoom, String dest) {
+  public static void insertTransportation(
+      String id, String curRoom, String dest, String reason, String status) {
     try {
       Statement stmt = connection.createStatement();
       String insert =
-          "INSERT INTO transportationsubmission (employeeid, currroomnum, destroomnum) VALUES "
+          "INSERT INTO transportationsubmission (employeeid, currroomnum, destroomnum, reason, status) VALUES "
               + "('"
               + id
               + "', '"
               + curRoom
               + "', '"
               + dest
+              + "', '"
+              + reason
+              + "', '"
+              + status
               + "')";
       System.out.println(insert);
       stmt.execute(insert);
@@ -98,6 +103,31 @@ public class DBUpdate {
     }
   }
 
+  public static void update(
+          String table,
+          String pk1,
+          String pk2,
+          String pk3,
+          String attribute,
+          String value,
+          String pkType1,
+          String pkType2,
+          String pkType3) {
+
+    try {
+      Statement stmt = connection.createStatement();
+      String insert =
+              "UPDATE " + table + " SET " + attribute + " = " + value + " WHERE " + pkType1 + " = '"
+                      + pk1 + "' & '" + pkType2 + " = '" + pk2 + "' & '" + pkType3 + " = '"
+                      + pk3 + "'";
+      System.out.println(insert);
+      stmt.execute(insert);
+      stmt.close();
+    } catch (SQLException e) {
+      System.out.println(e);
+    }
+  }
+
   public static void delete(String table, String pk, String pkType) {
     try {
       Statement stmt = connection.createStatement();
@@ -138,7 +168,9 @@ public class DBUpdate {
             new transportationSubmission(
                 rset.getString("employeeid"),
                 rset.getString("currroomnum"),
-                rset.getString("destroomnum")));
+                rset.getString("destroomnum"),
+                rset.getString("reason"),
+                transportationSubmission.submissionStatus.valueOf(rset.getString("status"))));
       }
       stmt.close();
       return ret;
@@ -161,7 +193,9 @@ public class DBUpdate {
                 rset.getString("memberid"),
                 rset.getString("location"),
                 rset.getString("hazardlevel"),
-                rset.getString("description"))); // currently not bringing in status
+                rset.getString("description"),
+                cleaningSubmission.submissionStatus.valueOf(
+                    rset.getString("submissionstatus")))); // currently not bringing in status
       }
       stmt.close();
       return ret;

@@ -156,6 +156,37 @@ public class Pathfinder {
   }
    */
 
+  public static List<Edge> getPathEdges(List<Node> path) {
+    List<Edge> edges = new ArrayList<Edge>();
+    Node prevNode = null;
+    for (Node node : path) {
+      if (prevNode == null) {
+        prevNode = node;
+      } else {
+        edges.add(commonEdge(prevNode, node));
+        prevNode = node;
+      }
+    }
+    return edges;
+  }
+
+  private static Edge commonEdge(Node node1, Node node2) {
+    Set<Edge> edges1 = node1.getEdges(), edges2 = node2.getEdges();
+    Iterator<Edge> edgeIterator1 = edges1.iterator();
+    while (edgeIterator1.hasNext()) {
+      Edge edge1 = edgeIterator1.next();
+      Iterator<Edge> edgeIterator2 = edges2.iterator();
+      while (edgeIterator2.hasNext()) {
+        Edge edge2 = edgeIterator2.next();
+        if (edge1.equals(edge2)) return edge1;
+      }
+    }
+    System.out.println("No common edges for the given nodes : ");
+    System.out.println(node1.toString());
+    System.out.println(node2.toString());
+    return null;
+  }
+
   private List<Node> aStar(Node start, Node goal) {
     List<PathNode> openList = new ArrayList<>();
     List<Node> closedList = new ArrayList<>();

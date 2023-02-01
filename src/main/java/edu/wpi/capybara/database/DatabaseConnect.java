@@ -181,6 +181,8 @@ public class DatabaseConnect {
     } else {
       System.out.println("Connection failed");
     }
+
+    importData();
   }
 
   public static void importData() {
@@ -273,11 +275,9 @@ public class DatabaseConnect {
       String name;
       while (rset.next()) { // loop through the table
         moves.put(
-            rset.getString(
-                    rset.getString("nodeid")
-                        + rset.getString("longname")
-                        + rset.getDate("movedate"))
-                .toString(),
+            rset.getString("nodeid")
+                + rset.getString("longname")
+                + rset.getDate("movedate").toString(),
             new move(
                 rset.getString("nodeid"), rset.getString("longname"), rset.getDate("movedate")));
       }
