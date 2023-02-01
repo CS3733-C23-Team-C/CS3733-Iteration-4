@@ -98,12 +98,12 @@ public class Node {
 
   public void setFloor(String floor) {
     this.floor = floor;
-    DBUpdate.update("nodes", this.nodeID, "floor", "'" + floor + "'", "nodeid");
+    DBUpdate.update("node", this.nodeID, "floor", "'" + floor + "'", "nodeid");
   }
 
   public void setBuilding(String building) {
     this.building = building;
-    DBUpdate.update("nodes", this.nodeID, "building", "'" + building + "'", "nodeid");
+    DBUpdate.update("node", this.nodeID, "building", "'" + building + "'", "nodeid");
   }
 
   //  public void setNodeType(String nodeType) {
