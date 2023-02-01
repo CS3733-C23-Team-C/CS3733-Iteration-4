@@ -69,6 +69,7 @@ public class PathfindingController {
 
   /**
    * When submit button is clicked, calculates path using A* and prints data to table
+   *
    * @param actionEvent
    * @throws IOException
    */

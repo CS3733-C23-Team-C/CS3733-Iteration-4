@@ -15,19 +15,46 @@ public class locationname {
     this.locationtype = locationtype;
   }
 
-  public void setLongName(String longname) {
+  public void setLongname(String longname) {
     this.longname = longname;
-    DBUpdate.update("locationname", this.longname, this.shortname, this.locationtype, "'longname'", longname, "longname", "shortname", "locationtype");
+    DBUpdate.update(
+        "locationname",
+        this.longname,
+        this.shortname,
+        this.locationtype,
+        "longname",
+        longname,
+        "longname",
+        "shortname",
+        "locationtype");
   }
 
   public void setShortname(String shortname) {
     this.shortname = shortname;
-    DBUpdate.update("shortname", this.longname, this.shortname, this.locationtype, "'shortname'", shortname, "longname", "shortname", "locationtype");
+    DBUpdate.update(
+        "shortname",
+        this.longname,
+        this.shortname,
+        this.locationtype,
+        "shortname",
+        shortname,
+        "longname",
+        "shortname",
+        "locationtype");
   }
 
   public void setLocationtype(String locationtype) {
     this.locationtype = locationtype;
-    DBUpdate.update("locationtype", this.longname, this.shortname, this.locationtype, "'locationtype'", locationtype, "longname", "shortname", "locationtype");
+    DBUpdate.update(
+        "locationtype",
+        this.longname,
+        this.shortname,
+        this.locationtype,
+        "locationtype",
+        locationtype,
+        "longname",
+        "shortname",
+        "locationtype");
   }
 
   @Override

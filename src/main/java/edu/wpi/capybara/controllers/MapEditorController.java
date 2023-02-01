@@ -88,9 +88,15 @@ public class MapEditorController {
   }
 
   private void initializeMoveTable() {
-    final var nodeIDColumn = createTableColumn("Node ID", MovePropertyAdapter::nodeIDProperty, new DefaultStringConverter());
-    final var longNameColumn = createTableColumn("Long Name", MovePropertyAdapter::longNameProperty, new DefaultStringConverter());
-    final var moveDateColumn = createTableColumn("Move Date", MovePropertyAdapter::moveDateProperty, new SQLDateStringConverter());
+    final var nodeIDColumn =
+        createTableColumn(
+            "Node ID", MovePropertyAdapter::nodeIDProperty, new DefaultStringConverter());
+    final var longNameColumn =
+        createTableColumn(
+            "Long Name", MovePropertyAdapter::longNameProperty, new DefaultStringConverter());
+    final var moveDateColumn =
+        createTableColumn(
+            "Move Date", MovePropertyAdapter::moveDateProperty, new SQLDateStringConverter());
 
     //noinspection unchecked
     moveTableView.getColumns().setAll(nodeIDColumn, longNameColumn, moveDateColumn);

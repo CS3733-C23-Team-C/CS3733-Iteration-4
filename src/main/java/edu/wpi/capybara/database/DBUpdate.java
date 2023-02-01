@@ -93,8 +93,21 @@ public class DBUpdate {
     try {
       Statement stmt = connection.createStatement();
       String insert =
-          "UPDATE " + table + " SET " + attribute + " = " + value + " WHERE " + pkType1 + " = '"
-              + pk1 + "' & '" + pkType2 + " = '" + pk2 + "'";
+          "UPDATE "
+              + table
+              + " SET "
+              + attribute
+              + " = '"
+              + value
+              + "' WHERE "
+              + pkType1
+              + " = '"
+              + pk1
+              + "' & '"
+              + pkType2
+              + "' = '"
+              + pk2
+              + "';";
       System.out.println(insert);
       stmt.execute(insert);
       stmt.close();
@@ -104,22 +117,21 @@ public class DBUpdate {
   }
 
   public static void update(
-          String table,
-          String pk1,
-          String pk2,
-          String pk3,
-          String attribute,
-          String value,
-          String pkType1,
-          String pkType2,
-          String pkType3) {
+      String table,
+      String pk1,
+      String pk2,
+      String pk3,
+      String attribute,
+      String value,
+      String pkType1,
+      String pkType2,
+      String pkType3) {
 
     try {
       Statement stmt = connection.createStatement();
       String insert =
-              "UPDATE " + table + " SET " + attribute + " = " + value + " WHERE " + pkType1 + " = '"
-                      + pk1 + "' & '" + pkType2 + " = '" + pk2 + "' & '" + pkType3 + " = '"
-                      + pk3 + "'";
+          "UPDATE " + table + " SET " + attribute + " = " + value + " WHERE " + pkType1 + " = '"
+              + pk1 + "' & " + pkType2 + " = '" + pk2 + "' & " + pkType3 + " = '" + pk3 + "';";
       System.out.println(insert);
       stmt.execute(insert);
       stmt.close();
