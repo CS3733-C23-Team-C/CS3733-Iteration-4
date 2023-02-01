@@ -93,21 +93,25 @@ public class DBUpdate {
     try {
       Statement stmt = connection.createStatement();
       String insert =
-          "UPDATE "
-              + table
-              + " SET "
-              + attribute
-              + " = '"
-              + value
-              + "' WHERE "
-              + pkType1
-              + " = '"
-              + pk1
-              + "' & '"
-              + pkType2
-              + "' = '"
-              + pk2
-              + "';";
+          String.format(
+              "UPDATE %s SET %s = '%s' WHERE %s = '%s' AND %s = '%s';",
+              table, attribute, value, pkType1, pk1, pkType2, pk2);
+      //      String insert =
+      //          "UPDATE "
+      //              + table
+      //              + " SET "
+      //              + attribute
+      //              + " = '"
+      //              + value
+      //              + "' WHERE "
+      //              + pkType1
+      //              + " = '"
+      //              + pk1
+      //              + "' & '"
+      //              + pkType2
+      //              + "' = '"
+      //              + pk2
+      //              + "';";
       System.out.println(insert);
       stmt.execute(insert);
       stmt.close();
@@ -130,8 +134,14 @@ public class DBUpdate {
     try {
       Statement stmt = connection.createStatement();
       String insert =
-          "UPDATE " + table + " SET " + attribute + " = " + value + " WHERE " + pkType1 + " = '"
-              + pk1 + "' & " + pkType2 + " = '" + pk2 + "' & " + pkType3 + " = '" + pk3 + "';";
+          String.format(
+              "UPDATE %s SET %s = '%s' WHERE %s = '%s' AND %s = '%s' AND %s = '%s';",
+              table, attribute, value, pkType1, pk1, pkType2, pk2, pkType3, pk3);
+      //      String insert =
+      //          "UPDATE " + table + " SET " + attribute + " = " + value + " WHERE " + pkType1 + "
+      // = '"
+      //              + pk1 + "' & " + pkType2 + " = '" + pk2 + "' & " + pkType3 + " = '" + pk3 +
+      // "';";
       System.out.println(insert);
       stmt.execute(insert);
       stmt.close();

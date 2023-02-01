@@ -32,7 +32,7 @@ public class locationname {
   public void setShortname(String shortname) {
     this.shortname = shortname;
     DBUpdate.update(
-        "shortname",
+        "locationname",
         this.longname,
         this.shortname,
         this.locationtype,
@@ -46,7 +46,7 @@ public class locationname {
   public void setLocationtype(String locationtype) {
     this.locationtype = locationtype;
     DBUpdate.update(
-        "locationtype",
+        "locationname",
         this.longname,
         this.shortname,
         this.locationtype,
