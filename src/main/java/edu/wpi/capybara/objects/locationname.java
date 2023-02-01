@@ -4,6 +4,7 @@ import lombok.Getter;
 
 public class locationname {
   @Getter private String longname;
+
   @Getter private String shortname;
   @Getter private String locationtype;
 

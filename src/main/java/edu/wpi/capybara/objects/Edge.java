@@ -14,7 +14,7 @@ public class Edge {
     return startNode;
   }
 
-  private void setStartNode(String startNode) {
+  public void setStartNode(String startNode) {
     this.startNode = startNode;
     DBUpdate.update("edge", this.startNode, this.endNode, "node1", startNode, "node1", "node2");
   }
@@ -28,7 +28,7 @@ public class Edge {
     return startNode;
   }
 
-  private void setEndNode(String endNode) {
+  public void setEndNode(String endNode) {
     this.endNode = endNode;
     DBUpdate.update("edge", this.startNode, this.endNode, "node2", endNode, "node1", "node2");
   }
