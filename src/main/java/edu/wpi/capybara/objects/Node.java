@@ -2,6 +2,8 @@ package edu.wpi.capybara.objects;
 
 import edu.wpi.capybara.database.DBUpdate;
 import edu.wpi.capybara.database.DatabaseConnect;
+import java.sql.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import lombok.Getter;
 
@@ -136,5 +138,28 @@ public class Node {
       }
     }
     return ret;
+  }
+
+  public String getShortName() {
+    HashMap<String, move> moves = DatabaseConnect.getMoves();
+    Date temp = new Date((long) 0);
+    String longname = null;
+    for (move m : moves.values()) {
+      if (m.getNodeid() == this.nodeID) {
+        if (m.getMovedate().compareTo(temp) < 0) {
+          temp = m.getMovedate();
+          longname = m.getLongname();
+        }
+      }
+    }
+
+    HashMap<String, locationname> locations = DatabaseConnect.getLocationNames();
+    for (locationname location : locations.values()) {
+      if (longname.equals(location.getLongname())) {
+        return location.getShortname();
+      }
+    }
+
+    return null;
   }
 }

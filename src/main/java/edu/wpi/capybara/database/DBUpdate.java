@@ -11,17 +11,22 @@ import java.util.LinkedList;
 
 public class DBUpdate {
 
-  public static void insertTransportation(String id, String curRoom, String dest) {
+  public static void insertTransportation(
+      String id, String curRoom, String dest, String reason, String status) {
     try {
       Statement stmt = connection.createStatement();
       String insert =
-          "INSERT INTO transportationsubmission (employeeid, currroomnum, destroomnum) VALUES "
+          "INSERT INTO transportationsubmission (employeeid, currroomnum, destroomnum, reason, status) VALUES "
               + "('"
               + id
               + "', '"
               + curRoom
               + "', '"
               + dest
+              + "', '"
+              + reason
+              + "', '"
+              + status
               + "')";
       System.out.println(insert);
       stmt.execute(insert);
@@ -138,7 +143,9 @@ public class DBUpdate {
             new transportationSubmission(
                 rset.getString("employeeid"),
                 rset.getString("currroomnum"),
-                rset.getString("destroomnum")));
+                rset.getString("destroomnum"),
+                rset.getString("reason"),
+                transportationSubmission.submissionStatus.valueOf(rset.getString("status"))));
       }
       stmt.close();
       return ret;
@@ -161,7 +168,9 @@ public class DBUpdate {
                 rset.getString("memberid"),
                 rset.getString("location"),
                 rset.getString("hazardlevel"),
-                rset.getString("description"))); // currently not bringing in status
+                rset.getString("description"),
+                cleaningSubmission.submissionStatus.valueOf(
+                    rset.getString("submissionstatus")))); // currently not bringing in status
       }
       stmt.close();
       return ret;

@@ -86,7 +86,7 @@ public class PathfindingController {
       pathTable.setItems(paths);
       System.out.println("Path successfully created");
     } catch (Exception e) {
-      System.out.println("Error creating path");
+      System.out.println(e);
     }
     // System.out.println("Current Room: " + outputCurrRoom + " Destination Room: " +
     // outputDestRoom);

@@ -8,9 +8,7 @@ public class cleaningSubmission {
   @Getter public String location;
   @Getter public String hazardLevel;
   @Getter public String description;
-  public submissionStatus status;
-
-
+  @Getter public submissionStatus status;
 
   public cleaningSubmission(
       String memberID, String location, String hazardLevel, String description) {
@@ -19,6 +17,19 @@ public class cleaningSubmission {
     this.hazardLevel = hazardLevel;
     this.description = description;
     this.status = submissionStatus.BLANK;
+  }
+
+  public cleaningSubmission(
+      String memberID,
+      String location,
+      String hazardLevel,
+      String description,
+      submissionStatus status) {
+    this.memberID = memberID;
+    this.location = location;
+    this.hazardLevel = hazardLevel;
+    this.description = description;
+    this.status = status;
   }
 
   public enum submissionStatus {
