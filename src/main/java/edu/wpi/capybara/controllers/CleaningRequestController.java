@@ -25,6 +25,9 @@ public class CleaningRequestController {
 
   ObservableList<cleaningSubmission> totalRequests = FXCollections.observableArrayList();
 
+  /**
+   * When it switches to page, gets data from submission collector and creates tables
+   */
   public void initialize() {
     memberIDNeeded.setCellValueFactory(
         new PropertyValueFactory<cleaningSubmission, String>("memberID"));
