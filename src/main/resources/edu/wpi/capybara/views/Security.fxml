@@ -22,7 +22,7 @@
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <MFXButton fx:id="backButton" alignment="TOP_CENTER" contentDisplay="CENTER" onAction= "#returnHome" rippleColor="#b77777" style="-fx-background-color: #ffffff;" text=" ">
+                        <MFXButton fx:id="backButton" alignment="TOP_CENTER" contentDisplay="CENTER" onAction="#returnHome" rippleColor="#b77777" style="-fx-background-color: #ffffff;" text=" ">
                            <graphic>
                               <ImageView fitHeight="28.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -114,9 +114,13 @@
          <right>
             <VBox alignment="CENTER" minWidth="200.0" prefHeight="516.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID" />
+                  <MFXTextField fx:id="currRoom11" alignment="TOP_CENTER" borderGap="0.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="29.0" maxWidth="151.0" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="19.0" prefWidth="122.0" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Room Number" VBox.vgrow="ALWAYS" />
-                  <MFXTextField fx:id="currRoom1" alignment="TOP_CENTER" borderGap="0.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="29.0" maxWidth="151.0" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="19.0" prefWidth="122.0" />
-                  <HBox alignment="CENTER" maxHeight="30.0" prefHeight="226.0" prefWidth="150.0" VBox.vgrow="ALWAYS" />
+                  <HBox alignment="CENTER" maxHeight="30.0" prefHeight="226.0" prefWidth="150.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <MFXTextField fx:id="currRoom1" alignment="TOP_CENTER" borderGap="0.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="29.0" maxWidth="151.0" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="29.0" prefWidth="151.0" />
+                     </children></HBox>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Floor Number" VBox.vgrow="ALWAYS" />
                   <MFXTextField fx:id="currRoom" alignment="TOP_CENTER" borderGap="0.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="32.0" maxWidth="155.0" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="32.0" prefWidth="155.0" VBox.vgrow="ALWAYS" />
                   <HBox maxHeight="20.0" prefHeight="34.0" prefWidth="150.0" />
