@@ -6,13 +6,13 @@ public class transportationSubmission {
   private String destRoomNum;
   private String reason;
 
-  private enum submissionStatus {
+  private submissionStatus currStatus;
+
+  public enum submissionStatus {
     BLANK,
     PROCESSING,
     DONE
   }
-
-  private submissionStatus currStatus;
 
   public transportationSubmission(String id, String currRoom, String destRoom, String reason) {
     this.employeeID = id;
@@ -20,6 +20,15 @@ public class transportationSubmission {
     this.destRoomNum = destRoom;
     this.reason = reason;
     this.currStatus = submissionStatus.BLANK;
+  }
+
+  public transportationSubmission(
+      String id, String currRoom, String destRoom, String reason, submissionStatus status) {
+    this.employeeID = id;
+    this.currRoomNum = currRoom;
+    this.destRoomNum = destRoom;
+    this.reason = reason;
+    this.currStatus = status;
   }
 
   public String getID() {
@@ -52,6 +61,10 @@ public class transportationSubmission {
         break;
     }
     return retVal;
+  }
+
+  public String getRealStatus() {
+    return currStatus.toString();
   }
 
   public void updateStatus(

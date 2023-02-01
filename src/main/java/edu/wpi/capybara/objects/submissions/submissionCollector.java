@@ -34,7 +34,11 @@ public class submissionCollector { // stores all of the submissions in different
 
   public void newTransportationSubmission(transportationSubmission submission) {
     DBUpdate.insertTransportation(
-        submission.getID(), submission.getCurrRoom(), submission.getDestRoom());
+        submission.getID(),
+        submission.getCurrRoom(),
+        submission.getDestRoom(),
+        submission.getReason(),
+        submission.getRealStatus());
     this.transportationSubs.add(submission);
   }
 
