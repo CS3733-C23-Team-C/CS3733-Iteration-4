@@ -10,7 +10,7 @@
           <Menu fx:id="menuM" mnemonicParsing="false" text="Menu">
                <items>
                   <MenuItem fx:id="mapEditorM" mnemonicParsing="false" onAction="#showMapEditorPage" text="Map Editor" />
-                  <MenuItem mnemonicParsing="false" text="Service Requests" />
+                  <MenuItem fx:id="pathfinding" mnemonicParsing="false" onAction="#showPathfindingPage" text="Office Pathfinding" />
                   <MenuItem fx:id="requestButton" mnemonicParsing="false" text="Current Requests" onAction="#showRequestPage" />
                   <MenuItem fx:id="exitButtonM" mnemonicParsing="false" onAction="#exitApplication" text="Exit" />
                </items>
