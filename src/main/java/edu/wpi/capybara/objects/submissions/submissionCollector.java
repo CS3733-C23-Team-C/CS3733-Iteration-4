@@ -42,6 +42,11 @@ public class submissionCollector { // stores all of the submissions in different
     this.transportationSubs.add(submission);
   }
 
+  /**
+   * used to present all of the request to administor
+   *
+   * @return String
+   */
   public String
       getTransportationData() { // creates a sort CSV file of all the data in the collection of
     // transportation submissions
