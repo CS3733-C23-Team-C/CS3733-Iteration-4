@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
-<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.RootController">
+<BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.RootController">
    <top>
       <MenuBar style="-fx-background-color: #a9cbde;" BorderPane.alignment="CENTER">
         <menus>
           <Menu fx:id="menuM" mnemonicParsing="false" text="Menu">
                <items>
                   <MenuItem fx:id="mapEditorM" mnemonicParsing="false" onAction="#showMapEditorPage" text="Map Editor" />
+                  <MenuItem fx:id="pathfinding" mnemonicParsing="false" onAction="#showPathfindingPage" text="Office Pathfinding" />
+                  <MenuItem fx:id="requestButton" mnemonicParsing="false" text="Current Requests" onAction="#showRequestPage" />
                   <MenuItem fx:id="exitButtonM" mnemonicParsing="false" onAction="#exitApplication" text="Exit" />
                </items>
           </Menu>
