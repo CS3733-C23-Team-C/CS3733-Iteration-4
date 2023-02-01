@@ -9,6 +9,7 @@ import javafx.scene.control.MenuItem;
 public class RootController {
 
   @FXML private MenuItem exitButtonM;
+  @FXML private MenuItem requestButton;
 
   @FXML
   public void initialize() {}
@@ -35,5 +36,10 @@ public class RootController {
 
   public void showPathfindingPage(ActionEvent actionEvent) {
     Navigation.navigate(Screen.PATHFINDING);
+  }
+
+  public void showRequestPage(ActionEvent actionEvent) {
+    System.out.println("working");
+    Navigation.navigate(Screen.REQUESTS);
   }
 }
