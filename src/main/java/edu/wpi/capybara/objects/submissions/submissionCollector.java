@@ -38,7 +38,7 @@ public class submissionCollector { // stores all of the submissions in different
         submission.getCurrRoom(),
         submission.getDestRoom(),
         submission.getReason(),
-        submission.getStatus());
+        submission.getRealStatus());
     this.transportationSubs.add(submission);
   }
 

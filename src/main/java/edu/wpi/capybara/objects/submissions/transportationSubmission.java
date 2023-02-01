@@ -63,6 +63,10 @@ public class transportationSubmission {
     return retVal;
   }
 
+  public String getRealStatus() {
+    return currStatus.toString();
+  }
+
   public void updateStatus(
       submissionStatus
           newStatus) { // when submission is updated in database call this to update state

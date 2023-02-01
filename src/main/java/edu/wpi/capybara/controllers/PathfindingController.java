@@ -65,7 +65,8 @@ public class PathfindingController {
     try {
       InputStream edgesFile = App.class.getResourceAsStream("csv/L1Edges.csv");
       InputStream nodesFile = App.class.getResourceAsStream("csv/L1Nodes.csv");
-      Pathfinder pathfinder = new Pathfinder(DatabaseConnect.getNodes(), DatabaseConnect.getEdges());
+      Pathfinder pathfinder =
+          new Pathfinder(DatabaseConnect.getNodes(), DatabaseConnect.getEdges());
       List<Node> path = pathfinder.findPath(outputCurrRoom, outputDestRoom);
       System.out.println("path successfully created");
       System.out.println("Number of Nodes : " + path.size());

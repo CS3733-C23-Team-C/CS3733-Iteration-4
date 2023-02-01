@@ -145,8 +145,9 @@ public class Node {
     Date temp = new Date((long) 0);
     String longname = null;
     for (move m : moves.values()) {
-      if (m.getNodeid() == this.nodeID) {
-        if (m.getMovedate().compareTo(temp) < 0) {
+      if (m.getNodeid().equals(this.nodeID)) {
+        if (m.getMovedate().compareTo(temp) > 0) {
+          // System.out.println("select!");
           temp = m.getMovedate();
           longname = m.getLongname();
         }
