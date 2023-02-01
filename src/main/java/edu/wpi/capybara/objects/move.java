@@ -43,15 +43,17 @@ public class move {
         "movedate");
   }
 
-  public void setMovedate(Date movedate) {
-    this.movedate = movedate;
+
+  public void setMovedate(String movedate) {
+    this.movedate = Date.valueOf(movedate);
+
     DBUpdate.update(
         "move",
         this.nodeid,
         this.longname,
         String.valueOf(this.movedate),
         "'movedate'",
-        movedate.toString(),
+        movedate,
         "nodeid",
         "longname",
         "movedate");

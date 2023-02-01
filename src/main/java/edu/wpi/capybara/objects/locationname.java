@@ -22,7 +22,7 @@ public class locationname {
         this.longname,
         this.shortname,
         this.locationtype,
-        "longname",
+        "'longname'",
         longname,
         "longname",
         "shortname",
@@ -36,7 +36,8 @@ public class locationname {
         this.longname,
         this.shortname,
         this.locationtype,
-        "shortname",
+        "'shortname'",
+
         shortname,
         "longname",
         "shortname",
@@ -50,7 +51,8 @@ public class locationname {
         this.longname,
         this.shortname,
         this.locationtype,
-        "locationtype",
+        "'locationtype'",
+
         locationtype,
         "longname",
         "shortname",

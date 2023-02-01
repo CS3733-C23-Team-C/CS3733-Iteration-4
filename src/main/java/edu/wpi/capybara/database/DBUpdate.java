@@ -130,8 +130,9 @@ public class DBUpdate {
     try {
       Statement stmt = connection.createStatement();
       String insert =
-          "UPDATE " + table + " SET " + attribute + " = " + value + " WHERE " + pkType1 + " = '"
-              + pk1 + "' & " + pkType2 + " = '" + pk2 + "' & " + pkType3 + " = '" + pk3 + "';";
+          "UPDATE " + table + " SET " + attribute + " = '" + value + "' WHERE " + pkType1 + " = '"
+              + pk1 + "' & '" + pkType2 + " = '" + pk2 + "' & '" + pkType3 + " = '" + pk3 + "';";
+
       System.out.println(insert);
       stmt.execute(insert);
       stmt.close();
