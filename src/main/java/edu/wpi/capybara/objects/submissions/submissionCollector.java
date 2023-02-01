@@ -8,6 +8,15 @@ public class submissionCollector {
 
   LinkedList<cleaningSubmission> allCleaningSubmissions;
 
+  public LinkedList getCleaningSubmissions() {
+    return allCleaningSubmissions;
+  }
+
+  /**
+   * adds a cleaning submission to the linked list
+   *
+   * @param cleaningSub
+   */
   public void newCleaningSub(cleaningSubmission cleaningSub) {
     DBUpdate.insertCleaning(
         cleaningSub.getMemberID(),
@@ -39,6 +48,11 @@ public class submissionCollector {
     return (tableHeaders + dataAdded);
   }
 
+  /**
+   * used to present all of the request to administor
+   *
+   * @return String
+   */
   public String getCleaningData() {
     String tableHeaders = "Employee ID, Location, Hazard Level, Description";
     String dataAdded = "";

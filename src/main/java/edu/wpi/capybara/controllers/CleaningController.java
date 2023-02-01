@@ -11,7 +11,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 public class CleaningController {
 
@@ -21,12 +20,14 @@ public class CleaningController {
 
   @FXML public TextField Location;
   @FXML public TextArea Description;
-  @FXML public Stage primaryStage;
 
   @FXML public Button ClearButton;
   @FXML public TextField MemberID;
   @FXML public TextField hazardLevel;
 
+  public CleaningRequestController forRequests;
+
+  /** enumeration for status of request */
   private enum submissionStatus {
     BLANK,
     PROCESSING,
@@ -40,6 +41,12 @@ public class CleaningController {
     currentStatus = submissionStatus.BLANK;
   }
 
+  /**
+   * submit that creates a cleaning request object and then displays all of the previously created
+   * request
+   *
+   * @param actionEvent
+   */
   public void submit(ActionEvent actionEvent) {
     String locationInfo = Location.getText();
     String descriptionInfo = Description.getText();
@@ -52,10 +59,17 @@ public class CleaningController {
     clearRequest();
   }
 
+  /**
+   * navigates back to home screen
+   *
+   * @param actionEvent
+   * @throws IOException
+   */
   public void back(ActionEvent actionEvent) throws IOException {
     Navigation.navigate(Screen.HOME);
   }
 
+  /** clears all areas on the submission form */
   public void clearRequest() {
     Location.clear();
     Description.clear();
