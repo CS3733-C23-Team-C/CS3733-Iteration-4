@@ -1,0 +1,6 @@
+.body {
+    -fx-background-image: url("../images/BWH.jpg");
+    -fx-background-size: contain, auto;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
