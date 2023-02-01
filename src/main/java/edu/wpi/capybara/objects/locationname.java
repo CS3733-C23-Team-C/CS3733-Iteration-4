@@ -5,6 +5,7 @@ import lombok.Getter;
 
 public class locationname {
   @Getter private String longname;
+
   @Getter private String shortname;
   @Getter private String locationtype;
 
@@ -14,14 +15,14 @@ public class locationname {
     this.locationtype = locationtype;
   }
 
-  public void setLongName(String longname) {
+  public void setLongname(String longname) {
     this.longname = longname;
     DBUpdate.update(
         "locationname",
         this.longname,
         this.shortname,
         this.locationtype,
-        "'longname'",
+        "longname",
         longname,
         "longname",
         "shortname",
@@ -31,11 +32,11 @@ public class locationname {
   public void setShortname(String shortname) {
     this.shortname = shortname;
     DBUpdate.update(
-        "shortname",
+        "locationname",
         this.longname,
         this.shortname,
         this.locationtype,
-        "'shortname'",
+        "shortname",
         shortname,
         "longname",
         "shortname",
@@ -45,11 +46,11 @@ public class locationname {
   public void setLocationtype(String locationtype) {
     this.locationtype = locationtype;
     DBUpdate.update(
-        "locationtype",
+        "locationname",
         this.longname,
         this.shortname,
         this.locationtype,
-        "'locationtype'",
+        "locationtype",
         locationtype,
         "longname",
         "shortname",

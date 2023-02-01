@@ -22,7 +22,7 @@ public class move {
         this.nodeid,
         this.longname,
         String.valueOf(this.movedate),
-        "'nodeid'",
+        "nodeid",
         nodeid,
         "nodeid",
         "longname",
@@ -36,22 +36,23 @@ public class move {
         this.nodeid,
         this.longname,
         String.valueOf(this.movedate),
-        "'longname'",
+        "longname",
         longname,
         "nodeid",
         "longname",
         "movedate");
   }
 
-  public void setMovedate(String movedate) {
-    this.movedate = Date.valueOf(movedate);
+  public void setMovedate(Date movedate) {
+    this.movedate = movedate;
+
     DBUpdate.update(
         "move",
         this.nodeid,
         this.longname,
         String.valueOf(this.movedate),
-        "'movedate'",
-        movedate,
+        "movedate",
+        movedate.toString(),
         "nodeid",
         "longname",
         "movedate");
