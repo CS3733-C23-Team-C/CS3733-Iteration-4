@@ -34,6 +34,10 @@ public class RootController {
     Navigation.navigate(Screen.MAP_EDITOR);
   }
 
+  public void showPathfindingPage(ActionEvent actionEvent) {
+    Navigation.navigate(Screen.PATHFINDING);
+  }
+
   public void showRequestPage(ActionEvent actionEvent) {
     System.out.println("working");
     Navigation.navigate(Screen.REQUESTS);

@@ -12,7 +12,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javax.swing.*;
 
@@ -25,23 +26,17 @@ public class TransportationController {
   @FXML private MFXTextField idField;
   @FXML private MFXTextField currRoom;
   @FXML private MFXTextField destRoom;
+  @FXML private MFXTextField reasonField;
   @FXML private VBox imageVBox;
+  @FXML private AnchorPane mapPane;
   // @FXML private ImageView map;
   @FXML private MFXComboBox<String> dropDown;
-
-  private enum submissionState {
-    BLANK,
-    PROCESSING,
-    DONE
-  };
-
-  private submissionState currState;
 
   private ObservableList<String> options = FXCollections.observableArrayList();
   /** Initialize controller by FXML Loader. */
   @FXML
   public void initialize() {
-    System.out.println("I am from TransportationController.");
+
     options.add("Lower Level 2");
     options.add("Lower Level 1");
     options.add("Ground Floor");
@@ -49,17 +44,8 @@ public class TransportationController {
     options.add("Second Floor");
     options.add("Third Floor");
     dropDown.setItems(options);
-    currState = submissionState.BLANK;
-
-    //    if (imageVBox.getWidth() / imageVBox.getHeight() <= 1.45) {
-    //      map.setFitWidth(imageVBox.getWidth() / 1000);
-    //      map.setFitHeight(imageVBox.getWidth() / 1450);
-    //    } else {
-    //      map.setFitHeight(imageVBox.getHeight() / 1000);
-    //      map.setFitWidth(imageVBox.getHeight() * 1.45 / 1000);
-    //    }
-
-    //    submit.setOnMouseClicked(event -> {});
+    backgroundMap("edu/wpi/capybara/images/thelowerlevel1.png");
+    System.out.println("I am from TransportationController.");
   }
 
   /**
@@ -67,108 +53,69 @@ public class TransportationController {
    *
    * @param actionEvent The event that triggered the method.
    */
-  public void returnHome(ActionEvent actionEvent) throws IOException {
+  public void returnHome(ActionEvent actionEvent)
+      throws IOException { // when back button is pressed
     Navigation.navigate(Screen.HOME);
   }
 
-  public void submitForm(ActionEvent actionEvent) throws IOException {
-    String outputID = idField.getText();
+  public void submitForm(ActionEvent actionEvent)
+      throws IOException { // when submit button is pressed, collects text fields
+    String outputID = idField.getText(); // then creates an object to store them, clears fields
     String outputCurrRoom = currRoom.getText();
     String outputDestRoom = destRoom.getText();
+    String outputReason = reasonField.getText();
     // System.out.println("Current Room: " + outputCurrRoom + " Destination Room: " +
     // outputDestRoom);
     transportationSubmission newSubmission =
-        new transportationSubmission(outputID, outputCurrRoom, outputDestRoom);
+        new transportationSubmission(outputID, outputCurrRoom, outputDestRoom, outputReason);
     App.totalSubmissions.newTransportationSubmission(newSubmission);
     System.out.println(App.totalSubmissions.getTransportationData());
     clearFields();
   }
 
-  public void clearFields() {
+  public void clearFields() { // clears fields of text
     currRoom.setText("");
     destRoom.setText("");
     idField.setText("");
-    currState = submissionState.BLANK;
+    reasonField.setText("");
   }
 
-  public void validateButton() {
+  public void
+      validateButton() { // ensures that information has been filled in before allowing submission
     boolean valid = false;
-    switch (currState) {
-      case BLANK:
-        if ((!currRoom.getText().equals("")
-                || !destRoom.getText().equals("")
-                || !idField.getText().equals(""))
-            && !(!currRoom.getText().equals("")
-                && !destRoom.getText().equals("")
-                && !idField.getText().equals(""))) currState = submissionState.PROCESSING;
-        break;
-      case PROCESSING:
-        if (currRoom.getText().equals("")
-            && destRoom.getText().equals("")
-            && idField.getText().equals("")) currState = submissionState.BLANK;
-        if (!currRoom.getText().equals("")
-            && !destRoom.getText().equals("")
-            && !idField.getText().equals("")) currState = submissionState.DONE;
-        break;
-      case DONE:
-        valid = true;
-        break;
-    }
+    if (!currRoom.getText().equals("")
+        && !destRoom.getText().equals("")
+        && !idField.getText().equals("")
+        && !reasonField.getText().equals("")) valid = true;
     submitButton.setDisable(!valid);
   }
 
-  //  public void resizeImg(ActionEvent actionEvent) throws IOException {
-  //    if (imageVBox.getWidth() / imageVBox.getHeight() <= 1.45) {
-  //      map.setFitWidth(imageVBox.getWidth());
-  //      map.setFitHeight(imageVBox.getWidth() / 1.45);
-  //    } else {
-  //      map.setFitHeight(imageVBox.getHeight());
-  //      map.setFitWidth(imageVBox.getHeight() * 1.45);
-  //    }
-  //  }
+  public void backgroundMap(String path) {
+    BackgroundSize backgroundSize =
+        new BackgroundSize(mapPane.getWidth(), mapPane.getHeight(), false, false, true, false);
+    BackgroundRepeat repeatX = BackgroundRepeat.NO_REPEAT;
+    BackgroundRepeat repeatY = BackgroundRepeat.NO_REPEAT;
+    BackgroundPosition position = BackgroundPosition.CENTER;
+    Image imageToSet = new Image(path);
+    BackgroundImage bri =
+        new BackgroundImage(imageToSet, repeatX, repeatY, position, backgroundSize);
+    mapPane.setBackground(new Background(bri));
+  }
 
-  public void updateMap(ActionEvent actionEvent) throws IOException {
+  public void updateMap() { // updates map depending on combobox
     String selection = dropDown.getValue();
     if (selection.equals("Lower Level 2")) {
-      imageVBox.setStyle("-fx-background-image: url(\"..edu/wpi/capybara/images/BWH.jpg\");");
+      backgroundMap("edu/wpi/capybara/images/thelowerlevel2.png");
+    } else if (selection.equals("Ground Floor")) {
+      backgroundMap("edu/wpi/capybara/images/thegroundfloor.png");
+    } else if (selection.equals("First Floor")) {
+      backgroundMap("edu/wpi/capybara/images/thefirstfloor.png");
+    } else if (selection.equals("Second Floor")) {
+      backgroundMap("edu/wpi/capybara/images/thesecondfloor.png");
+    } else if (selection.equals("Third Floor")) {
+      backgroundMap("edu/wpi/capybara/images/thethirdfloor.png");
+    } else {
+      backgroundMap("edu/wpi/capybara/images/thelowerlevel1.png");
     }
-    //    String selection = dropDown.getValue();
-    //    if (selection.equals("Lower Level 2")) {
-    //      Image newImage =
-    //          new Image(
-    //              "C:\\Users\\Johnk\\Documents\\CS\\Soft
-    // Eng\\CS3733-C23-Team-C-Prototype-1\\src\\main\\resources\\edu\\wpi\\capybara\\images\\thelowerlevel2.png");
-    //      map.setImage(newImage);
-    //    } else if (selection.equals("Lower Level 1")) {
-    //      Image newImage =
-    //          new Image(
-    //              "C:\\Users\\Johnk\\Documents\\CS\\Soft
-    // Eng\\CS3733-C23-Team-C-Prototype-1\\src\\main\\resources\\edu\\wpi\\capybara\\images\\thelowerlevel1.png");
-    //      map.setImage(newImage);
-    //    } else if (selection.equals("Ground Floor")) {
-    //      Image newImage =
-    //          new Image(
-    //              "C:\\Users\\Johnk\\Documents\\CS\\Soft
-    // Eng\\CS3733-C23-Team-C-Prototype-1\\src\\main\\resources\\edu\\wpi\\capybara\\images\\thegroundfloor.png");
-    //      map.setImage(newImage);
-    //    } else if (selection.equals("First Floor")) {
-    //      Image newImage =
-    //          new Image(
-    //              "C:\\Users\\Johnk\\Documents\\CS\\Soft
-    // Eng\\CS3733-C23-Team-C-Prototype-1\\src\\main\\resources\\edu\\wpi\\capybara\\images\\thefirstfloor.png");
-    //      map.setImage(newImage);
-    //    } else if (selection.equals("Second Floor")) {
-    //      Image newImage =
-    //          new Image(
-    //              "C:\\Users\\Johnk\\Documents\\CS\\Soft
-    // Eng\\CS3733-C23-Team-C-Prototype-1\\src\\main\\resources\\edu\\wpi\\capybara\\images\\thesecondfloor.png");
-    //      map.setImage(newImage);
-    //    } else {
-    //      Image newImage =
-    //          new Image(
-    //              "C:\\Users\\Johnk\\Documents\\CS\\Soft
-    // Eng\\CS3733-C23-Team-C-Prototype-1\\src\\main\\resources\\edu\\wpi\\capybara\\images\\thethirdfloor.png");
-    //      map.setImage(newImage);
-    //    }
   }
 }
