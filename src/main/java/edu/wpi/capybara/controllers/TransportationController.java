@@ -67,9 +67,9 @@ public class TransportationController {
     // System.out.println("Current Room: " + outputCurrRoom + " Destination Room: " +
     // outputDestRoom);
     transportationSubmission newSubmission =
-        new transportationSubmission(outputID, outputCurrRoom, outputDestRoom, outputReason);
-    App.totalSubmissions.newTransportationSubmission(newSubmission);
-    System.out.println(App.totalSubmissions.getTransportationData());
+        new transportationSubmission(outputCurrRoom, outputDestRoom, outputReason);
+    App.getTotalSubmissions().newTransportationSubmission(newSubmission);
+    System.out.println(App.getTotalSubmissions().getTransportationData());
     clearFields();
   }
 

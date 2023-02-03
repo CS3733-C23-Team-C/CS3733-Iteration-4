@@ -2,6 +2,7 @@ package edu.wpi.capybara;
 
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
+import edu.wpi.capybara.objects.staff;
 import edu.wpi.capybara.objects.submissions.submissionCollector;
 import java.io.IOException;
 import javafx.application.Application;
@@ -19,9 +20,9 @@ public class App extends Application {
   @Setter @Getter private static Stage primaryStage;
   @Setter @Getter private static BorderPane rootPane;
 
-  public static submissionCollector totalSubmissions = new submissionCollector();
+  @Getter private static submissionCollector totalSubmissions = new submissionCollector();
 
-  public static submissionCollector cleaningSubsTotal = new submissionCollector();
+  @Setter @Getter private static staff user;
 
   @Override
   public void init() {

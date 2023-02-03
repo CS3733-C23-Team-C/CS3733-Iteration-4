@@ -4,15 +4,12 @@ import lombok.Getter;
 
 public class cleaningSubmission {
 
-  @Getter public String memberID;
-  @Getter public String location;
-  @Getter public String hazardLevel;
-  @Getter public String description;
-  @Getter public submissionStatus status;
+  @Getter private String location;
+  @Getter private String hazardLevel;
+  @Getter private String description;
+  @Getter private submissionStatus status;
 
-  public cleaningSubmission(
-      String memberID, String location, String hazardLevel, String description) {
-    this.memberID = memberID;
+  public cleaningSubmission(String location, String hazardLevel, String description) {
     this.location = location;
     this.hazardLevel = hazardLevel;
     this.description = description;
@@ -20,26 +17,11 @@ public class cleaningSubmission {
   }
 
   public cleaningSubmission(
-      String memberID,
-      String location,
-      String hazardLevel,
-      String description,
-      submissionStatus status) {
-    this.memberID = memberID;
+      String location, String hazardLevel, String description, submissionStatus status) {
     this.location = location;
     this.hazardLevel = hazardLevel;
     this.description = description;
     this.status = status;
-  }
-
-  public enum submissionStatus {
-    BLANK,
-    PROCESSING,
-    DONE
-  }
-
-  public String getMemberID() {
-    return this.memberID;
   }
 
   public String getLocation() {

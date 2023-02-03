@@ -3,6 +3,7 @@ package edu.wpi.capybara.database;
 import static edu.wpi.capybara.database.DatabaseConnect.connection;
 
 import edu.wpi.capybara.objects.submissions.cleaningSubmission;
+import edu.wpi.capybara.objects.submissions.submissionStatus;
 import edu.wpi.capybara.objects.submissions.transportationSubmission;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,11 +38,7 @@ public class DBUpdate {
   }
 
   public static void insertCleaning(
-      String id,
-      String location,
-      String hazard,
-      String description,
-      cleaningSubmission.submissionStatus status) {
+      String id, String location, String hazard, String description, submissionStatus status) {
     try {
       Statement stmt = connection.createStatement();
       String insert =

@@ -53,9 +53,9 @@ public class CleaningController {
     String memberID = MemberID.getText();
     String hazardLevelInfo = hazardLevel.getText();
     cleaningSubmission addSubmission =
-        new cleaningSubmission(memberID, locationInfo, hazardLevelInfo, descriptionInfo);
-    App.cleaningSubsTotal.newCleaningSub(addSubmission);
-    System.out.println(App.cleaningSubsTotal.getCleaningData());
+        new cleaningSubmission(locationInfo, hazardLevelInfo, descriptionInfo);
+    App.getTotalSubmissions().newCleaningSub(addSubmission);
+    System.out.println(App.getTotalSubmissions().getCleaningData());
     clearRequest();
   }
 
