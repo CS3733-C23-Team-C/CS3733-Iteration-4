@@ -9,6 +9,7 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -18,7 +19,7 @@ public class CleaningController {
 
   @FXML public MFXButton ReturnButton;
 
-  @FXML public TextField Location;
+  @FXML public ChoiceBox Location;
   @FXML public TextArea Description;
 
   @FXML public Button ClearButton;
@@ -36,9 +37,22 @@ public class CleaningController {
 
   private submissionStatus currentStatus;
 
-  public void initializer() {
+  @FXML
+  public void initialize() {
     System.out.println("I am from cleaningController");
     currentStatus = submissionStatus.BLANK;
+
+    // Add different locations
+
+    Location.getItems().add("Location");
+    Location.getItems().add("Location1");
+
+    //    ObservableList<String> locationList =
+    //        FXCollections.observableArrayList("Location", "Another location");
+    //    Location.setItems(locationList);
+
+    // Set a default variable
+    Location.setValue("Location");
   }
 
   /**
@@ -48,7 +62,7 @@ public class CleaningController {
    * @param actionEvent
    */
   public void submit(ActionEvent actionEvent) {
-    String locationInfo = Location.getText();
+    String locationInfo = "" + Location.getValue();
     String descriptionInfo = Description.getText();
     String memberID = MemberID.getText();
     String hazardLevelInfo = hazardLevel.getText();
@@ -71,7 +85,7 @@ public class CleaningController {
 
   /** clears all areas on the submission form */
   public void clearRequest() {
-    Location.clear();
+    Location.setValue("Location");
     Description.clear();
     MemberID.clear();
     hazardLevel.clear();

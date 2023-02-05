@@ -5,6 +5,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -117,16 +118,10 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID" />
                   <TextField fx:id="employeeID" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Room Number" VBox.vgrow="ALWAYS" />
-                  <HBox alignment="CENTER" maxHeight="30.0" prefHeight="226.0" prefWidth="150.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <TextField fx:id="roomNumber" prefHeight="25.0" prefWidth="244.0" />
-                     </children></HBox>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Floor Number" VBox.vgrow="ALWAYS" />
-                  <HBox maxHeight="20.0" prefHeight="34.0" prefWidth="150.0">
-                     <children>
-                        <TextField fx:id="floorNumber" prefHeight="25.0" prefWidth="208.0" />
-                     </children></HBox>
+                  <HBox alignment="CENTER" maxHeight="30.0" prefHeight="200.0" prefWidth="150.0" VBox.vgrow="ALWAYS" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" VBox.vgrow="ALWAYS" />
+                  <ChoiceBox fx:id="Location" prefWidth="150.0" />
+                  <HBox maxHeight="30.0" prefHeight="200.0" prefWidth="150.0" snapToPixel="false" />
                   <Text fx:id="roomNumbers" strokeType="OUTSIDE" strokeWidth="0.0" text="Notes" VBox.vgrow="ALWAYS" />
                   <MFXTextField fx:id="notesUpdate" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="103.0" maxWidth="153.0" measureUnitGap="1.0" prefHeight="103.0" prefWidth="153.0" VBox.vgrow="ALWAYS" />
                   <HBox maxHeight="20.0" prefHeight="100.0" prefWidth="200.0" />
