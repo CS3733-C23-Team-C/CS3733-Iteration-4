@@ -13,6 +13,7 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -89,6 +90,13 @@ public class PathfindingController {
       List<Edge> pathEdges = Pathfinder.getPathEdges(path);
       System.out.println("Number of Edges : " + pathEdges.size());
       pathTable.setVisible(true);
+
+      System.out.println("asdf1");
+      for (Map.Entry<String, Node> entry : pathfinder.getNodes().entrySet().stream().toList()) {
+        System.out.println(entry.getKey());
+      }
+      System.out.println("asdf2");
+
       String outputForTable;
       for (int i = 0; i < path.size(); i++) {
         if (i == 0) {
