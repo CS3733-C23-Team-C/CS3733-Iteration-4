@@ -1,13 +1,18 @@
 package edu.wpi.capybara.objects.submissions;
 
+import edu.wpi.capybara.App;
+
 public class transportationSubmission {
+  private String staffID;
   private String currRoomNum;
   private String destRoomNum;
   private String reason;
 
   private submissionStatus currStatus;
 
+
   public transportationSubmission(String currRoom, String destRoom, String reason) {
+    this.staffID = App.getUser().getStaffID();
     this.currRoomNum = currRoom;
     this.destRoomNum = destRoom;
     this.reason = reason;
@@ -16,11 +21,13 @@ public class transportationSubmission {
 
   public transportationSubmission(
       String currRoom, String destRoom, String reason, submissionStatus status) {
+    this.staffID = App.getUser().getStaffID();
     this.currRoomNum = currRoom;
     this.destRoomNum = destRoom;
     this.reason = reason;
     this.currStatus = status;
   }
+
 
   public String getCurrRoom() {
     return this.currRoomNum;

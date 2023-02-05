@@ -92,4 +92,5 @@ public class submissionCollector { // stores all of the submissions in different
     }
     return (tableHeaders + dataAdded);
   }
+
 }

@@ -3,6 +3,7 @@ package edu.wpi.capybara.objects;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import edu.wpi.capybara.objects.submissions.cleaningSubmission;
+import edu.wpi.capybara.objects.submissions.submissionStatus;
 import edu.wpi.capybara.objects.submissions.transportationSubmission;
 import java.sql.Date;
 import org.junit.jupiter.api.Test;
@@ -30,13 +31,12 @@ public class AllObjectsTest {
   @Test
   public void cleaningSubmissionTest() {
     cleaningSubmission cs =
-        new cleaningSubmission("100101", "office 67", "big", "i spilt concentrated hcl oopsie");
+        new cleaningSubmission("office 67", "big", "i spilt concentrated hcl oopsie");
 
-    assertEquals(cs.getMemberID(), "100101");
     assertEquals(cs.getLocation(), "office 67");
     assertEquals(cs.getHazardLevel(), "big");
     assertEquals(cs.getDescription(), "i spilt concentrated hcl oopsie");
-    assertEquals(cs.getStatus(), cleaningSubmission.submissionStatus.BLANK);
+    assertEquals(cs.getStatus(), submissionStatus.BLANK);
   }
 
   @Test
@@ -44,7 +44,6 @@ public class AllObjectsTest {
     transportationSubmission ts =
         new transportationSubmission("req", "my office", "susan's office");
 
-    assertEquals(ts.getID(), "req");
     assertEquals(ts.getCurrRoom(), "my office");
     assertEquals(ts.getDestRoom(), "susan's office");
   }

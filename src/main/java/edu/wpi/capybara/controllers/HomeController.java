@@ -63,4 +63,5 @@ public class HomeController {
   public void showMapEditor(ActionEvent actionEvent) {
     Navigation.navigate(Screen.MAP_EDITOR);
   }
+
 }
