@@ -8,7 +8,6 @@ import edu.wpi.capybara.objects.Node;
 import edu.wpi.capybara.pathfinding.Pathfinder;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import javafx.event.ActionEvent;
@@ -30,7 +29,7 @@ public class PathfindingController {
 
   @FXML private Canvas nodeDrawer;
 
-  private int mapX, mapY, mapW, mapH;
+  private float mapX, mapY, mapW, mapH;
 
   private List<Node> nodesToDisplay;
 
@@ -46,7 +45,7 @@ public class PathfindingController {
   // Variables to change
   private static final float SCROLL_SPEED = 1f;
   private static final int MOVE_SPEED = 30;
-  private static final float DRAG_SPEED = 2f;
+  private static final float DRAG_SPEED = 1f;
 
   /** Initialize controller by FXML Loader. */
   @FXML
@@ -116,8 +115,8 @@ public class PathfindingController {
 
   public void mapDrag(MouseEvent event) {
 
-    mapX += (lastX - event.getX()) * inverseScale(DRAG_SPEED);
-    mapY += (lastY - event.getY()) * inverseScale(DRAG_SPEED) * 1.5f;
+    mapX += (lastX - event.getX()) * (mapW / canvasW);
+    mapY += (lastY - event.getY()) * (mapH / canvasH);
 
     if (mapX + mapW > 3999) {
       mapX = 3999 - mapW;
@@ -274,11 +273,11 @@ public class PathfindingController {
     }
   }
 
-  private int locToMapX(int xCoord) {
+  private float locToMapX(int xCoord) {
     return (xCoord - mapX) * (canvasW) / (mapW);
   }
 
-  private int locToMapY(int yCoord) {
+  private float locToMapY(int yCoord) {
     return (yCoord - mapY) * (canvasH) / (mapH);
   }
 
