@@ -6,6 +6,8 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -17,20 +19,35 @@
    <children>
       <BorderPane prefHeight="400.0" prefWidth="600.0">
          <top>
-            <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: #252526;" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" prefHeight="70.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #252526;" BorderPane.alignment="CENTER">
                <children>
-                  <MFXButton fx:id="ReturnButton" cancelButton="true" mnemonicParsing="false" onAction="#back" style="-fx-background-image: &quot;C:\Users\Preston Van Fleet\Documents\soft eng\backArrow.png&quot;;" text="Back" textFill="#1d1c1c">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor></MFXButton>
-                  <Text fill="WHITE" layoutX="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cleaning Request">
-                     <font>
-                        <Font name="Segoe UI Black" size="30.0" />
-                     </font></Text>
+                  <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <MFXButton fx:id="ReturnButton" alignment="TOP_CENTER" contentDisplay="CENTER" onAction="#back" rippleColor="#b77777" style="-fx-background-color: #ffffff;" text=" ">
+                           <graphic>
+                              <ImageView fitHeight="28.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/back_button.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+                  <VBox alignment="CENTER" prefHeight="50.0" prefWidth="405.0">
+                     <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Cleaning Request">
+                           <font>
+                              <Font name="Segoe UI Black" size="30.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </VBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
             </HBox>
          </top>
          <bottom>
@@ -44,7 +61,7 @@
             </MFXButton>
          </bottom>
          <center>
-            <VBox prefHeight="274.0" prefWidth="361.0" spacing="5.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="200.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Member ID" />
                   <TextField fx:id="MemberID" promptText="Please Enter your Hospital ID" />

@@ -1,13 +1,21 @@
 package edu.wpi.capybara.controllers;
 
+import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
+import edu.wpi.capybara.objects.Node;
+import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.submissions.securitySubmission;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -18,8 +26,7 @@ public class SecurityController {
   @FXML public MFXButton backButton;
   @FXML public MFXButton SubmitButton;
   @FXML public MFXButton clear;
-  @FXML public TextField roomNumber;
-  @FXML public TextField floorNumber;
+
   @FXML public MFXTextField notesUpdate;
 
   @FXML public MFXButton Police;
@@ -28,7 +35,7 @@ public class SecurityController {
 
   @FXML public TextField employeeID;
 
-  @FXML public TextField Location;
+  @FXML public ChoiceBox Location;
   @FXML public TextArea Description;
   @FXML public Stage primaryStage;
 
@@ -51,9 +58,38 @@ public class SecurityController {
 
   public void clearFields() {
     employeeID.setText("");
-    roomNumber.setText("");
-    floorNumber.setText("");
+    Location.getSelectionModel().selectFirst();
     notesUpdate.setText("");
+  }
+
+  @FXML
+  public void initialize() {
+    System.out.println("I am from cleaningController");
+
+    // Add different locations
+
+    //    Location.getItems().add("Location");
+    //    Location.getItems().add("Location1");
+
+    TreeMap<String, Node> nodes = DatabaseConnect.getNodes();
+
+    SortedSet<Node> sortedset = new TreeSet<Node>(new NodeAlphabetComparator());
+
+    sortedset.addAll(nodes.values());
+
+    Iterator<Node> iterator = sortedset.iterator();
+    while (iterator.hasNext()) {
+      Node n = iterator.next();
+      System.out.println(n.getShortName());
+      Location.getItems().add(n.getShortName());
+    }
+
+    //    ObservableList<String> locationList =
+    //        FXCollections.observableArrayList("Location", "Another location");
+    //    Location.setItems(locationList);
+
+    // Set a default variable
+    Location.getSelectionModel().selectFirst();
   }
 
   public void back(ActionEvent actionEvent) throws IOException {
@@ -80,18 +116,16 @@ public class SecurityController {
 
   public void submit(ActionEvent actionEvent) {
     String outputeID = employeeID.getText();
-    String outputroomNumber1 = roomNumber.getText();
-    String outputfloorNumber = floorNumber.getText();
+    String outputroomNumber1 = "" + Location.getValue();
     String outputnotes = notesUpdate.getText();
     securitySubmission addSubmission =
-        new securitySubmission(outputnotes, outputeID, outputfloorNumber, outputroomNumber1);
+        new securitySubmission(outputnotes, outputeID, outputroomNumber1);
 
     clearFields();
   }
 
   public void clearRequest() {
-    floorNumber.clear();
-    roomNumber.clear();
+    Location.setValue("Location");
     notesUpdate.clear();
     employeeID.clear();
   }

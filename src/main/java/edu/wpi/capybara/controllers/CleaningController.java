@@ -48,8 +48,8 @@ public class CleaningController {
 
     // Add different locations
 
-    Location.getItems().add("Location");
-    Location.getItems().add("Location1");
+    //    Location.getItems().add("Location");
+    //    Location.getItems().add("Location1");
 
     TreeMap<String, Node> nodes = DatabaseConnect.getNodes();
 
@@ -69,7 +69,7 @@ public class CleaningController {
     //    Location.setItems(locationList);
 
     // Set a default variable
-    Location.setValue("Location");
+    Location.getSelectionModel().selectFirst();
   }
 
   /**
@@ -103,7 +103,7 @@ public class CleaningController {
 
   /** clears all areas on the submission form */
   public void clearRequest() {
-    Location.setValue("Location");
+    Location.getSelectionModel().selectFirst();
     Description.clear();
     MemberID.clear();
     hazardLevel.clear();
