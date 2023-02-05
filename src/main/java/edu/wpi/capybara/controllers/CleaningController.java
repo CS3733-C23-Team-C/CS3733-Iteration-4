@@ -1,11 +1,15 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
+import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
+import edu.wpi.capybara.objects.Node;
+import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.submissions.cleaningSubmission;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
+import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -47,6 +51,19 @@ public class CleaningController {
     Location.getItems().add("Location");
     Location.getItems().add("Location1");
 
+    TreeMap<String, Node> nodes = DatabaseConnect.getNodes();
+
+    SortedSet<Node> sortedset = new TreeSet<Node>(new NodeAlphabetComparator());
+
+    sortedset.addAll(nodes.values());
+
+    Iterator<Node> iterator = sortedset.iterator();
+    while (iterator.hasNext()) {
+      Node n = iterator.next();
+      System.out.println(n.getShortName());
+      Location.getItems().add(n.getShortName());
+    }
+
     //    ObservableList<String> locationList =
     //        FXCollections.observableArrayList("Location", "Another location");
     //    Location.setItems(locationList);
@@ -62,6 +79,7 @@ public class CleaningController {
    * @param actionEvent
    */
   public void submit(ActionEvent actionEvent) {
+
     String locationInfo = "" + Location.getValue();
     String descriptionInfo = Description.getText();
     String memberID = MemberID.getText();
