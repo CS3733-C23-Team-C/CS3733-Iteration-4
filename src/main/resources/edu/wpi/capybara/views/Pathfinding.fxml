@@ -3,8 +3,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -14,15 +13,15 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="transportationStackPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.PathfindingController">
+<StackPane onKeyPressed="#mapKeyPress" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.PathfindingController">
    <children>
-      <BorderPane fx:id="transportationPane" prefHeight="400.0" prefWidth="600.0">
+      <BorderPane prefHeight="400.0" prefWidth="600.0">
          <top>
             <HBox alignment="CENTER" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #252526;" BorderPane.alignment="CENTER">
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <MFXButton fx:id="backButton" alignment="TOP_CENTER" contentDisplay="CENTER" onAction="#returnHome" rippleColor="#b77777" style="-fx-background-color: #ffffff;" text=" " HBox.hgrow="ALWAYS">
+                        <MFXButton alignment="TOP_CENTER" contentDisplay="CENTER" onAction="#returnHome" rippleColor="#b77777" style="-fx-background-color: #ffffff;" text=" " HBox.hgrow="ALWAYS">
                            <graphic>
                               <ImageView fitHeight="28.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -49,21 +48,6 @@
                </children>
             </HBox>
          </top>
-         <center>
-            <VBox fx:id="imageVBox" alignment="CENTER" prefHeight="591.0" prefWidth="771.0" style="-fx-background-color: #a9cbde;" styleClass="body" stylesheets="@../styles/pathfinding_style.css" BorderPane.alignment="CENTER_RIGHT">
-               <children>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                     <children>
-                        <TableView fx:id="pathTable" prefHeight="200.0" prefWidth="215.0" visible="false">
-                          <columns>
-                            <TableColumn fx:id="startCol" prefWidth="100.0" text="Start Node" />
-                            <TableColumn fx:id="endCol" prefWidth="100.0" text="End Node" />
-                          </columns>
-                        </TableView>
-                     </children>
-                  </HBox>
-               </children></VBox>
-         </center>
          <right>
             <VBox alignment="CENTER" minWidth="200.0" prefHeight="516.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
@@ -96,6 +80,16 @@
                </children>
             </VBox>
          </right>
+         <center>
+            <StackPane fx:id="mapPane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Canvas fx:id="nodeDrawer" height="326.0" onMouseDragged="#mapDrag" onMouseExited="#mapStopDrag" onMousePressed="#mapStartDrag" onMouseReleased="#mapStopDrag" onScroll="#mapScroll" width="400.0">
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor></Canvas>
+               </children>
+            </StackPane>
+         </center>
       </BorderPane>
    </children>
 </StackPane>
