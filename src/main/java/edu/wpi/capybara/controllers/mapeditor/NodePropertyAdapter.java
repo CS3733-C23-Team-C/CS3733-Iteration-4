@@ -6,11 +6,11 @@ import javafx.beans.property.adapter.*;
 public class NodePropertyAdapter {
   // these builders are designed to be reused, so we keep them in a bunch of static fields.
   private static final JavaBeanStringPropertyBuilder nodeIDBuilder =
-      JavaBeanStringPropertyBuilder.create().name("nodeID");
+      JavaBeanStringPropertyBuilder.create().name("nodeid");
   private static final JavaBeanIntegerPropertyBuilder xCoordBuilder =
-      JavaBeanIntegerPropertyBuilder.create().name("xCoord");
+      JavaBeanIntegerPropertyBuilder.create().name("xcoord");
   private static final JavaBeanIntegerPropertyBuilder yCoordBuilder =
-      JavaBeanIntegerPropertyBuilder.create().name("yCoord");
+      JavaBeanIntegerPropertyBuilder.create().name("ycoord");
 
   private static final JavaBeanStringPropertyBuilder floorBuilder =
       JavaBeanStringPropertyBuilder.create().name("floor");
