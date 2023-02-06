@@ -4,9 +4,9 @@ import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
-import edu.wpi.capybara.objects.Node;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
-import edu.wpi.capybara.objects.submissions.transportationSubmission;
+import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -62,15 +62,15 @@ public class TransportationController {
     //    Location.getItems().add("Location");
     //    Location.getItems().add("Location1");
 
-    TreeMap<String, Node> nodes = DatabaseConnect.getNodes();
+    TreeMap<Integer, NodeEntity> nodes = DatabaseConnect.getNodes();
 
-    SortedSet<Node> sortedset = new TreeSet<Node>(new NodeAlphabetComparator());
+    SortedSet<NodeEntity> sortedset = new TreeSet<NodeEntity>(new NodeAlphabetComparator());
 
     sortedset.addAll(nodes.values());
 
-    Iterator<Node> iterator = sortedset.iterator();
+    Iterator<NodeEntity> iterator = sortedset.iterator();
     while (iterator.hasNext()) {
-      Node n = iterator.next();
+      NodeEntity n = iterator.next();
       System.out.println(n.getShortName());
       Location.getItems().add(n.getShortName());
     }
@@ -101,8 +101,10 @@ public class TransportationController {
     String outputReason = reasonField.getText();
     // System.out.println("Current Room: " + outputCurrRoom + " Destination Room: " +
     // outputDestRoom);
-    transportationSubmission newSubmission =
-        new transportationSubmission(outputCurrRoom, outputDestRoom, outputReason);
+    TransportationsubmissionEntity newSubmission = new TransportationsubmissionEntity();
+    newSubmission.setCurrroomnum(outputCurrRoom);
+    newSubmission.setDestroomnum(outputDestRoom);
+    newSubmission.setReason(outputReason);
     App.getTotalSubmissions().newTransportationSubmission(newSubmission);
     System.out.println(App.getTotalSubmissions().getTransportationData());
     clearFields();

@@ -1,6 +1,6 @@
 package edu.wpi.capybara.controllers.mapeditor;
 
-import edu.wpi.capybara.objects.locationname;
+import edu.wpi.capybara.objects.hibernate.LocationnameEntity;
 import javafx.beans.property.adapter.JavaBeanStringProperty;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 
@@ -16,7 +16,7 @@ public class LocationNamePropertyAdapter {
   private final JavaBeanStringProperty shortName;
   private final JavaBeanStringProperty locationType;
 
-  public LocationNamePropertyAdapter(locationname locationname) {
+  public LocationNamePropertyAdapter(LocationnameEntity locationname) {
     try {
       longName = longNameBuilder.bean(locationname).build();
       shortName = shortNameBuilder.bean(locationname).build();

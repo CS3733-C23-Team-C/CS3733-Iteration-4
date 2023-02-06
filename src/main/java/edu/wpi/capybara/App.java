@@ -2,7 +2,7 @@ package edu.wpi.capybara;
 
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
-import edu.wpi.capybara.objects.staff;
+import edu.wpi.capybara.objects.hibernate.StaffEntity;
 import edu.wpi.capybara.objects.submissions.submissionCollector;
 import java.io.IOException;
 import javafx.application.Application;
@@ -22,7 +22,7 @@ public class App extends Application {
 
   @Getter private static submissionCollector totalSubmissions = new submissionCollector();
 
-  @Getter @Setter private static staff user;
+  @Getter @Setter private static StaffEntity user;
 
   @Override
   public void init() {

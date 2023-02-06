@@ -1,13 +1,15 @@
 package edu.wpi.capybara.objects.submissions;
 
 import edu.wpi.capybara.App;
-import edu.wpi.capybara.database.DBUpdate;
+import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
+import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
 import java.util.LinkedList;
 
 public class submissionCollector { // stores all of the submissions in different collections
-  LinkedList<transportationSubmission> transportationSubs;
+  LinkedList<TransportationsubmissionEntity> transportationSubs;
 
-  LinkedList<cleaningSubmission> allCleaningSubmissions;
+  LinkedList<CleaningsubmissionEntity> allCleaningSubmissions;
 
   public LinkedList getCleaningSubmissions() {
     return allCleaningSubmissions;
@@ -18,28 +20,28 @@ public class submissionCollector { // stores all of the submissions in different
    *
    * @param cleaningSub
    */
-  public void newCleaningSub(cleaningSubmission cleaningSub) {
-    DBUpdate.insertCleaning(
-        App.getUser().getStaffID(),
+  public void newCleaningSub(CleaningsubmissionEntity cleaningSub) {
+    DatabaseConnect.insertCleaning(
+        App.getUser().getStaffid(),
         cleaningSub.getLocation(),
-        cleaningSub.getHazardLevel(),
+        cleaningSub.getHazardlevel(),
         cleaningSub.getDescription(),
-        cleaningSub.getStatus());
+        cleaningSub.getSubmissionstatus());
     this.allCleaningSubmissions.add(cleaningSub);
   }
 
   public submissionCollector() {
-    transportationSubs = DBUpdate.transports();
-    allCleaningSubmissions = DBUpdate.cleanings();
+    transportationSubs = DatabaseConnect.transports();
+    allCleaningSubmissions = DatabaseConnect.cleanings();
   }
 
-  public void newTransportationSubmission(transportationSubmission submission) {
-    DBUpdate.insertTransportation(
-        App.getUser().getStaffID(),
-        submission.getCurrRoom(),
-        submission.getDestRoom(),
+  public void newTransportationSubmission(TransportationsubmissionEntity submission) {
+    DatabaseConnect.insertTransportation(
+        App.getUser().getStaffid(),
+        submission.getCurrroomnum(),
+        submission.getDestroomnum(),
         submission.getReason(),
-        submission.getRealStatus());
+        submission.getStatus());
     this.transportationSubs.add(submission);
   }
 
@@ -53,15 +55,15 @@ public class submissionCollector { // stores all of the submissions in different
     // transportation submissions
     String tableHeaders = "Employee ID,Current Room,Destination Room,Reason,Status";
     String dataAdded = "";
-    for (transportationSubmission data : transportationSubs) {
+    for (TransportationsubmissionEntity data : transportationSubs) {
       dataAdded =
           dataAdded
               + "\r\n"
-              + App.getUser().getStaffID()
+              + App.getUser().getStaffid()
               + ","
-              + data.getCurrRoom()
+              + data.getCurrroomnum()
               + ","
-              + data.getDestRoom()
+              + data.getDestroomnum()
               + ","
               + data.getReason()
               + ","
@@ -78,15 +80,15 @@ public class submissionCollector { // stores all of the submissions in different
   public String getCleaningData() {
     String tableHeaders = "Employee ID, Location, Hazard Level, Description";
     String dataAdded = "";
-    for (cleaningSubmission allSubs : allCleaningSubmissions) {
+    for (CleaningsubmissionEntity allSubs : allCleaningSubmissions) {
       dataAdded =
           dataAdded
               + "\r\n"
-              + App.getUser().getStaffID()
+              + App.getUser().getStaffid()
               + ","
               + allSubs.getLocation()
               + ","
-              + allSubs.getHazardLevel()
+              + allSubs.getHazardlevel()
               + ","
               + allSubs.getDescription();
     }
