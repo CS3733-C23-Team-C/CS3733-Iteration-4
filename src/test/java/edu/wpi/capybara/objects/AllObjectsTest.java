@@ -2,6 +2,8 @@ package edu.wpi.capybara.objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import edu.wpi.capybara.App;
+import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.submissions.cleaningSubmission;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
 import edu.wpi.capybara.objects.submissions.transportationSubmission;
@@ -28,6 +30,7 @@ public class AllObjectsTest {
     assertEquals(move.getMovedate(), new Date(100000000));
   }
 
+  // needs to launch app to
   @Test
   public void cleaningSubmissionTest() {
     cleaningSubmission cs =
@@ -41,10 +44,33 @@ public class AllObjectsTest {
 
   @Test
   public void transportationSubmissionTest() {
+    DatabaseConnect.connect();
+    App.launch(App.class, "");
     transportationSubmission ts =
         new transportationSubmission("req", "my office", "susan's office");
-
-    assertEquals(ts.getCurrRoom(), "my office");
-    assertEquals(ts.getDestRoom(), "susan's office");
+    assertEquals(ts.getCurrRoom(), "req");
+    assertEquals(ts.getDestRoom(), "my office");
+    assertEquals(ts.getDestRoom(), "my office");
+    assertEquals(ts.getStatus(), submissionStatus.BLANK);
   }
+
+  @Test
+  public void staffTest() {
+    staff user = new staff("Benjamin", "Dover", "5555", "password");
+
+    assertEquals(user.getFirstName(), "Benjamin");
+    assertEquals(user.getLastName(), "Dover");
+    assertEquals(user.getStaffID(), "5555");
+    assertEquals(user.getPassword(), "password");
+  }
+
+  //  @Test
+  //  public void buttonValidationTestFalse() {
+  //    TransportationController tc = new TransportationController();
+  //    tc.getCurrRoom().setText("");
+  //    tc.getDestRoom().setText("");
+  //    tc.getReasonField().setText("mean people");
+  //    tc.getIdField().setText("55");
+  //    assertFalse(tc.getSubmitButton().isDisabled());
+  //  }
 }

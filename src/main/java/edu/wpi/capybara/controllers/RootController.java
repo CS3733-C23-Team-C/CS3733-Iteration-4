@@ -15,7 +15,6 @@ public class RootController {
   @FXML private static MenuBar rightMenu;
   @FXML private static Menu userProfile;
 
-
   @FXML
   public void initialize() {}
 
@@ -48,7 +47,7 @@ public class RootController {
     Navigation.navigate(Screen.REQUESTS);
   }
 
-  public static void updateUser(){
+  public static void updateUser() {
     rightMenu.setVisible(true);
     userProfile.setText("Hello " + App.getUser().getFirstName() + " !");
   }

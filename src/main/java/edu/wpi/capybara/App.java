@@ -22,7 +22,7 @@ public class App extends Application {
 
   @Getter private static submissionCollector totalSubmissions = new submissionCollector();
 
-  @Setter @Getter private static staff user;
+  @Getter @Setter private static staff user;
 
   @Override
   public void init() {

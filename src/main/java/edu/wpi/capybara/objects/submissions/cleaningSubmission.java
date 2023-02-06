@@ -1,6 +1,7 @@
 package edu.wpi.capybara.objects.submissions;
 
 import edu.wpi.capybara.App;
+import edu.wpi.capybara.objects.staff;
 import lombok.Getter;
 
 public class cleaningSubmission {
@@ -11,7 +12,8 @@ public class cleaningSubmission {
   @Getter private submissionStatus status;
 
   public cleaningSubmission(String location, String hazardLevel, String description) {
-    this.staffID = App.getUser().getStaffID();
+    staff staff = App.getUser();
+    if (staff != null) this.staffID = App.getUser().getStaffID();
     this.location = location;
     this.hazardLevel = hazardLevel;
     this.description = description;
@@ -20,22 +22,12 @@ public class cleaningSubmission {
 
   public cleaningSubmission(
       String location, String hazardLevel, String description, submissionStatus status) {
-    this.staffID = App.getUser().getStaffID();
+    staff staff = App.getUser();
+    if (staff != null) this.staffID = App.getUser().getStaffID();
+
     this.location = location;
     this.hazardLevel = hazardLevel;
     this.description = description;
     this.status = status;
-  }
-
-  public String getLocation() {
-    return this.location;
-  }
-
-  public String getHazardLevel() {
-    return this.hazardLevel;
-  }
-
-  public String getDescription() {
-    return this.description;
   }
 }

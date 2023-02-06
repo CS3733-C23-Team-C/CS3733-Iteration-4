@@ -15,22 +15,22 @@ import javax.swing.*;
 
 public class SecurityController {
 
-  @FXML public MFXButton backButton;
-  @FXML public MFXButton SubmitButton;
-  @FXML public MFXButton clear;
-  @FXML public TextField roomNumber;
-  @FXML public TextField floorNumber;
-  @FXML public MFXTextField notesUpdate;
+  @FXML private MFXButton backButton;
+  @FXML private MFXButton SubmitButton;
+  @FXML private MFXButton clear;
+  @FXML private TextField roomNumber;
+  @FXML private TextField floorNumber;
+  @FXML private MFXTextField notesUpdate;
 
-  @FXML public MFXButton Police;
+  @FXML private MFXButton Police;
 
-  @FXML public MFXButton Fire;
+  @FXML private MFXButton Fire;
 
-  @FXML public TextField employeeID;
+  @FXML private TextField employeeID;
 
-  @FXML public TextField Location;
-  @FXML public TextArea Description;
-  @FXML public Stage primaryStage;
+  @FXML private TextField Location;
+  @FXML private TextArea Description;
+  @FXML private Stage primaryStage;
 
   public void returnHome(ActionEvent actionEvent) throws IOException {
     Navigation.navigate(Screen.HOME);

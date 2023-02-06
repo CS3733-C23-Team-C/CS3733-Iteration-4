@@ -4,6 +4,7 @@ import edu.wpi.capybara.App;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.submissions.cleaningSubmission;
+import edu.wpi.capybara.objects.submissions.submissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
 import javafx.event.ActionEvent;
@@ -14,26 +15,20 @@ import javafx.scene.control.TextField;
 
 public class CleaningController {
 
-  @FXML public MFXButton SubmitButton;
+  @FXML private MFXButton SubmitButton;
 
-  @FXML public MFXButton ReturnButton;
+  @FXML private MFXButton ReturnButton;
 
-  @FXML public TextField Location;
-  @FXML public TextArea Description;
+  @FXML private TextField Location;
+  @FXML private TextArea Description;
 
-  @FXML public Button ClearButton;
-  @FXML public TextField MemberID;
-  @FXML public TextField hazardLevel;
+  @FXML private Button ClearButton;
+  @FXML private TextField MemberID;
+  @FXML private TextField hazardLevel;
 
   public CleaningRequestController forRequests;
 
   /** enumeration for status of request */
-  private enum submissionStatus {
-    BLANK,
-    PROCESSING,
-    DONE
-  }
-
   private submissionStatus currentStatus;
 
   public void initializer() {

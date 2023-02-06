@@ -185,11 +185,10 @@ public class DBUpdate {
       while (rset.next()) { // loop through the table
         ret.add(
             new transportationSubmission(
-                rset.getString("employeeid"),
                 rset.getString("currroomnum"),
                 rset.getString("destroomnum"),
                 rset.getString("reason"),
-                transportationSubmission.submissionStatus.valueOf(rset.getString("status"))));
+                submissionStatus.valueOf(rset.getString("status"))));
       }
       stmt.close();
       return ret;
@@ -209,11 +208,10 @@ public class DBUpdate {
       while (rset.next()) { // loop through the table
         ret.add(
             new cleaningSubmission(
-                rset.getString("memberid"),
                 rset.getString("location"),
                 rset.getString("hazardlevel"),
                 rset.getString("description"),
-                cleaningSubmission.submissionStatus.valueOf(
+                submissionStatus.valueOf(
                     rset.getString("submissionstatus")))); // currently not bringing in status
       }
       stmt.close();
