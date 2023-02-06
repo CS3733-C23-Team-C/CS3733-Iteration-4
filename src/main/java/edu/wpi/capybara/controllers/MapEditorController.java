@@ -1,7 +1,6 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.controllers.mapeditor.*;
-import edu.wpi.capybara.database.DatabaseConnect;
 import java.util.function.Function;
 import javafx.beans.property.Property;
 import javafx.fxml.FXML;
@@ -27,7 +26,7 @@ public class MapEditorController {
     initializeEdgeTable();
     initializeLocationNameTable();
     initializeMoveTable();
-    refreshData();
+    // refreshData();
   }
 
   private void initializeNodeTable() {
@@ -103,45 +102,46 @@ public class MapEditorController {
     moveTableView.setEditable(true);
   }
 
-  private void refreshData() {
-    DatabaseConnect.importData();
-
-    final var nodeMap = DatabaseConnect.getNodes();
-    if (nodeMap == null) {
-      log.error("Problem communicating with the database: Node HashMap is null.");
-    } else {
-      final var nodes = nodeMap.values();
-      final var adapters = nodes.stream().map(NodePropertyAdapter::new).toList();
-      nodeTableView.getItems().setAll(adapters);
-    }
-
-    final var edgeMap = DatabaseConnect.getEdges();
-    if (edgeMap == null) {
-      log.error("Problem communicating with the database: Edge HashMap is null.");
-    } else {
-      final var edges = edgeMap.values();
-      final var adapters = edges.stream().map(EdgePropertyAdapter::new).toList();
-      edgeTableView.getItems().setAll(adapters);
-    }
-
-    final var locationNameMap = DatabaseConnect.getLocationNames();
-    if (locationNameMap == null) {
-      log.error("Problem communicating with the database: Location Name HashMap is null.");
-    } else {
-      final var locationNames = locationNameMap.values();
-      final var adapters = locationNames.stream().map(LocationNamePropertyAdapter::new).toList();
-      locationNameTableView.getItems().setAll(adapters);
-    }
-
-    final var moveMap = DatabaseConnect.getMoves();
-    if (moveMap == null) {
-      log.error("Problem communicating with the database: Move HashMap is null.");
-    } else {
-      final var moves = moveMap.values();
-      final var adapters = moves.stream().map(MovePropertyAdapter::new).toList();
-      moveTableView.getItems().setAll(adapters);
-    }
-  }
+  //  private void refreshData() {
+  //    //DatabaseConnect.importData();
+  //
+  //    final var nodeMap = DatabaseConnect.getNodes();
+  //    if (nodeMap == null) {
+  //      log.error("Problem communicating with the database: Node HashMap is null.");
+  //    } else {
+  //      final var nodes = nodeMap.values();
+  //      final var adapters = nodes.stream().map(NodePropertyAdapter::new).toList();
+  //      nodeTableView.getItems().setAll(adapters);
+  //    }
+  //
+  //    final var edgeMap = DatabaseConnect.getEdges();
+  //    if (edgeMap == null) {
+  //      log.error("Problem communicating with the database: Edge HashMap is null.");
+  //    } else {
+  //      final var edges = edgeMap.values();
+  //      final var adapters = edges.stream().map(EdgePropertyAdapter::new).toList();
+  //      edgeTableView.getItems().setAll(adapters);
+  //    }
+  //
+  //    final var locationNameMap = DatabaseConnect.getLocationNames();
+  //    if (locationNameMap == null) {
+  //      log.error("Problem communicating with the database: Location Name HashMap is null.");
+  //    } else {
+  //      final var locationNames = locationNameMap.values();
+  //      final var adapters =
+  // locationNames.stream().map(LocationNamePropertyAdapter::new).toList();
+  //      locationNameTableView.getItems().setAll(adapters);
+  //    }
+  //
+  //    final var moveMap = DatabaseConnect.getMoves();
+  //    if (moveMap == null) {
+  //      log.error("Problem communicating with the database: Move HashMap is null.");
+  //    } else {
+  //      final var moves = moveMap.values();
+  //      final var adapters = moves.stream().map(MovePropertyAdapter::new).toList();
+  //      moveTableView.getItems().setAll(adapters);
+  //    }
+  //  }
 
   private static <S, T> TableColumn<S, T> createTableColumn(
       String columnName,

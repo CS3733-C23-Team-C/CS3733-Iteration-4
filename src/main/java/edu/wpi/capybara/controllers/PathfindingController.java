@@ -4,8 +4,7 @@ import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
-import edu.wpi.capybara.objects.Edge;
-import edu.wpi.capybara.objects.Node;
+import edu.wpi.capybara.objects.hibernate.*;
 import edu.wpi.capybara.pathfinding.Path;
 import edu.wpi.capybara.pathfinding.Pathfinder;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -84,15 +83,16 @@ public class PathfindingController {
       InputStream nodesFile = App.class.getResourceAsStream("csv/L1Nodes.csv");
       Pathfinder pathfinder =
           new Pathfinder(DatabaseConnect.getNodes(), DatabaseConnect.getEdges());
-      List<Node> path = pathfinder.findPath(outputCurrRoom, outputDestRoom);
+      List<NodeEntity> path = pathfinder.findPath(outputCurrRoom, outputDestRoom);
       System.out.println("path successfully created");
       System.out.println("Number of Nodes : " + path.size());
-      List<Edge> pathEdges = Pathfinder.getPathEdges(path);
+      List<EdgeEntity> pathEdges = Pathfinder.getPathEdges(path);
       System.out.println("Number of Edges : " + pathEdges.size());
       pathTable.setVisible(true);
 
       System.out.println("asdf1");
-      for (Map.Entry<String, Node> entry : pathfinder.getNodes().entrySet().stream().toList()) {
+      for (Map.Entry<Integer, NodeEntity> entry :
+          pathfinder.getNodes().entrySet().stream().toList()) {
         System.out.println(entry.getKey());
       }
       System.out.println("asdf2");

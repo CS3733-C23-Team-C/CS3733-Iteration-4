@@ -1,6 +1,6 @@
 package edu.wpi.capybara.controllers.mapeditor;
 
-import edu.wpi.capybara.objects.Node;
+import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import javafx.beans.property.adapter.*;
 
 public class NodePropertyAdapter {
@@ -31,7 +31,7 @@ public class NodePropertyAdapter {
    */
   // TODO: 1/31/23 implement said unit test
   // STOPSHIP: 1/31/23 see above to-do
-  public NodePropertyAdapter(Node node) {
+  public NodePropertyAdapter(NodeEntity node) {
     try {
       nodeID = nodeIDBuilder.bean(node).build();
       xCoord = xCoordBuilder.bean(node).build();
