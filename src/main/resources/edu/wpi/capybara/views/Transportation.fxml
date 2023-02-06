@@ -5,6 +5,7 @@
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -50,57 +51,49 @@
                </children>
             </HBox>
          </top>
-         <right>
-            <VBox alignment="CENTER" minWidth="200.0" prefHeight="516.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select Floor Level" VBox.vgrow="ALWAYS" />
-                  <MFXComboBox fx:id="dropDown" alignment="CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="1.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="1.7976931348623157E308" measureUnitGap="1.0" onAction="#updateMap" prefHeight="20.0" prefWidth="129.0" promptText="Lower Level 1" scrollOnOpen="true" VBox.vgrow="ALWAYS" />
-                  <HBox maxHeight="5.0" prefHeight="10.0" prefWidth="200.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID" />
-                  <MFXTextField fx:id="idField" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="5.0" maxHeight="20.0" maxWidth="1.7976931348623157E308" onKeyReleased="#validateButton" />
-                  <HBox maxHeight="5.0" prefHeight="10.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </HBox>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Room Number" VBox.vgrow="ALWAYS" />
-                  <MFXTextField fx:id="currRoom" alignment="TOP_CENTER" borderGap="0.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="1.7976931348623157E308" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="29.0" prefWidth="147.0" VBox.vgrow="ALWAYS" />
-                  <HBox maxHeight="5.0" prefHeight="10.0" prefWidth="150.0" />
-                  <Text fx:id="DestinationRoomNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="Destination Room Number" VBox.vgrow="ALWAYS" />
-                  <MFXTextField fx:id="destRoom" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="1.7976931348623157E308" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="18.0" prefWidth="124.0" VBox.vgrow="ALWAYS" />
-                  <HBox maxHeight="5.0" prefHeight="10.0" prefWidth="200.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reason for Move" VBox.vgrow="ALWAYS" />
-                  <MFXTextField fx:id="reasonField" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="1.7976931348623157E308" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="18.0" prefWidth="124.0" VBox.vgrow="ALWAYS" />
-                  <HBox maxHeight="5.0" prefHeight="10.0" prefWidth="200.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" />
-                  <MFXComboBox fx:id="Location" alignment="CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="1.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="1.7976931348623157E308" measureUnitGap="1.0" prefHeight="20.0" prefWidth="129.0" scrollOnOpen="true" />
-                  <HBox maxHeight="5.0" prefHeight="10.0" prefWidth="200.0" />
-                  <HBox alignment="CENTER" maxHeight="30.0" prefHeight="40.0" prefWidth="200.0">
-                     <children>
-                        <MFXButton fx:id="clearButton" onAction="#clearFields" style="-fx-background-color: #ffffbf;" text="Clear">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </MFXButton>
-                        <HBox alignment="CENTER" maxHeight="20.0" maxWidth="20.0" prefHeight="40.0" prefWidth="61.0" HBox.hgrow="ALWAYS" />
-                        <MFXButton fx:id="submitButton" disable="true" onAction="#submitForm" style="-fx-background-color: #b9fbb9;" text="Submit">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </MFXButton>
-                     </children></HBox>
-               </children>
-               <BorderPane.margin>
-                  <Insets />
-               </BorderPane.margin>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </VBox>
-         </right>
          <center>
             <AnchorPane fx:id="mapPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
          </center>
+         <right>
+            <ScrollPane hbarPolicy="NEVER" prefHeight="200.0" prefWidth="200.0" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
+               <content>
+                  <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="387.0" prefWidth="187.0" spacing="5.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID" />
+                        <MFXTextField fx:id="idField" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="5.0" maxHeight="20.0" maxWidth="1.7976931348623157E308" onKeyReleased="#validateButton" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" />
+                        <MFXComboBox fx:id="Location" alignment="CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="1.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="1.7976931348623157E308" measureUnitGap="1.0" prefHeight="20.0" prefWidth="129.0" scrollOnOpen="true" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select Floor Level" />
+                        <MFXComboBox fx:id="dropDown" alignment="CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="1.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="1.7976931348623157E308" measureUnitGap="1.0" onAction="#updateMap" prefHeight="20.0" prefWidth="129.0" promptText="Lower Level 1" scrollOnOpen="true" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Room Number" />
+                        <MFXTextField fx:id="currRoom" alignment="TOP_CENTER" borderGap="0.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="1.7976931348623157E308" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="29.0" prefWidth="147.0" />
+                        <Text fx:id="DestinationRoomNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="Destination Room Number" />
+                        <MFXTextField fx:id="destRoom" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="1.7976931348623157E308" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="18.0" prefWidth="124.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reason for Move" />
+                        <MFXTextField fx:id="reasonField" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="1.7976931348623157E308" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="18.0" prefWidth="124.0" />
+                        <HBox alignment="CENTER" maxHeight="30.0" prefHeight="40.0" prefWidth="200.0">
+                           <children>
+                              <MFXButton fx:id="clearButton" onAction="#clearFields" style="-fx-background-color: #ffffbf;" text="Clear">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </MFXButton>
+                              <HBox alignment="CENTER" maxHeight="20.0" maxWidth="20.0" prefHeight="40.0" prefWidth="61.0" HBox.hgrow="ALWAYS" />
+                              <MFXButton fx:id="submitButton" disable="true" onAction="#submitForm" style="-fx-background-color: #b9fbb9;" text="Submit">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </MFXButton>
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </right>
       </BorderPane>
    </children>
 </StackPane>

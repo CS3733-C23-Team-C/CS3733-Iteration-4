@@ -53,18 +53,18 @@
          <center>
             <VBox spacing="5.0" BorderPane.alignment="CENTER">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Member ID" />
-                  <TextField fx:id="MemberID" promptText="Please Enter your Hospital ID" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID" />
+                  <TextField fx:id="MemberID" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="374.0" promptText="Please enter your hospital ID" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" />
                   <MFXComboBox fx:id="Location" alignment="CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="1.0" graphicTextGap="1.0" maxHeight="20.0" measureUnitGap="1.0" prefHeight="20.0" prefWidth="129.0" scrollOnOpen="true" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hazard Level" />
-                  <TextField fx:id="hazardLevel" promptText="Please enter the hazard level of material " />
+                  <TextField fx:id="hazardLevel" onKeyReleased="#validateButton" prefHeight="20.0" promptText="Please enter the hazard level of material " />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" />
-                  <TextArea fx:id="Description" promptText="Please describe what needs cleaning" VBox.vgrow="ALWAYS" />
+                  <TextArea fx:id="Description" onKeyReleased="#validateButton" promptText="Please describe what needs cleaning" VBox.vgrow="ALWAYS" />
                   <MFXButton fx:id="ClearButton" mnemonicParsing="false" onAction="#clearRequest" style="-fx-background-color: FFFFBF;" text="Clear" />
                   <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <MFXButton fx:id="SubmitButton" buttonType="RAISED" mnemonicParsing="false" onAction="#submit" style="-fx-background-color: B9FBB9;" text="Submit">
+                        <MFXButton fx:id="SubmitButton" buttonType="RAISED" disable="true" mnemonicParsing="false" onAction="#submit" style="-fx-background-color: B9FBB9;" text="Submit">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>

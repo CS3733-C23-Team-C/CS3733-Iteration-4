@@ -103,5 +103,15 @@ public class CleaningController {
     MemberID.clear();
     hazardLevel.clear();
     currentStatus = submissionStatus.BLANK;
+    SubmitButton.setDisable(true);
+  }
+
+  public void
+      validateButton() { // ensures that information has been filled in before allowing submission
+    boolean valid = false;
+    if (!MemberID.getText().equals("")
+        && !hazardLevel.getText().equals("")
+        && !Description.getText().equals("")) valid = true;
+    SubmitButton.setDisable(!valid);
   }
 }
