@@ -6,8 +6,8 @@ import java.io.InputStream;
 import java.util.*;
 
 public class Pathfinder {
-  private final Map<String, Node> nodes;
-  private final Map<String, Edge> edges;
+  private final TreeMap<String, Node> nodes;
+  private final TreeMap<String, Edge> edges;
 
   private static class PathNode implements Comparable<PathNode> {
     List<Node> path;
@@ -56,8 +56,8 @@ public class Pathfinder {
   public Pathfinder(InputStream nodesCSV, InputStream edgesCSV) {
     Scanner nodeScanner = new Scanner(nodesCSV);
     boolean skippedFirst = false;
-    nodes = new HashMap<>();
-    edges = new HashMap<>();
+    nodes = new TreeMap<>();
+    edges = new TreeMap<>();
     while (nodeScanner.hasNextLine()) {
       String line = nodeScanner.nextLine();
       if (!skippedFirst) {
@@ -243,7 +243,7 @@ public class Pathfinder {
     return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
   }
 
-  public Pathfinder(Map<String, Node> nodes, Map<String, Edge> edges) {
+  public Pathfinder(TreeMap<String, Node> nodes, TreeMap<String, Edge> edges) {
     this.nodes = nodes;
     this.edges = edges;
   }

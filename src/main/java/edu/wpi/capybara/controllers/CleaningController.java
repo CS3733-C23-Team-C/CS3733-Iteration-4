@@ -1,15 +1,20 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
+import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
+import edu.wpi.capybara.objects.Node;
+import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.submissions.cleaningSubmission;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
+import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -19,7 +24,7 @@ public class CleaningController {
 
   @FXML private MFXButton ReturnButton;
 
-  @FXML private TextField Location;
+  @FXML private ChoiceBox Location;
   @FXML private TextArea Description;
 
   @FXML private Button ClearButton;
@@ -31,9 +36,35 @@ public class CleaningController {
   /** enumeration for status of request */
   private submissionStatus currentStatus;
 
-  public void initializer() {
+  @FXML
+  public void initialize() {
     System.out.println("I am from cleaningController");
     currentStatus = submissionStatus.BLANK;
+
+    // Add different locations
+
+    //    Location.getItems().add("Location");
+    //    Location.getItems().add("Location1");
+
+    TreeMap<String, Node> nodes = DatabaseConnect.getNodes();
+
+    SortedSet<Node> sortedset = new TreeSet<Node>(new NodeAlphabetComparator());
+
+    sortedset.addAll(nodes.values());
+
+    Iterator<Node> iterator = sortedset.iterator();
+    while (iterator.hasNext()) {
+      Node n = iterator.next();
+      System.out.println(n.getShortName());
+      Location.getItems().add(n.getShortName());
+    }
+
+    //    ObservableList<String> locationList =
+    //        FXCollections.observableArrayList("Location", "Another location");
+    //    Location.setItems(locationList);
+
+    // Set a default variable
+    Location.getSelectionModel().selectFirst();
   }
 
   /**
@@ -43,7 +74,8 @@ public class CleaningController {
    * @param actionEvent
    */
   public void submit(ActionEvent actionEvent) {
-    String locationInfo = Location.getText();
+
+    String locationInfo = "" + Location.getValue();
     String descriptionInfo = Description.getText();
     String memberID = MemberID.getText();
     String hazardLevelInfo = hazardLevel.getText();
@@ -66,7 +98,7 @@ public class CleaningController {
 
   /** clears all areas on the submission form */
   public void clearRequest() {
-    Location.clear();
+    Location.getSelectionModel().selectFirst();
     Description.clear();
     MemberID.clear();
     hazardLevel.clear();

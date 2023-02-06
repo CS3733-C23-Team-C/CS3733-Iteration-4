@@ -9,8 +9,8 @@ import java.util.*;
 
 public class DatabaseConnect {
   static Connection connection;
-  public static HashMap<String, Node> nodes;
-  public static HashMap<String, Edge> edges;
+  public static TreeMap<String, Node> nodes;
+  public static TreeMap<String, Edge> edges;
   public static HashMap<String, locationname> locationNames;
   public static HashMap<String, move> moves;
 
@@ -38,11 +38,11 @@ public class DatabaseConnect {
     edges.remove(edgeID);
   }
 
-  public static HashMap<String, Edge> getEdges() {
+  public static TreeMap<String, Edge> getEdges() {
     return edges;
   }
 
-  public static HashMap<String, Node> getNodes() {
+  public static TreeMap<String, Node> getNodes() {
     return nodes;
   }
 
@@ -192,7 +192,7 @@ public class DatabaseConnect {
   }
 
   private static void importNodes() {
-    nodes = new HashMap<String, Node>();
+    nodes = new TreeMap<String, Node>();
 
     try {
       Statement stmt = connection.createStatement(); // initialize the statement
@@ -219,7 +219,7 @@ public class DatabaseConnect {
 
   // NOTE: YOU MUST RUN THIS AFTER IMPORTING THE NODES
   private static void importEdges() {
-    edges = new HashMap<String, Edge>();
+    edges = new TreeMap<String, Edge>();
 
     try {
       Statement stmt = connection.createStatement(); // initialize the statement

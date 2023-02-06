@@ -1,17 +1,25 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
+import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
+import edu.wpi.capybara.objects.Node;
+import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.submissions.transportationSubmission;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -24,12 +32,13 @@ public class TransportationController {
 
   @FXML public Stage primaryStage;
   @FXML private MFXButton backButton;
-  @FXML @Getter private MFXButton submitButton;
+  @FXML private MFXButton submitButton;
   @FXML private MFXButton clearButton;
-  @FXML @Getter private MFXTextField idField;
-  @FXML @Getter MFXTextField currRoom;
-  @FXML @Getter MFXTextField destRoom;
-  @FXML @Getter private MFXTextField reasonField;
+  @FXML private MFXTextField idField;
+  @FXML MFXTextField currRoom;
+  @FXML private MFXTextField destRoom;
+  @FXML private MFXTextField reasonField;
+  @FXML private ChoiceBox Location;
   @FXML private VBox imageVBox;
   @FXML private AnchorPane mapPane;
   // @FXML private ImageView map;
@@ -49,6 +58,31 @@ public class TransportationController {
     dropDown.setItems(options);
     backgroundMap("edu/wpi/capybara/images/thelowerlevel1.png");
     System.out.println("I am from TransportationController.");
+
+    // Add different locations
+
+    //    Location.getItems().add("Location");
+    //    Location.getItems().add("Location1");
+
+    TreeMap<String, Node> nodes = DatabaseConnect.getNodes();
+
+    SortedSet<Node> sortedset = new TreeSet<Node>(new NodeAlphabetComparator());
+
+    sortedset.addAll(nodes.values());
+
+    Iterator<Node> iterator = sortedset.iterator();
+    while (iterator.hasNext()) {
+      Node n = iterator.next();
+      System.out.println(n.getShortName());
+      Location.getItems().add(n.getShortName());
+    }
+
+    //    ObservableList<String> locationList =
+    //        FXCollections.observableArrayList("Location", "Another location");
+    //    Location.setItems(locationList);
+
+    // Set a default variable
+    Location.getSelectionModel().selectFirst();
   }
 
   /**
