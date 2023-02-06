@@ -2,10 +2,9 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
-<?import io.github.palexdev.materialfx.controls.MFXProgressBar?>
-<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -52,87 +51,24 @@
             </HBox>
          </top>
          <center>
-            <VBox fx:id="imageVBox" alignment="CENTER" prefHeight="591.0" prefWidth="771.0" style="-fx-background-color: #a9cbde;" styleClass="body" stylesheets="@../styles/securtity_request_form.css" BorderPane.alignment="CENTER">
-               <children>
-                  <VBox alignment="BOTTOM_CENTER" prefHeight="183.0" prefWidth="440.0">
-                     <children>
-                        <HBox alignment="CENTER" prefHeight="162.0" prefWidth="440.0" spacing="5.0" style="-fx-border-radius: 100;">
-                           <children>
-                              <MFXButton alignment="CENTER" buttonType="RAISED" contentDisplay="TOP" prefHeight="100.0" prefWidth="100.0" rippleColor="BLACK" text="Police">
-                                 <graphic>
-                                    <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/police.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                                 <HBox.margin>
-                                    <Insets top="80.0" />
-                                 </HBox.margin>
-                              </MFXButton>
-                              <MFXButton contentDisplay="TOP" prefHeight="100.0" prefWidth="100.0" text="Fire">
-                                 <graphic>
-                                    <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="100.0" layoutY="100.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/fire.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <opaqueInsets>
-                                    <Insets left="15.0" />
-                                 </opaqueInsets>
-                                 <HBox.margin>
-                                    <Insets left="30.0" top="80.0" />
-                                 </HBox.margin>
-                              </MFXButton>
-                              <MFXButton contentDisplay="TOP" prefHeight="100.0" prefWidth="100.0" text="Doctor">
-                                 <graphic>
-                                    <ImageView fx:id="doctorSecurtyRequest" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../images/caduceus.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                                 <HBox.margin>
-                                    <Insets left="30.0" top="80.0" />
-                                 </HBox.margin>
-                              </MFXButton>
-                           </children>
-                           <padding>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </padding>
-                        </HBox>
-                     </children></VBox>
-                  <VBox alignment="BOTTOM_CENTER" prefHeight="135.0" prefWidth="440.0">
-                     <children>
-                        <MFXProgressBar prefHeight="24.0" prefWidth="361.0" />
-                     </children>
-                  </VBox>
-               </children></VBox>
-         </center>
-         <right>
-            <VBox alignment="CENTER" minWidth="200.0" prefHeight="516.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID" />
-                  <TextField fx:id="employeeID" maxWidth="1.7976931348623157E308" />
+                  <TextField fx:id="employeeID" maxWidth="1.7976931348623157E308" onKeyReleased="#validateButton" promptText="Please enter your hospital ID" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" VBox.vgrow="ALWAYS" />
-                  <MFXComboBox fx:id="Location" alignment="CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="1.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="1.7976931348623157E308" measureUnitGap="1.0" prefHeight="20.0" prefWidth="129.0" scrollOnOpen="true" />
-                  <Text fx:id="roomNumbers" strokeType="OUTSIDE" strokeWidth="0.0" text="Notes" VBox.vgrow="ALWAYS" />
-                  <MFXTextField fx:id="notesUpdate" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" measureUnitGap="1.0" VBox.vgrow="ALWAYS" />
-                  <HBox alignment="TOP_CENTER" spacing="10.0">
+                  <MFXComboBox fx:id="Location" alignment="CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="1.0" graphicTextGap="1.0" maxHeight="20.0" measureUnitGap="1.0" prefHeight="20.0" prefWidth="150.0" scrollOnOpen="true" />
+                  <Text fx:id="roomNumbers1" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee Type" />
+                  <MFXComboBox fx:id="Type" alignment="CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="1.0" graphicTextGap="1.0" maxHeight="20.0" measureUnitGap="1.0" prefHeight="20.0" prefWidth="150.0" scrollOnOpen="true" />
+                  <Text fx:id="roomNumbers" strokeType="OUTSIDE" strokeWidth="0.0" text="Additional Notes" VBox.vgrow="ALWAYS" />
+                  <TextArea fx:id="notesUpdate" onKeyReleased="#validateButton" promptText="Please describe any additional details" />
+                  <MFXButton fx:id="clearButton" onAction="#clearFields" style="-fx-background-color: #ffffbf;" text="Clear">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </MFXButton>
+                  <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <MFXButton fx:id="clearButton" style="-fx-background-color: #ffffbf;" text="Clear">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </MFXButton>
-                        <MFXButton fx:id="SubmitButton" onAction="#submit" style="-fx-background-color: #90EE90;" text="Submit">
+                        <MFXButton fx:id="SubmitButton" disable="true" onAction="#submit" style="-fx-background-color: #90EE90;" text="Submit">
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
@@ -144,7 +80,7 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </VBox>
-         </right>
+         </center>
       </BorderPane>
    </children>
 </StackPane>

@@ -4,25 +4,25 @@ public class securitySubmission {
 
   private String employeeID;
 
-  private String room;
+  private String location;
 
-  private String floor;
+  private String type;
 
   private String notesUpdate;
 
-  public securitySubmission(String outputnotes, String outputeID, String outputroomNumber1) {}
+  public securitySubmission(
+      String outputNotes, String outputID, String outputLocation, String outputType) {}
 
   public String getID() {
     return this.employeeID;
   }
 
-  public String getRoom() {
-
-    return this.room;
+  public String getLocation() {
+    return this.location;
   }
 
-  public String getFloor() {
-    return this.floor;
+  public String getType() {
+    return this.type;
   }
 
   public String getNotes() {

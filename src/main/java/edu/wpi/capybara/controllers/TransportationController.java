@@ -23,7 +23,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javax.swing.*;
-import lombok.Getter;
 
 public class TransportationController {
 
@@ -110,10 +109,13 @@ public class TransportationController {
   }
 
   public void clearFields() { // clears fields of text
+    dropDown.getSelectionModel().selectFirst();
+    Location.getSelectionModel().selectFirst();
     currRoom.setText("");
     destRoom.setText("");
     idField.setText("");
     reasonField.setText("");
+    submitButton.setDisable(true);
   }
 
   public void
