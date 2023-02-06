@@ -35,7 +35,7 @@ public class CleaningRequestController {
         new PropertyValueFactory<cleaningSubmission, String>("location"));
     description.setCellValueFactory(
         new PropertyValueFactory<cleaningSubmission, String>("description"));
-    LinkedList<cleaningSubmission> data = App.cleaningSubsTotal.getCleaningSubmissions();
+    LinkedList<cleaningSubmission> data = App.getTotalSubmissions().getCleaningSubmissions();
     for (cleaningSubmission sub : data) {
       totalRequests.add(sub);
     }

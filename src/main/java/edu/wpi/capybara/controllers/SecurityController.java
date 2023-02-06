@@ -23,21 +23,21 @@ import javax.swing.*;
 
 public class SecurityController {
 
-  @FXML public MFXButton backButton;
-  @FXML public MFXButton SubmitButton;
-  @FXML public MFXButton clear;
+  @FXML private MFXButton backButton;
+  @FXML private MFXButton SubmitButton;
+  @FXML private MFXButton clear;
 
-  @FXML public MFXTextField notesUpdate;
+  @FXML private MFXTextField notesUpdate;
 
-  @FXML public MFXButton Police;
+  @FXML private MFXButton Police;
 
-  @FXML public MFXButton Fire;
+  @FXML private MFXButton Fire;
 
-  @FXML public TextField employeeID;
+  @FXML private TextField employeeID;
 
-  @FXML public ChoiceBox Location;
-  @FXML public TextArea Description;
-  @FXML public Stage primaryStage;
+  @FXML private ChoiceBox Location;
+  @FXML private TextArea Description;
+  @FXML private Stage primaryStage;
 
   public void returnHome(ActionEvent actionEvent) throws IOException {
     Navigation.navigate(Screen.HOME);
