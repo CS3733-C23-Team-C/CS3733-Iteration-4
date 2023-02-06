@@ -167,11 +167,12 @@ public class DatabaseConnect {
     // connecting to the database
     try {
       Class.forName("org.postgresql.Driver"); // driver
+      System.out.println("good");
       connection =
           DriverManager.getConnection(
-              "jdbc:postgresql://wpi-softeng-postgres-db.coyfss2f91ba.us-east-1.rds.amazonaws.com:2112/dbc",
+              "jdbc:postgresql://database.cs.wpi.edu:5432/teamcdb",
               "teamc",
-              "rKh6XMtoclLOTGqPJ66qJxacUlgYwbqU"); // create the connection
+              "teamc30"); // create the connection
     } catch (ClassNotFoundException | SQLException e) {
       System.out.println(e);
     }

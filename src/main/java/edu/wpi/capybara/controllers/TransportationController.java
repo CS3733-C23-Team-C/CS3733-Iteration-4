@@ -24,7 +24,6 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javax.swing.*;
-import lombok.Getter;
 
 public class TransportationController {
 
