@@ -9,12 +9,12 @@ import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.submissions.cleaningSubmission;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
 import java.io.IOException;
 import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -24,8 +24,8 @@ public class CleaningController {
 
   @FXML private MFXButton ReturnButton;
 
-  @FXML private ChoiceBox Location;
-  @FXML private TextArea Description;
+  @FXML public MFXComboBox<String> Location;
+  @FXML public TextArea Description;
 
   @FXML private Button ClearButton;
   @FXML private TextField MemberID;

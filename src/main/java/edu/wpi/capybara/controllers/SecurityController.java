@@ -7,6 +7,7 @@ import edu.wpi.capybara.objects.Node;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.submissions.securitySubmission;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.util.Iterator;
@@ -15,7 +16,6 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -35,9 +35,9 @@ public class SecurityController {
 
   @FXML private TextField employeeID;
 
-  @FXML private ChoiceBox Location;
-  @FXML private TextArea Description;
-  @FXML private Stage primaryStage;
+  @FXML public MFXComboBox<String> Location;
+  @FXML public TextArea Description;
+  @FXML public Stage primaryStage;
 
   public void returnHome(ActionEvent actionEvent) throws IOException {
     Navigation.navigate(Screen.HOME);
