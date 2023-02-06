@@ -128,6 +128,15 @@ public class Pathfinder {
         new HashSet<>());*/
   }
 
+  public List<Node> findPath(Node start, Node end) {
+
+    if (start == null || end == null) {
+      throw new RuntimeException("One of the NodeID doesn't exist!");
+    }
+
+    return aStar(start, end);
+  }
+
   /*
   private List<Node> dfs(
       PathNode current, Node goal, Stack<PathNode> nodesLeft, Collection<Node> nodesChecked) {

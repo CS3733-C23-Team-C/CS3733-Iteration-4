@@ -35,7 +35,7 @@ public class SecurityController {
 
   @FXML public TextField employeeID;
 
-  @FXML public ChoiceBox Location;
+  @FXML public ChoiceBox<String> Location;
   @FXML public TextArea Description;
   @FXML public Stage primaryStage;
 

@@ -7,9 +7,10 @@ import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.Node;
 import edu.wpi.capybara.pathfinding.Pathfinder;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -17,19 +18,21 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.*;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.util.Pair;
 
 public class PathfindingController {
 
   @FXML private MFXButton submitButton;
   @FXML private MFXTextField idField;
-  @FXML private MFXTextField currRoom;
-  @FXML private MFXTextField destRoom;
+  @FXML private MFXComboBox<String> currRoom;
+  @FXML private MFXComboBox<String> destRoom;
   @FXML private MFXTextField dateField;
-
+  @FXML private Pane canvasPane;
   @FXML private Canvas nodeDrawer;
 
-  private float mapX, mapY, mapW, mapH;
+  private double mapX, mapY, mapW, mapH;
 
   private List<Node> nodesToDisplay;
 
@@ -39,8 +42,10 @@ public class PathfindingController {
 
   private Image image;
 
-  private int canvasW, canvasH;
+  private double canvasW, canvasH;
   private int lastX, lastY;
+
+  private List<Pair<String, Node>> shortNames;
 
   // Variables to change
   private static final float SCROLL_SPEED = 1f;
@@ -52,25 +57,59 @@ public class PathfindingController {
   public void initialize() {
     System.out.println("I am from Pathfinder Controller.");
 
-    image =
-        new Image(
-            Objects.requireNonNull(App.class.getResourceAsStream("images/thelowerlevel1.png")));
+    image = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankL1.png")));
     gc = nodeDrawer.getGraphicsContext2D();
     gc.setFill(Color.RED);
     gc.setLineWidth(2);
     gc.setStroke(Color.BLUE);
 
-    nodesToDisplay = DatabaseConnect.getNodes().values().stream().toList();
+    nodesToDisplay = new ArrayList<>();
+    shortNames = new ArrayList<>();
+
+    Collection<Node> nodes = DatabaseConnect.getNodes().values();
+    for (Node n : nodes) {
+      System.out.println(n.getFloor());
+      nodesToDisplay.add(n);
+      shortNames.add(new Pair<>(n.getShortName(), n));
+    }
 
     mapX = 1441;
     mapY = 660;
     mapW = 1224;
     mapH = 1000;
+
     canvasW = (int) nodeDrawer.getWidth();
     canvasH = (int) nodeDrawer.getHeight();
 
     isPath = false;
 
+    canvasPane
+        .widthProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              nodeDrawer.setWidth(canvasPane.getWidth());
+              canvasW = nodeDrawer.getWidth();
+
+              mapW = mapH * (canvasW / canvasH);
+
+              drawNodes();
+            });
+    canvasPane
+        .heightProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              nodeDrawer.setHeight(canvasPane.getHeight());
+              canvasH = nodeDrawer.getHeight();
+
+              mapH = mapW * (canvasH / canvasW);
+
+              drawNodes();
+            });
+
+    currRoom.setItems(
+        FXCollections.observableArrayList(shortNames.stream().map(Pair::getKey).toList()));
+    destRoom.setItems(
+        FXCollections.observableArrayList(shortNames.stream().map(Pair::getKey).toList()));
     drawNodes();
   }
 
@@ -89,11 +128,14 @@ public class PathfindingController {
    */
 
   public void submitForm() {
-    String outputCurrRoom = currRoom.getText();
-    String outputDestRoom = destRoom.getText();
+    Node currRoomNode = searchName(currRoom.getText());
+    Node destRoomNode = searchName(destRoom.getText());
 
     Pathfinder pathfinder = new Pathfinder(DatabaseConnect.getNodes(), DatabaseConnect.getEdges());
-    nodesToDisplay = pathfinder.findPath(outputCurrRoom, outputDestRoom);
+    List<Node> path = pathfinder.findPath(currRoomNode, destRoomNode);
+    if (path == null) return;
+    nodesToDisplay = path;
+
     isPath = true;
     drawNodes();
 
@@ -118,14 +160,14 @@ public class PathfindingController {
     mapX += (lastX - event.getX()) * (mapW / canvasW);
     mapY += (lastY - event.getY()) * (mapH / canvasH);
 
-    if (mapX + mapW > 3999) {
-      mapX = 3999 - mapW;
+    if (mapX + mapW > 5000) {
+      mapX = 5000 - mapW;
     }
     if (mapX < 0) {
       mapX = 0;
     }
-    if (mapY + mapH > 4999) {
-      mapY = 4999 - mapH;
+    if (mapY + mapH > 3400) {
+      mapY = 3400 - mapH;
     }
     if (mapY < 0) {
       mapY = 0;
@@ -152,7 +194,7 @@ public class PathfindingController {
       }
     } else if (c == 's') {
       if (mapY + mapH + inverseScale(MOVE_SPEED) > 3399) {
-        mapY = 3399 - mapH;
+        mapY = 3400 - mapH;
       } else {
         mapY += inverseScale(MOVE_SPEED);
       }
@@ -164,7 +206,7 @@ public class PathfindingController {
       }
     } else if (c == 'd') {
       if (mapX + mapW + inverseScale(MOVE_SPEED) > 4999) {
-        mapX = 4999 - mapW;
+        mapX = 5000 - mapW;
       } else {
         mapX += inverseScale(MOVE_SPEED);
       }
@@ -222,16 +264,22 @@ public class PathfindingController {
       gc.setFill(Color.RED);
       drawNode(nodesToDisplay.get(nodesToDisplay.size() - 1));
     } else {
+      Node startNode = searchName(currRoom.getText());
+      Node endNode = searchName(destRoom.getText());
+
+      if (startNode != null) {
+        gc.setFill(Color.GREEN);
+        drawNode(startNode);
+      }
+      if (endNode != null) {
+        gc.setFill(Color.RED);
+        drawNode(endNode);
+      }
+
       gc.setFill(Color.BLUE);
       for (Node n : nodesToDisplay) {
         if (nodeInMapView(n)) {
-          if (n.getNodeID().equals(currRoom.getText())) {
-            gc.setFill(Color.GREEN);
-          }
-          if (n.getNodeID().equals(destRoom.getText())) {
-            gc.setFill(Color.RED);
-          }
-
+          if (n == startNode || n == endNode) continue;
           drawNode(n);
           gc.setFill(Color.BLUE);
           // System.out.println(n);
@@ -273,19 +321,20 @@ public class PathfindingController {
     }
   }
 
-  private float locToMapX(int xCoord) {
+  private double locToMapX(int xCoord) {
     return (xCoord - mapX) * (canvasW) / (mapW);
   }
 
-  private float locToMapY(int yCoord) {
+  private double locToMapY(int yCoord) {
     return (yCoord - mapY) * (canvasH) / (mapH);
   }
 
   // if you want the number to get bigger as the map zooms in
   private float scale(float baseValue) {
-    float multiplier = (1000f) / ((float) mapH);
+    float mapMultiplier = (1000f) / ((float) mapH);
+    float canvasMultiplier = ((float) canvasH) / (300f);
 
-    return Math.round((baseValue) * multiplier);
+    return Math.round((baseValue) * mapMultiplier * canvasMultiplier);
   }
 
   // if you want the number to get smaller as the map zooms in
@@ -295,16 +344,54 @@ public class PathfindingController {
     return (baseValue) * multiplier;
   }
 
-  private void zoom(float factor, int x, int y) {
+  private void zoom(float factor, double x, double y) {
     float multiplier = factor - 1;
 
-    int moveX = Math.round(((float) x / canvasW) * mapW * multiplier);
-    int moveY = Math.round(((float) y / canvasH) * mapH * multiplier);
+    long moveX = Math.round((x / canvasW) * mapW * multiplier);
+    long moveY = Math.round((y / canvasH) * mapH * multiplier);
 
     mapH /= factor;
     mapW /= factor;
 
     mapX += moveX;
     mapY += moveY;
+
+    if (mapW > 5000) {
+      float diff = 5000 / (float) mapW;
+
+      mapW = 5000;
+      mapH *= diff;
+    }
+
+    if (mapH > 3400) {
+      float diff = 3400 / (float) mapH;
+
+      mapH = 3400;
+      mapW *= diff;
+    }
+
+    if (mapX < 0) {
+      mapX = 0;
+    }
+    if (mapX + mapW > 5000) {
+      mapX = 5000 - mapW;
+    }
+
+    if (mapY < 0) {
+      mapY = 0;
+    }
+    if (mapY + mapH > 3400) {
+      mapY = 3400 - mapH;
+    }
+  }
+
+  private Node searchName(String name) {
+    Node easyTest = DatabaseConnect.getNodes().get(name);
+    if (easyTest != null) return easyTest;
+
+    for (Pair<String, Node> pair : shortNames) {
+      if (name.equals(pair.getKey())) return pair.getValue();
+    }
+    return null;
   }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.canvas.Canvas?>
@@ -8,12 +9,13 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane onKeyPressed="#mapKeyPress" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.PathfindingController">
+<StackPane onKeyPressed="#mapKeyPress" prefHeight="326.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.PathfindingController">
    <children>
       <BorderPane prefHeight="400.0" prefWidth="600.0">
          <top>
@@ -37,7 +39,7 @@
                   </HBox>
                   <VBox alignment="CENTER" prefHeight="50.0" prefWidth="405.0">
                      <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Office Move Pathfinding">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Hospital Map">
                            <font>
                               <Font name="Segoe UI Black" size="18.0" />
                            </font>
@@ -52,27 +54,24 @@
             <VBox alignment="CENTER" minWidth="200.0" prefHeight="516.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID" />
-                  <HBox maxHeight="10.0" prefHeight="100.0" prefWidth="200.0" />
                   <MFXTextField fx:id="idField" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="5.0" maxWidth="124.0" onKeyReleased="#validateButton" />
                   <HBox maxHeight="10.0" prefHeight="100.0" prefWidth="200.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Office Location" VBox.vgrow="ALWAYS" />
-                  <MFXTextField fx:id="currRoom" alignment="TOP_CENTER" borderGap="0.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="124.0" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="50.0" prefWidth="124.0" VBox.vgrow="ALWAYS" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Location" VBox.vgrow="ALWAYS" />
+                  <MFXFilterComboBox fx:id="currRoom" onHidden="#validateButton" onShown="#validateButton" prefHeight="40.0" prefWidth="135.0" promptText="Room" />
                   <HBox maxHeight="10.0" prefHeight="34.0" prefWidth="150.0" />
-                  <Text fx:id="DestinationRoomNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="New Office Location" VBox.vgrow="ALWAYS" />
-                  <MFXTextField fx:id="destRoom" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="124.0" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="18.0" prefWidth="124.0" VBox.vgrow="ALWAYS" />
+                  <Text fx:id="DestinationRoomNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="Destination" VBox.vgrow="ALWAYS" />
+                  <MFXFilterComboBox fx:id="destRoom" onHidden="#validateButton" onShown="#validateButton" prefHeight="40.0" prefWidth="135.0" promptText="Room" />
                   <HBox maxHeight="10.0" prefHeight="34.0" prefWidth="150.0" />
                   <Text fx:id="DestinationRoomNumber1" strokeType="OUTSIDE" strokeWidth="0.0" text="Move Date" VBox.vgrow="ALWAYS" />
                   <MFXTextField fx:id="dateField" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="124.0" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="18.0" prefWidth="124.0" VBox.vgrow="ALWAYS" />
-                  <HBox maxHeight="10.0" prefHeight="100.0" prefWidth="200.0" />
-                  <HBox alignment="CENTER" maxHeight="40.0" prefHeight="40.0" prefWidth="200.0">
-                     <children>
-                        <MFXButton fx:id="clearButton" onAction="#clearFields" style="-fx-background-color: #ffffbf;" text="Clear Selections">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </MFXButton>
-                     </children></HBox>
-                  <MFXButton fx:id="submitButton" disable="true" onAction="#submitForm" style="-fx-background-color: #b9fbb9;" text="Find Directions!" VBox.vgrow="ALWAYS">
+                  <HBox maxHeight="10.0" prefHeight="5.0" prefWidth="200.0" />
+                  <MFXButton fx:id="clearButton" onAction="#clearFields" style="-fx-background-color: #ffffbf;" text="Clear Selections">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </MFXButton>
+                  <HBox alignment="CENTER" maxHeight="40.0" prefHeight="6.0" prefWidth="200.0" />
+                  <MFXButton fx:id="submitButton" disable="true" onAction="#submitForm" style="-fx-background-color: #b9fbb9;" text="Find Directions!">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
@@ -81,14 +80,15 @@
             </VBox>
          </right>
          <center>
-            <StackPane fx:id="mapPane" prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <Pane fx:id="canvasPane" minHeight="300.0" minWidth="400.0">
                <children>
-                  <Canvas fx:id="nodeDrawer" height="326.0" onMouseDragged="#mapDrag" onMouseExited="#mapStopDrag" onMousePressed="#mapStartDrag" onMouseReleased="#mapStopDrag" onScroll="#mapScroll" width="400.0">
+                  <Canvas fx:id="nodeDrawer" height="300.0" onMouseDragged="#mapDrag" onMouseExited="#mapStopDrag" onMousePressed="#mapStartDrag" onMouseReleased="#mapStopDrag" onScroll="#mapScroll" width="400.0">
                      <cursor>
                         <Cursor fx:constant="OPEN_HAND" />
-                     </cursor></Canvas>
+                     </cursor>
+                  </Canvas>
                </children>
-            </StackPane>
+            </Pane>
          </center>
       </BorderPane>
    </children>
