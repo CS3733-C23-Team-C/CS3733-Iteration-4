@@ -1,15 +1,19 @@
 package edu.wpi.capybara.controllers;
 
+import edu.wpi.capybara.App;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
 public class RootController {
 
   @FXML private MenuItem exitButtonM;
-  @FXML private MenuItem requestButton;
+  @FXML private static MenuBar rightMenu;
+  @FXML private static Menu userProfile;
 
   @FXML
   public void initialize() {}
@@ -41,5 +45,10 @@ public class RootController {
   public void showRequestPage(ActionEvent actionEvent) {
     System.out.println("working");
     Navigation.navigate(Screen.REQUESTS);
+  }
+
+  public static void updateUser() {
+    rightMenu.setVisible(true);
+    userProfile.setText("Hello " + App.getUser().getFirstName() + " !");
   }
 }

@@ -5,26 +5,45 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
 
+<?import javafx.scene.layout.HBox?>
+
 <BorderPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.RootController">
    <top>
-      <MenuBar style="-fx-background-color: #a9cbde;" BorderPane.alignment="CENTER">
-        <menus>
-          <Menu fx:id="menuM" mnemonicParsing="false" text="Menu">
-               <items>
-                  <MenuItem fx:id="mapEditorM" mnemonicParsing="false" onAction="#showMapEditorPage" text="Map Editor" />
-                  <MenuItem fx:id="pathfinding" mnemonicParsing="false" onAction="#showPathfindingPage" text="Hospital Map" />
-                  <MenuItem fx:id="requestButton" mnemonicParsing="false" onAction="#showRequestPage" text="Current Requests" />
-                  <MenuItem fx:id="exitButtonM" mnemonicParsing="false" onAction="#exitApplication" text="Exit" />
-               </items>
-          </Menu>
-          <Menu fx:id="servicesButtonM" mnemonicParsing="false" text="Services">
-               <items>
-                  <MenuItem fx:id="transportationButtonM" mnemonicParsing="false" onAction="#showTransportationPage" text="Transportation" />
-                  <MenuItem fx:id="cleaningButtonM" mnemonicParsing="false" onAction="#showCleaningPage" text="Sanitizing" />
-                  <MenuItem fx:id="securityButtonM" mnemonicParsing="false" onAction="#showSecurityPage" text="Security" />
-               </items>
-          </Menu>
-        </menus>
-      </MenuBar>
+      <HBox nodeOrientation="LEFT_TO_RIGHT" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: #a9cbde;" BorderPane.alignment="BOTTOM_RIGHT">
+         <children>
+            <MenuBar style="-fx-background-color: #a9cbde;">
+              <menus>
+                <Menu fx:id="menuM" mnemonicParsing="false" text="Menu">
+                     <items>
+                        <MenuItem fx:id="mapEditorM" mnemonicParsing="false" onAction="#showMapEditorPage" text="Map Editor" />
+                        <MenuItem fx:id="pathfinding" mnemonicParsing="false" onAction="#showPathfindingPage" text="Office Pathfinding" />
+                        <MenuItem fx:id="exitButtonM" mnemonicParsing="false" onAction="#exitApplication" text="Exit" />
+                     </items>
+                </Menu>
+                <Menu fx:id="servicesButtonM" mnemonicParsing="false" text="Services">
+                     <items>
+                        <MenuItem fx:id="transportationButtonM" mnemonicParsing="false" onAction="#showTransportationPage" text="Transportation" />
+                        <MenuItem fx:id="cleaningButtonM" mnemonicParsing="false" onAction="#showCleaningPage" text="Sanitizing" />
+                        <MenuItem fx:id="securityButtonM" mnemonicParsing="false" onAction="#showSecurityPage" text="Security" />
+                     </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+            <HBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
+               <children>
+                  <MenuBar fx:id="rightMenu" style="-fx-background-color: #a9cbde;" visible="false">
+                    <menus>
+                      <Menu fx:id="userProfile" mnemonicParsing="false" text="Hello User!">
+                        <items>
+                          <MenuItem fx:id="requestsButton" mnemonicParsing="false" onAction="#showRequestPage" text="View Requests" />
+                        </items>
+                      </Menu>
+                    </menus>
+                  </MenuBar>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+
    </top>
 </BorderPane>

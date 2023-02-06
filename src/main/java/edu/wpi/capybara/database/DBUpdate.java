@@ -3,6 +3,7 @@ package edu.wpi.capybara.database;
 import static edu.wpi.capybara.database.DatabaseConnect.connection;
 
 import edu.wpi.capybara.objects.submissions.cleaningSubmission;
+import edu.wpi.capybara.objects.submissions.submissionStatus;
 import edu.wpi.capybara.objects.submissions.transportationSubmission;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,11 +38,7 @@ public class DBUpdate {
   }
 
   public static void insertCleaning(
-      String id,
-      String location,
-      String hazard,
-      String description,
-      cleaningSubmission.submissionStatus status) {
+      String id, String location, String hazard, String description, submissionStatus status) {
     try {
       Statement stmt = connection.createStatement();
       String insert =
@@ -188,11 +185,10 @@ public class DBUpdate {
       while (rset.next()) { // loop through the table
         ret.add(
             new transportationSubmission(
-                rset.getString("employeeid"),
                 rset.getString("currroomnum"),
                 rset.getString("destroomnum"),
                 rset.getString("reason"),
-                transportationSubmission.submissionStatus.valueOf(rset.getString("status"))));
+                submissionStatus.valueOf(rset.getString("status"))));
       }
       stmt.close();
       return ret;
@@ -212,11 +208,10 @@ public class DBUpdate {
       while (rset.next()) { // loop through the table
         ret.add(
             new cleaningSubmission(
-                rset.getString("memberid"),
                 rset.getString("location"),
                 rset.getString("hazardlevel"),
                 rset.getString("description"),
-                cleaningSubmission.submissionStatus.valueOf(
+                submissionStatus.valueOf(
                     rset.getString("submissionstatus")))); // currently not bringing in status
       }
       stmt.close();

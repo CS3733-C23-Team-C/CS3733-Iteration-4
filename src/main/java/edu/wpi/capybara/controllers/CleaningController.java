@@ -7,38 +7,33 @@ import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.Node;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.submissions.cleaningSubmission;
+import edu.wpi.capybara.objects.submissions.submissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXComboBox;
 import java.io.IOException;
 import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class CleaningController {
 
-  @FXML public MFXButton SubmitButton;
+  @FXML private MFXButton SubmitButton;
 
-  @FXML public MFXButton ReturnButton;
+  @FXML private MFXButton ReturnButton;
 
-  @FXML public ChoiceBox Location;
+  @FXML public MFXComboBox<String> Location;
   @FXML public TextArea Description;
 
-  @FXML public Button ClearButton;
-  @FXML public TextField MemberID;
-  @FXML public TextField hazardLevel;
+  @FXML private Button ClearButton;
+  @FXML private TextField MemberID;
+  @FXML private TextField hazardLevel;
 
   public CleaningRequestController forRequests;
 
   /** enumeration for status of request */
-  private enum submissionStatus {
-    BLANK,
-    PROCESSING,
-    DONE
-  }
-
   private submissionStatus currentStatus;
 
   @FXML
@@ -85,9 +80,9 @@ public class CleaningController {
     String memberID = MemberID.getText();
     String hazardLevelInfo = hazardLevel.getText();
     cleaningSubmission addSubmission =
-        new cleaningSubmission(memberID, locationInfo, hazardLevelInfo, descriptionInfo);
-    App.cleaningSubsTotal.newCleaningSub(addSubmission);
-    System.out.println(App.cleaningSubsTotal.getCleaningData());
+        new cleaningSubmission(locationInfo, hazardLevelInfo, descriptionInfo);
+    App.getTotalSubmissions().newCleaningSub(addSubmission);
+    System.out.println(App.getTotalSubmissions().getCleaningData());
     clearRequest();
   }
 
@@ -108,5 +103,15 @@ public class CleaningController {
     MemberID.clear();
     hazardLevel.clear();
     currentStatus = submissionStatus.BLANK;
+    SubmitButton.setDisable(true);
+  }
+
+  public void
+      validateButton() { // ensures that information has been filled in before allowing submission
+    boolean valid = false;
+    if (!MemberID.getText().equals("")
+        && !hazardLevel.getText().equals("")
+        && !Description.getText().equals("")) valid = true;
+    SubmitButton.setDisable(!valid);
   }
 }

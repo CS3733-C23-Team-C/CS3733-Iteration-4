@@ -19,7 +19,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -27,15 +26,17 @@ import javax.swing.*;
 
 public class TransportationController {
 
+  public TransportationController() {}
+
   @FXML public Stage primaryStage;
   @FXML private MFXButton backButton;
   @FXML private MFXButton submitButton;
   @FXML private MFXButton clearButton;
   @FXML private MFXTextField idField;
-  @FXML private MFXTextField currRoom;
+  @FXML MFXTextField currRoom;
   @FXML private MFXTextField destRoom;
   @FXML private MFXTextField reasonField;
-  @FXML private ChoiceBox Location;
+  @FXML private MFXComboBox<String> Location;
   @FXML private VBox imageVBox;
   @FXML private AnchorPane mapPane;
   // @FXML private ImageView map;
@@ -55,8 +56,6 @@ public class TransportationController {
     dropDown.setItems(options);
     backgroundMap("edu/wpi/capybara/images/thelowerlevel1.png");
     System.out.println("I am from TransportationController.");
-
-    System.out.println("I am from cleaningController");
 
     // Add different locations
 
@@ -103,17 +102,20 @@ public class TransportationController {
     // System.out.println("Current Room: " + outputCurrRoom + " Destination Room: " +
     // outputDestRoom);
     transportationSubmission newSubmission =
-        new transportationSubmission(outputID, outputCurrRoom, outputDestRoom, outputReason);
-    App.totalSubmissions.newTransportationSubmission(newSubmission);
-    System.out.println(App.totalSubmissions.getTransportationData());
+        new transportationSubmission(outputCurrRoom, outputDestRoom, outputReason);
+    App.getTotalSubmissions().newTransportationSubmission(newSubmission);
+    System.out.println(App.getTotalSubmissions().getTransportationData());
     clearFields();
   }
 
   public void clearFields() { // clears fields of text
+    dropDown.getSelectionModel().selectFirst();
+    Location.getSelectionModel().selectFirst();
     currRoom.setText("");
     destRoom.setText("");
     idField.setText("");
     reasonField.setText("");
+    submitButton.setDisable(true);
   }
 
   public void
