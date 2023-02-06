@@ -10,8 +10,7 @@ public class securitySubmission {
 
   private String notesUpdate;
 
-  public securitySubmission(
-      String outputnotes, String outputeID, String outputfloorNumber, String outputroomNumber1) {}
+  public securitySubmission(String outputnotes, String outputeID, String outputroomNumber1) {}
 
   public String getID() {
     return this.employeeID;
