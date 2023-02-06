@@ -23,17 +23,17 @@ import javax.swing.*;
 
 public class SecurityController {
 
-  @FXML public MFXButton backButton;
-  @FXML public MFXButton SubmitButton;
-  @FXML public MFXButton clear;
+  @FXML private MFXButton backButton;
+  @FXML private MFXButton SubmitButton;
+  @FXML private MFXButton clear;
 
-  @FXML public MFXTextField notesUpdate;
+  @FXML private MFXTextField notesUpdate;
 
-  @FXML public MFXButton Police;
+  @FXML private MFXButton Police;
 
-  @FXML public MFXButton Fire;
+  @FXML private MFXButton Fire;
 
-  @FXML public TextField employeeID;
+  @FXML private TextField employeeID;
 
   @FXML public MFXComboBox<String> Location;
   @FXML public TextArea Description;

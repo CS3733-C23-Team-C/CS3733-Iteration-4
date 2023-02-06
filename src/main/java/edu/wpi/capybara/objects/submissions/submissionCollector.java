@@ -1,5 +1,6 @@
 package edu.wpi.capybara.objects.submissions;
 
+import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DBUpdate;
 import java.util.LinkedList;
 
@@ -19,7 +20,7 @@ public class submissionCollector { // stores all of the submissions in different
    */
   public void newCleaningSub(cleaningSubmission cleaningSub) {
     DBUpdate.insertCleaning(
-        cleaningSub.getMemberID(),
+        App.getUser().getStaffID(),
         cleaningSub.getLocation(),
         cleaningSub.getHazardLevel(),
         cleaningSub.getDescription(),
@@ -34,7 +35,7 @@ public class submissionCollector { // stores all of the submissions in different
 
   public void newTransportationSubmission(transportationSubmission submission) {
     DBUpdate.insertTransportation(
-        submission.getID(),
+        App.getUser().getStaffID(),
         submission.getCurrRoom(),
         submission.getDestRoom(),
         submission.getReason(),
@@ -56,7 +57,7 @@ public class submissionCollector { // stores all of the submissions in different
       dataAdded =
           dataAdded
               + "\r\n"
-              + data.getID()
+              + App.getUser().getStaffID()
               + ","
               + data.getCurrRoom()
               + ","
@@ -81,7 +82,7 @@ public class submissionCollector { // stores all of the submissions in different
       dataAdded =
           dataAdded
               + "\r\n"
-              + allSubs.getMemberID()
+              + App.getUser().getStaffID()
               + ","
               + allSubs.getLocation()
               + ","
