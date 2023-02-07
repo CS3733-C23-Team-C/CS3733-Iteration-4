@@ -104,7 +104,7 @@ public class MapEditorController {
   }
 
   private void refreshData() {
-    DatabaseConnect.importData();
+    // DatabaseConnect.importData();
 
     final var nodeMap = DatabaseConnect.getNodes();
     if (nodeMap == null) {

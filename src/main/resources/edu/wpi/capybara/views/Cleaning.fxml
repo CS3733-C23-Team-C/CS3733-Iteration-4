@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -50,28 +50,27 @@
                </children>
             </HBox>
          </top>
-         <bottom>
-            <MFXButton fx:id="SubmitButton" buttonType="RAISED" mnemonicParsing="false" onAction="#submit" style="-fx-background-color: B9FBB9;" text="Submit" BorderPane.alignment="CENTER_RIGHT">
-               <BorderPane.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </BorderPane.margin>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </MFXButton>
-         </bottom>
          <center>
-            <VBox prefHeight="200.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
+            <VBox spacing="5.0" BorderPane.alignment="CENTER">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Member ID" />
-                  <TextField fx:id="MemberID" promptText="Please Enter your Hospital ID" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID" />
+                  <TextField fx:id="MemberID" onKeyReleased="#validateButton" prefHeight="25.0" prefWidth="374.0" promptText="Please enter your hospital ID" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" />
-                  <ChoiceBox fx:id="Location" prefWidth="150.0" />
+                  <MFXComboBox fx:id="Location" alignment="CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="1.0" graphicTextGap="1.0" maxHeight="20.0" measureUnitGap="1.0" prefHeight="20.0" prefWidth="129.0" scrollOnOpen="true" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Hazard Level" />
-                  <TextField fx:id="hazardLevel" promptText="Please enter the hazard level of material " />
+                  <TextField fx:id="hazardLevel" onKeyReleased="#validateButton" prefHeight="20.0" promptText="Please enter the hazard level of material " />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Description" />
-                  <TextArea fx:id="Description" prefHeight="200.0" prefWidth="200.0" promptText="Please describe what needs cleaning" />
+                  <TextArea fx:id="Description" onKeyReleased="#validateButton" promptText="Please describe what needs cleaning" VBox.vgrow="ALWAYS" />
                   <MFXButton fx:id="ClearButton" mnemonicParsing="false" onAction="#clearRequest" style="-fx-background-color: FFFFBF;" text="Clear" />
+                  <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <MFXButton fx:id="SubmitButton" buttonType="RAISED" disable="true" mnemonicParsing="false" onAction="#submit" style="-fx-background-color: B9FBB9;" text="Submit">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </MFXButton>
+                     </children>
+                  </HBox>
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

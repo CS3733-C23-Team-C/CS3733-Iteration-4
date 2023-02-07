@@ -4,9 +4,9 @@ import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
-import edu.wpi.capybara.objects.Node;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
-import edu.wpi.capybara.objects.submissions.transportationSubmission;
+import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -19,7 +19,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -37,7 +36,7 @@ public class TransportationController {
   @FXML MFXTextField currRoom;
   @FXML private MFXTextField destRoom;
   @FXML private MFXTextField reasonField;
-  @FXML private ChoiceBox Location;
+  @FXML private MFXComboBox<String> Location;
   @FXML private VBox imageVBox;
   @FXML private AnchorPane mapPane;
   // @FXML private ImageView map;
@@ -63,15 +62,15 @@ public class TransportationController {
     //    Location.getItems().add("Location");
     //    Location.getItems().add("Location1");
 
-    TreeMap<String, Node> nodes = DatabaseConnect.getNodes();
+    TreeMap<Integer, NodeEntity> nodes = DatabaseConnect.getNodes();
 
-    SortedSet<Node> sortedset = new TreeSet<Node>(new NodeAlphabetComparator());
+    SortedSet<NodeEntity> sortedset = new TreeSet<NodeEntity>(new NodeAlphabetComparator());
 
     sortedset.addAll(nodes.values());
 
-    Iterator<Node> iterator = sortedset.iterator();
+    Iterator<NodeEntity> iterator = sortedset.iterator();
     while (iterator.hasNext()) {
-      Node n = iterator.next();
+      NodeEntity n = iterator.next();
       System.out.println(n.getShortName());
       Location.getItems().add(n.getShortName());
     }
@@ -102,18 +101,23 @@ public class TransportationController {
     String outputReason = reasonField.getText();
     // System.out.println("Current Room: " + outputCurrRoom + " Destination Room: " +
     // outputDestRoom);
-    transportationSubmission newSubmission =
-        new transportationSubmission(outputCurrRoom, outputDestRoom, outputReason);
+    TransportationsubmissionEntity newSubmission = new TransportationsubmissionEntity();
+    newSubmission.setCurrroomnum(outputCurrRoom);
+    newSubmission.setDestroomnum(outputDestRoom);
+    newSubmission.setReason(outputReason);
     App.getTotalSubmissions().newTransportationSubmission(newSubmission);
     System.out.println(App.getTotalSubmissions().getTransportationData());
     clearFields();
   }
 
   public void clearFields() { // clears fields of text
+    dropDown.getSelectionModel().selectFirst();
+    Location.getSelectionModel().selectFirst();
     currRoom.setText("");
     destRoom.setText("");
     idField.setText("");
     reasonField.setText("");
+    submitButton.setDisable(true);
   }
 
   public void

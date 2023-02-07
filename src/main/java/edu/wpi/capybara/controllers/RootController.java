@@ -52,6 +52,6 @@ public class RootController {
 
   public static void updateUser() {
     rightMenu.setVisible(true);
-    userProfile.setText("Hello " + App.getUser().getFirstName() + " !");
+    userProfile.setText("Hello " + App.getUser().getFirstname() + " !");
   }
 }

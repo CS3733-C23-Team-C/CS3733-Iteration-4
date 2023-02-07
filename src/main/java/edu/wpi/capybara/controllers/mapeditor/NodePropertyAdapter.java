@@ -1,16 +1,16 @@
 package edu.wpi.capybara.controllers.mapeditor;
 
-import edu.wpi.capybara.objects.Node;
+import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import javafx.beans.property.adapter.*;
 
 public class NodePropertyAdapter {
   // these builders are designed to be reused, so we keep them in a bunch of static fields.
   private static final JavaBeanStringPropertyBuilder nodeIDBuilder =
-      JavaBeanStringPropertyBuilder.create().name("nodeID");
+      JavaBeanStringPropertyBuilder.create().name("nodeid");
   private static final JavaBeanIntegerPropertyBuilder xCoordBuilder =
-      JavaBeanIntegerPropertyBuilder.create().name("xCoord");
+      JavaBeanIntegerPropertyBuilder.create().name("xcoord");
   private static final JavaBeanIntegerPropertyBuilder yCoordBuilder =
-      JavaBeanIntegerPropertyBuilder.create().name("yCoord");
+      JavaBeanIntegerPropertyBuilder.create().name("ycoord");
 
   private static final JavaBeanStringPropertyBuilder floorBuilder =
       JavaBeanStringPropertyBuilder.create().name("floor");
@@ -31,7 +31,7 @@ public class NodePropertyAdapter {
    */
   // TODO: 1/31/23 implement said unit test
   // STOPSHIP: 1/31/23 see above to-do
-  public NodePropertyAdapter(Node node) {
+  public NodePropertyAdapter(NodeEntity node) {
     try {
       nodeID = nodeIDBuilder.bean(node).build();
       xCoord = xCoordBuilder.bean(node).build();

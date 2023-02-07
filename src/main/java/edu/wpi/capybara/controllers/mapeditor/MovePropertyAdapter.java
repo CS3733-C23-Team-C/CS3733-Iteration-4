@@ -1,6 +1,6 @@
 package edu.wpi.capybara.controllers.mapeditor;
 
-import edu.wpi.capybara.objects.move;
+import edu.wpi.capybara.objects.hibernate.MoveEntity;
 import java.sql.Date;
 import javafx.beans.property.adapter.JavaBeanObjectProperty;
 import javafx.beans.property.adapter.JavaBeanObjectPropertyBuilder;
@@ -19,7 +19,7 @@ public class MovePropertyAdapter {
   private final JavaBeanStringProperty longName;
   private final JavaBeanObjectProperty<Date> moveDate;
 
-  public MovePropertyAdapter(move mv) {
+  public MovePropertyAdapter(MoveEntity mv) {
     try {
       nodeID = nodeIDBuilder.bean(mv).build();
       longName = longNameBuilder.bean(mv).build();
