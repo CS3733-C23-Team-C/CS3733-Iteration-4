@@ -10,11 +10,11 @@
    <children>
       <HBox prefHeight="59.0" prefWidth="600.0" style="-fx-background-color: #252526;">
          <children>
-            <MFXButton fx:id="back" mnemonicParsing="false" text="1" textFill="WHITE" onAction="back">
+            <MFXButton fx:id="back" mnemonicParsing="false" text="1" textFill="WHITE" onAction="#back">
                <graphic>
                   <ImageView fitHeight="31.0" fitWidth="48.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="C:\Users\Preston Van Fleet\Downloads\images (1).png" />
+                        <Image url="@../images/back_button.png" />
                      </image></ImageView>
                </graphic>
                <font>
