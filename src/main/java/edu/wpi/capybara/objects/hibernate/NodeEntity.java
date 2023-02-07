@@ -6,6 +6,8 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "node", schema = "cdb", catalog = "teamcdb")
@@ -36,7 +38,12 @@ public class NodeEntity {
   }
 
   public void setNodeid(String nodeid) {
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
     this.nodeid = nodeid;
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public Integer getXcoord() {
@@ -45,6 +52,11 @@ public class NodeEntity {
 
   public void setXcoord(Integer xcoord) {
     this.xcoord = xcoord;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public Integer getYcoord() {
@@ -53,6 +65,11 @@ public class NodeEntity {
 
   public void setYcoord(Integer ycoord) {
     this.ycoord = ycoord;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getFloor() {
@@ -61,6 +78,11 @@ public class NodeEntity {
 
   public void setFloor(String floor) {
     this.floor = floor;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getBuilding() {
@@ -69,6 +91,11 @@ public class NodeEntity {
 
   public void setBuilding(String building) {
     this.building = building;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getShortName() {

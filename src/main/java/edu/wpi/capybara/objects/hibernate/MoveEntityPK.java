@@ -1,9 +1,13 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.database.DatabaseConnect;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
@@ -30,6 +34,11 @@ public class MoveEntityPK implements Serializable {
 
   public void setNodeid(String nodeid) {
     this.nodeid = nodeid;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getLongname() {
@@ -38,6 +47,11 @@ public class MoveEntityPK implements Serializable {
 
   public void setLongname(String longname) {
     this.longname = longname;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public Date getMovedate() {
@@ -46,6 +60,11 @@ public class MoveEntityPK implements Serializable {
 
   public void setMovedate(Date movedate) {
     this.movedate = movedate;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   @Override

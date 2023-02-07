@@ -1,6 +1,10 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.database.DatabaseConnect;
 import jakarta.persistence.*;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import java.util.Objects;
 
 @Entity
@@ -29,6 +33,11 @@ public class StaffEntity {
 
   public void setStaffid(String staffid) {
     this.staffid = staffid;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getFirstname() {
@@ -37,6 +46,11 @@ public class StaffEntity {
 
   public void setFirstname(String firstname) {
     this.firstname = firstname;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getLastname() {
@@ -45,6 +59,11 @@ public class StaffEntity {
 
   public void setLastname(String lastname) {
     this.lastname = lastname;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getPassword() {
@@ -53,6 +72,11 @@ public class StaffEntity {
 
   public void setPassword(String password) {
     this.password = password;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   @Override

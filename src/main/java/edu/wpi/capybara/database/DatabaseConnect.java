@@ -17,23 +17,24 @@ public class DatabaseConnect {
 
   static Scanner in = new Scanner(System.in);
 
+  public static Session getSession() {
+    return factory.openSession();
+  }
+
   public static void main(String args[]) {
     connect();
     importData();
-    for (Map.Entry<Integer, NodeEntity> n : nodes.entrySet()) {
-      System.out.println(n.getValue().getNodeid());
+    // Session session = factory.openSession();
+    for (LocationnameEntity n : locationNames.values()) {
+      // Transaction tx = session.beginTransaction();
+      if (Objects.equals(n.getLongname(), "Duncan Reid Conference Room")) {
+        n.setShortname("6969");
+      }
+      //      session.merge(n);
+      //      tx.commit();
+      //      System.out.println(n.getBuilding());
     }
-    // connect();
-    // test();
-    // query();
-    // importData();
-    // menu();
-    //    try {
-    //      connection.close(); // close the connection
-    //    } catch (SQLException e) {
-    //      System.out.println(e);
-    //    }
-
+    factory.close();
   }
 
   public static void importData() {

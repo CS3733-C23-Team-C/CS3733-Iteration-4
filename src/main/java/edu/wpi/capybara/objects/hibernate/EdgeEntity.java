@@ -1,6 +1,10 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.database.DatabaseConnect;
 import jakarta.persistence.*;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import java.util.Objects;
 
 @Entity
@@ -23,6 +27,11 @@ public class EdgeEntity {
 
   public void setNode1(String node1) {
     this.node1 = node1;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getNode2() {
@@ -31,6 +40,11 @@ public class EdgeEntity {
 
   public void setNode2(String node2) {
     this.node2 = node2;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getOtherNode(NodeEntity node) {

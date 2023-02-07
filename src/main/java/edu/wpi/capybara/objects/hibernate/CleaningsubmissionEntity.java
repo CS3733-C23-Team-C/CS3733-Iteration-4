@@ -1,8 +1,11 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
 import jakarta.persistence.*;
 import java.util.Objects;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "cleaningsubmission", schema = "cdb", catalog = "teamcdb")
@@ -38,7 +41,12 @@ public class CleaningsubmissionEntity {
   }
 
   public void setMemberid(String memberid) {
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
     this.memberid = memberid;
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getLocation() {
@@ -47,6 +55,11 @@ public class CleaningsubmissionEntity {
 
   public void setLocation(String location) {
     this.location = location;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getHazardlevel() {
@@ -55,6 +68,11 @@ public class CleaningsubmissionEntity {
 
   public void setHazardlevel(String hazardlevel) {
     this.hazardlevel = hazardlevel;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getDescription() {
@@ -63,6 +81,11 @@ public class CleaningsubmissionEntity {
 
   public void setDescription(String description) {
     this.description = description;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public submissionStatus getSubmissionstatus() {
@@ -71,6 +94,11 @@ public class CleaningsubmissionEntity {
 
   public void setSubmissionstatus(submissionStatus submissionstatus) {
     this.submissionstatus = submissionstatus;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   @Override

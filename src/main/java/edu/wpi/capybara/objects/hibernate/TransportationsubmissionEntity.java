@@ -1,7 +1,11 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
 import jakarta.persistence.*;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import java.util.Objects;
 
 @Entity
@@ -39,6 +43,11 @@ public class TransportationsubmissionEntity {
 
   public void setEmployeeid(String employeeid) {
     this.employeeid = employeeid;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getCurrroomnum() {
@@ -47,6 +56,11 @@ public class TransportationsubmissionEntity {
 
   public void setCurrroomnum(String currroomnum) {
     this.currroomnum = currroomnum;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getDestroomnum() {
@@ -55,6 +69,11 @@ public class TransportationsubmissionEntity {
 
   public void setDestroomnum(String destroomnum) {
     this.destroomnum = destroomnum;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getReason() {
@@ -63,6 +82,11 @@ public class TransportationsubmissionEntity {
 
   public void setReason(String reason) {
     this.reason = reason;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public submissionStatus getStatus() {
@@ -71,6 +95,11 @@ public class TransportationsubmissionEntity {
 
   public void setStatus(submissionStatus status) {
     this.status = status;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   @Override

@@ -1,5 +1,6 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public class CleaningsubmissionEntityPK implements Serializable {
   @Column(name = "memberid")
@@ -40,6 +43,11 @@ public class CleaningsubmissionEntityPK implements Serializable {
 
   public void setMemberid(String memberid) {
     this.memberid = memberid;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getLocation() {
@@ -48,6 +56,11 @@ public class CleaningsubmissionEntityPK implements Serializable {
 
   public void setLocation(String location) {
     this.location = location;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getHazardlevel() {
@@ -56,6 +69,11 @@ public class CleaningsubmissionEntityPK implements Serializable {
 
   public void setHazardlevel(String hazardlevel) {
     this.hazardlevel = hazardlevel;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getDescription() {
@@ -64,6 +82,11 @@ public class CleaningsubmissionEntityPK implements Serializable {
 
   public void setDescription(String description) {
     this.description = description;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public submissionStatus getSubmissionstatus() {
@@ -72,6 +95,11 @@ public class CleaningsubmissionEntityPK implements Serializable {
 
   public void setSubmissionstatus(submissionStatus submissionstatus) {
     this.submissionstatus = submissionstatus;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   @Override

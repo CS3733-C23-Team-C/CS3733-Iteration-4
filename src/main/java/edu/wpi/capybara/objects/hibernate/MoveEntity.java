@@ -1,6 +1,10 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.database.DatabaseConnect;
 import jakarta.persistence.*;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import java.sql.Date;
 import java.util.Objects;
 
@@ -29,6 +33,11 @@ public class MoveEntity {
 
   public void setNodeid(String nodeid) {
     this.nodeid = nodeid;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getLongname() {
@@ -37,6 +46,11 @@ public class MoveEntity {
 
   public void setLongname(String longname) {
     this.longname = longname;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public Date getMovedate() {
@@ -45,6 +59,11 @@ public class MoveEntity {
 
   public void setMovedate(Date movedate) {
     this.movedate = movedate;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   @Override
