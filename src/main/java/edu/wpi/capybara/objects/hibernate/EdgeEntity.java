@@ -2,10 +2,9 @@ package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.database.DatabaseConnect;
 import jakarta.persistence.*;
+import java.util.Objects;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
-import java.util.Objects;
 
 @Entity
 @Table(name = "edge", schema = "cdb", catalog = "teamcdb")

@@ -3,10 +3,9 @@ package edu.wpi.capybara.objects.hibernate;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
 import jakarta.persistence.*;
+import java.util.Objects;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
-import java.util.Objects;
 
 @Entity
 @Table(name = "transportationsubmission", schema = "cdb", catalog = "teamcdb")
@@ -36,6 +35,21 @@ public class TransportationsubmissionEntity {
   @Id
   @Column(name = "status")
   private submissionStatus status;
+
+  public TransportationsubmissionEntity(
+      String employeeid,
+      String currroomnum,
+      String destroomnum,
+      String reason,
+      submissionStatus status) {
+    this.employeeid = employeeid;
+    this.currroomnum = currroomnum;
+    this.destroomnum = destroomnum;
+    this.reason = reason;
+    this.status = status;
+  }
+
+  public TransportationsubmissionEntity() {}
 
   public String getEmployeeid() {
     return employeeid;

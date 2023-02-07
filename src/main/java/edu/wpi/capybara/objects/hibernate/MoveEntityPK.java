@@ -5,12 +5,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public class MoveEntityPK implements Serializable {
   @Column(name = "nodeid")

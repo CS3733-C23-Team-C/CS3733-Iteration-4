@@ -24,16 +24,19 @@ public class DatabaseConnect {
   public static void main(String args[]) {
     connect();
     importData();
-    // Session session = factory.openSession();
-    for (LocationnameEntity n : locationNames.values()) {
-      // Transaction tx = session.beginTransaction();
-      if (Objects.equals(n.getLongname(), "Duncan Reid Conference Room")) {
-        n.setShortname("6969");
-      }
-      //      session.merge(n);
-      //      tx.commit();
-      //      System.out.println(n.getBuilding());
-    }
+    //    // Session session = factory.openSession();
+    //    for (LocationnameEntity n : locationNames.values()) {
+    //      // Transaction tx = session.beginTransaction();
+    //      if (Objects.equals(n.getLongname(), "Duncan Reid Conference Room")) {
+    //        n.setShortname("6969");
+    //      }
+    //      //      session.merge(n);
+    //      //      tx.commit();
+    //      //      System.out.println(n.getBuilding());
+    //    }
+    CleaningsubmissionEntity addSubmission =
+        new CleaningsubmissionEntity("asda", "asdad", "1", "asdd", submissionStatus.BLANK);
+
     factory.close();
   }
 

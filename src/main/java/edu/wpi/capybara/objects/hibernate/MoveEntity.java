@@ -2,11 +2,10 @@ package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.database.DatabaseConnect;
 import jakarta.persistence.*;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import java.sql.Date;
 import java.util.Objects;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "move", schema = "cdb", catalog = "teamcdb")

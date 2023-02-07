@@ -7,6 +7,7 @@ import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
+import edu.wpi.capybara.objects.submissions.submissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -101,10 +102,12 @@ public class TransportationController {
     String outputReason = reasonField.getText();
     // System.out.println("Current Room: " + outputCurrRoom + " Destination Room: " +
     // outputDestRoom);
-    TransportationsubmissionEntity newSubmission = new TransportationsubmissionEntity();
-    newSubmission.setCurrroomnum(outputCurrRoom);
-    newSubmission.setDestroomnum(outputDestRoom);
-    newSubmission.setReason(outputReason);
+    TransportationsubmissionEntity newSubmission =
+        new TransportationsubmissionEntity(
+            outputID, outputCurrRoom, outputDestRoom, outputDestRoom, submissionStatus.BLANK);
+    //    newSubmission.setCurrroomnum(outputCurrRoom);
+    //    newSubmission.setDestroomnum(outputDestRoom);
+    //    newSubmission.setReason(outputReason);
     App.getTotalSubmissions().newTransportationSubmission(newSubmission);
     System.out.println(App.getTotalSubmissions().getTransportationData());
     clearFields();

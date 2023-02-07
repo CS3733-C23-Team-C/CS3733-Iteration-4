@@ -79,6 +79,21 @@ public class CleaningsubmissionEntity {
     return description;
   }
 
+  public CleaningsubmissionEntity(
+      String memberid,
+      String location,
+      String hazardlevel,
+      String description,
+      submissionStatus submissionstatus) {
+    this.memberid = memberid;
+    this.location = location;
+    this.hazardlevel = hazardlevel;
+    this.description = description;
+    this.submissionstatus = submissionstatus;
+  }
+
+  public CleaningsubmissionEntity() {}
+
   public void setDescription(String description) {
     this.description = description;
     Session session = DatabaseConnect.getSession();
