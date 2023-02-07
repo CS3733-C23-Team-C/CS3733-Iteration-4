@@ -68,9 +68,12 @@ public class PathfindingController {
 
     Collection<NodeEntity> nodes = DatabaseConnect.getNodes().values();
     for (NodeEntity n : nodes) {
-      nodesToDisplay.add(n);
-      shortNames.add(new Pair<>(n.getShortName(), n));
+      if (n.getFloor().equals("L1")) {
+        nodesToDisplay.add(n);
+        shortNames.add(new Pair<>(n.getShortName(), n));
+      }
     }
+    shortNames.sort(Comparator.comparing(Pair::getKey));
 
     mapX = 1441;
     mapY = 660;
@@ -389,9 +392,6 @@ public class PathfindingController {
   }
 
   private NodeEntity searchName(String name) {
-    NodeEntity easyTest = DatabaseConnect.getNodes().get(name);
-    if (easyTest != null) return easyTest;
-
     for (Pair<String, NodeEntity> pair : shortNames) {
       if (name.equals(pair.getKey())) return pair.getValue();
     }
