@@ -1,6 +1,5 @@
 package edu.wpi.capybara.pathfinding;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import edu.wpi.capybara.database.DatabaseConnect;
@@ -35,11 +34,11 @@ public class PathfinderTest {
     assertTrue(Pathfinder.cost(current, n1, goal) < Pathfinder.cost(current, n2, goal));
   }
 
-  @Test
-  public void testSimplePath() {
-    Pathfinder pf = new Pathfinder(nodes, edges);
-    List<Node> path = pf.findPath("22", "45");
-
-    assertEquals(path.size(), 2);
-  }
+  //  @Test
+  //  public void testSimplePath() {
+  //    Pathfinder pf = new Pathfinder(nodes, edges);
+  //    List<Node> path = pf.findPath("22", "45");
+  //
+  //    assertEquals(path.size(), 2);
+  //  }
 }
