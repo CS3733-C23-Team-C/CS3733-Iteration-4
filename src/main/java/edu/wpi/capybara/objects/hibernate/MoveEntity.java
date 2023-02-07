@@ -44,9 +44,9 @@ public class MoveEntity {
   }
 
   public void setLongname(String longname) {
-    this.longname = longname;
     Session session = DatabaseConnect.getSession();
     Transaction tx = session.beginTransaction();
+    this.longname = longname;
     session.merge(this);
     tx.commit();
     session.close();

@@ -25,6 +25,14 @@ public class SecuritysubmissionEntity {
   @Column(name = "type")
   private String type;
 
+  public SecuritysubmissionEntity(
+      String employeeid, String location, String type, String notesupdate) {
+    this.employeeid = employeeid;
+    this.location = location;
+    this.type = type;
+    this.notesupdate = notesupdate;
+  }
+
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "notesupdate")

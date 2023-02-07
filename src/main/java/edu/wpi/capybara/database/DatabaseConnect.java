@@ -34,9 +34,14 @@ public class DatabaseConnect {
     //      //      tx.commit();
     //      //      System.out.println(n.getBuilding());
     //    }
+    Session session = factory.openSession();
+    for (NodeEntity n : nodes.values()) {
+      n.setBuilding("10");
+    }
     CleaningsubmissionEntity addSubmission =
         new CleaningsubmissionEntity("asda", "asdad", "1", "asdd", submissionStatus.BLANK);
-
+    // addSubmission.create();
+    session.close();
     factory.close();
   }
 

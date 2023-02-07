@@ -128,6 +128,14 @@ public class CleaningsubmissionEntity {
         && Objects.equals(submissionstatus, that.submissionstatus);
   }
 
+  public void create() {
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.persist(this);
+    tx.commit();
+    session.close();
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(memberid, location, hazardlevel, description, submissionstatus);

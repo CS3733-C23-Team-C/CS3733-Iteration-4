@@ -2,7 +2,6 @@ package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.database.DatabaseConnect;
 import jakarta.persistence.*;
-
 import java.io.Serializable;
 import java.util.Objects;
 import org.hibernate.Session;
