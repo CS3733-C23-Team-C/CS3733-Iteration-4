@@ -1,24 +1,24 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.database.DatabaseConnect;
 import jakarta.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "move", schema = "cdb", catalog = "teamcdb")
 @IdClass(MoveEntityPK.class)
 public class MoveEntity {
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "nodeid")
   private String nodeid;
 
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "longname")
   private String longname;
 
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "movedate")
   private Date movedate;
@@ -27,8 +27,22 @@ public class MoveEntity {
     return nodeid;
   }
 
-  public void setNodeid(String nodeid) {
+  public MoveEntity() {}
+
+  public MoveEntity(String nodeid, String longname, Date movedate) {
     this.nodeid = nodeid;
+    this.longname = longname;
+    this.movedate = movedate;
+  }
+
+  public void setNodeid(String nodeid) {
+    MoveEntity New = new MoveEntity(nodeid, this.longname, this.movedate);
+    this.delete();
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.persist(New);
+    tx.commit();
+    session.close();
   }
 
   public String getLongname() {
@@ -36,7 +50,12 @@ public class MoveEntity {
   }
 
   public void setLongname(String longname) {
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
     this.longname = longname;
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public Date getMovedate() {
@@ -45,6 +64,11 @@ public class MoveEntity {
 
   public void setMovedate(Date movedate) {
     this.movedate = movedate;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   @Override
@@ -55,6 +79,15 @@ public class MoveEntity {
     return Objects.equals(nodeid, that.nodeid)
         && Objects.equals(longname, that.longname)
         && Objects.equals(movedate, that.movedate);
+  }
+
+  public void delete() {
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    DatabaseConnect.getMoves().remove(this);
+    session.remove(this);
+    tx.commit();
+    session.close();
   }
 
   @Override

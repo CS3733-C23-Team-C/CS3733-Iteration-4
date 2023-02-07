@@ -15,6 +15,7 @@
     <mapping class="edu.wpi.capybara.objects.hibernate.NodeEntity"/>
     <mapping class="edu.wpi.capybara.objects.hibernate.StaffEntity"/>
     <mapping class="edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity"/>
+    <mapping class="edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity"/>
     <!-- <property name="connection.username"/> -->
     <!-- <property name="connection.password"/> -->
 

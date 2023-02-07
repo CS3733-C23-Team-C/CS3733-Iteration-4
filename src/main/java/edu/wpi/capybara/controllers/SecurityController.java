@@ -5,7 +5,7 @@ import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
-import edu.wpi.capybara.objects.submissions.securitySubmission;
+import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import java.io.IOException;
@@ -107,8 +107,8 @@ public class SecurityController {
     String outputLocation = "" + Location.getValue();
     String outputType = "" + Type.getValue();
     String outputNotes = notesUpdate.getText();
-    securitySubmission addSubmission =
-        new securitySubmission(outputNotes, outputID, outputLocation, outputType);
+    SecuritysubmissionEntity addSubmission =
+        new SecuritysubmissionEntity(outputNotes, outputID, outputLocation, outputType);
 
     clearFields();
   }
