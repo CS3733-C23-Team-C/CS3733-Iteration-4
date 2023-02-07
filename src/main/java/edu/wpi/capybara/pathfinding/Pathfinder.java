@@ -132,7 +132,7 @@ public class Pathfinder {
         new HashSet<>());*/
   }
 
-  public List<Node> findPath(Node start, Node end) {
+  public List<NodeEntity> findPath(NodeEntity start, NodeEntity end) {
 
     if (start == null || end == null) {
       throw new RuntimeException("One of the NodeID doesn't exist!");
