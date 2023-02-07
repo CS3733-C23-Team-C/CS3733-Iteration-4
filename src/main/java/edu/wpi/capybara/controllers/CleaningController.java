@@ -79,10 +79,12 @@ public class CleaningController {
     String descriptionInfo = Description.getText();
     String memberID = MemberID.getText();
     String hazardLevelInfo = hazardLevel.getText();
-    CleaningsubmissionEntity addSubmission = new CleaningsubmissionEntity();
+    CleaningsubmissionEntity addSubmission =
+        new CleaningsubmissionEntity(
+            memberID, locationInfo, hazardLevelInfo, descriptionInfo, submissionStatus.BLANK);
     // locationInfo, hazardLevelInfo, descriptionInfo
-    addSubmission.setLocation(locationInfo);
-    addSubmission.setHazardlevel(hazardLevelInfo);
+    //    addSubmission.setLocation(locationInfo);
+    //    addSubmission.setHazardlevel(hazardLevelInfo);
     App.getTotalSubmissions().newCleaningSub(addSubmission);
     System.out.println(App.getTotalSubmissions().getCleaningData());
     clearRequest();
