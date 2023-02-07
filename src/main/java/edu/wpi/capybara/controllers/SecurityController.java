@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import javax.swing.*;
 
 public class SecurityController {
@@ -29,7 +30,9 @@ public class SecurityController {
 
   @FXML private MFXComboBox<String> Type;
 
-  @FXML private TextField employeeID;
+  @FXML public TextField employeeID;
+  @FXML public TextArea Description;
+  @FXML public Stage primaryStage;
 
   @FXML public MFXComboBox<String> Location;
 
