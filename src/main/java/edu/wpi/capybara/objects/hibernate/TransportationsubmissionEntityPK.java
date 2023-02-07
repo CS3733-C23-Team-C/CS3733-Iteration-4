@@ -1,5 +1,6 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -7,16 +8,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public class TransportationsubmissionEntityPK implements Serializable {
   @Column(name = "employeeid")
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String employeeid;
 
   @Column(name = "currroomnum")
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String currroomnum;
 
   @Column(name = "destroomnum")
@@ -31,7 +32,6 @@ public class TransportationsubmissionEntityPK implements Serializable {
 
   @Column(name = "status")
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private submissionStatus status;
 
   public String getEmployeeid() {
@@ -40,6 +40,11 @@ public class TransportationsubmissionEntityPK implements Serializable {
 
   public void setEmployeeid(String employeeid) {
     this.employeeid = employeeid;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getCurrroomnum() {
@@ -48,6 +53,11 @@ public class TransportationsubmissionEntityPK implements Serializable {
 
   public void setCurrroomnum(String currroomnum) {
     this.currroomnum = currroomnum;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getDestroomnum() {
@@ -56,6 +66,11 @@ public class TransportationsubmissionEntityPK implements Serializable {
 
   public void setDestroomnum(String destroomnum) {
     this.destroomnum = destroomnum;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getReason() {
@@ -64,6 +79,11 @@ public class TransportationsubmissionEntityPK implements Serializable {
 
   public void setReason(String reason) {
     this.reason = reason;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public submissionStatus getStatus() {
@@ -72,6 +92,11 @@ public class TransportationsubmissionEntityPK implements Serializable {
 
   public void setStatus(submissionStatus status) {
     this.status = status;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   @Override
