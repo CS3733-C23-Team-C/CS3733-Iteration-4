@@ -2,8 +2,15 @@ package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.controllers.mapeditor.*;
 import edu.wpi.capybara.database.DatabaseConnect;
+
+import java.io.IOException;
 import java.util.function.Function;
+
+import edu.wpi.capybara.navigation.Navigation;
+import edu.wpi.capybara.navigation.Screen;
+import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.beans.property.Property;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -20,6 +27,7 @@ public class MapEditorController {
   @FXML private TableView<EdgePropertyAdapter> edgeTableView;
   @FXML private TableView<LocationNamePropertyAdapter> locationNameTableView;
   @FXML private TableView<MovePropertyAdapter> moveTableView;
+  @FXML private MFXButton back;
 
   @FXML
   public void initialize() {
@@ -153,5 +161,9 @@ public class MapEditorController {
     tableColumn.setCellValueFactory(adapter);
     tableColumn.setOnEditCommit(adapter);
     return tableColumn;
+  }
+
+  public void back(ActionEvent actionEvent) throws IOException {
+    Navigation.navigate(Screen.HOME);
   }
 }
