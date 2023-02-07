@@ -36,10 +36,10 @@ public class UserProfileController {
   @FXML
   public void initialize() {
     if (App.getUser() != null) {
-      helloText.setText("Hello " + App.getUser().getFirstName() + "!");
-      staffID.setText("Staff ID:" + App.getUser().getStaffID());
-      firstNameField.setText(App.getUser().getFirstName());
-      lastNameField.setText(App.getUser().getLastName());
+      helloText.setText("Hello " + App.getUser().getFirstname() + "!");
+      staffID.setText("Staff ID:" + App.getUser().getStaffid());
+      firstNameField.setText(App.getUser().getFirstname());
+      lastNameField.setText(App.getUser().getLastname());
       passwordField.setText(App.getUser().getPassword());
       currFirstName = firstNameField.getText();
       currLastName = lastNameField.getText();
@@ -93,7 +93,7 @@ public class UserProfileController {
 
   public void saveFirstName() {
     String newName = firstNameField.getText();
-    App.getUser().setFirstName(newName);
+    App.getUser().setFirstname(newName);
     // DATABASE STUFF???
     currFirstName = newName;
     firstNameField.setDisable(true);
@@ -103,7 +103,7 @@ public class UserProfileController {
 
   public void saveLastName() {
     String newName = lastNameField.getText();
-    App.getUser().setLastName(newName);
+    App.getUser().setLastname(newName);
     // DATABASE STUFF???
     currLastName = newName;
     lastNameField.setDisable(true);
