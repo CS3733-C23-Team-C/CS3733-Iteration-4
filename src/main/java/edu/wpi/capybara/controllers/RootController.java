@@ -43,12 +43,16 @@ public class RootController {
   }
 
   public void showRequestPage(ActionEvent actionEvent) {
-    System.out.println("working");
     Navigation.navigate(Screen.REQUESTS);
   }
 
+  public void showUserProfilePage(ActionEvent actionEvent) {
+    Navigation.navigate(Screen.USER_PROFILE);
+  }
+
   public static void updateUser() {
-    rightMenu.setVisible(true);
-    userProfile.setText("Hello " + App.getUser().getFirstname() + " !");
+    // rightMenu.setVisible(true);
+    if (userProfile != null) userProfile.setText("Hello " + App.getUser().getFirstname() + " !");
+    else System.out.println("why");
   }
 }
