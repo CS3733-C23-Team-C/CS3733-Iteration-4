@@ -6,7 +6,7 @@ import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
-import edu.wpi.capybara.objects.submissions.securitySubmission;
+import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import java.io.IOException;
@@ -17,6 +17,7 @@ import java.util.TreeSet;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javax.swing.*;
 
@@ -104,8 +105,8 @@ public class SecurityController {
     String outputLocation = "" + Location.getValue();
     String outputType = "" + Type.getValue();
     String outputNotes = notesUpdate.getText();
-    securitySubmission addSubmission =
-        new securitySubmission(outputNotes, App.getUser().getStaffid(), outputLocation, outputType);
+    SecuritysubmissionEntity addSubmission =
+        new SecuritysubmissionEntity(outputNotes, App.getUser().getStaffid(), outputLocation, outputType);
 
     clearFields();
   }

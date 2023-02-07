@@ -6,11 +6,13 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "node", schema = "cdb", catalog = "teamcdb")
 public class NodeEntity {
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+
   @Id
   @Column(name = "nodeid")
   private String nodeid;
@@ -31,12 +33,27 @@ public class NodeEntity {
   @Column(name = "building")
   private String building;
 
+  public NodeEntity() {}
+
+  public NodeEntity(String nodeid, Integer xcoord, Integer ycoord, String floor, String building) {
+    this.nodeid = nodeid;
+    this.xcoord = xcoord;
+    this.ycoord = ycoord;
+    this.floor = floor;
+    this.building = building;
+  }
+
   public String getNodeid() {
     return nodeid;
   }
 
   public void setNodeid(String nodeid) {
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
     this.nodeid = nodeid;
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public Integer getXcoord() {
@@ -45,6 +62,11 @@ public class NodeEntity {
 
   public void setXcoord(Integer xcoord) {
     this.xcoord = xcoord;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public Integer getYcoord() {
@@ -53,6 +75,11 @@ public class NodeEntity {
 
   public void setYcoord(Integer ycoord) {
     this.ycoord = ycoord;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getFloor() {
@@ -61,6 +88,11 @@ public class NodeEntity {
 
   public void setFloor(String floor) {
     this.floor = floor;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getBuilding() {
@@ -69,6 +101,11 @@ public class NodeEntity {
 
   public void setBuilding(String building) {
     this.building = building;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getShortName() {
@@ -84,7 +121,9 @@ public class NodeEntity {
         }
       }
     }
-
+    if (longname == null) {
+      return "NA";
+    }
     HashMap<Integer, LocationnameEntity> locations = DatabaseConnect.getLocationNames();
     for (LocationnameEntity location : locations.values()) {
       if (longname.equals(location.getLongname())) {
@@ -104,6 +143,24 @@ public class NodeEntity {
       }
     }
     return ret;
+  }
+
+  public void delete() {
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    for (EdgeEntity e : DatabaseConnect.getEdges().values()) {
+      if (e.getNode1().equals(this.nodeid) || e.getNode2().equals(this.nodeid)) {
+        e.delete();
+      }
+    }
+    for (MoveEntity m : DatabaseConnect.getMoves().values()) {
+      if (m.getNodeid().equals(this.nodeid)) {
+        m.delete();
+      }
+    }
+    session.remove(this);
+    tx.commit();
+    session.close();
   }
 
   @Override

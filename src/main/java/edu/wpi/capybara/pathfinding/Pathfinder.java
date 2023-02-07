@@ -115,8 +115,8 @@ public class Pathfinder {
   }
 
   public List<NodeEntity> findPath(String start, String end) {
-    NodeEntity startNode = nodes.get(start);
-    NodeEntity endNode = nodes.get(end);
+    NodeEntity startNode = getNodeFromNodeID(start);
+    NodeEntity endNode = getNodeFromNodeID(end);
 
     if (startNode == null || endNode == null) {
       throw new RuntimeException("One of the NodeID doesn't exist!");
@@ -170,7 +170,7 @@ public class Pathfinder {
    */
 
   public static List<EdgeEntity> getPathEdges(List<NodeEntity> path) {
-    List<EdgeEntity> edges = new ArrayList<EdgeEntity>();
+    List<EdgeEntity> edges = new ArrayList<>();
     NodeEntity prevNode = null;
     for (NodeEntity node : path) {
       if (prevNode == null) {
@@ -181,6 +181,13 @@ public class Pathfinder {
       }
     }
     return edges;
+  }
+
+  private NodeEntity getNodeFromNodeID(String s) {
+    for (NodeEntity node : nodes.values()) {
+      if (node.getNodeid().equals(s)) return node;
+    }
+    return null;
   }
 
   private static EdgeEntity commonEdge(NodeEntity node1, NodeEntity node2) {
@@ -221,7 +228,7 @@ public class Pathfinder {
         List<EdgeEntity> newEdges = new ArrayList<>(List.copyOf(currentEdges));
         newEdges.add(e);
 
-        NodeEntity otherNode = nodes.get(e.getOtherNode(current));
+        NodeEntity otherNode = getNodeFromNodeID(e.getOtherNode(current));
         // System.out.println("Other Node: " + otherNode.getNodeID());
         // System.out.println(closedList);
 
@@ -252,8 +259,11 @@ public class Pathfinder {
   private static double calculateWeight(NodeEntity n1, NodeEntity n2) { // move function for a*
     float xDiff = Math.abs(n1.getXcoord() - n2.getXcoord());
     float yDiff = Math.abs(n1.getYcoord() - n2.getYcoord());
+    float multiplier = 1f;
 
-    return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
+    if (!n1.getFloor().equals(n2.getFloor())) multiplier = 3f;
+
+    return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2)) * multiplier;
   }
 
   public Pathfinder(TreeMap<Integer, NodeEntity> nodes, TreeMap<Integer, EdgeEntity> edges) {

@@ -1,12 +1,14 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.database.DatabaseConnect;
 import jakarta.persistence.*;
 import java.util.Objects;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "staff", schema = "cdb", catalog = "teamcdb")
 public class StaffEntity {
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "staffid")
   private String staffid;
@@ -29,6 +31,11 @@ public class StaffEntity {
 
   public void setStaffid(String staffid) {
     this.staffid = staffid;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getFirstname() {
@@ -37,6 +44,11 @@ public class StaffEntity {
 
   public void setFirstname(String firstname) {
     this.firstname = firstname;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getLastname() {
@@ -45,6 +57,11 @@ public class StaffEntity {
 
   public void setLastname(String lastname) {
     this.lastname = lastname;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getPassword() {
@@ -53,6 +70,11 @@ public class StaffEntity {
 
   public void setPassword(String password) {
     this.password = password;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   @Override
@@ -69,5 +91,13 @@ public class StaffEntity {
   @Override
   public int hashCode() {
     return Objects.hash(staffid, firstname, lastname, password);
+  }
+
+  public void delete() {
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.remove(this);
+    tx.commit();
+    session.close();
   }
 }

@@ -101,11 +101,16 @@ public class TransportationController {
     String outputReason = reasonField.getText();
     // System.out.println("Current Room: " + outputCurrRoom + " Destination Room: " +
     // outputDestRoom);
-    TransportationsubmissionEntity newSubmission = new TransportationsubmissionEntity();
-    newSubmission.setCurrroomnum(outputCurrRoom);
-    newSubmission.setDestroomnum(outputDestRoom);
-    newSubmission.setReason(outputReason);
-    newSubmission.setStatus(submissionStatus.BLANK);
+    TransportationsubmissionEntity newSubmission =
+        new TransportationsubmissionEntity(
+            App.getUser().getStaffid(),
+            outputCurrRoom,
+            outputDestRoom,
+            outputDestRoom,
+            submissionStatus.BLANK);
+    //    newSubmission.setCurrroomnum(outputCurrRoom);
+    //    newSubmission.setDestroomnum(outputDestRoom);
+    //    newSubmission.setReason(outputReason);
     App.getTotalSubmissions().newTransportationSubmission(newSubmission);
     System.out.println(App.getTotalSubmissions().getTransportationData());
     clearFields();
