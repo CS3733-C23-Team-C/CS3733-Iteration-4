@@ -49,7 +49,7 @@ public class TransportationAndCleaningTest extends ApplicationTest {
     type(KeyCode.N);
     type(KeyCode.O);
     Predicate<Node> isEnabled = node -> !node.isDisable();
-    verifyThat("submitButton", isEnabled);
+    verifyThat("#submitButton", isEnabled);
     // clickOn("#submitButton");
     // verifyThat("reasonField", hasText(""));
     clickOn("#backButton");

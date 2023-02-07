@@ -5,7 +5,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -53,8 +52,6 @@
          <center>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID" />
-                  <TextField fx:id="employeeID" maxWidth="1.7976931348623157E308" onKeyReleased="#validateButton" promptText="Please enter your hospital ID" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" VBox.vgrow="ALWAYS" />
                   <MFXComboBox fx:id="Location" alignment="CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="1.0" graphicTextGap="1.0" maxHeight="20.0" measureUnitGap="1.0" prefHeight="20.0" prefWidth="150.0" scrollOnOpen="true" />
                   <Text fx:id="roomNumbers1" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee Type" />

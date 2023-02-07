@@ -1,5 +1,6 @@
 package edu.wpi.capybara.controllers;
 
+import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
@@ -30,7 +31,6 @@ public class SecurityController {
 
   @FXML private MFXComboBox<String> Type;
 
-  @FXML public TextField employeeID;
   @FXML public TextArea Description;
   @FXML public Stage primaryStage;
 
@@ -54,7 +54,6 @@ public class SecurityController {
   //  }
 
   public void clearFields() {
-    employeeID.clear();
     Location.getSelectionModel().selectFirst();
     Type.getSelectionModel().selectFirst();
     notesUpdate.clear();
@@ -103,12 +102,11 @@ public class SecurityController {
   // entered room number
 
   public void submit(ActionEvent actionEvent) {
-    String outputID = employeeID.getText();
     String outputLocation = "" + Location.getValue();
     String outputType = "" + Type.getValue();
     String outputNotes = notesUpdate.getText();
     securitySubmission addSubmission =
-        new securitySubmission(outputNotes, outputID, outputLocation, outputType);
+        new securitySubmission(outputNotes, App.getUser().getStaffid(), outputLocation, outputType);
 
     clearFields();
   }
@@ -116,7 +114,7 @@ public class SecurityController {
   public void
       validateButton() { // ensures that information has been filled in before allowing submission
     boolean valid = false;
-    if (!employeeID.getText().equals("") && !notesUpdate.getText().equals("")) valid = true;
+    if (!notesUpdate.getText().equals("")) valid = true;
     SubmitButton.setDisable(!valid);
   }
 }
