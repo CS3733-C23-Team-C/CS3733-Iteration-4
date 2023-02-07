@@ -48,6 +48,8 @@ dependencies {
             "org.testfx:testfx-core:4.0.16-alpha",
             'org.junit.jupiter:junit-jupiter:5.6.0',
             'org.testfx:testfx-junit5:4.0.16-alpha',
+            "org.mockito:mockito-core:3.+",
+            'org.powermock:powermock-core:2.0.9'
 //            'com.oracle.ojdbc:ojdbc10:19.3.0.0',
     )
 
@@ -84,7 +86,7 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'CLASS'
                 value = 'COVEREDRATIO'
-                minimum = 0.0
+                minimum = 1.0
             }
             excludes = codeCoverageExcludes
         }
@@ -94,7 +96,7 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'LINE'
                 value = 'COVEREDRATIO'
-                minimum = 0.0
+                minimum = 0.25
             }
             excludes = codeCoverageExcludes
         }
@@ -104,7 +106,7 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'BRANCH'
                 value = 'COVEREDRATIO'
-                minimum = 0.0
+                minimum = 0.25
             }
             excludes = codeCoverageExcludes
         }

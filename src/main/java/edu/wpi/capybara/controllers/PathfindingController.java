@@ -68,7 +68,6 @@ public class PathfindingController {
 
     Collection<Node> nodes = DatabaseConnect.getNodes().values();
     for (Node n : nodes) {
-      System.out.println(n.getFloor());
       nodesToDisplay.add(n);
       shortNames.add(new Pair<>(n.getShortName(), n));
     }
@@ -92,6 +91,8 @@ public class PathfindingController {
 
               mapW = mapH * (canvasW / canvasH);
 
+              zoom(1f, mapX + (mapW / 2), mapY + (mapH / 2));
+
               drawNodes();
             });
     canvasPane
@@ -102,6 +103,8 @@ public class PathfindingController {
               canvasH = nodeDrawer.getHeight();
 
               mapH = mapW * (canvasH / canvasW);
+
+              zoom(1f, mapX + (mapW / 2), mapY + (mapH / 2));
 
               drawNodes();
             });

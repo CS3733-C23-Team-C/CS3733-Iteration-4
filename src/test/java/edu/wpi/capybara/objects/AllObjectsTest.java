@@ -2,7 +2,6 @@ package edu.wpi.capybara.objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.submissions.cleaningSubmission;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
@@ -45,7 +44,6 @@ public class AllObjectsTest {
   @Test
   public void transportationSubmissionTest() {
     DatabaseConnect.connect();
-    App.launch(App.class, "");
     transportationSubmission ts =
         new transportationSubmission("req", "my office", "susan's office");
     assertEquals(ts.getCurrRoom(), "req");

@@ -18,7 +18,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import javax.swing.*;
 
 public class SecurityController {
@@ -36,7 +35,6 @@ public class SecurityController {
   @FXML public Stage primaryStage;
 
   @FXML public MFXComboBox<String> Location;
-
 
   public void returnHome(ActionEvent actionEvent) throws IOException {
     Navigation.navigate(Screen.HOME);
