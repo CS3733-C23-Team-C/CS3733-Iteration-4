@@ -11,8 +11,18 @@ public class submissionCollector { // stores all of the submissions in different
 
   LinkedList<CleaningsubmissionEntity> allCleaningSubmissions;
 
-  public LinkedList getCleaningSubmissions() {
+  LinkedList<securitySubmission> securitySubs;
+
+  public LinkedList<TransportationsubmissionEntity> getTransportationSubs() {
+    return transportationSubs;
+  }
+
+  public LinkedList<CleaningsubmissionEntity> getCleaningSubmissions() {
     return allCleaningSubmissions;
+  }
+
+  public LinkedList<securitySubmission> getSecuritySubs() {
+    return securitySubs;
   }
 
   /**

@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
+import javax.xml.crypto.Data;
+
 public class TransportationAndCleaningTest extends ApplicationTest {
   @Override
   public void start(Stage stage) throws IOException {
@@ -28,6 +30,7 @@ public class TransportationAndCleaningTest extends ApplicationTest {
     user.setFirstname("Joe");
     user.setLastname("Mama");
     user.setPassword("HeHeHeHa");
+
     App.setUser(user);
   }
 

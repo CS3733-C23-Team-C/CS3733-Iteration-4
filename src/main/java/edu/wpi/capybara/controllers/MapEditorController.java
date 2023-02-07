@@ -2,13 +2,11 @@ package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.controllers.mapeditor.*;
 import edu.wpi.capybara.database.DatabaseConnect;
-
-import java.io.IOException;
-import java.util.function.Function;
-
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import java.io.IOException;
+import java.util.function.Function;
 import javafx.beans.property.Property;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
