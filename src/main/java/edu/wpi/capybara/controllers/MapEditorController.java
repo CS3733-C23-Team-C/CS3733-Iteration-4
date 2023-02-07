@@ -4,10 +4,13 @@ import edu.wpi.capybara.controllers.mapeditor.*;
 import edu.wpi.capybara.database.DatabaseConnect;
 import java.util.function.Function;
 import javafx.beans.property.Property;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.Pane;
 import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.NumberStringConverter;
@@ -21,6 +24,14 @@ public class MapEditorController {
   @FXML private TableView<LocationNamePropertyAdapter> locationNameTableView;
   @FXML private TableView<MovePropertyAdapter> moveTableView;
 
+  @FXML private Pane mapViewerPane;
+  @FXML private Canvas mapViewerCanvas;
+
+  // this, ideally, would be its own controller initialized by FXML. however, talking to controllers
+  // managed by FXML
+  // is a bit awkward, so I'm using composition as a workaround here.
+  private MapViewerController mapViewerController;
+
   @FXML
   public void initialize() {
     initializeNodeTable();
@@ -28,6 +39,12 @@ public class MapEditorController {
     initializeLocationNameTable();
     initializeMoveTable();
     refreshData();
+
+    mapViewerController =
+        new MapViewerController(
+            mapViewerPane,
+            mapViewerCanvas,
+            FXCollections.observableArrayList(DatabaseConnect.nodes.values()));
   }
 
   private void initializeNodeTable() {
