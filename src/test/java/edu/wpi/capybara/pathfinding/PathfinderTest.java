@@ -1,5 +1,6 @@
 package edu.wpi.capybara.pathfinding;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import edu.wpi.capybara.database.DatabaseConnect;
