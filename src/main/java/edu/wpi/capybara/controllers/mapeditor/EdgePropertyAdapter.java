@@ -1,19 +1,19 @@
 package edu.wpi.capybara.controllers.mapeditor;
 
-import edu.wpi.capybara.objects.Edge;
+import edu.wpi.capybara.objects.hibernate.EdgeEntity;
 import javafx.beans.property.adapter.JavaBeanStringProperty;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 
 public class EdgePropertyAdapter {
   private static final JavaBeanStringPropertyBuilder startNodeBuilder =
-      JavaBeanStringPropertyBuilder.create().name("startNode");
+      JavaBeanStringPropertyBuilder.create().name("node1");
   private static final JavaBeanStringPropertyBuilder endNodeBuilder =
-      JavaBeanStringPropertyBuilder.create().name("endNode");
+      JavaBeanStringPropertyBuilder.create().name("node2");
 
   private final JavaBeanStringProperty startNode;
   private final JavaBeanStringProperty endNode;
 
-  public EdgePropertyAdapter(Edge edge) {
+  public EdgePropertyAdapter(EdgeEntity edge) {
     try {
       startNode = startNodeBuilder.bean(edge).build();
       endNode = endNodeBuilder.bean(edge).build();

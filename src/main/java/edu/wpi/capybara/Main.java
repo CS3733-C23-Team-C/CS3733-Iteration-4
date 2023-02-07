@@ -6,6 +6,7 @@ public class Main {
 
   public static void main(String[] args) {
     DatabaseConnect.connect();
+    DatabaseConnect.importData();
     App.launch(App.class, args);
   }
 

@@ -4,7 +4,10 @@ import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
-import edu.wpi.capybara.objects.Node;
+
+import edu.wpi.capybara.objects.hibernate.*;
+import edu.wpi.capybara.pathfinding.Path;
+
 import edu.wpi.capybara.pathfinding.Pathfinder;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
@@ -34,7 +37,7 @@ public class PathfindingController {
 
   private double mapX, mapY, mapW, mapH;
 
-  private List<Node> nodesToDisplay;
+  private List<NodeEntity> nodesToDisplay;
 
   boolean isPath;
 
@@ -45,7 +48,7 @@ public class PathfindingController {
   private double canvasW, canvasH;
   private int lastX, lastY;
 
-  private List<Pair<String, Node>> shortNames;
+  private List<Pair<String, NodeEntity>> shortNames;
 
   // Variables to change
   private static final float SCROLL_SPEED = 1f;
@@ -66,8 +69,8 @@ public class PathfindingController {
     nodesToDisplay = new ArrayList<>();
     shortNames = new ArrayList<>();
 
-    Collection<Node> nodes = DatabaseConnect.getNodes().values();
-    for (Node n : nodes) {
+    Collection<NodeEntity> nodes = DatabaseConnect.getNodes().values();
+    for (NodeEntity n : nodes) {
       nodesToDisplay.add(n);
       shortNames.add(new Pair<>(n.getShortName(), n));
     }
@@ -130,12 +133,13 @@ public class PathfindingController {
   L1X1820Y1284, L1X1965Y1284
    */
 
+
   public void submitForm() {
-    Node currRoomNode = searchName(currRoom.getText());
-    Node destRoomNode = searchName(destRoom.getText());
+    NodeEntity currRoomNode = searchName(currRoom.getText());
+    NodeEntity destRoomNode = searchName(destRoom.getText());
 
     Pathfinder pathfinder = new Pathfinder(DatabaseConnect.getNodes(), DatabaseConnect.getEdges());
-    List<Node> path = pathfinder.findPath(currRoomNode, destRoomNode);
+    List<NodeEntity> path = pathfinder.findPath(currRoomNode, destRoomNode);
     if (path == null) return;
     nodesToDisplay = path;
 
@@ -267,8 +271,8 @@ public class PathfindingController {
       gc.setFill(Color.RED);
       drawNode(nodesToDisplay.get(nodesToDisplay.size() - 1));
     } else {
-      Node startNode = searchName(currRoom.getText());
-      Node endNode = searchName(destRoom.getText());
+      NodeEntity startNode = searchName(currRoom.getText());
+      NodeEntity endNode = searchName(destRoom.getText());
 
       if (startNode != null) {
         gc.setFill(Color.GREEN);
@@ -280,7 +284,7 @@ public class PathfindingController {
       }
 
       gc.setFill(Color.BLUE);
-      for (Node n : nodesToDisplay) {
+      for (NodeEntity n : nodesToDisplay) {
         if (nodeInMapView(n)) {
           if (n == startNode || n == endNode) continue;
           drawNode(n);
@@ -291,36 +295,36 @@ public class PathfindingController {
     }
   }
 
-  private boolean nodeInMapView(Node n) {
-    return n.getXCoord() > mapX
-        && n.getXCoord() < mapX + mapW
-        && n.getYCoord() > mapY
-        && n.getYCoord() < mapY + mapH;
+  private boolean nodeInMapView(NodeEntity n) {
+    return n.getXcoord() > mapX
+        && n.getXcoord() < mapX + mapW
+        && n.getYcoord() > mapY
+        && n.getYcoord() < mapY + mapH;
   }
 
-  private void drawNode(Node node) {
+  private void drawNode(NodeEntity node) {
     if (node == null) {
       System.out.println("NULL NODE");
       return;
     }
 
     gc.fillOval(
-        locToMapX(node.getXCoord()) - scale(4),
-        locToMapY(node.getYCoord()) - scale(4),
+        locToMapX(node.getXcoord()) - scale(4),
+        locToMapY(node.getYcoord()) - scale(4),
         scale(8),
         scale(8));
   }
 
   private void drawPath() {
     for (int i = 1; i < nodesToDisplay.size(); i++) {
-      Node n1 = nodesToDisplay.get(i - 1), n2 = nodesToDisplay.get(i);
+      NodeEntity n1 = nodesToDisplay.get(i - 1), n2 = nodesToDisplay.get(i);
       if ((!nodeInMapView(n1)) && (!nodeInMapView(n2))) continue;
 
       gc.strokeLine(
-          locToMapX(n1.getXCoord()),
-          locToMapY(n1.getYCoord()),
-          locToMapX(n2.getXCoord()),
-          locToMapY(n2.getYCoord()));
+          locToMapX(n1.getXcoord()),
+          locToMapY(n1.getYcoord()),
+          locToMapX(n2.getXcoord()),
+          locToMapY(n2.getYcoord()));
     }
   }
 
@@ -388,11 +392,11 @@ public class PathfindingController {
     }
   }
 
-  private Node searchName(String name) {
-    Node easyTest = DatabaseConnect.getNodes().get(name);
+  private NodeEntity searchName(String name) {
+    NodeEntity easyTest = DatabaseConnect.getNodes().get(name);
     if (easyTest != null) return easyTest;
 
-    for (Pair<String, Node> pair : shortNames) {
+    for (Pair<String, NodeEntity> pair : shortNames) {
       if (name.equals(pair.getKey())) return pair.getValue();
     }
     return null;
