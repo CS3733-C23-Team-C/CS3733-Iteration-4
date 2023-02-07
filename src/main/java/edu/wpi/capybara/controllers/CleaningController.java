@@ -55,7 +55,7 @@ public class CleaningController {
     Iterator<NodeEntity> iterator = sortedset.iterator();
     while (iterator.hasNext()) {
       NodeEntity n = iterator.next();
-      System.out.println(n.getShortName());
+      // System.out.println(n.getShortName());
       Location.getItems().add(n.getShortName());
     }
 
