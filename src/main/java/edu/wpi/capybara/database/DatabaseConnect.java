@@ -170,7 +170,7 @@ public class DatabaseConnect {
       tx = session.beginTransaction();
       List n = session.createQuery("FROM TransportationsubmissionEntity ").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        ret.add((TransportationsubmissionEntity) n);
+        ret.add((TransportationsubmissionEntity) iterator.next());
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -192,7 +192,7 @@ public class DatabaseConnect {
       tx = session.beginTransaction();
       List n = session.createQuery("FROM CleaningsubmissionEntity ").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        ret.add((CleaningsubmissionEntity) n);
+        ret.add((CleaningsubmissionEntity) iterator.next());
       }
       tx.commit();
     } catch (HibernateException e) {
