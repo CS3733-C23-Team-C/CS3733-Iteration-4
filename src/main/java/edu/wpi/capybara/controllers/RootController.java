@@ -43,8 +43,11 @@ public class RootController {
   }
 
   public void showRequestPage(ActionEvent actionEvent) {
-    System.out.println("working");
     Navigation.navigate(Screen.REQUESTS);
+  }
+
+  public void showUserProfilePage(ActionEvent actionEvent) {
+    Navigation.navigate(Screen.USER_PROFILE);
   }
 
   public static void updateUser() {
