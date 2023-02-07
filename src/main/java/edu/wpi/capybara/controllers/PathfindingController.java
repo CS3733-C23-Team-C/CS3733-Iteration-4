@@ -4,10 +4,7 @@ import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
-
 import edu.wpi.capybara.objects.hibernate.*;
-import edu.wpi.capybara.pathfinding.Path;
-
 import edu.wpi.capybara.pathfinding.Pathfinder;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
@@ -132,7 +129,6 @@ public class PathfindingController {
   L1X1688Y2167,L1X1666Y2167,L1X1688Y2131,L1X1665Y2116,L1X1720Y2131,L1X2715Y1070,L1X2360Y0799,L1X2220Y0974,L1X1785Y0924,
   L1X1820Y1284, L1X1965Y1284
    */
-
 
   public void submitForm() {
     NodeEntity currRoomNode = searchName(currRoom.getText());
