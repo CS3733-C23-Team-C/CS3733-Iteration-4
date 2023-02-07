@@ -9,7 +9,6 @@ import org.hibernate.Transaction;
 @Entity
 @Table(name = "locationname", schema = "cdb", catalog = "teamcdb")
 public class LocationnameEntity {
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "longname")
   private String longname;

@@ -11,27 +11,22 @@ import org.hibernate.Transaction;
 @Table(name = "transportationsubmission", schema = "cdb", catalog = "teamcdb")
 @IdClass(TransportationsubmissionEntityPK.class)
 public class TransportationsubmissionEntity {
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "employeeid")
   private String employeeid;
 
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "currroomnum")
   private String currroomnum;
 
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "destroomnum")
   private String destroomnum;
 
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "reason")
   private String reason;
 
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "status")
   private submissionStatus status;

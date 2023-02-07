@@ -2,8 +2,6 @@ package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.database.DatabaseConnect;
 import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.io.Serializable;
 import java.sql.Date;
@@ -14,17 +12,14 @@ import org.hibernate.Transaction;
 public class MoveEntityPK implements Serializable {
   @Column(name = "nodeid")
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String nodeid;
 
   @Column(name = "longname")
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String longname;
 
   @Column(name = "movedate")
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Date movedate;
 
   public String getNodeid() {

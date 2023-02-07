@@ -104,7 +104,11 @@ public class TransportationController {
     // outputDestRoom);
     TransportationsubmissionEntity newSubmission =
         new TransportationsubmissionEntity(
-            App.getUser().getStaffid(), outputCurrRoom, outputDestRoom, outputDestRoom, submissionStatus.BLANK);
+            App.getUser().getStaffid(),
+            outputCurrRoom,
+            outputDestRoom,
+            outputDestRoom,
+            submissionStatus.BLANK);
     //    newSubmission.setCurrroomnum(outputCurrRoom);
     //    newSubmission.setDestroomnum(outputDestRoom);
     //    newSubmission.setReason(outputReason);

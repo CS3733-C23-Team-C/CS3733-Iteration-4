@@ -9,7 +9,6 @@ import org.hibernate.Transaction;
 @Entity
 @Table(name = "staff", schema = "cdb", catalog = "teamcdb")
 public class StaffEntity {
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "staffid")
   private String staffid;
@@ -92,5 +91,13 @@ public class StaffEntity {
   @Override
   public int hashCode() {
     return Objects.hash(staffid, firstname, lastname, password);
+  }
+
+  public void delete() {
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.remove(this);
+    tx.commit();
+    session.close();
   }
 }

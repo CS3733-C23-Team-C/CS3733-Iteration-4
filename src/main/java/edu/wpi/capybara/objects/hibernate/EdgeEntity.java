@@ -10,12 +10,10 @@ import org.hibernate.Transaction;
 @Table(name = "edge", schema = "cdb", catalog = "teamcdb")
 @IdClass(EdgeEntityPK.class)
 public class EdgeEntity {
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "node1")
   private String node1;
 
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "node2")
   private String node2;
@@ -62,5 +60,14 @@ public class EdgeEntity {
   @Override
   public int hashCode() {
     return Objects.hash(node1, node2);
+  }
+
+  public void delete() {
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    DatabaseConnect.getEdges().remove(this);
+    session.remove(this);
+    tx.commit();
+    session.close();
   }
 }

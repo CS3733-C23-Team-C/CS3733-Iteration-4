@@ -2,8 +2,6 @@ package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.database.DatabaseConnect;
 import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
@@ -13,12 +11,10 @@ import org.hibernate.Transaction;
 public class EdgeEntityPK implements Serializable {
   @Column(name = "node1")
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String node1;
 
   @Column(name = "node2")
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String node2;
 
   public String getNode1() {

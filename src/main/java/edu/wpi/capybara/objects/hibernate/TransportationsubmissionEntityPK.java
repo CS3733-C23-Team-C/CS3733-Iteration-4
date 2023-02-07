@@ -14,12 +14,10 @@ import org.hibernate.Transaction;
 public class TransportationsubmissionEntityPK implements Serializable {
   @Column(name = "employeeid")
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String employeeid;
 
   @Column(name = "currroomnum")
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String currroomnum;
 
   @Column(name = "destroomnum")
@@ -34,7 +32,6 @@ public class TransportationsubmissionEntityPK implements Serializable {
 
   @Column(name = "status")
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private submissionStatus status;
 
   public String getEmployeeid() {

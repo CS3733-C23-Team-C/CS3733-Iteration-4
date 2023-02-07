@@ -8,22 +8,18 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class SecuritysubmissionEntityPK implements Serializable {
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "employeeid")
   private String employeeid;
 
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "location")
   private String location;
 
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "type")
   private String type;
 
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "notesupdate")
   private String notesupdate;

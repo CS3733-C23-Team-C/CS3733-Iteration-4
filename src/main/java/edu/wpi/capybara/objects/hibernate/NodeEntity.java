@@ -12,7 +12,7 @@ import org.hibernate.Transaction;
 @Entity
 @Table(name = "node", schema = "cdb", catalog = "teamcdb")
 public class NodeEntity {
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+
   @Id
   @Column(name = "nodeid")
   private String nodeid;
@@ -32,6 +32,16 @@ public class NodeEntity {
   @Basic
   @Column(name = "building")
   private String building;
+
+  public NodeEntity() {}
+
+  public NodeEntity(String nodeid, Integer xcoord, Integer ycoord, String floor, String building) {
+    this.nodeid = nodeid;
+    this.xcoord = xcoord;
+    this.ycoord = ycoord;
+    this.floor = floor;
+    this.building = building;
+  }
 
   public String getNodeid() {
     return nodeid;
@@ -131,6 +141,24 @@ public class NodeEntity {
       }
     }
     return ret;
+  }
+
+  public void delete() {
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    for (EdgeEntity e : DatabaseConnect.getEdges().values()) {
+      if (e.getNode1().equals(this.nodeid) || e.getNode2().equals(this.nodeid)) {
+        e.delete();
+      }
+    }
+    for (MoveEntity m : DatabaseConnect.getMoves().values()) {
+      if (m.getNodeid().equals(this.nodeid)) {
+        m.delete();
+      }
+    }
+    session.remove(this);
+    tx.commit();
+    session.close();
   }
 
   @Override

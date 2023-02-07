@@ -10,17 +10,14 @@ import org.hibernate.Transaction;
 @Table(name = "securitysubmission", schema = "cdb", catalog = "teamcdb")
 @IdClass(SecuritysubmissionEntityPK.class)
 public class SecuritysubmissionEntity {
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "employeeid")
   private String employeeid;
 
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "location")
   private String location;
 
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "type")
   private String type;
@@ -33,7 +30,6 @@ public class SecuritysubmissionEntity {
     this.notesupdate = notesupdate;
   }
 
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "notesupdate")
   private String notesupdate;

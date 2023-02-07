@@ -35,13 +35,36 @@ public class DatabaseConnect {
     //      //      System.out.println(n.getBuilding());
     //    }
     Session session = factory.openSession();
-    for (NodeEntity n : nodes.values()) {
-      n.setBuilding("10");
-    }
+    Transaction tx = session.beginTransaction();
+    //    for (NodeEntity n : nodes.values()) {
+    //      if (n.getBuilding().equals("76868")) {
+    //        nodes.remove(n.hashCode());
+    //        n.delete();
+    //      }
+    //    }
+
     CleaningsubmissionEntity addSubmission =
-        new CleaningsubmissionEntity("asda", "asdad", "1", "asdd", submissionStatus.BLANK);
-    // addSubmission.create();
+        new CleaningsubmissionEntity("3", "1", "1", "2X2279Y0762", submissionStatus.BLANK);
+
+    //    addSubmission.setMemberid("2");
+    //    addSubmission.setDescription("1");
+    //    addSubmission.setHazardlevel("1");
+    //    addSubmission.setLocation("2X2279Y0762");
+    //    addSubmission.setSubmissionstatus(submissionStatus.BLANK);
+    session.persist(addSubmission);
+    tx.commit();
     session.close();
+
+    //    NodeEntity addNode = new NodeEntity("1000", 1000, 1000, "3", "Foisie");
+    //    //    addNode.setNodeid("1337");
+    //    //    addNode.setXcoord(1000);
+    //    //    addNode.setYcoord(1000);
+    //    //    addNode.setFloor("3");
+    //    //    addNode.setBuilding("Atwater");
+    //    session.persist(addNode);
+    //    tx.commit();
+    //    session.close();
+
     factory.close();
   }
 

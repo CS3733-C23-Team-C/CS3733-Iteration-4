@@ -3,8 +3,8 @@ package edu.wpi.capybara.objects.hibernate;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
 import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
@@ -14,27 +14,28 @@ import org.hibernate.Transaction;
 public class CleaningsubmissionEntityPK implements Serializable {
   @Column(name = "memberid")
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  // @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String memberid;
 
   @Column(name = "location")
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  // @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String location;
 
   @Column(name = "hazardlevel")
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  // @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String hazardlevel;
 
   @Column(name = "description")
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  // @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String description;
 
   @Column(name = "submissionstatus")
+  @Enumerated(EnumType.STRING)
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  // @GeneratedValue(strategy = GenerationType.IDENTITY)
   private submissionStatus submissionstatus;
 
   public String getMemberid() {
@@ -42,9 +43,9 @@ public class CleaningsubmissionEntityPK implements Serializable {
   }
 
   public void setMemberid(String memberid) {
-    this.memberid = memberid;
     Session session = DatabaseConnect.getSession();
     Transaction tx = session.beginTransaction();
+    this.memberid = memberid;
     session.merge(this);
     tx.commit();
     session.close();
