@@ -270,12 +270,14 @@ public class DatabaseConnect {
 
     try {
       tx = session.beginTransaction();
-      CleaningsubmissionEntity cleaning = new CleaningsubmissionEntity();
-      cleaning.setMemberid(staffid);
-      cleaning.setLocation(location);
-      cleaning.setHazardlevel(hazardlevel);
-      cleaning.setDescription(description);
-      cleaning.setSubmissionstatus(submissionstatus);
+      CleaningsubmissionEntity cleaning =
+          new CleaningsubmissionEntity(
+              staffid, location, hazardlevel, description, submissionstatus);
+      //      cleaning.setMemberid(staffid);
+      //      cleaning.setLocation(location);
+      //      cleaning.setHazardlevel(hazardlevel);
+      //      cleaning.setDescription(description);
+      //      cleaning.setSubmissionstatus(submissionstatus);
       session.save(cleaning);
       tx.commit();
     } catch (HibernateException e) {
@@ -297,12 +299,13 @@ public class DatabaseConnect {
 
     try {
       tx = session.beginTransaction();
-      TransportationsubmissionEntity transportation = new TransportationsubmissionEntity();
-      transportation.setEmployeeid(staffid);
-      transportation.setCurrroomnum(currroomnum);
-      transportation.setDestroomnum(destroomnum);
-      transportation.setReason(reason);
-      transportation.setStatus(status);
+      TransportationsubmissionEntity transportation =
+          new TransportationsubmissionEntity(staffid, currroomnum, destroomnum, reason, status);
+      //      transportation.setEmployeeid(staffid);
+      //      transportation.setCurrroomnum(currroomnum);
+      //      transportation.setDestroomnum(destroomnum);
+      //      transportation.setReason(reason);
+      //      transportation.setStatus(status);
       session.save(transportation);
       tx.commit();
     } catch (HibernateException e) {
