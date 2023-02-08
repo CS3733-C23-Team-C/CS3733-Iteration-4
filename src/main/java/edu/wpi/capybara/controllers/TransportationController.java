@@ -33,7 +33,6 @@ public class TransportationController {
   @FXML private MFXButton backButton;
   @FXML private MFXButton submitButton;
   @FXML private MFXButton clearButton;
-  @FXML private MFXTextField idField;
   @FXML MFXTextField currRoom;
   @FXML private MFXTextField destRoom;
   @FXML private MFXTextField reasonField;

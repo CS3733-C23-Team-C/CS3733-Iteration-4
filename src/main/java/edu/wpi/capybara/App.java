@@ -28,6 +28,11 @@ public class App extends Application {
   @Override
   public void init() {
     log.info("Starting Up");
+    user = new StaffEntity();
+    user.setStaffid("0000");
+    user.setFirstname("Joe");
+    user.setLastname("Mama");
+    user.setPassword("HeHeHeHa");
   }
 
   @Override
@@ -45,6 +50,7 @@ public class App extends Application {
     primaryStage.show();
 
     Navigation.navigate(Screen.HOME);
+    RootController.updateUser();
   }
 
   @Override
