@@ -3,8 +3,6 @@ package edu.wpi.capybara.objects.hibernate;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
 import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
@@ -22,12 +20,10 @@ public class TransportationsubmissionEntityPK implements Serializable {
 
   @Column(name = "destroomnum")
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String destroomnum;
 
   @Column(name = "reason")
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private String reason;
 
   @Column(name = "status")

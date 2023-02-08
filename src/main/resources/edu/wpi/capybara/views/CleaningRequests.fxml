@@ -16,7 +16,7 @@
                      <graphic>
                         <ImageView fitHeight="26.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@/C:/Users/Preston%20Van%20Fleet/Downloads/images%20(1).png" />
+                              <Image url="@../images/back_button.png" />
                            </image></ImageView>
                      </graphic>
                      <font>
