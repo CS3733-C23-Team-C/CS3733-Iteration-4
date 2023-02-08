@@ -57,7 +57,5 @@ public class RootController {
     else System.out.println("why");
   }
 
-  public void logOut(){
-
-  }
+  public void logOut() {}
 }

@@ -2,18 +2,30 @@ package edu.wpi.capybara.objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.hibernate.*;
+import edu.wpi.capybara.objects.submissions.submissionStatus;
 import java.sql.Date;
 import org.junit.jupiter.api.Test;
 
 public class AllObjectsTest {
 
   @Test
+  public void nodeTest() {
+
+    DatabaseConnect.connect();
+    NodeEntity ne = new NodeEntity("98765", 99, 99, "67", "Atwater");
+
+    assertEquals(ne.getNodeid(), "98765");
+    assertEquals(ne.getXcoord(), 99);
+    assertEquals(ne.getYcoord(), 99);
+    assertEquals(ne.getFloor(), "67");
+    assertEquals(ne.getBuilding(), "Atwater");
+  }
+
+  @Test
   public void locationNameTest() {
-    LocationnameEntity ln = new LocationnameEntity();
-    ln.setLongname("test location");
-    ln.setShortname("tl");
-    ln.setLocationtype("office");
+    LocationnameEntity ln = new LocationnameEntity("test location", "tl", "office");
 
     assertEquals(ln.getLocationtype(), "office");
     assertEquals(ln.getLongname(), "test location");
@@ -22,11 +34,8 @@ public class AllObjectsTest {
 
   @Test
   public void moveTest() {
-    MoveEntity move = new MoveEntity();
 
-    move.setNodeid("11");
-    move.setLongname("test location");
-    move.setMovedate(new Date(100000000));
+    MoveEntity move = new MoveEntity("11", "test location", new Date(100000000));
 
     assertEquals(move.getNodeid(), "11");
     assertEquals(move.getLongname(), "test location");
@@ -36,44 +45,48 @@ public class AllObjectsTest {
   // needs to launch app to
   @Test
   public void cleaningSubmissionTest() {
-    CleaningsubmissionEntity cs = new CleaningsubmissionEntity();
 
-    cs.setLocation("office 67");
-    cs.setHazardlevel("big");
-    cs.setDescription("i spilt concentrated hcl oopsie");
+    CleaningsubmissionEntity cs =
+        new CleaningsubmissionEntity(
+            "4566", "office 67", "big", "i spilt concentrated hcl oopsie", submissionStatus.BLANK);
 
+    assertEquals(cs.getMemberid(), "4566");
     assertEquals(cs.getLocation(), "office 67");
     assertEquals(cs.getHazardlevel(), "big");
     assertEquals(cs.getDescription(), "i spilt concentrated hcl oopsie");
+    assertEquals(cs.getSubmissionstatus(), submissionStatus.BLANK);
   }
 
   @Test
   public void transportationSubmissionTest() {
-    TransportationsubmissionEntity ts = new TransportationsubmissionEntity();
-
-    ts.setEmployeeid("1738");
-    ts.setCurrroomnum("Exam room");
-    ts.setDestroomnum("ICU");
-    ts.setReason("dropped my phone during surgery");
+    TransportationsubmissionEntity ts =
+        new TransportationsubmissionEntity(
+            "1738", "Exam room", "ICU", "dropped my phone during surgery", submissionStatus.BLANK);
 
     assertEquals(ts.getEmployeeid(), "1738");
     assertEquals(ts.getCurrroomnum(), "Exam room");
     assertEquals(ts.getDestroomnum(), "ICU");
     assertEquals(ts.getReason(), "dropped my phone during surgery");
+    assertEquals(ts.getStatus(), submissionStatus.BLANK);
   }
 
   @Test
   public void staffTest() {
-    StaffEntity user = new StaffEntity();
-
-    user.setFirstname("Benjamin");
-    user.setLastname("Dover");
-    user.setStaffid("5555");
-    user.setPassword("password");
+    StaffEntity user = new StaffEntity("5555", "Benjamin", "Dover", "password");
 
     assertEquals(user.getFirstname(), "Benjamin");
     assertEquals(user.getLastname(), "Dover");
     assertEquals(user.getStaffid(), "5555");
     assertEquals(user.getPassword(), "password");
+  }
+
+  @Test
+  public void securityTest() {
+    SecuritysubmissionEntity sc = new SecuritysubmissionEntity("111", "Kaven", "Good", "No report");
+
+    assertEquals(sc.getEmployeeid(), "111");
+    assertEquals(sc.getLocation(), "Kaven");
+    assertEquals(sc.getType(), "Good");
+    assertEquals(sc.getNotesupdate(), "No report");
   }
 }
