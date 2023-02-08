@@ -3,6 +3,7 @@ package edu.wpi.capybara.objects.submissions;
 import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
+import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
 import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
 import java.util.LinkedList;
 
@@ -11,8 +12,18 @@ public class submissionCollector { // stores all of the submissions in different
 
   LinkedList<CleaningsubmissionEntity> allCleaningSubmissions;
 
-  public LinkedList getCleaningSubmissions() {
+  LinkedList<SecuritysubmissionEntity> securitySubs;
+
+  public LinkedList<TransportationsubmissionEntity> getTransportationSubs() {
+    return transportationSubs;
+  }
+
+  public LinkedList<CleaningsubmissionEntity> getCleaningSubmissions() {
     return allCleaningSubmissions;
+  }
+
+  public LinkedList<SecuritysubmissionEntity> getSecuritySubs() {
+    return securitySubs;
   }
 
   /**
@@ -33,6 +44,7 @@ public class submissionCollector { // stores all of the submissions in different
   public submissionCollector() {
     transportationSubs = DatabaseConnect.transports();
     allCleaningSubmissions = DatabaseConnect.cleanings();
+    securitySubs = DatabaseConnect.security();
   }
 
   public void newTransportationSubmission(TransportationsubmissionEntity submission) {
@@ -43,6 +55,15 @@ public class submissionCollector { // stores all of the submissions in different
         submission.getReason(),
         submission.getStatus());
     this.transportationSubs.add(submission);
+  }
+
+  public void newSecuritySubmission(SecuritysubmissionEntity submission) {
+    DatabaseConnect.insertSecurity(
+        App.getUser().getStaffid(),
+        submission.getLocation(),
+        submission.getType(),
+        submission.getNotesupdate());
+    this.securitySubs.add(submission);
   }
 
   /**

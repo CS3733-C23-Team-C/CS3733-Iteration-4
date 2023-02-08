@@ -32,6 +32,7 @@ public class UserProfileController {
   @FXML private Text successLastName;
   @FXML private Text successPassword;
   @FXML private Text staffID;
+  @FXML private MFXButton logOut;
 
   @FXML
   public void initialize() {
@@ -119,5 +120,11 @@ public class UserProfileController {
     passwordField.setDisable(true);
     passwordSave.setDisable(true);
     successPassword.setVisible(true);
+  }
+
+  public void logOut() {
+    currFirstName = "";
+    currLastName = "";
+    currPassword = "";
   }
 }

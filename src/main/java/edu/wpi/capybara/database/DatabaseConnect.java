@@ -204,6 +204,28 @@ public class DatabaseConnect {
     return ret;
   }
 
+  public static LinkedList<SecuritysubmissionEntity> security() {
+    Session session = factory.openSession();
+    Transaction tx = null;
+
+    LinkedList<SecuritysubmissionEntity> ret = new LinkedList<SecuritysubmissionEntity>();
+
+    try {
+      tx = session.beginTransaction();
+      List n = session.createQuery("FROM SecuritysubmissionEntity ").list();
+      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
+        ret.add((SecuritysubmissionEntity) iterator.next());
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return ret;
+  }
+
   //  public static void deleteNode(String nodeID) {
   //    nodes.remove(nodeID);
   //  }
@@ -270,12 +292,14 @@ public class DatabaseConnect {
 
     try {
       tx = session.beginTransaction();
-      CleaningsubmissionEntity cleaning = new CleaningsubmissionEntity();
-      cleaning.setMemberid(staffid);
-      cleaning.setLocation(location);
-      cleaning.setHazardlevel(hazardlevel);
-      cleaning.setDescription(description);
-      cleaning.setSubmissionstatus(submissionstatus);
+      CleaningsubmissionEntity cleaning =
+          new CleaningsubmissionEntity(
+              staffid, location, hazardlevel, description, submissionstatus);
+      //      cleaning.setMemberid(staffid);
+      //      cleaning.setLocation(location);
+      //      cleaning.setHazardlevel(hazardlevel);
+      //      cleaning.setDescription(description);
+      //      cleaning.setSubmissionstatus(submissionstatus);
       session.save(cleaning);
       tx.commit();
     } catch (HibernateException e) {
@@ -297,13 +321,38 @@ public class DatabaseConnect {
 
     try {
       tx = session.beginTransaction();
-      TransportationsubmissionEntity transportation = new TransportationsubmissionEntity();
-      transportation.setEmployeeid(staffid);
-      transportation.setCurrroomnum(currroomnum);
-      transportation.setDestroomnum(destroomnum);
-      transportation.setReason(reason);
-      transportation.setStatus(status);
+      TransportationsubmissionEntity transportation =
+          new TransportationsubmissionEntity(staffid, currroomnum, destroomnum, reason, status);
+      //      transportation.setEmployeeid(staffid);
+      //      transportation.setCurrroomnum(currroomnum);
+      //      transportation.setDestroomnum(destroomnum);
+      //      transportation.setReason(reason);
+      //      transportation.setStatus(status);
       session.save(transportation);
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+  }
+
+  public static void insertSecurity(
+      String staffid, String location, String type, String notesupdate) {
+    Session session = factory.openSession();
+    Transaction tx = null;
+
+    try {
+      tx = session.beginTransaction();
+      SecuritysubmissionEntity security =
+          new SecuritysubmissionEntity(staffid, location, type, notesupdate);
+      //      transportation.setEmployeeid(staffid);
+      //      transportation.setCurrroomnum(currroomnum);
+      //      transportation.setDestroomnum(destroomnum);
+      //      transportation.setReason(reason);
+      //      transportation.setStatus(status);
+      session.save(security);
       tx.commit();
     } catch (HibernateException e) {
       if (tx != null) tx.rollback();

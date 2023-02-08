@@ -28,6 +28,7 @@ public class TransportationsubmissionEntity {
   private String reason;
 
   @Id
+  @Enumerated(EnumType.STRING)
   @Column(name = "status")
   private submissionStatus status;
 
