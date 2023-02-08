@@ -28,7 +28,7 @@ public class CleaningController {
   @FXML public TextArea Description;
 
   @FXML private Button ClearButton;
-  @FXML private TextField MemberID;
+
   @FXML private TextField hazardLevel;
 
   public CleaningRequestController forRequests;
@@ -77,11 +77,14 @@ public class CleaningController {
 
     String locationInfo = "" + Location.getValue();
     String descriptionInfo = Description.getText();
-    String memberID = MemberID.getText();
     String hazardLevelInfo = hazardLevel.getText();
     CleaningsubmissionEntity addSubmission =
         new CleaningsubmissionEntity(
-            memberID, locationInfo, hazardLevelInfo, descriptionInfo, submissionStatus.BLANK);
+            App.getUser().getStaffid(),
+            locationInfo,
+            hazardLevelInfo,
+            descriptionInfo,
+            submissionStatus.BLANK);
     // locationInfo, hazardLevelInfo, descriptionInfo
     //    addSubmission.setLocation(locationInfo);
     //    addSubmission.setHazardlevel(hazardLevelInfo);
@@ -104,7 +107,6 @@ public class CleaningController {
   public void clearRequest() {
     Location.getSelectionModel().selectFirst();
     Description.clear();
-    MemberID.clear();
     hazardLevel.clear();
     currentStatus = submissionStatus.BLANK;
     SubmitButton.setDisable(true);
@@ -113,9 +115,7 @@ public class CleaningController {
   public void
       validateButton() { // ensures that information has been filled in before allowing submission
     boolean valid = false;
-    if (!MemberID.getText().equals("")
-        && !hazardLevel.getText().equals("")
-        && !Description.getText().equals("")) valid = true;
+    if (!hazardLevel.getText().equals("") && !Description.getText().equals("")) valid = true;
     SubmitButton.setDisable(!valid);
   }
 }

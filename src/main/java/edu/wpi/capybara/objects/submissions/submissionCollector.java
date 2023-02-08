@@ -3,6 +3,7 @@ package edu.wpi.capybara.objects.submissions;
 import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
+import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
 import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
 import java.util.LinkedList;
 
@@ -11,8 +12,18 @@ public class submissionCollector { // stores all of the submissions in different
 
   LinkedList<CleaningsubmissionEntity> allCleaningSubmissions;
 
-  public LinkedList getCleaningSubmissions() {
+  LinkedList<SecuritysubmissionEntity> securitySubs;
+
+  public LinkedList<TransportationsubmissionEntity> getTransportationSubs() {
+    return transportationSubs;
+  }
+
+  public LinkedList<CleaningsubmissionEntity> getCleaningSubmissions() {
     return allCleaningSubmissions;
+  }
+
+  public LinkedList<SecuritysubmissionEntity> getSecuritySubs() {
+    return securitySubs;
   }
 
   /**

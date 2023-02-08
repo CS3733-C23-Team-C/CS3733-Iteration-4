@@ -1,19 +1,20 @@
-package edu.wpi.capybara;
+package edu.wpi.capybara.controllers;
 
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.util.NodeQueryUtils.hasText;
 import static org.testfx.util.NodeQueryUtils.isVisible;
 
+import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
-import edu.wpi.capybara.objects.hibernate.StaffEntity;
 import java.io.IOException;
+import java.util.function.Predicate;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
-public class ControllersTest extends ApplicationTest {
+public class TransportationAndCleaningTest extends ApplicationTest {
   @Override
   public void start(Stage stage) throws IOException {
     // manually instantiate an App and pass the test stage to its start function
@@ -21,12 +22,6 @@ public class ControllersTest extends ApplicationTest {
     DatabaseConnect.connect();
     DatabaseConnect.importData();
     new App().start(stage);
-    StaffEntity user = new StaffEntity();
-    user.setStaffid("3000");
-    user.setFirstname("Joe");
-    user.setLastname("Mama");
-    user.setPassword("HeHeHeHa");
-    App.setUser(user);
   }
 
   @Test
@@ -46,6 +41,8 @@ public class ControllersTest extends ApplicationTest {
     clickOn("#reasonField");
     type(KeyCode.N);
     type(KeyCode.O);
+    Predicate<Node> isEnabled = node -> !node.isDisable();
+    verifyThat("#submitButton", isEnabled);
     // clickOn("#submitButton");
     // verifyThat("reasonField", hasText(""));
     clickOn("#backButton");
