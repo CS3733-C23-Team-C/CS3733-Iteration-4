@@ -18,6 +18,13 @@ public class EdgeEntity {
   @Column(name = "node2")
   private String node2;
 
+  public EdgeEntity() {}
+
+  public EdgeEntity(String node1, String node2) {
+    this.node1 = node1;
+    this.node2 = node2;
+  }
+
   public String getNode1() {
     return node1;
   }
@@ -55,6 +62,10 @@ public class EdgeEntity {
     if (o == null || getClass() != o.getClass()) return false;
     EdgeEntity that = (EdgeEntity) o;
     return Objects.equals(node1, that.node1) && Objects.equals(node2, that.node2);
+  }
+
+  public String toString() {
+    return node1 + " | " + node2;
   }
 
   @Override
