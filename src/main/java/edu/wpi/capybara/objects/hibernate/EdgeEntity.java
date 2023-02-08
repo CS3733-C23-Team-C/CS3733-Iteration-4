@@ -76,9 +76,9 @@ public class EdgeEntity {
   public void delete() {
     Session session = DatabaseConnect.getSession();
     Transaction tx = session.beginTransaction();
-    DatabaseConnect.getEdges().remove(this);
     session.remove(this);
     tx.commit();
     session.close();
+    DatabaseConnect.importEdges();
   }
 }

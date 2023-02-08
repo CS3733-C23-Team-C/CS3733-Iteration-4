@@ -252,10 +252,10 @@ public class DatabaseConnect {
     return ret;
   }
 
-  //  public static void deleteNode(String nodeID) {
+  //  public static void deleteNode(int nodeID) {
   //    nodes.remove(nodeID);
   //  }
-  //
+
   //  public static void deleteEdge(String edgeID) {
   //    edges.remove(edgeID);
   //  }

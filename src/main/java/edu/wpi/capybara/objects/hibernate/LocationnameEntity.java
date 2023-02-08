@@ -71,10 +71,10 @@ public class LocationnameEntity {
   public void delete() {
     Session session = DatabaseConnect.getSession();
     Transaction tx = session.beginTransaction();
-    DatabaseConnect.getMoves().remove(this.hashCode());
     session.remove(this);
     tx.commit();
     session.close();
+    DatabaseConnect.importLocations();
   }
 
   @Override

@@ -161,6 +161,8 @@ public class NodeEntity {
     session.remove(this);
     tx.commit();
     session.close();
+
+    DatabaseConnect.importData();
   }
 
   public String toString() {
