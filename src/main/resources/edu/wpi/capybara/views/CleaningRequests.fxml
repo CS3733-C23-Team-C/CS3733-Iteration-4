@@ -1,44 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import io.github.palexdev.materialfx.controls.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.CleaningRequestController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.CleaningRequestController">
    <children>
       <BorderPane prefHeight="400.0" prefWidth="600.0">
          <top>
-            <Pane prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #252526;" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #252526;" BorderPane.alignment="CENTER">
                <children>
-                  <MFXButton fx:id="back" mnemonicParsing="false" onAction="#back" text="1" textFill="#fffbfb">
-                     <graphic>
-                        <ImageView fitHeight="26.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../images/back_button.png" />
-                           </image></ImageView>
-                     </graphic>
-                     <font>
-                        <Font size="1.0" />
-                     </font></MFXButton>
-                  <Text fill="WHITE" layoutX="233.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Requests">
+                  <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <MFXButton fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="36.0" prefWidth="54.4" text="1" textFill="#fffbfb">
+                           <graphic>
+                              <ImageView fitHeight="28.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../images/back_button.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <font>
+                              <Font size="1.0" />
+                           </font>
+                        </MFXButton>
+                     </children>
+                  </HBox>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Requests">
                      <font>
                         <Font name="Segoe UI Black" size="30.0" />
                      </font>
                   </Text>
-               </children></Pane>
+                  <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+               </children>
+            </HBox>
          </top>
          <center>
-            <TableView fx:id="allRequests" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-              <columns>
-                <TableColumn fx:id="memberIDNeeded" prefWidth="133.33333337306976" text="Employee ID" />
-                <TableColumn fx:id="locationCleanup" prefWidth="116.0" text="Location" />
-                  <TableColumn fx:id="hazardLevel" prefWidth="100.0" text="Hazard Level" />
-                  <TableColumn fx:id="description" prefWidth="157.3333740234375" text="Description" />
-                  <TableColumn fx:id="status" prefWidth="89.3333740234375" text="Status" />
-              </columns>
-            </TableView>
+            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select Request Type:" />
+                        <MFXComboBox fx:id="requestType" floatMode="ABOVE" onAction="#updateTable">
+                           <HBox.margin>
+                              <Insets left="25.0" />
+                           </HBox.margin>
+                        </MFXComboBox>
+                     </children>
+                  </HBox>
+                  <TableView fx:id="allRequests" prefHeight="200.0" prefWidth="200.0">
+                    <columns>
+                      <TableColumn fx:id="staffID" prefWidth="133.33333337306976" text="Staff ID" visible="false" />
+                      <TableColumn fx:id="location" prefWidth="116.0" text="Location" visible="false" />
+                        <TableColumn fx:id="destination" prefWidth="75.0" text="Destination" visible="false" />
+                        <TableColumn fx:id="type" prefWidth="75.0" text="Type" visible="false" />
+                        <TableColumn fx:id="hazardLevel" prefWidth="100.0" text="Hazard Level" visible="false" />
+                        <TableColumn fx:id="description" prefWidth="157.3333740234375" text="Description" visible="false" />
+                        <TableColumn fx:id="status" prefWidth="89.3333740234375" text="Status" visible="false" />
+                    </columns>
+                  </TableView>
+               </children>
+            </VBox>
          </center>
       </BorderPane>
    </children>
