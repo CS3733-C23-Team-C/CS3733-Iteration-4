@@ -13,6 +13,7 @@ public class RootController {
 
   @FXML private MenuItem exitButtonM;
   @FXML private static MenuBar rightMenu;
+  @FXML private MenuItem logOut;
   @FXML private static Menu userProfile;
 
   @FXML
@@ -54,5 +55,9 @@ public class RootController {
     // rightMenu.setVisible(true);
     if (userProfile != null) userProfile.setText("Hello " + App.getUser().getFirstname() + " !");
     else System.out.println("why");
+  }
+
+  public void logOut(){
+
   }
 }
