@@ -19,6 +19,7 @@ public class PathfindingControllerTest extends ApplicationTest {
 
   public void start(Stage stage) throws IOException {
     DatabaseConnect.connect();
+    DatabaseConnect.importData();
     new App().start(stage);
   }
 
