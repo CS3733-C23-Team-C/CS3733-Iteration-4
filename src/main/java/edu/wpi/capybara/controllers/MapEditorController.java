@@ -1,6 +1,9 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.controllers.mapeditor.*;
+import edu.wpi.capybara.controllers.mapeditor.dialogs.AddLocationNameDialog;
+import edu.wpi.capybara.controllers.mapeditor.dialogs.AddNodeDialog;
+import edu.wpi.capybara.controllers.mapeditor.dialogs.ReplaceNodeDialog;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
@@ -10,9 +13,13 @@ import java.util.function.Function;
 import javafx.beans.property.Property;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.Pane;
 import javafx.util.StringConverter;
 import javafx.util.converter.DefaultStringConverter;
 import javafx.util.converter.NumberStringConverter;
@@ -27,13 +34,28 @@ public class MapEditorController {
   @FXML private TableView<MovePropertyAdapter> moveTableView;
   @FXML private MFXButton back;
 
+  @FXML private Pane mapViewerPane;
+  @FXML private Canvas mapViewerCanvas;
+
+  // this, ideally, would be its own controller initialized by FXML. however, talking to controllers
+  // managed by FXML
+  // is a bit awkward, so I'm using composition as a workaround here.
+  private MapViewerController mapViewerController;
+
+  private DBObjectRepository repository;
+
   @FXML
   public void initialize() {
+    repository = new DBObjectRepository();
+
     initializeNodeTable();
     initializeEdgeTable();
     initializeLocationNameTable();
     initializeMoveTable();
-    refreshData();
+    // refreshData();
+
+    mapViewerController =
+        new MapViewerController(mapViewerPane, mapViewerCanvas, repository.nodesProperty());
   }
 
   private void initializeNodeTable() {
@@ -51,11 +73,38 @@ public class MapEditorController {
         createTableColumn(
             "Building", NodePropertyAdapter::buildingProperty, new DefaultStringConverter());
 
+    nodeIDColumn.setEditable(false);
+    xCoordColumn.setEditable(false);
+    yCoordColumn.setEditable(false);
+
     //noinspection unchecked
     nodeTableView
         .getColumns()
         .setAll(nodeIDColumn, xCoordColumn, yCoordColumn, floorColumn, buildingColumn);
     nodeTableView.setEditable(true);
+
+    nodeTableView.setItems(repository.getNodes());
+    nodeTableView.itemsProperty().bind(repository.nodesProperty());
+
+    final var deleteItem = new MenuItem("Delete");
+    deleteItem.setOnAction(
+        event ->
+            repository.getNodes().removeAll(nodeTableView.getSelectionModel().getSelectedItems()));
+    final var addItem = new MenuItem("New");
+    addItem.setOnAction(
+        event -> {
+          new AddNodeDialog(nodeTableView.getScene().getWindow(), repository).showAndWait();
+        });
+    final var replaceItem = new MenuItem("Modify");
+    replaceItem.setOnAction(
+        event ->
+            new ReplaceNodeDialog(
+                    nodeTableView.getScene().getWindow(),
+                    repository,
+                    nodeTableView.getSelectionModel().getSelectedItem())
+                .showAndWait());
+    final var menu = new ContextMenu(addItem, replaceItem, deleteItem);
+    nodeTableView.setContextMenu(menu);
   }
 
   private void initializeEdgeTable() {
@@ -69,6 +118,9 @@ public class MapEditorController {
     //noinspection unchecked
     edgeTableView.getColumns().setAll(startNodeColumn, endNodeColumn);
     edgeTableView.setEditable(true);
+
+    edgeTableView.setItems(repository.getEdges());
+    edgeTableView.itemsProperty().bindBidirectional(repository.edgesProperty());
   }
 
   private void initializeLocationNameTable() {
@@ -91,6 +143,23 @@ public class MapEditorController {
     //noinspection unchecked
     locationNameTableView.getColumns().setAll(longNameColumn, shortNameColumn, locationTypeColumn);
     locationNameTableView.setEditable(true);
+
+    locationNameTableView.setItems(repository.getLocationNames());
+    locationNameTableView.itemsProperty().bindBidirectional(repository.locationNamesProperty());
+
+    final var deleteItem = new MenuItem("Delete");
+    deleteItem.setOnAction(
+        event ->
+            repository
+                .getLocationNames()
+                .removeAll(locationNameTableView.getSelectionModel().getSelectedItems()));
+    final var addItem = new MenuItem("New");
+    addItem.setOnAction(
+        event ->
+            new AddLocationNameDialog(locationNameTableView.getScene().getWindow(), repository)
+                .showAndWait());
+    final var menu = new ContextMenu(addItem, deleteItem);
+    locationNameTableView.setContextMenu(menu);
   }
 
   private void initializeMoveTable() {
@@ -107,6 +176,9 @@ public class MapEditorController {
     //noinspection unchecked
     moveTableView.getColumns().setAll(nodeIDColumn, longNameColumn, moveDateColumn);
     moveTableView.setEditable(true);
+
+    moveTableView.setItems(repository.getMoves());
+    moveTableView.itemsProperty().bindBidirectional(repository.movesProperty());
   }
 
   private void refreshData() {

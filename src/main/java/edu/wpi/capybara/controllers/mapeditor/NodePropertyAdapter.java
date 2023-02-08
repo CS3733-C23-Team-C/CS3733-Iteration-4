@@ -18,12 +18,13 @@ public class NodePropertyAdapter {
   private static final JavaBeanStringPropertyBuilder buildingBuilder =
       JavaBeanStringPropertyBuilder.create().name("building");
 
+  private final NodeEntity entity;
+
   private final JavaBeanStringProperty nodeID;
   private final JavaBeanIntegerProperty xCoord;
   private final JavaBeanIntegerProperty yCoord;
   private final JavaBeanStringProperty floor;
   private final JavaBeanStringProperty building;
-
   /**
    * Constructs a new NodePropertyAdapter, for use with JavaFX Property APIs.
    *
@@ -32,6 +33,7 @@ public class NodePropertyAdapter {
   // TODO: 1/31/23 implement said unit test
   // STOPSHIP: 1/31/23 see above to-do
   public NodePropertyAdapter(NodeEntity node) {
+    entity = node;
     try {
       nodeID = nodeIDBuilder.bean(node).build();
       xCoord = xCoordBuilder.bean(node).build();
@@ -51,23 +53,67 @@ public class NodePropertyAdapter {
   // unfortunately, lombok doesn't seem to support the JavaFX Property conventions. thankfully,
   // IntelliJ does. all of these can be auto-generated.
 
+  public String getNodeID() {
+    return nodeID.get();
+  }
+
+  public void setNodeID(String nodeID) {
+    this.nodeID.set(nodeID);
+  }
+
   public JavaBeanStringProperty nodeIDProperty() {
     return nodeID;
+  }
+
+  public int getXCoord() {
+    return xCoord.get();
+  }
+
+  public void setXCoord(int xCoord) {
+    this.xCoord.set(xCoord);
   }
 
   public JavaBeanIntegerProperty xCoordProperty() {
     return xCoord;
   }
 
+  public int getYCoord() {
+    return yCoord.get();
+  }
+
+  public void setYCoord(int yCoord) {
+    this.yCoord.set(yCoord);
+  }
+
   public JavaBeanIntegerProperty yCoordProperty() {
     return yCoord;
+  }
+
+  public String getFloor() {
+    return floor.get();
+  }
+
+  public void setFloor(String floor) {
+    this.floor.set(floor);
   }
 
   public JavaBeanStringProperty floorProperty() {
     return floor;
   }
 
+  public String getBuilding() {
+    return building.get();
+  }
+
+  public void setBuilding(String building) {
+    this.building.set(building);
+  }
+
   public JavaBeanStringProperty buildingProperty() {
     return building;
+  }
+
+  public NodeEntity getEntity() {
+    return entity;
   }
 }

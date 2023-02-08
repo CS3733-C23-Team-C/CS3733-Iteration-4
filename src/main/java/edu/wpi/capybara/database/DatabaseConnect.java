@@ -2,11 +2,14 @@ package edu.wpi.capybara.database;
 
 import edu.wpi.capybara.objects.hibernate.*;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
+import jakarta.persistence.PersistenceException;
 import java.sql.*;
 import java.util.*;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 
+@Slf4j(topic = "DatabaseConnect")
 public class DatabaseConnect {
   // static Connection connection;
   static SessionFactory factory;
@@ -302,6 +305,39 @@ public class DatabaseConnect {
     //
     //    importData();
 
+  }
+
+  public static void insertNode(NodeEntity node) {
+    insert(node);
+    nodes.put(node.hashCode(), node);
+  }
+
+  public static void insertEdge(EdgeEntity edge) {
+    insert(edge);
+    edges.put(edge.hashCode(), edge);
+  }
+
+  public static void insertMove(MoveEntity move) {
+    insert(move);
+    moves.put(move.hashCode(), move);
+  }
+
+  public static void insertLocationName(LocationnameEntity locationName) {
+    insert(locationName);
+    locationNames.put(locationName.hashCode(), locationName);
+  }
+
+  private static <T> void insert(T entity) {
+    try (final var session = factory.openSession()) {
+      final var tx = session.beginTransaction();
+      try {
+        session.persist(entity);
+        tx.commit();
+      } catch (PersistenceException e) {
+        tx.rollback();
+        log.error("Unable to insert entity of type " + entity.getClass().getName(), e);
+      }
+    }
   }
 
   public static void insertCleaning(
