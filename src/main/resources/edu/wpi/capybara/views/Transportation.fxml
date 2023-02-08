@@ -56,14 +56,12 @@
          <right>
             <VBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefHeight="387.0" prefWidth="187.0" spacing="5.0" BorderPane.alignment="CENTER">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" wrappingWidth="45.123046875" VBox.vgrow="ALWAYS" />
-                  <MFXComboBox fx:id="Location" alignment="CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="1.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="1.7976931348623157E308" measureUnitGap="1.0" prefHeight="20.0" prefWidth="129.0" scrollOnOpen="true" VBox.vgrow="ALWAYS" />
                   <MFXComboBox fx:id="dropDown" alignment="CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="1.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="1.7976931348623157E308" measureUnitGap="1.0" onAction="#updateMap" prefHeight="20.0" prefWidth="129.0" promptText="Select Floor Level" scrollOnOpen="true" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin></MFXComboBox>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Room Number" VBox.vgrow="ALWAYS" />
-                  <MFXTextField fx:id="currRoom" alignment="TOP_CENTER" borderGap="0.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="1.7976931348623157E308" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="29.0" prefWidth="147.0" VBox.vgrow="ALWAYS" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Location" wrappingWidth="45.123046875" VBox.vgrow="ALWAYS" />
+                  <MFXComboBox fx:id="Location" alignment="CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="1.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="1.7976931348623157E308" measureUnitGap="1.0" prefHeight="20.0" prefWidth="129.0" scrollOnOpen="true" VBox.vgrow="ALWAYS" />
                   <Text fx:id="DestinationRoomNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="Destination Room Number" VBox.vgrow="ALWAYS" />
                   <MFXTextField fx:id="destRoom" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="1.7976931348623157E308" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="18.0" prefWidth="124.0" VBox.vgrow="ALWAYS" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Reason for Move" VBox.vgrow="ALWAYS" />

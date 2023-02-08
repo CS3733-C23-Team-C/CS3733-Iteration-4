@@ -117,6 +117,8 @@ public class TransportationsubmissionEntityPK implements Serializable {
     this.status = status;
   }
 
+  public TransportationsubmissionEntityPK() {}
+
   @Override
   public int hashCode() {
     return Objects.hash(employeeid, currroomnum, destroomnum, reason, status);

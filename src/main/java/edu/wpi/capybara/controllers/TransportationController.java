@@ -33,7 +33,6 @@ public class TransportationController {
   @FXML private MFXButton backButton;
   @FXML private MFXButton submitButton;
   @FXML private MFXButton clearButton;
-  @FXML MFXTextField currRoom;
   @FXML private MFXTextField destRoom;
   @FXML private MFXTextField reasonField;
   @FXML private MFXComboBox<String> Location;
@@ -96,7 +95,7 @@ public class TransportationController {
   public void submitForm(ActionEvent actionEvent)
       throws IOException { // when submit button is pressed, collects text fields
     String outputCurrRoom =
-        currRoom.getText(); // then creates an object to store them, clears fields
+        Location.getValue(); // then creates an object to store them, clears fields
     String outputDestRoom = destRoom.getText();
     String outputReason = reasonField.getText();
     // System.out.println("Current Room: " + outputCurrRoom + " Destination Room: " +
@@ -106,7 +105,7 @@ public class TransportationController {
             App.getUser().getStaffid(),
             outputCurrRoom,
             outputDestRoom,
-            outputDestRoom,
+            outputReason,
             submissionStatus.BLANK);
     //    newSubmission.setCurrroomnum(outputCurrRoom);
     //    newSubmission.setDestroomnum(outputDestRoom);
@@ -119,7 +118,6 @@ public class TransportationController {
   public void clearFields() { // clears fields of text
     dropDown.getSelectionModel().selectFirst();
     Location.getSelectionModel().selectFirst();
-    currRoom.setText("");
     destRoom.setText("");
     reasonField.setText("");
     submitButton.setDisable(true);
@@ -128,7 +126,7 @@ public class TransportationController {
   public void
       validateButton() { // ensures that information has been filled in before allowing submission
     boolean valid = false;
-    if (!currRoom.getText().equals("")
+    if (!Location.getValue().equals("")
         && !destRoom.getText().equals("")
         && !reasonField.getText().equals("")) valid = true;
     submitButton.setDisable(!valid);
