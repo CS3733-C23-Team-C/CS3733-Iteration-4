@@ -54,7 +54,9 @@ public class TransportationAndCleaningTest extends ApplicationTest {
     clickOn("#Location");
     clickOn("#hazardLevel");
     type(KeyCode.DIGIT4);
-    verifyThat("#SubmitButton", isVisible());
+    clickOn("#Description");
+    type(KeyCode.O, KeyCode.W);
+    verifyThat("#SubmitButton", isEnabled);
     clickOn("#ClearButton");
     verifyThat("#hazardLevel", hasText(""));
   }
