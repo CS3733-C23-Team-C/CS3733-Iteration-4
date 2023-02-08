@@ -121,7 +121,8 @@ public class UserProfileController {
     passwordSave.setDisable(true);
     successPassword.setVisible(true);
   }
-  public void logOut(){
+
+  public void logOut() {
     currFirstName = "";
     currLastName = "";
     currPassword = "";
