@@ -49,7 +49,7 @@ public class App extends Application {
     primaryStage.setScene(scene);
     primaryStage.show();
 
-    Navigation.navigate(Screen.HOME);
+    Navigation.navigate(Screen.LOG_IN_PAGE);
     RootController.updateUser();
   }
 

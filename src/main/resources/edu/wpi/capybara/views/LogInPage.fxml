@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane fx:controller="edu.wpi.capybara.controllers.LogInPageController" fx:id="LoginStackPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../styles/logInPage_style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <BorderPane fx:id="loginPane" prefHeight="200.0" prefWidth="200.0" styleClass="body" stylesheets="@../styles/home_style.css">
+            <center>
+                <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <HBox alignment="CENTER" prefHeight="75.0" prefWidth="600.0">
+                            <children>
+                                <Text fill="#001b3c" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Brigham and Women's Hispital" textAlignment="CENTER" underline="true" wrappingWidth="423.568359375">
+                                    <font>
+                                        <Font size="20.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                            <VBox.margin>
+                                <Insets bottom="1.0" />
+                            </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT" prefHeight="299.0" prefWidth="540.0">
+                            <children>
+                                <AnchorPane opacity="0.8" prefHeight="315.0" prefWidth="203.0" style="-fx-background-color: #a9cbde; -fx-blend-mode: 5;">
+                                    <children>
+                                        <TextField fx:id="employeeID" layoutX="26.0" layoutY="63.0" text="Employee ID" />
+                                        <TextField fx:id="password" layoutX="27.0" layoutY="186.0" text="Password" />
+                                        <TextField fx:id="username" layoutX="27.0" layoutY="139.0" text="Last Name" />
+                                        <MFXButton fx:id="clear" layoutX="14.0" layoutY="225.0" text="Clear" />
+                                        <MFXButton fx:id="submit" layoutX="134.0" layoutY="225.0" onAction="#returnHome" rippleColor="#48b244" style="-fx-background-color: green;" text="Submit" />
+                                        <Text layoutX="74.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login">
+                                            <font>
+                                                <Font size="20.0" />
+                                            </font></Text>
+                                        <Text layoutX="99.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="or" />
+                                        <MFXButton fx:id="map" layoutX="9.0" layoutY="260.0" prefHeight="25.0" prefWidth="188.0" style="-fx-background-color: #f3ff73;" text="Map" />
+                                    </children>
+                                </AnchorPane>
+                                <VBox prefHeight="299.0" prefWidth="12.0" />
+                            </children>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                        </HBox>
+                    </children>
+                </VBox>
+            </center>
+        </BorderPane>
+    </children>
+</StackPane>
