@@ -33,6 +33,15 @@ public class AllObjectsTest {
   }
 
   @Test
+  public void edgeTestPK() {
+
+    EdgeEntityPK ee = new EdgeEntityPK("5788", "6788");
+
+    assertEquals(ee.getNode1(), "5788");
+    assertEquals(ee.getNode2(), "6788");
+  }
+
+  @Test
   public void locationNameTest() {
     LocationnameEntity ln = new LocationnameEntity("test location", "tl", "office");
 
@@ -51,12 +60,36 @@ public class AllObjectsTest {
     assertEquals(move.getMovedate(), new Date(100000000));
   }
 
+  @Test
+  public void moveTestPK() {
+
+    MoveEntityPK move = new MoveEntityPK("11", "test location", new Date(100000000));
+
+    assertEquals(move.getNodeid(), "11");
+    assertEquals(move.getLongname(), "test location");
+    assertEquals(move.getMovedate(), new Date(100000000));
+  }
+
   // needs to launch app to
   @Test
   public void cleaningSubmissionTest() {
 
     CleaningsubmissionEntity cs =
         new CleaningsubmissionEntity(
+            "4566", "office 67", "big", "i spilt concentrated hcl oopsie", submissionStatus.BLANK);
+
+    assertEquals(cs.getMemberid(), "4566");
+    assertEquals(cs.getLocation(), "office 67");
+    assertEquals(cs.getHazardlevel(), "big");
+    assertEquals(cs.getDescription(), "i spilt concentrated hcl oopsie");
+    assertEquals(cs.getSubmissionstatus(), submissionStatus.BLANK);
+  }
+
+  @Test
+  public void cleaningSubmissionTestPK() {
+
+    CleaningsubmissionEntityPK cs =
+        new CleaningsubmissionEntityPK(
             "4566", "office 67", "big", "i spilt concentrated hcl oopsie", submissionStatus.BLANK);
 
     assertEquals(cs.getMemberid(), "4566");
@@ -80,6 +113,19 @@ public class AllObjectsTest {
   }
 
   @Test
+  public void transportationSubmissionTestPK() {
+    TransportationsubmissionEntityPK ts =
+        new TransportationsubmissionEntityPK(
+            "1738", "Exam room", "ICU", "dropped my phone during surgery", submissionStatus.BLANK);
+
+    assertEquals(ts.getEmployeeid(), "1738");
+    assertEquals(ts.getCurrroomnum(), "Exam room");
+    assertEquals(ts.getDestroomnum(), "ICU");
+    assertEquals(ts.getReason(), "dropped my phone during surgery");
+    assertEquals(ts.getStatus(), submissionStatus.BLANK);
+  }
+
+  @Test
   public void staffTest() {
     StaffEntity user = new StaffEntity("5555", "Benjamin", "Dover", "password");
 
@@ -92,6 +138,17 @@ public class AllObjectsTest {
   @Test
   public void securityTest() {
     SecuritysubmissionEntity sc = new SecuritysubmissionEntity("111", "Kaven", "Good", "No report");
+
+    assertEquals(sc.getEmployeeid(), "111");
+    assertEquals(sc.getLocation(), "Kaven");
+    assertEquals(sc.getType(), "Good");
+    assertEquals(sc.getNotesupdate(), "No report");
+  }
+
+  @Test
+  public void securityPKTest() {
+    SecuritysubmissionEntityPK sc =
+        new SecuritysubmissionEntityPK("111", "Kaven", "Good", "No report");
 
     assertEquals(sc.getEmployeeid(), "111");
     assertEquals(sc.getLocation(), "Kaven");

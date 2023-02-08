@@ -88,6 +88,14 @@ public class SecuritysubmissionEntityPK implements Serializable {
         && Objects.equals(type, that.type);
   }
 
+  public SecuritysubmissionEntityPK(
+      String employeeid, String location, String type, String notesupdate) {
+    this.employeeid = employeeid;
+    this.location = location;
+    this.type = type;
+    this.notesupdate = notesupdate;
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(employeeid, location, location, type);
