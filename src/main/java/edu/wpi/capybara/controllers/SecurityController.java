@@ -107,7 +107,7 @@ public class SecurityController {
     SecuritysubmissionEntity addSubmission =
         new SecuritysubmissionEntity(
             App.getUser().getStaffid(), outputLocation, outputType, outputNotes);
-
+    App.getTotalSubmissions().newSecuritySubmission(addSubmission);
     clearFields();
   }
 
