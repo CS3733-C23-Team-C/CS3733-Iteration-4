@@ -19,7 +19,7 @@
    <children>
       <BorderPane prefHeight="400.0" prefWidth="600.0">
          <top>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-background-color: #252526;" BorderPane.alignment="CENTER">
+            <HBox alignment="CENTER" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #252526;" BorderPane.alignment="CENTER">
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                      <children>
@@ -47,7 +47,7 @@
             </HBox>
          </top>
          <center>
-            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <VBox prefHeight="500.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
                   <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0">
                      <children>
@@ -61,7 +61,7 @@
                   </HBox>
                   <StackPane prefHeight="150.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="cleanRequests1" prefHeight="200.0" prefWidth="200.0" visible="false">
+                        <TableView fx:id="transportationRequests" prefHeight="200.0" prefWidth="200.0" visible="false">
                            <columns>
                               <TableColumn fx:id="transportationID" prefWidth="103.20001220703125" text="Staff ID" />
                               <TableColumn fx:id="transportationLocation" prefWidth="107.20001220703125" text="Location" />
@@ -75,17 +75,17 @@
                             <TableColumn fx:id="cleanID" prefWidth="103.20001220703125" text="Staff ID" />
                             <TableColumn fx:id="cleanLocation" prefWidth="107.20001220703125" text="Location" />
                               <TableColumn fx:id="hazardLevel" prefWidth="140.0" text="Hazard Level" />
-                              <TableColumn fx:id="description" prefWidth="157.3333740234375" text="Description" />
+                              <TableColumn fx:id="cleanDescription" prefWidth="157.3333740234375" text="Description" />
                               <TableColumn fx:id="cleanStatus" prefWidth="89.3333740234375" text="Status" />
                           </columns>
                         </TableView>
-                        <TableView fx:id="cleanRequests2" prefHeight="164.0" prefWidth="600.0">
+                        <TableView fx:id="securityRequests" prefHeight="200.0" prefWidth="600.0">
                            <columns>
                               <TableColumn fx:id="securityID" prefWidth="103.20001220703125" text="Staff ID" />
                               <TableColumn fx:id="securityLocation" prefWidth="107.20001220703125" text="Location" />
                               <TableColumn fx:id="type" prefWidth="140.0" text="Type" />
                               <TableColumn fx:id="securityDescription" prefWidth="157.3333740234375" text="Description" />
-                              <TableColumn fx:id="cleanStatus1" prefWidth="89.3333740234375" text="Status" />
+                              <TableColumn fx:id="securityStatus" prefWidth="89.3333740234375" text="Status" />
                            </columns>
                         </TableView>
                      </children>

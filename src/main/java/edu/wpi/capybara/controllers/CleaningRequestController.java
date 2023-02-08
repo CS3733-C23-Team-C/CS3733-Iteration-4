@@ -19,21 +19,33 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class CleaningRequestController {
 
-  @FXML TableView allRequests;
+  @FXML TableView<CleaningsubmissionEntity> cleanRequests;
+  @FXML TableView<TransportationsubmissionEntity> transportationRequests;
+  @FXML TableView<SecuritysubmissionEntity> securityRequests;
 
-  @FXML TableColumn staffID;
-  @FXML TableColumn hazardLevel;
-  @FXML TableColumn description;
-  @FXML TableColumn location;
-  @FXML TableColumn status;
-  @FXML TableColumn destination;
-  @FXML TableColumn type;
+  @FXML TableColumn<CleaningsubmissionEntity, String> cleanID;
+  @FXML TableColumn<TransportationsubmissionEntity, String> transportationID;
+  @FXML TableColumn<SecuritysubmissionEntity, String> securityID;
+  @FXML TableColumn<CleaningsubmissionEntity, String> hazardLevel;
+  @FXML TableColumn<CleaningsubmissionEntity, String> cleanDescription;
+  @FXML TableColumn<TransportationsubmissionEntity, String> reason;
+  @FXML TableColumn<SecuritysubmissionEntity, String> securityDescription;
+  @FXML TableColumn<CleaningsubmissionEntity, String> cleanLocation;
+  @FXML TableColumn<TransportationsubmissionEntity, String> transportationLocation;
+  @FXML TableColumn<SecuritysubmissionEntity, String> securityLocation;
+  @FXML TableColumn<CleaningsubmissionEntity, String> cleanStatus;
+  @FXML TableColumn<TransportationsubmissionEntity, String> transportationStatus;
+  @FXML TableColumn<SecuritysubmissionEntity, String> securityStatus;
+  @FXML TableColumn<TransportationsubmissionEntity, String> destination;
+  @FXML TableColumn<SecuritysubmissionEntity, String> type;
   @FXML MFXComboBox<String> requestType;
 
-  ObservableList<CleaningsubmissionEntity> cleaningRequests = FXCollections.observableArrayList();
-  ObservableList<TransportationsubmissionEntity> transportationRequests =
+  ObservableList<CleaningsubmissionEntity> cleaningRequestsList =
       FXCollections.observableArrayList();
-  ObservableList<SecuritysubmissionEntity> securityRequests = FXCollections.observableArrayList();
+  ObservableList<TransportationsubmissionEntity> transportationRequestsList =
+      FXCollections.observableArrayList();
+  ObservableList<SecuritysubmissionEntity> securityRequestsList =
+      FXCollections.observableArrayList();
   private ObservableList<String> options = FXCollections.observableArrayList();
 
   /** When it switches to page, gets data from submission collector and creates tables */
@@ -46,94 +58,66 @@ public class CleaningRequestController {
     LinkedList<TransportationsubmissionEntity> transportationdata =
         App.getTotalSubmissions().getTransportationSubs();
     LinkedList<SecuritysubmissionEntity> securitydata = App.getTotalSubmissions().getSecuritySubs();
+
+    cleanID.setCellValueFactory(
+        new PropertyValueFactory<CleaningsubmissionEntity, String>("memberid"));
+    hazardLevel.setCellValueFactory(
+        new PropertyValueFactory<CleaningsubmissionEntity, String>("hazardlevel"));
+    cleanLocation.setCellValueFactory(
+        new PropertyValueFactory<CleaningsubmissionEntity, String>("location"));
+    cleanStatus.setCellValueFactory(
+        new PropertyValueFactory<CleaningsubmissionEntity, String>("description"));
+    cleanDescription.setCellValueFactory(
+        new PropertyValueFactory<CleaningsubmissionEntity, String>("submissionstatus"));
     for (CleaningsubmissionEntity sub : cleaningdata) {
-      cleaningRequests.add(sub);
+      cleaningRequestsList.add(sub);
     }
-    allRequests.setItems(cleaningRequests);
+    cleanRequests.setItems(cleaningRequestsList);
+
+    transportationID.setCellValueFactory(
+        new PropertyValueFactory<TransportationsubmissionEntity, String>("employeeid"));
+    transportationLocation.setCellValueFactory(
+        new PropertyValueFactory<TransportationsubmissionEntity, String>("currroomnum"));
+    destination.setCellValueFactory(
+        new PropertyValueFactory<TransportationsubmissionEntity, String>("destroomnum"));
+    reason.setCellValueFactory(
+        new PropertyValueFactory<TransportationsubmissionEntity, String>("reason"));
+    transportationStatus.setCellValueFactory(
+        new PropertyValueFactory<TransportationsubmissionEntity, String>("status"));
     for (TransportationsubmissionEntity sub : transportationdata) {
-      transportationRequests.add(sub);
+      transportationRequestsList.add(sub);
     }
-    allRequests.setItems(transportationRequests);
+    transportationRequests.setItems(transportationRequestsList);
+
+    securityID.setCellValueFactory(
+        new PropertyValueFactory<SecuritysubmissionEntity, String>("employeeid"));
+    securityLocation.setCellValueFactory(
+        new PropertyValueFactory<SecuritysubmissionEntity, String>("location"));
+    securityDescription.setCellValueFactory(
+        new PropertyValueFactory<SecuritysubmissionEntity, String>("notesupdate"));
+    type.setCellValueFactory(new PropertyValueFactory<SecuritysubmissionEntity, String>("type"));
+    securityStatus.setCellValueFactory(
+        new PropertyValueFactory<SecuritysubmissionEntity, String>("submissionstatus"));
     for (SecuritysubmissionEntity sub : securitydata) {
-      securityRequests.add(sub);
+      securityRequestsList.add(sub);
     }
+    securityRequests.setItems(securityRequestsList);
+    transportationRequests.setVisible(false);
+    securityRequests.setVisible(false);
+    cleanRequests.setVisible(false);
   }
 
   public void updateTable() {
-    staffID.setVisible(false);
-    location.setVisible(false);
-    destination.setVisible(false);
-    type.setVisible(false);
-    hazardLevel.setVisible(false);
-    description.setVisible(false);
-    status.setVisible(false);
     String selection = requestType.getValue();
+    transportationRequests.setVisible(false);
+    securityRequests.setVisible(false);
+    cleanRequests.setVisible(false);
     if (selection.equals("Transportation")) {
-      allRequests = new TableView<TransportationsubmissionEntity>();
-      staffID = new TableColumn<TransportationsubmissionEntity, String>();
-      location = new TableColumn<TransportationsubmissionEntity, String>();
-      destination = new TableColumn<TransportationsubmissionEntity, String>();
-      status = new TableColumn<TransportationsubmissionEntity, String>();
-      staffID.setCellValueFactory(
-          new PropertyValueFactory<TransportationsubmissionEntity, String>("employeeid"));
-      location.setCellValueFactory(
-          new PropertyValueFactory<TransportationsubmissionEntity, String>("currroomnum"));
-      destination.setCellValueFactory(
-          new PropertyValueFactory<TransportationsubmissionEntity, String>("destroomnum"));
-      description.setCellValueFactory(
-              new PropertyValueFactory<TransportationsubmissionEntity, String>("reason"));
-      status.setCellValueFactory(
-          new PropertyValueFactory<TransportationsubmissionEntity, String>("submissionstatus"));
-      staffID.setVisible(true);
-      location.setVisible(true);
-      destination.setVisible(true);
-      status.setVisible(true);
-      allRequests.setItems(transportationRequests);
+      transportationRequests.setVisible(true);
     } else if (selection.equals("Cleaning")) {
-      allRequests = new TableView<CleaningsubmissionEntity>();
-      staffID = new TableColumn<CleaningsubmissionEntity, String>();
-      location = new TableColumn<CleaningsubmissionEntity, String>();
-      hazardLevel = new TableColumn<CleaningsubmissionEntity, String>();
-      description = new TableColumn<CleaningsubmissionEntity, String>();
-      status = new TableColumn<TransportationsubmissionEntity, String>();
-      staffID.setCellValueFactory(
-          new PropertyValueFactory<CleaningsubmissionEntity, String>("memberid"));
-      hazardLevel.setCellValueFactory(
-          new PropertyValueFactory<CleaningsubmissionEntity, String>("hazardlevel"));
-      location.setCellValueFactory(
-          new PropertyValueFactory<CleaningsubmissionEntity, String>("location"));
-      description.setCellValueFactory(
-          new PropertyValueFactory<CleaningsubmissionEntity, String>("description"));
-      status.setCellValueFactory(
-          new PropertyValueFactory<CleaningsubmissionEntity, String>("submissionstatus"));
-      staffID.setVisible(true);
-      location.setVisible(true);
-      hazardLevel.setVisible(true);
-      description.setVisible(true);
-      status.setVisible(true);
-      allRequests.setItems(cleaningRequests);
+      cleanRequests.setVisible(true);
     } else if (selection.equals("Security")) {
-      staffID = new TableColumn<SecuritysubmissionEntity, String>();
-      location = new TableColumn<SecuritysubmissionEntity, String>();
-      destination = new TableColumn<SecuritysubmissionEntity, String>();
-      status = new TableColumn<SecuritysubmissionEntity, String>();
-      type = new TableColumn<SecuritysubmissionEntity, String>();
-      allRequests = new TableView<SecuritysubmissionEntity>();
-      staffID.setCellValueFactory(
-          new PropertyValueFactory<SecuritysubmissionEntity, String>("employeeid"));
-      location.setCellValueFactory(
-          new PropertyValueFactory<SecuritysubmissionEntity, String>("location"));
-      description.setCellValueFactory(
-          new PropertyValueFactory<SecuritysubmissionEntity, String>("notesupdate"));
-      type.setCellValueFactory(new PropertyValueFactory<SecuritysubmissionEntity, String>("type"));
-      status.setCellValueFactory(
-          new PropertyValueFactory<SecuritysubmissionEntity, String>("submissionstatus"));
-      staffID.setVisible(true);
-      location.setVisible(true);
-      description.setVisible(true);
-      status.setVisible(true);
-      type.setVisible(true);
-      allRequests.setItems(securityRequests);
+      securityRequests.setVisible(true);
     }
   }
 
