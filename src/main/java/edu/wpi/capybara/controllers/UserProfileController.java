@@ -100,6 +100,7 @@ public class UserProfileController {
     firstNameField.setDisable(true);
     firstNameSave.setDisable(true);
     successFirstName.setVisible(true);
+    firstNameEdit.setDisable(false);
   }
 
   public void saveLastName() {
@@ -110,6 +111,7 @@ public class UserProfileController {
     lastNameField.setDisable(true);
     lastNameSave.setDisable(true);
     successLastName.setVisible(true);
+    lastNameEdit.setDisable(false);
   }
 
   public void savePassword() {
@@ -120,6 +122,7 @@ public class UserProfileController {
     passwordField.setDisable(true);
     passwordSave.setDisable(true);
     successPassword.setVisible(true);
+    passwordEdit.setDisable(false);
   }
 
   public void logOut() {
