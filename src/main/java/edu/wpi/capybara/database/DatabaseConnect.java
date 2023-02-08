@@ -524,4 +524,21 @@ public class DatabaseConnect {
   //      System.out.println(e);
   //    }
   //  }
+
+  public static StaffEntity getStaff(String Staffid){
+    for(StaffEntity s : staff.values()){
+      if(s.getStaffid().equals(Staffid)){
+        return s;
+      }
+    }
+  }
+
+  public static StaffEntity getStaff(String fname, String lname){
+    for(StaffEntity s : staff.values()){
+      if(s.getFirstname().equals(fname) && s.getLastname().equals(lname)){
+        return s;
+      }
+    }
+    return null;
+  }
 }
