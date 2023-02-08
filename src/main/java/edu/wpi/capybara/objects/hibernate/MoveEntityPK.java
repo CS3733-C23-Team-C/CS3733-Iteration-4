@@ -1,13 +1,10 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.database.DatabaseConnect;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.Objects;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 public class MoveEntityPK implements Serializable {
   @Column(name = "nodeid")
@@ -28,11 +25,11 @@ public class MoveEntityPK implements Serializable {
 
   public void setNodeid(String nodeid) {
     this.nodeid = nodeid;
-    Session session = DatabaseConnect.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
+    //    Session session = DatabaseConnect.getSession();
+    //    Transaction tx = session.beginTransaction();
+    //    session.merge(this);
+    //    tx.commit();
+    //    session.close();
   }
 
   public String getLongname() {
@@ -41,11 +38,11 @@ public class MoveEntityPK implements Serializable {
 
   public void setLongname(String longname) {
     this.longname = longname;
-    Session session = DatabaseConnect.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
+    //    Session session = DatabaseConnect.getSession();
+    //    Transaction tx = session.beginTransaction();
+    //    session.merge(this);
+    //    tx.commit();
+    //    session.close();
   }
 
   public Date getMovedate() {
@@ -54,11 +51,11 @@ public class MoveEntityPK implements Serializable {
 
   public void setMovedate(Date movedate) {
     this.movedate = movedate;
-    Session session = DatabaseConnect.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
+    //    Session session = DatabaseConnect.getSession();
+    //    Transaction tx = session.beginTransaction();
+    //    session.merge(this);
+    //    tx.commit();
+    //    session.close();
   }
 
   @Override
@@ -70,6 +67,14 @@ public class MoveEntityPK implements Serializable {
         && Objects.equals(longname, that.longname)
         && Objects.equals(movedate, that.movedate);
   }
+
+  public MoveEntityPK(String nodeid, String longname, Date movedate) {
+    this.nodeid = nodeid;
+    this.longname = longname;
+    this.movedate = movedate;
+  }
+
+  public MoveEntityPK() {}
 
   @Override
   public int hashCode() {

@@ -22,6 +22,12 @@ public class SecuritysubmissionEntity {
   @Column(name = "type")
   private String type;
 
+  @Id
+  @Column(name = "notesupdate")
+  private String notesupdate;
+
+  public SecuritysubmissionEntity() {}
+
   public SecuritysubmissionEntity(
       String employeeid, String location, String type, String notesupdate) {
     this.employeeid = employeeid;
@@ -29,10 +35,6 @@ public class SecuritysubmissionEntity {
     this.type = type;
     this.notesupdate = notesupdate;
   }
-
-  @Id
-  @Column(name = "notesupdate")
-  private String notesupdate;
 
   public String getEmployeeid() {
     return employeeid;
@@ -76,8 +78,6 @@ public class SecuritysubmissionEntity {
   public String getNotesupdate() {
     return notesupdate;
   }
-
-  public SecuritysubmissionEntity() {}
 
   public void setNotesupdate(String notesupdate) {
     this.notesupdate = notesupdate;

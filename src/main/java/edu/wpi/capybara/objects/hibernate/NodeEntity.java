@@ -163,6 +163,18 @@ public class NodeEntity {
     session.close();
   }
 
+  public String toString() {
+    return nodeid
+        + " | "
+        + getShortName()
+        + " | "
+        + floor
+        + " | x="
+        + xcoord.toString()
+        + " | y="
+        + ycoord.toString();
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

@@ -115,6 +115,21 @@ public class CleaningsubmissionEntityPK implements Serializable {
         && Objects.equals(submissionstatus, that.submissionstatus);
   }
 
+  public CleaningsubmissionEntityPK(
+      String memberid,
+      String location,
+      String hazardlevel,
+      String description,
+      submissionStatus submissionstatus) {
+    this.memberid = memberid;
+    this.location = location;
+    this.hazardlevel = hazardlevel;
+    this.description = description;
+    this.submissionstatus = submissionstatus;
+  }
+
+  public CleaningsubmissionEntityPK() {}
+
   @Override
   public int hashCode() {
     return Objects.hash(memberid, location, hazardlevel, description, submissionstatus);

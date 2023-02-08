@@ -1,11 +1,8 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.database.DatabaseConnect;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 public class SecuritysubmissionEntityPK implements Serializable {
   @Id
@@ -29,12 +26,12 @@ public class SecuritysubmissionEntityPK implements Serializable {
   }
 
   public void setEmployeeid(String employeeid) {
-    Session session = DatabaseConnect.getSession();
-    Transaction tx = session.beginTransaction();
+    //    Session session = DatabaseConnect.getSession();
+    //    Transaction tx = session.beginTransaction();
     this.employeeid = employeeid;
-    session.merge(this);
-    tx.commit();
-    session.close();
+    //    session.merge(this);
+    //    tx.commit();
+    //    session.close();
   }
 
   public String getLocation() {
@@ -43,11 +40,11 @@ public class SecuritysubmissionEntityPK implements Serializable {
 
   public void setLocation(String location) {
     this.location = location;
-    Session session = DatabaseConnect.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
+    //    Session session = DatabaseConnect.getSession();
+    //    Transaction tx = session.beginTransaction();
+    //    session.merge(this);
+    //    tx.commit();
+    //    session.close();
   }
 
   public String getType() {
@@ -56,11 +53,11 @@ public class SecuritysubmissionEntityPK implements Serializable {
 
   public void setType(String type) {
     this.type = type;
-    Session session = DatabaseConnect.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
+    //    Session session = DatabaseConnect.getSession();
+    //    Transaction tx = session.beginTransaction();
+    //    session.merge(this);
+    //    tx.commit();
+    //    session.close();
   }
 
   public String getNotesupdate() {
@@ -71,11 +68,11 @@ public class SecuritysubmissionEntityPK implements Serializable {
 
   public void setNotesupdate(String notesupdate) {
     this.notesupdate = notesupdate;
-    Session session = DatabaseConnect.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
+    //    Session session = DatabaseConnect.getSession();
+    //    Transaction tx = session.beginTransaction();
+    //    session.merge(this);
+    //    tx.commit();
+    //    session.close();
   }
 
   @Override
@@ -86,6 +83,14 @@ public class SecuritysubmissionEntityPK implements Serializable {
     return Objects.equals(employeeid, that.employeeid)
         && Objects.equals(location, that.location)
         && Objects.equals(type, that.type);
+  }
+
+  public SecuritysubmissionEntityPK(
+      String employeeid, String location, String type, String notesupdate) {
+    this.employeeid = employeeid;
+    this.location = location;
+    this.type = type;
+    this.notesupdate = notesupdate;
   }
 
   @Override

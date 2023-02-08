@@ -21,6 +21,14 @@ public class LocationnameEntity {
   @Column(name = "locationtype")
   private String locationtype;
 
+  public LocationnameEntity() {}
+
+  public LocationnameEntity(String longname, String shortname, String locationtype) {
+    this.longname = longname;
+    this.shortname = shortname;
+    this.locationtype = locationtype;
+  }
+
   public String getLongname() {
     return longname;
   }
