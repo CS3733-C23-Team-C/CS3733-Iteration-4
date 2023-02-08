@@ -24,6 +24,15 @@ public class AllObjectsTest {
   }
 
   @Test
+  public void edgeTest() {
+
+    EdgeEntity ee = new EdgeEntity("5788", "6788");
+
+    assertEquals(ee.getNode1(), "5788");
+    assertEquals(ee.getNode2(), "6788");
+  }
+
+  @Test
   public void locationNameTest() {
     LocationnameEntity ln = new LocationnameEntity("test location", "tl", "office");
 
