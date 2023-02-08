@@ -32,7 +32,7 @@
          <center>
             <TableView fx:id="allRequests" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <columns>
-                <TableColumn fx:id="memberIDNeeded" prefWidth="133.33333337306976" text="Employee ID" />
+                <TableColumn fx:id="staffID" prefWidth="133.33333337306976" text="Employee ID" />
                 <TableColumn fx:id="locationCleanup" prefWidth="116.0" text="Location" />
                   <TableColumn fx:id="hazardLevel" prefWidth="100.0" text="Hazard Level" />
                   <TableColumn fx:id="description" prefWidth="157.3333740234375" text="Description" />

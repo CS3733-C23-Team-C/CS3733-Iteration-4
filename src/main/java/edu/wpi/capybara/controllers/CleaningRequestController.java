@@ -6,6 +6,9 @@ import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
 import java.io.IOException;
 import java.util.LinkedList;
+
+import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
+import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,26 +20,35 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class CleaningRequestController {
 
   @FXML TableView<CleaningsubmissionEntity> allRequests;
-  @FXML TableColumn memberIDNeeded;
+
+  @FXML TableView<TransportationsubmissionEntity> transportationRequests;
+  @FXML TableView<SecuritysubmissionEntity> securityRequests;
+  @FXML TableColumn staffid;
   @FXML TableColumn hazardLevel;
   @FXML TableColumn description;
-  @FXML TableColumn locationCleanup;
+  @FXML TableColumn location;
   @FXML TableColumn status;
+  @FXML TableColumn destinationroom;
+  @FXML TableColumn type;
+
 
   ObservableList<CleaningsubmissionEntity> totalRequests = FXCollections.observableArrayList();
 
+
   /** When it switches to page, gets data from submission collector and creates tables */
   public void initialize() {
-    memberIDNeeded.setCellValueFactory(
+    staffid.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, String>("memberid"));
     hazardLevel.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, String>("hazardlevel"));
-    locationCleanup.setCellValueFactory(
+    location.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, String>("location"));
     description.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, String>("description"));
     status.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, String>("submissionstatus"));
+    destinationroom.setCellValueFactory(
+            new PropertyValueFactory<TransportationsubmissionEntity, String>("DestRoomnum"));
     LinkedList<CleaningsubmissionEntity> data = App.getTotalSubmissions().getCleaningSubmissions();
     for (CleaningsubmissionEntity sub : data) {
       totalRequests.add(sub);
