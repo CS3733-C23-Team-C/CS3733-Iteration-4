@@ -25,6 +25,15 @@ public class StaffEntity {
   @Column(name = "password")
   private String password;
 
+  public StaffEntity() {}
+
+  public StaffEntity(String staffid, String firstname, String lastname, String password) {
+    this.staffid = staffid;
+    this.firstname = firstname;
+    this.lastname = lastname;
+    this.password = password;
+  }
+
   public String getStaffid() {
     return staffid;
   }

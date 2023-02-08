@@ -44,6 +44,7 @@ public class submissionCollector { // stores all of the submissions in different
   public submissionCollector() {
     transportationSubs = DatabaseConnect.transports();
     allCleaningSubmissions = DatabaseConnect.cleanings();
+    securitySubs = DatabaseConnect.security();
   }
 
   public void newTransportationSubmission(TransportationsubmissionEntity submission) {
@@ -54,6 +55,15 @@ public class submissionCollector { // stores all of the submissions in different
         submission.getReason(),
         submission.getStatus());
     this.transportationSubs.add(submission);
+  }
+
+  public void newSecuritySubmission(SecuritysubmissionEntity submission) {
+    DatabaseConnect.insertSecurity(
+        App.getUser().getStaffid(),
+        submission.getLocation(),
+        submission.getType(),
+        submission.getNotesupdate());
+    this.securitySubs.add(submission);
   }
 
   /**
