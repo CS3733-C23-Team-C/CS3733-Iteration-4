@@ -71,6 +71,14 @@ public class MoveEntityPK implements Serializable {
         && Objects.equals(movedate, that.movedate);
   }
 
+  public MoveEntityPK(String nodeid, String longname, Date movedate) {
+    this.nodeid = nodeid;
+    this.longname = longname;
+    this.movedate = movedate;
+  }
+
+  public MoveEntityPK() {}
+
   @Override
   public int hashCode() {
     return Objects.hash(nodeid, longname, movedate);

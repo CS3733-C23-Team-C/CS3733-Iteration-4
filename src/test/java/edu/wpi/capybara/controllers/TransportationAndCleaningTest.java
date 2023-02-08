@@ -43,19 +43,21 @@ public class TransportationAndCleaningTest extends ApplicationTest {
     type(KeyCode.O);
     Predicate<Node> isEnabled = node -> !node.isDisable();
     verifyThat("#submitButton", isEnabled);
-    // clickOn("#submitButton");
-    // verifyThat("reasonField", hasText(""));
+    //    clickOn("#submitButton");
+    //    verifyThat("reasonField", hasText(""));
     clickOn("#backButton");
     verifyThat("#transportationButton", isVisible());
     clickOn("#servicesButtonM");
     clickOn("#cleaningButtonM");
     verifyThat("#SubmitButton", isVisible());
-    clickOn("#MemberID");
-    type(KeyCode.DIGIT3);
+    clickOn("#Location");
+    clickOn("#Location");
     clickOn("#hazardLevel");
     type(KeyCode.DIGIT4);
-    verifyThat("#SubmitButton", isVisible());
+    clickOn("#Description");
+    type(KeyCode.O, KeyCode.W);
+    verifyThat("#SubmitButton", isEnabled);
     clickOn("#ClearButton");
-    verifyThat("#MemberID", hasText(""));
+    verifyThat("#hazardLevel", hasText(""));
   }
 }
