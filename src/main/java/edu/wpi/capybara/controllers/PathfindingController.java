@@ -240,7 +240,12 @@ public class PathfindingController {
     dateField.setText("");
 
     if (event != null) {
-      nodesToDisplay = DatabaseConnect.getNodes().values().stream().toList();
+      Collection<NodeEntity> nodes = DatabaseConnect.getNodes().values();
+      for (NodeEntity n : nodes) {
+        if (n.getFloor().equals("L1")) {
+          nodesToDisplay.add(n);
+        }
+      }
       isPath = false;
       drawNodes();
     }
