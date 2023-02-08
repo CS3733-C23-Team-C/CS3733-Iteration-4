@@ -12,6 +12,7 @@ public class Pathfinder {
     List<NodeEntity> path;
     List<EdgeEntity> edges;
     NodeEntity node, current, goal;
+    double weight;
 
     /*
     PathNode(List<Node> list, List<Edge> edges, Node node) {
@@ -31,12 +32,13 @@ public class Pathfinder {
       this.node = node;
       this.current = current;
       this.goal = goal;
+      this.weight = getCost();
     }
 
     @Override
     public int compareTo(PathNode o) {
       if (current == null || o.current == null) return 0;
-      return Double.compare(getCost(), o.getCost());
+      return Double.compare(weight, o.weight);
     }
 
     private double getCost() {
@@ -215,7 +217,7 @@ public class Pathfinder {
     List<EdgeEntity> currentEdges = new ArrayList<>();
 
     while (true) {
-      // System.out.println("Current Node is " + current.getNodeID());
+      System.out.println("Current-" + current.toString());
       List<NodeEntity> newPath = new ArrayList<>(List.copyOf(currentPath));
       newPath.add(current);
       if (current.equals(goal)) return newPath;
@@ -233,7 +235,7 @@ public class Pathfinder {
         // System.out.println(closedList);
 
         if (closedList.contains(otherNode)) continue;
-        // System.out.println("Adding Node to openList");
+        System.out.println("Adding Node to openList");
 
         PathNode pn = new PathNode(newPath, newEdges, otherNode, current, goal);
         openList.add(pn);
@@ -253,17 +255,18 @@ public class Pathfinder {
   }
 
   public static double cost(NodeEntity current, NodeEntity n, NodeEntity goal) {
-    return calculateWeight(current, n) + calculateWeight(n, goal);
+    float multiplier = 1f;
+
+    if (!n.getFloor().equals(current.getFloor())) multiplier = 3f;
+
+    return (calculateWeight(current, n) + calculateWeight(n, goal)) * multiplier;
   }
 
   private static double calculateWeight(NodeEntity n1, NodeEntity n2) { // move function for a*
     float xDiff = Math.abs(n1.getXcoord() - n2.getXcoord());
     float yDiff = Math.abs(n1.getYcoord() - n2.getYcoord());
-    float multiplier = 1f;
 
-    if (!n1.getFloor().equals(n2.getFloor())) multiplier = 3f;
-
-    return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2)) * multiplier;
+    return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
   }
 
   public Pathfinder(TreeMap<Integer, NodeEntity> nodes, TreeMap<Integer, EdgeEntity> edges) {
