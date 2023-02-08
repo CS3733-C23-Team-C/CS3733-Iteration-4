@@ -75,4 +75,9 @@ public class RootController {
     sLeftMenu.setVisible(true);
     sRightMenu.setVisible(true);
   }
+
+  public static void hideMenu() {
+    sLeftMenu.setVisible(false);
+    sRightMenu.setVisible(false);
+  }
 }

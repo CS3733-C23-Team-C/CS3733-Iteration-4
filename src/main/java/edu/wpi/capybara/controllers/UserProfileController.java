@@ -129,6 +129,7 @@ public class UserProfileController {
     currFirstName = "";
     currLastName = "";
     currPassword = "";
+    RootController.hideMenu();
     Navigation.navigate(Screen.LOG_IN_PAGE);
   }
 }
