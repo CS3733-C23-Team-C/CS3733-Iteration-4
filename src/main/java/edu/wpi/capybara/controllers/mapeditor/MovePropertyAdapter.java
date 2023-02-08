@@ -15,11 +15,14 @@ public class MovePropertyAdapter {
   private static final JavaBeanObjectPropertyBuilder<Date> moveDateBuilder =
       JavaBeanObjectPropertyBuilder.create().name("movedate");
 
+  private final MoveEntity entity;
+
   private final JavaBeanStringProperty nodeID;
   private final JavaBeanStringProperty longName;
   private final JavaBeanObjectProperty<Date> moveDate;
 
   public MovePropertyAdapter(MoveEntity mv) {
+    entity = mv;
     try {
       nodeID = nodeIDBuilder.bean(mv).build();
       longName = longNameBuilder.bean(mv).build();
@@ -28,6 +31,13 @@ public class MovePropertyAdapter {
       throw new IllegalStateException(
           "Unable to find getters/setters on move. This should not be possible.", e);
     }
+  }
+
+  MovePropertyAdapter(
+      MoveEntity moveEntity, NodePropertyAdapter node, LocationNamePropertyAdapter location) {
+    this(moveEntity);
+    nodeID.bind(node.nodeIDProperty());
+    longName.bind(location.longNameProperty());
   }
 
   public JavaBeanStringProperty nodeIDProperty() {
@@ -40,5 +50,9 @@ public class MovePropertyAdapter {
 
   public JavaBeanObjectProperty<Date> moveDateProperty() {
     return moveDate;
+  }
+
+  public MoveEntity getEntity() {
+    return entity;
   }
 }

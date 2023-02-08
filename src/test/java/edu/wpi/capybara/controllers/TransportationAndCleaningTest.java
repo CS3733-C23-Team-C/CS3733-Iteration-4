@@ -11,6 +11,7 @@ import java.util.function.Predicate;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
@@ -22,6 +23,17 @@ public class TransportationAndCleaningTest extends ApplicationTest {
     DatabaseConnect.connect();
     DatabaseConnect.importData();
     new App().start(stage);
+  }
+
+  @BeforeEach
+  public void before() {
+    clickOn("#employeeID");
+    for (int i = 0; i < 13; i++) {
+      type(KeyCode.BACK_SPACE);
+    }
+    type(KeyCode.DIGIT1, KeyCode.DIGIT2, KeyCode.DIGIT3, KeyCode.DIGIT4, KeyCode.DIGIT5);
+
+    clickOn("#SubmitButton");
   }
 
   @Test
