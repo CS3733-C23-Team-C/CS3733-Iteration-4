@@ -14,6 +14,7 @@ public class DatabaseConnect {
   public static TreeMap<Integer, EdgeEntity> edges;
   public static HashMap<Integer, LocationnameEntity> locationNames;
   public static HashMap<Integer, MoveEntity> moves;
+  public static HashMap<Integer, StaffEntity> staff;
 
   static Scanner in = new Scanner(System.in);
 
@@ -73,6 +74,7 @@ public class DatabaseConnect {
     importEdges();
     importLocations();
     importMove();
+    importStaff();
   }
 
   public static void importNodes() {
@@ -86,6 +88,27 @@ public class DatabaseConnect {
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         NodeEntity temp = (NodeEntity) iterator.next();
         nodes.put((temp).hashCode(), temp);
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+  }
+
+  public static void importStaff() {
+    staff = new HashMap<Integer, StaffEntity>();
+    Session session = factory.openSession();
+    Transaction tx = null;
+
+    try {
+      tx = session.beginTransaction();
+      List n = session.createQuery("FROM StaffEntity ").list();
+      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
+        StaffEntity temp = (StaffEntity) iterator.next();
+        staff.put((temp).hashCode(), temp);
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -360,6 +383,24 @@ public class DatabaseConnect {
     } finally {
       session.close();
     }
+  }
+
+  public static StaffEntity getStaff(String Staffid) {
+    for (StaffEntity s : staff.values()) {
+      if (s.getStaffid().equals(Staffid)) {
+        return s;
+      }
+    }
+    return null;
+  }
+
+  public static StaffEntity getStaff(String fname, String lname) {
+    for (StaffEntity s : staff.values()) {
+      if (s.getFirstname().equals(fname) && s.getLastname().equals(lname)) {
+        return s;
+      }
+    }
+    return null;
   }
 
   //  public static void importData() {
