@@ -12,12 +12,20 @@ import javafx.scene.control.MenuItem;
 public class RootController {
 
   @FXML private MenuItem exitButtonM;
-  @FXML private static MenuBar rightMenu;
+  @FXML private MenuBar rightMenu;
+  @FXML private MenuBar leftMenu;
+  private static MenuBar sLeftMenu;
+  private static MenuBar sRightMenu;
   @FXML private MenuItem logOut;
-  @FXML private static Menu userProfile;
+  @FXML private Menu userProfile;
+  private static Menu sUserProfile;
 
   @FXML
-  public void initialize() {}
+  public void initialize() {
+    sLeftMenu = leftMenu;
+    sRightMenu = rightMenu;
+    sUserProfile = userProfile;
+  }
 
   public void exitApplication(ActionEvent actionEvent) {
     System.exit(0);
@@ -53,9 +61,18 @@ public class RootController {
 
   public static void updateUser() {
     // rightMenu.setVisible(true);
-    if (userProfile != null) userProfile.setText("Hello " + App.getUser().getFirstname() + " !");
+    if (sUserProfile != null) sUserProfile.setText("Hello " + App.getUser().getFirstname() + "!");
     else System.out.println("why");
   }
 
-  public void logOut() {}
+  public void logOut() {
+    leftMenu.setVisible(false);
+    rightMenu.setVisible(false);
+    Navigation.navigate(Screen.LOG_IN_PAGE);
+  }
+
+  public static void showMenu() {
+    sLeftMenu.setVisible(true);
+    sRightMenu.setVisible(true);
+  }
 }

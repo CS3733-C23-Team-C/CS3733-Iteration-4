@@ -129,5 +129,6 @@ public class UserProfileController {
     currFirstName = "";
     currLastName = "";
     currPassword = "";
+    Navigation.navigate(Screen.LOG_IN_PAGE);
   }
 }
