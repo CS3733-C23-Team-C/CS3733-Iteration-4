@@ -185,7 +185,7 @@ public class Pathfinder {
     return edges;
   }
 
-  private NodeEntity getNodeFromNodeID(String s) {
+  public NodeEntity getNodeFromNodeID(String s) {
     for (NodeEntity node : nodes.values()) {
       if (node.getNodeid().equals(s)) return node;
     }
@@ -217,7 +217,7 @@ public class Pathfinder {
     List<EdgeEntity> currentEdges = new ArrayList<>();
 
     while (true) {
-      System.out.println("Current-" + current.toString());
+      // System.out.println("Current-" + current.toString());
       List<NodeEntity> newPath = new ArrayList<>(List.copyOf(currentPath));
       newPath.add(current);
       if (current.equals(goal)) return newPath;
@@ -235,7 +235,7 @@ public class Pathfinder {
         // System.out.println(closedList);
 
         if (closedList.contains(otherNode)) continue;
-        System.out.println("Adding Node to openList");
+        // System.out.println("Adding Node to openList");
 
         PathNode pn = new PathNode(newPath, newEdges, otherNode, current, goal);
         openList.add(pn);

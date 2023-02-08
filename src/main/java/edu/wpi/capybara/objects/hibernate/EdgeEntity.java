@@ -57,6 +57,10 @@ public class EdgeEntity {
     return Objects.equals(node1, that.node1) && Objects.equals(node2, that.node2);
   }
 
+  public String toString() {
+    return node1 + " | " + node2;
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(node1, node2);
