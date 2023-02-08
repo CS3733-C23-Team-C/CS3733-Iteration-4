@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
@@ -23,6 +24,23 @@ public class SecurityControllerTest extends ApplicationTest {
     DatabaseConnect.connect();
     DatabaseConnect.importData();
     new App().start(stage);
+  }
+
+  @BeforeEach
+  public void before() {
+    clickOn("#username");
+    for (int i = 0; i < 13; i++) {
+      type(KeyCode.BACK_SPACE);
+    }
+    type(KeyCode.DIGIT1, KeyCode.DIGIT2, KeyCode.DIGIT3, KeyCode.DIGIT4, KeyCode.DIGIT5);
+
+    clickOn("#password");
+    for (int i = 0; i < 13; i++) {
+      type(KeyCode.BACK_SPACE);
+    }
+    type(KeyCode.DIGIT1, KeyCode.DIGIT2, KeyCode.DIGIT3, KeyCode.DIGIT4, KeyCode.DIGIT5);
+
+    clickOn("#submit");
   }
 
   @Test
