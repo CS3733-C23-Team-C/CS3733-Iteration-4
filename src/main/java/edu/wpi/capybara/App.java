@@ -1,5 +1,6 @@
 package edu.wpi.capybara;
 
+import edu.wpi.capybara.controllers.RootController;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.hibernate.StaffEntity;
@@ -22,11 +23,16 @@ public class App extends Application {
 
   @Getter private static submissionCollector totalSubmissions = new submissionCollector();
 
-  @Getter @Setter private static StaffEntity user;
+  @Getter private static StaffEntity user;
 
   @Override
   public void init() {
     log.info("Starting Up");
+    user = new StaffEntity();
+    user.setStaffid("0000");
+    user.setFirstname("Joe");
+    user.setLastname("Mama");
+    user.setPassword("HeHeHeHa");
   }
 
   @Override
@@ -44,10 +50,16 @@ public class App extends Application {
     primaryStage.show();
 
     Navigation.navigate(Screen.HOME);
+    RootController.updateUser();
   }
 
   @Override
   public void stop() {
     log.info("Shutting Down");
+  }
+
+  public static void setUser(StaffEntity newUser) {
+    user = newUser;
+    RootController.updateUser();
   }
 }

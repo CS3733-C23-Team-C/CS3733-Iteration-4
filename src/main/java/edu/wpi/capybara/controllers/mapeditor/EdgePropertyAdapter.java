@@ -10,10 +10,13 @@ public class EdgePropertyAdapter {
   private static final JavaBeanStringPropertyBuilder endNodeBuilder =
       JavaBeanStringPropertyBuilder.create().name("node2");
 
+  private final EdgeEntity entity;
+
   private final JavaBeanStringProperty startNode;
   private final JavaBeanStringProperty endNode;
 
   public EdgePropertyAdapter(EdgeEntity edge) {
+    entity = edge;
     try {
       startNode = startNodeBuilder.bean(edge).build();
       endNode = endNodeBuilder.bean(edge).build();
@@ -23,7 +26,8 @@ public class EdgePropertyAdapter {
     }
   }
 
-  public EdgePropertyAdapter(EdgeEntity edge, NodePropertyAdapter startNode, NodePropertyAdapter endNode) {
+  public EdgePropertyAdapter(
+      EdgeEntity edge, NodePropertyAdapter startNode, NodePropertyAdapter endNode) {
     this(edge);
     this.startNode.bind(startNode.nodeIDProperty());
     this.endNode.bind(endNode.nodeIDProperty());
@@ -35,5 +39,9 @@ public class EdgePropertyAdapter {
 
   public JavaBeanStringProperty endNodeProperty() {
     return endNode;
+  }
+
+  public EdgeEntity getEntity() {
+    return entity;
   }
 }

@@ -3,7 +3,6 @@ package edu.wpi.capybara.navigation;
 public enum Screen {
   ROOT("views/Root.fxml"),
   HOME("views/Home.fxml"),
-  SERVICE_REQUEST("views/ServiceRequest.fxml"),
   SERVICE_REQUEST_TRANSPORTATION("views/Transportation.fxml"),
   SERVICE_REQUEST_CLEANING("views/Cleaning.fxml"),
   SERVICE_REQUEST_SECURITY("views/Security.fxml"),
@@ -11,7 +10,9 @@ public enum Screen {
 
   PATHFINDING("views/Pathfinding.fxml"),
 
-  REQUESTS("views/CleaningRequests.fxml");
+  REQUESTS("views/CleaningRequests.fxml"),
+
+  USER_PROFILE("views/UserProfile.fxml");
 
   private final String filename;
 

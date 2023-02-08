@@ -2,26 +2,51 @@ package edu.wpi.capybara.pathfinding;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import edu.wpi.capybara.database.DatabaseConnect;
-import edu.wpi.capybara.objects.Edge;
-import edu.wpi.capybara.objects.Node;
+import edu.wpi.capybara.objects.hibernate.EdgeEntity;
+import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import java.util.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class PathfinderTest {
 
-  static Node current, n1, n2, goal;
-  static Map<String, Node> nodes;
-  static Map<String, Edge> edges;
+  static NodeEntity current, n1, n2, goal;
+  static TreeMap<Integer, NodeEntity> nodes;
+  static TreeMap<Integer, EdgeEntity> edges;
 
   @BeforeAll
   public static void init() {
-    current = new Node("testA", 0, 0, "na", "na");
-    n1 = new Node("testB", 1, 0, "na", "na");
-    n2 = new Node("testC", -1, 0, "na", "na");
-    goal = new Node("testD", 10, 0, "na", "na");
+    current = mock(NodeEntity.class);
+    when(current.getNodeid()).thenReturn("testA");
+    when(current.getXcoord()).thenReturn(0);
+    when(current.getYcoord()).thenReturn(0);
+    when(current.getFloor()).thenReturn("na");
+    when(current.getBuilding()).thenReturn("building");
+
+    n1 = mock(NodeEntity.class);
+    when(n1.getNodeid()).thenReturn("testB");
+    when(n1.getXcoord()).thenReturn(1);
+    when(n1.getYcoord()).thenReturn(0);
+    when(n1.getFloor()).thenReturn("na");
+    when(n1.getBuilding()).thenReturn("building");
+
+    n2 = mock(NodeEntity.class);
+    when(n2.getNodeid()).thenReturn("testC");
+    when(n2.getXcoord()).thenReturn(-1);
+    when(n2.getYcoord()).thenReturn(0);
+    when(n2.getFloor()).thenReturn("na");
+    when(n2.getBuilding()).thenReturn("building");
+
+    goal = mock(NodeEntity.class);
+    when(goal.getNodeid()).thenReturn("testD");
+    when(goal.getXcoord()).thenReturn(10);
+    when(goal.getYcoord()).thenReturn(0);
+    when(goal.getFloor()).thenReturn("na");
+    when(goal.getBuilding()).thenReturn("building");
 
     DatabaseConnect.connect();
     DatabaseConnect.importData();
@@ -38,7 +63,7 @@ public class PathfinderTest {
   @Test
   public void testSimplePath() {
     Pathfinder pf = new Pathfinder(nodes, edges);
-    List<Node> path = pf.findPath("22", "45");
+    List<NodeEntity> path = pf.findPath("2X1726Y1930", "2X1686Y1931");
 
     assertEquals(path.size(), 2);
   }

@@ -14,26 +14,59 @@ public class DatabaseConnect {
   public static TreeMap<Integer, EdgeEntity> edges;
   public static HashMap<Integer, LocationnameEntity> locationNames;
   public static HashMap<Integer, MoveEntity> moves;
+  public static HashMap<Integer, StaffEntity> staff;
 
   static Scanner in = new Scanner(System.in);
+
+  public static Session getSession() {
+    return factory.openSession();
+  }
 
   public static void main(String args[]) {
     connect();
     importData();
-    for (Map.Entry<Integer, NodeEntity> n : nodes.entrySet()) {
-      System.out.println(n.getValue().getNodeid());
-    }
-    // connect();
-    // test();
-    // query();
-    // importData();
-    // menu();
-    //    try {
-    //      connection.close(); // close the connection
-    //    } catch (SQLException e) {
-    //      System.out.println(e);
+    //    // Session session = factory.openSession();
+    //    for (LocationnameEntity n : locationNames.values()) {
+    //      // Transaction tx = session.beginTransaction();
+    //      if (Objects.equals(n.getLongname(), "Duncan Reid Conference Room")) {
+    //        n.setShortname("6969");
+    //      }
+    //      //      session.merge(n);
+    //      //      tx.commit();
+    //      //      System.out.println(n.getBuilding());
+    //    }
+    Session session = factory.openSession();
+    Transaction tx = session.beginTransaction();
+    //    for (NodeEntity n : nodes.values()) {
+    //      if (n.getBuilding().equals("76868")) {
+    //        nodes.remove(n.hashCode());
+    //        n.delete();
+    //      }
     //    }
 
+    CleaningsubmissionEntity addSubmission =
+        new CleaningsubmissionEntity("3", "1", "1", "2X2279Y0762", submissionStatus.BLANK);
+
+    //    addSubmission.setMemberid("2");
+    //    addSubmission.setDescription("1");
+    //    addSubmission.setHazardlevel("1");
+    //    addSubmission.setLocation("2X2279Y0762");
+    //    addSubmission.setSubmissionstatus(submissionStatus.BLANK);
+    session.persist(addSubmission);
+    tx.commit();
+    session.close();
+
+    //    NodeEntity addNode = new NodeEntity("1000", 1000, 1000, "3", "Foisie");
+    //    //    addNode.setNodeid("1337");
+    //    //    addNode.setXcoord(1000);
+    //    //    addNode.setYcoord(1000);
+    //    //    addNode.setFloor("3");
+    //    //    addNode.setBuilding("Atwater");
+    //    session.persist(addNode);
+    //    tx.commit();
+    //    session.close();
+
+    factory.close();
   }
 
   public static void importData() {
@@ -41,6 +74,7 @@ public class DatabaseConnect {
     importEdges();
     importLocations();
     importMove();
+    importStaff();
   }
 
   public static void importNodes() {
@@ -54,6 +88,27 @@ public class DatabaseConnect {
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         NodeEntity temp = (NodeEntity) iterator.next();
         nodes.put((temp).hashCode(), temp);
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+  }
+
+  public static void importStaff() {
+    staff = new HashMap<Integer, StaffEntity>();
+    Session session = factory.openSession();
+    Transaction tx = null;
+
+    try {
+      tx = session.beginTransaction();
+      List n = session.createQuery("FROM StaffEntity ").list();
+      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
+        StaffEntity temp = (StaffEntity) iterator.next();
+        staff.put((temp).hashCode(), temp);
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -138,7 +193,7 @@ public class DatabaseConnect {
       tx = session.beginTransaction();
       List n = session.createQuery("FROM TransportationsubmissionEntity ").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        ret.add((TransportationsubmissionEntity) n);
+        ret.add((TransportationsubmissionEntity) iterator.next());
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -160,7 +215,29 @@ public class DatabaseConnect {
       tx = session.beginTransaction();
       List n = session.createQuery("FROM CleaningsubmissionEntity ").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        ret.add((CleaningsubmissionEntity) n);
+        ret.add((CleaningsubmissionEntity) iterator.next());
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return ret;
+  }
+
+  public static LinkedList<SecuritysubmissionEntity> security() {
+    Session session = factory.openSession();
+    Transaction tx = null;
+
+    LinkedList<SecuritysubmissionEntity> ret = new LinkedList<SecuritysubmissionEntity>();
+
+    try {
+      tx = session.beginTransaction();
+      List n = session.createQuery("FROM SecuritysubmissionEntity ").list();
+      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
+        ret.add((SecuritysubmissionEntity) iterator.next());
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -238,12 +315,14 @@ public class DatabaseConnect {
 
     try {
       tx = session.beginTransaction();
-      CleaningsubmissionEntity cleaning = new CleaningsubmissionEntity();
-      cleaning.setMemberid(staffid);
-      cleaning.setLocation(location);
-      cleaning.setHazardlevel(hazardlevel);
-      cleaning.setDescription(description);
-      cleaning.setSubmissionstatus(submissionstatus);
+      CleaningsubmissionEntity cleaning =
+          new CleaningsubmissionEntity(
+              staffid, location, hazardlevel, description, submissionstatus);
+      //      cleaning.setMemberid(staffid);
+      //      cleaning.setLocation(location);
+      //      cleaning.setHazardlevel(hazardlevel);
+      //      cleaning.setDescription(description);
+      //      cleaning.setSubmissionstatus(submissionstatus);
       session.save(cleaning);
       tx.commit();
     } catch (HibernateException e) {
@@ -265,12 +344,13 @@ public class DatabaseConnect {
 
     try {
       tx = session.beginTransaction();
-      TransportationsubmissionEntity transportation = new TransportationsubmissionEntity();
-      transportation.setEmployeeid(staffid);
-      transportation.setCurrroomnum(currroomnum);
-      transportation.setDestroomnum(destroomnum);
-      transportation.setReason(reason);
-      transportation.setStatus(status);
+      TransportationsubmissionEntity transportation =
+          new TransportationsubmissionEntity(staffid, currroomnum, destroomnum, reason, status);
+      //      transportation.setEmployeeid(staffid);
+      //      transportation.setCurrroomnum(currroomnum);
+      //      transportation.setDestroomnum(destroomnum);
+      //      transportation.setReason(reason);
+      //      transportation.setStatus(status);
       session.save(transportation);
       tx.commit();
     } catch (HibernateException e) {
@@ -279,6 +359,48 @@ public class DatabaseConnect {
     } finally {
       session.close();
     }
+  }
+
+  public static void insertSecurity(
+      String staffid, String location, String type, String notesupdate) {
+    Session session = factory.openSession();
+    Transaction tx = null;
+
+    try {
+      tx = session.beginTransaction();
+      SecuritysubmissionEntity security =
+          new SecuritysubmissionEntity(staffid, location, type, notesupdate);
+      //      transportation.setEmployeeid(staffid);
+      //      transportation.setCurrroomnum(currroomnum);
+      //      transportation.setDestroomnum(destroomnum);
+      //      transportation.setReason(reason);
+      //      transportation.setStatus(status);
+      session.save(security);
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+  }
+
+  public static StaffEntity getStaff(String Staffid) {
+    for (StaffEntity s : staff.values()) {
+      if (s.getStaffid().equals(Staffid)) {
+        return s;
+      }
+    }
+    return null;
+  }
+
+  public static StaffEntity getStaff(String fname, String lname) {
+    for (StaffEntity s : staff.values()) {
+      if (s.getFirstname().equals(fname) && s.getLastname().equals(lname)) {
+        return s;
+      }
+    }
+    return null;
   }
 
   //  public static void importData() {

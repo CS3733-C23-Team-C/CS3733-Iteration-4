@@ -1,12 +1,14 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.database.DatabaseConnect;
 import jakarta.persistence.*;
 import java.util.Objects;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "locationname", schema = "cdb", catalog = "teamcdb")
 public class LocationnameEntity {
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "longname")
   private String longname;
@@ -19,12 +21,25 @@ public class LocationnameEntity {
   @Column(name = "locationtype")
   private String locationtype;
 
+  public LocationnameEntity() {}
+
+  public LocationnameEntity(String longname, String shortname, String locationtype) {
+    this.longname = longname;
+    this.shortname = shortname;
+    this.locationtype = locationtype;
+  }
+
   public String getLongname() {
     return longname;
   }
 
   public void setLongname(String longname) {
     this.longname = longname;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getShortname() {
@@ -33,6 +48,11 @@ public class LocationnameEntity {
 
   public void setShortname(String shortname) {
     this.shortname = shortname;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getLocationtype() {
@@ -41,6 +61,11 @@ public class LocationnameEntity {
 
   public void setLocationtype(String locationtype) {
     this.locationtype = locationtype;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   @Override

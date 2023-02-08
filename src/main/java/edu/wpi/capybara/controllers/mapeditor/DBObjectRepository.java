@@ -52,12 +52,7 @@ public class DBObjectRepository {
   public NodePropertyAdapter createNode(
       String nodeID, int xCoord, int yCoord, String floor, String building) {
     // TODO: 2/7/23 implement this
-    final var nodeEntity = new NodeEntity();
-    nodeEntity.setNodeid(nodeID);
-    nodeEntity.setXcoord(xCoord);
-    nodeEntity.setYcoord(yCoord);
-    nodeEntity.setFloor(floor);
-    nodeEntity.setBuilding(building);
+    final var nodeEntity = new NodeEntity(nodeID, xCoord, yCoord, floor, building);
     final var newNode = new NodePropertyAdapter(nodeEntity);
     nodes.add(newNode);
     return newNode;
@@ -69,6 +64,7 @@ public class DBObjectRepository {
 
   private void deleteNode(NodePropertyAdapter node) {
     log.info("deleteNode");
+
   }
 
   private void addEdge(EdgePropertyAdapter edge) {
@@ -81,10 +77,7 @@ public class DBObjectRepository {
 
   public LocationNamePropertyAdapter createLocationName(
       String longName, String shortName, String locationType) {
-    final var locationNameEntity = new LocationnameEntity();
-    locationNameEntity.setLongname(longName);
-    locationNameEntity.setShortname(shortName);
-    locationNameEntity.setLocationtype(locationType);
+    final var locationNameEntity = new LocationnameEntity(longName, shortName, locationType);
     final var newLocationName = new LocationNamePropertyAdapter(locationNameEntity);
     locationNames.add(newLocationName);
     return newLocationName;

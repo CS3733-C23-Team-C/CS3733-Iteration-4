@@ -5,8 +5,13 @@ import edu.wpi.capybara.controllers.mapeditor.dialogs.AddLocationNameDialog;
 import edu.wpi.capybara.controllers.mapeditor.dialogs.AddNodeDialog;
 import edu.wpi.capybara.controllers.mapeditor.dialogs.ReplaceNodeDialog;
 import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.navigation.Navigation;
+import edu.wpi.capybara.navigation.Screen;
+import io.github.palexdev.materialfx.controls.MFXButton;
+import java.io.IOException;
 import java.util.function.Function;
 import javafx.beans.property.Property;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.ContextMenu;
@@ -27,6 +32,7 @@ public class MapEditorController {
   @FXML private TableView<EdgePropertyAdapter> edgeTableView;
   @FXML private TableView<LocationNamePropertyAdapter> locationNameTableView;
   @FXML private TableView<MovePropertyAdapter> moveTableView;
+  @FXML private MFXButton back;
 
   @FXML private Pane mapViewerPane;
   @FXML private Canvas mapViewerCanvas;
@@ -221,5 +227,9 @@ public class MapEditorController {
     tableColumn.setCellValueFactory(adapter);
     tableColumn.setOnEditCommit(adapter);
     return tableColumn;
+  }
+
+  public void back(ActionEvent actionEvent) throws IOException {
+    Navigation.navigate(Screen.HOME);
   }
 }

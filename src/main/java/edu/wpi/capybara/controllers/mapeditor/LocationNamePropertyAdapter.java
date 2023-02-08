@@ -12,11 +12,14 @@ public class LocationNamePropertyAdapter {
   private static final JavaBeanStringPropertyBuilder locationTypeBuilder =
       JavaBeanStringPropertyBuilder.create().name("locationtype");
 
+  private final LocationnameEntity entity;
+
   private final JavaBeanStringProperty longName;
   private final JavaBeanStringProperty shortName;
   private final JavaBeanStringProperty locationType;
 
   public LocationNamePropertyAdapter(LocationnameEntity locationname) {
+    entity = locationname;
     try {
       longName = longNameBuilder.bean(locationname).build();
       shortName = shortNameBuilder.bean(locationname).build();
@@ -37,5 +40,9 @@ public class LocationNamePropertyAdapter {
 
   public JavaBeanStringProperty locationTypeProperty() {
     return locationType;
+  }
+
+  public LocationnameEntity getEntity() {
+    return entity;
   }
 }

@@ -12,6 +12,7 @@ public class Pathfinder {
     List<NodeEntity> path;
     List<EdgeEntity> edges;
     NodeEntity node, current, goal;
+    double weight;
 
     /*
     PathNode(List<Node> list, List<Edge> edges, Node node) {
@@ -31,12 +32,13 @@ public class Pathfinder {
       this.node = node;
       this.current = current;
       this.goal = goal;
+      this.weight = getCost();
     }
 
     @Override
     public int compareTo(PathNode o) {
       if (current == null || o.current == null) return 0;
-      return Double.compare(getCost(), o.getCost());
+      return Double.compare(weight, o.weight);
     }
 
     private double getCost() {
@@ -115,8 +117,8 @@ public class Pathfinder {
   }
 
   public List<NodeEntity> findPath(String start, String end) {
-    NodeEntity startNode = nodes.get(start);
-    NodeEntity endNode = nodes.get(end);
+    NodeEntity startNode = getNodeFromNodeID(start);
+    NodeEntity endNode = getNodeFromNodeID(end);
 
     if (startNode == null || endNode == null) {
       throw new RuntimeException("One of the NodeID doesn't exist!");
@@ -130,6 +132,15 @@ public class Pathfinder {
         endNode,
         new Stack<>(),
         new HashSet<>());*/
+  }
+
+  public List<NodeEntity> findPath(NodeEntity start, NodeEntity end) {
+
+    if (start == null || end == null) {
+      throw new RuntimeException("One of the NodeID doesn't exist!");
+    }
+
+    return aStar(start, end);
   }
 
   /*
@@ -161,7 +172,7 @@ public class Pathfinder {
    */
 
   public static List<EdgeEntity> getPathEdges(List<NodeEntity> path) {
-    List<EdgeEntity> edges = new ArrayList<EdgeEntity>();
+    List<EdgeEntity> edges = new ArrayList<>();
     NodeEntity prevNode = null;
     for (NodeEntity node : path) {
       if (prevNode == null) {
@@ -172,6 +183,13 @@ public class Pathfinder {
       }
     }
     return edges;
+  }
+
+  public NodeEntity getNodeFromNodeID(String s) {
+    for (NodeEntity node : nodes.values()) {
+      if (node.getNodeid().equals(s)) return node;
+    }
+    return null;
   }
 
   private static EdgeEntity commonEdge(NodeEntity node1, NodeEntity node2) {
@@ -199,7 +217,7 @@ public class Pathfinder {
     List<EdgeEntity> currentEdges = new ArrayList<>();
 
     while (true) {
-      // System.out.println("Current Node is " + current.getNodeID());
+      // System.out.println("Current-" + current.toString());
       List<NodeEntity> newPath = new ArrayList<>(List.copyOf(currentPath));
       newPath.add(current);
       if (current.equals(goal)) return newPath;
@@ -212,7 +230,7 @@ public class Pathfinder {
         List<EdgeEntity> newEdges = new ArrayList<>(List.copyOf(currentEdges));
         newEdges.add(e);
 
-        NodeEntity otherNode = nodes.get(e.getOtherNode(current));
+        NodeEntity otherNode = getNodeFromNodeID(e.getOtherNode(current));
         // System.out.println("Other Node: " + otherNode.getNodeID());
         // System.out.println(closedList);
 
@@ -237,7 +255,11 @@ public class Pathfinder {
   }
 
   public static double cost(NodeEntity current, NodeEntity n, NodeEntity goal) {
-    return calculateWeight(current, n) + calculateWeight(n, goal);
+    float multiplier = 1f;
+
+    if (!n.getFloor().equals(current.getFloor())) multiplier = 3f;
+
+    return (calculateWeight(current, n) + calculateWeight(n, goal)) * multiplier;
   }
 
   private static double calculateWeight(NodeEntity n1, NodeEntity n2) { // move function for a*

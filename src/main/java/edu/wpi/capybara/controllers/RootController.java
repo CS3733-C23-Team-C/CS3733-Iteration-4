@@ -13,6 +13,7 @@ public class RootController {
 
   @FXML private MenuItem exitButtonM;
   @FXML private static MenuBar rightMenu;
+  @FXML private MenuItem logOut;
   @FXML private static Menu userProfile;
 
   @FXML
@@ -43,12 +44,18 @@ public class RootController {
   }
 
   public void showRequestPage(ActionEvent actionEvent) {
-    System.out.println("working");
     Navigation.navigate(Screen.REQUESTS);
   }
 
-  public static void updateUser() {
-    rightMenu.setVisible(true);
-    userProfile.setText("Hello " + App.getUser().getFirstname() + " !");
+  public void showUserProfilePage(ActionEvent actionEvent) {
+    Navigation.navigate(Screen.USER_PROFILE);
   }
+
+  public static void updateUser() {
+    // rightMenu.setVisible(true);
+    if (userProfile != null) userProfile.setText("Hello " + App.getUser().getFirstname() + " !");
+    else System.out.println("why");
+  }
+
+  public void logOut() {}
 }

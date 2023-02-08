@@ -52,8 +52,8 @@ public abstract class NodeDialog extends FXMLDialog<Void> {
 
   private boolean isInputInvalid() {
     return nodeID.getText().isBlank()
-        || StringUtils.isNumeric(xCoord.getText())
-        || StringUtils.isNumeric(yCoord.getText())
+        || !StringUtils.isNumeric(xCoord.getText())
+        || !StringUtils.isNumeric(yCoord.getText())
         || floor.getText().isBlank()
         || building.getText().isBlank();
   }

@@ -1,11 +1,12 @@
 package edu.wpi.capybara.controllers;
 
+import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
-import edu.wpi.capybara.objects.submissions.securitySubmission;
+import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.util.TreeSet;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import javax.swing.*;
 
 public class SecurityController {
@@ -29,7 +30,8 @@ public class SecurityController {
 
   @FXML private MFXComboBox<String> Type;
 
-  @FXML private TextField employeeID;
+  @FXML public TextArea Description;
+  @FXML public Stage primaryStage;
 
   @FXML public MFXComboBox<String> Location;
 
@@ -51,7 +53,6 @@ public class SecurityController {
   //  }
 
   public void clearFields() {
-    employeeID.clear();
     Location.getSelectionModel().selectFirst();
     Type.getSelectionModel().selectFirst();
     notesUpdate.clear();
@@ -82,7 +83,7 @@ public class SecurityController {
     Iterator<NodeEntity> iterator = sortedset.iterator();
     while (iterator.hasNext()) {
       NodeEntity n = iterator.next();
-      System.out.println(n.getShortName());
+      // System.out.println(n.getShortName());
       Location.getItems().add(n.getShortName());
     }
 
@@ -100,20 +101,20 @@ public class SecurityController {
   // entered room number
 
   public void submit(ActionEvent actionEvent) {
-    String outputID = employeeID.getText();
     String outputLocation = "" + Location.getValue();
     String outputType = "" + Type.getValue();
     String outputNotes = notesUpdate.getText();
-    securitySubmission addSubmission =
-        new securitySubmission(outputNotes, outputID, outputLocation, outputType);
-
+    SecuritysubmissionEntity addSubmission =
+        new SecuritysubmissionEntity(
+            App.getUser().getStaffid(), outputLocation, outputType, outputNotes);
+    App.getTotalSubmissions().newSecuritySubmission(addSubmission);
     clearFields();
   }
 
   public void
       validateButton() { // ensures that information has been filled in before allowing submission
     boolean valid = false;
-    if (!employeeID.getText().equals("") && !notesUpdate.getText().equals("")) valid = true;
+    if (!notesUpdate.getText().equals("")) valid = true;
     SubmitButton.setDisable(!valid);
   }
 }

@@ -30,7 +30,8 @@ public class MovePropertyAdapter {
     }
   }
 
-  MovePropertyAdapter(MoveEntity moveEntity, NodePropertyAdapter node, LocationNamePropertyAdapter location) {
+  MovePropertyAdapter(
+      MoveEntity moveEntity, NodePropertyAdapter node, LocationNamePropertyAdapter location) {
     this(moveEntity);
     nodeID.bind(node.nodeIDProperty());
     longName.bind(location.longNameProperty());
