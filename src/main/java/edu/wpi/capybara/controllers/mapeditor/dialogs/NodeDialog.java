@@ -37,6 +37,18 @@ public abstract class NodeDialog extends FXMLDialog<Void> {
     floor.prefWidthProperty().bind(pane.widthProperty());
     building.prefWidthProperty().bind(pane.widthProperty());
 
+    nodeID
+        .textProperty()
+        .bind(
+            Bindings.createStringBinding(
+                () ->
+                    String.format("%sX%sY%s", floor.getText(), xCoord.getText(), yCoord.getText()),
+                xCoord.textProperty(),
+                yCoord.textProperty(),
+                floor.textProperty()));
+    nodeID.setEditable(false);
+    nodeID.setDisable(true);
+
     final var ok = pane.lookupButton(okButton);
     ok.addEventHandler(ActionEvent.ACTION, event -> onOKPressed());
     ok.disableProperty()
