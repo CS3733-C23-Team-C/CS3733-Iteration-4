@@ -17,7 +17,6 @@ import java.util.TreeSet;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javax.swing.*;
 
@@ -84,7 +83,7 @@ public class SecurityController {
     Iterator<NodeEntity> iterator = sortedset.iterator();
     while (iterator.hasNext()) {
       NodeEntity n = iterator.next();
-      System.out.println(n.getShortName());
+      // System.out.println(n.getShortName());
       Location.getItems().add(n.getShortName());
     }
 
@@ -106,7 +105,8 @@ public class SecurityController {
     String outputType = "" + Type.getValue();
     String outputNotes = notesUpdate.getText();
     SecuritysubmissionEntity addSubmission =
-        new SecuritysubmissionEntity(outputNotes, App.getUser().getStaffid(), outputLocation, outputType);
+        new SecuritysubmissionEntity(
+            App.getUser().getStaffid(), outputLocation, outputType, outputNotes);
 
     clearFields();
   }

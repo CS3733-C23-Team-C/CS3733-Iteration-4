@@ -80,7 +80,11 @@ public class CleaningController {
     String hazardLevelInfo = hazardLevel.getText();
     CleaningsubmissionEntity addSubmission =
         new CleaningsubmissionEntity(
-            App.getUser().getStaffid(), locationInfo, hazardLevelInfo, descriptionInfo, submissionStatus.BLANK);
+            App.getUser().getStaffid(),
+            locationInfo,
+            hazardLevelInfo,
+            descriptionInfo,
+            submissionStatus.BLANK);
     // locationInfo, hazardLevelInfo, descriptionInfo
     //    addSubmission.setLocation(locationInfo);
     //    addSubmission.setHazardlevel(hazardLevelInfo);
@@ -103,7 +107,6 @@ public class CleaningController {
   public void clearRequest() {
     Location.getSelectionModel().selectFirst();
     Description.clear();
-    MemberID.clear();
     hazardLevel.clear();
     currentStatus = submissionStatus.BLANK;
     SubmitButton.setDisable(true);
