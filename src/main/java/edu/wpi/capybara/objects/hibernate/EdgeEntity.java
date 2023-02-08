@@ -18,6 +18,13 @@ public class EdgeEntity {
   @Column(name = "node2")
   private String node2;
 
+  public EdgeEntity() {}
+
+  public EdgeEntity(String node1, String node2) {
+    this.node1 = node1;
+    this.node2 = node2;
+  }
+
   public String getNode1() {
     return node1;
   }
