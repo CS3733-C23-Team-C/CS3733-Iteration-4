@@ -42,7 +42,9 @@ dependencies {
             'com.oracle.database.jdbc:ojdbc8:19.6.0.0',
 
             'org.postgresql:postgresql:42.5.1',
-            'org.hibernate:hibernate-core:6.1.6.Final'
+            'org.hibernate:hibernate-core:6.1.6.Final',
+
+            'org.apache.commons:commons-lang3:3.12.0'
     )
 
     testImplementation(

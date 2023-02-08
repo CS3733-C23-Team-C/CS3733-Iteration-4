@@ -32,7 +32,7 @@ public class submissionCollector { // stores all of the submissions in different
 
   public submissionCollector() {
     transportationSubs = DatabaseConnect.transports();
-    allCleaningSubmissions = DatabaseConnect.cleanings();
+    // allCleaningSubmissions = DatabaseConnect.cleanings();
   }
 
   public void newTransportationSubmission(TransportationsubmissionEntity submission) {

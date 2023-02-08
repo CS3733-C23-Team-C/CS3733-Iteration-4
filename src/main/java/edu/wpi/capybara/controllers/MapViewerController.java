@@ -1,11 +1,11 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
-import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import edu.wpi.capybara.controllers.mapeditor.NodePropertyAdapter;
 import java.util.Objects;
+import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -19,7 +19,7 @@ public class MapViewerController {
 
   private final Canvas nodeDrawer;
 
-  private final SimpleListProperty<NodeEntity> nodesToDisplay;
+  private final SimpleListProperty<NodePropertyAdapter> nodesToDisplay;
 
   private final GraphicsContext gc;
   private final Image image;
@@ -31,7 +31,8 @@ public class MapViewerController {
   private static final float SCROLL_SPEED = 1f;
   private static final int MOVE_SPEED = 30;
 
-  public MapViewerController(Pane pane, Canvas nodeDrawer, ObservableList<NodeEntity> nodes) {
+  public MapViewerController(
+      Pane pane, Canvas nodeDrawer, ListProperty<NodePropertyAdapter> nodes) {
     // this dependency injection hurts my soul, but it will work for now
     this.nodeDrawer = nodeDrawer;
 
@@ -51,10 +52,11 @@ public class MapViewerController {
 
     nodesToDisplay = new SimpleListProperty<>(nodes);
     nodesToDisplay.addListener(
-        (ListChangeListener<? super NodeEntity>)
+        (ListChangeListener<? super NodePropertyAdapter>)
             (node) -> {
               // this could be made more efficient by only redrawing the changed node, but it will
               // work for now
+              System.out.println("Redrawing nodes");
               drawNodes();
             });
 
@@ -159,7 +161,7 @@ public class MapViewerController {
     }*/
 
     gc.setFill(Color.BLUE);
-    for (NodeEntity n : nodesToDisplay) {
+    for (NodePropertyAdapter n : nodesToDisplay) {
       if (nodeInMapView(n)) {
         // if (n == startNode || n == endNode) continue;
         drawNode(n);
@@ -170,22 +172,22 @@ public class MapViewerController {
     // }
   }
 
-  private boolean nodeInMapView(NodeEntity n) {
-    return n.getXcoord() > mapX
-        && n.getXcoord() < mapX + mapW
-        && n.getYcoord() > mapY
-        && n.getYcoord() < mapY + mapH;
+  private boolean nodeInMapView(NodePropertyAdapter n) {
+    return n.getXCoord() > mapX
+        && n.getXCoord() < mapX + mapW
+        && n.getYCoord() > mapY
+        && n.getYCoord() < mapY + mapH;
   }
 
-  private void drawNode(NodeEntity node) {
+  private void drawNode(NodePropertyAdapter node) {
     if (node == null) {
       System.out.println("NULL NODE");
       return;
     }
 
     gc.fillOval(
-        locToMapX(node.getXcoord()) - scale(4),
-        locToMapY(node.getYcoord()) - scale(4),
+        locToMapX(node.getXCoord()) - scale(4),
+        locToMapY(node.getYCoord()) - scale(4),
         scale(8),
         scale(8));
   }
