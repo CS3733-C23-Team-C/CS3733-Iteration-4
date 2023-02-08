@@ -71,7 +71,7 @@ public class MapEditorController {
     nodeTableView
         .getColumns()
         .setAll(nodeIDColumn, xCoordColumn, yCoordColumn, floorColumn, buildingColumn);
-    nodeTableView.setEditable(true);
+    //nodeTableView.setEditable(true);
 
     nodeTableView.setItems(repository.getNodes());
     nodeTableView.itemsProperty().bind(repository.nodesProperty());
