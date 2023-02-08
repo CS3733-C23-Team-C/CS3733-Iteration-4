@@ -16,6 +16,17 @@ public class ReplaceNodeDialog extends NodeDialog {
     this.node = node;
     this.repository = repository;
     setTitle("Modify Node");
+
+    nodeID.setText(node.getNodeID());
+    xCoord.setText(Integer.toString(node.getXCoord()));
+    yCoord.setText(Integer.toString(node.getYCoord()));
+    floor.setText(node.getFloor());
+    building.setText(node.getFloor());
+
+    floor.setEditable(false);
+    building.setEditable(false);
+    floor.setDisable(true);
+    building.setDisable(true);
   }
 
   @Override

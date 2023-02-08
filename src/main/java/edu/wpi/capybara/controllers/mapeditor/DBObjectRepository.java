@@ -51,7 +51,6 @@ public class DBObjectRepository {
 
   public NodePropertyAdapter createNode(
       String nodeID, int xCoord, int yCoord, String floor, String building) {
-    // TODO: 2/7/23 implement this
     final var nodeEntity = new NodeEntity(nodeID, xCoord, yCoord, floor, building);
     final var newNode = new NodePropertyAdapter(nodeEntity);
     nodes.add(newNode);
@@ -60,19 +59,22 @@ public class DBObjectRepository {
 
   private void addNode(NodePropertyAdapter node) {
     log.info("addNode");
+    DatabaseConnect.insertNode(node.getEntity());
   }
 
   private void deleteNode(NodePropertyAdapter node) {
     log.info("deleteNode");
-
+    node.getEntity().delete();
   }
 
   private void addEdge(EdgePropertyAdapter edge) {
     log.info("addEdge");
+    DatabaseConnect.insertEdge(edge.getEntity());
   }
 
   private void deleteEdge(EdgePropertyAdapter edge) {
     log.info("deleteEdge");
+    edge.getEntity().delete();
   }
 
   public LocationNamePropertyAdapter createLocationName(
@@ -85,18 +87,22 @@ public class DBObjectRepository {
 
   private void addLocationName(LocationNamePropertyAdapter locationName) {
     log.info("addLocationName");
+    DatabaseConnect.insertLocationName(locationName.getEntity());
   }
 
   private void deleteLocationName(LocationNamePropertyAdapter locationName) {
     log.info("deleteLocationName");
+    locationName.getEntity().delete();
   }
 
   private void addMove(MovePropertyAdapter move) {
     log.info("addMove");
+    DatabaseConnect.insertMove(move.getEntity());
   }
 
   private void deleteMove(MovePropertyAdapter move) {
     log.info("deleteMove");
+    move.getEntity().delete();
   }
 
   public ObservableList<NodePropertyAdapter> getNodes() {

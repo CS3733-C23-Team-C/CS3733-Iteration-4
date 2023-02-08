@@ -18,8 +18,9 @@ public class NodePropertyAdapter {
   private static final JavaBeanStringPropertyBuilder buildingBuilder =
       JavaBeanStringPropertyBuilder.create().name("building");
 
-  private final JavaBeanStringProperty nodeID;
+  private final NodeEntity entity;
 
+  private final JavaBeanStringProperty nodeID;
   private final JavaBeanIntegerProperty xCoord;
   private final JavaBeanIntegerProperty yCoord;
   private final JavaBeanStringProperty floor;
@@ -32,6 +33,7 @@ public class NodePropertyAdapter {
   // TODO: 1/31/23 implement said unit test
   // STOPSHIP: 1/31/23 see above to-do
   public NodePropertyAdapter(NodeEntity node) {
+    entity = node;
     try {
       nodeID = nodeIDBuilder.bean(node).build();
       xCoord = xCoordBuilder.bean(node).build();
@@ -109,5 +111,9 @@ public class NodePropertyAdapter {
 
   public JavaBeanStringProperty buildingProperty() {
     return building;
+  }
+
+  public NodeEntity getEntity() {
+    return entity;
   }
 }
