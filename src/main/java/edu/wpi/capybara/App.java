@@ -29,10 +29,10 @@ public class App extends Application {
   public void init() {
     log.info("Starting Up");
     user = new StaffEntity();
-    user.setStaffid("0000");
-    user.setFirstname("Joe");
-    user.setLastname("Mama");
-    user.setPassword("HeHeHeHa");
+    //    user.setStaffid("0000");
+    //    user.setFirstname("Joe");
+    //    user.setLastname("Mama");
+    //    user.setPassword("HeHeHeHa");
   }
 
   @Override

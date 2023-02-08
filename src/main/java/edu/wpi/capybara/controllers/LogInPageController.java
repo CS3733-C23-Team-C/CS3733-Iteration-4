@@ -1,5 +1,6 @@
 package edu.wpi.capybara.controllers;
 
+import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
@@ -51,6 +52,9 @@ public class LogInPageController {
     if (s == null) {
       clearFields();
     } else {
+      App.setUser(s);
+      RootController.showMenu();
+      RootController.updateUser();
       Navigation.navigate(Screen.HOME);
     }
     SubmitButton.setDisable(false);
