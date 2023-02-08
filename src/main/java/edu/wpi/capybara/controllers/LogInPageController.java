@@ -39,6 +39,13 @@ public class LogInPageController {
     String outputlastName = LastName.getText();
     clearFields();
 
+
+
+
+
+
+
+
     // System.out.println("output ID is" + outputID + "\n");
     return outputID;
   }
