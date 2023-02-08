@@ -1,12 +1,9 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.database.DatabaseConnect;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import java.io.Serializable;
 import java.util.Objects;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 public class EdgeEntityPK implements Serializable {
   @Column(name = "node1")
@@ -23,11 +20,11 @@ public class EdgeEntityPK implements Serializable {
 
   public void setNode1(String node1) {
     this.node1 = node1;
-    Session session = DatabaseConnect.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
+    //    Session session = DatabaseConnect.getSession();
+    //    Transaction tx = session.beginTransaction();
+    //    session.merge(this);
+    //    tx.commit();
+    //    session.close();
   }
 
   public String getNode2() {
@@ -36,11 +33,11 @@ public class EdgeEntityPK implements Serializable {
 
   public void setNode2(String node2) {
     this.node2 = node2;
-    Session session = DatabaseConnect.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
+    //    Session session = DatabaseConnect.getSession();
+    //    Transaction tx = session.beginTransaction();
+    //    session.merge(this);
+    //    tx.commit();
+    //    session.close();
   }
 
   @Override
