@@ -28,15 +28,15 @@ public class CleaningRequestController {
   /** When it switches to page, gets data from submission collector and creates tables */
   public void initialize() {
     memberIDNeeded.setCellValueFactory(
-        new PropertyValueFactory<CleaningsubmissionEntity, String>("memberID"));
+        new PropertyValueFactory<CleaningsubmissionEntity, String>("memberid"));
     hazardLevel.setCellValueFactory(
-        new PropertyValueFactory<CleaningsubmissionEntity, String>("hazardLevel"));
+        new PropertyValueFactory<CleaningsubmissionEntity, String>("hazardlevel"));
     locationCleanup.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, String>("location"));
     description.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, String>("description"));
     status.setCellValueFactory(
-        new PropertyValueFactory<CleaningsubmissionEntity, String>("status"));
+        new PropertyValueFactory<CleaningsubmissionEntity, String>("submissionstatus"));
     LinkedList<CleaningsubmissionEntity> data = App.getTotalSubmissions().getCleaningSubmissions();
     for (CleaningsubmissionEntity sub : data) {
       totalRequests.add(sub);
