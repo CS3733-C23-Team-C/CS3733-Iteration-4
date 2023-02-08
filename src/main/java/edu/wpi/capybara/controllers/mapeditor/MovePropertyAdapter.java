@@ -30,6 +30,12 @@ public class MovePropertyAdapter {
     }
   }
 
+  MovePropertyAdapter(MoveEntity moveEntity, NodePropertyAdapter node, LocationNamePropertyAdapter location) {
+    this(moveEntity);
+    nodeID.bind(node.nodeIDProperty());
+    longName.bind(location.longNameProperty());
+  }
+
   public JavaBeanStringProperty nodeIDProperty() {
     return nodeID;
   }

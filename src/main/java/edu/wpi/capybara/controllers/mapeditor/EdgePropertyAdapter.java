@@ -23,6 +23,12 @@ public class EdgePropertyAdapter {
     }
   }
 
+  public EdgePropertyAdapter(EdgeEntity edge, NodePropertyAdapter startNode, NodePropertyAdapter endNode) {
+    this(edge);
+    this.startNode.bind(startNode.nodeIDProperty());
+    this.endNode.bind(endNode.nodeIDProperty());
+  }
+
   public JavaBeanStringProperty startNodeProperty() {
     return startNode;
   }
