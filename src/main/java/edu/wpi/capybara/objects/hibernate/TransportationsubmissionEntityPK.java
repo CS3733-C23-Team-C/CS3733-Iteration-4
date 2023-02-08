@@ -107,6 +107,19 @@ public class TransportationsubmissionEntityPK implements Serializable {
         && Objects.equals(status, that.status);
   }
 
+  public TransportationsubmissionEntityPK(
+      String employeeid,
+      String currroomnum,
+      String destroomnum,
+      String reason,
+      submissionStatus status) {
+    this.employeeid = employeeid;
+    this.currroomnum = currroomnum;
+    this.destroomnum = destroomnum;
+    this.reason = reason;
+    this.status = status;
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(employeeid, currroomnum, destroomnum, reason, status);
