@@ -398,14 +398,18 @@ public class DatabaseConnect {
   }
 
   public static void insertSecurity(
-      String staffid, String location, String type, String notesupdate) {
+      String staffid,
+      String location,
+      String type,
+      String notesupdate,
+      submissionStatus submissionstatus) {
     Session session = factory.openSession();
     Transaction tx = null;
 
     try {
       tx = session.beginTransaction();
       SecuritysubmissionEntity security =
-          new SecuritysubmissionEntity(staffid, location, type, notesupdate);
+          new SecuritysubmissionEntity(staffid, location, type, notesupdate, submissionstatus);
       //      transportation.setEmployeeid(staffid);
       //      transportation.setCurrroomnum(currroomnum);
       //      transportation.setDestroomnum(destroomnum);

@@ -162,7 +162,8 @@ public class AllObjectsTest {
 
   @Test
   public void securityTest() {
-    SecuritysubmissionEntity sc = new SecuritysubmissionEntity("111", "Kaven", "Good", "No report");
+    SecuritysubmissionEntity sc =
+        new SecuritysubmissionEntity("111", "Kaven", "Good", "No report", submissionStatus.BLANK);
 
     assertEquals(sc.getEmployeeid(), "111");
     assertEquals(sc.getLocation(), "Kaven");
@@ -176,12 +177,13 @@ public class AllObjectsTest {
   @Test
   public void securityPKTest() {
     SecuritysubmissionEntityPK sc =
-        new SecuritysubmissionEntityPK("111", "Kaven", "Good", "No report");
+        new SecuritysubmissionEntityPK("111", "Kaven", "Good", "No report", submissionStatus.BLANK);
 
     assertEquals(sc.getEmployeeid(), "111");
     assertEquals(sc.getLocation(), "Kaven");
     assertEquals(sc.getType(), "Good");
     assertEquals(sc.getNotesupdate(), "No report");
+    assertEquals(sc.getSubmissionstatus(), submissionStatus.BLANK);
 
     SecuritysubmissionEntityPK ssc = sc;
     assertTrue(sc.equals(ssc));
