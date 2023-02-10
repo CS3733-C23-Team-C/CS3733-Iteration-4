@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
 <?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.scene.Cursor?>
@@ -16,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane onKeyPressed="#mapKeyPress" prefHeight="326.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.PathfindingController">
+<StackPane onKeyPressed="#mapKeyPress" prefHeight="534.0" prefWidth="721.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.PathfindingController">
    <children>
       <BorderPane prefHeight="400.0" prefWidth="600.0">
          <top>
@@ -52,19 +54,19 @@
             </HBox>
          </top>
          <right>
-            <VBox alignment="CENTER" minWidth="200.0" prefHeight="516.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <VBox alignment="CENTER" minWidth="200.0" prefHeight="364.0" prefWidth="232.0" BorderPane.alignment="CENTER">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID" />
-                  <MFXTextField fx:id="idField" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="5.0" maxWidth="124.0" onKeyReleased="#validateButton" />
+                  <MFXTextField fx:id="idField" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="5.0" maxWidth="199.0" onKeyReleased="#validateButton" prefHeight="29.0" prefWidth="199.0" />
                   <HBox maxHeight="10.0" prefHeight="100.0" prefWidth="200.0" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Location" VBox.vgrow="ALWAYS" />
-                  <MFXFilterComboBox fx:id="currRoom" onHidden="#validateButton" onShown="#validateButton" prefHeight="40.0" prefWidth="135.0" promptText="Room" />
+                  <MFXFilterComboBox fx:id="currRoom" onHidden="#validateButton" onShown="#validateButton" prefHeight="40.0" prefWidth="202.0" promptText="Room" />
                   <HBox maxHeight="10.0" prefHeight="34.0" prefWidth="150.0" />
                   <Text fx:id="DestinationRoomNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="Destination" VBox.vgrow="ALWAYS" />
-                  <MFXFilterComboBox fx:id="destRoom" onHidden="#validateButton" onShown="#validateButton" prefHeight="40.0" prefWidth="135.0" promptText="Room" />
+                  <MFXFilterComboBox fx:id="destRoom" onHidden="#validateButton" onShown="#validateButton" prefHeight="40.0" prefWidth="203.0" promptText="Room" />
                   <HBox maxHeight="10.0" prefHeight="34.0" prefWidth="150.0" />
                   <Text fx:id="DestinationRoomNumber1" strokeType="OUTSIDE" strokeWidth="0.0" text="Move Date" VBox.vgrow="ALWAYS" />
-                  <MFXTextField fx:id="dateField" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="1.0" maxHeight="20.0" maxWidth="124.0" measureUnitGap="1.0" onKeyReleased="#validateButton" prefHeight="18.0" prefWidth="124.0" VBox.vgrow="ALWAYS" />
+                  <MFXDatePicker fx:id="dateField" />
                   <HBox maxHeight="10.0" prefHeight="5.0" prefWidth="200.0" />
                   <MFXButton fx:id="clearButton" onAction="#clearFields" style="-fx-background-color: #ffffbf;" text="Clear Selections">
                      <cursor>
@@ -83,19 +85,32 @@
          <center>
             <Pane fx:id="canvasPane" minHeight="300.0" minWidth="400.0">
                <children>
-                  <StackPane>
+                  <StackPane fx:id="stackPane">
                      <children>
-                        <AnchorPane fx:id="nodeAnchorPane" prefHeight="200.0" prefWidth="200.0" />
-                        <Canvas fx:id="nodeDrawer" height="300.0" onMouseDragged="#mapDrag" onMouseExited="#mapStopDrag" onMousePressed="#mapStartDrag" onMouseReleased="#mapStopDrag" onScroll="#mapScroll" width="400.0">
+                        <Canvas fx:id="nodeDrawer" height="300.0" width="400.0">
                            <cursor>
                               <Cursor fx:constant="OPEN_HAND" />
                            </cursor>
                         </Canvas>
+                        <AnchorPane fx:id="nodeAnchorPane" prefHeight="200.0" prefWidth="200.0" />
                      </children>
                   </StackPane>
                </children>
             </Pane>
          </center>
+         <bottom>
+            <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Pane prefHeight="100.0" prefWidth="557.0" />
+                  <VBox>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Map Level" textAlignment="CENTER" wrappingWidth="116.13671875" />
+                        <MFXComboBox fx:id="floorSelect" onAction="#changeFloor" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+         </bottom>
       </BorderPane>
    </children>
 </StackPane>

@@ -3,6 +3,8 @@ package edu.wpi.capybara.controllers;
 import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.exceptions.FloorDoesNotExistException;
+import edu.wpi.capybara.objects.NodeCircle;
+import edu.wpi.capybara.objects.NodeCircleClickHandler;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import java.util.Collection;
 import java.util.List;
@@ -17,6 +19,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,14 +41,17 @@ public class MapViewController {
   private static final float DRAG_SPEED = 1f;
   private boolean isPath;
   private String currentFloor;
+  private NodeCircleClickHandler onClick;
   @Setter @Getter private NodeEntity startNode, endNode;
 
-  public MapViewController(Canvas nodeDrawer, AnchorPane ap, Pane canvasPane) {
+  public MapViewController(
+      Canvas nodeDrawer, AnchorPane ap, Pane canvasPane, NodeCircleClickHandler onClick) {
     this.nodeDrawer = nodeDrawer;
     this.ap = ap;
     this.canvasPane = canvasPane;
     this.gc = nodeDrawer.getGraphicsContext2D();
     this.allNodes = DatabaseConnect.getNodes().values();
+    this.onClick = onClick;
 
     L1 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankL1.png")));
     L2 =
@@ -87,6 +93,7 @@ public class MapViewController {
         .addListener(
             (observable, oldValue, newValue) -> {
               nodeDrawer.setWidth(canvasPane.getWidth());
+
               canvasW = nodeDrawer.getWidth();
 
               mapW = mapH * (canvasW / canvasH);
@@ -123,15 +130,39 @@ public class MapViewController {
   }
 
   public void mapStopDrag(MouseEvent event) {
+    double moveX = (lastX - event.getX()) * (mapW / canvasW);
+    double moveY = (lastY - event.getY()) * (mapH / canvasH);
+
+    if (moveX == 0 && moveY == 0) return;
+
+    mapX += moveX;
+    mapY += moveY;
+
+    if (mapX + mapW > 5000) {
+      mapX = 5000 - mapW;
+    }
+    if (mapX < 0) {
+      mapX = 0;
+    }
+    if (mapY + mapH > 3400) {
+      mapY = 3400 - mapH;
+    }
+    if (mapY < 0) {
+      mapY = 0;
+    }
 
     nodeDrawer.setCursor(Cursor.OPEN_HAND);
     drawNodes();
   }
 
   public void mapDrag(MouseEvent event) {
+    double moveX = (lastX - event.getX()) * (mapW / canvasW);
+    double moveY = (lastY - event.getY()) * (mapH / canvasH);
 
-    mapX += (lastX - event.getX()) * (mapW / canvasW);
-    mapY += (lastY - event.getY()) * (mapH / canvasH);
+    if (moveX == 0 && moveY == 0) return;
+
+    mapX += moveX;
+    mapY += moveY;
 
     if (mapX + mapW > 5000) {
       mapX = 5000 - mapW;
@@ -209,24 +240,23 @@ public class MapViewController {
   }
 
   public void drawNodes() {
+    // System.out.println("Redrawing Nodes");
     gc.clearRect(0, 0, canvasW, canvasH);
     gc.drawImage(currentFloorImage, mapX, mapY, mapW, mapH, 0, 0, canvasW, canvasH);
+    ap.getChildren().removeIf(node -> node.getClass() == NodeCircle.class);
+
     // System.out.println("window: " + mapX + " x " + mapY + " size: " + mapW + " x " + mapH);
 
     if (isPath) {
       drawPath();
-      gc.setFill(Color.GREEN);
-      drawNode(currentPath.get(0));
-      gc.setFill(Color.RED);
-      drawNode(currentPath.get(allNodes.size() - 1));
+      drawNode(currentPath.get(0), Color.GREEN);
+      drawNode(currentPath.get(currentPath.size() - 1), Color.RED);
     } else {
       if (startNode != null) {
-        gc.setFill(Color.GREEN);
-        drawNode(startNode);
+        drawNode(startNode, Color.GREEN);
       }
       if (endNode != null) {
-        gc.setFill(Color.RED);
-        drawNode(endNode);
+        drawNode(endNode, Color.RED);
       }
 
       gc.setFill(Color.BLUE);
@@ -242,24 +272,28 @@ public class MapViewController {
   }
 
   private boolean nodeInMapView(NodeEntity n) {
-    return n.getXcoord() > mapX
-        && n.getXcoord() < mapX + mapW
-        && n.getYcoord() > mapY
-        && n.getYcoord() < mapY + mapH
+    return n.getXcoord() > mapX + scale(4)
+        && n.getXcoord() < mapX + mapW - scale(4)
+        && n.getYcoord() > mapY + scale(4)
+        && n.getYcoord() < mapY + mapH - scale(4)
         && n.getFloor().equals(currentFloor);
   }
 
   private void drawNode(NodeEntity node) {
+    drawNode(node, Color.BLUE);
+  }
+
+  private void drawNode(NodeEntity node, Paint color) {
     if (node == null) {
       System.out.println("NULL NODE");
       return;
     }
 
-    gc.fillOval(
-        locToMapX(node.getXcoord()) - scale(4),
-        locToMapY(node.getYcoord()) - scale(4),
-        scale(8),
-        scale(8));
+    NodeCircle testCircle = new NodeCircle(scale(4), color, node);
+    ap.getChildren().add(testCircle);
+    testCircle.setCenterX(locToMapX(node.getXcoord()));
+    testCircle.setCenterY(locToMapY(node.getYcoord()));
+    testCircle.setOnMouseClicked(event -> onClick.handle(event, testCircle));
   }
 
   private void drawPath() {
@@ -365,6 +399,7 @@ public class MapViewController {
       throw new FloorDoesNotExistException("floorID " + floorID + " does not exist");
     }
 
+    currentFloor = floorID;
     drawNodes();
   }
 }
