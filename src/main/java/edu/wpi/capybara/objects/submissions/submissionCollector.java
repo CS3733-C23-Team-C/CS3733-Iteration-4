@@ -62,7 +62,8 @@ public class submissionCollector { // stores all of the submissions in different
         App.getUser().getStaffid(),
         submission.getLocation(),
         submission.getType(),
-        submission.getNotesupdate());
+        submission.getNotesupdate(),
+        submission.getSubmissionstatus());
     this.securitySubs.add(submission);
   }
 

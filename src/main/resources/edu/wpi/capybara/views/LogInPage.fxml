@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="LoginStackPane" stylesheets="@../styles/logInPage_style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.LogInPageController">
+<StackPane fx:id="LoginStackPane" stylesheets="@../styles/home_style.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.LogInPageController">
     <children>
         <BorderPane fx:id="loginPane" prefHeight="400.0" prefWidth="600.0" styleClass="body" stylesheets="@../styles/home_style.css">
             <center>
@@ -31,20 +31,16 @@
          <right>
                   <HBox alignment="CENTER_RIGHT" fillHeight="false" prefHeight="299.0" prefWidth="540.0" BorderPane.alignment="CENTER">
                       <children>
-                          <AnchorPane opacity="0.8" prefHeight="315.0" prefWidth="203.0" style="-fx-background-color: #a9cbde; -fx-blend-mode: 5;">
+                          <AnchorPane opacity="0.8" prefHeight="315.0" prefWidth="203.0" style="-fx-background-color: #a9cbde;">
                               <children>
-                                  <TextField fx:id="employeeID" layoutX="26.0" layoutY="63.0" text="Employee ID" />
-                                  <TextField fx:id="password" layoutX="27.0" layoutY="186.0" text="Password" />
-                                  <TextField fx:id="username" layoutX="27.0" layoutY="139.0" text="Last Name" />
-                                  <MFXButton fx:id="clear" layoutX="14.0" layoutY="225.0" rippleColor="#753434" style="-fx-background-color: FFFFBF;" text="Clear" />
-                                  <MFXButton fx:id="submit" layoutX="134.0" layoutY="225.0" onAction="#returnHome" rippleColor="#48b244" style="-fx-background-color: B9FBB9;" text="Submit" />
-                                  <Text layoutX="74.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login">
+                                  <TextField fx:id="employeeID" layoutX="28.0" layoutY="121.0" promptText="Employee ID" />
+                                  <MFXButton fx:id="clear" layoutX="39.0" layoutY="158.0" onAction="#clearButton" rippleColor="#753434" style="-fx-background-color: FFFFBF;" text="Clear" />
+                                  <MFXButton fx:id="SubmitButton" layoutX="111.0" layoutY="158.0" onAction="#submit" rippleColor="#48b244" style="-fx-background-color: B9FBB9;" text="Submit" />
+                                  <Text layoutX="71.0" layoutY="105.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login">
                                       <font>
-                                          <Font size="20.0" />
+                                          <Font size="25.0" />
                                       </font>
                         </Text>
-                                  <Text layoutX="99.0" layoutY="119.0" strokeType="OUTSIDE" strokeWidth="0.0" text="or" />
-                                  <MFXButton fx:id="map" layoutX="9.0" layoutY="260.0" prefHeight="25.0" prefWidth="188.0" style="-fx-background-color: #f3ff73;" text="Map" />
                               </children>
                      <opaqueInsets>
                         <Insets />

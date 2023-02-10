@@ -28,19 +28,13 @@ public class SecurityControllerTest extends ApplicationTest {
 
   @BeforeEach
   public void before() {
-    clickOn("#username");
+    clickOn("#employeeID");
     for (int i = 0; i < 13; i++) {
       type(KeyCode.BACK_SPACE);
     }
     type(KeyCode.DIGIT1, KeyCode.DIGIT2, KeyCode.DIGIT3, KeyCode.DIGIT4, KeyCode.DIGIT5);
 
-    clickOn("#password");
-    for (int i = 0; i < 13; i++) {
-      type(KeyCode.BACK_SPACE);
-    }
-    type(KeyCode.DIGIT1, KeyCode.DIGIT2, KeyCode.DIGIT3, KeyCode.DIGIT4, KeyCode.DIGIT5);
-
-    clickOn("#submit");
+    clickOn("#SubmitButton");
   }
 
   @Test

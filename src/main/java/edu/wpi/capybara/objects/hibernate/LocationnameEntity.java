@@ -68,6 +68,15 @@ public class LocationnameEntity {
     session.close();
   }
 
+  public void delete() {
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.remove(this);
+    tx.commit();
+    session.close();
+    DatabaseConnect.importLocations();
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
