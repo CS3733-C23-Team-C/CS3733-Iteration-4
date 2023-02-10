@@ -1,9 +1,11 @@
 package edu.wpi.capybara.database;
 
 import edu.wpi.capybara.objects.hibernate.*;
+import edu.wpi.capybara.objects.submissions.Urgency;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
 import jakarta.persistence.PersistenceException;
 import java.sql.*;
+import java.sql.Date;
 import java.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.*;
@@ -13,11 +15,11 @@ import org.hibernate.cfg.Configuration;
 public class DatabaseConnect {
   // static Connection connection;
   static SessionFactory factory;
-  public static TreeMap<Integer, NodeEntity> nodes;
+  public static TreeMap<String, NodeEntity> nodes;
   public static TreeMap<Integer, EdgeEntity> edges;
-  public static HashMap<Integer, LocationnameEntity> locationNames;
+  public static HashMap<String, LocationnameEntity> locationNames;
   public static HashMap<Integer, MoveEntity> moves;
-  public static HashMap<Integer, StaffEntity> staff;
+  public static HashMap<String, StaffEntity> staff;
 
   static Scanner in = new Scanner(System.in);
 
@@ -38,8 +40,8 @@ public class DatabaseConnect {
     //      //      tx.commit();
     //      //      System.out.println(n.getBuilding());
     //    }
-    Session session = factory.openSession();
-    Transaction tx = session.beginTransaction();
+    //    Session session = factory.openSession();
+    //    Transaction tx = session.beginTransaction();
     //    for (NodeEntity n : nodes.values()) {
     //      if (n.getBuilding().equals("76868")) {
     //        nodes.remove(n.hashCode());
@@ -47,17 +49,17 @@ public class DatabaseConnect {
     //      }
     //    }
 
-    CleaningsubmissionEntity addSubmission =
-        new CleaningsubmissionEntity("3", "1", "1", "2X2279Y0762", submissionStatus.BLANK);
+    //    CleaningsubmissionEntity addSubmission =
+    //        new CleaningsubmissionEntity("3", "1", "1", "2X2279Y0762", submissionStatus.BLANK);
 
     //    addSubmission.setMemberid("2");
     //    addSubmission.setDescription("1");
     //    addSubmission.setHazardlevel("1");
     //    addSubmission.setLocation("2X2279Y0762");
-    //    addSubmission.setSubmissionstatus(submissionStatus.BLANK);
-    session.persist(addSubmission);
-    tx.commit();
-    session.close();
+    //    //    addSubmission.setSubmissionstatus(submissionStatus.BLANK);
+    //    session.persist(addSubmission);
+    //    tx.commit();
+    //    session.close();
 
     //    NodeEntity addNode = new NodeEntity("1000", 1000, 1000, "3", "Foisie");
     //    //    addNode.setNodeid("1337");
@@ -81,7 +83,7 @@ public class DatabaseConnect {
   }
 
   public static void importNodes() {
-    nodes = new TreeMap<Integer, NodeEntity>();
+    nodes = new TreeMap<String, NodeEntity>();
     Session session = factory.openSession();
     Transaction tx = null;
 
@@ -90,7 +92,7 @@ public class DatabaseConnect {
       List n = session.createQuery("FROM NodeEntity").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         NodeEntity temp = (NodeEntity) iterator.next();
-        nodes.put((temp).hashCode(), temp);
+        nodes.put(temp.getNodeid(), temp);
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -102,7 +104,7 @@ public class DatabaseConnect {
   }
 
   public static void importStaff() {
-    staff = new HashMap<Integer, StaffEntity>();
+    staff = new HashMap<String, StaffEntity>();
     Session session = factory.openSession();
     Transaction tx = null;
 
@@ -111,7 +113,7 @@ public class DatabaseConnect {
       List n = session.createQuery("FROM StaffEntity ").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         StaffEntity temp = (StaffEntity) iterator.next();
-        staff.put((temp).hashCode(), temp);
+        staff.put(temp.getStaffid(), temp);
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -144,7 +146,7 @@ public class DatabaseConnect {
   }
 
   public static void importLocations() {
-    locationNames = new HashMap<Integer, LocationnameEntity>();
+    locationNames = new HashMap<String, LocationnameEntity>();
     Session session = factory.openSession();
     Transaction tx = null;
 
@@ -153,7 +155,7 @@ public class DatabaseConnect {
       List n = session.createQuery("FROM LocationnameEntity ").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         LocationnameEntity temp = (LocationnameEntity) iterator.next();
-        locationNames.put((temp).hashCode(), temp);
+        locationNames.put(temp.getLongname(), temp);
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -264,7 +266,7 @@ public class DatabaseConnect {
     return edges;
   }
 
-  public static TreeMap<Integer, NodeEntity> getNodes() {
+  public static TreeMap<String, NodeEntity> getNodes() {
     return nodes;
   }
 
@@ -272,7 +274,7 @@ public class DatabaseConnect {
     return moves;
   }
 
-  public static HashMap<Integer, LocationnameEntity> getLocationNames() {
+  public static HashMap<String, LocationnameEntity> getLocationNames() {
     return locationNames;
   }
 
@@ -309,7 +311,7 @@ public class DatabaseConnect {
 
   public static void insertNode(NodeEntity node) {
     insert(node);
-    nodes.put(node.hashCode(), node);
+    nodes.put(node.getNodeid(), node);
   }
 
   public static void insertEdge(EdgeEntity edge) {
@@ -324,7 +326,7 @@ public class DatabaseConnect {
 
   public static void insertLocationName(LocationnameEntity locationName) {
     insert(locationName);
-    locationNames.put(locationName.hashCode(), locationName);
+    locationNames.put(locationName.getLongname(), locationName);
   }
 
   private static <T> void insert(T entity) {
@@ -345,7 +347,12 @@ public class DatabaseConnect {
       String location,
       String hazardlevel,
       String description,
-      submissionStatus submissionstatus) {
+      submissionStatus submissionstatus,
+      String assigneeid,
+      int submissionid,
+      Urgency urgency,
+      Date createdate,
+      Date duedate) {
     Session session = factory.openSession();
     Transaction tx = null;
 
@@ -353,7 +360,16 @@ public class DatabaseConnect {
       tx = session.beginTransaction();
       CleaningsubmissionEntity cleaning =
           new CleaningsubmissionEntity(
-              staffid, location, hazardlevel, description, submissionstatus);
+              staffid,
+              location,
+              hazardlevel,
+              description,
+              submissionstatus,
+              assigneeid,
+              submissionid,
+              urgency,
+              createdate,
+              duedate);
       //      cleaning.setMemberid(staffid);
       //      cleaning.setLocation(location);
       //      cleaning.setHazardlevel(hazardlevel);
@@ -374,14 +390,29 @@ public class DatabaseConnect {
       String currroomnum,
       String destroomnum,
       String reason,
-      submissionStatus status) {
+      submissionStatus status,
+      String assigneeid,
+      int submissionid,
+      Urgency urgency,
+      Date createdate,
+      Date duedate) {
     Session session = factory.openSession();
     Transaction tx = null;
 
     try {
       tx = session.beginTransaction();
       TransportationsubmissionEntity transportation =
-          new TransportationsubmissionEntity(staffid, currroomnum, destroomnum, reason, status);
+          new TransportationsubmissionEntity(
+              staffid,
+              currroomnum,
+              destroomnum,
+              reason,
+              status,
+              assigneeid,
+              submissionid,
+              urgency,
+              createdate,
+              duedate);
       //      transportation.setEmployeeid(staffid);
       //      transportation.setCurrroomnum(currroomnum);
       //      transportation.setDestroomnum(destroomnum);
@@ -402,14 +433,29 @@ public class DatabaseConnect {
       String location,
       String type,
       String notesupdate,
-      submissionStatus submissionstatus) {
+      submissionStatus submissionstatus,
+      String assigneeid,
+      int submissionid,
+      Urgency urgency,
+      Date createdate,
+      Date duedate) {
     Session session = factory.openSession();
     Transaction tx = null;
 
     try {
       tx = session.beginTransaction();
       SecuritysubmissionEntity security =
-          new SecuritysubmissionEntity(staffid, location, type, notesupdate, submissionstatus);
+          new SecuritysubmissionEntity(
+              staffid,
+              location,
+              type,
+              notesupdate,
+              submissionstatus,
+              assigneeid,
+              submissionid,
+              urgency,
+              createdate,
+              duedate);
       //      transportation.setEmployeeid(staffid);
       //      transportation.setCurrroomnum(currroomnum);
       //      transportation.setDestroomnum(destroomnum);

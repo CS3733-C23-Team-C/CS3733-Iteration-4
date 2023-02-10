@@ -7,11 +7,13 @@ import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
+import edu.wpi.capybara.objects.submissions.Urgency;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -61,7 +63,7 @@ public class TransportationController {
     //    Location.getItems().add("Location");
     //    Location.getItems().add("Location1");
 
-    TreeMap<Integer, NodeEntity> nodes = DatabaseConnect.getNodes();
+    TreeMap<String, NodeEntity> nodes = DatabaseConnect.getNodes();
 
     SortedSet<NodeEntity> sortedset = new TreeSet<NodeEntity>(new NodeAlphabetComparator());
 
@@ -106,7 +108,12 @@ public class TransportationController {
             outputCurrRoom,
             outputDestRoom,
             outputReason,
-            submissionStatus.BLANK);
+            submissionStatus.BLANK,
+            "1",
+            (int) (Math.random() * 100000),
+            Urgency.BLANK,
+            new Date(2000, 1, 1),
+            new Date(2000, 1, 2));
     //    newSubmission.setCurrroomnum(outputCurrRoom);
     //    newSubmission.setDestroomnum(outputDestRoom);
     //    newSubmission.setReason(outputReason);
