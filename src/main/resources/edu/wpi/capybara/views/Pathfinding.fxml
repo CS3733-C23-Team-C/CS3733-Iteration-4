@@ -7,6 +7,7 @@
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -82,11 +83,16 @@
          <center>
             <Pane fx:id="canvasPane" minHeight="300.0" minWidth="400.0">
                <children>
-                  <Canvas fx:id="nodeDrawer" height="300.0" onMouseDragged="#mapDrag" onMouseExited="#mapStopDrag" onMousePressed="#mapStartDrag" onMouseReleased="#mapStopDrag" onScroll="#mapScroll" width="400.0">
-                     <cursor>
-                        <Cursor fx:constant="OPEN_HAND" />
-                     </cursor>
-                  </Canvas>
+                  <StackPane>
+                     <children>
+                        <AnchorPane fx:id="nodeAnchorPane" prefHeight="200.0" prefWidth="200.0" />
+                        <Canvas fx:id="nodeDrawer" height="300.0" onMouseDragged="#mapDrag" onMouseExited="#mapStopDrag" onMousePressed="#mapStartDrag" onMouseReleased="#mapStopDrag" onScroll="#mapScroll" width="400.0">
+                           <cursor>
+                              <Cursor fx:constant="OPEN_HAND" />
+                           </cursor>
+                        </Canvas>
+                     </children>
+                  </StackPane>
                </children>
             </Pane>
          </center>
