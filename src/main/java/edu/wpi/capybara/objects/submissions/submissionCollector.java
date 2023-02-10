@@ -37,7 +37,12 @@ public class submissionCollector { // stores all of the submissions in different
         cleaningSub.getLocation(),
         cleaningSub.getHazardlevel(),
         cleaningSub.getDescription(),
-        cleaningSub.getSubmissionstatus());
+        cleaningSub.getSubmissionstatus(),
+        cleaningSub.getAssignedid(),
+        cleaningSub.getSubmissionid(),
+        cleaningSub.getUrgency(),
+        cleaningSub.getCreatedate(),
+        cleaningSub.getDuedate());
     this.allCleaningSubmissions.add(cleaningSub);
   }
 
@@ -53,7 +58,12 @@ public class submissionCollector { // stores all of the submissions in different
         submission.getCurrroomnum(),
         submission.getDestroomnum(),
         submission.getReason(),
-        submission.getStatus());
+        submission.getStatus(),
+        submission.getAssignedid(),
+        submission.getSubmissionid(),
+        submission.getUrgency(),
+        submission.getCreatedate(),
+        submission.getDuedate());
     this.transportationSubs.add(submission);
   }
 
@@ -63,7 +73,12 @@ public class submissionCollector { // stores all of the submissions in different
         submission.getLocation(),
         submission.getType(),
         submission.getNotesupdate(),
-        submission.getSubmissionstatus());
+        submission.getSubmissionstatus(),
+        submission.getAssignedid(),
+        submission.getSubmissionid(),
+        submission.getUrgency(),
+        submission.getCreatedate(),
+        submission.getDuedate());
     this.securitySubs.add(submission);
   }
 

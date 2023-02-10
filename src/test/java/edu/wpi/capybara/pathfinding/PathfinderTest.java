@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 public class PathfinderTest {
 
   static NodeEntity current, n1, n2, goal;
-  static TreeMap<Integer, NodeEntity> nodes;
+  static TreeMap<String, NodeEntity> nodes;
   static TreeMap<Integer, EdgeEntity> edges;
 
   @BeforeAll

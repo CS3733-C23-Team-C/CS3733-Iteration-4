@@ -7,10 +7,12 @@ import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import edu.wpi.capybara.objects.submissions.Urgency;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,7 +48,7 @@ public class CleaningController {
     //    Location.getItems().add("Location");
     //    Location.getItems().add("Location1");
 
-    TreeMap<Integer, NodeEntity> nodes = DatabaseConnect.getNodes();
+    TreeMap<String, NodeEntity> nodes = DatabaseConnect.getNodes();
 
     SortedSet<NodeEntity> sortedset = new TreeSet<NodeEntity>(new NodeAlphabetComparator());
 
@@ -84,7 +86,12 @@ public class CleaningController {
             locationInfo,
             hazardLevelInfo,
             descriptionInfo,
-            submissionStatus.BLANK);
+            submissionStatus.BLANK,
+            "1",
+            (int) (Math.random() * 100000),
+            Urgency.BLANK,
+            new java.sql.Date(2000, 1, 1),
+            new Date(2000, 1, 2));
     // locationInfo, hazardLevelInfo, descriptionInfo
     //    addSubmission.setLocation(locationInfo);
     //    addSubmission.setHazardlevel(hazardLevelInfo);

@@ -124,7 +124,7 @@ public class NodeEntity {
     if (longname == null) {
       return "NA";
     }
-    HashMap<Integer, LocationnameEntity> locations = DatabaseConnect.getLocationNames();
+    HashMap<String, LocationnameEntity> locations = DatabaseConnect.getLocationNames();
     for (LocationnameEntity location : locations.values()) {
       if (longname.equals(location.getLongname())) {
         return location.getShortname();
