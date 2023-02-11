@@ -12,7 +12,6 @@ import edu.wpi.capybara.objects.submissions.submissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import java.io.IOException;
-import java.sql.Date;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -107,6 +106,7 @@ public class SecurityController {
     String outputLocation = "" + Location.getValue();
     String outputType = "" + Type.getValue();
     String outputNotes = notesUpdate.getText();
+    java.util.Date date = new java.util.Date();
     SecuritysubmissionEntity addSubmission =
         new SecuritysubmissionEntity(
             App.getUser().getStaffid(),
@@ -114,11 +114,11 @@ public class SecurityController {
             outputType,
             outputNotes,
             submissionStatus.BLANK,
-            "1",
+            null,
             (int) (Math.random() * 100000),
             Urgency.BLANK,
-            new Date(2000, 1, 1),
-            new Date(2000, 1, 2));
+            new java.sql.Date(date.getTime()),
+            new java.sql.Date(date.getTime() + 86400000));
     App.getTotalSubmissions().newSecuritySubmission(addSubmission);
     clearFields();
   }

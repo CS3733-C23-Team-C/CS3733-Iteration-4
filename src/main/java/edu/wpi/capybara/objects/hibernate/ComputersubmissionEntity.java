@@ -1,6 +1,8 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.objects.submissions.Urgency;
+import edu.wpi.capybara.objects.submissions.submissionStatus;
 import jakarta.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
@@ -10,52 +12,44 @@ import org.hibernate.Transaction;
 @Entity
 @Table(name = "computersubmission", schema = "cdb", catalog = "teamcdb")
 public class ComputersubmissionEntity {
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "submissionid")
-  private String submissionid;
+  private int submissionid;
 
-  @Basic
   @Column(name = "employeeid")
   private String employeeid;
 
-  @Basic
   @Column(name = "assignedid")
   private String assignedid;
 
-  @Basic
   @Column(name = "location")
   private String location;
 
-  @Basic
   @Column(name = "type")
   private String type;
 
-  @Basic
   @Column(name = "notesupdate")
   private String notesupdate;
 
-  @Basic
+  @Enumerated(EnumType.STRING)
   @Column(name = "submissionstatus")
-  private String submissionstatus;
+  private submissionStatus submissionstatus;
 
-  @Basic
+  @Enumerated(EnumType.STRING)
   @Column(name = "urgency")
-  private String urgency;
+  private Urgency urgency;
 
-  @Basic
   @Column(name = "createdate")
   private Date createdate;
 
-  @Basic
   @Column(name = "duedate")
   private Date duedate;
 
-  public String getSubmissionid() {
+  public int getSubmissionid() {
     return submissionid;
   }
 
-  public void setSubmissionid(String submissionid) {
+  public void setSubmissionid(int submissionid) {
     this.submissionid = submissionid;
     Session session = DatabaseConnect.getSession();
     Transaction tx = session.beginTransaction();
@@ -129,11 +123,11 @@ public class ComputersubmissionEntity {
     session.close();
   }
 
-  public String getSubmissionstatus() {
+  public submissionStatus getSubmissionstatus() {
     return submissionstatus;
   }
 
-  public void setSubmissionstatus(String submissionstatus) {
+  public void setSubmissionstatus(submissionStatus submissionstatus) {
     this.submissionstatus = submissionstatus;
     Session session = DatabaseConnect.getSession();
     Transaction tx = session.beginTransaction();
@@ -142,11 +136,11 @@ public class ComputersubmissionEntity {
     session.close();
   }
 
-  public String getUrgency() {
+  public Urgency getUrgency() {
     return urgency;
   }
 
-  public void setUrgency(String urgency) {
+  public void setUrgency(Urgency urgency) {
     this.urgency = urgency;
     Session session = DatabaseConnect.getSession();
     Transaction tx = session.beginTransaction();
@@ -184,14 +178,14 @@ public class ComputersubmissionEntity {
   public ComputersubmissionEntity() {}
 
   public ComputersubmissionEntity(
-      String submissionid,
+      int submissionid,
       String employeeid,
       String assignedid,
       String location,
       String type,
       String notesupdate,
-      String submissionstatus,
-      String urgency,
+      submissionStatus submissionstatus,
+      Urgency urgency,
       Date createdate,
       Date duedate) {
     this.submissionid = submissionid;

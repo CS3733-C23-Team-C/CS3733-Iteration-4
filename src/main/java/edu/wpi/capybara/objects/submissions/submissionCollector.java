@@ -2,9 +2,7 @@ package edu.wpi.capybara.objects.submissions;
 
 import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
-import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
-import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
-import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
+import edu.wpi.capybara.objects.hibernate.*;
 import java.util.LinkedList;
 
 public class submissionCollector { // stores all of the submissions in different collections
@@ -13,6 +11,10 @@ public class submissionCollector { // stores all of the submissions in different
   LinkedList<CleaningsubmissionEntity> allCleaningSubmissions;
 
   LinkedList<SecuritysubmissionEntity> securitySubs;
+
+  LinkedList<AudiosubmissionEntity> audioSubs;
+
+  LinkedList<ComputersubmissionEntity> computerSubs;
 
   public LinkedList<TransportationsubmissionEntity> getTransportationSubs() {
     return transportationSubs;
@@ -24,6 +26,14 @@ public class submissionCollector { // stores all of the submissions in different
 
   public LinkedList<SecuritysubmissionEntity> getSecuritySubs() {
     return securitySubs;
+  }
+
+  public LinkedList<AudiosubmissionEntity> getAudioSubs() {
+    return audioSubs;
+  }
+
+  public LinkedList<ComputersubmissionEntity> getComputerSubs() {
+    return computerSubs;
   }
 
   /**
@@ -65,6 +75,36 @@ public class submissionCollector { // stores all of the submissions in different
         submission.getCreatedate(),
         submission.getDuedate());
     this.transportationSubs.add(submission);
+  }
+
+  public void newComputerSubmission(ComputersubmissionEntity submission) {
+    DatabaseConnect.insertSecurity(
+        App.getUser().getStaffid(),
+        submission.getLocation(),
+        submission.getType(),
+        submission.getNotesupdate(),
+        submission.getSubmissionstatus(),
+        submission.getAssignedid(),
+        submission.getSubmissionid(),
+        submission.getUrgency(),
+        submission.getCreatedate(),
+        submission.getDuedate());
+    this.computerSubs.add(submission);
+  }
+
+  public void newAudioSubmission(AudiosubmissionEntity submission) {
+    DatabaseConnect.insertSecurity(
+        App.getUser().getStaffid(),
+        submission.getLocation(),
+        submission.getType(),
+        submission.getNotesupdate(),
+        submission.getSubmissionstatus(),
+        submission.getAssignedid(),
+        submission.getSubmissionid(),
+        submission.getUrgency(),
+        submission.getCreatedate(),
+        submission.getDuedate());
+    this.audioSubs.add(submission);
   }
 
   public void newSecuritySubmission(SecuritysubmissionEntity submission) {

@@ -13,7 +13,6 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
-import java.sql.Date;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -96,6 +95,7 @@ public class TransportationController {
 
   public void submitForm(ActionEvent actionEvent)
       throws IOException { // when submit button is pressed, collects text fields
+    java.util.Date date = new java.util.Date();
     String outputCurrRoom =
         Location.getValue(); // then creates an object to store them, clears fields
     String outputDestRoom = destRoom.getText();
@@ -109,11 +109,11 @@ public class TransportationController {
             outputDestRoom,
             outputReason,
             submissionStatus.BLANK,
-            "1",
+            null,
             (int) (Math.random() * 100000),
             Urgency.BLANK,
-            new Date(2000, 1, 1),
-            new Date(2000, 1, 2));
+            new java.sql.Date(date.getTime()),
+            new java.sql.Date(date.getTime() + 86400000));
     //    newSubmission.setCurrroomnum(outputCurrRoom);
     //    newSubmission.setDestroomnum(outputDestRoom);
     //    newSubmission.setReason(outputReason);
