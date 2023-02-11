@@ -2,6 +2,9 @@ package edu.wpi.capybara.navigation;
 
 public enum Screen {
   ROOT("views/Root.fxml"),
+  EMPTY_ROOT("views/EmptyRoot.fxml"),
+  MENU("views/Menu.fxml"),
+  SERVICE_REQUESTS("views/ServiceRequests.fxml"),
   HOME("views/Home.fxml"),
   SERVICE_REQUEST_TRANSPORTATION("views/Transportation.fxml"),
   SERVICE_REQUEST_CLEANING("views/Cleaning.fxml"),
