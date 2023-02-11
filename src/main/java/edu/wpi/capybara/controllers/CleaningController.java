@@ -12,7 +12,6 @@ import edu.wpi.capybara.objects.submissions.submissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import java.io.IOException;
-import java.sql.Date;
 import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -76,7 +75,7 @@ public class CleaningController {
    * @param actionEvent
    */
   public void submit(ActionEvent actionEvent) {
-
+    java.util.Date date = new java.util.Date();
     String locationInfo = "" + Location.getValue();
     String descriptionInfo = Description.getText();
     String hazardLevelInfo = hazardLevel.getText();
@@ -87,11 +86,11 @@ public class CleaningController {
             hazardLevelInfo,
             descriptionInfo,
             submissionStatus.BLANK,
-            "1",
+            null,
             (int) (Math.random() * 100000),
             Urgency.BLANK,
-            new java.sql.Date(2000, 1, 1),
-            new Date(2000, 1, 2));
+            new java.sql.Date(date.getTime()),
+            new java.sql.Date(date.getTime() + 86400000));
     // locationInfo, hazardLevelInfo, descriptionInfo
     //    addSubmission.setLocation(locationInfo);
     //    addSubmission.setHazardlevel(hazardLevelInfo);
