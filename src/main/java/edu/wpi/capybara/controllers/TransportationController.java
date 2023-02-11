@@ -1,11 +1,8 @@
 package edu.wpi.capybara.controllers;
 
-import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
-import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
-import edu.wpi.capybara.objects.submissions.submissionStatus;
 import io.github.palexdev.materialfx.controls.*;
 import java.io.IOException;
 import java.util.Iterator;
@@ -70,15 +67,15 @@ public class TransportationController {
     String outputReason = reasonField.getText();
 
     // Change to accommodate database and storage system
-    TransportationsubmissionEntity newSubmission =
-        new TransportationsubmissionEntity(
-            App.getUser().getStaffid(),
-            outputCurrRoom,
-            outputDestRoom,
-            outputReason,
-            submissionStatus.BLANK);
-    App.getTotalSubmissions().newTransportationSubmission(newSubmission);
-    System.out.println(App.getTotalSubmissions().getTransportationData());
+    //    TransportationsubmissionEntity newSubmission =
+    //        new TransportationsubmissionEntity(
+    //            App.getUser().getStaffid(),
+    //            outputCurrRoom,
+    //            outputDestRoom,
+    //            outputReason,
+    //            submissionStatus.BLANK);
+    //    App.getTotalSubmissions().newTransportationSubmission(newSubmission);
+    //    System.out.println(App.getTotalSubmissions().getTransportationData());
     clearFields();
   }
 
