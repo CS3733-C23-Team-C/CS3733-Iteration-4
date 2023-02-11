@@ -5,94 +5,112 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.CleaningRequestController">
+<StackPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.CleaningRequestController">
    <children>
-      <BorderPane prefHeight="400.0" prefWidth="600.0">
-         <top>
-            <HBox alignment="CENTER" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #252526;" BorderPane.alignment="CENTER">
+      <BorderPane>
+         <center>
+            <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
                <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                  <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Submitted Requests">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;" />
+                  <HBox prefHeight="20.0" />
+                  <HBox alignment="CENTER" minWidth="300.0" spacing="20.0" style="-fx-background-color: #F6BD38;">
                      <children>
-                        <MFXButton fx:id="back" mnemonicParsing="false" onAction="#back" prefHeight="36.0" prefWidth="54.4" text="1" textFill="#fffbfb">
-                           <graphic>
-                              <ImageView fitHeight="28.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/back_button.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
+                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Request Type:">
                            <font>
-                              <Font size="1.0" />
+                              <Font size="15.0" />
+                           </font>
+                        </Text>
+                        <MFXComboBox fx:id="requestType" floatMode="ABOVE" onAction="#updateTable" prefWidth="200.0">
+                           <HBox.margin>
+                              <Insets left="25.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <textFill>
+                              <Color red="0.003921568859368563" green="0.1764705926179886" blue="0.3529411852359772" opacity="0.8700000047683716" />
+                           </textFill>
+                        </MFXComboBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #F6BD38;">
+                     <children>
+                        <StackPane>
+                           <children>
+                              <TableView fx:id="transportationRequests" visible="false">
+                                 <columns>
+                                    <TableColumn fx:id="transportationID" prefWidth="103.20001220703125" text="Staff ID" />
+                                    <TableColumn fx:id="transportationLocation" prefWidth="107.20001220703125" text="Location" />
+                                    <TableColumn fx:id="destination" prefWidth="140.0" text="Destination" />
+                                    <TableColumn fx:id="reason" prefWidth="157.3333740234375" text="Reason" />
+                                    <TableColumn fx:id="transportationStatus" prefWidth="89.3333740234375" text="Status" />
+                                 </columns>
+                              </TableView>
+                              <TableView fx:id="cleanRequests" visible="false">
+                                 <columns>
+                                    <TableColumn fx:id="cleanID" prefWidth="103.20001220703125" text="Staff ID" />
+                                    <TableColumn fx:id="cleanLocation" prefWidth="107.20001220703125" text="Location" />
+                                    <TableColumn fx:id="hazardLevel" prefWidth="140.0" text="Hazard Level" />
+                                    <TableColumn fx:id="cleanDescription" prefWidth="157.3333740234375" text="Description" />
+                                    <TableColumn fx:id="cleanStatus" prefWidth="89.3333740234375" text="Status" />
+                                 </columns>
+                              </TableView>
+                              <TableView fx:id="securityRequests">
+                                 <columns>
+                                    <TableColumn fx:id="securityID" prefWidth="103.20001220703125" text="Staff ID" />
+                                    <TableColumn fx:id="securityLocation" prefWidth="107.20001220703125" text="Location" />
+                                    <TableColumn fx:id="type" prefWidth="140.0" text="Type" />
+                                    <TableColumn fx:id="securityDescription" prefWidth="157.3333740234375" text="Description" />
+                                    <TableColumn fx:id="securityStatus" prefWidth="89.3333740234375" text="Status" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </StackPane>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" />
+                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                     <children>
+                        <MFXButton fx:id="fieldsEdit" minWidth="150.0" onAction="#edit" style="-fx-background-color: #012D5A;" text="Edit" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </MFXButton>
+                        <MFXButton fx:id="fieldsSave" minWidth="150.0" onAction="#save" style="-fx-background-color: #009CA6;" text="Save" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
                            </font>
                         </MFXButton>
                      </children>
                   </HBox>
-                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Requests">
-                     <font>
-                        <Font name="Segoe UI Black" size="30.0" />
-                     </font>
-                  </Text>
-                  <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                </children>
-            </HBox>
-         </top>
-         <center>
-            <VBox prefHeight="500.0" prefWidth="100.0" BorderPane.alignment="CENTER">
-               <children>
-                  <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0">
-                     <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select Request Type:" />
-                        <MFXComboBox fx:id="requestType" floatMode="ABOVE" onAction="#updateTable">
-                           <HBox.margin>
-                              <Insets left="25.0" />
-                           </HBox.margin>
-                        </MFXComboBox>
-                     </children>
-                  </HBox>
-                  <StackPane prefHeight="150.0" prefWidth="200.0">
-                     <children>
-                        <TableView fx:id="transportationRequests" prefHeight="200.0" prefWidth="200.0" visible="false">
-                           <columns>
-                              <TableColumn fx:id="transportationID" prefWidth="103.20001220703125" text="Staff ID" />
-                              <TableColumn fx:id="transportationLocation" prefWidth="107.20001220703125" text="Location" />
-                              <TableColumn fx:id="destination" prefWidth="140.0" text="Destination" />
-                              <TableColumn fx:id="reason" prefWidth="157.3333740234375" text="Reason" />
-                              <TableColumn fx:id="transportationStatus" prefWidth="89.3333740234375" text="Status" />
-                           </columns>
-                        </TableView>
-                        <TableView fx:id="cleanRequests" prefHeight="200.0" prefWidth="200.0" visible="false">
-                          <columns>
-                            <TableColumn fx:id="cleanID" prefWidth="103.20001220703125" text="Staff ID" />
-                            <TableColumn fx:id="cleanLocation" prefWidth="107.20001220703125" text="Location" />
-                              <TableColumn fx:id="hazardLevel" prefWidth="140.0" text="Hazard Level" />
-                              <TableColumn fx:id="cleanDescription" prefWidth="157.3333740234375" text="Description" />
-                              <TableColumn fx:id="cleanStatus" prefWidth="89.3333740234375" text="Status" />
-                          </columns>
-                        </TableView>
-                        <TableView fx:id="securityRequests" prefHeight="200.0" prefWidth="600.0">
-                           <columns>
-                              <TableColumn fx:id="securityID" prefWidth="103.20001220703125" text="Staff ID" />
-                              <TableColumn fx:id="securityLocation" prefWidth="107.20001220703125" text="Location" />
-                              <TableColumn fx:id="type" prefWidth="140.0" text="Type" />
-                              <TableColumn fx:id="securityDescription" prefWidth="157.3333740234375" text="Description" />
-                              <TableColumn fx:id="securityStatus" prefWidth="89.3333740234375" text="Status" />
-                           </columns>
-                        </TableView>
-                     </children>
-                  </StackPane>
-               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" />
+               </padding>
             </VBox>
          </center>
+         <top>
+            <HBox prefHeight="20.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER" />
+         </top>
       </BorderPane>
    </children>
-</AnchorPane>
+</StackPane>

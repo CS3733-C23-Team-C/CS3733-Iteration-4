@@ -1,6 +1,5 @@
 package edu.wpi.capybara;
 
-import edu.wpi.capybara.controllers.RootController;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.hibernate.StaffEntity;
@@ -50,7 +49,7 @@ public class App extends Application {
     primaryStage.show();
 
     Navigation.navigate(Screen.LOG_IN_PAGE);
-    RootController.updateUser();
+    // RootController.updateUser();
   }
 
   @Override
@@ -60,6 +59,5 @@ public class App extends Application {
 
   public static void setUser(StaffEntity newUser) {
     user = newUser;
-    //    MenuController.setUserName();
   }
 }

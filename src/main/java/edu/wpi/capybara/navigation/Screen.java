@@ -4,6 +4,8 @@ public enum Screen {
   ROOT("views/Root.fxml"),
   EMPTY_ROOT("views/EmptyRoot.fxml"),
   MENU("views/Menu.fxml"),
+  SERVICE_REQUEST_COMPUTER("views/Computer.fxml"),
+  SERVICE_REQUEST_AUDIO("views/Audio.fxml"),
   SERVICE_REQUESTS("views/ServiceRequests.fxml"),
   HOME("views/Home.fxml"),
   SERVICE_REQUEST_TRANSPORTATION("views/Transportation.fxml"),

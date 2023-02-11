@@ -55,8 +55,6 @@ public class LogInPageController {
 
       Navigation.navigate(Screen.HOME);
       Navigation.addMenu(Screen.MENU);
-
-      App.setUser(s);
     }
   }
 

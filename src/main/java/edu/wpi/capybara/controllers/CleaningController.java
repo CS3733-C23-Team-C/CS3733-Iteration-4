@@ -8,10 +8,11 @@ import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
-import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.*;
+
 import java.io.IOException;
 import java.util.*;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -20,16 +21,14 @@ import javafx.scene.control.TextField;
 
 public class CleaningController {
 
-  @FXML private MFXButton SubmitButton;
-
-  @FXML private MFXButton ReturnButton;
-
-  @FXML public MFXComboBox<String> Location;
-  @FXML public TextArea Description;
-
-  @FXML private Button ClearButton;
-
-  @FXML private TextField hazardLevel;
+  @FXML private MFXTextField employeeID;
+  @FXML private MFXFilterComboBox<String> location;
+  @FXML private MFXComboBox<String> hazardLevel;
+  @FXML private MFXComboBox<String> emergencyLevel;
+  @FXML private MFXDatePicker date;
+  @FXML private MFXTextField notes;
+  @FXML private MFXButton clearButton;
+  @FXML private MFXButton submitButton;
 
   public CleaningRequestController forRequests;
 
@@ -43,8 +42,6 @@ public class CleaningController {
 
     // Add different locations
 
-    //    Location.getItems().add("Location");
-    //    Location.getItems().add("Location1");
 
     TreeMap<Integer, NodeEntity> nodes = DatabaseConnect.getNodes();
 

@@ -124,4 +124,8 @@ public class CleaningRequestController {
   public void back(ActionEvent actionEvent) throws IOException {
     Navigation.navigate(Screen.HOME);
   }
+
+  public void edit(ActionEvent actionEvent) {}
+
+  public void save(ActionEvent actionEvent) {}
 }
