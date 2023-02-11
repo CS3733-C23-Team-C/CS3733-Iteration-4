@@ -1,11 +1,16 @@
 package edu.wpi.capybara.database;
 
 import edu.wpi.capybara.objects.hibernate.*;
+<<<<<<< Updated upstream
 import edu.wpi.capybara.objects.submissions.Urgency;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
 import jakarta.persistence.PersistenceException;
 import java.sql.*;
 import java.sql.Date;
+=======
+import edu.wpi.capybara.objects.submissions.SubmissionStatus;
+import jakarta.persistence.PersistenceException;
+>>>>>>> Stashed changes
 import java.util.*;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.*;
@@ -49,8 +54,13 @@ public class DatabaseConnect {
     //      }
     //    }
 
+<<<<<<< Updated upstream
     //    CleaningsubmissionEntity addSubmission =
     //        new CleaningsubmissionEntity("3", "1", "1", "2X2279Y0762", submissionStatus.BLANK);
+=======
+    CleaningsubmissionEntity addSubmission =
+        new CleaningsubmissionEntity("3", "1", "1", "2X2279Y0762", SubmissionStatus.BLANK);
+>>>>>>> Stashed changes
 
     //    addSubmission.setMemberid("2");
     //    addSubmission.setDescription("1");
@@ -347,12 +357,16 @@ public class DatabaseConnect {
       String location,
       String hazardlevel,
       String description,
+<<<<<<< Updated upstream
       submissionStatus submissionstatus,
       String assigneeid,
       int submissionid,
       Urgency urgency,
       Date createdate,
       Date duedate) {
+=======
+      SubmissionStatus submissionstatus) {
+>>>>>>> Stashed changes
     Session session = factory.openSession();
     Transaction tx = null;
 
@@ -390,12 +404,16 @@ public class DatabaseConnect {
       String currroomnum,
       String destroomnum,
       String reason,
+<<<<<<< Updated upstream
       submissionStatus status,
       String assigneeid,
       int submissionid,
       Urgency urgency,
       Date createdate,
       Date duedate) {
+=======
+      SubmissionStatus status) {
+>>>>>>> Stashed changes
     Session session = factory.openSession();
     Transaction tx = null;
 
@@ -433,12 +451,16 @@ public class DatabaseConnect {
       String location,
       String type,
       String notesupdate,
+<<<<<<< Updated upstream
       submissionStatus submissionstatus,
       String assigneeid,
       int submissionid,
       Urgency urgency,
       Date createdate,
       Date duedate) {
+=======
+      SubmissionStatus submissionstatus) {
+>>>>>>> Stashed changes
     Session session = factory.openSession();
     Transaction tx = null;
 

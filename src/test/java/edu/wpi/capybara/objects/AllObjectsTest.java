@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.hibernate.*;
-import edu.wpi.capybara.objects.submissions.submissionStatus;
+import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import java.sql.Date;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -91,13 +91,13 @@ public class AllObjectsTest {
 
     CleaningsubmissionEntity cs =
         new CleaningsubmissionEntity(
-            "4566", "office 67", "big", "i spilt concentrated hcl oopsie", submissionStatus.BLANK);
+            "4566", "office 67", "big", "i spilt concentrated hcl oopsie", SubmissionStatus.BLANK);
 
     assertEquals(cs.getMemberid(), "4566");
     assertEquals(cs.getLocation(), "office 67");
     assertEquals(cs.getHazardlevel(), "big");
     assertEquals(cs.getDescription(), "i spilt concentrated hcl oopsie");
-    assertEquals(cs.getSubmissionstatus(), submissionStatus.BLANK);
+    assertEquals(cs.getSubmissionstatus(), SubmissionStatus.BLANK);
     CleaningsubmissionEntity cs2 = cs;
     assertTrue(cs.equals(cs2));
   }
@@ -107,13 +107,13 @@ public class AllObjectsTest {
 
     CleaningsubmissionEntityPK cs =
         new CleaningsubmissionEntityPK(
-            "4566", "office 67", "big", "i spilt concentrated hcl oopsie", submissionStatus.BLANK);
+            "4566", "office 67", "big", "i spilt concentrated hcl oopsie", SubmissionStatus.BLANK);
 
     assertEquals(cs.getMemberid(), "4566");
     assertEquals(cs.getLocation(), "office 67");
     assertEquals(cs.getHazardlevel(), "big");
     assertEquals(cs.getDescription(), "i spilt concentrated hcl oopsie");
-    assertEquals(cs.getSubmissionstatus(), submissionStatus.BLANK);
+    assertEquals(cs.getSubmissionstatus(), SubmissionStatus.BLANK);
     CleaningsubmissionEntityPK cs2 = cs;
     assertTrue(cs.equals(cs2));
   }
@@ -122,13 +122,13 @@ public class AllObjectsTest {
   public void transportationSubmissionTest() {
     TransportationsubmissionEntity ts =
         new TransportationsubmissionEntity(
-            "1738", "Exam room", "ICU", "dropped my phone during surgery", submissionStatus.BLANK);
+            "1738", "Exam room", "ICU", "dropped my phone during surgery", SubmissionStatus.BLANK);
 
     assertEquals(ts.getEmployeeid(), "1738");
     assertEquals(ts.getCurrroomnum(), "Exam room");
     assertEquals(ts.getDestroomnum(), "ICU");
     assertEquals(ts.getReason(), "dropped my phone during surgery");
-    assertEquals(ts.getStatus(), submissionStatus.BLANK);
+    assertEquals(ts.getStatus(), SubmissionStatus.BLANK);
     TransportationsubmissionEntity ts2 = ts;
     assertTrue(ts.equals(ts2));
   }
@@ -137,13 +137,13 @@ public class AllObjectsTest {
   public void transportationSubmissionTestPK() {
     TransportationsubmissionEntityPK ts =
         new TransportationsubmissionEntityPK(
-            "1738", "Exam room", "ICU", "dropped my phone during surgery", submissionStatus.BLANK);
+            "1738", "Exam room", "ICU", "dropped my phone during surgery", SubmissionStatus.BLANK);
 
     assertEquals(ts.getEmployeeid(), "1738");
     assertEquals(ts.getCurrroomnum(), "Exam room");
     assertEquals(ts.getDestroomnum(), "ICU");
     assertEquals(ts.getReason(), "dropped my phone during surgery");
-    assertEquals(ts.getStatus(), submissionStatus.BLANK);
+    assertEquals(ts.getStatus(), SubmissionStatus.BLANK);
     TransportationsubmissionEntityPK ts2 = ts;
     assertTrue(ts.equals(ts2));
   }
@@ -163,7 +163,7 @@ public class AllObjectsTest {
   @Test
   public void securityTest() {
     SecuritysubmissionEntity sc =
-        new SecuritysubmissionEntity("111", "Kaven", "Good", "No report", submissionStatus.BLANK);
+        new SecuritysubmissionEntity("111", "Kaven", "Good", "No report", SubmissionStatus.BLANK);
 
     assertEquals(sc.getEmployeeid(), "111");
     assertEquals(sc.getLocation(), "Kaven");
@@ -177,13 +177,13 @@ public class AllObjectsTest {
   @Test
   public void securityPKTest() {
     SecuritysubmissionEntityPK sc =
-        new SecuritysubmissionEntityPK("111", "Kaven", "Good", "No report", submissionStatus.BLANK);
+        new SecuritysubmissionEntityPK("111", "Kaven", "Good", "No report", SubmissionStatus.BLANK);
 
     assertEquals(sc.getEmployeeid(), "111");
     assertEquals(sc.getLocation(), "Kaven");
     assertEquals(sc.getType(), "Good");
     assertEquals(sc.getNotesupdate(), "No report");
-    assertEquals(sc.getSubmissionstatus(), submissionStatus.BLANK);
+    assertEquals(sc.getSubmissionstatus(), SubmissionStatus.BLANK);
 
     SecuritysubmissionEntityPK ssc = sc;
     assertTrue(sc.equals(ssc));

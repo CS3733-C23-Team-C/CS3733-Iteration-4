@@ -1,8 +1,12 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.database.DatabaseConnect;
+<<<<<<< Updated upstream
 import edu.wpi.capybara.objects.submissions.Urgency;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
+=======
+import edu.wpi.capybara.objects.submissions.SubmissionStatus;
+>>>>>>> Stashed changes
 import jakarta.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
@@ -31,7 +35,7 @@ public class CleaningsubmissionEntity {
   // @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Enumerated(EnumType.STRING)
   @Column(name = "submissionstatus")
-  private submissionStatus submissionstatus;
+  private SubmissionStatus submissionstatus;
 
   @Column(name = "assignedid")
   private String assignedid;
@@ -103,12 +107,16 @@ public class CleaningsubmissionEntity {
       String location,
       String hazardlevel,
       String description,
+<<<<<<< Updated upstream
       submissionStatus submissionstatus,
       String assignedid,
       int submissionid,
       Urgency urgency,
       Date createdate,
       Date duedate) {
+=======
+      SubmissionStatus submissionstatus) {
+>>>>>>> Stashed changes
     this.memberid = memberid;
     this.location = location;
     this.hazardlevel = hazardlevel;
@@ -133,11 +141,11 @@ public class CleaningsubmissionEntity {
     session.close();
   }
 
-  public submissionStatus getSubmissionstatus() {
+  public SubmissionStatus getSubmissionstatus() {
     return submissionstatus;
   }
 
-  public void setSubmissionstatus(submissionStatus submissionstatus) {
+  public void setSubmissionstatus(SubmissionStatus submissionstatus) {
 
     this.submissionstatus = submissionstatus;
     Session session = DatabaseConnect.getSession();

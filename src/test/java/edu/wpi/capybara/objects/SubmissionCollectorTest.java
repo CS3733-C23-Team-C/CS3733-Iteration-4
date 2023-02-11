@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.hibernate.StaffEntity;
-import edu.wpi.capybara.objects.submissions.submissionCollector;
+import edu.wpi.capybara.objects.submissions.SubmissionCollector;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +20,7 @@ public class SubmissionCollectorTest {
   @Test
   public void getterTest() {
     App.setUser(new StaffEntity("aaaa", "fname", "lname", "12345"));
-    submissionCollector sc = new submissionCollector();
+    SubmissionCollector sc = new SubmissionCollector();
     assertNotNull(sc.getCleaningData());
   }
 }
