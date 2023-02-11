@@ -1,28 +1,18 @@
 package edu.wpi.capybara.controllers;
 
-import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
-import edu.wpi.capybara.navigation.Navigation;
-import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
-import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
 import io.github.palexdev.materialfx.controls.*;
-
-import java.io.IOException;
 import java.util.*;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 
 public class CleaningController {
 
   @FXML private MFXTextField employeeID;
-  @FXML private MFXFilterComboBox<String> location;
+  @FXML private MFXFilterComboBox<String> Location;
   @FXML private MFXComboBox<String> hazardLevel;
   @FXML private MFXComboBox<String> emergencyLevel;
   @FXML private MFXDatePicker date;
@@ -42,7 +32,6 @@ public class CleaningController {
 
     // Add different locations
 
-
     TreeMap<Integer, NodeEntity> nodes = DatabaseConnect.getNodes();
 
     SortedSet<NodeEntity> sortedset = new TreeSet<NodeEntity>(new NodeAlphabetComparator());
@@ -56,12 +45,14 @@ public class CleaningController {
       Location.getItems().add(n.getShortName());
     }
 
-    //    ObservableList<String> locationList =
-    //        FXCollections.observableArrayList("Location", "Another location");
-    //    Location.setItems(locationList);
-
     // Set a default variable
     Location.getSelectionModel().selectFirst();
+
+    emergencyLevel.getItems().addAll("Low", "Medium", "High", "Extreme");
+    emergencyLevel.getSelectionModel().selectFirst();
+
+    hazardLevel.getItems().addAll("Low", "Medium", "High", "Extreme");
+    hazardLevel.getSelectionModel().selectFirst();
   }
 
   /**
@@ -72,47 +63,40 @@ public class CleaningController {
    */
   public void submit(ActionEvent actionEvent) {
 
-    String locationInfo = "" + Location.getValue();
-    String descriptionInfo = Description.getText();
-    String hazardLevelInfo = hazardLevel.getText();
-    CleaningsubmissionEntity addSubmission =
-        new CleaningsubmissionEntity(
-            App.getUser().getStaffid(),
-            locationInfo,
-            hazardLevelInfo,
-            descriptionInfo,
-            submissionStatus.BLANK);
-    // locationInfo, hazardLevelInfo, descriptionInfo
-    //    addSubmission.setLocation(locationInfo);
-    //    addSubmission.setHazardlevel(hazardLevelInfo);
-    App.getTotalSubmissions().newCleaningSub(addSubmission);
-    System.out.println(App.getTotalSubmissions().getCleaningData());
-    clearRequest();
-  }
+    String outputID = employeeID.getText();
+    String outputLocation = "" + Location.getValue();
+    String outputHazard = "" + hazardLevel.getValue();
+    String outputEmergency = "" + emergencyLevel.getValue();
+    String outputDate = "" + date.getText();
+    String outputNotes = notes.getText();
 
-  /**
-   * navigates back to home screen
-   *
-   * @param actionEvent
-   * @throws IOException
-   */
-  public void back(ActionEvent actionEvent) throws IOException {
-    Navigation.navigate(Screen.HOME);
+    // Change to accommodate database and storage system
+    //    CleaningsubmissionEntity addSubmission =
+    //        new CleaningsubmissionEntity(
+    //            App.getUser().getStaffid(),
+    //            outputLocation,
+    //            outputHazard,
+    //            outputNotes,
+    //            submissionStatus.BLANK);
+
+    //    App.getTotalSubmissions().newCleaningSub(addSubmission);
+    //    System.out.println(App.getTotalSubmissions().getCleaningData());
+    clearRequest();
   }
 
   /** clears all areas on the submission form */
   public void clearRequest() {
+    employeeID.clear();
     Location.getSelectionModel().selectFirst();
-    Description.clear();
-    hazardLevel.clear();
+    hazardLevel.getSelectionModel().selectFirst();
+    emergencyLevel.getSelectionModel().selectFirst();
+    date.clear();
     currentStatus = submissionStatus.BLANK;
-    SubmitButton.setDisable(true);
+    submitButton.setDisable(true);
   }
 
-  public void
-      validateButton() { // ensures that information has been filled in before allowing submission
-    boolean valid = false;
-    if (!hazardLevel.getText().equals("") && !Description.getText().equals("")) valid = true;
-    SubmitButton.setDisable(!valid);
+  public void validateButton() {
+    if (employeeID.getText() != "" && date.getText() != "" && notes.getText() != "")
+      submitButton.setDisable(false);
   }
 }

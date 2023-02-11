@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="transportationStackPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.TransportationController">
+<StackPane fx:id="transportationStackPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.CleaningController">
    <children>
       <BorderPane fx:id="transportationPane">
          <top>
@@ -65,7 +65,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <MFXFilterComboBox fx:id="location" onAction="#validateButton" prefWidth="200.0">
+                              <MFXFilterComboBox fx:id="Location" onAction="#validateButton" prefWidth="200.0">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -150,12 +150,12 @@
                   <HBox prefHeight="100.0" prefWidth="200.0" />
                   <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                      <children>
-                        <MFXButton fx:id="clearButton" minWidth="150.0" onAction="#clearFields" style="-fx-background-color: #012D5A;" text="Clear" textFill="WHITE">
+                        <MFXButton fx:id="clearButton" minWidth="150.0" onAction="#clearRequest" style="-fx-background-color: #012D5A;" text="Clear" textFill="WHITE">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </MFXButton>
-                        <MFXButton fx:id="submitButton" disable="true" minWidth="150.0" onAction="#submitForm" style="-fx-background-color: #009CA6;" text="Submit" textFill="WHITE">
+                        <MFXButton fx:id="submitButton" disable="true" minWidth="150.0" onAction="#submit" style="-fx-background-color: #009CA6;" text="Submit" textFill="WHITE">
                            <font>
                               <Font size="15.0" />
                            </font>

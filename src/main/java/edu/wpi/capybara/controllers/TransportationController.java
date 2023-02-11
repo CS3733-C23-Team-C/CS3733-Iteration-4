@@ -63,10 +63,9 @@ public class TransportationController {
   public void submitForm(ActionEvent actionEvent)
       throws IOException { // when submit button is pressed, collects text fields
     String outputID = employeeID.getText();
-    String outputCurrRoom =
-        currentLocation.getValue(); // then creates an object to store them, clears fields
-    String outputDestRoom = destinationLocation.getValue();
-    String outputLevel = emergencyLevel.getValue();
+    String outputCurrRoom = "" + currentLocation.getValue();
+    String outputDestRoom = "" + destinationLocation.getValue();
+    String outputLevel = "" + emergencyLevel.getValue();
     String outputDate = date.getText();
     String outputReason = reasonField.getText();
 
