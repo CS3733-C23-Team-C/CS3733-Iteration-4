@@ -67,15 +67,15 @@ public class TransportationController {
     String outputReason = reasonField.getText();
 
     // Change to accommodate database and storage system
-    //    TransportationsubmissionEntity newSubmission =
-    //        new TransportationsubmissionEntity(
-    //            App.getUser().getStaffid(),
-    //            outputCurrRoom,
-    //            outputDestRoom,
-    //            outputReason,
-    //            submissionStatus.BLANK);
-    //    App.getTotalSubmissions().newTransportationSubmission(newSubmission);
-    //    System.out.println(App.getTotalSubmissions().getTransportationData());
+    //        TransportationsubmissionEntity newSubmission =
+    //            new TransportationsubmissionEntity(
+    //                App.getUser().getStaffid(),
+    //                outputCurrRoom,
+    //                outputDestRoom,
+    //                outputReason,
+    //                submissionStatus.BLANK);
+    //        App.getTotalSubmissions().newTransportationSubmission(newSubmission);
+    //        System.out.println(App.getTotalSubmissions().getTransportationData());
     clearFields();
   }
 

@@ -3,7 +3,6 @@ package edu.wpi.capybara.controllers;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
-import edu.wpi.capybara.objects.submissions.submissionStatus;
 import io.github.palexdev.materialfx.controls.*;
 import java.util.*;
 import javafx.event.ActionEvent;
@@ -20,15 +19,15 @@ public class CleaningController {
   @FXML private MFXButton clearButton;
   @FXML private MFXButton submitButton;
 
-  public CleaningRequestController forRequests;
+  //  public CleaningRequestController forRequests;
 
   /** enumeration for status of request */
-  private submissionStatus currentStatus;
+  //  private submissionStatus currentStatus;
 
   @FXML
   public void initialize() {
     System.out.println("I am from cleaningController");
-    currentStatus = submissionStatus.BLANK;
+    //    currentStatus = submissionStatus.BLANK;
 
     // Add different locations
 
@@ -91,7 +90,7 @@ public class CleaningController {
     hazardLevel.getSelectionModel().selectFirst();
     emergencyLevel.getSelectionModel().selectFirst();
     date.clear();
-    currentStatus = submissionStatus.BLANK;
+    //    currentStatus = submissionStatus.BLANK;
     submitButton.setDisable(true);
   }
 
