@@ -7,12 +7,8 @@ import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
-<<<<<<< Updated upstream
-import edu.wpi.capybara.objects.submissions.Urgency;
-import edu.wpi.capybara.objects.submissions.submissionStatus;
-=======
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
->>>>>>> Stashed changes
+import edu.wpi.capybara.objects.submissions.Urgency;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import java.io.IOException;
@@ -89,16 +85,12 @@ public class CleaningController {
             locationInfo,
             hazardLevelInfo,
             descriptionInfo,
-<<<<<<< Updated upstream
-            submissionStatus.BLANK,
+            SubmissionStatus.BLANK,
             null,
             (int) (Math.random() * 100000),
             Urgency.BLANK,
             new java.sql.Date(date.getTime()),
             new java.sql.Date(date.getTime() + 86400000));
-=======
-            SubmissionStatus.BLANK);
->>>>>>> Stashed changes
     // locationInfo, hazardLevelInfo, descriptionInfo
     //    addSubmission.setLocation(locationInfo);
     //    addSubmission.setHazardlevel(hazardLevelInfo);

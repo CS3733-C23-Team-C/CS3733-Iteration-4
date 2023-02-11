@@ -37,7 +37,7 @@ public abstract class ServiceRequestAbs {
 
   @FXML
   public void inititalize() {
-    TreeMap<Integer, NodeEntity> nodes = DatabaseConnect.getNodes();
+    TreeMap<String, NodeEntity> nodes = DatabaseConnect.getNodes();
     SortedSet<NodeEntity> sortedset = new TreeSet<NodeEntity>(new NodeAlphabetComparator());
 
     sortedset.addAll(nodes.values());

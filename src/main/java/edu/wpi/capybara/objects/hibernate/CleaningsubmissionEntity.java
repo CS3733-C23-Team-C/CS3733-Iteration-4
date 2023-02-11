@@ -1,12 +1,8 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.database.DatabaseConnect;
-<<<<<<< Updated upstream
 import edu.wpi.capybara.objects.submissions.Urgency;
-import edu.wpi.capybara.objects.submissions.submissionStatus;
-=======
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
->>>>>>> Stashed changes
 import jakarta.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
@@ -107,16 +103,12 @@ public class CleaningsubmissionEntity {
       String location,
       String hazardlevel,
       String description,
-<<<<<<< Updated upstream
-      submissionStatus submissionstatus,
+      SubmissionStatus submissionstatus,
       String assignedid,
       int submissionid,
       Urgency urgency,
       Date createdate,
       Date duedate) {
-=======
-      SubmissionStatus submissionstatus) {
->>>>>>> Stashed changes
     this.memberid = memberid;
     this.location = location;
     this.hazardlevel = hazardlevel;

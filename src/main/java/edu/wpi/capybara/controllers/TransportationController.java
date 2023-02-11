@@ -7,12 +7,8 @@ import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
-<<<<<<< Updated upstream
 import edu.wpi.capybara.objects.submissions.Urgency;
-import edu.wpi.capybara.objects.submissions.submissionStatus;
-=======
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
->>>>>>> Stashed changes
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -111,19 +107,12 @@ public class TransportationController {
             outputCurrRoom,
             outputDestRoom,
             outputReason,
-<<<<<<< Updated upstream
-            submissionStatus.BLANK,
+            SubmissionStatus.BLANK,
             null,
             (int) (Math.random() * 100000),
             Urgency.BLANK,
             new java.sql.Date(date.getTime()),
             new java.sql.Date(date.getTime() + 86400000));
-=======
-            SubmissionStatus.BLANK);
->>>>>>> Stashed changes
-    //    newSubmission.setCurrroomnum(outputCurrRoom);
-    //    newSubmission.setDestroomnum(outputDestRoom);
-    //    newSubmission.setReason(outputReason);
     App.getTotalSubmissions().newTransportationSubmission(newSubmission);
     System.out.println(App.getTotalSubmissions().getTransportationData());
     clearFields();
