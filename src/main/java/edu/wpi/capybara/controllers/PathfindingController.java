@@ -25,6 +25,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 public class PathfindingController {
@@ -72,6 +73,7 @@ public class PathfindingController {
         FXCollections.observableArrayList(
             new AstarPathfinder(DatabaseConnect.getNodes(), DatabaseConnect.getEdges()),
             new DFSPathfinder(DatabaseConnect.getNodes())));
+    pathfindingAlgorithm.selectFirst();
     mvc.drawNodes();
     getMoveDate();
   }
@@ -99,8 +101,9 @@ public class PathfindingController {
   }
 
   public void clearFields(ActionEvent event) { // clears fields of text
-    currRoom.setText("");
-    destRoom.setText("");
+    currRoom.clearSelection();
+    destRoom.clearSelection();
+    pathfindingAlgorithm.selectFirst();
     dateField.setValue(LocalDate.now());
 
     mvc.setEndNode(null);
@@ -155,21 +158,37 @@ public class PathfindingController {
 
   private void nodeClickedOnAction(MouseEvent event, NodeCircle nodeCircle) {
     NodeEntity node = nodeCircle.getConnectedNode();
+    PFNode pfNode = getPFNode(node);
 
     MFXGenericDialogBuilder dialogBuilder = new MFXGenericDialogBuilder();
+    VBox textHolder;
 
-    Text title = new Text(node.getShortName());
+    // text
+    if (pfNode.hasRecentNode(getMoveDate())) {
+      Text title = new Text(pfNode.getLongname(getMoveDate()));
+      title.setFont(Font.font(16));
+      Text shortName = new Text("Short Name: " + pfNode.getShortname(getMoveDate()));
+      Text longName = new Text("Long Name: " + pfNode.getLongname(getMoveDate()));
+      Text locationType = new Text("Location Type: " + pfNode.getLocationtype(getMoveDate()));
+      textHolder = new VBox(title, shortName, longName, locationType);
+    } else {
+      textHolder =
+          new VBox(
+              new Text("Node " + node.getNodeid() + " has no moves before " + dateField.getText()));
+    }
+
+    // options
     MFXButton setStartNode = new MFXButton("Set as Current Location");
-    setStartNode.setBackground(Background.fill(Color.GREEN));
+    setStartNode.setBackground(Background.fill(Color.color(0f / 256f, 156f / 256f, 166f / 256f)));
     MFXButton setEndNode = new MFXButton("Set as Destination Location");
-    setEndNode.setBackground(Background.fill(Color.RED));
+    setEndNode.setBackground(Background.fill(Color.color(0f / 256f, 156f / 256f, 166f / 256f)));
 
     // dialogBuilder.setActionsOrientation(Orientation.VERTICAL);
     dialogBuilder.makeScrollable(true);
     dialogBuilder.setShowAlwaysOnTop(false);
     dialogBuilder.setHeaderText("Location Information");
     dialogBuilder.setShowMinimize(false);
-    dialogBuilder.setContent(title);
+    dialogBuilder.setContent(textHolder);
     dialogBuilder.addActions(setStartNode, setEndNode);
 
     MFXGenericDialog dialog = dialogBuilder.get();
@@ -179,13 +198,13 @@ public class PathfindingController {
     dialog.setOnMouseClicked(event1 -> System.out.println("i was clicked"));
     setEndNode.setOnAction(
         (event1 -> {
-          destRoom.selectItem(getPFNode(node));
+          destRoom.selectItem(pfNode);
           validateButton();
           stackPane.getChildren().removeAll(dialog);
         }));
     setStartNode.setOnAction(
         (event1 -> {
-          currRoom.selectItem(getPFNode(node));
+          currRoom.selectItem(pfNode);
           validateButton();
           stackPane.getChildren().removeAll(dialog);
         }));
