@@ -3,12 +3,7 @@ package edu.wpi.capybara.controllers;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
-
 import io.github.palexdev.materialfx.controls.*;
-
-import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
-import edu.wpi.capybara.objects.submissions.submissionStatus;
-
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -75,7 +70,6 @@ public class TransportationController {
     String outputDate = date.getText();
     String outputReason = reasonField.getText();
 
-
     // Change to accommodate database and storage system
     //        TransportationsubmissionEntity newSubmission =
     //            new TransportationsubmissionEntity(
@@ -111,32 +105,26 @@ public class TransportationController {
     // App.getTotalSubmissions().newTransportationSubmission(newSubmission);
     // System.out.println(App.getTotalSubmissions().getTransportationData());
 
-//New from main use this but with new vars
+    // New from main use this but with new vars
     // System.out.println("Current Room: " + outputCurrRoom + " Destination Room: " +
     // outputDestRoom);
-    //TransportationsubmissionEntity newSubmission =
-        //new TransportationsubmissionEntity(
-            //App.getUser().getStaffid(),
-            //outputCurrRoom,
-            //outputDestRoom,
-            //outputReason,
-            //submissionStatus.BLANK,
-            //null,
-            //(int) (Math.random() * 100000),
-            //"Blank",
-            //new java.sql.Date(date.getTime()),
-            //new java.sql.Date(date.getTime() + 86400000));
+    // TransportationsubmissionEntity newSubmission =
+    // new TransportationsubmissionEntity(
+    // App.getUser().getStaffid(),
+    // outputCurrRoom,
+    // outputDestRoom,
+    // outputReason,
+    // submissionStatus.BLANK,
+    // null,
+    // (int) (Math.random() * 100000),
+    // "Blank",
+    // new java.sql.Date(date.getTime()),
+    // new java.sql.Date(date.getTime() + 86400000));
     //    newSubmission.setCurrroomnum(outputCurrRoom);
     //    newSubmission.setDestroomnum(outputDestRoom);
     //    newSubmission.setReason(outputReason);
-    //App.getTotalSubmissions().newTransportationSubmission(newSubmission);
-    //System.out.println(App.getTotalSubmissions().getTransportationData());
-
-
-
-
-
-
+    // App.getTotalSubmissions().newTransportationSubmission(newSubmission);
+    // System.out.println(App.getTotalSubmissions().getTransportationData());
 
     clearFields();
   }

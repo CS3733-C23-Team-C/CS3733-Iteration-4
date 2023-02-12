@@ -40,7 +40,8 @@ public class LogInPageController {
     if (username.getText() != "" && password.getText() != "") {
       String outputUsername = username.getText();
       String outputPassword = password.getText();
-      System.out.print("This is the employee username" + outputUsername);
+      System.out.println("This is the employee username " + outputUsername);
+      System.out.println("This is the employee password " + outputPassword);
       s = DatabaseConnect.getStaff(outputUsername, outputPassword);
     }
 
