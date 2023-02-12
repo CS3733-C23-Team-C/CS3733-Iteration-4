@@ -46,7 +46,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <MFXTextField fx:id="employeeID" onKeyReleased="#validateButton" prefWidth="200.0">
+                              <MFXTextField fx:id="assignedStaffID" onKeyReleased="#validateButton" prefWidth="200.0" stylesheets="@../styles/ripple_test.css">
                                  <font>
                                     <Font size="15.0" />
                                  </font></MFXTextField>
@@ -66,7 +66,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <MFXFilterComboBox fx:id="currentLocation" onAction="#validateButton" onMouseClicked="#validateButton" prefWidth="200.0">
+                              <MFXFilterComboBox fx:id="location" onMouseClicked="#validateButton" prefWidth="200.0">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -80,7 +80,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <MFXFilterComboBox fx:id="destinationLocation" onAction="#validateButton" onMouseClicked="#validateButton" prefWidth="200.0">
+                              <MFXFilterComboBox fx:id="requestSpecific" onMouseClicked="#validateButton" prefWidth="200.0">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -101,7 +101,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <MFXComboBox fx:id="emergencyLevel" onAction="#validateButton" onMouseClicked="#validateButton" prefWidth="200.0">
+                              <MFXComboBox fx:id="emergencyLevel" onMouseClicked="#validateButton" prefWidth="200.0">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -115,7 +115,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <MFXDatePicker fx:id="date" onAction="#validateButton" onMouseClicked="#validateButton" prefHeight="45.0" prefWidth="200.0">
+                              <MFXDatePicker fx:id="date" onMouseClicked="#validateButton" prefHeight="45.0" prefWidth="200.0">
                                  <font>
                                     <Font size="15.0" />
                                  </font></MFXDatePicker>
@@ -135,7 +135,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <MFXTextField fx:id="reasonField" maxWidth="1.7976931348623157E308" onAction="#validateButton" onKeyReleased="#validateButton">
+                              <MFXTextField fx:id="notes" maxWidth="1.7976931348623157E308" onKeyReleased="#validateButton">
                                  <font>
                                     <Font size="15.0" />
                                  </font></MFXTextField>
@@ -146,15 +146,27 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" />
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <StackPane prefHeight="100.0" prefWidth="319.0">
+                           <children>
+                              <Text fx:id="missingFields" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter all information before submitting" visible="false" />
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Submission recieved!" visible="false">
+                                 <StackPane.margin>
+                                    <Insets />
+                                 </StackPane.margin>
+                              </Text>
+                           </children>
+                        </StackPane>
+                     </children></HBox>
                   <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                      <children>
-                        <MFXButton fx:id="clearButton" minWidth="150.0" onAction="#clearFields" style="-fx-background-color: #012D5A;" text="Clear" textFill="WHITE">
+                        <MFXButton fx:id="clearButton" minWidth="150.0" style="-fx-background-color: #012D5A;" text="Clear" textFill="WHITE">
                            <font>
                               <Font size="15.0" />
                            </font>
                         </MFXButton>
-                        <MFXButton fx:id="submitButton" disable="true" minWidth="150.0" onAction="#submitForm" style="-fx-background-color: #009CA6;" text="Submit" textFill="WHITE">
+                        <MFXButton fx:id="submitButton" disable="true" minWidth="150.0" style="-fx-background-color: #009CA6;" text="Submit" textFill="WHITE">
                            <font>
                               <Font size="15.0" />
                            </font>

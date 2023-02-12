@@ -1,14 +1,20 @@
 package edu.wpi.capybara.objects.submissions;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 public interface ISubmission {
-  public void newSubmission(
+
+
+  public void submitNewSubmission(
       String currStaffID,
-      String outputAssignedStaffID,
-      String outputLocation,
-      String outputRequestSpecific,
-      String outputELevel,
-      LocalDate outputDate,
+      String location,
+      String requestSpecific,
+      SubmissionStatus status,
+      String assignedID,
+      int submissionID,
+      String emergencyLevel,
+      Date createdDate,
+      Date dueDate,
       String outputNotes);
 }
