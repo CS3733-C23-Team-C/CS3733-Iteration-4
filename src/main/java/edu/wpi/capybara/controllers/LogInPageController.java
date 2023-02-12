@@ -39,8 +39,9 @@ public class LogInPageController {
     StaffEntity s = null;
     if (username.getText() != "" && password.getText() != "") {
       String outputUsername = username.getText();
+      String outputPassword = password.getText();
       System.out.print("This is the employee username" + outputUsername);
-      s = DatabaseConnect.getStaff(outputUsername);
+      s = DatabaseConnect.getStaff(outputUsername, outputPassword);
     }
 
     // Clear fields if username/password is incorrect
