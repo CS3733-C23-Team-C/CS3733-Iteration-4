@@ -3,46 +3,70 @@ package edu.wpi.capybara.objects.hibernate;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
 import jakarta.persistence.*;
+import java.sql.Date;
 import java.util.Objects;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "transportationsubmission", schema = "cdb", catalog = "teamcdb")
-@IdClass(TransportationsubmissionEntityPK.class)
 public class TransportationsubmissionEntity {
-  @Id
   @Column(name = "employeeid")
   private String employeeid;
 
-  @Id
   @Column(name = "currroomnum")
   private String currroomnum;
 
-  @Id
   @Column(name = "destroomnum")
   private String destroomnum;
 
-  @Id
   @Column(name = "reason")
   private String reason;
 
-  @Id
   @Enumerated(EnumType.STRING)
   @Column(name = "status")
   private submissionStatus status;
+
+  @Basic
+  @Column(name = "assignedid")
+  private String assignedid;
+
+  @Id
+  @Column(name = "submissionid")
+  private int submissionid;
+
+  @Column(name = "urgency")
+  private String urgency;
+
+  @Basic
+  @Column(name = "createdate")
+  private Date createdate;
+
+  @Basic
+  @Column(name = "duedate")
+  private Date duedate;
 
   public TransportationsubmissionEntity(
       String employeeid,
       String currroomnum,
       String destroomnum,
       String reason,
-      submissionStatus status) {
+      submissionStatus status,
+      String assignedid,
+      int submissionid,
+      String urgency,
+      Date createdate,
+      Date duedate) {
     this.employeeid = employeeid;
     this.currroomnum = currroomnum;
     this.destroomnum = destroomnum;
     this.reason = reason;
     this.status = status;
+    this.assignedid = assignedid;
+    this.submissionid = submissionid;
+    this.urgency = urgency;
+    this.createdate = createdate;
+    this.duedate = duedate;
   }
 
   public TransportationsubmissionEntity() {}
@@ -105,6 +129,71 @@ public class TransportationsubmissionEntity {
 
   public void setStatus(submissionStatus status) {
     this.status = status;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
+  }
+
+  public String getAssignedid() {
+    return assignedid;
+  }
+
+  public void setAssignedid(String assignedid) {
+    this.assignedid = assignedid;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
+  }
+
+  public int getSubmissionid() {
+    return submissionid;
+  }
+
+  public void setSubmissionid(int submissionid) {
+    this.submissionid = submissionid;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
+  }
+
+  public String getUrgency() {
+    return urgency;
+  }
+
+  public void setUrgency(String urgency) {
+    this.urgency = urgency;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
+  }
+
+  public Date getCreatedate() {
+    return createdate;
+  }
+
+  public void setCreatedate(Date createdate) {
+    this.createdate = createdate;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
+  }
+
+  public Date getDuedate() {
+    return duedate;
+  }
+
+  public void setDuedate(Date duedate) {
+    this.duedate = duedate;
     Session session = DatabaseConnect.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);

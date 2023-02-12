@@ -2,51 +2,41 @@ package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
-import edu.wpi.capybara.navigation.Navigation;
-import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
+import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
-import java.io.IOException;
 import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 
 public class CleaningController {
 
-  @FXML private MFXButton SubmitButton;
+  @FXML private MFXTextField employeeID;
+  @FXML private MFXFilterComboBox<String> Location;
+  @FXML private MFXComboBox<String> hazardLevel;
+  @FXML private MFXComboBox<String> emergencyLevel;
+  @FXML private MFXDatePicker date;
+  @FXML private MFXTextField notes;
+  @FXML private MFXButton clearButton;
+  @FXML private MFXButton submitButton;
 
-  @FXML private MFXButton ReturnButton;
-
-  @FXML public MFXComboBox<String> Location;
-  @FXML public TextArea Description;
-
-  @FXML private Button ClearButton;
-
-  @FXML private TextField hazardLevel;
-
-  public CleaningRequestController forRequests;
+  //  public CleaningRequestController forRequests;
 
   /** enumeration for status of request */
-  private submissionStatus currentStatus;
+  //  private submissionStatus currentStatus;
 
   @FXML
   public void initialize() {
     System.out.println("I am from cleaningController");
-    currentStatus = submissionStatus.BLANK;
+    //    currentStatus = submissionStatus.BLANK;
 
     // Add different locations
 
-    //    Location.getItems().add("Location");
-    //    Location.getItems().add("Location1");
-
-    TreeMap<Integer, NodeEntity> nodes = DatabaseConnect.getNodes();
+    TreeMap<String, NodeEntity> nodes = DatabaseConnect.getNodes();
 
     SortedSet<NodeEntity> sortedset = new TreeSet<NodeEntity>(new NodeAlphabetComparator());
 
@@ -59,12 +49,14 @@ public class CleaningController {
       Location.getItems().add(n.getShortName());
     }
 
-    //    ObservableList<String> locationList =
-    //        FXCollections.observableArrayList("Location", "Another location");
-    //    Location.setItems(locationList);
-
     // Set a default variable
     Location.getSelectionModel().selectFirst();
+
+    emergencyLevel.getItems().addAll("Low", "Medium", "High", "Extreme");
+    emergencyLevel.getSelectionModel().selectFirst();
+
+    hazardLevel.getItems().addAll("Low", "Medium", "High", "Extreme");
+    hazardLevel.getSelectionModel().selectFirst();
   }
 
   /**
@@ -75,47 +67,88 @@ public class CleaningController {
    */
   public void submit(ActionEvent actionEvent) {
 
-    String locationInfo = "" + Location.getValue();
-    String descriptionInfo = Description.getText();
-    String hazardLevelInfo = hazardLevel.getText();
-    CleaningsubmissionEntity addSubmission =
-        new CleaningsubmissionEntity(
-            App.getUser().getStaffid(),
-            locationInfo,
-            hazardLevelInfo,
-            descriptionInfo,
-            submissionStatus.BLANK);
+    // New stuff from main use
+
+    // java.util.Date date = new java.util.Date();
+    // String locationInfo = "" + Location.getValue();
+    // String descriptionInfo = Description.getText();
+    // String hazardLevelInfo = hazardLevel.getText();
+    // CleaningsubmissionEntity addSubmission =
+    // new CleaningsubmissionEntity(
+    // App.getUser().getStaffid(),
+    // locationInfo,
+    // hazardLevelInfo,
+    // descriptionInfo,
+    // submissionStatus.BLANK,
+    // null,
+    // (int) (Math.random() * 100000),
+    // "Blank",
+    // new java.sql.Date(date.getTime()),
+    // new java.sql.Date(date.getTime() + 86400000));
     // locationInfo, hazardLevelInfo, descriptionInfo
     //    addSubmission.setLocation(locationInfo);
     //    addSubmission.setHazardlevel(hazardLevelInfo);
-    App.getTotalSubmissions().newCleaningSub(addSubmission);
-    System.out.println(App.getTotalSubmissions().getCleaningData());
-    clearRequest();
-  }
+    // App.getTotalSubmissions().newCleaningSub(addSubmission);
+    // System.out.println(App.getTotalSubmissions().getCleaningData());
+    // clearRequest();
+    // }
 
-  /**
-   * navigates back to home screen
-   *
-   * @param actionEvent
-   * @throws IOException
-   */
-  public void back(ActionEvent actionEvent) throws IOException {
-    Navigation.navigate(Screen.HOME);
+    String outputID = employeeID.getText();
+    String outputLocation = "" + Location.getValue();
+    String outputHazard = "" + hazardLevel.getValue();
+    String outputEmergency = "" + emergencyLevel.getValue();
+    java.sql.Date outputDate = java.sql.Date.valueOf(date.getValue());
+    String outputNotes = notes.getText();
+
+    // Change to accommodate database and storage system
+    //    CleaningsubmissionEntity addSubmission =
+    //        new CleaningsubmissionEntity(
+    //            App.getUser().getStaffid(),
+    //            outputLocation,
+    //            outputHazard,
+    //            outputNotes,
+    //            submissionStatus.BLANK);
+
+    //    App.getTotalSubmissions().newCleaningSub(addSubmission);
+    //    System.out.println(App.getTotalSubmissions().getCleaningData());
+
+    java.util.Date date = new java.util.Date();
+    // String locationInfo = "" + Location.getValue();
+    // String descriptionInfo = Description.getText();
+    // String hazardLevelInfo = hazardLevel.getText();
+    CleaningsubmissionEntity addSubmission =
+        new CleaningsubmissionEntity(
+            App.getUser().getStaffid(),
+            outputLocation,
+            outputHazard,
+            outputNotes,
+            submissionStatus.BLANK,
+            outputID,
+            (int) (Math.random() * 100000),
+            outputEmergency,
+            new java.sql.Date(date.getTime()),
+            new java.sql.Date(outputDate.getTime()));
+
+    App.getTotalSubmissions().newCleaningSub(addSubmission);
+    // System.out.println(App.getTotalSubmissions().getCleaningData());
+
+    clearRequest();
   }
 
   /** clears all areas on the submission form */
   public void clearRequest() {
+    employeeID.clear();
     Location.getSelectionModel().selectFirst();
-    Description.clear();
-    hazardLevel.clear();
-    currentStatus = submissionStatus.BLANK;
-    SubmitButton.setDisable(true);
+    hazardLevel.getSelectionModel().selectFirst();
+    emergencyLevel.getSelectionModel().selectFirst();
+    date.clear();
+    notes.clear();
+    //    currentStatus = submissionStatus.BLANK;
+    submitButton.setDisable(true);
   }
 
-  public void
-      validateButton() { // ensures that information has been filled in before allowing submission
-    boolean valid = false;
-    if (!hazardLevel.getText().equals("") && !Description.getText().equals("")) valid = true;
-    SubmitButton.setDisable(!valid);
+  public void validateButton() {
+    if (employeeID.getText() != "" && date.getText() != "" && notes.getText() != "")
+      submitButton.setDisable(false);
   }
 }

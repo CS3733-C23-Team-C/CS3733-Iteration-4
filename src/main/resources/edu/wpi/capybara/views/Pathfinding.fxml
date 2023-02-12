@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+
 <?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
 <?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.image.Image?>
@@ -18,85 +20,123 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane onKeyPressed="#mapKeyPress" prefHeight="534.0" prefWidth="721.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.PathfindingController">
+<StackPane onKeyPressed="#mapKeyPress" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.PathfindingController">
    <children>
-      <BorderPane prefHeight="400.0" prefWidth="600.0">
-         <top>
-            <HBox alignment="CENTER" prefHeight="70.0" prefWidth="200.0" style="-fx-background-color: #252526;" BorderPane.alignment="CENTER">
+      <BorderPane>
+         <right>
+            <VBox alignment="TOP_CENTER" spacing="20.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="TOP_CENTER">
                <children>
-                  <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                  <VBox>
                      <children>
-                        <MFXButton alignment="TOP_CENTER" contentDisplay="CENTER" onAction="#returnHome" rippleColor="#b77777" style="-fx-background-color: #ffffff;" text=" " HBox.hgrow="ALWAYS">
-                           <graphic>
-                              <ImageView fitHeight="28.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/back_button.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </MFXButton>
-                     </children>
-                  </HBox>
-                  <VBox alignment="CENTER" prefHeight="50.0" prefWidth="405.0">
-                     <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Hospital Map">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID">
                            <font>
-                              <Font name="Segoe UI Black" size="18.0" />
+                              <Font size="18.0" />
                            </font>
                         </Text>
+                        <MFXTextField fx:id="idField" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="5.0" onKeyReleased="#validateButton" prefWidth="200.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </MFXTextField>
                      </children>
                   </VBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-               </children>
-            </HBox>
-         </top>
-         <right>
-            <VBox alignment="CENTER" minWidth="200.0" prefHeight="364.0" prefWidth="232.0" BorderPane.alignment="CENTER">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID" />
-                  <MFXTextField fx:id="idField" alignment="TOP_CENTER" borderGap="1.0" floatMode="ABOVE" floatingTextGap="10.0" graphicTextGap="5.0" maxWidth="199.0" onKeyReleased="#validateButton" prefHeight="29.0" prefWidth="199.0" />
-                  <HBox maxHeight="10.0" prefHeight="100.0" prefWidth="200.0" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Current Location" VBox.vgrow="ALWAYS" />
-                  <MFXFilterComboBox fx:id="currRoom" onHidden="#validateButton" onShown="#validateButton" prefHeight="40.0" prefWidth="202.0" promptText="Room" />
-                  <HBox maxHeight="10.0" prefHeight="34.0" prefWidth="150.0" />
-                  <Text fx:id="DestinationRoomNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="Destination" VBox.vgrow="ALWAYS" />
-                  <MFXFilterComboBox fx:id="destRoom" onHidden="#validateButton" onShown="#validateButton" prefHeight="40.0" prefWidth="203.0" promptText="Room" />
-                  <HBox maxHeight="10.0" prefHeight="34.0" prefWidth="150.0" />
-                  <Text fx:id="DestinationRoomNumber1" strokeType="OUTSIDE" strokeWidth="0.0" text="Move Date" VBox.vgrow="ALWAYS" />
-                  <MFXDatePicker fx:id="dateField" />
-                  <HBox maxHeight="10.0" prefHeight="5.0" prefWidth="200.0" />
-                  <MFXButton fx:id="clearButton" onAction="#clearFields" style="-fx-background-color: #ffffbf;" text="Clear Selections">
+                  <VBox>
+                     <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Location" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <MFXFilterComboBox fx:id="currRoom" onHidden="#validateButton" onShown="#validateButton" prefWidth="200.0" promptText="Room">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </MFXFilterComboBox>
+                     </children>
+                  </VBox>
+                  <VBox>
+                     <children>
+                        <Text fx:id="DestinationRoomNumber" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Destination Location" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <MFXFilterComboBox fx:id="destRoom" onHidden="#validateButton" onShown="#validateButton" prefWidth="200.0" promptText="Room">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </MFXFilterComboBox>
+                     </children>
+                  </VBox>
+                  <VBox>
+                     <children>
+                        <Text fx:id="DestinationRoomNumber1" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Move Date" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <MFXDatePicker fx:id="dateField" prefWidth="200.0" />
+                     </children>
+                  </VBox>
+                  <MFXButton fx:id="clearButton" onAction="#clearFields" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #009CA6;" text="Clear" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
                   </MFXButton>
-                  <HBox alignment="CENTER" maxHeight="40.0" prefHeight="6.0" prefWidth="200.0" />
-                  <MFXButton fx:id="submitButton" disable="true" onAction="#submitForm" style="-fx-background-color: #b9fbb9;" text="Find Directions!">
+                  <MFXButton fx:id="submitButton" disable="true" onAction="#submitForm" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #009CA6;" text="Find Directions!" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
                   </MFXButton>
                </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
             </VBox>
          </right>
+         <top>
+            <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER" />
+         </top>
          <center>
-            <Pane fx:id="canvasPane" minHeight="300.0" minWidth="400.0">
+            <VBox alignment="TOP_CENTER" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
-                  <StackPane fx:id="stackPane">
+                  <HBox prefHeight="20.0" style="-fx-background-color: #012D5A;" />
+                  <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Pathfinding">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;">
+                     <VBox.margin>
+                        <Insets left="20.0" right="20.0" />
+                     </VBox.margin>
+                  </VBox>
+                  <HBox prefHeight="20.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </HBox>
+                  <Pane fx:id="canvasPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="300.0" minWidth="400.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Canvas fx:id="nodeDrawer" height="300.0" width="400.0">
+                        <Canvas fx:id="nodeDrawer" height="300.0" onMouseDragged="#mapDrag" onMouseExited="#mapStopDrag" onMousePressed="#mapStartDrag" onMouseReleased="#mapStopDrag" onScroll="#mapScroll" width="400.0">
                            <cursor>
                               <Cursor fx:constant="OPEN_HAND" />
                            </cursor>
                         </Canvas>
-                        <AnchorPane fx:id="nodeAnchorPane" prefHeight="200.0" prefWidth="200.0" />
                      </children>
-                  </StackPane>
+                  </Pane>
+
                </children>
-            </Pane>
+            </VBox>
          </center>
          <bottom>
             <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">

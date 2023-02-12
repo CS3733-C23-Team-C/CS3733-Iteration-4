@@ -6,26 +6,26 @@ import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.hibernate.StaffEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXPasswordField;
+import io.github.palexdev.materialfx.controls.MFXTextField;
+import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.text.Text;
 import javax.swing.*;
 
 public class LogInPageController {
 
-  @FXML private MFXButton SubmitButton;
-  @FXML private MFXButton ClearButton;
-  @FXML private MFXButton MapsButton;
-
-  @FXML private TextField employeeID;
-  //  @FXML private TextField Username;
-  //  @FXML private TextField LastName;
+  @FXML private MFXTextField username;
+  @FXML private MFXPasswordField password;
+  @FXML private MFXButton loginButton;
+  @FXML private Text errorTxt;
 
   public void clearFields() {
-    employeeID.clear();
-    // Username.clear();
-    // LastName.clear();
-    SubmitButton.setDisable(true);
+    username.clear();
+    password.clear();
+    loginButton.setDisable(true);
   }
 
   @FXML
@@ -33,42 +33,34 @@ public class LogInPageController {
     System.out.println("I am from the Log in Page!");
   }
 
-  public void submit(ActionEvent actionEvent) {
+  public void login(ActionEvent actionEvent) throws IOException {
 
+    // Get username and password and check if the combination exists
     StaffEntity s = null;
-    if (employeeID.getText() != null) {
-      String outputID = employeeID.getText();
-      System.out.print("this is the employee ID" + outputID + "");
-      s = DatabaseConnect.getStaff(outputID);
+    if (username.getText() != "" && password.getText() != "") {
+      String outputUsername = username.getText();
+      String outputPassword = password.getText();
+      System.out.println("This is the employee username " + outputUsername);
+      System.out.println("This is the employee password " + outputPassword);
+      s = DatabaseConnect.getStaff(outputUsername, outputPassword);
     }
-    //    } else if (Username.getText() != null && LastName.getText() != null) {
-    //      String outputusername = Username.getText();
-    //      String outputlastName = LastName.getText();
-    //      s = DatabaseConnect.getStaff(outputusername, outputlastName);
-    //    } else {
-    //
-    //    }
 
+    // Clear fields if username/password is incorrect
     if (s == null) {
       clearFields();
+      errorTxt.setText("Incorrect username or password.");
     } else {
+
       App.setUser(s);
-      RootController.showMenu();
-      RootController.updateUser();
+      System.out.println("First name is " + s.getFirstname());
+      System.out.println("Last name is " + s.getFirstname());
+
       Navigation.navigate(Screen.HOME);
+      Navigation.addMenu(Screen.MENU);
     }
-    SubmitButton.setDisable(false);
   }
 
-  public void clearButton(ActionEvent actionEvent) {
-    clearFields();
-  }
-
-  public void goToMapPage(ActionEvent actionEvent) {
-    Navigation.navigate(Screen.SERVICE_REQUEST_TRANSPORTATION);
-  }
-
-  public void returnHome(ActionEvent actionEvent) {
-    Navigation.navigate(Screen.HOME);
+  public void enableLogin(KeyEvent keyEvent) {
+    if (username.getText() != "" && password.getText() != "") loginButton.setDisable(false);
   }
 }
