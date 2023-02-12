@@ -7,7 +7,6 @@ import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
-import edu.wpi.capybara.objects.submissions.Urgency;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
@@ -116,7 +115,7 @@ public class SecurityController {
             submissionStatus.BLANK,
             null,
             (int) (Math.random() * 100000),
-            Urgency.BLANK,
+            "Blank",
             new java.sql.Date(date.getTime()),
             new java.sql.Date(date.getTime() + 86400000));
     App.getTotalSubmissions().newSecuritySubmission(addSubmission);
