@@ -3,16 +3,9 @@ package edu.wpi.capybara.controllers;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
-
 import io.github.palexdev.materialfx.controls.*;
-
-import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
-import edu.wpi.capybara.objects.submissions.Urgency;
-import edu.wpi.capybara.objects.submissions.submissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
-import java.io.IOException;
-
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -49,9 +42,7 @@ public class SecurityController {
 
     // Add different locations
 
-
-    TreeMap<Integer, NodeEntity> nodes = DatabaseConnect.getNodes();
-
+    TreeMap<String, NodeEntity> nodes = DatabaseConnect.getNodes();
 
     SortedSet<NodeEntity> sortedset = new TreeSet<NodeEntity>(new NodeAlphabetComparator());
 
@@ -78,10 +69,6 @@ public class SecurityController {
     String outputID = employeeID.getText();
     String outputLocation = "" + Location.getValue();
 
-
-
-
-
     String outputType = "" + employeeType.getValue();
     String outputEmergency = "" + emergencyLevel.getValue();
     String outputDate = "" + date.getText();
@@ -97,30 +84,23 @@ public class SecurityController {
     //            submissionStatus.BLANK);
     //    App.getTotalSubmissions().newSecuritySubmission(addSubmission);
 
+    // String outputType = "" + Type.getValue();
+    // String outputNotes = notesUpdate.getText();
+    // java.util.Date date = new java.util.Date();
+    // SecuritysubmissionEntity addSubmission =
+    // new SecuritysubmissionEntity(
+    // App.getUser().getStaffid(),
+    // outputLocation,
+    // outputType,
+    // outputNotes,
+    // submissionStatus.BLANK,
+    // null,
+    // (int) (Math.random() * 100000),
+    // Urgency.BLANK,
+    // new java.sql.Date(date.getTime()),
+    // new java.sql.Date(date.getTime() + 86400000));
+    // App.getTotalSubmissions().newSecuritySubmission(addSubmission);
 
-
-
-
-    //String outputType = "" + Type.getValue();
-    //String outputNotes = notesUpdate.getText();
-    //java.util.Date date = new java.util.Date();
-    //SecuritysubmissionEntity addSubmission =
-        //new SecuritysubmissionEntity(
-            //App.getUser().getStaffid(),
-            //outputLocation,
-            //outputType,
-            //outputNotes,
-            //submissionStatus.BLANK,
-            //null,
-            //(int) (Math.random() * 100000),
-            //Urgency.BLANK,
-            //new java.sql.Date(date.getTime()),
-            //new java.sql.Date(date.getTime() + 86400000));
-    //App.getTotalSubmissions().newSecuritySubmission(addSubmission);
-    
-    
-    
-    
     clearFields();
   }
 

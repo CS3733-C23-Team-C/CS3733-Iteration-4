@@ -3,16 +3,10 @@ package edu.wpi.capybara.controllers;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
-
 import io.github.palexdev.materialfx.controls.*;
-
-import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
-import edu.wpi.capybara.objects.submissions.Urgency;
-import edu.wpi.capybara.objects.submissions.submissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.SortedSet;
@@ -44,9 +38,7 @@ public class TransportationController {
 
     // Add different locations
 
-
-    TreeMap<Integer, NodeEntity> nodes = DatabaseConnect.getNodes();
-
+    TreeMap<String, NodeEntity> nodes = DatabaseConnect.getNodes();
 
     SortedSet<NodeEntity> sortedset = new TreeSet<NodeEntity>(new NodeAlphabetComparator());
 
@@ -71,9 +63,6 @@ public class TransportationController {
   public void submitForm(ActionEvent actionEvent)
       throws IOException { // when submit button is pressed, collects text fields
 
-
-
-
     String outputID = employeeID.getText();
     String outputCurrRoom = "" + currentLocation.getValue();
     String outputDestRoom = "" + destinationLocation.getValue();
@@ -92,16 +81,15 @@ public class TransportationController {
     //        App.getTotalSubmissions().newTransportationSubmission(newSubmission);
     //        System.out.println(App.getTotalSubmissions().getTransportationData());
 
+    // From main
 
-    //From main
-
-    //java.util.Date date = new java.util.Date();
-    //String outputCurrRoom =
+    // java.util.Date date = new java.util.Date();
+    // String outputCurrRoom =
     //    Location.getValue(); // then creates an object to store them, clears fields
-    //String outputDestRoom = destRoom.getText();
-    //String outputReason = reasonField.getText();
+    // String outputDestRoom = destRoom.getText();
+    // String outputReason = reasonField.getText();
 
-    //TransportationsubmissionEntity newSubmission =
+    // TransportationsubmissionEntity newSubmission =
     //    new TransportationsubmissionEntity(
     //        App.getUser().getStaffid(),
     //        outputCurrRoom,
@@ -113,12 +101,9 @@ public class TransportationController {
     //        Urgency.BLANK,
     //       new java.sql.Date(date.getTime()),
     //        new java.sql.Date(date.getTime() + 86400000));
-            
-    //App.getTotalSubmissions().newTransportationSubmission(newSubmission);
-    //System.out.println(App.getTotalSubmissions().getTransportationData());
-    
-    
-    
+
+    // App.getTotalSubmissions().newTransportationSubmission(newSubmission);
+    // System.out.println(App.getTotalSubmissions().getTransportationData());
 
     clearFields();
   }
