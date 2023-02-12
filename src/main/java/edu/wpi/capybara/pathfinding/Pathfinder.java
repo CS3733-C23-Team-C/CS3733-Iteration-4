@@ -5,7 +5,7 @@ import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import java.util.*;
 
 public class Pathfinder {
-  private final TreeMap<Integer, NodeEntity> nodes;
+  private final TreeMap<String, NodeEntity> nodes;
   private final TreeMap<Integer, EdgeEntity> edges;
 
   private static class PathNode implements Comparable<PathNode> {
@@ -108,7 +108,7 @@ public class Pathfinder {
   //    }*/
   //  }
 
-  public Map<Integer, NodeEntity> getNodes() {
+  public Map<String, NodeEntity> getNodes() {
     return nodes;
   }
 
@@ -269,7 +269,7 @@ public class Pathfinder {
     return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
   }
 
-  public Pathfinder(TreeMap<Integer, NodeEntity> nodes, TreeMap<Integer, EdgeEntity> edges) {
+  public Pathfinder(TreeMap<String, NodeEntity> nodes, TreeMap<Integer, EdgeEntity> edges) {
     this.nodes = nodes;
     this.edges = edges;
   }

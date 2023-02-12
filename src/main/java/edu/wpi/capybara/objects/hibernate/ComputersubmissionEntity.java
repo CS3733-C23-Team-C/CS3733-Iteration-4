@@ -10,10 +10,17 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 @Entity
-@Table(name = "securitysubmission", schema = "cdb", catalog = "teamcdb")
-public class SecuritysubmissionEntity {
+@Table(name = "computersubmission", schema = "cdb", catalog = "teamcdb")
+public class ComputersubmissionEntity {
+  @Id
+  @Column(name = "submissionid")
+  private int submissionid;
+
   @Column(name = "employeeid")
   private String employeeid;
+
+  @Column(name = "assignedid")
+  private String assignedid;
 
   @Column(name = "location")
   private String location;
@@ -28,48 +35,27 @@ public class SecuritysubmissionEntity {
   @Column(name = "submissionstatus")
   private submissionStatus submissionstatus;
 
-  @Column(name = "assignedid")
-  private String assignedid;
-
-  @Id
-  @Column(name = "submissionid")
-  private int submissionid;
-
   @Enumerated(EnumType.STRING)
   @Column(name = "urgency")
   private Urgency urgency;
 
-  @Basic
   @Column(name = "createdate")
   private Date createdate;
 
-  @Basic
   @Column(name = "duedate")
   private Date duedate;
 
-  public SecuritysubmissionEntity() {}
+  public int getSubmissionid() {
+    return submissionid;
+  }
 
-  public SecuritysubmissionEntity(
-      String employeeid,
-      String location,
-      String type,
-      String notesupdate,
-      submissionStatus submissionstatus,
-      String assignedid,
-      int submissionid,
-      Urgency urgency,
-      Date createdate,
-      Date duedate) {
-    this.employeeid = employeeid;
-    this.location = location;
-    this.type = type;
-    this.notesupdate = notesupdate;
-    this.submissionstatus = submissionstatus;
-    this.assignedid = assignedid;
+  public void setSubmissionid(int submissionid) {
     this.submissionid = submissionid;
-    this.urgency = urgency;
-    this.createdate = createdate;
-    this.duedate = duedate;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getEmployeeid() {
@@ -77,9 +63,22 @@ public class SecuritysubmissionEntity {
   }
 
   public void setEmployeeid(String employeeid) {
+    this.employeeid = employeeid;
     Session session = DatabaseConnect.getSession();
     Transaction tx = session.beginTransaction();
-    this.employeeid = employeeid;
+    session.merge(this);
+    tx.commit();
+    session.close();
+  }
+
+  public String getAssignedid() {
+    return assignedid;
+  }
+
+  public void setAssignedid(String assignedid) {
+    this.assignedid = assignedid;
+    Session session = DatabaseConnect.getSession();
+    Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
     session.close();
@@ -129,34 +128,7 @@ public class SecuritysubmissionEntity {
   }
 
   public void setSubmissionstatus(submissionStatus submissionstatus) {
-
     this.submissionstatus = submissionstatus;
-    Session session = DatabaseConnect.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
-  }
-
-  public String getAssignedid() {
-    return assignedid;
-  }
-
-  public void setAssignedid(String assignedid) {
-    this.assignedid = assignedid;
-    Session session = DatabaseConnect.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
-  }
-
-  public int getSubmissionid() {
-    return submissionid;
-  }
-
-  public void setSubmissionid(int submissionid) {
-    this.submissionid = submissionid;
     Session session = DatabaseConnect.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
@@ -203,19 +175,60 @@ public class SecuritysubmissionEntity {
     session.close();
   }
 
+  public ComputersubmissionEntity() {}
+
+  public ComputersubmissionEntity(
+      int submissionid,
+      String employeeid,
+      String assignedid,
+      String location,
+      String type,
+      String notesupdate,
+      submissionStatus submissionstatus,
+      Urgency urgency,
+      Date createdate,
+      Date duedate) {
+    this.submissionid = submissionid;
+    this.employeeid = employeeid;
+    this.assignedid = assignedid;
+    this.location = location;
+    this.type = type;
+    this.notesupdate = notesupdate;
+    this.submissionstatus = submissionstatus;
+    this.urgency = urgency;
+    this.createdate = createdate;
+    this.duedate = duedate;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    SecuritysubmissionEntity that = (SecuritysubmissionEntity) o;
-    return Objects.equals(employeeid, that.employeeid)
+    ComputersubmissionEntity that = (ComputersubmissionEntity) o;
+    return Objects.equals(submissionid, that.submissionid)
+        && Objects.equals(employeeid, that.employeeid)
+        && Objects.equals(assignedid, that.assignedid)
         && Objects.equals(location, that.location)
         && Objects.equals(type, that.type)
-        && Objects.equals(submissionstatus, that.submissionstatus);
+        && Objects.equals(notesupdate, that.notesupdate)
+        && Objects.equals(submissionstatus, that.submissionstatus)
+        && Objects.equals(urgency, that.urgency)
+        && Objects.equals(createdate, that.createdate)
+        && Objects.equals(duedate, that.duedate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(employeeid, location, location, type);
+    return Objects.hash(
+        submissionid,
+        employeeid,
+        assignedid,
+        location,
+        type,
+        notesupdate,
+        submissionstatus,
+        urgency,
+        createdate,
+        duedate);
   }
 }
