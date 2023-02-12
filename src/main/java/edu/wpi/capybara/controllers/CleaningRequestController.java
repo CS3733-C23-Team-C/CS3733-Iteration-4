@@ -1,13 +1,10 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
-import edu.wpi.capybara.navigation.Navigation;
-import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
 import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
 import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
-import java.io.IOException;
 import java.util.LinkedList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -121,7 +118,7 @@ public class CleaningRequestController {
     }
   }
 
-  public void back(ActionEvent actionEvent) throws IOException {
-    Navigation.navigate(Screen.HOME);
-  }
+  public void edit(ActionEvent actionEvent) {}
+
+  public void save(ActionEvent actionEvent) {}
 }

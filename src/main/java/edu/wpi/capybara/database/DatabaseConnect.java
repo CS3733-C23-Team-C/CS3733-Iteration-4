@@ -427,6 +427,24 @@ public class DatabaseConnect {
     }
   }
 
+  public static void insertStaff(
+      String staffid, String firstname, String lastname, String password) {
+    Session session = factory.openSession();
+    Transaction tx = null;
+
+    try {
+      tx = session.beginTransaction();
+      StaffEntity staff = new StaffEntity(staffid, firstname, lastname, password);
+      session.save(staff);
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+  }
+
   public static void insertSecurity(
       String staffid,
       String location,
@@ -470,23 +488,23 @@ public class DatabaseConnect {
     }
   }
 
-  public static StaffEntity getStaff(String Staffid) {
+  public static StaffEntity getStaff(String Staffid, String password) {
     for (StaffEntity s : staff.values()) {
-      if (s.getStaffid().equals(Staffid)) {
+      if (s.getStaffid().equals(Staffid) && s.getPassword().equals(password)) {
         return s;
       }
     }
     return null;
   }
 
-  public static StaffEntity getStaff(String fname, String lname) {
-    for (StaffEntity s : staff.values()) {
-      if (s.getFirstname().equals(fname) && s.getLastname().equals(lname)) {
-        return s;
-      }
-    }
-    return null;
-  }
+  //  public static StaffEntity getStaff(String fname, String lname) {
+  //    for (StaffEntity s : staff.values()) {
+  //      if (s.getFirstname().equals(fname) && s.getLastname().equals(lname)) {
+  //        return s;
+  //      }
+  //    }
+  //    return null;
+  //  }
 
   //  public static void importData() {
   //    importNodes();

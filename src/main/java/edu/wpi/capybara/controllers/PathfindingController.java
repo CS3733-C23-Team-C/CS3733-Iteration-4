@@ -8,6 +8,7 @@ import edu.wpi.capybara.objects.hibernate.*;
 import edu.wpi.capybara.pathfinding.Pathfinder;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
+import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.util.*;
 import javafx.collections.FXCollections;
@@ -28,7 +29,7 @@ public class PathfindingController {
   @FXML private MFXTextField idField;
   @FXML private MFXComboBox<String> currRoom;
   @FXML private MFXComboBox<String> destRoom;
-  @FXML private MFXTextField dateField;
+  @FXML private MFXDatePicker dateField;
   @FXML private Pane canvasPane;
   @FXML private Canvas nodeDrawer;
 
@@ -237,7 +238,7 @@ public class PathfindingController {
     currRoom.setText("");
     destRoom.setText("");
     idField.setText("");
-    dateField.setText("");
+    dateField.clear();
 
     if (event != null) {
       Collection<NodeEntity> nodes = DatabaseConnect.getNodes().values();

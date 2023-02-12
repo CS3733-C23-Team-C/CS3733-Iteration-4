@@ -1,14 +1,13 @@
 package edu.wpi.capybara.controllers;
 
-import edu.wpi.capybara.navigation.Navigation;
-import edu.wpi.capybara.navigation.Screen;
-import java.io.IOException;
+import edu.wpi.capybara.App;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.stage.Stage;
+import javafx.scene.text.Text;
 
 public class HomeController {
+
+  @FXML private Text welcomeTxt;
 
   final String SECRET_PASSWORD = "team coaching";
 
@@ -16,6 +15,10 @@ public class HomeController {
   @FXML
   public void initialize() {
     System.out.println("I am from HomeController.");
+
+    if (welcomeTxt != null) {
+      welcomeTxt.setText("Welcome back, " + App.getUser().getFirstname() + "!");
+    }
 
     //    submit.setOnMouseClicked(event -> {});
   }
@@ -43,24 +46,5 @@ public class HomeController {
    */
   private boolean validate(final String input) {
     return input.equals(SECRET_PASSWORD);
-  }
-
-  @FXML public Button exitButton;
-  @FXML public Stage primaryStage;
-
-  public void showTransportationPage(ActionEvent actionEvent) throws IOException {
-    Navigation.navigate(Screen.SERVICE_REQUEST_TRANSPORTATION);
-  }
-
-  public void showCleaningPage(ActionEvent actionEvent) throws IOException {
-    Navigation.navigate(Screen.SERVICE_REQUEST_CLEANING);
-  }
-
-  public void showSecurityPage(ActionEvent actionEvent) {
-    Navigation.navigate(Screen.SERVICE_REQUEST_SECURITY);
-  }
-
-  public void showMapEditor(ActionEvent actionEvent) {
-    Navigation.navigate(Screen.MAP_EDITOR);
   }
 }
