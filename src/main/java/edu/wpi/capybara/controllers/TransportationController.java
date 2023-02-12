@@ -1,13 +1,17 @@
 package edu.wpi.capybara.controllers;
 
+import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
+import edu.wpi.capybara.objects.submissions.submissionStatus;
 import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -67,7 +71,7 @@ public class TransportationController {
     String outputCurrRoom = "" + currentLocation.getValue();
     String outputDestRoom = "" + destinationLocation.getValue();
     String outputLevel = "" + emergencyLevel.getValue();
-    String outputDate = date.getText();
+    Date outputDate = Date.valueOf(date.getValue());
     String outputReason = reasonField.getText();
 
     // Change to accommodate database and storage system
@@ -83,25 +87,21 @@ public class TransportationController {
 
     // From main
 
-    // java.util.Date date = new java.util.Date();
-    // String outputCurrRoom =
-    //    Location.getValue(); // then creates an object to store them, clears fields
-    // String outputDestRoom = destRoom.getText();
-    // String outputReason = reasonField.getText();
+    java.util.Date date = new java.util.Date();
 
-    // TransportationsubmissionEntity newSubmission =
-    //    new TransportationsubmissionEntity(
-    //        App.getUser().getStaffid(),
-    //        outputCurrRoom,
-    //        outputDestRoom,
-    //        outputReason,
-    //        submissionStatus.BLANK,
-    //        null,
-    //       (int) (Math.random() * 100000),
-    //        Urgency.BLANK,
-    //       new java.sql.Date(date.getTime()),
-    //        new java.sql.Date(date.getTime() + 86400000));
-
+    TransportationsubmissionEntity newSubmission =
+        new TransportationsubmissionEntity(
+            App.getUser().getStaffid(),
+            outputCurrRoom,
+            outputDestRoom,
+            outputReason,
+            submissionStatus.BLANK,
+            outputID,
+            (int) (Math.random() * 100000),
+            outputLevel,
+            new java.sql.Date(date.getTime()),
+            outputDate);
+    App.getTotalSubmissions().newTransportationSubmission(newSubmission);
     // App.getTotalSubmissions().newTransportationSubmission(newSubmission);
     // System.out.println(App.getTotalSubmissions().getTransportationData());
 
@@ -123,7 +123,6 @@ public class TransportationController {
     //    newSubmission.setCurrroomnum(outputCurrRoom);
     //    newSubmission.setDestroomnum(outputDestRoom);
     //    newSubmission.setReason(outputReason);
-    // App.getTotalSubmissions().newTransportationSubmission(newSubmission);
     // System.out.println(App.getTotalSubmissions().getTransportationData());
 
     clearFields();

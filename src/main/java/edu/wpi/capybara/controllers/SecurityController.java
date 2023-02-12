@@ -1,11 +1,15 @@
 package edu.wpi.capybara.controllers;
 
+import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
+import edu.wpi.capybara.objects.submissions.submissionStatus;
 import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
+import java.sql.Date;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeMap;
@@ -72,7 +76,7 @@ public class SecurityController {
 
     String outputType = "" + employeeType.getValue();
     String outputEmergency = "" + emergencyLevel.getValue();
-    String outputDate = "" + date.getText();
+    Date outputDate = Date.valueOf(date.getValue());
     String outputNotes = notes.getText();
 
     // Change to accommodate database and storage system
@@ -87,20 +91,20 @@ public class SecurityController {
 
     // String outputType = "" + Type.getValue();
     // String outputNotes = notesUpdate.getText();
-    // java.util.Date date = new java.util.Date();
-    // SecuritysubmissionEntity addSubmission =
-    // new SecuritysubmissionEntity(
-    // App.getUser().getStaffid(),
-    // outputLocation,
-    // outputType,
-    // outputNotes,
-    // submissionStatus.BLANK,
-    // null,
-    // (int) (Math.random() * 100000),
-    // Urgency.BLANK,
-    // new java.sql.Date(date.getTime()),
-    // new java.sql.Date(date.getTime() + 86400000));
-    // App.getTotalSubmissions().newSecuritySubmission(addSubmission);
+    java.util.Date date = new java.util.Date();
+    SecuritysubmissionEntity addSubmission =
+        new SecuritysubmissionEntity(
+            App.getUser().getStaffid(),
+            outputLocation,
+            outputType,
+            outputNotes,
+            submissionStatus.BLANK,
+            outputID,
+            (int) (Math.random() * 100000),
+            outputEmergency,
+            new java.sql.Date(date.getTime()),
+            new java.sql.Date(date.getTime() + 86400000));
+    App.getTotalSubmissions().newSecuritySubmission(addSubmission);
 
     // New from main use this with new fields
     // String outputType = "" + Type.getValue();
