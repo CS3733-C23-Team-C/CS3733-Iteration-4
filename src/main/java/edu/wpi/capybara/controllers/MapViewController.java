@@ -35,7 +35,7 @@ public class MapViewController {
   private double mapX, mapY, mapW, mapH;
   private Collection<NodeEntity> allNodes;
   private Image currentFloorImage;
-  private final Image G, L2, L1, F1, F2, F3;
+  private final Image L2, L1, F1, F2, F3;
   private final Canvas nodeDrawer;
   private final GraphicsContext gc;
   private final StackPane stackPane;
@@ -67,21 +67,10 @@ public class MapViewController {
     this.onClick = onClick;
 
     L1 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankL1.png")));
-    L2 =
-        new Image(
-            Objects.requireNonNull(App.class.getResourceAsStream("images/thelowerlevel2.png")));
-    G =
-        new Image(
-            Objects.requireNonNull(App.class.getResourceAsStream("images/thegroundfloor.png")));
-    F1 =
-        new Image(
-            Objects.requireNonNull(App.class.getResourceAsStream("images/thefirstfloor.png")));
-    F2 =
-        new Image(
-            Objects.requireNonNull(App.class.getResourceAsStream("images/thesecondfloor.png")));
-    F3 =
-        new Image(
-            Objects.requireNonNull(App.class.getResourceAsStream("images/thethirdfloor.png")));
+    L2 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankL2.png")));
+    F1 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankF1.png")));
+    F2 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankF2.png")));
+    F3 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankF3.png")));
 
     currentFloorImage = L1;
     currentPath = null;
@@ -431,8 +420,6 @@ public class MapViewController {
       currentFloorImage = L1;
     } else if (floorID.equals("L2")) {
       currentFloorImage = L2;
-    } else if (floorID.equals("G")) {
-      currentFloorImage = G;
     } else if (floorID.equals("1")) {
       currentFloorImage = F1;
     } else if (floorID.equals("2")) {

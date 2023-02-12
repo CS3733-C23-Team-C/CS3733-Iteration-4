@@ -3,17 +3,18 @@ package edu.wpi.capybara.controllers;
 import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.exceptions.FloorDoesNotExistException;
-import edu.wpi.capybara.navigation.Navigation;
-import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.NodeCircle;
+import edu.wpi.capybara.objects.PFNode;
 import edu.wpi.capybara.objects.hibernate.*;
-import edu.wpi.capybara.pathfinding.Pathfinder;
+import edu.wpi.capybara.pathfinding.AstarPathfinder;
+import edu.wpi.capybara.pathfinding.DFSPathfinder;
+import edu.wpi.capybara.pathfinding.PathfindingAlgorithm;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
-import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
@@ -25,30 +26,28 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.util.Pair;
 
 public class PathfindingController {
 
   @FXML private MFXButton submitButton;
-  @FXML private MFXTextField idField;
-  @FXML private MFXComboBox<String> currRoom;
-  @FXML private MFXComboBox<String> destRoom;
+  @FXML private MFXComboBox<PFNode> currRoom;
+  @FXML private MFXComboBox<PFNode> destRoom;
   @FXML private Pane canvasPane;
   @FXML private StackPane stackPane;
   @FXML private Canvas nodeDrawer;
   @FXML private AnchorPane nodeAnchorPane;
   @FXML private MFXComboBox<String> floorSelect;
   @FXML private MFXDatePicker dateField;
+  @FXML private MFXComboBox<PathfindingAlgorithm> pathfindingAlgorithm;
 
   private MapViewController mvc;
 
-  private List<Pair<String, NodeEntity>> shortNames;
+  private List<PFNode> pfNodes;
 
   /** Initialize controller by FXML Loader. */
   @FXML
   public void initialize() {
     System.out.println("I am from Pathfinder Controller.");
-    idField.setText(App.getUser().getStaffid());
     dateField.setValue(LocalDate.now());
 
     if (App.getPrimaryStage().getWidth() < 800) App.getPrimaryStage().setWidth(800);
@@ -60,23 +59,21 @@ public class PathfindingController {
     mvc =
         new MapViewController(
             nodeDrawer, nodeAnchorPane, canvasPane, this::nodeClickedOnAction, stackPane);
-    shortNames =
-        new ArrayList<>(nodes.stream().map((n) -> new Pair<>(n.getShortName(), n)).toList());
+    pfNodes = new ArrayList<>(nodes.stream().map((n) -> new PFNode(n, this)).toList());
 
-    shortNames.sort(Comparator.comparing(Pair::getKey));
+    pfNodes.sort(Comparator.comparing(PFNode::toString));
 
-    floorSelect.setItems(FXCollections.observableArrayList("L2", "L1", "G", "1", "2", "3"));
+    floorSelect.setItems(FXCollections.observableArrayList("L2", "L1", "1", "2", "3"));
     floorSelect.setText("L1");
 
-    currRoom.setItems(
-        FXCollections.observableArrayList(shortNames.stream().map(Pair::getKey).toList()));
-    destRoom.setItems(
-        FXCollections.observableArrayList(shortNames.stream().map(Pair::getKey).toList()));
+    currRoom.setItems(FXCollections.observableArrayList(pfNodes));
+    destRoom.setItems(FXCollections.observableArrayList(pfNodes));
+    pathfindingAlgorithm.setItems(
+        FXCollections.observableArrayList(
+            new AstarPathfinder(DatabaseConnect.getNodes(), DatabaseConnect.getEdges()),
+            new DFSPathfinder(DatabaseConnect.getNodes())));
     mvc.drawNodes();
-  }
-
-  public void returnHome() { // when back button is pressed
-    Navigation.navigate(Screen.HOME);
+    getMoveDate();
   }
 
   /*
@@ -90,11 +87,10 @@ public class PathfindingController {
    */
 
   public void submitForm() {
-    NodeEntity currRoomNode = searchName(currRoom.getText());
-    NodeEntity destRoomNode = searchName(destRoom.getText());
+    NodeEntity currRoomNode = currRoom.getValue().getNode();
+    NodeEntity destRoomNode = destRoom.getValue().getNode();
 
-    Pathfinder pathfinder = new Pathfinder(DatabaseConnect.getNodes(), DatabaseConnect.getEdges());
-    List<NodeEntity> path = pathfinder.findPath(currRoomNode, destRoomNode);
+    List<NodeEntity> path = pathfindingAlgorithm.getValue().findPath(currRoomNode, destRoomNode);
     if (path == null) return;
 
     mvc.displayPath(path);
@@ -105,11 +101,11 @@ public class PathfindingController {
   public void clearFields(ActionEvent event) { // clears fields of text
     currRoom.setText("");
     destRoom.setText("");
-    idField.setText(App.getUser().getStaffid());
     dateField.setValue(LocalDate.now());
 
     mvc.setEndNode(null);
     mvc.setStartNode(null);
+    validateButton();
 
     if (event != null) {
       mvc.clearPath();
@@ -120,23 +116,26 @@ public class PathfindingController {
     // ensures that information has been filled in before allowing submission
     boolean valid =
         (!currRoom.getText().equals("")
-                && !destRoom.getText().equals("")
-                && !idField.getText().equals(""))
-            && !dateField.getText().equals("");
+            && !destRoom.getText().equals("")
+            && !dateField.getText().equals("")
+            && !pathfindingAlgorithm.getText().equals(""));
 
     submitButton.setDisable(!valid);
 
-    mvc.setStartNode(searchName(currRoom.getText()));
-    mvc.setEndNode(searchName(destRoom.getText()));
+    PFNode currRoomNode = currRoom.getValue();
+    PFNode destRoomNode = destRoom.getValue();
+    currRoom.setItems(FXCollections.observableArrayList(pfNodes));
+    destRoom.setItems(FXCollections.observableArrayList(pfNodes));
+    if (currRoomNode != null) {
+      currRoom.selectItem(currRoomNode);
+      mvc.setStartNode(currRoom.getValue().getNode());
+    }
+    if (destRoomNode != null) {
+      destRoom.selectItem(destRoomNode);
+      mvc.setEndNode(destRoom.getValue().getNode());
+    }
 
     mvc.drawNodes();
-  }
-
-  private NodeEntity searchName(String name) {
-    for (Pair<String, NodeEntity> pair : shortNames) {
-      if (name.equals(pair.getKey())) return pair.getValue();
-    }
-    return null;
   }
 
   public void mapKeyPress(KeyEvent actionEvent) {
@@ -145,6 +144,13 @@ public class PathfindingController {
 
   public void changeFloor() throws FloorDoesNotExistException {
     mvc.changeFloor(floorSelect.getSelectedItem());
+  }
+
+  public PFNode getPFNode(NodeEntity node) {
+    for (PFNode pfNode : pfNodes) {
+      if (pfNode.getNode().equals(node)) return pfNode;
+    }
+    return null;
   }
 
   private void nodeClickedOnAction(MouseEvent event, NodeCircle nodeCircle) {
@@ -173,17 +179,21 @@ public class PathfindingController {
     dialog.setOnMouseClicked(event1 -> System.out.println("i was clicked"));
     setEndNode.setOnAction(
         (event1 -> {
-          destRoom.selectItem(node.getShortName());
+          destRoom.selectItem(getPFNode(node));
           validateButton();
           stackPane.getChildren().removeAll(dialog);
         }));
     setStartNode.setOnAction(
         (event1 -> {
-          currRoom.selectItem(node.getShortName());
+          currRoom.selectItem(getPFNode(node));
           validateButton();
           stackPane.getChildren().removeAll(dialog);
         }));
 
     stackPane.getChildren().add(dialog);
+  }
+
+  public Date getMoveDate() {
+    return Date.valueOf(dateField.getValue());
   }
 }
