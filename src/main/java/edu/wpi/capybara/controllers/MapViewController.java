@@ -276,7 +276,7 @@ public class MapViewController {
         }
       }
 
-      //drawEdges();
+      // drawEdges();
     }
   }
 

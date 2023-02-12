@@ -24,6 +24,19 @@
                <children>
                   <VBox>
                      <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Floor" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <MFXComboBox fx:id="floorSelect" onAction="#changeFloor" prefWidth="200.0" promptText="Floor">
+                           <font>
+                              <Font size="15.0" />
+                           </font></MFXComboBox>
+                     </children>
+                  </VBox>
+                  <VBox>
+                     <children>
                         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Location" VBox.vgrow="ALWAYS">
                            <font>
                               <Font size="18.0" />
@@ -113,8 +126,6 @@
                               <Font size="24.0" />
                            </font>
                         </Text>
-                        <Pane prefHeight="47.0" prefWidth="25.0" />
-                        <MFXComboBox fx:id="floorSelect" onAction="#changeFloor" promptText="Floor" />
                      </children>
                   </HBox>
                   <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;">
