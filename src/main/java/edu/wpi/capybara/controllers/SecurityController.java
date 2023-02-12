@@ -30,6 +30,7 @@ public class SecurityController {
     Location.getSelectionModel().selectFirst();
     employeeType.getSelectionModel().selectFirst();
     emergencyLevel.getSelectionModel().selectFirst();
+    notes.clear();
     date.clear();
     // currentStatus = submissionStatus.BLANK;
     submitButton.setDisable(true);

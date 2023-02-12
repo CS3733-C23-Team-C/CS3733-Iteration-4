@@ -44,7 +44,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <MFXTextField fx:id="employeeID" onAction="#validateButton" prefWidth="200.0">
+                              <MFXTextField fx:id="employeeID" onKeyReleased="#validateButton" prefWidth="200.0">
                                  <font>
                                     <Font size="15.0" />
                                  </font></MFXTextField>
@@ -64,7 +64,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <MFXFilterComboBox fx:id="currentLocation" onAction="#validateButton" prefWidth="200.0">
+                              <MFXFilterComboBox fx:id="currentLocation" onAction="#validateButton" onMouseClicked="#validateButton" prefWidth="200.0">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -78,7 +78,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <MFXFilterComboBox fx:id="destinationLocation" onAction="#validateButton" prefWidth="200.0">
+                              <MFXFilterComboBox fx:id="destinationLocation" onAction="#validateButton" onMouseClicked="#validateButton" prefWidth="200.0">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -99,7 +99,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <MFXComboBox fx:id="emergencyLevel" onAction="#validateButton" prefWidth="200.0">
+                              <MFXComboBox fx:id="emergencyLevel" onAction="#validateButton" onMouseClicked="#validateButton" prefWidth="200.0">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -113,7 +113,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <MFXDatePicker fx:id="date" onAction="#validateButton" prefHeight="45.0" prefWidth="200.0">
+                              <MFXDatePicker fx:id="date" onAction="#validateButton" onMouseClicked="#validateButton" prefHeight="45.0" prefWidth="200.0">
                                  <font>
                                     <Font size="15.0" />
                                  </font></MFXDatePicker>
@@ -133,7 +133,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <MFXTextField fx:id="reasonField" maxWidth="1.7976931348623157E308" onAction="#validateButton">
+                              <MFXTextField fx:id="reasonField" maxWidth="1.7976931348623157E308" onAction="#validateButton" onKeyReleased="#validateButton">
                                  <font>
                                     <Font size="15.0" />
                                  </font></MFXTextField>

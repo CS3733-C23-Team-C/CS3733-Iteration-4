@@ -113,6 +113,7 @@ public class CleaningController {
     hazardLevel.getSelectionModel().selectFirst();
     emergencyLevel.getSelectionModel().selectFirst();
     date.clear();
+    notes.clear();
     //    currentStatus = submissionStatus.BLANK;
     submitButton.setDisable(true);
   }
