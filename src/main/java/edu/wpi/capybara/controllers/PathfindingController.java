@@ -57,7 +57,9 @@ public class PathfindingController {
 
     Collection<NodeEntity> nodes = DatabaseConnect.getNodes().values();
 
-    mvc = new MapViewController(nodeDrawer, nodeAnchorPane, canvasPane, this::nodeClickedOnAction);
+    mvc =
+        new MapViewController(
+            nodeDrawer, nodeAnchorPane, canvasPane, this::nodeClickedOnAction, stackPane);
     shortNames =
         new ArrayList<>(nodes.stream().map((n) -> new Pair<>(n.getShortName(), n)).toList());
 
@@ -154,19 +156,21 @@ public class PathfindingController {
     MFXButton setStartNode = new MFXButton("Set as Current Location");
     setStartNode.setBackground(Background.fill(Color.GREEN));
     MFXButton setEndNode = new MFXButton("Set as Destination Location");
-    setStartNode.setBackground(Background.fill(Color.RED));
+    setEndNode.setBackground(Background.fill(Color.RED));
 
     // dialogBuilder.setActionsOrientation(Orientation.VERTICAL);
     dialogBuilder.makeScrollable(true);
     dialogBuilder.setShowAlwaysOnTop(false);
     dialogBuilder.setHeaderText("Location Information");
     dialogBuilder.setShowMinimize(false);
-    dialogBuilder.addActions(title, setStartNode, setEndNode);
+    dialogBuilder.setContent(title);
+    dialogBuilder.addActions(setStartNode, setEndNode);
 
     MFXGenericDialog dialog = dialogBuilder.get();
     dialog.setPrefSize(200, 300);
 
     dialog.setOnClose((event1 -> stackPane.getChildren().removeAll(dialog)));
+    dialog.setOnMouseClicked(event1 -> System.out.println("i was clicked"));
     setEndNode.setOnAction(
         (event1 -> {
           destRoom.selectItem(node.getShortName());

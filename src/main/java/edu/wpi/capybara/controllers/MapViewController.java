@@ -6,9 +6,13 @@ import edu.wpi.capybara.exceptions.FloorDoesNotExistException;
 import edu.wpi.capybara.objects.NodeCircle;
 import edu.wpi.capybara.objects.NodeCircleClickHandler;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
+import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -17,9 +21,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,6 +38,7 @@ public class MapViewController {
   private final Image G, L2, L1, F1, F2, F3;
   private final Canvas nodeDrawer;
   private final GraphicsContext gc;
+  private final StackPane stackPane;
   private AnchorPane ap;
   private Pane canvasPane;
   private List<NodeEntity> currentPath;
@@ -41,14 +49,19 @@ public class MapViewController {
   private static final float DRAG_SPEED = 1f;
   private boolean isPath;
   private String currentFloor;
-  private NodeCircleClickHandler onClick;
-  @Setter @Getter private NodeEntity startNode, endNode;
+  private final NodeCircleClickHandler onClick;
+  @Setter @Getter private NodeEntity startNode, endNode, selectedNode;
 
   public MapViewController(
-      Canvas nodeDrawer, AnchorPane ap, Pane canvasPane, NodeCircleClickHandler onClick) {
+      Canvas nodeDrawer,
+      AnchorPane ap,
+      Pane canvasPane,
+      NodeCircleClickHandler onClick,
+      StackPane stackPane) {
     this.nodeDrawer = nodeDrawer;
     this.ap = ap;
     this.canvasPane = canvasPane;
+    this.stackPane = stackPane;
     this.gc = nodeDrawer.getGraphicsContext2D();
     this.allNodes = DatabaseConnect.getNodes().values();
     this.onClick = onClick;
@@ -126,7 +139,7 @@ public class MapViewController {
     lastX = (int) event.getX();
     lastY = (int) event.getY();
 
-    nodeDrawer.setCursor(Cursor.CLOSED_HAND);
+    // ap.setCursor(Cursor.CLOSED_HAND);
   }
 
   public void mapStopDrag(MouseEvent event) {
@@ -151,7 +164,7 @@ public class MapViewController {
       mapY = 0;
     }
 
-    nodeDrawer.setCursor(Cursor.OPEN_HAND);
+    ap.setCursor(Cursor.OPEN_HAND);
     drawNodes();
   }
 
@@ -249,20 +262,24 @@ public class MapViewController {
 
     if (isPath) {
       drawPath();
-      drawNode(currentPath.get(0), Color.GREEN);
-      drawNode(currentPath.get(currentPath.size() - 1), Color.RED);
+      if (nodeInMapView(currentPath.get(0))) drawNode(currentPath.get(0), Color.GREEN);
+      if (nodeInMapView(currentPath.get(currentPath.size() - 1)))
+        drawNode(currentPath.get(currentPath.size() - 1), Color.RED);
     } else {
-      if (startNode != null) {
+      if (startNode != null && nodeInMapView(startNode)) {
         drawNode(startNode, Color.GREEN);
       }
-      if (endNode != null) {
+      if (endNode != null && nodeInMapView(endNode)) {
         drawNode(endNode, Color.RED);
+      }
+      if (selectedNode != null && nodeInMapView(selectedNode)) {
+        drawNode(selectedNode, Color.YELLOW);
       }
 
       gc.setFill(Color.BLUE);
       for (NodeEntity n : allNodes) {
         if (nodeInMapView(n)) {
-          if (n == startNode || n == endNode) continue;
+          if (n == startNode || n == endNode || n == selectedNode) continue;
           drawNode(n);
           gc.setFill(Color.BLUE);
           // System.out.println(n);
@@ -293,12 +310,39 @@ public class MapViewController {
     ap.getChildren().add(testCircle);
     testCircle.setCenterX(locToMapX(node.getXcoord()));
     testCircle.setCenterY(locToMapY(node.getYcoord()));
+    testCircle.setCursor(Cursor.HAND);
     testCircle.setOnMouseClicked(event -> onClick.handle(event, testCircle));
+  }
+
+  private void drawNode(
+      NodeEntity node, Paint color, EventHandler<? super MouseEvent> eventHandler) {
+    if (node == null) {
+      System.out.println("NULL NODE");
+      return;
+    }
+
+    NodeCircle testCircle = new NodeCircle(scale(4), color, node);
+    ap.getChildren().add(testCircle);
+    testCircle.setCenterX(locToMapX(node.getXcoord()));
+    testCircle.setCenterY(locToMapY(node.getYcoord()));
+    testCircle.setCursor(Cursor.HAND);
+    testCircle.setOnMouseClicked(eventHandler);
   }
 
   private void drawPath() {
     for (int i = 1; i < currentPath.size(); i++) {
       NodeEntity n1 = currentPath.get(i - 1), n2 = currentPath.get(i);
+      if (n1.getFloor().equals(currentFloor)
+          && !n2.getFloor().equals(currentFloor)
+          && nodeInMapView(n1)) {
+        drawNode(n1, Color.PURPLE, (event -> alertNewFloor(n1, n1.getFloor(), n2.getFloor())));
+      } else if (n2.getFloor().equals(currentFloor)
+          && !n1.getFloor().equals(currentFloor)
+          && nodeInMapView(n2)) {
+        drawNode(n2, Color.PURPLE, (event -> alertNewFloor(n2, n2.getFloor(), n1.getFloor())));
+      } else if (!n1.getFloor().equals(currentFloor) && !n2.getFloor().equals(currentFloor)) {
+        continue;
+      }
       if ((!nodeInMapView(n1)) && (!nodeInMapView(n2))) continue;
 
       gc.strokeLine(
@@ -401,5 +445,34 @@ public class MapViewController {
 
     currentFloor = floorID;
     drawNodes();
+  }
+
+  private void alertNewFloor(NodeEntity node, String fromFloor, String toFloor) {
+    MFXGenericDialogBuilder dialogBuilder = new MFXGenericDialogBuilder();
+
+    Text title = new Text("Take " + node.getShortName() + " from " + fromFloor + " to " + toFloor);
+    MFXButton gotoFloor = new MFXButton("Go to " + toFloor);
+    gotoFloor.setBackground(Background.fill(Color.PURPLE));
+
+    dialogBuilder.makeScrollable(true);
+    dialogBuilder.setShowAlwaysOnTop(false);
+    dialogBuilder.setHeaderText("Location Information");
+    dialogBuilder.setShowMinimize(false);
+    dialogBuilder.setContent(title);
+    dialogBuilder.addActions(gotoFloor);
+
+    MFXGenericDialog dialog = dialogBuilder.get();
+    gotoFloor.setOnAction(
+        (event) -> {
+          try {
+            changeFloor(toFloor);
+          } catch (FloorDoesNotExistException ignored) {
+          }
+          stackPane.getChildren().removeAll(dialog);
+          drawNodes();
+        });
+    dialog.setOnClose((event1 -> stackPane.getChildren().removeAll(dialog)));
+
+    stackPane.getChildren().add(dialog);
   }
 }
