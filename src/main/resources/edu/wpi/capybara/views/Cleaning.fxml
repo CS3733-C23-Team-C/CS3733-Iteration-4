@@ -22,20 +22,22 @@
          <center>
             <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
                <BorderPane.margin>
-                  <Insets top="5.0" />
+                  <Insets />
                </BorderPane.margin>
                <padding>
                   <Insets bottom="20.0" left="20.0" right="20.0" />
                </padding>
                <children>
+                  <HBox prefHeight="10.0" prefWidth="200.0" />
                   <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Sanitation Request">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Text>
+                  <HBox prefHeight="10.0" prefWidth="200.0" />
                   <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;" />
                   <HBox prefHeight="20.0" prefWidth="200.0" />
-                  <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #F6BD38;">
+                  <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
                      <children>
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
@@ -56,7 +58,7 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                   </HBox>
-                  <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #F6BD38;">
+                  <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
                      <children>
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
@@ -91,7 +93,7 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                   </HBox>
-                  <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #F6BD38;">
+                  <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
                      <children>
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
@@ -126,7 +128,7 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                   </HBox>
-                  <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #F6BD38;">
+                  <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
                      <children>
                         <VBox HBox.hgrow="ALWAYS">
                            <children>

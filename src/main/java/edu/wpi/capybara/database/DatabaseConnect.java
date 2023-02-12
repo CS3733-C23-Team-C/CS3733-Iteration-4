@@ -328,8 +328,6 @@ public class DatabaseConnect {
     locationNames.put(locationName.getLongname(), locationName);
   }
 
-
-
   private static <T> void insert(T entity) {
     try (final var session = factory.openSession()) {
       final var tx = session.beginTransaction();
@@ -429,14 +427,14 @@ public class DatabaseConnect {
     }
   }
 
-  public static void insertStaff(String staffid, String firstname, String lastname, String password){
+  public static void insertStaff(
+      String staffid, String firstname, String lastname, String password) {
     Session session = factory.openSession();
     Transaction tx = null;
 
     try {
       tx = session.beginTransaction();
-      StaffEntity staff =
-              new StaffEntity(staffid, firstname, lastname, password);
+      StaffEntity staff = new StaffEntity(staffid, firstname, lastname, password);
       session.save(staff);
       tx.commit();
     } catch (HibernateException e) {

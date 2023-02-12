@@ -17,13 +17,15 @@
             <HBox prefHeight="20.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER" />
          </top>
          <center>
-            <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" spacing="10.0" BorderPane.alignment="CENTER">
+            <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
                <children>
+                  <HBox prefHeight="10.0" prefWidth="200.0" />
                   <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Service Request Systems">
                      <font>
                         <Font size="24.0" />
                      </font>
                   </Text>
+                  <HBox prefHeight="10.0" prefWidth="200.0" />
                   <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;">
                      <VBox.margin>
                         <Insets />
@@ -134,7 +136,7 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" />
                </padding>
                <BorderPane.margin>
-                  <Insets top="5.0" />
+                  <Insets />
                </BorderPane.margin>
             </VBox>
          </center>
