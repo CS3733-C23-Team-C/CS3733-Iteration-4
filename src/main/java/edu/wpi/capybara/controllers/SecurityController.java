@@ -2,82 +2,50 @@ package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
-import edu.wpi.capybara.navigation.Navigation;
-import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
-<<<<<<< Updated upstream
-import edu.wpi.capybara.objects.submissions.Urgency;
-import edu.wpi.capybara.objects.submissions.submissionStatus;
-=======
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
->>>>>>> Stashed changes
+import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
-import java.io.IOException;
+import java.sql.Date;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextArea;
-import javafx.stage.Stage;
+import javax.swing.*;
 
 public class SecurityController {
 
-  @FXML private MFXButton backButton;
-  @FXML private MFXButton SubmitButton;
-  @FXML private MFXButton clear;
-
-  @FXML private TextArea notesUpdate;
-
-  @FXML private MFXComboBox<String> Type;
-
-  @FXML public TextArea Description;
-  @FXML public Stage primaryStage;
-
-  @FXML public MFXComboBox<String> Location;
-
-  public void returnHome(ActionEvent actionEvent) throws IOException {
-    Navigation.navigate(Screen.HOME);
-  }
-
-  //  public void submitForm(ActionEvent actionEvent) throws IOException {
-  //    String outputRoomNumber = room.getText();
-  //    String outputFloorNumber = floorNumber.getText();
-  //    String outputNotes = notes.getText();
-  //    // System.out.println("Current Room: " + outputCurrRoom + " Destination Room: " +
-  //    // outputDestRoom);
-  //    securtySubmission newSubmission =
-  //            new securtySubmission(outputRoomNumber, outputFloorNumber, outputNotes);
-  //    App.totalSubmissions.newTransportationSubmission(newSubmission);
-  //    System.out.println(App.totalSubmissions.getTransportationData());
-  //    clearFields();
-  //  }
+  @FXML private MFXTextField employeeID;
+  @FXML private MFXFilterComboBox<String> Location;
+  @FXML private MFXComboBox<String> employeeType;
+  @FXML private MFXComboBox<String> emergencyLevel;
+  @FXML private MFXDatePicker date;
+  @FXML private MFXTextField notes;
+  @FXML private MFXButton clearButton;
+  @FXML private MFXButton submitButton;
 
   public void clearFields() {
+    employeeID.clear();
     Location.getSelectionModel().selectFirst();
-    Type.getSelectionModel().selectFirst();
-    notesUpdate.clear();
-    SubmitButton.setDisable(true);
+    employeeType.getSelectionModel().selectFirst();
+    emergencyLevel.getSelectionModel().selectFirst();
+    notes.clear();
+    date.clear();
+    // currentStatus = submissionStatus.BLANK;
+    submitButton.setDisable(true);
   }
 
   @FXML
   public void initialize() {
-    System.out.println("I am from cleaningController");
-
-    Type.getItems().add("Police Department");
-    Type.getItems().add("Fire Department");
-    Type.getItems().add("Health Department");
-
-    Type.getSelectionModel().selectFirst();
+    System.out.println("I am from securityController");
+    // currentStatus = submissionStatus.BLANK;
 
     // Add different locations
-
-    //    Location.getItems().add("Location");
-    //    Location.getItems().add("Location1");
 
     TreeMap<String, NodeEntity> nodes = DatabaseConnect.getNodes();
 
@@ -92,23 +60,37 @@ public class SecurityController {
       Location.getItems().add(n.getShortName());
     }
 
-    //    ObservableList<String> locationList =
-    //        FXCollections.observableArrayList("Location", "Another location");
-    //    Location.setItems(locationList);
-
     // Set a default variable
     Location.getSelectionModel().selectFirst();
+
+    emergencyLevel.getItems().addAll("Low", "Medium", "High", "Extreme");
+    emergencyLevel.getSelectionModel().selectFirst();
+
+    employeeType.getItems().addAll("Police Department", "Fire Department", "Health Department");
+    employeeType.getSelectionModel().selectFirst();
   }
 
-  private void printf(String s) {}
-  // end
-
-  // entered room number
-
   public void submit(ActionEvent actionEvent) {
+    String outputID = employeeID.getText();
     String outputLocation = "" + Location.getValue();
-    String outputType = "" + Type.getValue();
-    String outputNotes = notesUpdate.getText();
+
+    String outputType = "" + employeeType.getValue();
+    String outputEmergency = "" + emergencyLevel.getValue();
+    Date outputDate = Date.valueOf(date.getValue());
+    String outputNotes = notes.getText();
+
+    // Change to accommodate database and storage system
+    //    SecuritysubmissionEntity addSubmission =
+    //        new SecuritysubmissionEntity(
+    //            App.getUser().getStaffid(),
+    //            outputLocation,
+    //            outputType,
+    //            outputNotes,
+    //            submissionStatus.BLANK);
+    //    App.getTotalSubmissions().newSecuritySubmission(addSubmission);
+
+    // String outputType = "" + Type.getValue();
+    // String outputNotes = notesUpdate.getText();
     java.util.Date date = new java.util.Date();
     SecuritysubmissionEntity addSubmission =
         new SecuritysubmissionEntity(
@@ -116,24 +98,37 @@ public class SecurityController {
             outputLocation,
             outputType,
             outputNotes,
-<<<<<<< Updated upstream
-            submissionStatus.BLANK,
-            null,
+            SubmissionStatus.BLANK,
+            outputID,
             (int) (Math.random() * 100000),
-            Urgency.BLANK,
+            outputEmergency,
             new java.sql.Date(date.getTime()),
             new java.sql.Date(date.getTime() + 86400000));
-=======
-            SubmissionStatus.BLANK);
->>>>>>> Stashed changes
     App.getTotalSubmissions().newSecuritySubmission(addSubmission);
+
+    // New from main use this with new fields
+    // String outputType = "" + Type.getValue();
+    // String outputNotes = notesUpdate.getText();
+    // java.util.Date date = new java.util.Date();
+    // SecuritysubmissionEntity addSubmission =
+    // new SecuritysubmissionEntity(
+    // App.getUser().getStaffid(),
+    // outputLocation,
+    // outputType,
+    // outputNotes,
+    // submissionStatus.BLANK,
+    // null,
+    // (int) (Math.random() * 100000),
+    // "Blank",
+    // new java.sql.Date(date.getTime()),
+    // new java.sql.Date(date.getTime() + 86400000));
+    // App.getTotalSubmissions().newSecuritySubmission(addSubmission);
+
     clearFields();
   }
 
-  public void
-      validateButton() { // ensures that information has been filled in before allowing submission
-    boolean valid = false;
-    if (!notesUpdate.getText().equals("")) valid = true;
-    SubmitButton.setDisable(!valid);
+  public void validateButton() {
+    if (employeeID.getText() != "" && date.getText() != "" && notes.getText() != "")
+      submitButton.setDisable(false);
   }
 }

@@ -1,6 +1,5 @@
 package edu.wpi.capybara;
 
-import edu.wpi.capybara.controllers.RootController;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.hibernate.StaffEntity;
@@ -40,7 +39,7 @@ public class App extends Application {
     /* primaryStage is generally only used if one of your components require the stage to display */
     App.primaryStage = primaryStage;
 
-    final FXMLLoader loader = new FXMLLoader(App.class.getResource("views/Root.fxml"));
+    final FXMLLoader loader = new FXMLLoader(App.class.getResource("views/EmptyRoot.fxml"));
     final BorderPane root = loader.load();
 
     App.rootPane = root;
@@ -50,7 +49,7 @@ public class App extends Application {
     primaryStage.show();
 
     Navigation.navigate(Screen.LOG_IN_PAGE);
-    RootController.updateUser();
+    // RootController.updateUser();
   }
 
   @Override
@@ -60,6 +59,5 @@ public class App extends Application {
 
   public static void setUser(StaffEntity newUser) {
     user = newUser;
-    RootController.updateUser();
   }
 }

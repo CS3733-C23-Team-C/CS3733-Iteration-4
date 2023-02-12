@@ -1,12 +1,7 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.database.DatabaseConnect;
-<<<<<<< Updated upstream
-import edu.wpi.capybara.objects.submissions.Urgency;
-import edu.wpi.capybara.objects.submissions.submissionStatus;
-=======
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
->>>>>>> Stashed changes
 import jakarta.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
@@ -39,9 +34,8 @@ public class SecuritysubmissionEntity {
   @Column(name = "submissionid")
   private int submissionid;
 
-  @Enumerated(EnumType.STRING)
   @Column(name = "urgency")
-  private Urgency urgency;
+  private String urgency;
 
   @Basic
   @Column(name = "createdate")
@@ -58,16 +52,12 @@ public class SecuritysubmissionEntity {
       String location,
       String type,
       String notesupdate,
-<<<<<<< Updated upstream
-      submissionStatus submissionstatus,
+      SubmissionStatus submissionstatus,
       String assignedid,
       int submissionid,
-      Urgency urgency,
+      String urgency,
       Date createdate,
       Date duedate) {
-=======
-      SubmissionStatus submissionstatus) {
->>>>>>> Stashed changes
     this.employeeid = employeeid;
     this.location = location;
     this.type = type;
@@ -172,11 +162,11 @@ public class SecuritysubmissionEntity {
     session.close();
   }
 
-  public Urgency getUrgency() {
+  public String getUrgency() {
     return urgency;
   }
 
-  public void setUrgency(Urgency urgency) {
+  public void setUrgency(String urgency) {
     this.urgency = urgency;
     Session session = DatabaseConnect.getSession();
     Transaction tx = session.beginTransaction();

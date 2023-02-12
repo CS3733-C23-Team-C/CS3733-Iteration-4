@@ -21,6 +21,9 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media']
 }
 
+run {
+    jvmArgs = ["--add-opens", "javafx.graphics/javafx.css=ALL-UNNAMED"]
+}
 
 dependencies {
 //    implementation
@@ -44,7 +47,9 @@ dependencies {
             'org.postgresql:postgresql:42.5.1',
             'org.hibernate:hibernate-core:6.1.6.Final',
 
-            'org.apache.commons:commons-lang3:3.12.0'
+            'org.apache.commons:commons-lang3:3.12.0',
+
+            'de.jensd:fontawesomefx-fontawesome:4.7.0-11'
     )
 
     testImplementation(

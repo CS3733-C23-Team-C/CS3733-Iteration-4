@@ -1,7 +1,6 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.database.DatabaseConnect;
-import edu.wpi.capybara.objects.submissions.Urgency;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
 import jakarta.persistence.*;
 import java.sql.Date;
@@ -35,9 +34,8 @@ public class AudiosubmissionEntity {
   @Column(name = "submissionstatus")
   private submissionStatus submissionstatus;
 
-  @Enumerated(EnumType.STRING)
   @Column(name = "urgency")
-  private Urgency urgency;
+  private String urgency;
 
   @Column(name = "createdate")
   private Date createdate;
@@ -136,11 +134,11 @@ public class AudiosubmissionEntity {
     session.close();
   }
 
-  public Urgency getUrgency() {
+  public String getUrgency() {
     return urgency;
   }
 
-  public void setUrgency(Urgency urgency) {
+  public void setUrgency(String urgency) {
     this.urgency = urgency;
     Session session = DatabaseConnect.getSession();
     Transaction tx = session.beginTransaction();
@@ -185,7 +183,7 @@ public class AudiosubmissionEntity {
       String type,
       String notesupdate,
       submissionStatus submissionstatus,
-      Urgency urgency,
+      String urgency,
       Date createdate,
       Date duedate) {
     this.submissionid = submissionid;
