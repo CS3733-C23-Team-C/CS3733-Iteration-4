@@ -82,15 +82,43 @@ public class PFNode {
     this.moves = moves;
   }
 
-  public String toString() {
-    Date moveDate = controller.getMoveDate();
-    String mostRecentName = node.getNodeid();
+  public String getLongname(Date date) {
+    MoveInformation mi = mostRecentMoveInformation(date);
+    if (mi == null) return null;
+    return mi.longname;
+  }
+
+  public String getShortname(Date date) {
+    MoveInformation mi = mostRecentMoveInformation(date);
+    if (mi == null) return null;
+    return mi.shortname;
+  }
+
+  public String getLocationtype(Date date) {
+    MoveInformation mi = mostRecentMoveInformation(date);
+    if (mi == null) return null;
+    return mi.locationType;
+  }
+
+  public boolean hasRecentNode(Date date) {
+    MoveInformation mi = mostRecentMoveInformation(date);
+    return mi != null;
+  }
+
+  public MoveInformation mostRecentMoveInformation(Date moveDate) {
+    MoveInformation mostRecentName = null;
 
     for (MoveInformation move : moves) {
       if (move.moveDate.compareTo(moveDate) > 0) return mostRecentName;
-      mostRecentName = move.longname;
+      mostRecentName = move;
     }
 
     return mostRecentName;
+  }
+
+  public String toString() {
+    MoveInformation mi = mostRecentMoveInformation(controller.getMoveDate());
+    if (mi == null) return node.getNodeid();
+    return mi.longname;
   }
 }

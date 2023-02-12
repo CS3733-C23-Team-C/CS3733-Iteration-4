@@ -5,6 +5,7 @@ import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.exceptions.FloorDoesNotExistException;
 import edu.wpi.capybara.objects.NodeCircle;
 import edu.wpi.capybara.objects.NodeCircleClickHandler;
+import edu.wpi.capybara.objects.hibernate.EdgeEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
@@ -274,6 +275,8 @@ public class MapViewController {
           // System.out.println(n);
         }
       }
+
+      //drawEdges();
     }
   }
 
@@ -316,6 +319,22 @@ public class MapViewController {
     testCircle.setCenterY(locToMapY(node.getYcoord()));
     testCircle.setCursor(Cursor.HAND);
     testCircle.setOnMouseClicked(eventHandler);
+  }
+
+  private void drawEdges() {
+    gc.setStroke(Color.RED);
+    for (EdgeEntity edge : DatabaseConnect.getEdges().values()) {
+      NodeEntity n1 = DatabaseConnect.getNodes().get(edge.getNode1());
+      NodeEntity n2 = DatabaseConnect.getNodes().get(edge.getNode2());
+      if (!n1.getFloor().equals(currentFloor) || !n2.getFloor().equals(currentFloor)) continue;
+
+      gc.strokeLine(
+          locToMapX(n1.getXcoord()),
+          locToMapY(n1.getYcoord()),
+          locToMapX(n2.getXcoord()),
+          locToMapY(n2.getYcoord()));
+    }
+    gc.setStroke(Color.BLUE);
   }
 
   private void drawPath() {
