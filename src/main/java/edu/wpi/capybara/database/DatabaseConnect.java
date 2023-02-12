@@ -1,7 +1,6 @@
 package edu.wpi.capybara.database;
 
 import edu.wpi.capybara.objects.hibernate.*;
-import edu.wpi.capybara.objects.submissions.Urgency;
 import edu.wpi.capybara.objects.submissions.submissionStatus;
 import jakarta.persistence.PersistenceException;
 import java.sql.*;
@@ -350,7 +349,7 @@ public class DatabaseConnect {
       submissionStatus submissionstatus,
       String assigneeid,
       int submissionid,
-      Urgency urgency,
+      String urgency,
       Date createdate,
       Date duedate) {
     Session session = factory.openSession();
@@ -393,7 +392,7 @@ public class DatabaseConnect {
       submissionStatus status,
       String assigneeid,
       int submissionid,
-      Urgency urgency,
+      String urgency,
       Date createdate,
       Date duedate) {
     Session session = factory.openSession();
@@ -436,7 +435,7 @@ public class DatabaseConnect {
       submissionStatus submissionstatus,
       String assigneeid,
       int submissionid,
-      Urgency urgency,
+      String urgency,
       Date createdate,
       Date duedate) {
     Session session = factory.openSession();

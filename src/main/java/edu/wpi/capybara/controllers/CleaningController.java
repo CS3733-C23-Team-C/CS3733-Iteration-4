@@ -3,7 +3,11 @@ package edu.wpi.capybara.controllers;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
+
 import io.github.palexdev.materialfx.controls.*;
+
+import edu.wpi.capybara.objects.submissions.submissionStatus;
+
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import java.util.*;
@@ -63,6 +67,33 @@ public class CleaningController {
    * @param actionEvent
    */
   public void submit(ActionEvent actionEvent) {
+
+//New stuff from main use
+
+    //java.util.Date date = new java.util.Date();
+    //String locationInfo = "" + Location.getValue();
+    //String descriptionInfo = Description.getText();
+    //String hazardLevelInfo = hazardLevel.getText();
+    //CleaningsubmissionEntity addSubmission =
+        //new CleaningsubmissionEntity(
+            //App.getUser().getStaffid(),
+            //locationInfo,
+            //hazardLevelInfo,
+            //descriptionInfo,
+            //submissionStatus.BLANK,
+            //null,
+            //(int) (Math.random() * 100000),
+            //"Blank",
+            //new java.sql.Date(date.getTime()),
+            //new java.sql.Date(date.getTime() + 86400000));
+    // locationInfo, hazardLevelInfo, descriptionInfo
+    //    addSubmission.setLocation(locationInfo);
+    //    addSubmission.setHazardlevel(hazardLevelInfo);
+    //App.getTotalSubmissions().newCleaningSub(addSubmission);
+    //System.out.println(App.getTotalSubmissions().getCleaningData());
+    //clearRequest();
+  //}
+
 
     String outputID = employeeID.getText();
     String outputLocation = "" + Location.getValue();
