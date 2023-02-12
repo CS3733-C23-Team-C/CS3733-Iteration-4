@@ -29,46 +29,6 @@ public class DatabaseConnect {
   public static void main(String args[]) {
     connect();
     importData();
-    //    // Session session = factory.openSession();
-    //    for (LocationnameEntity n : locationNames.values()) {
-    //      // Transaction tx = session.beginTransaction();
-    //      if (Objects.equals(n.getLongname(), "Duncan Reid Conference Room")) {
-    //        n.setShortname("6969");
-    //      }
-    //      //      session.merge(n);
-    //      //      tx.commit();
-    //      //      System.out.println(n.getBuilding());
-    //    }
-    //    Session session = factory.openSession();
-    //    Transaction tx = session.beginTransaction();
-    //    for (NodeEntity n : nodes.values()) {
-    //      if (n.getBuilding().equals("76868")) {
-    //        nodes.remove(n.hashCode());
-    //        n.delete();
-    //      }
-    //    }
-
-    //    CleaningsubmissionEntity addSubmission =
-    //        new CleaningsubmissionEntity("3", "1", "1", "2X2279Y0762", submissionStatus.BLANK);
-
-    //    addSubmission.setMemberid("2");
-    //    addSubmission.setDescription("1");
-    //    addSubmission.setHazardlevel("1");
-    //    addSubmission.setLocation("2X2279Y0762");
-    //    //    addSubmission.setSubmissionstatus(submissionStatus.BLANK);
-    //    session.persist(addSubmission);
-    //    tx.commit();
-    //    session.close();
-
-    //    NodeEntity addNode = new NodeEntity("1000", 1000, 1000, "3", "Foisie");
-    //    //    addNode.setNodeid("1337");
-    //    //    addNode.setXcoord(1000);
-    //    //    addNode.setYcoord(1000);
-    //    //    addNode.setFloor("3");
-    //    //    addNode.setBuilding("Atwater");
-    //    session.persist(addNode);
-    //    tx.commit();
-    //    session.close();
 
     factory.close();
   }
@@ -277,6 +237,15 @@ public class DatabaseConnect {
     return locationNames;
   }
 
+  public static StaffEntity getStaff(String Staffid, String password) {
+    for (StaffEntity s : staff.values()) {
+      if (s.getStaffid().equals(Staffid) && s.getPassword().equals(password)) {
+        return s;
+      }
+    }
+    return null;
+  }
+
   public static void connect() {
     try {
       factory = new Configuration().configure().buildSessionFactory();
@@ -284,28 +253,6 @@ public class DatabaseConnect {
       System.err.println("Failed to create sessionFactory object." + ex);
       throw new ExceptionInInitializerError(ex);
     }
-
-    // connection = null;
-    // connecting to the database
-    //    try {
-    //      Class.forName("org.postgresql.Driver"); // driver
-    //      System.out.println("good");
-    //      connection =
-    //          DriverManager.getConnection(
-    //              "jdbc:postgresql://database.cs.wpi.edu:5432/teamcdb",
-    //              "teamc",
-    //              "teamc30"); // create the connection
-    //    } catch (ClassNotFoundException | SQLException e) {
-    //      System.out.println(e);
-    //    }
-    //    if (connection != null) {
-    //      System.out.println("Connection success");
-    //    } else {
-    //      System.out.println("Connection failed");
-    //    }
-    //
-    //    importData();
-
   }
 
   public static void insertNode(NodeEntity node) {
@@ -326,19 +273,6 @@ public class DatabaseConnect {
   public static void insertLocationName(LocationnameEntity locationName) {
     insert(locationName);
     locationNames.put(locationName.getLongname(), locationName);
-  }
-
-  private static <T> void insert(T entity) {
-    try (final var session = factory.openSession()) {
-      final var tx = session.beginTransaction();
-      try {
-        session.persist(entity);
-        tx.commit();
-      } catch (PersistenceException e) {
-        tx.rollback();
-        log.error("Unable to insert entity of type " + entity.getClass().getName(), e);
-      }
-    }
   }
 
   public static void insertCleaning(
@@ -369,11 +303,6 @@ public class DatabaseConnect {
               urgency,
               createdate,
               duedate);
-      //      cleaning.setMemberid(staffid);
-      //      cleaning.setLocation(location);
-      //      cleaning.setHazardlevel(hazardlevel);
-      //      cleaning.setDescription(description);
-      //      cleaning.setSubmissionstatus(submissionstatus);
       session.save(cleaning);
       tx.commit();
     } catch (HibernateException e) {
@@ -412,11 +341,6 @@ public class DatabaseConnect {
               urgency,
               createdate,
               duedate);
-      //      transportation.setEmployeeid(staffid);
-      //      transportation.setCurrroomnum(currroomnum);
-      //      transportation.setDestroomnum(destroomnum);
-      //      transportation.setReason(reason);
-      //      transportation.setStatus(status);
       session.save(transportation);
       tx.commit();
     } catch (HibernateException e) {
@@ -473,11 +397,6 @@ public class DatabaseConnect {
               urgency,
               createdate,
               duedate);
-      //      transportation.setEmployeeid(staffid);
-      //      transportation.setCurrroomnum(currroomnum);
-      //      transportation.setDestroomnum(destroomnum);
-      //      transportation.setReason(reason);
-      //      transportation.setStatus(status);
       session.save(security);
       tx.commit();
     } catch (HibernateException e) {
@@ -488,23 +407,18 @@ public class DatabaseConnect {
     }
   }
 
-  public static StaffEntity getStaff(String Staffid, String password) {
-    for (StaffEntity s : staff.values()) {
-      if (s.getStaffid().equals(Staffid) && s.getPassword().equals(password)) {
-        return s;
+  private static <T> void insert(T entity) {
+    try (final var session = factory.openSession()) {
+      final var tx = session.beginTransaction();
+      try {
+        session.persist(entity);
+        tx.commit();
+      } catch (PersistenceException e) {
+        tx.rollback();
+        log.error("Unable to insert entity of type " + entity.getClass().getName(), e);
       }
     }
-    return null;
   }
-
-  //  public static StaffEntity getStaff(String fname, String lname) {
-  //    for (StaffEntity s : staff.values()) {
-  //      if (s.getFirstname().equals(fname) && s.getLastname().equals(lname)) {
-  //        return s;
-  //      }
-  //    }
-  //    return null;
-  //  }
 
   //  public static void importData() {
   //    importNodes();
@@ -627,5 +541,4 @@ public class DatabaseConnect {
   //      System.out.println(e);
   //    }
   //  }
-
 }
