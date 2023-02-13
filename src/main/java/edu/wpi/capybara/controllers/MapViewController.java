@@ -5,6 +5,7 @@ import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.exceptions.FloorDoesNotExistException;
 import edu.wpi.capybara.objects.NodeCircle;
 import edu.wpi.capybara.objects.NodeCircleClickHandler;
+import edu.wpi.capybara.objects.hibernate.EdgeEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
@@ -35,7 +36,7 @@ public class MapViewController {
   private double mapX, mapY, mapW, mapH;
   private Collection<NodeEntity> allNodes;
   private Image currentFloorImage;
-  private final Image G, L2, L1, F1, F2, F3;
+  private final Image L2, L1, F1, F2, F3;
   private final Canvas nodeDrawer;
   private final GraphicsContext gc;
   private final StackPane stackPane;
@@ -67,21 +68,10 @@ public class MapViewController {
     this.onClick = onClick;
 
     L1 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankL1.png")));
-    L2 =
-        new Image(
-            Objects.requireNonNull(App.class.getResourceAsStream("images/thelowerlevel2.png")));
-    G =
-        new Image(
-            Objects.requireNonNull(App.class.getResourceAsStream("images/thegroundfloor.png")));
-    F1 =
-        new Image(
-            Objects.requireNonNull(App.class.getResourceAsStream("images/thefirstfloor.png")));
-    F2 =
-        new Image(
-            Objects.requireNonNull(App.class.getResourceAsStream("images/thesecondfloor.png")));
-    F3 =
-        new Image(
-            Objects.requireNonNull(App.class.getResourceAsStream("images/thethirdfloor.png")));
+    L2 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankL2.png")));
+    F1 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankF1.png")));
+    F2 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankF2.png")));
+    F3 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankF3.png")));
 
     currentFloorImage = L1;
     currentPath = null;
@@ -285,6 +275,8 @@ public class MapViewController {
           // System.out.println(n);
         }
       }
+
+      // drawEdges();
     }
   }
 
@@ -327,6 +319,22 @@ public class MapViewController {
     testCircle.setCenterY(locToMapY(node.getYcoord()));
     testCircle.setCursor(Cursor.HAND);
     testCircle.setOnMouseClicked(eventHandler);
+  }
+
+  private void drawEdges() {
+    gc.setStroke(Color.RED);
+    for (EdgeEntity edge : DatabaseConnect.getEdges().values()) {
+      NodeEntity n1 = DatabaseConnect.getNodes().get(edge.getNode1());
+      NodeEntity n2 = DatabaseConnect.getNodes().get(edge.getNode2());
+      if (!n1.getFloor().equals(currentFloor) || !n2.getFloor().equals(currentFloor)) continue;
+
+      gc.strokeLine(
+          locToMapX(n1.getXcoord()),
+          locToMapY(n1.getYcoord()),
+          locToMapX(n2.getXcoord()),
+          locToMapY(n2.getYcoord()));
+    }
+    gc.setStroke(Color.BLUE);
   }
 
   private void drawPath() {
@@ -431,8 +439,6 @@ public class MapViewController {
       currentFloorImage = L1;
     } else if (floorID.equals("L2")) {
       currentFloorImage = L2;
-    } else if (floorID.equals("G")) {
-      currentFloorImage = G;
     } else if (floorID.equals("1")) {
       currentFloorImage = F1;
     } else if (floorID.equals("2")) {
