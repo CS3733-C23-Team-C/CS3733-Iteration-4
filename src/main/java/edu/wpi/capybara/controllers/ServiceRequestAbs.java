@@ -12,8 +12,6 @@ import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -34,7 +32,6 @@ public abstract class ServiceRequestAbs {
   @FXML protected Text submissionReceived;
   @FXML protected Text missingFields;
   protected ISubmission submission; // sets submission type
-  protected ObservableList<String> nodeList = FXCollections.observableArrayList();
 
   @FXML
   public void initialize() {
@@ -48,9 +45,9 @@ public abstract class ServiceRequestAbs {
     while (iterator.hasNext()) {
       NodeEntity n = iterator.next();
       // System.out.println(n.getShortName());
-      nodeList.add(n.getShortName());
+      Location.getItems().add(n.getShortName());
     }
-    Location.setItems(nodeList);
+
     // Set a default variable
     // location.getSelectionModel().selectFirst();
 
