@@ -11,12 +11,13 @@ import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import java.util.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.powermock.reflect.Whitebox;
 
-public class PathfinderTest {
+public class AstarPathfinderTest {
 
   static NodeEntity current, n1, n2, goal;
-  static TreeMap<String, NodeEntity> nodes;
-  static TreeMap<Integer, EdgeEntity> edges;
+  static TreeMap<String, NodeEntity> nodes, mockNodes;
+  static TreeMap<Integer, EdgeEntity> edges, mockEdges;
 
   @BeforeAll
   public static void init() {
@@ -53,16 +54,29 @@ public class PathfinderTest {
 
     nodes = DatabaseConnect.getNodes();
     edges = DatabaseConnect.getEdges();
+
+    mockNodes = new TreeMap<>();
+    mockNodes.put("testA", current);
+    mockNodes.put("testB", n1);
+    mockNodes.put("testC", n2);
+    mockNodes.put("testD", goal);
+
+    mockEdges = new TreeMap<>();
   }
 
   @Test
-  public void testCost() {
-    assertTrue(Pathfinder.cost(current, n1, goal) < Pathfinder.cost(current, n2, goal));
+  public void testCost() throws Exception {
+    AstarPathfinder pf = new AstarPathfinder(mockNodes, mockEdges);
+
+    Double cost1 = Whitebox.invokeMethod(pf, "cost", current, n1, goal);
+    Double cost2 = Whitebox.invokeMethod(pf, "cost", current, n2, goal);
+
+    assertTrue(cost1 < cost2);
   }
 
   @Test
   public void testSimplePath() {
-    Pathfinder pf = new Pathfinder(nodes, edges);
+    AstarPathfinder pf = new AstarPathfinder(nodes, edges);
     List<NodeEntity> path = pf.findPath("2X1726Y1930", "2X1686Y1931");
 
     assertEquals(path.size(), 2);
