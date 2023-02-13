@@ -67,7 +67,9 @@ public class CleaningRequestController {
     cleanDescription.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, String>("submissionstatus"));
     for (CleaningsubmissionEntity sub : cleaningdata) {
-      cleaningRequestsList.add(sub);
+      if (sub.getMemberid() == App.getUser().getStaffid()) {
+        cleaningRequestsList.add(sub);
+      }
     }
     cleanRequests.setItems(cleaningRequestsList);
 
@@ -82,7 +84,9 @@ public class CleaningRequestController {
     transportationStatus.setCellValueFactory(
         new PropertyValueFactory<TransportationsubmissionEntity, String>("status"));
     for (TransportationsubmissionEntity sub : transportationdata) {
-      transportationRequestsList.add(sub);
+      if (sub.getEmployeeid() == App.getUser().getStaffid()) {
+        transportationRequestsList.add(sub);
+      }
     }
     transportationRequests.setItems(transportationRequestsList);
 
@@ -96,7 +100,9 @@ public class CleaningRequestController {
     securityStatus.setCellValueFactory(
         new PropertyValueFactory<SecuritysubmissionEntity, String>("submissionstatus"));
     for (SecuritysubmissionEntity sub : securitydata) {
-      securityRequestsList.add(sub);
+      if (sub.getEmployeeid() == App.getUser().getStaffid()) {
+        securityRequestsList.add(sub);
+      }
     }
     securityRequests.setItems(securityRequestsList);
     transportationRequests.setVisible(false);
