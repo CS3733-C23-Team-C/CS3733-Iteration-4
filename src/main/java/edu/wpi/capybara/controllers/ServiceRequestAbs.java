@@ -6,11 +6,7 @@ import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import edu.wpi.capybara.objects.submissions.ISubmission;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
-import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.controls.MFXDatePicker;
-import io.github.palexdev.materialfx.controls.MFXTextField;
-
+import io.github.palexdev.materialfx.controls.*;
 import java.sql.Date;
 import java.util.Iterator;
 import java.util.SortedSet;
@@ -22,24 +18,28 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 public abstract class ServiceRequestAbs {
   @FXML protected MFXTextField assignedStaffID;
-  @FXML protected MFXComboBox<String> location;
+  @FXML protected MFXFilterComboBox<String> Location;
+  @FXML protected MFXFilterComboBox<String> requestSpecificFilter;
   @FXML protected MFXComboBox<String> requestSpecific;
   @FXML protected MFXComboBox<String> emergencyLevel;
   @FXML protected MFXDatePicker date;
   @FXML protected MFXTextField notes;
   @FXML protected MFXButton clearButton;
   @FXML protected MFXButton submitButton;
-  @FXML protected Text submissionRecieved;
+  @FXML protected Text submissionReceived;
   @FXML protected Text missingFields;
   protected ISubmission submission; // sets submission type
+  protected ObservableList<String> nodeList = FXCollections.observableArrayList();
 
-    @FXML
+  @FXML
   public void initialize() {
     TreeMap<String, NodeEntity> nodes = DatabaseConnect.getNodes();
+
     SortedSet<NodeEntity> sortedset = new TreeSet<NodeEntity>(new NodeAlphabetComparator());
 
     sortedset.addAll(nodes.values());
@@ -48,16 +48,15 @@ public abstract class ServiceRequestAbs {
     while (iterator.hasNext()) {
       NodeEntity n = iterator.next();
       // System.out.println(n.getShortName());
-      location.getItems().add(n.getShortName());
+      nodeList.add(n.getShortName());
     }
-    // Set a default variabl
+    Location.setItems(nodeList);
+    // Set a default variable
+    // location.getSelectionModel().selectFirst();
 
     setRequestSpecific(); // sets dropdown options for requestSpecific field, overridden in specific
     // class
-
-    ObservableList<String> eLevels = FXCollections.observableArrayList();
-    eLevels.addAll("Low", "Medium", "High", "Extreme");
-    emergencyLevel.setItems(eLevels);
+    emergencyLevel.getItems().addAll("Low", "Medium", "High", "Extreme");
 
     submitButton.setOnAction(
         new EventHandler<ActionEvent>() {
@@ -68,7 +67,7 @@ public abstract class ServiceRequestAbs {
               newSubmission();
               clearFields();
               missingFields.setVisible(false);
-              submissionRecieved.setVisible(true);
+              submissionReceived.setVisible(true);
             }
           }
         });
@@ -89,7 +88,7 @@ public abstract class ServiceRequestAbs {
           }
         });
 
-    location.setOnAction(
+    Location.setOnAction(
         new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent event) {
@@ -97,10 +96,10 @@ public abstract class ServiceRequestAbs {
           }
         });
 
-    requestSpecific.setOnAction(
-        new EventHandler<ActionEvent>() {
+    requestSpecific.setOnMouseClicked(
+        new EventHandler<MouseEvent>() {
           @Override
-          public void handle(ActionEvent event) {
+          public void handle(MouseEvent event) {
             validateButton();
           }
         });
@@ -132,9 +131,9 @@ public abstract class ServiceRequestAbs {
 
   public void clearFields() {
     assignedStaffID.clear();
-    location.clearSelection();
-    requestSpecific.clearSelection();
-    emergencyLevel.clearSelection();
+    Location.clear();
+    requestSpecific.clear();
+    emergencyLevel.clear();
     date.clear();
     notes.clear();
   }
@@ -143,20 +142,20 @@ public abstract class ServiceRequestAbs {
       validateButton() { // ensures that information has been filled in before allowing submission
     boolean valid = false;
     if (!assignedStaffID.getText().equals("")
-        && !location.getValue().equals("")
-        && !requestSpecific.getValue().equals("")
-        && !emergencyLevel.getValue().equals("")
-        && !date.getText().equals("")
+        && Location.getValue() != null
+        && requestSpecific.getValue() != null
+        && emergencyLevel.getValue() != null
+        && !date.toString().equals("")
         && !notes.getText().equals("")) valid = true;
     submitButton.setDisable(!valid);
-    submissionRecieved.setVisible(false);
+    submissionReceived.setVisible(false);
     missingFields.setVisible(false);
   }
 
   public void newSubmission() {
     String currStaffID = App.getUser().getStaffid();
     String outputAssignedStaffID = assignedStaffID.getText();
-    String outputLocation = location.getValue();
+    String outputLocation = Location.getValue();
     String outputRequestSpecific = requestSpecific.getValue();
     String outputELevel = emergencyLevel.getValue();
     Date outputDate = Date.valueOf(date.getValue());

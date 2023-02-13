@@ -64,7 +64,7 @@ public class SubmissionCollector { // stores all of the submissions in different
 
   public void newTransportationSubmission(TransportationsubmissionEntity submission) {
     DatabaseConnect.insertTransportation(
-        App.getUser().getStaffid(),
+        submission.getEmployeeid(),
         submission.getCurrroomnum(),
         submission.getDestroomnum(),
         submission.getReason(),
