@@ -1,7 +1,7 @@
 package edu.wpi.capybara.database;
 
 import edu.wpi.capybara.objects.hibernate.*;
-import edu.wpi.capybara.objects.submissions.submissionStatus;
+import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import jakarta.persistence.PersistenceException;
 import java.sql.*;
 import java.sql.Date;
@@ -346,7 +346,7 @@ public class DatabaseConnect {
       String location,
       String hazardlevel,
       String description,
-      submissionStatus submissionstatus,
+      SubmissionStatus submissionstatus,
       String assigneeid,
       int submissionid,
       String urgency,
@@ -389,7 +389,7 @@ public class DatabaseConnect {
       String currroomnum,
       String destroomnum,
       String reason,
-      submissionStatus status,
+      SubmissionStatus status,
       String assigneeid,
       int submissionid,
       String urgency,
@@ -450,7 +450,7 @@ public class DatabaseConnect {
       String location,
       String type,
       String notesupdate,
-      submissionStatus submissionstatus,
+      SubmissionStatus submissionstatus,
       String assigneeid,
       int submissionid,
       String urgency,

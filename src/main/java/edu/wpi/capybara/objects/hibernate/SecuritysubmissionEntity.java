@@ -1,7 +1,7 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.database.DatabaseConnect;
-import edu.wpi.capybara.objects.submissions.submissionStatus;
+import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import jakarta.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
@@ -25,7 +25,7 @@ public class SecuritysubmissionEntity {
 
   @Enumerated(EnumType.STRING)
   @Column(name = "submissionstatus")
-  private submissionStatus submissionstatus;
+  private SubmissionStatus submissionstatus;
 
   @Column(name = "assignedid")
   private String assignedid;
@@ -52,7 +52,7 @@ public class SecuritysubmissionEntity {
       String location,
       String type,
       String notesupdate,
-      submissionStatus submissionstatus,
+      SubmissionStatus submissionstatus,
       String assignedid,
       int submissionid,
       String urgency,
@@ -122,11 +122,11 @@ public class SecuritysubmissionEntity {
     session.close();
   }
 
-  public submissionStatus getSubmissionstatus() {
+  public SubmissionStatus getSubmissionstatus() {
     return submissionstatus;
   }
 
-  public void setSubmissionstatus(submissionStatus submissionstatus) {
+  public void setSubmissionstatus(SubmissionStatus submissionstatus) {
 
     this.submissionstatus = submissionstatus;
     Session session = DatabaseConnect.getSession();
