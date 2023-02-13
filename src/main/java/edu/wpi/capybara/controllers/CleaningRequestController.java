@@ -35,6 +35,9 @@ public class CleaningRequestController {
   @FXML TableColumn<SecuritysubmissionEntity, String> securityStatus;
   @FXML TableColumn<TransportationsubmissionEntity, String> destination;
   @FXML TableColumn<SecuritysubmissionEntity, String> type;
+  @FXML TableColumn<CleaningsubmissionEntity, String> cleanEmployeeAssigned;
+  @FXML TableColumn<SecuritysubmissionEntity, String> securityEmployeeAssigned;
+  @FXML TableColumn<TransportationsubmissionEntity, String> transportationEmployeeAssigned;
   @FXML MFXComboBox<String> requestType;
 
   ObservableList<CleaningsubmissionEntity> cleaningRequestsList =

@@ -61,6 +61,7 @@
                                     <TableColumn fx:id="transportationLocation" prefWidth="107.20001220703125" text="Location" />
                                     <TableColumn fx:id="destination" prefWidth="140.0" text="Destination" />
                                     <TableColumn fx:id="reason" prefWidth="157.3333740234375" text="Reason" />
+                                    <TableColumn fx:id="transportationEmployeeAssigned" prefWidth="157.3333740234375" text="Employee Assigned" />
                                     <TableColumn fx:id="transportationStatus" prefWidth="89.3333740234375" text="Status" />
                                  </columns>
                               </TableView>
@@ -70,6 +71,7 @@
                                     <TableColumn fx:id="cleanLocation" prefWidth="107.20001220703125" text="Location" />
                                     <TableColumn fx:id="hazardLevel" prefWidth="140.0" text="Hazard Level" />
                                     <TableColumn fx:id="cleanDescription" prefWidth="157.3333740234375" text="Description" />
+                                    <TableColumn fx:id="cleanEmployeeAssigned" prefWidth="157.3333740234375" text="Employee Assigned" />
                                     <TableColumn fx:id="cleanStatus" prefWidth="89.3333740234375" text="Status" />
                                  </columns>
                               </TableView>
@@ -79,6 +81,7 @@
                                     <TableColumn fx:id="securityLocation" prefWidth="107.20001220703125" text="Location" />
                                     <TableColumn fx:id="type" prefWidth="140.0" text="Type" />
                                     <TableColumn fx:id="securityDescription" prefWidth="157.3333740234375" text="Description" />
+                                    <TableColumn fx:id="securityEmployeeAssigned" prefWidth="157.3333740234375" text="Employee Assigned" />
                                     <TableColumn fx:id="securityStatus" prefWidth="89.3333740234375" text="Status" />
                                  </columns>
                               </TableView>
