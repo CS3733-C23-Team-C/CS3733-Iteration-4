@@ -98,4 +98,6 @@ public interface RepoFacade {
   StaffEntity getStaff(String Staffid, String password);
 
   Session getSession();
+
+  int newID();
 }
