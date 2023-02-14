@@ -7,6 +7,7 @@ import java.sql.*;
 import java.sql.Date;
 import java.util.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.derby.iapi.db.Factory;
 import org.hibernate.*;
 import org.hibernate.cfg.Configuration;
 
@@ -254,6 +255,23 @@ public class DatabaseConnect {
       throw new ExceptionInInitializerError(ex);
     }
   }
+
+  public static void insertNew(Object submission){
+    Session session = factory.openSession();
+    Transaction tx = null;
+
+    try {
+      tx = session.beginTransaction();
+      session.save(submission);
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+  }
+  public static SessionFactory getFactory(){return factory;}
 
   public static void insertNode(NodeEntity node) {
     insert(node);

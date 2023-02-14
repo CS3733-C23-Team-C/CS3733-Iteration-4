@@ -10,7 +10,7 @@ import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "audiosubmission", schema = "cdb", catalog = "teamcdb")
-public class AudiosubmissionEntity {
+public class AudiosubmissionEntity{
   @Id
   @Column(name = "submissionid")
   private int submissionid;
