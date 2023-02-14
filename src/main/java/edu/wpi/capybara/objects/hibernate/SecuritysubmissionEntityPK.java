@@ -1,6 +1,6 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import jakarta.persistence.*;
 import java.io.Serializable;
@@ -91,7 +91,7 @@ public class SecuritysubmissionEntityPK implements Serializable {
 
   public void setSubmissionstatus(SubmissionStatus submissionstatus) {
     this.submissionstatus = submissionstatus;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();

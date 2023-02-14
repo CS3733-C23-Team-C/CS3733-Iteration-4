@@ -1,14 +1,13 @@
 package edu.wpi.capybara.controllers;
 
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import edu.wpi.capybara.objects.submissions.TransportationSubmitter;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
-
+import java.util.*;
 import java.util.Iterator;
 import java.util.SortedSet;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 public class TransportationController extends ServiceRequestAbs {
@@ -17,7 +16,7 @@ public class TransportationController extends ServiceRequestAbs {
     requestSpecific = (MFXFilterComboBox) requestSpecific;
     submission = new TransportationSubmitter();
 
-    TreeMap<String, NodeEntity> nodes = DatabaseConnect.getNodes();
+    HashMap<String, NodeEntity> nodes = Main.db.getNodes();
     SortedSet<NodeEntity> sortedset = new TreeSet<NodeEntity>(new NodeAlphabetComparator());
 
     sortedset.addAll(nodes.values());

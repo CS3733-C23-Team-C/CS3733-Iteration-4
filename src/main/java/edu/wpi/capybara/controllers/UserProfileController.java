@@ -69,8 +69,6 @@ public class UserProfileController {
       App.getUser().setPassword(newPass);
       // update menu
 
-      // push changes to database
-
       // make fields uneditable
       firstNameField.setDisable(true);
       lastNameField.setDisable(true);

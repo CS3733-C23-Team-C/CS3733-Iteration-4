@@ -1,6 +1,6 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
 import jakarta.persistence.*;
 import java.util.Objects;
 import org.hibernate.Session;
@@ -35,7 +35,7 @@ public class LocationnameEntity {
 
   public void setLongname(String longname) {
     this.longname = longname;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -48,7 +48,7 @@ public class LocationnameEntity {
 
   public void setShortname(String shortname) {
     this.shortname = shortname;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -61,20 +61,11 @@ public class LocationnameEntity {
 
   public void setLocationtype(String locationtype) {
     this.locationtype = locationtype;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
     session.close();
-  }
-
-  public void delete() {
-    Session session = DatabaseConnect.getSession();
-    Transaction tx = session.beginTransaction();
-    session.remove(this);
-    tx.commit();
-    session.close();
-    DatabaseConnect.importLocations();
   }
 
   @Override

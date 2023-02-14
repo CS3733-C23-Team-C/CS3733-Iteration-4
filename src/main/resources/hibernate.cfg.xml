@@ -16,6 +16,8 @@
     <mapping class="edu.wpi.capybara.objects.hibernate.StaffEntity"/>
     <mapping class="edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity"/>
     <mapping class="edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity"/>
+    <mapping class="edu.wpi.capybara.objects.hibernate.AudiosubmissionEntity"/>
+    <mapping class="edu.wpi.capybara.objects.hibernate.ComputersubmissionEntity"/>
     <!-- <property name="connection.username"/> -->
     <!-- <property name="connection.password"/> -->
 
