@@ -1,0 +1,18 @@
+.radioToggle {
+    -fx-background-color: clear;
+    -fx-text-fill: white;
+    -fx-rotate: 90deg;
+    -fx-border-width: 10 0 0 0;
+    -fx-border-style: none;
+    -fx-border-color: clear;
+}
+
+.radioToggle:hover {
+    -fx-border-style: solid none none none;
+    -fx-border-color: #F6BD38;
+}
+
+.radioToggle:selected {
+    -fx-border-style: solid none none none;
+    -fx-border-color: #009CA6;
+}
