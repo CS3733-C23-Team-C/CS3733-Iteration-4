@@ -4,6 +4,7 @@ import edu.wpi.capybara.App;
 import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
 import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
 import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
+import edu.wpi.capybara.objects.submissions.submissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import java.util.LinkedList;
@@ -32,9 +33,9 @@ public class CleaningRequestController {
   @FXML TableColumn<CleaningsubmissionEntity, String> cleanLocation;
   @FXML TableColumn<TransportationsubmissionEntity, String> transportationLocation;
   @FXML TableColumn<SecuritysubmissionEntity, String> securityLocation;
-  @FXML TableColumn<CleaningsubmissionEntity, String> cleanStatus;
-  @FXML TableColumn<TransportationsubmissionEntity, String> transportationStatus;
-  @FXML TableColumn<SecuritysubmissionEntity, String> securityStatus;
+  @FXML TableColumn<CleaningsubmissionEntity, submissionStatus> cleanStatus;
+  @FXML TableColumn<TransportationsubmissionEntity, submissionStatus> transportationStatus;
+  @FXML TableColumn<SecuritysubmissionEntity, submissionStatus> securityStatus;
   @FXML TableColumn<TransportationsubmissionEntity, String> destination;
   @FXML TableColumn<SecuritysubmissionEntity, String> type;
   @FXML TableColumn<CleaningsubmissionEntity, String> cleanEmployeeAssigned;
@@ -76,10 +77,9 @@ public class CleaningRequestController {
         new PropertyValueFactory<CleaningsubmissionEntity, String>("location"));
     cleanLocation.setCellFactory(TextFieldTableCell.forTableColumn());
     cleanStatus.setCellValueFactory(
-        new PropertyValueFactory<CleaningsubmissionEntity, String>("description"));
-    cleanStatus.setCellFactory(TextFieldTableCell.forTableColumn());
+        new PropertyValueFactory<CleaningsubmissionEntity, submissionStatus>("submissionStatus"));
     cleanDescription.setCellValueFactory(
-        new PropertyValueFactory<CleaningsubmissionEntity, String>("submissionstatus"));
+        new PropertyValueFactory<CleaningsubmissionEntity, String>("description"));
     cleanDescription.setCellFactory(TextFieldTableCell.forTableColumn());
     for (CleaningsubmissionEntity sub : cleaningdata) {
       if (sub.getMemberid() == App.getUser().getStaffid()) {
@@ -101,8 +101,7 @@ public class CleaningRequestController {
         new PropertyValueFactory<TransportationsubmissionEntity, String>("reason"));
     reason.setCellFactory(TextFieldTableCell.forTableColumn());
     transportationStatus.setCellValueFactory(
-        new PropertyValueFactory<TransportationsubmissionEntity, String>("status"));
-    transportationStatus.setCellFactory(TextFieldTableCell.forTableColumn());
+        new PropertyValueFactory<TransportationsubmissionEntity, submissionStatus>("status"));
     for (TransportationsubmissionEntity sub : transportationdata) {
       if (sub.getEmployeeid() == App.getUser().getStaffid()) {
         transportationRequestsList.add(sub);
@@ -122,8 +121,8 @@ public class CleaningRequestController {
     type.setCellValueFactory(new PropertyValueFactory<SecuritysubmissionEntity, String>("type"));
     type.setCellFactory(TextFieldTableCell.forTableColumn());
     securityStatus.setCellValueFactory(
-        new PropertyValueFactory<SecuritysubmissionEntity, String>("submissionstatus"));
-    securityStatus.setCellFactory(TextFieldTableCell.forTableColumn());
+        new PropertyValueFactory<SecuritysubmissionEntity, submissionStatus>("submissionstatus"));
+    ;
     for (SecuritysubmissionEntity sub : securitydata) {
       if (sub.getEmployeeid() == App.getUser().getStaffid()) {
         securityRequestsList.add(sub);
@@ -149,11 +148,9 @@ public class CleaningRequestController {
     }
   }
 
-  public void edit(ActionEvent actionEvent) {
-  }
+  public void edit(ActionEvent actionEvent) {}
 
   public void save(ActionEvent actionEvent) {
     String editCleanID = cleanID.getText();
-
   }
 }
