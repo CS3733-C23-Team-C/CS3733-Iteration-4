@@ -2,6 +2,7 @@ package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.controllers.mapeditor.*;
 import edu.wpi.capybara.controllers.mapeditor.dialogs.AddLocationNameDialog;
+import edu.wpi.capybara.controllers.mapeditor.dialogs.AddNodeDialog;
 import edu.wpi.capybara.controllers.mapeditor.dialogs.ReplaceNodeDialog;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
@@ -126,18 +127,18 @@ public class MapEditorController {
 
     final var deleteItem = new MenuItem("Delete");
     deleteItem.setOnAction(
-        event -> nodes.removeAll(nodeTableView.getSelectionModel().getSelectedItems()));
+        event -> nodeTableView.getSelectionModel().getSelectedItems().forEach(repo::deleteNode));
     final var addItem = new MenuItem("New");
     addItem.setOnAction(
         event -> {
-          // new AddNodeDialog(nodeTableView.getScene().getWindow(), repository).showAndWait();
+          new AddNodeDialog(nodeTableView.getScene().getWindow(), repo).showAndWait();
         });
     final var replaceItem = new MenuItem("Modify");
     replaceItem.setOnAction(
         event ->
             new ReplaceNodeDialog(
                     nodeTableView.getScene().getWindow(),
-                    null, // repository,
+                    repo,
                     nodeTableView.getSelectionModel().getSelectedItem())
                 .showAndWait());
     final var menu = new ContextMenu(addItem, replaceItem, deleteItem);

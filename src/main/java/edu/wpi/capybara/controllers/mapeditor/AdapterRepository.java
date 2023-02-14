@@ -54,7 +54,7 @@ public class AdapterRepository {
       String nodeID, int xCoord, int yCoord, String floor, String building) {
     final var nodeEntity = new NodeEntity(nodeID, xCoord, yCoord, floor, building);
     final var newNode = new NodeAdapter(nodeEntity);
-    // nodes.add(newNode);
+    addNode(newNode);
     return newNode;
   }
 
@@ -88,7 +88,7 @@ public class AdapterRepository {
       String longName, String shortName, String locationType) {
     final var locationNameEntity = new LocationnameEntity(longName, shortName, locationType);
     final var newLocationName = new LocationNameAdapter(locationNameEntity);
-    // locationNames.add(newLocationName);
+    addLocationName(newLocationName);
     return newLocationName;
   }
 
