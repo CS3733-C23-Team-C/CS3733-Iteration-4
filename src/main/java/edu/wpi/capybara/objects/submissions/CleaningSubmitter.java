@@ -1,6 +1,6 @@
 package edu.wpi.capybara.objects.submissions;
 
-import edu.wpi.capybara.App;
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
 import java.sql.Date;
 
@@ -29,6 +29,6 @@ public class CleaningSubmitter implements ISubmission {
             emergencyLevel,
             createdDate,
             dueDate);
-    App.getTotalSubmissions().newCleaningSub(sub);
+    Main.db.addCleaning(sub);
   }
 }

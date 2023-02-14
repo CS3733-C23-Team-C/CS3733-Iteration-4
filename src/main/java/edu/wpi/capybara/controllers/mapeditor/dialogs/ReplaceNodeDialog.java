@@ -45,6 +45,6 @@ public class ReplaceNodeDialog extends NodeDialog {
         edge.setNode2(newNode.getNodeID());
       }
     }
-    repository.getNodes().remove(node);
+    // repository.getNodes().remove(node);
   }
 }

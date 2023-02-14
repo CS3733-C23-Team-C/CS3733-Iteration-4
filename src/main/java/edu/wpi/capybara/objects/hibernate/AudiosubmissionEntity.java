@@ -1,6 +1,6 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import jakarta.persistence.*;
 import java.sql.Date;
@@ -49,7 +49,7 @@ public class AudiosubmissionEntity {
 
   public void setSubmissionid(int submissionid) {
     this.submissionid = submissionid;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -62,7 +62,7 @@ public class AudiosubmissionEntity {
 
   public void setEmployeeid(String employeeid) {
     this.employeeid = employeeid;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -75,7 +75,7 @@ public class AudiosubmissionEntity {
 
   public void setAssignedid(String assignedid) {
     this.assignedid = assignedid;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -88,7 +88,7 @@ public class AudiosubmissionEntity {
 
   public void setLocation(String location) {
     this.location = location;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -101,7 +101,7 @@ public class AudiosubmissionEntity {
 
   public void setType(String type) {
     this.type = type;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -114,7 +114,7 @@ public class AudiosubmissionEntity {
 
   public void setNotesupdate(String notesupdate) {
     this.notesupdate = notesupdate;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -127,7 +127,7 @@ public class AudiosubmissionEntity {
 
   public void setSubmissionstatus(SubmissionStatus submissionstatus) {
     this.submissionstatus = submissionstatus;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -140,7 +140,7 @@ public class AudiosubmissionEntity {
 
   public void setUrgency(String urgency) {
     this.urgency = urgency;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -153,7 +153,7 @@ public class AudiosubmissionEntity {
 
   public void setCreatedate(Date createdate) {
     this.createdate = createdate;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -166,7 +166,7 @@ public class AudiosubmissionEntity {
 
   public void setDuedate(Date duedate) {
     this.duedate = duedate;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();

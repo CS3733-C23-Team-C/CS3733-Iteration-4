@@ -1,6 +1,6 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import jakarta.persistence.*;
 import java.sql.Date;
@@ -56,7 +56,7 @@ public class CleaningsubmissionEntity {
 
   public void setMemberid(String memberid) {
 
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     this.memberid = memberid;
     session.merge(this);
@@ -71,7 +71,7 @@ public class CleaningsubmissionEntity {
   public void setLocation(String location) {
 
     this.location = location;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -85,7 +85,7 @@ public class CleaningsubmissionEntity {
   public void setHazardlevel(String hazardlevel) {
 
     this.hazardlevel = hazardlevel;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -124,7 +124,7 @@ public class CleaningsubmissionEntity {
   public void setDescription(String description) {
 
     this.description = description;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -138,7 +138,7 @@ public class CleaningsubmissionEntity {
   public void setSubmissionstatus(SubmissionStatus submissionstatus) {
 
     this.submissionstatus = submissionstatus;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -157,21 +157,13 @@ public class CleaningsubmissionEntity {
         && Objects.equals(submissionstatus, that.submissionstatus);
   }
 
-  public void create() {
-    Session session = DatabaseConnect.getSession();
-    Transaction tx = session.beginTransaction();
-    session.persist(this);
-    tx.commit();
-    session.close();
-  }
-
   public String getAssignedid() {
     return assignedid;
   }
 
   public void setAssignedid(String assignedid) {
     this.assignedid = assignedid;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -184,7 +176,7 @@ public class CleaningsubmissionEntity {
 
   public void setSubmissionid(int submissionid) {
     this.submissionid = submissionid;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -197,7 +189,7 @@ public class CleaningsubmissionEntity {
 
   public void setUrgency(String urgency) {
     this.urgency = urgency;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -210,7 +202,7 @@ public class CleaningsubmissionEntity {
 
   public void setCreatedate(Date createdate) {
     this.createdate = createdate;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -223,7 +215,7 @@ public class CleaningsubmissionEntity {
 
   public void setDuedate(Date duedate) {
     this.duedate = duedate;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();

@@ -1,6 +1,6 @@
 package edu.wpi.capybara.controllers;
 
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.exceptions.FloorDoesNotExistException;
 import edu.wpi.capybara.objects.NodeCircle;
 import edu.wpi.capybara.objects.PFNode;
@@ -52,7 +52,7 @@ public class PathfindingController {
     log.info("start");
     dateField.setValue(LocalDate.now());
 
-    Collection<NodeEntity> nodes = DatabaseConnect.getNodes().values();
+    Collection<NodeEntity> nodes = Main.db.getNodes().values();
 
     log.info("1");
     mvc =
@@ -72,8 +72,8 @@ public class PathfindingController {
 
     pathfindingAlgorithm.setItems(
         FXCollections.observableArrayList(
-            new AstarPathfinder(DatabaseConnect.getNodes(), DatabaseConnect.getEdges()),
-            new DFSPathfinder(DatabaseConnect.getNodes())));
+            new AstarPathfinder(Main.db.getNodes(), Main.db.getEdges()),
+            new DFSPathfinder(Main.db.getNodes())));
     pathfindingAlgorithm.selectFirst();
     mvc.drawNodes();
     getMoveDate();

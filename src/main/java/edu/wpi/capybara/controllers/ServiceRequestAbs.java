@@ -1,17 +1,14 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import edu.wpi.capybara.objects.submissions.ISubmission;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import io.github.palexdev.materialfx.controls.*;
 import java.sql.Date;
-import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,7 +19,6 @@ import javafx.scene.text.Text;
 public abstract class ServiceRequestAbs {
   @FXML protected MFXTextField assignedStaffID;
   @FXML protected MFXFilterComboBox<String> Location;
-  @FXML protected MFXFilterComboBox<String> requestSpecificFilter;
   @FXML protected MFXComboBox<String> requestSpecific;
   @FXML protected MFXComboBox<String> emergencyLevel;
   @FXML protected MFXDatePicker date;
@@ -35,7 +31,7 @@ public abstract class ServiceRequestAbs {
 
   @FXML
   public void initialize() {
-    TreeMap<String, NodeEntity> nodes = DatabaseConnect.getNodes();
+    HashMap<String, NodeEntity> nodes = Main.db.getNodes();
 
     SortedSet<NodeEntity> sortedset = new TreeSet<NodeEntity>(new NodeAlphabetComparator());
 
@@ -142,7 +138,7 @@ public abstract class ServiceRequestAbs {
         && Location.getValue() != null
         && requestSpecific.getValue() != null
         && emergencyLevel.getValue() != null
-        && !date.toString().equals("")
+        && date.getValue() != null
         && !notes.getText().equals("")) valid = true;
     submitButton.setDisable(!valid);
     submissionReceived.setVisible(false);

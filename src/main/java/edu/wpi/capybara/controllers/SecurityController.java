@@ -1,7 +1,7 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
@@ -10,10 +10,7 @@ import io.github.palexdev.materialfx.controls.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import java.sql.Date;
-import java.util.Iterator;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javax.swing.*;
@@ -47,7 +44,7 @@ public class SecurityController {
 
     // Add different locations
 
-    TreeMap<String, NodeEntity> nodes = DatabaseConnect.getNodes();
+    HashMap<String, NodeEntity> nodes = Main.db.getNodes();
 
     SortedSet<NodeEntity> sortedset = new TreeSet<NodeEntity>(new NodeAlphabetComparator());
 
@@ -104,7 +101,7 @@ public class SecurityController {
             outputEmergency,
             new java.sql.Date(date.getTime()),
             new java.sql.Date(date.getTime() + 86400000));
-    App.getTotalSubmissions().newSecuritySubmission(addSubmission);
+    Main.db.addSecurity(addSubmission);
 
     // New from main use this with new fields
     // String outputType = "" + Type.getValue();

@@ -3,7 +3,6 @@ package edu.wpi.capybara;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.hibernate.StaffEntity;
-import edu.wpi.capybara.objects.submissions.SubmissionCollector;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +19,7 @@ public class App extends Application {
   @Setter @Getter private static Stage primaryStage;
   @Setter @Getter private static BorderPane rootPane;
 
-  @Getter private static SubmissionCollector totalSubmissions = new SubmissionCollector();
+  // @Getter private static SubmissionCollector totalSubmissions = new SubmissionCollector();
 
   @Getter private static StaffEntity user;
 
