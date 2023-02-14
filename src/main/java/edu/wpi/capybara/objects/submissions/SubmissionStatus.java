@@ -1,6 +1,6 @@
 package edu.wpi.capybara.objects.submissions;
 
-public enum submissionStatus {
+public enum SubmissionStatus {
   BLANK,
   PROCESSING,
   DONE
