@@ -4,7 +4,7 @@ import edu.wpi.capybara.objects.hibernate.EdgeEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import java.util.*;
 
-public class BFSPathfinder implements PathfindingAlgorithm{
+public class BFSPathfinder implements PathfindingAlgorithm {
   private final Map<String, NodeEntity> nodes;
   private final List<EdgeEntity> edges;
 
@@ -52,7 +52,7 @@ public class BFSPathfinder implements PathfindingAlgorithm{
     this.edges = edges;
   }
 
-  private LinkedList<NodeEntity> bfs(NodeEntity start, NodeEntity goal) {
+  private List<NodeEntity> bfs(NodeEntity start, NodeEntity goal) {
 
     LinkedList<BFSPathNode> queue = new LinkedList<BFSPathNode>();
     queue.add(new BFSPathNode(start, new LinkedList<NodeEntity>()));
@@ -62,7 +62,7 @@ public class BFSPathfinder implements PathfindingAlgorithm{
 
       BFSPathNode bfsnode1 = queue.remove();
       NodeEntity node1 = bfsnode1.getNode();
-      LinkedList<NodeEntity> nodePath = bfsnode1.getPath();
+      List<NodeEntity> nodePath = bfsnode1.getPath();
 
       checkedNodes.add(node1);
       nodePath.add(node1);
@@ -74,7 +74,7 @@ public class BFSPathfinder implements PathfindingAlgorithm{
           nodePath.add(goal);
           return nodePath;
         } else if (!checkedNodes.contains(node2)) {
-          queue.add(new BFSPathNode(node2, nodePath));
+          queue.add(new BFSPathNode(node2, new LinkedList<>(nodePath)));
         }
       }
     }
@@ -85,9 +85,9 @@ public class BFSPathfinder implements PathfindingAlgorithm{
   private static class BFSPathNode {
 
     private NodeEntity node;
-    private LinkedList<NodeEntity> path;
+    private List<NodeEntity> path;
 
-    public BFSPathNode(NodeEntity node, LinkedList<NodeEntity> path) {
+    public BFSPathNode(NodeEntity node, List<NodeEntity> path) {
       this.node = node;
       this.path = path;
     }
@@ -100,9 +100,8 @@ public class BFSPathfinder implements PathfindingAlgorithm{
       this.node = node;
     }
 
-    public LinkedList<NodeEntity> getPath() {
+    public List<NodeEntity> getPath() {
       return path;
     }
   }
-
 }

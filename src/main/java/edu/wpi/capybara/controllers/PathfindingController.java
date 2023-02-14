@@ -6,6 +6,7 @@ import edu.wpi.capybara.objects.NodeCircle;
 import edu.wpi.capybara.objects.PFNode;
 import edu.wpi.capybara.objects.hibernate.*;
 import edu.wpi.capybara.pathfinding.AstarPathfinder;
+import edu.wpi.capybara.pathfinding.BFSPathfinder;
 import edu.wpi.capybara.pathfinding.DFSPathfinder;
 import edu.wpi.capybara.pathfinding.PathfindingAlgorithm;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -75,7 +76,8 @@ public class PathfindingController {
     pathfindingAlgorithm.setItems(
         FXCollections.observableArrayList(
             new AstarPathfinder(Main.db.getNodes(), Main.db.getEdges()),
-            new DFSPathfinder(Main.db.getNodes())));
+            new DFSPathfinder(Main.db.getNodes()),
+            new BFSPathfinder(Main.db.getNodes(), Main.db.getEdges())));
     pathfindingAlgorithm.selectFirst();
     mvc.drawNodes();
     getMoveDate();
