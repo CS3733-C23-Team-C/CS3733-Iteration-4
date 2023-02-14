@@ -15,17 +15,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j(topic = "DBObjectRepository")
 public class DBObjectRepository {
 
-  private final SimpleListProperty<NodePropertyAdapter> nodes;
-  private final SimpleListProperty<EdgePropertyAdapter> edges;
-  private final SimpleListProperty<LocationNamePropertyAdapter> locationNames;
-  private final SimpleListProperty<MovePropertyAdapter> moves;
+  private final SimpleListProperty<NodeAdapter> nodes;
+  private final SimpleListProperty<EdgeAdapter> edges;
+  private final SimpleListProperty<LocationNameAdapter> locationNames;
+  private final SimpleListProperty<MoveAdapter> moves;
 
   public DBObjectRepository() {
-    nodes = dbToListProperty(DatabaseConnect.getNodes(), NodePropertyAdapter::new);
-    edges = dbToListProperty(DatabaseConnect.getEdges(), EdgePropertyAdapter::new);
-    locationNames =
-        dbToListProperty(DatabaseConnect.getLocationNames(), LocationNamePropertyAdapter::new);
-    moves = dbToListProperty(DatabaseConnect.getMoves(), MovePropertyAdapter::new);
+    nodes = dbToListProperty(DatabaseConnect.getNodes(), NodeAdapter::new);
+    edges = dbToListProperty(DatabaseConnect.getEdges(), EdgeAdapter::new);
+    locationNames = dbToListProperty(DatabaseConnect.getLocationNames(), LocationNameAdapter::new);
+    moves = dbToListProperty(DatabaseConnect.getMoves(), MoveAdapter::new);
 
     nodes.addListener(createListener(this::addNode, this::deleteNode));
     edges.addListener(createListener(this::addEdge, this::deleteEdge));
@@ -49,107 +48,107 @@ public class DBObjectRepository {
     };
   }
 
-  public NodePropertyAdapter createNode(
+  public NodeAdapter createNode(
       String nodeID, int xCoord, int yCoord, String floor, String building) {
     final var nodeEntity = new NodeEntity(nodeID, xCoord, yCoord, floor, building);
-    final var newNode = new NodePropertyAdapter(nodeEntity);
+    final var newNode = new NodeAdapter(nodeEntity);
     nodes.add(newNode);
     return newNode;
   }
 
-  private void addNode(NodePropertyAdapter node) {
+  private void addNode(NodeAdapter node) {
     log.info("addNode");
     DatabaseConnect.insertNode(node.getEntity());
   }
 
-  private void deleteNode(NodePropertyAdapter node) {
+  private void deleteNode(NodeAdapter node) {
     log.info("deleteNode");
     node.getEntity().delete();
   }
 
-  private void addEdge(EdgePropertyAdapter edge) {
+  private void addEdge(EdgeAdapter edge) {
     log.info("addEdge");
     DatabaseConnect.insertEdge(edge.getEntity());
   }
 
-  private void deleteEdge(EdgePropertyAdapter edge) {
+  private void deleteEdge(EdgeAdapter edge) {
     log.info("deleteEdge");
     edge.getEntity().delete();
   }
 
-  public LocationNamePropertyAdapter createLocationName(
+  public LocationNameAdapter createLocationName(
       String longName, String shortName, String locationType) {
     final var locationNameEntity = new LocationnameEntity(longName, shortName, locationType);
-    final var newLocationName = new LocationNamePropertyAdapter(locationNameEntity);
+    final var newLocationName = new LocationNameAdapter(locationNameEntity);
     locationNames.add(newLocationName);
     return newLocationName;
   }
 
-  private void addLocationName(LocationNamePropertyAdapter locationName) {
+  private void addLocationName(LocationNameAdapter locationName) {
     log.info("addLocationName");
     DatabaseConnect.insertLocationName(locationName.getEntity());
   }
 
-  private void deleteLocationName(LocationNamePropertyAdapter locationName) {
+  private void deleteLocationName(LocationNameAdapter locationName) {
     log.info("deleteLocationName");
     locationName.getEntity().delete();
   }
 
-  private void addMove(MovePropertyAdapter move) {
+  private void addMove(MoveAdapter move) {
     log.info("addMove");
     DatabaseConnect.insertMove(move.getEntity());
   }
 
-  private void deleteMove(MovePropertyAdapter move) {
+  private void deleteMove(MoveAdapter move) {
     log.info("deleteMove");
     move.getEntity().delete();
   }
 
-  public ObservableList<NodePropertyAdapter> getNodes() {
+  public ObservableList<NodeAdapter> getNodes() {
     return nodes.get();
   }
 
-  public void setNodes(ObservableList<NodePropertyAdapter> nodes) {
+  public void setNodes(ObservableList<NodeAdapter> nodes) {
     this.nodes.set(nodes);
   }
 
-  public SimpleListProperty<NodePropertyAdapter> nodesProperty() {
+  public SimpleListProperty<NodeAdapter> nodesProperty() {
     return nodes;
   }
 
-  public ObservableList<EdgePropertyAdapter> getEdges() {
+  public ObservableList<EdgeAdapter> getEdges() {
     return edges.get();
   }
 
-  public void setEdges(ObservableList<EdgePropertyAdapter> edges) {
+  public void setEdges(ObservableList<EdgeAdapter> edges) {
     this.edges.set(edges);
   }
 
-  public SimpleListProperty<EdgePropertyAdapter> edgesProperty() {
+  public SimpleListProperty<EdgeAdapter> edgesProperty() {
     return edges;
   }
 
-  public ObservableList<LocationNamePropertyAdapter> getLocationNames() {
+  public ObservableList<LocationNameAdapter> getLocationNames() {
     return locationNames.get();
   }
 
-  public void setLocationNames(ObservableList<LocationNamePropertyAdapter> locationNames) {
+  public void setLocationNames(ObservableList<LocationNameAdapter> locationNames) {
     this.locationNames.set(locationNames);
   }
 
-  public SimpleListProperty<LocationNamePropertyAdapter> locationNamesProperty() {
+  public SimpleListProperty<LocationNameAdapter> locationNamesProperty() {
     return locationNames;
   }
 
-  public ObservableList<MovePropertyAdapter> getMoves() {
+  public ObservableList<MoveAdapter> getMoves() {
     return moves.get();
   }
 
-  public void setMoves(ObservableList<MovePropertyAdapter> moves) {
+  public void setMoves(ObservableList<MoveAdapter> moves) {
     this.moves.set(moves);
   }
 
-  public SimpleListProperty<MovePropertyAdapter> movesProperty() {
+  public SimpleListProperty<MoveAdapter> movesProperty() {
     return moves;
   }
 }

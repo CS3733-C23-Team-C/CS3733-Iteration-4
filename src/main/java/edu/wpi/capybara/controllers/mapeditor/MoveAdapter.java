@@ -7,7 +7,7 @@ import javafx.beans.property.adapter.JavaBeanObjectPropertyBuilder;
 import javafx.beans.property.adapter.JavaBeanStringProperty;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 
-public class MovePropertyAdapter {
+public class MoveAdapter {
   private static final JavaBeanStringPropertyBuilder nodeIDBuilder =
       JavaBeanStringPropertyBuilder.create().name("nodeid");
   private static final JavaBeanStringPropertyBuilder longNameBuilder =
@@ -21,7 +21,7 @@ public class MovePropertyAdapter {
   private final JavaBeanStringProperty longName;
   private final JavaBeanObjectProperty<Date> moveDate;
 
-  public MovePropertyAdapter(MoveEntity mv) {
+  public MoveAdapter(MoveEntity mv) {
     entity = mv;
     try {
       nodeID = nodeIDBuilder.bean(mv).build();
@@ -33,8 +33,7 @@ public class MovePropertyAdapter {
     }
   }
 
-  MovePropertyAdapter(
-      MoveEntity moveEntity, NodePropertyAdapter node, LocationNamePropertyAdapter location) {
+  MoveAdapter(MoveEntity moveEntity, NodeAdapter node, LocationNameAdapter location) {
     this(moveEntity);
     nodeID.bind(node.nodeIDProperty());
     longName.bind(location.longNameProperty());

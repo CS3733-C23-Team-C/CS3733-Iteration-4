@@ -28,10 +28,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MapEditorController {
 
-  @FXML private TableView<NodePropertyAdapter> nodeTableView;
-  @FXML private TableView<EdgePropertyAdapter> edgeTableView;
-  @FXML private TableView<LocationNamePropertyAdapter> locationNameTableView;
-  @FXML private TableView<MovePropertyAdapter> moveTableView;
+  @FXML private TableView<NodeAdapter> nodeTableView;
+  @FXML private TableView<EdgeAdapter> edgeTableView;
+  @FXML private TableView<LocationNameAdapter> locationNameTableView;
+  @FXML private TableView<MoveAdapter> moveTableView;
   @FXML private MFXButton back;
 
   @FXML private Pane mapViewerPane;
@@ -60,18 +60,15 @@ public class MapEditorController {
 
   private void initializeNodeTable() {
     final var nodeIDColumn =
-        createTableColumn(
-            "Node ID", NodePropertyAdapter::nodeIDProperty, new DefaultStringConverter());
+        createTableColumn("Node ID", NodeAdapter::nodeIDProperty, new DefaultStringConverter());
     final var xCoordColumn =
-        createTableColumn("X", NodePropertyAdapter::xCoordProperty, new NumberStringConverter());
+        createTableColumn("X", NodeAdapter::xCoordProperty, new NumberStringConverter());
     final var yCoordColumn =
-        createTableColumn("Y", NodePropertyAdapter::yCoordProperty, new NumberStringConverter());
+        createTableColumn("Y", NodeAdapter::yCoordProperty, new NumberStringConverter());
     final var floorColumn =
-        createTableColumn(
-            "Floor", NodePropertyAdapter::floorProperty, new DefaultStringConverter());
+        createTableColumn("Floor", NodeAdapter::floorProperty, new DefaultStringConverter());
     final var buildingColumn =
-        createTableColumn(
-            "Building", NodePropertyAdapter::buildingProperty, new DefaultStringConverter());
+        createTableColumn("Building", NodeAdapter::buildingProperty, new DefaultStringConverter());
 
     nodeIDColumn.setEditable(false);
     xCoordColumn.setEditable(false);
@@ -110,10 +107,10 @@ public class MapEditorController {
   private void initializeEdgeTable() {
     final var startNodeColumn =
         createTableColumn(
-            "Start Node ID", EdgePropertyAdapter::startNodeProperty, new DefaultStringConverter());
+            "Start Node ID", EdgeAdapter::startNodeProperty, new DefaultStringConverter());
     final var endNodeColumn =
         createTableColumn(
-            "End Node ID", EdgePropertyAdapter::endNodeProperty, new DefaultStringConverter());
+            "End Node ID", EdgeAdapter::endNodeProperty, new DefaultStringConverter());
 
     //noinspection unchecked
     edgeTableView.getColumns().setAll(startNodeColumn, endNodeColumn);
@@ -126,18 +123,14 @@ public class MapEditorController {
   private void initializeLocationNameTable() {
     final var longNameColumn =
         createTableColumn(
-            "Long Name",
-            LocationNamePropertyAdapter::longNameProperty,
-            new DefaultStringConverter());
+            "Long Name", LocationNameAdapter::longNameProperty, new DefaultStringConverter());
     final var shortNameColumn =
         createTableColumn(
-            "Short Name",
-            LocationNamePropertyAdapter::shortNameProperty,
-            new DefaultStringConverter());
+            "Short Name", LocationNameAdapter::shortNameProperty, new DefaultStringConverter());
     final var locationTypeColumn =
         createTableColumn(
             "Location Type",
-            LocationNamePropertyAdapter::locationTypeProperty,
+            LocationNameAdapter::locationTypeProperty,
             new DefaultStringConverter());
 
     //noinspection unchecked
@@ -164,14 +157,11 @@ public class MapEditorController {
 
   private void initializeMoveTable() {
     final var nodeIDColumn =
-        createTableColumn(
-            "Node ID", MovePropertyAdapter::nodeIDProperty, new DefaultStringConverter());
+        createTableColumn("Node ID", MoveAdapter::nodeIDProperty, new DefaultStringConverter());
     final var longNameColumn =
-        createTableColumn(
-            "Long Name", MovePropertyAdapter::longNameProperty, new DefaultStringConverter());
+        createTableColumn("Long Name", MoveAdapter::longNameProperty, new DefaultStringConverter());
     final var moveDateColumn =
-        createTableColumn(
-            "Move Date", MovePropertyAdapter::moveDateProperty, new SQLDateStringConverter());
+        createTableColumn("Move Date", MoveAdapter::moveDateProperty, new SQLDateStringConverter());
 
     //noinspection unchecked
     moveTableView.getColumns().setAll(nodeIDColumn, longNameColumn, moveDateColumn);
@@ -189,7 +179,7 @@ public class MapEditorController {
       log.error("Problem communicating with the database: Node HashMap is null.");
     } else {
       final var nodes = nodeMap.values();
-      final var adapters = nodes.stream().map(NodePropertyAdapter::new).toList();
+      final var adapters = nodes.stream().map(NodeAdapter::new).toList();
       nodeTableView.getItems().setAll(adapters);
     }
 
@@ -198,7 +188,7 @@ public class MapEditorController {
       log.error("Problem communicating with the database: Edge HashMap is null.");
     } else {
       final var edges = edgeMap.values();
-      final var adapters = edges.stream().map(EdgePropertyAdapter::new).toList();
+      final var adapters = edges.stream().map(EdgeAdapter::new).toList();
       edgeTableView.getItems().setAll(adapters);
     }
 
@@ -207,7 +197,7 @@ public class MapEditorController {
       log.error("Problem communicating with the database: Location Name HashMap is null.");
     } else {
       final var locationNames = locationNameMap.values();
-      final var adapters = locationNames.stream().map(LocationNamePropertyAdapter::new).toList();
+      final var adapters = locationNames.stream().map(LocationNameAdapter::new).toList();
       locationNameTableView.getItems().setAll(adapters);
     }
 
@@ -216,7 +206,7 @@ public class MapEditorController {
       log.error("Problem communicating with the database: Move HashMap is null.");
     } else {
       final var moves = moveMap.values();
-      final var adapters = moves.stream().map(MovePropertyAdapter::new).toList();
+      final var adapters = moves.stream().map(MoveAdapter::new).toList();
       moveTableView.getItems().setAll(adapters);
     }
   }
