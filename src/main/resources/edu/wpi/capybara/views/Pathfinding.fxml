@@ -103,6 +103,14 @@
                         <Font size="18.0" />
                      </font>
                   </MFXButton>
+                  <MFXButton fx:id="directionsButton" onAction="#showDirections" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #009CA6;" text="Show Directions" textFill="WHITE" visible="false">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </MFXButton>
                </children>
                <BorderPane.margin>
                   <Insets />
