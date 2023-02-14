@@ -15,7 +15,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
-public class SecurityControllerTest extends ApplicationTest {
+public class TransportationControllerTest extends ApplicationTest {
+
   @Override
   public void start(Stage stage) throws IOException {
     // manually instantiate an App and pass the test stage to its start function
@@ -36,7 +37,7 @@ public class SecurityControllerTest extends ApplicationTest {
 
   @Test
   public void test1() {
-    clickOn("#securityButton");
+    clickOn("#transportationButton");
     clickOn("#assignedStaffID");
     type(KeyCode.DIGIT1);
     clickOn("#Location");
@@ -79,5 +80,23 @@ public class SecurityControllerTest extends ApplicationTest {
     type(KeyCode.N, KeyCode.O);
     clickOn("#submitButton");
     verifyThat("#submissionReceived", Node::isVisible);
+    //    Predicate<Node> isEnabled = node -> !node.isDisable();
+    //    verifyThat("#submitButton", isEnabled);
+    //    //    clickOn("#submitButton");
+    //    //    verifyThat("reasonField", hasText(""));
+    //    clickOn("#backButton");
+    //    verifyThat("#transportationButton", isVisible());
+    //    clickOn("#servicesButtonM");
+    //    clickOn("#cleaningButtonM");
+    //    verifyThat("#SubmitButton", isVisible());
+    //    clickOn("#Location");
+    //    clickOn("#Location");
+    //    clickOn("#hazardLevel");
+    //    type(KeyCode.DIGIT4);
+    //    clickOn("#Description");
+    //    type(KeyCode.O, KeyCode.W);
+    //    verifyThat("#SubmitButton", isEnabled);
+    //    clickOn("#ClearButton");
+    //    verifyThat("#hazardLevel", hasText(""));
   }
 }
