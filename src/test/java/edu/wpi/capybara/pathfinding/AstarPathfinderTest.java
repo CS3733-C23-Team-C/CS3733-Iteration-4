@@ -8,9 +8,8 @@ import static org.mockito.Mockito.when;
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.hibernate.EdgeEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
-import java.util.*;
-
 import edu.wpi.capybara.objects.hibernate.newDBConnect;
+import java.util.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.powermock.reflect.Whitebox;
