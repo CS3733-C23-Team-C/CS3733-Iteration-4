@@ -50,6 +50,7 @@ public class MapViewController {
   private static final float DRAG_SPEED = 1f;
   private boolean isPath;
   private String currentFloor;
+  private final PathfindingController controller;
   private final NodeCircleClickHandler onClick;
   @Setter @Getter private NodeEntity startNode, endNode, selectedNode;
 
@@ -58,7 +59,8 @@ public class MapViewController {
       AnchorPane ap,
       Pane canvasPane,
       NodeCircleClickHandler onClick,
-      StackPane stackPane) {
+      StackPane stackPane,
+      PathfindingController controller) {
     this.nodeDrawer = nodeDrawer;
     this.ap = ap;
     this.canvasPane = canvasPane;
@@ -66,6 +68,7 @@ public class MapViewController {
     this.gc = nodeDrawer.getGraphicsContext2D();
     this.allNodes = DatabaseConnect.getNodes().values();
     this.onClick = onClick;
+    this.controller = controller;
 
     L1 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankL1.png")));
     L2 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankL2.png")));
@@ -475,6 +478,7 @@ public class MapViewController {
           } catch (FloorDoesNotExistException ignored) {
           }
           stackPane.getChildren().removeAll(dialog);
+          controller.changeFloorNum(toFloor);
           drawNodes();
         });
     dialog.setOnClose((event1 -> stackPane.getChildren().removeAll(dialog)));

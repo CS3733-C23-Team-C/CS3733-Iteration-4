@@ -59,7 +59,7 @@ public class PathfindingController {
 
     mvc =
         new MapViewController(
-            nodeDrawer, nodeAnchorPane, canvasPane, this::nodeClickedOnAction, stackPane);
+            nodeDrawer, nodeAnchorPane, canvasPane, this::nodeClickedOnAction, stackPane, this);
     pfNodes = new ArrayList<>(nodes.stream().map((n) -> new PFNode(n, this)).toList());
 
     pfNodes.sort(Comparator.comparing(PFNode::toString));
@@ -69,6 +69,7 @@ public class PathfindingController {
 
     currRoom.setItems(FXCollections.observableArrayList(pfNodes));
     destRoom.setItems(FXCollections.observableArrayList(pfNodes));
+
     pathfindingAlgorithm.setItems(
         FXCollections.observableArrayList(
             new AstarPathfinder(DatabaseConnect.getNodes(), DatabaseConnect.getEdges()),
@@ -127,8 +128,6 @@ public class PathfindingController {
 
     PFNode currRoomNode = currRoom.getValue();
     PFNode destRoomNode = destRoom.getValue();
-    currRoom.setItems(FXCollections.observableArrayList(pfNodes));
-    destRoom.setItems(FXCollections.observableArrayList(pfNodes));
     if (currRoomNode != null) {
       currRoom.selectItem(currRoomNode);
       mvc.setStartNode(currRoom.getValue().getNode());
@@ -214,5 +213,9 @@ public class PathfindingController {
 
   public Date getMoveDate() {
     return Date.valueOf(dateField.getValue());
+  }
+
+  public void changeFloorNum(String floor) {
+    floorSelect.selectItem(floor);
   }
 }

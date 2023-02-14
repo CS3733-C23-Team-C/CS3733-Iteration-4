@@ -149,11 +149,9 @@ public class CleaningRequestController {
     }
   }
 
-  public void edit(ActionEvent actionEvent) {
-  }
+  public void edit(ActionEvent actionEvent) {}
 
   public void save(ActionEvent actionEvent) {
     String editCleanID = cleanID.getText();
-
   }
 }
