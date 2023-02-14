@@ -92,7 +92,7 @@ public class PathfindingController {
   L1X1820Y1284, L1X1965Y1284
    */
 
-  public void submitForm() {
+  public void submitForm() throws FloorDoesNotExistException {
     NodeEntity currRoomNode = currRoom.getValue().getNode();
     NodeEntity destRoomNode = destRoom.getValue().getNode();
 
@@ -100,6 +100,8 @@ public class PathfindingController {
     if (path == null) return;
 
     mvc.displayPath(path);
+    mvc.changeFloor(currRoom.getValue().getNode().getFloor());
+    changeFloorNum(currRoom.getValue().getNode().getFloor());
     directionsButton.setVisible(true);
 
     clearFields(null);
