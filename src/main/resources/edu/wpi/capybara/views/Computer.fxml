@@ -1,14 +1,188 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="edu.wpi.capybara.controllers.ComputerController"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<StackPane fx:id="transportationStackPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.ComputerController">
+    <children>
+        <BorderPane fx:id="transportationPane">
+            <top>
+                <HBox prefHeight="20.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER" />
+            </top>
+            <center>
+                <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets />
+                    </BorderPane.margin>
+                    <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" />
+                    </padding>
+                    <children>
+                        <HBox prefHeight="10.0" prefWidth="200.0" />
+                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Computer Request">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </Text>
+                        <HBox prefHeight="10.0" prefWidth="200.0" />
+                        <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;" />
+                        <HBox prefHeight="20.0" prefWidth="200.0" />
+                        <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                            <children>
+                                <VBox HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Assigned Employee ID">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </Text>
+                                        <MFXTextField fx:id="assignedStaffID" prefWidth="200.0">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </MFXTextField>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                            </padding>
+                        </HBox>
+                        <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                            <children>
+                                <VBox HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Location">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </Text>
+                                        <MFXFilterComboBox fx:id="Location" prefWidth="200.0">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </MFXFilterComboBox>
+                                    </children>
+                                </VBox>
+                                <VBox HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Type">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </Text>
+                                        <MFXComboBox fx:id="requestSpecific" prefWidth="200.0">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </MFXComboBox>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                            </padding>
+                        </HBox>
+                        <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                            <children>
+                                <VBox HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Emergency Level">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </Text>
+                                        <MFXComboBox fx:id="emergencyLevel" prefWidth="200.0">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </MFXComboBox>
+                                    </children>
+                                </VBox>
+                                <VBox HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Date">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </Text>
+                                        <MFXDatePicker fx:id="date" prefHeight="45.0" prefWidth="200.0">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </MFXDatePicker>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                            </padding>
+                        </HBox>
+                        <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                            <children>
+                                <VBox HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Additional Notes">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </Text>
+                                        <MFXTextField fx:id="notes" maxWidth="1.7976931348623157E308">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </MFXTextField>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                            </padding>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <StackPane prefHeight="150.0" prefWidth="200.0">
+                                    <children>
+                                        <Text fx:id="missingFields" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter all information before submitting" visible="false">
+                                            <font>
+                                                <Font size="24.0" />
+                                            </font>
+                                        </Text>
+                                        <Text fx:id="submissionReceived" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Submission recieved!" visible="false">
+                                            <font>
+                                                <Font size="24.0" />
+                                            </font>
+                                        </Text>
+                                    </children>
+                                </StackPane>
+                            </children></HBox>
+                        <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                            <children>
+                                <MFXButton fx:id="clearButton" minWidth="150.0" style="-fx-background-color: #012D5A;" text="Clear" textFill="WHITE">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font>
+                                </MFXButton>
+                                <MFXButton fx:id="submitButton" disable="true" minWidth="150.0" style="-fx-background-color: #009CA6;" text="Submit" textFill="WHITE">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font>
+                                </MFXButton>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </center>
+        </BorderPane>
+    </children>
+</StackPane>
