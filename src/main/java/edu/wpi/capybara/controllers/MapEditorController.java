@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.function.Function;
 import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyListProperty;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -76,6 +77,22 @@ public class MapEditorController {
 
     nodes.forEach(mapEditor::addNode);
     edges.forEach(mapEditor::addEdge);
+    nodes.addListener(
+        (ListChangeListener<? super NodeAdapter>)
+            change -> {
+              while (change.next()) {
+                change.getAddedSubList().forEach(mapEditor::addNode);
+                change.getRemoved().forEach(mapEditor::removeNode);
+              }
+            });
+    edges.addListener(
+        (ListChangeListener<? super EdgeAdapter>)
+            change -> {
+              while (change.next()) {
+                change.getAddedSubList().forEach(mapEditor::addEdge);
+                change.getRemoved().forEach(mapEditor::removeEdge);
+              }
+            });
 
     initializeNodeTable();
     initializeEdgeTable();
@@ -127,6 +144,15 @@ public class MapEditorController {
     nodeTableView.setContextMenu(menu);
 
     nodeTableView.visibleProperty().bind(nodeToggle.selectedProperty());
+    mapEditor
+        .selectedNodeProperty()
+        .addListener(
+            ((observable, oldValue, newValue) -> {
+              if (newValue.isPresent()) {
+                nodeTableView.scrollTo(newValue.get());
+                nodeTableView.getSelectionModel().select(newValue.get());
+              }
+            }));
   }
 
   private void initializeEdgeTable() {
@@ -144,6 +170,16 @@ public class MapEditorController {
     edgeTableView.itemsProperty().bind(edges);
 
     edgeTableView.visibleProperty().bind(edgeToggle.selectedProperty());
+
+    mapEditor
+        .selectedEdgeProperty()
+        .addListener(
+            ((observable, oldValue, newValue) -> {
+              if (newValue.isPresent()) {
+                edgeTableView.scrollTo(newValue.get());
+                edgeTableView.getSelectionModel().select(newValue.get());
+              }
+            }));
   }
 
   private void initializeLocationNameTable() {

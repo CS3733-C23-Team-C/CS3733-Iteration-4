@@ -5,6 +5,7 @@ import static edu.wpi.capybara.Main.db;
 import edu.wpi.capybara.App;
 import edu.wpi.capybara.objects.Floor;
 import java.util.Objects;
+import java.util.Optional;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.scene.Cursor;
@@ -32,18 +33,22 @@ public class MapEditorPane extends SplitPane {
 
     GFXNode(NodeAdapter node) {
       this.node = node;
-      setRadius(10);
-      translateXProperty().bind(node.xCoordProperty());
-      translateYProperty().bind(node.yCoordProperty());
+      setRadius(6);
+      centerXProperty().bind(node.xCoordProperty());
+      centerYProperty().bind(node.yCoordProperty());
 
       final var floor = Floor.fromString(node.getFloor());
       if (floor != null) {
-        visibleProperty()
-            .bind(
-                lookupFloorImage(floor)
-                    .visibleProperty()); // looking up the floor avoids creating a bunch of
-        // BooleanBindings
+        visibleProperty().bind(lookupFloorImage(floor).visibleProperty());
       }
+
+      onMousePressedProperty()
+          .setValue(
+              event -> {
+                selectedNode.set(Optional.of(this.node));
+                selectedEdge.set(Optional.empty());
+                System.out.printf("Node %s just got clicked\n", this.node.getNodeID());
+              });
     }
   }
 
@@ -59,6 +64,13 @@ public class MapEditorPane extends SplitPane {
       bindEndNodeProps();
       edge.startNodeProperty().addListener(observable -> bindStartNodeProps());
       edge.endNodeProperty().addListener(observable -> bindEndNodeProps());
+
+      onMousePressedProperty()
+          .setValue(
+              event -> {
+                selectedNode.set(Optional.empty());
+                selectedEdge.set(Optional.of(this.edge));
+              });
     }
 
     private void bindStartNodeProps() {
@@ -88,6 +100,9 @@ public class MapEditorPane extends SplitPane {
   private final SimpleMapProperty<EdgeAdapter, GFXEdge> edges;
 
   private final SimpleObjectProperty<Floor> shownFloor;
+
+  private final SimpleObjectProperty<Optional<NodeAdapter>> selectedNode;
+  private final SimpleObjectProperty<Optional<EdgeAdapter>> selectedEdge;
 
   // UI components
   private final ImageView floorF1, floorF2, floorF3, floorL1, floorL2;
@@ -121,6 +136,8 @@ public class MapEditorPane extends SplitPane {
                     });*/
 
     shownFloor = new SimpleObjectProperty<>(Floor.F1);
+    selectedNode = new SimpleObjectProperty<>(Optional.empty());
+    selectedEdge = new SimpleObjectProperty<>(Optional.empty());
 
     floorF1 = createFloorImage("blankF1.png", Floor.F1);
     floorF2 = createFloorImage("blankF2.png", Floor.F2);
@@ -226,5 +243,21 @@ public class MapEditorPane extends SplitPane {
 
   public void setShownFloor(Floor floor) {
     shownFloor.set(floor);
+  }
+
+  public Optional<NodeAdapter> getSelectedNode() {
+    return selectedNode.get();
+  }
+
+  public ReadOnlyObjectProperty<Optional<NodeAdapter>> selectedNodeProperty() {
+    return selectedNode;
+  }
+
+  public Optional<EdgeAdapter> getSelectedEdge() {
+    return selectedEdge.get();
+  }
+
+  public ReadOnlyObjectProperty<Optional<EdgeAdapter>> selectedEdgeProperty() {
+    return selectedEdge;
   }
 }

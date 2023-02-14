@@ -10,9 +10,9 @@ public enum Floor {
   @Override
   public String toString() {
     return switch (this) {
-      case F1 -> "F1";
-      case F2 -> "F2";
-      case F3 -> "F3";
+      case F1 -> "1";
+      case F2 -> "2";
+      case F3 -> "3";
       case L1 -> "L1";
       case L2 -> "L2";
     };
@@ -20,9 +20,9 @@ public enum Floor {
 
   public static Floor fromString(String string) {
     return switch (string) {
-      case "F1" -> F1;
-      case "F2" -> F2;
-      case "F3" -> F3;
+      case "1" -> F1;
+      case "2" -> F2;
+      case "3" -> F3;
       case "L1" -> L1;
       case "L2" -> L2;
       default -> null;
