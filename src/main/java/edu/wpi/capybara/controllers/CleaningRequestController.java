@@ -1,23 +1,28 @@
+
 package edu.wpi.capybara.controllers;
 
-import edu.wpi.capybara.App;
-import edu.wpi.capybara.Main;
-import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
-import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
-import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
-import edu.wpi.capybara.objects.submissions.SubmissionStatus;
-import io.github.palexdev.materialfx.controls.MFXButton;
-import io.github.palexdev.materialfx.controls.MFXComboBox;
-import java.util.HashMap;
-import java.util.Objects;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
+        import edu.wpi.capybara.App;
+        import edu.wpi.capybara.Main;
+        import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
+        import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
+        import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
+        import edu.wpi.capybara.objects.submissions.SubmissionStatus;
+        import io.github.palexdev.materialfx.controls.MFXButton;
+        import io.github.palexdev.materialfx.controls.MFXComboBox;
+        import io.github.palexdev.materialfx.utils.EnumStringConverter;
+
+        import java.util.HashMap;
+        import java.util.LinkedList;
+        import java.util.Objects;
+        import javafx.collections.FXCollections;
+        import javafx.collections.ObservableList;
+        import javafx.event.ActionEvent;
+        import javafx.event.EventHandler;
+        import javafx.fxml.FXML;
+        import javafx.scene.control.TableColumn;
+        import javafx.scene.control.TableView;
+        import javafx.scene.control.cell.PropertyValueFactory;
+        import javafx.scene.control.cell.TextFieldTableCell;
 
 public class CleaningRequestController {
 
@@ -48,11 +53,11 @@ public class CleaningRequestController {
   @FXML MFXButton fieldsSave;
 
   ObservableList<CleaningsubmissionEntity> cleaningRequestsList =
-      FXCollections.observableArrayList();
+          FXCollections.observableArrayList();
   ObservableList<TransportationsubmissionEntity> transportationRequestsList =
-      FXCollections.observableArrayList();
+          FXCollections.observableArrayList();
   ObservableList<SecuritysubmissionEntity> securityRequestsList =
-      FXCollections.observableArrayList();
+          FXCollections.observableArrayList();
   private ObservableList<String> options = FXCollections.observableArrayList();
 
   /** When it switches to page, gets data from submission collector and creates tables */
@@ -65,24 +70,65 @@ public class CleaningRequestController {
 
     HashMap<Integer, CleaningsubmissionEntity> cleaningdata = Main.db.getCleaningSubs();
     HashMap<Integer, TransportationsubmissionEntity> transportationdata =
-        Main.db.getTransportationSubs();
+            Main.db.getTransportationSubs();
     HashMap<Integer, SecuritysubmissionEntity> securitydata = Main.db.getSecuritySubs();
 
     cleanID.setCellValueFactory(
-        new PropertyValueFactory<CleaningsubmissionEntity, String>("memberid"));
+            new PropertyValueFactory<CleaningsubmissionEntity, String>("memberid"));
     cleanID.setCellFactory(TextFieldTableCell.forTableColumn());
+    cleanID.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<CleaningsubmissionEntity, String>>() {
+              @Override
+              public void handle(TableColumn.CellEditEvent<CleaningsubmissionEntity, String> event) {
+                CleaningsubmissionEntity clean = event.getRowValue();
+                clean.setMemberid(event.getNewValue());
+              }
+            });
     hazardLevel.setCellValueFactory(
-        new PropertyValueFactory<CleaningsubmissionEntity, String>("hazardlevel"));
+            new PropertyValueFactory<CleaningsubmissionEntity, String>("hazardlevel"));
     hazardLevel.setCellFactory(TextFieldTableCell.forTableColumn());
+    hazardLevel.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<CleaningsubmissionEntity, String>>() {
+              @Override
+              public void handle(TableColumn.CellEditEvent<CleaningsubmissionEntity, String> event) {
+                CleaningsubmissionEntity clean = event.getRowValue();
+                clean.setHazardlevel(event.getNewValue());
+              }
+            });
     cleanLocation.setCellValueFactory(
-        new PropertyValueFactory<CleaningsubmissionEntity, String>("location"));
+            new PropertyValueFactory<CleaningsubmissionEntity, String>("location"));
     cleanLocation.setCellFactory(TextFieldTableCell.forTableColumn());
+    cleanLocation.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<CleaningsubmissionEntity, String>>() {
+              @Override
+              public void handle(TableColumn.CellEditEvent<CleaningsubmissionEntity, String> event) {
+                CleaningsubmissionEntity clean = event.getRowValue();
+                clean.setLocation(event.getNewValue());
+              }
+            });
     cleanStatus.setCellValueFactory(
-        new PropertyValueFactory<CleaningsubmissionEntity, SubmissionStatus>("submissionStatus"));
+            new PropertyValueFactory<CleaningsubmissionEntity, SubmissionStatus>("submissionStatus"));
+    cleanStatus.setCellFactory(
+            TextFieldTableCell.forTableColumn(new EnumStringConverter<>(SubmissionStatus.class)));
+    cleanStatus.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<CleaningsubmissionEntity, SubmissionStatus>>() {
+              @Override
+              public void handle(
+                      TableColumn.CellEditEvent<CleaningsubmissionEntity, SubmissionStatus> event) {
+                CleaningsubmissionEntity clean = event.getRowValue();
+                clean.setSubmissionstatus(event.getNewValue());
+              }
+            });
+    new PropertyValueFactory<CleaningsubmissionEntity, SubmissionStatus>("submissionStatus");
     cleanDescription.setCellValueFactory(
-        new PropertyValueFactory<CleaningsubmissionEntity, String>("description"));
+            new PropertyValueFactory<CleaningsubmissionEntity, String>("description"));
     cleanDescription.setCellFactory(TextFieldTableCell.forTableColumn());
-    for (CleaningsubmissionEntity sub : cleaningdata.values()) {
+    cleanDescription.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<CleaningsubmissionEntity, String>>() {
+              @Override
+              public void handle(TableColumn.CellEditEvent<CleaningsubmissionEntity, String> event) {}
+            });
+    for (CleaningsubmissionEntity sub : cleaningdata) {
       if (sub.getMemberid() == App.getUser().getStaffid()) {
         cleaningRequestsList.add(sub);
       }
@@ -90,20 +136,69 @@ public class CleaningRequestController {
     cleanRequests.setItems(cleaningRequestsList);
 
     transportationID.setCellValueFactory(
-        new PropertyValueFactory<TransportationsubmissionEntity, String>("employeeid"));
+            new PropertyValueFactory<TransportationsubmissionEntity, String>("employeeid"));
     transportationID.setCellFactory(TextFieldTableCell.forTableColumn());
+    transportationID.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<TransportationsubmissionEntity, String>>() {
+              @Override
+              public void handle(
+                      TableColumn.CellEditEvent<TransportationsubmissionEntity, String> event) {
+                TransportationsubmissionEntity transport = event.getRowValue();
+                transport.setEmployeeid(event.getNewValue());
+              }
+            });
     transportationLocation.setCellValueFactory(
-        new PropertyValueFactory<TransportationsubmissionEntity, String>("currroomnum"));
+            new PropertyValueFactory<TransportationsubmissionEntity, String>("currroomnum"));
     transportationLocation.setCellFactory(TextFieldTableCell.forTableColumn());
+    transportationLocation.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<TransportationsubmissionEntity, String>>() {
+              @Override
+              public void handle(
+                      TableColumn.CellEditEvent<TransportationsubmissionEntity, String> event) {
+                TransportationsubmissionEntity transport = event.getRowValue();
+                transport.setCurrroomnum(event.getNewValue());
+              }
+            });
     destination.setCellValueFactory(
-        new PropertyValueFactory<TransportationsubmissionEntity, String>("destroomnum"));
+            new PropertyValueFactory<TransportationsubmissionEntity, String>("destroomnum"));
     destination.setCellFactory(TextFieldTableCell.forTableColumn());
+    destination.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<TransportationsubmissionEntity, String>>() {
+              @Override
+              public void handle(
+                      TableColumn.CellEditEvent<TransportationsubmissionEntity, String> event) {
+                TransportationsubmissionEntity transport = event.getRowValue();
+                transport.setDestroomnum(event.getNewValue());
+              }
+            });
     reason.setCellValueFactory(
-        new PropertyValueFactory<TransportationsubmissionEntity, String>("reason"));
+            new PropertyValueFactory<TransportationsubmissionEntity, String>("reason"));
     reason.setCellFactory(TextFieldTableCell.forTableColumn());
+    reason.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<TransportationsubmissionEntity, String>>() {
+              @Override
+              public void handle(
+                      TableColumn.CellEditEvent<TransportationsubmissionEntity, String> event) {
+                TransportationsubmissionEntity transport = event.getRowValue();
+                transport.setReason(event.getNewValue());
+              }
+            });
     transportationStatus.setCellValueFactory(
-        new PropertyValueFactory<TransportationsubmissionEntity, SubmissionStatus>("status"));
-    for (TransportationsubmissionEntity sub : transportationdata.values()) {
+            new PropertyValueFactory<TransportationsubmissionEntity, SubmissionStatus>("status"));
+    transportationStatus.setCellFactory(
+            TextFieldTableCell.forTableColumn(new EnumStringConverter<>(SubmissionStatus.class)));
+    transportationStatus.setOnEditCommit(
+            new EventHandler<
+                    TableColumn.CellEditEvent<TransportationsubmissionEntity, SubmissionStatus>>() {
+              @Override
+              public void handle(
+                      TableColumn.CellEditEvent<TransportationsubmissionEntity, SubmissionStatus> event) {
+                TransportationsubmissionEntity transport = event.getRowValue();
+                transport.setStatus(event.getNewValue());
+              }
+            });
+
+    for (TransportationsubmissionEntity sub : transportationdata) {
       if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
         transportationRequestsList.add(sub);
       }
@@ -111,20 +206,63 @@ public class CleaningRequestController {
     transportationRequests.setItems(transportationRequestsList);
 
     securityID.setCellValueFactory(
-        new PropertyValueFactory<SecuritysubmissionEntity, String>("employeeid"));
+            new PropertyValueFactory<SecuritysubmissionEntity, String>("employeeid"));
     securityID.setCellFactory(TextFieldTableCell.forTableColumn());
+    securityID.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<SecuritysubmissionEntity, String>>() {
+              @Override
+              public void handle(TableColumn.CellEditEvent<SecuritysubmissionEntity, String> event) {
+                SecuritysubmissionEntity security = event.getRowValue();
+                security.setEmployeeid(event.getNewValue());
+              }
+            });
     securityLocation.setCellValueFactory(
-        new PropertyValueFactory<SecuritysubmissionEntity, String>("location"));
+            new PropertyValueFactory<SecuritysubmissionEntity, String>("location"));
     securityLocation.setCellFactory(TextFieldTableCell.forTableColumn());
+    securityLocation.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<SecuritysubmissionEntity, String>>() {
+              @Override
+              public void handle(TableColumn.CellEditEvent<SecuritysubmissionEntity, String> event) {
+                SecuritysubmissionEntity security = event.getRowValue();
+                security.setLocation(event.getNewValue());
+              }
+            });
     securityDescription.setCellValueFactory(
-        new PropertyValueFactory<SecuritysubmissionEntity, String>("notesupdate"));
+            new PropertyValueFactory<SecuritysubmissionEntity, String>("notesupdate"));
     securityDescription.setCellFactory(TextFieldTableCell.forTableColumn());
+    securityDescription.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<SecuritysubmissionEntity, String>>() {
+              @Override
+              public void handle(TableColumn.CellEditEvent<SecuritysubmissionEntity, String> event) {
+                SecuritysubmissionEntity security = event.getRowValue();
+                security.setNotesupdate(event.getNewValue());
+              }
+            });
     type.setCellValueFactory(new PropertyValueFactory<SecuritysubmissionEntity, String>("type"));
     type.setCellFactory(TextFieldTableCell.forTableColumn());
+    type.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<SecuritysubmissionEntity, String>>() {
+              @Override
+              public void handle(TableColumn.CellEditEvent<SecuritysubmissionEntity, String> event) {
+                SecuritysubmissionEntity security = event.getRowValue();
+                security.setType(event.getNewValue());
+              }
+            });
     securityStatus.setCellValueFactory(
-        new PropertyValueFactory<SecuritysubmissionEntity, SubmissionStatus>("submissionstatus"));
-    ;
-    for (SecuritysubmissionEntity sub : securitydata.values()) {
+            new PropertyValueFactory<SecuritysubmissionEntity, SubmissionStatus>("submissionstatus"));
+    securityStatus.setCellFactory(
+            TextFieldTableCell.forTableColumn(new EnumStringConverter<>(SubmissionStatus.class)));
+    securityStatus.setOnEditCommit(
+            new EventHandler<TableColumn.CellEditEvent<SecuritysubmissionEntity, SubmissionStatus>>() {
+              @Override
+              public void handle(
+                      TableColumn.CellEditEvent<SecuritysubmissionEntity, SubmissionStatus> event) {
+                SecuritysubmissionEntity security = event.getRowValue();
+                security.setSubmissionstatus(event.getNewValue());
+              }
+            });
+
+    for (SecuritysubmissionEntity sub : securitydata) {
       if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
         securityRequestsList.add(sub);
       }
@@ -151,7 +289,6 @@ public class CleaningRequestController {
 
   public void edit(ActionEvent actionEvent) {}
 
-  public void save(ActionEvent actionEvent) {
-    String editCleanID = cleanID.getText();
-  }
+  public void save(ActionEvent actionEvent) {}
 }
+
