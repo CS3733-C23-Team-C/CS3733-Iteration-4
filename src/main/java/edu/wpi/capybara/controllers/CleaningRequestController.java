@@ -1,13 +1,16 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
 import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
 import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
-import edu.wpi.capybara.objects.submissions.submissionStatus;
+import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
-import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.Objects;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,9 +36,9 @@ public class CleaningRequestController {
   @FXML TableColumn<CleaningsubmissionEntity, String> cleanLocation;
   @FXML TableColumn<TransportationsubmissionEntity, String> transportationLocation;
   @FXML TableColumn<SecuritysubmissionEntity, String> securityLocation;
-  @FXML TableColumn<CleaningsubmissionEntity, submissionStatus> cleanStatus;
-  @FXML TableColumn<TransportationsubmissionEntity, submissionStatus> transportationStatus;
-  @FXML TableColumn<SecuritysubmissionEntity, submissionStatus> securityStatus;
+  @FXML TableColumn<CleaningsubmissionEntity, SubmissionStatus> cleanStatus;
+  @FXML TableColumn<TransportationsubmissionEntity, SubmissionStatus> transportationStatus;
+  @FXML TableColumn<SecuritysubmissionEntity, SubmissionStatus> securityStatus;
   @FXML TableColumn<TransportationsubmissionEntity, String> destination;
   @FXML TableColumn<SecuritysubmissionEntity, String> type;
   @FXML TableColumn<CleaningsubmissionEntity, String> cleanEmployeeAssigned;
@@ -61,11 +64,10 @@ public class CleaningRequestController {
     options.addAll("Transportation", "Cleaning", "Security");
     requestType.setItems(options);
 
-    LinkedList<CleaningsubmissionEntity> cleaningdata =
-        App.getTotalSubmissions().getCleaningSubmissions();
-    LinkedList<TransportationsubmissionEntity> transportationdata =
-        App.getTotalSubmissions().getTransportationSubs();
-    LinkedList<SecuritysubmissionEntity> securitydata = App.getTotalSubmissions().getSecuritySubs();
+    HashMap<Integer, CleaningsubmissionEntity> cleaningdata = Main.db.getCleaningSubs();
+    HashMap<Integer, TransportationsubmissionEntity> transportationdata =
+        Main.db.getTransportationSubs();
+    HashMap<Integer, SecuritysubmissionEntity> securitydata = Main.db.getSecuritySubs();
 
     cleanID.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, String>("memberid"));
@@ -77,11 +79,11 @@ public class CleaningRequestController {
         new PropertyValueFactory<CleaningsubmissionEntity, String>("location"));
     cleanLocation.setCellFactory(TextFieldTableCell.forTableColumn());
     cleanStatus.setCellValueFactory(
-        new PropertyValueFactory<CleaningsubmissionEntity, submissionStatus>("submissionStatus"));
+        new PropertyValueFactory<CleaningsubmissionEntity, SubmissionStatus>("submissionStatus"));
     cleanDescription.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, String>("description"));
     cleanDescription.setCellFactory(TextFieldTableCell.forTableColumn());
-    for (CleaningsubmissionEntity sub : cleaningdata) {
+    for (CleaningsubmissionEntity sub : cleaningdata.values()) {
       if (sub.getMemberid() == App.getUser().getStaffid()) {
         cleaningRequestsList.add(sub);
       }
@@ -101,9 +103,9 @@ public class CleaningRequestController {
         new PropertyValueFactory<TransportationsubmissionEntity, String>("reason"));
     reason.setCellFactory(TextFieldTableCell.forTableColumn());
     transportationStatus.setCellValueFactory(
-        new PropertyValueFactory<TransportationsubmissionEntity, submissionStatus>("status"));
-    for (TransportationsubmissionEntity sub : transportationdata) {
-      if (sub.getEmployeeid() == App.getUser().getStaffid()) {
+        new PropertyValueFactory<TransportationsubmissionEntity, SubmissionStatus>("status"));
+    for (TransportationsubmissionEntity sub : transportationdata.values()) {
+      if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
         transportationRequestsList.add(sub);
       }
     }
@@ -121,10 +123,10 @@ public class CleaningRequestController {
     type.setCellValueFactory(new PropertyValueFactory<SecuritysubmissionEntity, String>("type"));
     type.setCellFactory(TextFieldTableCell.forTableColumn());
     securityStatus.setCellValueFactory(
-        new PropertyValueFactory<SecuritysubmissionEntity, submissionStatus>("submissionstatus"));
+        new PropertyValueFactory<SecuritysubmissionEntity, SubmissionStatus>("submissionstatus"));
     ;
-    for (SecuritysubmissionEntity sub : securitydata) {
-      if (sub.getEmployeeid() == App.getUser().getStaffid()) {
+    for (SecuritysubmissionEntity sub : securitydata.values()) {
+      if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
         securityRequestsList.add(sub);
       }
     }

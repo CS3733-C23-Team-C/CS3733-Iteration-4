@@ -1,7 +1,7 @@
 package edu.wpi.capybara.objects;
 
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.controllers.PathfindingController;
-import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.hibernate.LocationnameEntity;
 import edu.wpi.capybara.objects.hibernate.MoveEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
@@ -53,9 +53,9 @@ public class PFNode {
     this.node = node;
     moves = new ArrayList<>();
 
-    for (MoveEntity move : DatabaseConnect.getMoves().values()) {
+    for (MoveEntity move : Main.db.getMoves()) {
       if (move.getNodeid().equals(node.getNodeid())) {
-        LocationnameEntity LNE = DatabaseConnect.getLocationNames().get(move.getLongname());
+        LocationnameEntity LNE = Main.db.getLocationnames().get(move.getLongname());
         MoveInformation information =
             new MoveInformation(
                 LNE.getLongname(), LNE.getShortname(), LNE.getLocationtype(), move.getMovedate());

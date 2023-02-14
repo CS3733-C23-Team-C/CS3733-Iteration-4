@@ -1,8 +1,8 @@
 package edu.wpi.capybara.controllers;
 
-import edu.wpi.capybara.App;
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.exceptions.FloorDoesNotExistException;
+import edu.wpi.capybara.objects.ImageLoader;
 import edu.wpi.capybara.objects.NodeCircle;
 import edu.wpi.capybara.objects.NodeCircleClickHandler;
 import edu.wpi.capybara.objects.hibernate.EdgeEntity;
@@ -12,7 +12,7 @@ import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
+import java.util.concurrent.*;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
@@ -30,26 +30,28 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class MapViewController {
 
   private double mapX, mapY, mapW, mapH;
   private Collection<NodeEntity> allNodes;
   private Image currentFloorImage;
-  private final Image L2, L1, F1, F2, F3;
   private final Canvas nodeDrawer;
   private final GraphicsContext gc;
   private final StackPane stackPane;
   private AnchorPane ap;
   private Pane canvasPane;
-  private List<NodeEntity> currentPath;
+  @Getter private List<NodeEntity> currentPath;
   private int lastX, lastY;
   private double canvasW, canvasH;
   private static final float SCROLL_SPEED = 1f;
   private static final int MOVE_SPEED = 30;
   private static final float DRAG_SPEED = 1f;
-  private boolean isPath;
+  @Getter private boolean isPath;
   private String currentFloor;
+  private final PathfindingController controller;
   private final NodeCircleClickHandler onClick;
   @Setter @Getter private NodeEntity startNode, endNode, selectedNode;
 
@@ -58,22 +60,28 @@ public class MapViewController {
       AnchorPane ap,
       Pane canvasPane,
       NodeCircleClickHandler onClick,
-      StackPane stackPane) {
+      StackPane stackPane,
+      PathfindingController controller) {
     this.nodeDrawer = nodeDrawer;
     this.ap = ap;
     this.canvasPane = canvasPane;
     this.stackPane = stackPane;
     this.gc = nodeDrawer.getGraphicsContext2D();
-    this.allNodes = DatabaseConnect.getNodes().values();
+    this.allNodes = Main.db.getNodes().values();
     this.onClick = onClick;
+    this.controller = controller;
 
-    L1 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankL1.png")));
-    L2 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankL2.png")));
-    F1 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankF1.png")));
-    F2 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankF2.png")));
-    F3 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankF3.png")));
+    // log.info("start image 1");
 
-    currentFloorImage = L1;
+    // log.info("get image 1");
+    try {
+      currentFloorImage = ImageLoader.getL1().get();
+    } catch (InterruptedException | ExecutionException e) {
+      throw new RuntimeException("Floor image did not load correctly!");
+    }
+
+    // log.info("start other threads");
+
     currentPath = null;
     isPath = false;
 
@@ -323,9 +331,9 @@ public class MapViewController {
 
   private void drawEdges() {
     gc.setStroke(Color.RED);
-    for (EdgeEntity edge : DatabaseConnect.getEdges().values()) {
-      NodeEntity n1 = DatabaseConnect.getNodes().get(edge.getNode1());
-      NodeEntity n2 = DatabaseConnect.getNodes().get(edge.getNode2());
+    for (EdgeEntity edge : Main.db.getEdges()) {
+      NodeEntity n1 = Main.db.getNodes().get(edge.getNode1());
+      NodeEntity n2 = Main.db.getNodes().get(edge.getNode2());
       if (!n1.getFloor().equals(currentFloor) || !n2.getFloor().equals(currentFloor)) continue;
 
       gc.strokeLine(
@@ -435,18 +443,24 @@ public class MapViewController {
   public void changeFloor(String floorID) throws FloorDoesNotExistException {
     if (floorID == null) throw new FloorDoesNotExistException("floorID is null");
 
-    if (floorID.equals("L1")) {
-      currentFloorImage = L1;
-    } else if (floorID.equals("L2")) {
-      currentFloorImage = L2;
-    } else if (floorID.equals("1")) {
-      currentFloorImage = F1;
-    } else if (floorID.equals("2")) {
-      currentFloorImage = F2;
-    } else if (floorID.equals("3")) {
-      currentFloorImage = F3;
-    } else {
-      throw new FloorDoesNotExistException("floorID " + floorID + " does not exist");
+    try {
+      if (floorID.equals("L1")) {
+        currentFloorImage = ImageLoader.getL1().get();
+      } else if (floorID.equals("L2")) {
+        currentFloorImage = ImageLoader.getL2().get();
+      } else if (floorID.equals("1")) {
+        currentFloorImage = ImageLoader.getF1().get();
+      } else if (floorID.equals("2")) {
+        currentFloorImage = ImageLoader.getF2().get();
+      } else if (floorID.equals("3")) {
+        currentFloorImage = ImageLoader.getF3().get();
+      } else {
+        throw new FloorDoesNotExistException("floorID " + floorID + " does not exist");
+      }
+    } catch (FloorDoesNotExistException e) {
+      throw new FloorDoesNotExistException(e);
+    } catch (InterruptedException | ExecutionException e) {
+      throw new RuntimeException("Floor image did not load correctly!");
     }
 
     currentFloor = floorID;
@@ -475,6 +489,7 @@ public class MapViewController {
           } catch (FloorDoesNotExistException ignored) {
           }
           stackPane.getChildren().removeAll(dialog);
+          controller.changeFloorNum(toFloor);
           drawNodes();
         });
     dialog.setOnClose((event1 -> stackPane.getChildren().removeAll(dialog)));
