@@ -38,6 +38,8 @@ public class App extends Application {
   public void start(Stage primaryStage) throws IOException {
     /* primaryStage is generally only used if one of your components require the stage to display */
     App.primaryStage = primaryStage;
+    App.primaryStage.setMinHeight(700.0);
+    App.primaryStage.setMinWidth(950.0);
 
     final FXMLLoader loader = new FXMLLoader(App.class.getResource("views/EmptyRoot.fxml"));
     final BorderPane root = loader.load();

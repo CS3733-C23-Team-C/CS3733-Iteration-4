@@ -13,6 +13,7 @@ import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.*;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
@@ -30,13 +31,15 @@ import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class MapViewController {
 
   private double mapX, mapY, mapW, mapH;
   private Collection<NodeEntity> allNodes;
   private Image currentFloorImage;
-  private final Image L2, L1, F1, F2, F3;
+  private Future<Image> L2, L1, F1, F2, F3;
   private final Canvas nodeDrawer;
   private final GraphicsContext gc;
   private final StackPane stackPane;
@@ -52,6 +55,7 @@ public class MapViewController {
   private String currentFloor;
   private final PathfindingController controller;
   private final NodeCircleClickHandler onClick;
+  private final ExecutorService executor;
   @Setter @Getter private NodeEntity startNode, endNode, selectedNode;
 
   public MapViewController(
@@ -70,13 +74,22 @@ public class MapViewController {
     this.onClick = onClick;
     this.controller = controller;
 
-    L1 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankL1.png")));
-    L2 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankL2.png")));
-    F1 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankF1.png")));
-    F2 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankF2.png")));
-    F3 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankF3.png")));
+    executor = Executors.newFixedThreadPool(5);
+    
+    L1 = getImage("images/blankL1.png");
 
-    currentFloorImage = L1;
+    try {
+      currentFloorImage = L1.get();
+    } catch (InterruptedException | ExecutionException e) {
+      throw new RuntimeException("Floor image did not load correctly!");
+    }
+
+    L2 = getImage("images/blankL2.png");
+    F1 = getImage("images/blankF1.png");
+    F2 = getImage("images/blankF2.png");
+    F3 = getImage("images/blankF3.png");
+    executor.execute(this::selfShutdown);
+
     currentPath = null;
     isPath = false;
 
@@ -438,18 +451,24 @@ public class MapViewController {
   public void changeFloor(String floorID) throws FloorDoesNotExistException {
     if (floorID == null) throw new FloorDoesNotExistException("floorID is null");
 
-    if (floorID.equals("L1")) {
-      currentFloorImage = L1;
-    } else if (floorID.equals("L2")) {
-      currentFloorImage = L2;
-    } else if (floorID.equals("1")) {
-      currentFloorImage = F1;
-    } else if (floorID.equals("2")) {
-      currentFloorImage = F2;
-    } else if (floorID.equals("3")) {
-      currentFloorImage = F3;
-    } else {
-      throw new FloorDoesNotExistException("floorID " + floorID + " does not exist");
+    try {
+      if (floorID.equals("L1")) {
+        currentFloorImage = L1.get();
+      } else if (floorID.equals("L2")) {
+        currentFloorImage = L2.get();
+      } else if (floorID.equals("1")) {
+        currentFloorImage = F1.get();
+      } else if (floorID.equals("2")) {
+        currentFloorImage = F2.get();
+      } else if (floorID.equals("3")) {
+        currentFloorImage = F3.get();
+      } else {
+        throw new FloorDoesNotExistException("floorID " + floorID + " does not exist");
+      }
+    } catch (FloorDoesNotExistException e) {
+      throw new FloorDoesNotExistException(e);
+    } catch (InterruptedException | ExecutionException e) {
+      throw new RuntimeException("Floor image did not load correctly!");
     }
 
     currentFloor = floorID;
@@ -484,5 +503,26 @@ public class MapViewController {
     dialog.setOnClose((event1 -> stackPane.getChildren().removeAll(dialog)));
 
     stackPane.getChildren().add(dialog);
+  }
+
+  private Future<Image> getImage(String loc) {
+    return executor.submit(
+        () -> new Image(Objects.requireNonNull(App.class.getResourceAsStream(loc))));
+  }
+
+  private void selfShutdown() {
+    boolean running = true;
+    while (running) {
+      try {
+        L1.get();
+        L2.get();
+        F1.get();
+        F2.get();
+        F3.get();
+        running = false;
+      } catch (InterruptedException | ExecutionException ignored) {
+      }
+    }
+    executor.shutdown();
   }
 }

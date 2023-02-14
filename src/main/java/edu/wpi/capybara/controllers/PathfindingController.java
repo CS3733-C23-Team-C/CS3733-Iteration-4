@@ -1,6 +1,5 @@
 package edu.wpi.capybara.controllers;
 
-import edu.wpi.capybara.App;
 import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.exceptions.FloorDoesNotExistException;
 import edu.wpi.capybara.objects.NodeCircle;
@@ -27,7 +26,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class PathfindingController {
 
   @FXML private MFXButton submitButton;
@@ -48,19 +49,18 @@ public class PathfindingController {
   /** Initialize controller by FXML Loader. */
   @FXML
   public void initialize() {
-    System.out.println("I am from Pathfinder Controller.");
+    log.info("start");
     dateField.setValue(LocalDate.now());
-
-    if (App.getPrimaryStage().getWidth() < 800) App.getPrimaryStage().setWidth(800);
-
-    if (App.getPrimaryStage().getHeight() < 650) App.getPrimaryStage().setHeight(650);
 
     Collection<NodeEntity> nodes = DatabaseConnect.getNodes().values();
 
+    log.info("1");
     mvc =
         new MapViewController(
             nodeDrawer, nodeAnchorPane, canvasPane, this::nodeClickedOnAction, stackPane, this);
+    log.info("2");
     pfNodes = new ArrayList<>(nodes.stream().map((n) -> new PFNode(n, this)).toList());
+    log.info("3");
 
     pfNodes.sort(Comparator.comparing(PFNode::toString));
 
@@ -77,6 +77,7 @@ public class PathfindingController {
     pathfindingAlgorithm.selectFirst();
     mvc.drawNodes();
     getMoveDate();
+    log.info("done");
   }
 
   /*
