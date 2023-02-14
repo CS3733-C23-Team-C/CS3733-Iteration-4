@@ -6,9 +6,17 @@ import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import edu.wpi.capybara.objects.submissions.TransportationSubmitter;
 import java.util.*;
 
+import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
+
+import java.util.Iterator;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 public class TransportationController extends ServiceRequestAbs {
 
   public void setRequestSpecific() {
+    requestSpecific = (MFXFilterComboBox) requestSpecific;
     submission = new TransportationSubmitter();
 
     HashMap<String, NodeEntity> nodes = Main.db.getNodes();
