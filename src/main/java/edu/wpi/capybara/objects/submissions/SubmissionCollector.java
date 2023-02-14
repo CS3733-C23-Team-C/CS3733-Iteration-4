@@ -5,7 +5,7 @@ import edu.wpi.capybara.database.DatabaseConnect;
 import edu.wpi.capybara.objects.hibernate.*;
 import java.util.LinkedList;
 
-public class submissionCollector { // stores all of the submissions in different collections
+public class SubmissionCollector { // stores all of the submissions in different collections
   LinkedList<TransportationsubmissionEntity> transportationSubs;
 
   LinkedList<CleaningsubmissionEntity> allCleaningSubmissions;
@@ -56,7 +56,7 @@ public class submissionCollector { // stores all of the submissions in different
     this.allCleaningSubmissions.add(cleaningSub);
   }
 
-  public submissionCollector() {
+  public SubmissionCollector() {
     transportationSubs = DatabaseConnect.transports();
     allCleaningSubmissions = DatabaseConnect.cleanings();
     securitySubs = DatabaseConnect.security();
@@ -64,7 +64,7 @@ public class submissionCollector { // stores all of the submissions in different
 
   public void newTransportationSubmission(TransportationsubmissionEntity submission) {
     DatabaseConnect.insertTransportation(
-        App.getUser().getStaffid(),
+        submission.getEmployeeid(),
         submission.getCurrroomnum(),
         submission.getDestroomnum(),
         submission.getReason(),
