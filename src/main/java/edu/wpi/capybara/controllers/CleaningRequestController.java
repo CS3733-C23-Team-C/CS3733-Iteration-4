@@ -5,9 +5,12 @@ import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
 import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
 import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
+import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import java.util.HashMap;
+import java.util.Objects;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,9 +36,9 @@ public class CleaningRequestController {
   @FXML TableColumn<CleaningsubmissionEntity, String> cleanLocation;
   @FXML TableColumn<TransportationsubmissionEntity, String> transportationLocation;
   @FXML TableColumn<SecuritysubmissionEntity, String> securityLocation;
-  @FXML TableColumn<CleaningsubmissionEntity, String> cleanStatus;
-  @FXML TableColumn<TransportationsubmissionEntity, String> transportationStatus;
-  @FXML TableColumn<SecuritysubmissionEntity, String> securityStatus;
+  @FXML TableColumn<CleaningsubmissionEntity, SubmissionStatus> cleanStatus;
+  @FXML TableColumn<TransportationsubmissionEntity, SubmissionStatus> transportationStatus;
+  @FXML TableColumn<SecuritysubmissionEntity, SubmissionStatus> securityStatus;
   @FXML TableColumn<TransportationsubmissionEntity, String> destination;
   @FXML TableColumn<SecuritysubmissionEntity, String> type;
   @FXML TableColumn<CleaningsubmissionEntity, String> cleanEmployeeAssigned;
@@ -76,10 +79,9 @@ public class CleaningRequestController {
         new PropertyValueFactory<CleaningsubmissionEntity, String>("location"));
     cleanLocation.setCellFactory(TextFieldTableCell.forTableColumn());
     cleanStatus.setCellValueFactory(
-        new PropertyValueFactory<CleaningsubmissionEntity, String>("description"));
-    cleanStatus.setCellFactory(TextFieldTableCell.forTableColumn());
+        new PropertyValueFactory<CleaningsubmissionEntity, SubmissionStatus>("submissionStatus"));
     cleanDescription.setCellValueFactory(
-        new PropertyValueFactory<CleaningsubmissionEntity, String>("submissionstatus"));
+        new PropertyValueFactory<CleaningsubmissionEntity, String>("description"));
     cleanDescription.setCellFactory(TextFieldTableCell.forTableColumn());
     for (CleaningsubmissionEntity sub : cleaningdata.values()) {
       if (sub.getMemberid() == App.getUser().getStaffid()) {
@@ -101,10 +103,9 @@ public class CleaningRequestController {
         new PropertyValueFactory<TransportationsubmissionEntity, String>("reason"));
     reason.setCellFactory(TextFieldTableCell.forTableColumn());
     transportationStatus.setCellValueFactory(
-        new PropertyValueFactory<TransportationsubmissionEntity, String>("status"));
-    transportationStatus.setCellFactory(TextFieldTableCell.forTableColumn());
+        new PropertyValueFactory<TransportationsubmissionEntity, SubmissionStatus>("status"));
     for (TransportationsubmissionEntity sub : transportationdata.values()) {
-      if (sub.getEmployeeid() == App.getUser().getStaffid()) {
+      if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
         transportationRequestsList.add(sub);
       }
     }
@@ -122,10 +123,10 @@ public class CleaningRequestController {
     type.setCellValueFactory(new PropertyValueFactory<SecuritysubmissionEntity, String>("type"));
     type.setCellFactory(TextFieldTableCell.forTableColumn());
     securityStatus.setCellValueFactory(
-        new PropertyValueFactory<SecuritysubmissionEntity, String>("submissionstatus"));
-    securityStatus.setCellFactory(TextFieldTableCell.forTableColumn());
+        new PropertyValueFactory<SecuritysubmissionEntity, SubmissionStatus>("submissionstatus"));
+    ;
     for (SecuritysubmissionEntity sub : securitydata.values()) {
-      if (sub.getEmployeeid() == App.getUser().getStaffid()) {
+      if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
         securityRequestsList.add(sub);
       }
     }

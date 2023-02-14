@@ -6,4 +6,8 @@ public class FloorDoesNotExistException extends IOException {
   public FloorDoesNotExistException(String e) {
     super(e);
   }
+
+  public FloorDoesNotExistException(Exception e) {
+    super(e);
+  }
 }
