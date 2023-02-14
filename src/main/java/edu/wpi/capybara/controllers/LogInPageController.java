@@ -10,7 +10,9 @@ import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javax.swing.*;
@@ -31,6 +33,36 @@ public class LogInPageController {
   @FXML
   public void initialize() {
     System.out.println("I am from the Log in Page!");
+
+    password.setOnKeyReleased(
+        new EventHandler<KeyEvent>() {
+          @Override
+          public void handle(KeyEvent event) {
+            enableLogin(event);
+            if (event.getCode().equals(KeyCode.ENTER) && !loginButton.isDisabled()) {
+              try {
+                login(new ActionEvent());
+              } catch (IOException e) {
+                throw new RuntimeException(e);
+              }
+            }
+          }
+        });
+
+    username.setOnKeyReleased(
+            new EventHandler<KeyEvent>() {
+              @Override
+              public void handle(KeyEvent event) {
+                enableLogin(event);
+                if (event.getCode().equals(KeyCode.ENTER) && !loginButton.isDisabled()) {
+                  try {
+                    login(new ActionEvent());
+                  } catch (IOException e) {
+                    throw new RuntimeException(e);
+                  }
+                }
+              }
+            });
   }
 
   public void login(ActionEvent actionEvent) throws IOException {
