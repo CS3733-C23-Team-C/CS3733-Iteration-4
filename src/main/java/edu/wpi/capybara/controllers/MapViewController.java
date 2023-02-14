@@ -1,7 +1,7 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.exceptions.FloorDoesNotExistException;
 import edu.wpi.capybara.objects.NodeCircle;
 import edu.wpi.capybara.objects.NodeCircleClickHandler;
@@ -64,7 +64,7 @@ public class MapViewController {
     this.canvasPane = canvasPane;
     this.stackPane = stackPane;
     this.gc = nodeDrawer.getGraphicsContext2D();
-    this.allNodes = DatabaseConnect.getNodes().values();
+    this.allNodes = Main.db.getNodes().values();
     this.onClick = onClick;
 
     L1 = new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankL1.png")));
@@ -323,9 +323,9 @@ public class MapViewController {
 
   private void drawEdges() {
     gc.setStroke(Color.RED);
-    for (EdgeEntity edge : DatabaseConnect.getEdges().values()) {
-      NodeEntity n1 = DatabaseConnect.getNodes().get(edge.getNode1());
-      NodeEntity n2 = DatabaseConnect.getNodes().get(edge.getNode2());
+    for (EdgeEntity edge : Main.db.getEdges()) {
+      NodeEntity n1 = Main.db.getNodes().get(edge.getNode1());
+      NodeEntity n2 = Main.db.getNodes().get(edge.getNode2());
       if (!n1.getFloor().equals(currentFloor) || !n2.getFloor().equals(currentFloor)) continue;
 
       gc.strokeLine(

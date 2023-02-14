@@ -1,6 +1,6 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import jakarta.persistence.*;
 import java.sql.Date;
@@ -75,7 +75,7 @@ public class SecuritysubmissionEntity {
   }
 
   public void setEmployeeid(String employeeid) {
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     this.employeeid = employeeid;
     session.merge(this);
@@ -89,7 +89,7 @@ public class SecuritysubmissionEntity {
 
   public void setLocation(String location) {
     this.location = location;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -102,7 +102,7 @@ public class SecuritysubmissionEntity {
 
   public void setType(String type) {
     this.type = type;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -115,7 +115,7 @@ public class SecuritysubmissionEntity {
 
   public void setNotesupdate(String notesupdate) {
     this.notesupdate = notesupdate;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -129,7 +129,7 @@ public class SecuritysubmissionEntity {
   public void setSubmissionstatus(SubmissionStatus submissionstatus) {
 
     this.submissionstatus = submissionstatus;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -142,7 +142,7 @@ public class SecuritysubmissionEntity {
 
   public void setAssignedid(String assignedid) {
     this.assignedid = assignedid;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -155,7 +155,7 @@ public class SecuritysubmissionEntity {
 
   public void setSubmissionid(int submissionid) {
     this.submissionid = submissionid;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -168,7 +168,7 @@ public class SecuritysubmissionEntity {
 
   public void setUrgency(String urgency) {
     this.urgency = urgency;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -181,7 +181,7 @@ public class SecuritysubmissionEntity {
 
   public void setCreatedate(Date createdate) {
     this.createdate = createdate;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -194,7 +194,7 @@ public class SecuritysubmissionEntity {
 
   public void setDuedate(Date duedate) {
     this.duedate = duedate;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();

@@ -1,7 +1,7 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.exceptions.FloorDoesNotExistException;
 import edu.wpi.capybara.objects.NodeCircle;
 import edu.wpi.capybara.objects.PFNode;
@@ -55,7 +55,7 @@ public class PathfindingController {
 
     if (App.getPrimaryStage().getHeight() < 650) App.getPrimaryStage().setHeight(650);
 
-    Collection<NodeEntity> nodes = DatabaseConnect.getNodes().values();
+    Collection<NodeEntity> nodes = Main.db.getNodes().values();
 
     mvc =
         new MapViewController(
@@ -71,8 +71,8 @@ public class PathfindingController {
     destRoom.setItems(FXCollections.observableArrayList(pfNodes));
     pathfindingAlgorithm.setItems(
         FXCollections.observableArrayList(
-            new AstarPathfinder(DatabaseConnect.getNodes(), DatabaseConnect.getEdges()),
-            new DFSPathfinder(DatabaseConnect.getNodes())));
+            new AstarPathfinder(Main.db.getNodes(), Main.db.getEdges()),
+            new DFSPathfinder(Main.db.getNodes())));
     pathfindingAlgorithm.selectFirst();
     mvc.drawNodes();
     getMoveDate();

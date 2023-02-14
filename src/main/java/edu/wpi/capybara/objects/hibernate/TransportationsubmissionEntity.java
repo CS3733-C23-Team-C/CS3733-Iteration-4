@@ -1,6 +1,6 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import jakarta.persistence.*;
 import java.sql.Date;
@@ -77,7 +77,7 @@ public class TransportationsubmissionEntity {
 
   public void setEmployeeid(String employeeid) {
     this.employeeid = employeeid;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -90,7 +90,7 @@ public class TransportationsubmissionEntity {
 
   public void setCurrroomnum(String currroomnum) {
     this.currroomnum = currroomnum;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -103,7 +103,7 @@ public class TransportationsubmissionEntity {
 
   public void setDestroomnum(String destroomnum) {
     this.destroomnum = destroomnum;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -116,7 +116,7 @@ public class TransportationsubmissionEntity {
 
   public void setReason(String reason) {
     this.reason = reason;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -129,7 +129,7 @@ public class TransportationsubmissionEntity {
 
   public void setStatus(SubmissionStatus status) {
     this.status = status;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -142,7 +142,7 @@ public class TransportationsubmissionEntity {
 
   public void setAssignedid(String assignedid) {
     this.assignedid = assignedid;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -155,7 +155,7 @@ public class TransportationsubmissionEntity {
 
   public void setSubmissionid(int submissionid) {
     this.submissionid = submissionid;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -168,7 +168,7 @@ public class TransportationsubmissionEntity {
 
   public void setUrgency(String urgency) {
     this.urgency = urgency;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -181,7 +181,7 @@ public class TransportationsubmissionEntity {
 
   public void setCreatedate(Date createdate) {
     this.createdate = createdate;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -194,7 +194,7 @@ public class TransportationsubmissionEntity {
 
   public void setDuedate(Date duedate) {
     this.duedate = duedate;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();

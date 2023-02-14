@@ -1,6 +1,6 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
 import jakarta.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
@@ -36,11 +36,10 @@ public class MoveEntity {
   }
 
   public void setNodeid(String nodeid) {
-    MoveEntity New = new MoveEntity(nodeid, this.longname, this.movedate);
-    this.delete();
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
-    session.persist(New);
+    this.nodeid = nodeid;
+    session.merge(this);
     tx.commit();
     session.close();
   }
@@ -50,7 +49,7 @@ public class MoveEntity {
   }
 
   public void setLongname(String longname) {
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     this.longname = longname;
     session.merge(this);
@@ -64,7 +63,7 @@ public class MoveEntity {
 
   public void setMovedate(Date movedate) {
     this.movedate = movedate;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -79,15 +78,6 @@ public class MoveEntity {
     return Objects.equals(nodeid, that.nodeid)
         && Objects.equals(longname, that.longname)
         && Objects.equals(movedate, that.movedate);
-  }
-
-  public void delete() {
-    Session session = DatabaseConnect.getSession();
-    Transaction tx = session.beginTransaction();
-    session.remove(this);
-    tx.commit();
-    session.close();
-    DatabaseConnect.importMove();
   }
 
   @Override

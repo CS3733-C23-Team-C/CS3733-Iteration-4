@@ -1,6 +1,6 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
 import jakarta.persistence.*;
 import java.util.Objects;
 import org.hibernate.Session;
@@ -31,7 +31,7 @@ public class EdgeEntity {
 
   public void setNode1(String node1) {
     this.node1 = node1;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -44,7 +44,7 @@ public class EdgeEntity {
 
   public void setNode2(String node2) {
     this.node2 = node2;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -71,14 +71,5 @@ public class EdgeEntity {
   @Override
   public int hashCode() {
     return Objects.hash(node1, node2);
-  }
-
-  public void delete() {
-    Session session = DatabaseConnect.getSession();
-    Transaction tx = session.beginTransaction();
-    session.remove(this);
-    tx.commit();
-    session.close();
-    DatabaseConnect.importEdges();
   }
 }

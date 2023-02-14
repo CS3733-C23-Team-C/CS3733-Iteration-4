@@ -1,6 +1,6 @@
 package edu.wpi.capybara.objects.submissions;
 
-import edu.wpi.capybara.App;
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
 import java.sql.Date;
 
@@ -29,6 +29,6 @@ public class TransportationSubmitter implements ISubmission {
             emergencyLevel,
             createdDate,
             dueDate);
-    App.getTotalSubmissions().newTransportationSubmission(sub);
+    Main.db.addTransportation(sub);
   }
 }
