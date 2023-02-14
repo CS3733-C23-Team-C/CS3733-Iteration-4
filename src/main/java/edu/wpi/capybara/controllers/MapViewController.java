@@ -1,8 +1,8 @@
 package edu.wpi.capybara.controllers;
 
-import edu.wpi.capybara.App;
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.exceptions.FloorDoesNotExistException;
+import edu.wpi.capybara.objects.ImageLoader;
 import edu.wpi.capybara.objects.NodeCircle;
 import edu.wpi.capybara.objects.NodeCircleClickHandler;
 import edu.wpi.capybara.objects.hibernate.EdgeEntity;
@@ -12,7 +12,6 @@ import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 import java.util.concurrent.*;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -39,7 +38,6 @@ public class MapViewController {
   private double mapX, mapY, mapW, mapH;
   private Collection<NodeEntity> allNodes;
   private Image currentFloorImage;
-  private Future<Image> L2, L1, F1, F2, F3;
   private final Canvas nodeDrawer;
   private final GraphicsContext gc;
   private final StackPane stackPane;
@@ -55,7 +53,6 @@ public class MapViewController {
   private String currentFloor;
   private final PathfindingController controller;
   private final NodeCircleClickHandler onClick;
-  private final ExecutorService executor;
   @Setter @Getter private NodeEntity startNode, endNode, selectedNode;
 
   public MapViewController(
@@ -74,21 +71,16 @@ public class MapViewController {
     this.onClick = onClick;
     this.controller = controller;
 
-    executor = Executors.newFixedThreadPool(5);
-    
-    L1 = getImage("images/blankL1.png");
+    log.info("start image 1");
 
+    log.info("get image 1");
     try {
-      currentFloorImage = L1.get();
+      currentFloorImage = ImageLoader.getL1().get();
     } catch (InterruptedException | ExecutionException e) {
       throw new RuntimeException("Floor image did not load correctly!");
     }
 
-    L2 = getImage("images/blankL2.png");
-    F1 = getImage("images/blankF1.png");
-    F2 = getImage("images/blankF2.png");
-    F3 = getImage("images/blankF3.png");
-    executor.execute(this::selfShutdown);
+    log.info("start other threads");
 
     currentPath = null;
     isPath = false;
@@ -453,15 +445,15 @@ public class MapViewController {
 
     try {
       if (floorID.equals("L1")) {
-        currentFloorImage = L1.get();
+        currentFloorImage = ImageLoader.getL1().get();
       } else if (floorID.equals("L2")) {
-        currentFloorImage = L2.get();
+        currentFloorImage = ImageLoader.getL2().get();
       } else if (floorID.equals("1")) {
-        currentFloorImage = F1.get();
+        currentFloorImage = ImageLoader.getF1().get();
       } else if (floorID.equals("2")) {
-        currentFloorImage = F2.get();
+        currentFloorImage = ImageLoader.getF2().get();
       } else if (floorID.equals("3")) {
-        currentFloorImage = F3.get();
+        currentFloorImage = ImageLoader.getF3().get();
       } else {
         throw new FloorDoesNotExistException("floorID " + floorID + " does not exist");
       }
@@ -503,26 +495,5 @@ public class MapViewController {
     dialog.setOnClose((event1 -> stackPane.getChildren().removeAll(dialog)));
 
     stackPane.getChildren().add(dialog);
-  }
-
-  private Future<Image> getImage(String loc) {
-    return executor.submit(
-        () -> new Image(Objects.requireNonNull(App.class.getResourceAsStream(loc))));
-  }
-
-  private void selfShutdown() {
-    boolean running = true;
-    while (running) {
-      try {
-        L1.get();
-        L2.get();
-        F1.get();
-        F2.get();
-        F3.get();
-        running = false;
-      } catch (InterruptedException | ExecutionException ignored) {
-      }
-    }
-    executor.shutdown();
   }
 }

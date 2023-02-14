@@ -2,6 +2,7 @@ package edu.wpi.capybara;
 
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
+import edu.wpi.capybara.objects.ImageLoader;
 import edu.wpi.capybara.objects.hibernate.StaffEntity;
 import java.io.IOException;
 import javafx.application.Application;
@@ -27,6 +28,7 @@ public class App extends Application {
   public void init() {
     log.info("Starting Up");
     user = new StaffEntity();
+    ImageLoader.loadImages();
     //    user.setStaffid("0000");
     //    user.setFirstname("Joe");
     //    user.setLastname("Mama");
