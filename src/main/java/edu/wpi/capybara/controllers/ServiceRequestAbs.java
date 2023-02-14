@@ -89,6 +89,14 @@ public abstract class ServiceRequestAbs {
           }
         });
 
+    Location.setOnMouseClicked(
+        new EventHandler<MouseEvent>() {
+          @Override
+          public void handle(MouseEvent event) {
+            Location.show();
+          }
+        });
+
     requestSpecific.setOnMouseClicked(
         new EventHandler<MouseEvent>() {
           @Override
@@ -97,11 +105,27 @@ public abstract class ServiceRequestAbs {
           }
         });
 
+    requestSpecific.setOnMouseClicked(
+        new EventHandler<MouseEvent>() {
+          @Override
+          public void handle(MouseEvent event) {
+            requestSpecific.show();
+          }
+        });
+
     emergencyLevel.setOnAction(
         new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent event) {
             validateButton();
+          }
+        });
+
+    emergencyLevel.setOnMouseClicked(
+        new EventHandler<MouseEvent>() {
+          @Override
+          public void handle(MouseEvent event) {
+            emergencyLevel.show();
           }
         });
 
@@ -129,6 +153,7 @@ public abstract class ServiceRequestAbs {
     emergencyLevel.clear();
     date.clear();
     notes.clear();
+    submissionReceived.setVisible(false);
   }
 
   public void
@@ -155,6 +180,7 @@ public abstract class ServiceRequestAbs {
     String outputNotes = notes.getText();
     java.util.Date date = new java.util.Date();
     int submissionID = (int) (Math.random() * 100000);
+    System.out.println(submissionID + "abs class");
     submission.submitNewSubmission(
         currStaffID,
         outputLocation,

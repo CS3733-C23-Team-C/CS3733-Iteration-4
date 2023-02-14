@@ -64,6 +64,7 @@ public class TransportationsubmissionEntity {
     this.status = status;
     this.assignedid = assignedid;
     this.submissionid = submissionid;
+    System.out.println(submissionid + " entity");
     this.urgency = urgency;
     this.createdate = createdate;
     this.duedate = duedate;
