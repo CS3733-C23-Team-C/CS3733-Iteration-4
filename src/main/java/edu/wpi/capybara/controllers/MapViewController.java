@@ -43,13 +43,13 @@ public class MapViewController {
   private final StackPane stackPane;
   private AnchorPane ap;
   private Pane canvasPane;
-  private List<NodeEntity> currentPath;
+  @Getter private List<NodeEntity> currentPath;
   private int lastX, lastY;
   private double canvasW, canvasH;
   private static final float SCROLL_SPEED = 1f;
   private static final int MOVE_SPEED = 30;
   private static final float DRAG_SPEED = 1f;
-  private boolean isPath;
+  @Getter private boolean isPath;
   private String currentFloor;
   private final PathfindingController controller;
   private final NodeCircleClickHandler onClick;
@@ -71,16 +71,16 @@ public class MapViewController {
     this.onClick = onClick;
     this.controller = controller;
 
-    log.info("start image 1");
+    // log.info("start image 1");
 
-    log.info("get image 1");
+    // log.info("get image 1");
     try {
       currentFloorImage = ImageLoader.getL1().get();
     } catch (InterruptedException | ExecutionException e) {
       throw new RuntimeException("Floor image did not load correctly!");
     }
 
-    log.info("start other threads");
+    // log.info("start other threads");
 
     currentPath = null;
     isPath = false;

@@ -41,6 +41,7 @@ public class PathfindingController {
   @FXML private MFXComboBox<String> floorSelect;
   @FXML private MFXDatePicker dateField;
   @FXML private MFXComboBox<PathfindingAlgorithm> pathfindingAlgorithm;
+  @FXML private MFXButton directionsButton;
 
   private MapViewController mvc;
 
@@ -49,18 +50,18 @@ public class PathfindingController {
   /** Initialize controller by FXML Loader. */
   @FXML
   public void initialize() {
-    log.info("start");
+    // log.info("start");
     dateField.setValue(LocalDate.now());
 
     Collection<NodeEntity> nodes = Main.db.getNodes().values();
 
-    log.info("1");
+    // log.info("1");
     mvc =
         new MapViewController(
             nodeDrawer, nodeAnchorPane, canvasPane, this::nodeClickedOnAction, stackPane, this);
-    log.info("2");
+    // log.info("2");
     pfNodes = new ArrayList<>(nodes.stream().map((n) -> new PFNode(n, this)).toList());
-    log.info("3");
+    // log.info("3");
 
     pfNodes.sort(Comparator.comparing(PFNode::toString));
 
@@ -77,7 +78,7 @@ public class PathfindingController {
     pathfindingAlgorithm.selectFirst();
     mvc.drawNodes();
     getMoveDate();
-    log.info("done");
+    // log.info("done");
   }
 
   /*
@@ -98,6 +99,7 @@ public class PathfindingController {
     if (path == null) return;
 
     mvc.displayPath(path);
+    directionsButton.setVisible(true);
 
     clearFields(null);
   }
@@ -114,6 +116,7 @@ public class PathfindingController {
 
     if (event != null) {
       mvc.clearPath();
+      directionsButton.setVisible(false);
     }
   }
 
@@ -218,5 +221,66 @@ public class PathfindingController {
 
   public void changeFloorNum(String floor) {
     floorSelect.selectItem(floor);
+  }
+
+  public void showDirections() {
+    if (!mvc.isPath()) throw new RuntimeException("No path exists!");
+    List<PFNode> path = mvc.getCurrentPath().stream().map(this::getPFNode).toList();
+
+    MFXGenericDialogBuilder dialogBuilder = new MFXGenericDialogBuilder();
+
+    Text firstDirection = new Text("First, start at " + path.get(0).getLongname(getMoveDate()));
+
+    VBox textHolder = new VBox(firstDirection);
+
+    for (int i = 1; i < path.size() - 1; i++) {
+      Text nextDirection;
+
+      if (path.get(i).getLocationtype(getMoveDate()).equals("ELEV")
+          && path.get(i + 1).getLocationtype(getMoveDate()).equals("ELEV")) {
+        nextDirection =
+            new Text(
+                "Then, take "
+                    + path.get(i).getLongname(getMoveDate())
+                    + " from "
+                    + path.get(i).getNode().getFloor()
+                    + " to "
+                    + path.get(i + 1).getNode().getFloor());
+        i++;
+      } else if (path.get(i).getLocationtype(getMoveDate()).equals("STAI")
+          && path.get(i + 1).getLocationtype(getMoveDate()).equals("STAI")) {
+        nextDirection =
+            new Text(
+                "Then, take "
+                    + path.get(i).getLongname(getMoveDate())
+                    + " from "
+                    + path.get(i).getNode().getFloor()
+                    + " to "
+                    + path.get(i + 1).getNode().getFloor());
+        i++;
+      } else {
+        nextDirection = new Text("Then, walk to " + path.get(i).getLongname(getMoveDate()));
+      }
+      textHolder.getChildren().add(nextDirection);
+    }
+
+    Text lastDirection =
+        new Text("Finally, walk to " + path.get(path.size() - 1).getLongname(getMoveDate()));
+    Text lastText = new Text("and you will arrive at your destination!");
+    textHolder.getChildren().addAll(lastDirection, lastText);
+
+    // dialogBuilder.setActionsOrientation(Orientation.VERTICAL);
+    dialogBuilder.makeScrollable(true);
+    dialogBuilder.setShowAlwaysOnTop(false);
+    dialogBuilder.setHeaderText("Directions");
+    dialogBuilder.setShowMinimize(false);
+    dialogBuilder.setContent(textHolder);
+
+    MFXGenericDialog dialog = dialogBuilder.get();
+    dialog.setPrefSize(200, 300);
+
+    dialog.setOnClose((event1 -> stackPane.getChildren().removeAll(dialog)));
+
+    stackPane.getChildren().add(dialog);
   }
 }
