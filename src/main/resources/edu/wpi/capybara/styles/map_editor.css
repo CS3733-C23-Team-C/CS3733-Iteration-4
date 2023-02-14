@@ -1,18 +1,36 @@
-.radioToggle {
-    -fx-background-color: clear;
+.ribbonToggle {
+    -fx-background-color: #00000000;
     -fx-text-fill: white;
     -fx-rotate: 90deg;
     -fx-border-width: 10 0 0 0;
     -fx-border-style: none;
-    -fx-border-color: clear;
+    -fx-border-color: #00000000;
 }
 
-.radioToggle:hover {
+.ribbonToggle:hover {
     -fx-border-style: solid none none none;
     -fx-border-color: #F6BD38;
 }
 
-.radioToggle:selected {
+.ribbonToggle:selected {
     -fx-border-style: solid none none none;
+    -fx-border-color: #009CA6;
+}
+
+.ribbonToggleUpright {
+    -fx-background-color: #00000000;
+    -fx-text-fill: white;
+    -fx-border-width: 10 0 0 0;
+    -fx-border-style: none;
+    -fx-border-color: #00000000;
+}
+
+.ribbonToggleUpright:hover {
+    -fx-border-style: none none solid none;
+    -fx-border-color: #F6BD38;
+}
+
+.ribbonToggleUpright:selected {
+    -fx-border-style: none none solid none;
     -fx-border-color: #009CA6;
 }

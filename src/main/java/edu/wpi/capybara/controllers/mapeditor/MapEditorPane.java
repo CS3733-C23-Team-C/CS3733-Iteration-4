@@ -1,15 +1,21 @@
 package edu.wpi.capybara.controllers.mapeditor;
 
-import edu.wpi.capybara.database.MapEditorDBFacade;
-import java.util.HashMap;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.collections.ListChangeListener;
+import static edu.wpi.capybara.Main.db;
+
+import edu.wpi.capybara.App;
+import edu.wpi.capybara.objects.Floor;
+import java.util.Objects;
+import javafx.beans.property.*;
+import javafx.collections.FXCollections;
 import javafx.scene.Cursor;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.SplitPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
-public class MapEditorPane extends StackPane {
+public class MapEditorPane extends SplitPane {
 
   private static class Vec2d {
     double x, y;
@@ -20,7 +26,7 @@ public class MapEditorPane extends StackPane {
     }
   }
 
-  private static class GFXNode extends Circle {
+  private class GFXNode extends Circle {
 
     private final NodeAdapter node;
 
@@ -29,84 +35,109 @@ public class MapEditorPane extends StackPane {
       setRadius(10);
       translateXProperty().bind(node.xCoordProperty());
       translateYProperty().bind(node.yCoordProperty());
+
+      final var floor = Floor.fromString(node.getFloor());
+      if (floor != null) {
+        visibleProperty()
+            .bind(
+                lookupFloorImage(floor)
+                    .visibleProperty()); // looking up the floor avoids creating a bunch of
+        // BooleanBindings
+      }
     }
   }
 
-  private static class GFXEdge extends Line {
-
-    private final MapEditorDBFacade repo;
+  private class GFXEdge extends Line {
     private final EdgeAdapter edge;
 
-    GFXEdge(MapEditorDBFacade repo, EdgeAdapter edge) {
-      this.repo = repo;
+    GFXEdge(EdgeAdapter edge) {
       this.edge = edge;
       // since edges can be edited without deleting and recreating them in the database, we need to
       // account for the
       // start and end nodes possibly changing on us.
-      bindStartCoords();
-      bindEndCoords();
-      edge.startNodeProperty().addListener(observable -> bindStartCoords());
-      edge.endNodeProperty().addListener(observable -> bindEndCoords());
+      bindStartNodeProps();
+      bindEndNodeProps();
+      edge.startNodeProperty().addListener(observable -> bindStartNodeProps());
+      edge.endNodeProperty().addListener(observable -> bindEndNodeProps());
     }
 
-    private void bindStartCoords() {
-      final var startNode = repo.findNodeByID(edge.getStartNode());
-      startXProperty().bind(startNode.xCoordProperty());
-      startYProperty().bind(startNode.yCoordProperty());
+    private void bindStartNodeProps() {
+      final var startNode = db.getNode(edge.getStartNode());
+      // the *only* reason we can get away with not binding the properties is because editing x and
+      // y values of
+      // nodes requires deleting and replacing them. if we could actually edit the x & y values,
+      // then this code
+      // would be prone to missing the side effects of node editing.
+      startXProperty().setValue(startNode.getXcoord());
+      startYProperty().setValue(startNode.getYcoord());
+
+      final var floor = Floor.fromString(startNode.getFloor());
+      if (floor != null) {
+        visibleProperty().bind(lookupFloorImage(floor).visibleProperty());
+      }
     }
 
-    private void bindEndCoords() {
-      final var endNode = repo.findNodeByID(edge.getEndNode());
-      endXProperty().bind(endNode.xCoordProperty());
-      endYProperty().bind(endNode.yCoordProperty());
+    private void bindEndNodeProps() {
+      final var endNode = db.getNode(edge.getEndNode());
+      endXProperty().setValue(endNode.getXcoord());
+      endYProperty().setValue(endNode.getYcoord());
     }
   }
 
-  private final MapEditorDBFacade repo;
-  private final HashMap<NodeAdapter, GFXNode> nodes;
-  private final HashMap<EdgeAdapter, GFXEdge> edges;
+  private final SimpleMapProperty<NodeAdapter, GFXNode> nodes;
+  private final SimpleMapProperty<EdgeAdapter, GFXEdge> edges;
+
+  private final SimpleObjectProperty<Floor> shownFloor;
+
+  // UI components
+  private final ImageView floorF1, floorF2, floorF3, floorL1, floorL2;
   private final SimpleDoubleProperty viewX, viewY, zoom;
+  private final Pane mapRoot;
 
-  public MapEditorPane(MapEditorDBFacade repo) {
-    this.repo = repo;
+  public MapEditorPane() {
+    nodes = new SimpleMapProperty<>(FXCollections.observableHashMap());
+    edges = new SimpleMapProperty<>(FXCollections.observableHashMap());
 
-    nodes = new HashMap<>();
-    edges = new HashMap<>();
-
-    repo.nodesProperty().forEach(this::addNode);
-    repo.nodesProperty()
-        .addListener(
+    // db.getNodes().values().stream().map(NodeAdapter::new).forEach(this::addNode);
+    /* repo.nodesProperty()
+    .addListener(
             (ListChangeListener<NodeAdapter>)
-                c -> {
-                  while (c.next()) {
-                    c.getAddedSubList().forEach(this::addNode);
-                    c.getRemoved().forEach(this::deleteNode);
-                  }
-                });
+                    c -> {
+                        while (c.next()) {
+                            c.getAddedSubList().forEach(this::addNode);
+                            c.getRemoved().forEach(this::deleteNode);
+                        }
+                    });*/
 
-    repo.edgesProperty().forEach(this::addEdge);
-    repo.edgesProperty()
-        .addListener(
+    // db.getEdges().stream().map(EdgeAdapter::new).forEach(this::addEdge);
+    /* repo.edgesProperty()
+    .addListener(
             (ListChangeListener<EdgeAdapter>)
-                c -> {
-                  while (c.next()) {
-                    c.getAddedSubList().forEach(this::addEdge);
-                    c.getRemoved().forEach(this::deleteEdge);
-                  }
-                });
+                    c -> {
+                        while (c.next()) {
+                            c.getAddedSubList().forEach(this::addEdge);
+                            c.getRemoved().forEach(this::deleteEdge);
+                        }
+                    });*/
+
+    shownFloor = new SimpleObjectProperty<>(Floor.F1);
+
+    floorF1 = createFloorImage("blankF1.png", Floor.F1);
+    floorF2 = createFloorImage("blankF2.png", Floor.F2);
+    floorF3 = createFloorImage("blankF3.png", Floor.F3);
+    floorL1 = createFloorImage("blankL1.png", Floor.L1);
+    floorL2 = createFloorImage("blankL2.png", Floor.L2);
 
     viewX = new SimpleDoubleProperty(0);
     viewY = new SimpleDoubleProperty(0);
     zoom = new SimpleDoubleProperty(1);
 
-    /*final var floor1 =
-        new Floor(
-            new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/blankL1.png"))));
-    floor1.translateXProperty().bind(viewX);
-    floor1.translateYProperty().bind(viewY);
-    floor1.scaleXProperty().bind(zoom);
-    floor1.scaleYProperty().bind(zoom);
-    getChildren().add(floor1);*/
+    mapRoot = new Pane(floorF1, floorF2, floorF3, floorL1, floorL2);
+    mapRoot.translateXProperty().bind(viewX);
+    mapRoot.translateYProperty().bind(viewY);
+    mapRoot.scaleXProperty().bind(zoom);
+    mapRoot.scaleYProperty().bind(zoom);
+    getChildren().add(mapRoot);
 
     final var dragOffsetVector = new Vec2d(0, 0);
     onMousePressedProperty()
@@ -140,34 +171,60 @@ public class MapEditorPane extends StackPane {
             });
   }
 
-  private void addChild(javafx.scene.Node node) {
-    getChildren().add(node);
-    node.setClip(this);
+  private ImageView createFloorImage(String imageName, Floor floor) {
+    final var imageView =
+        new ImageView(
+            new Image(
+                Objects.requireNonNull(App.class.getResourceAsStream("images/" + imageName))));
+    imageView.visibleProperty().bind(shownFloor.isEqualTo(floor));
+    return imageView;
   }
 
-  private void addNode(NodeAdapter node) {
+  private void addUIElement(javafx.scene.Node node) {
+    mapRoot.getChildren().add(node);
+  }
+
+  private void removeUIElement(javafx.scene.Node node) {
+    mapRoot.getChildren().remove(node);
+  }
+
+  private ImageView lookupFloorImage(Floor floor) {
+    return switch (floor) {
+      case F1 -> floorF1;
+      case F2 -> floorF2;
+      case F3 -> floorF3;
+      case L1 -> floorL1;
+      case L2 -> floorL2;
+    };
+  }
+
+  public void addNode(NodeAdapter node) {
     final var gfxNode = new GFXNode(node);
     nodes.put(node, gfxNode);
-    addChild(gfxNode);
+    addUIElement(gfxNode);
   }
 
-  private void deleteNode(NodeAdapter node) {
+  public void removeNode(NodeAdapter node) {
     final var gfxNode = nodes.remove(node);
     if (gfxNode != null) {
-      getChildren().remove(gfxNode);
+      removeUIElement(gfxNode);
     }
   }
 
-  private void addEdge(EdgeAdapter edge) {
-    final var gfxEdge = new GFXEdge(repo, edge);
+  public void addEdge(EdgeAdapter edge) {
+    final var gfxEdge = new GFXEdge(edge);
     edges.put(edge, gfxEdge);
-    addChild(gfxEdge);
+    addUIElement(gfxEdge);
   }
 
-  private void deleteEdge(EdgeAdapter edge) {
+  public void removeEdge(EdgeAdapter edge) {
     final var gfxEdge = edges.remove(edge);
     if (gfxEdge != null) {
-      getChildren().remove(gfxEdge);
+      removeUIElement(gfxEdge);
     }
+  }
+
+  public void setShownFloor(Floor floor) {
+    shownFloor.set(floor);
   }
 }

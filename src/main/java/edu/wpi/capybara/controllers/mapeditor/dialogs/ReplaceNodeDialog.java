@@ -1,6 +1,6 @@
 package edu.wpi.capybara.controllers.mapeditor.dialogs;
 
-import edu.wpi.capybara.controllers.mapeditor.DBObjectRepository;
+import edu.wpi.capybara.controllers.mapeditor.AdapterRepository;
 import edu.wpi.capybara.controllers.mapeditor.NodeAdapter;
 import edu.wpi.capybara.objects.hibernate.EdgeEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
@@ -9,9 +9,9 @@ import javafx.stage.Window;
 public class ReplaceNodeDialog extends NodeDialog {
 
   private final NodeAdapter node;
-  private final DBObjectRepository repository;
+  private final AdapterRepository repository;
 
-  public ReplaceNodeDialog(Window owner, DBObjectRepository repository, NodeAdapter node) {
+  public ReplaceNodeDialog(Window owner, AdapterRepository repository, NodeAdapter node) {
     super(owner);
     this.node = node;
     this.repository = repository;
