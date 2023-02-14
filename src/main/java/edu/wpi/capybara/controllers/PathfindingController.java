@@ -62,6 +62,7 @@ public class PathfindingController {
     // log.info("2");
     pfNodes = new ArrayList<>(nodes.stream().map((n) -> new PFNode(n, this)).toList());
     // log.info("3");
+    dateField.setPopupOffsetX(-70);
 
     pfNodes.sort(Comparator.comparing(PFNode::toString));
 
