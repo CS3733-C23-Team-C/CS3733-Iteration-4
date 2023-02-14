@@ -1,8 +1,9 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
 import jakarta.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
@@ -48,7 +49,7 @@ public class NodeEntity {
   }
 
   public void setNodeid(String nodeid) {
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     this.nodeid = nodeid;
     session.merge(this);
@@ -62,7 +63,7 @@ public class NodeEntity {
 
   public void setXcoord(Integer xcoord) {
     this.xcoord = xcoord;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -75,7 +76,7 @@ public class NodeEntity {
 
   public void setYcoord(Integer ycoord) {
     this.ycoord = ycoord;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -88,7 +89,7 @@ public class NodeEntity {
 
   public void setFloor(String floor) {
     this.floor = floor;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -101,7 +102,7 @@ public class NodeEntity {
 
   public void setBuilding(String building) {
     this.building = building;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -109,10 +110,10 @@ public class NodeEntity {
   }
 
   public String getShortName() {
-    HashMap<Integer, MoveEntity> moves = DatabaseConnect.getMoves();
+    ArrayList<MoveEntity> moves = Main.db.getMoves();
     Date temp = new Date((long) 0);
     String longname = null;
-    for (MoveEntity m : moves.values()) {
+    for (MoveEntity m : moves) {
       if (m.getNodeid().equals(this.nodeid)) {
         if (m.getMovedate().compareTo(temp) > 0) {
           // System.out.println("select!");
@@ -124,7 +125,7 @@ public class NodeEntity {
     if (longname == null) {
       return "NA";
     }
-    HashMap<String, LocationnameEntity> locations = DatabaseConnect.getLocationNames();
+    HashMap<String, LocationnameEntity> locations = Main.db.getLocationnames();
     for (LocationnameEntity location : locations.values()) {
       if (longname.equals(location.getLongname())) {
         return location.getShortname();
@@ -137,32 +138,12 @@ public class NodeEntity {
   public HashSet<EdgeEntity> getEdges() {
     HashSet<EdgeEntity> ret = new HashSet<EdgeEntity>();
 
-    for (EdgeEntity e : DatabaseConnect.getEdges().values()) {
+    for (EdgeEntity e : Main.db.getEdges()) {
       if (e.getNode1().equals(nodeid) || e.getNode2().equals(nodeid)) {
         ret.add(e);
       }
     }
     return ret;
-  }
-
-  public void delete() {
-    Session session = DatabaseConnect.getSession();
-    Transaction tx = session.beginTransaction();
-    for (EdgeEntity e : DatabaseConnect.getEdges().values()) {
-      if (e.getNode1().equals(this.nodeid) || e.getNode2().equals(this.nodeid)) {
-        e.delete();
-      }
-    }
-    for (MoveEntity m : DatabaseConnect.getMoves().values()) {
-      if (m.getNodeid().equals(this.nodeid)) {
-        m.delete();
-      }
-    }
-    session.remove(this);
-    tx.commit();
-    session.close();
-
-    DatabaseConnect.importData();
   }
 
   public String toString() {

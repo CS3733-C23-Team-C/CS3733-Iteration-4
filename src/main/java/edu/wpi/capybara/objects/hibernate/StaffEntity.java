@@ -1,6 +1,6 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
 import jakarta.persistence.*;
 import java.util.Objects;
 import org.hibernate.Session;
@@ -25,13 +25,19 @@ public class StaffEntity {
   @Column(name = "password")
   private String password;
 
+  @Basic
+  @Column(name = "role")
+  private String role;
+
   public StaffEntity() {}
 
-  public StaffEntity(String staffid, String firstname, String lastname, String password) {
+  public StaffEntity(
+      String staffid, String firstname, String lastname, String password, String role) {
     this.staffid = staffid;
     this.firstname = firstname;
     this.lastname = lastname;
     this.password = password;
+    this.role = role;
   }
 
   public String getStaffid() {
@@ -40,7 +46,7 @@ public class StaffEntity {
 
   public void setStaffid(String staffid) {
     this.staffid = staffid;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -53,7 +59,7 @@ public class StaffEntity {
 
   public void setFirstname(String firstname) {
     this.firstname = firstname;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -66,7 +72,7 @@ public class StaffEntity {
 
   public void setLastname(String lastname) {
     this.lastname = lastname;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -79,7 +85,20 @@ public class StaffEntity {
 
   public void setPassword(String password) {
     this.password = password;
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
+  }
+
+  public String getRole() {
+    return role;
+  }
+
+  public void setRole(String role) {
+    this.role = role;
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
     tx.commit();
@@ -103,7 +122,7 @@ public class StaffEntity {
   }
 
   public void delete() {
-    Session session = DatabaseConnect.getSession();
+    Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.remove(this);
     tx.commit();

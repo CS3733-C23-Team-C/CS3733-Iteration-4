@@ -5,8 +5,8 @@ import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import java.util.*;
 
 public class AstarPathfinder implements PathfindingAlgorithm {
-  private final TreeMap<String, NodeEntity> nodes;
-  private final TreeMap<Integer, EdgeEntity> edges;
+  private final HashMap<String, NodeEntity> nodes;
+  private final ArrayList<EdgeEntity> edges;
 
   private static class PathNode implements Comparable<PathNode> {
     List<NodeEntity> path;
@@ -143,7 +143,7 @@ public class AstarPathfinder implements PathfindingAlgorithm {
     return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
   }
 
-  public AstarPathfinder(TreeMap<String, NodeEntity> nodes, TreeMap<Integer, EdgeEntity> edges) {
+  public AstarPathfinder(HashMap<String, NodeEntity> nodes, ArrayList<EdgeEntity> edges) {
     this.nodes = nodes;
     this.edges = edges;
   }

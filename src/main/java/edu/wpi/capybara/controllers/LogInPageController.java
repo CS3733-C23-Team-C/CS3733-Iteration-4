@@ -1,7 +1,7 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.hibernate.StaffEntity;
@@ -42,7 +42,7 @@ public class LogInPageController {
       String outputPassword = password.getText();
       System.out.println("This is the employee username " + outputUsername);
       System.out.println("This is the employee password " + outputPassword);
-      s = DatabaseConnect.getStaff(outputUsername, outputPassword);
+      s = Main.db.getStaff(outputUsername, outputPassword);
     }
 
     // Clear fields if username/password is incorrect
