@@ -1,7 +1,7 @@
 package edu.wpi.capybara.controllers.mapeditor.dialogs;
 
 import edu.wpi.capybara.App;
-import edu.wpi.capybara.controllers.mapeditor.DBObjectRepository;
+import edu.wpi.capybara.controllers.mapeditor.AdapterRepository;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -17,7 +17,7 @@ public class AddLocationNameDialog extends FXMLDialog<Void> {
 
   @FXML private ButtonType okButton;
 
-  public AddLocationNameDialog(Window owner, DBObjectRepository repository) {
+  public AddLocationNameDialog(Window owner, AdapterRepository repository) {
     super(owner, App.class.getResource("views/LocationNameDialog.fxml"));
 
     setTitle("Add Location");

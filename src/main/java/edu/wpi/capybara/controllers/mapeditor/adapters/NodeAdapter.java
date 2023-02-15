@@ -1,9 +1,9 @@
-package edu.wpi.capybara.controllers.mapeditor;
+package edu.wpi.capybara.controllers.mapeditor.adapters;
 
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import javafx.beans.property.adapter.*;
 
-public class NodePropertyAdapter {
+public class NodeAdapter {
   // these builders are designed to be reused, so we keep them in a bunch of static fields.
   private static final JavaBeanStringPropertyBuilder nodeIDBuilder =
       JavaBeanStringPropertyBuilder.create().name("nodeid");
@@ -32,7 +32,7 @@ public class NodePropertyAdapter {
    */
   // TODO: 1/31/23 implement said unit test
   // STOPSHIP: 1/31/23 see above to-do
-  public NodePropertyAdapter(NodeEntity node) {
+  public NodeAdapter(NodeEntity node) {
     entity = node;
     try {
       nodeID = nodeIDBuilder.bean(node).build();

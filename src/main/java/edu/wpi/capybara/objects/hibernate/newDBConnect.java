@@ -2,6 +2,7 @@ package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.database.RepoFacade;
+import jakarta.persistence.PersistenceException;
 import java.util.*;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -480,18 +481,20 @@ public class newDBConnect implements RepoFacade {
   }
 
   static void insertNew(Object submission) {
-    Session session = factory.openSession();
-    Transaction tx = null;
-
-    try {
-      tx = session.beginTransaction();
-      session.save(submission);
-      tx.commit();
+    try (Session session =
+        factory.openSession()) { // automatically close the session when we are done
+      final var tx = session.beginTransaction();
+      // switched to merge instead of save
+      // it seems to check for existing keys
+      session.merge(submission);
+      try {
+        tx.commit();
+      } catch (PersistenceException e) { // this gets thrown if there's a duplicate key(?)
+        tx.rollback();
+        e.printStackTrace();
+      }
     } catch (HibernateException e) {
-      if (tx != null) tx.rollback();
       e.printStackTrace();
-    } finally {
-      session.close();
     }
   }
 
