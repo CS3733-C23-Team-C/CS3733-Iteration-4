@@ -19,6 +19,7 @@ public class newDBConnect implements RepoFacade {
   SecurityDAO security;
   StaffDAO staff;
   TransportationDAO transportation;
+  int id;
 
   static SessionFactory factory;
 
@@ -33,6 +34,7 @@ public class newDBConnect implements RepoFacade {
   }
 
   private void importAll() {
+    id = 0;
     importAudio();
     importCleaning();
     importComputer();
@@ -57,6 +59,9 @@ public class newDBConnect implements RepoFacade {
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         AudiosubmissionEntity temp = (AudiosubmissionEntity) iterator.next();
         ret.put(temp.getSubmissionid(), temp);
+        if (id < temp.getSubmissionid()) {
+          id = temp.getSubmissionid();
+        }
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -74,13 +79,15 @@ public class newDBConnect implements RepoFacade {
 
     HashMap<Integer, CleaningsubmissionEntity> ret =
         new HashMap<Integer, CleaningsubmissionEntity>();
-
     try {
       tx = session.beginTransaction();
       List n = session.createQuery("FROM CleaningsubmissionEntity ").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         CleaningsubmissionEntity temp = (CleaningsubmissionEntity) iterator.next();
         ret.put(temp.getSubmissionid(), temp);
+        if (id < temp.getSubmissionid()) {
+          id = temp.getSubmissionid();
+        }
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -105,6 +112,9 @@ public class newDBConnect implements RepoFacade {
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         ComputersubmissionEntity temp = (ComputersubmissionEntity) iterator.next();
         ret.put(temp.getSubmissionid(), temp);
+        if (id < temp.getSubmissionid()) {
+          id = temp.getSubmissionid();
+        }
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -129,6 +139,9 @@ public class newDBConnect implements RepoFacade {
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         SecuritysubmissionEntity temp = (SecuritysubmissionEntity) iterator.next();
         ret.put(temp.getSubmissionid(), temp);
+        if (id < temp.getSubmissionid()) {
+          id = temp.getSubmissionid();
+        }
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -153,6 +166,9 @@ public class newDBConnect implements RepoFacade {
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         TransportationsubmissionEntity temp = (TransportationsubmissionEntity) iterator.next();
         ret.put(temp.getSubmissionid(), temp);
+        if (id < temp.getSubmissionid()) {
+          id = temp.getSubmissionid();
+        }
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -447,6 +463,10 @@ public class newDBConnect implements RepoFacade {
     } finally {
       session.close();
     }
+  }
+
+  public int newID() {
+    return ++id;
   }
 
   public void deleteAudio(int id) {

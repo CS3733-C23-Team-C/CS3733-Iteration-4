@@ -179,7 +179,7 @@ public abstract class ServiceRequestAbs {
     Date outputDate = Date.valueOf(date.getValue());
     String outputNotes = notes.getText();
     java.util.Date date = new java.util.Date();
-    int submissionID = (int) (Math.random() * 100000);
+    int submissionID = Main.db.newID();
     System.out.println(submissionID + "abs class");
     submission.submitNewSubmission(
         currStaffID,
