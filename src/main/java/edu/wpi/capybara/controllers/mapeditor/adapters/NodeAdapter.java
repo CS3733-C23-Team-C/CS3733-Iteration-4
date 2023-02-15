@@ -1,4 +1,4 @@
-package edu.wpi.capybara.controllers.mapeditor;
+package edu.wpi.capybara.controllers.mapeditor.adapters;
 
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import javafx.beans.property.adapter.*;

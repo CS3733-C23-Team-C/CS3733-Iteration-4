@@ -1,9 +1,12 @@
-package edu.wpi.capybara.controllers.mapeditor;
+package edu.wpi.capybara.controllers.mapeditor.ui;
 
 import static edu.wpi.capybara.Main.db;
 
 import edu.wpi.capybara.App;
+import edu.wpi.capybara.controllers.mapeditor.adapters.EdgeAdapter;
+import edu.wpi.capybara.controllers.mapeditor.adapters.NodeAdapter;
 import edu.wpi.capybara.objects.Floor;
+import edu.wpi.capybara.objects.math.Vector2;
 import java.util.Objects;
 import java.util.Optional;
 import javafx.beans.property.*;
@@ -12,51 +15,68 @@ import javafx.scene.Cursor;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
 public class MapEditorPane extends SplitPane {
 
-  private static class Vec2d {
-    double x, y;
-
-    public Vec2d(double x, double y) {
-      this.x = x;
-      this.y = y;
-    }
-  }
-
-  private class GFXNode extends Circle {
+  private class GFXNode extends Circle implements Selectable {
 
     private final NodeAdapter node;
+    private final PseudoClassSelectionHandler pseudoClassHandler;
 
     GFXNode(NodeAdapter node) {
       this.node = node;
-      setRadius(6);
+      pseudoClassHandler = new PseudoClassSelectionHandler(this);
+
+      setRadius(10);
       centerXProperty().bind(node.xCoordProperty());
       centerYProperty().bind(node.yCoordProperty());
+      getStyleClass().add("selectable");
 
       final var floor = Floor.fromString(node.getFloor());
       if (floor != null) {
         visibleProperty().bind(lookupFloorImage(floor).visibleProperty());
       }
 
-      onMousePressedProperty()
-          .setValue(
-              event -> {
-                selectedNode.set(Optional.of(this.node));
-                selectedEdge.set(Optional.empty());
-                System.out.printf("Node %s just got clicked\n", this.node.getNodeID());
-              });
+      addEventHandler(
+          MouseEvent.MOUSE_PRESSED,
+          event -> {
+            select();
+            // don't let the click propagate back to the map
+            event.consume();
+          });
+    }
+
+    @Override
+    public void select() {
+      selection.get().ifPresent(Selectable::deselect);
+      selection.set(Optional.of(this));
+      pseudoClassHandler.onSelected();
+    }
+
+    @Override
+    public void deselect() {
+      pseudoClassHandler.onDeselected();
+    }
+
+    @Override
+    public Object getSelectedObject() {
+      return node;
     }
   }
 
-  private class GFXEdge extends Line {
+  private class GFXEdge extends Line implements Selectable {
     private final EdgeAdapter edge;
+    private final PseudoClassSelectionHandler pseudoClassHandler;
 
     GFXEdge(EdgeAdapter edge) {
       this.edge = edge;
+      pseudoClassHandler = new PseudoClassSelectionHandler(this);
+
+      setStrokeWidth(5);
       // since edges can be edited without deleting and recreating them in the database, we need to
       // account for the
       // start and end nodes possibly changing on us.
@@ -64,13 +84,15 @@ public class MapEditorPane extends SplitPane {
       bindEndNodeProps();
       edge.startNodeProperty().addListener(observable -> bindStartNodeProps());
       edge.endNodeProperty().addListener(observable -> bindEndNodeProps());
+      getStyleClass().add("selectable");
 
-      onMousePressedProperty()
-          .setValue(
-              event -> {
-                selectedNode.set(Optional.empty());
-                selectedEdge.set(Optional.of(this.edge));
-              });
+      addEventHandler(
+          MouseEvent.MOUSE_PRESSED,
+          event -> {
+            select();
+            // don't let the click propagate to the map or any nodes
+            event.consume();
+          });
     }
 
     private void bindStartNodeProps() {
@@ -94,6 +116,23 @@ public class MapEditorPane extends SplitPane {
       endXProperty().setValue(endNode.getXcoord());
       endYProperty().setValue(endNode.getYcoord());
     }
+
+    @Override
+    public void select() {
+      selection.get().ifPresent(Selectable::deselect);
+      selection.set(Optional.of(this));
+      pseudoClassHandler.onSelected();
+    }
+
+    @Override
+    public void deselect() {
+      pseudoClassHandler.onDeselected();
+    }
+
+    @Override
+    public Object getSelectedObject() {
+      return edge;
+    }
   }
 
   private final SimpleMapProperty<NodeAdapter, GFXNode> nodes;
@@ -101,43 +140,23 @@ public class MapEditorPane extends SplitPane {
 
   private final SimpleObjectProperty<Floor> shownFloor;
 
-  private final SimpleObjectProperty<Optional<NodeAdapter>> selectedNode;
-  private final SimpleObjectProperty<Optional<EdgeAdapter>> selectedEdge;
-
   // UI components
   private final ImageView floorF1, floorF2, floorF3, floorL1, floorL2;
   private final SimpleDoubleProperty viewX, viewY, zoom;
   private final Pane mapRoot;
+  private final Pane mapElementContainer;
+
+  private final SimpleObjectProperty<Optional<Selectable>> selection;
+  private final SimpleObjectProperty<Optional<Object>> selectedEntity;
 
   public MapEditorPane() {
     nodes = new SimpleMapProperty<>(FXCollections.observableHashMap());
     edges = new SimpleMapProperty<>(FXCollections.observableHashMap());
 
-    // db.getNodes().values().stream().map(NodeAdapter::new).forEach(this::addNode);
-    /* repo.nodesProperty()
-    .addListener(
-            (ListChangeListener<NodeAdapter>)
-                    c -> {
-                        while (c.next()) {
-                            c.getAddedSubList().forEach(this::addNode);
-                            c.getRemoved().forEach(this::deleteNode);
-                        }
-                    });*/
-
-    // db.getEdges().stream().map(EdgeAdapter::new).forEach(this::addEdge);
-    /* repo.edgesProperty()
-    .addListener(
-            (ListChangeListener<EdgeAdapter>)
-                    c -> {
-                        while (c.next()) {
-                            c.getAddedSubList().forEach(this::addEdge);
-                            c.getRemoved().forEach(this::deleteEdge);
-                        }
-                    });*/
-
     shownFloor = new SimpleObjectProperty<>(Floor.F1);
-    selectedNode = new SimpleObjectProperty<>(Optional.empty());
-    selectedEdge = new SimpleObjectProperty<>(Optional.empty());
+    selection = new SimpleObjectProperty<>(Optional.empty());
+    selectedEntity = new SimpleObjectProperty<>();
+    selectedEntity.bind(selection.map(selectable -> selectable.map(Selectable::getSelectedObject)));
 
     floorF1 = createFloorImage("blankF1.png", Floor.F1);
     floorF2 = createFloorImage("blankF2.png", Floor.F2);
@@ -156,21 +175,24 @@ public class MapEditorPane extends SplitPane {
     mapRoot.scaleYProperty().bind(zoom);
     getChildren().add(mapRoot);
 
-    final var dragOffsetVector = new Vec2d(0, 0);
+    mapElementContainer = new Pane();
+    mapRoot.getChildren().add(mapElementContainer);
+
+    final var dragOffsetVector = new Vector2(0, 0);
     onMousePressedProperty()
         .setValue(
             event -> {
-              dragOffsetVector.x = event.getX() - viewX.get();
-              dragOffsetVector.y = event.getY() - viewY.get();
+              dragOffsetVector.setX(event.getX() - viewX.get());
+              dragOffsetVector.setY(event.getY() - viewY.get());
               setCursor(Cursor.CLOSED_HAND);
             });
     onMouseDraggedProperty()
         .setValue(
             event -> {
-              final var x = event.getX();
-              final var y = event.getY();
-              viewX.setValue(x - dragOffsetVector.x);
-              viewY.setValue(y - dragOffsetVector.y);
+              final var eventLocation = new Vector2(event.getX(), event.getY());
+              eventLocation.subtract(dragOffsetVector);
+              viewX.setValue(eventLocation.getX());
+              viewY.setValue(eventLocation.getY());
             });
     onMouseReleasedProperty().setValue(event -> setCursor(Cursor.DEFAULT));
 
@@ -181,9 +203,20 @@ public class MapEditorPane extends SplitPane {
               final var MIN_ZOOM = 0.1;
               final var MAX_ZOOM = 5;
 
-              var newZoom = zoom.get() + ZOOM_COEFFICIENT * event.getDeltaY();
+              final var eventOrigin = new Vector2(event.getX(), event.getY());
+              final var nodeOrigin = new Vector2(viewX.get(), viewY.get());
+              final var zoomOffset = Vector2.minus(nodeOrigin, eventOrigin);
+
+              final var zoomDelta = ZOOM_COEFFICIENT * event.getDeltaY();
+              var newZoom = zoom.get() + zoomDelta;
               if (newZoom > MAX_ZOOM) newZoom = MAX_ZOOM;
               else if (newZoom < MIN_ZOOM) newZoom = MIN_ZOOM;
+
+              // normalize, rescale, then offset zoomOffset
+              zoomOffset.divide(zoom.get()).multiply(newZoom).add(eventOrigin);
+              viewX.set(zoomOffset.getX());
+              viewY.set(zoomOffset.getY());
+
               zoom.set(newZoom);
             });
   }
@@ -198,11 +231,16 @@ public class MapEditorPane extends SplitPane {
   }
 
   private void addUIElement(javafx.scene.Node node) {
-    mapRoot.getChildren().add(node);
+    mapElementContainer.getChildren().add(node);
+  }
+
+  private void addUIElementAtBack(javafx.scene.Node node) {
+    // better hope this is backed by a LinkedList or this can get *really* expensive
+    mapElementContainer.getChildren().add(0, node);
   }
 
   private void removeUIElement(javafx.scene.Node node) {
-    mapRoot.getChildren().remove(node);
+    mapElementContainer.getChildren().remove(node);
   }
 
   private ImageView lookupFloorImage(Floor floor) {
@@ -231,7 +269,7 @@ public class MapEditorPane extends SplitPane {
   public void addEdge(EdgeAdapter edge) {
     final var gfxEdge = new GFXEdge(edge);
     edges.put(edge, gfxEdge);
-    addUIElement(gfxEdge);
+    addUIElementAtBack(gfxEdge);
   }
 
   public void removeEdge(EdgeAdapter edge) {
@@ -245,19 +283,26 @@ public class MapEditorPane extends SplitPane {
     shownFloor.set(floor);
   }
 
-  public Optional<NodeAdapter> getSelectedNode() {
-    return selectedNode.get();
+  public Optional<Object> getSelected() {
+    return selectedEntity.get();
   }
 
-  public ReadOnlyObjectProperty<Optional<NodeAdapter>> selectedNodeProperty() {
-    return selectedNode;
+  public void setSelected(Optional<Object> selected) {
+    if (selected.isPresent()) {
+      final var obj = selected.get();
+      if (obj instanceof NodeAdapter node) {
+        nodes.get(node).select();
+      } else if (obj instanceof EdgeAdapter edge) {
+        edges.get(edge).select();
+      }
+    } else {
+      // deselect
+      selection.get().ifPresent(Selectable::deselect);
+      selection.set(Optional.empty());
+    }
   }
 
-  public Optional<EdgeAdapter> getSelectedEdge() {
-    return selectedEdge.get();
-  }
-
-  public ReadOnlyObjectProperty<Optional<EdgeAdapter>> selectedEdgeProperty() {
-    return selectedEdge;
+  public ReadOnlyObjectProperty<Optional<Object>> selectedProperty() {
+    return selectedEntity;
   }
 }

@@ -1,9 +1,9 @@
 package edu.wpi.capybara.database;
 
-import edu.wpi.capybara.controllers.mapeditor.EdgeAdapter;
-import edu.wpi.capybara.controllers.mapeditor.LocationNameAdapter;
-import edu.wpi.capybara.controllers.mapeditor.MoveAdapter;
-import edu.wpi.capybara.controllers.mapeditor.NodeAdapter;
+import edu.wpi.capybara.controllers.mapeditor.adapters.EdgeAdapter;
+import edu.wpi.capybara.controllers.mapeditor.adapters.LocationNameAdapter;
+import edu.wpi.capybara.controllers.mapeditor.adapters.MoveAdapter;
+import edu.wpi.capybara.controllers.mapeditor.adapters.NodeAdapter;
 import javafx.beans.property.ReadOnlyListProperty;
 
 /**

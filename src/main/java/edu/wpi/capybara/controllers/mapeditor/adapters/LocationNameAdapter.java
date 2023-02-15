@@ -1,4 +1,4 @@
-package edu.wpi.capybara.controllers.mapeditor;
+package edu.wpi.capybara.controllers.mapeditor.adapters;
 
 import edu.wpi.capybara.objects.hibernate.LocationnameEntity;
 import javafx.beans.property.adapter.JavaBeanStringProperty;

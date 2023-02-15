@@ -1,7 +1,7 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
-import edu.wpi.capybara.controllers.mapeditor.NodeAdapter;
+import edu.wpi.capybara.controllers.mapeditor.adapters.NodeAdapter;
 import java.util.Objects;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
