@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.DatabaseImportDialogController">
+   <center>
+      <VBox alignment="TOP_CENTER" prefHeight="150.0" prefWidth="360.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="10.0" />
+            <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Database Import/Export">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <HBox prefHeight="10.0" />
+            <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;" />
+            <HBox alignment="CENTER" prefHeight="99.0" prefWidth="320.0">
+               <children>
+                  <VBox alignment="CENTER">
+                     <children>
+                        <HBox minHeight="10.0" prefHeight="100.0" prefWidth="200.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Folder Location">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Text>
+                        <HBox minHeight="10.0" prefHeight="100.0" prefWidth="200.0" />
+                        <MFXTextField fx:id="folderText" prefHeight="49.0" prefWidth="304.0" />
+                        <HBox minHeight="20.0" prefHeight="100.0" prefWidth="200.0" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+               <children>
+                  <MFXButton fx:id="importData" minWidth="150.0" style="-fx-background-color: #012D5A;" text="Import" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </MFXButton>
+                  <MFXButton fx:id="exportData" minWidth="150.0" style="-fx-background-color: #009CA6;" text="Export" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </MFXButton>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" />
+         </padding>
+      </VBox>
+   </center>
+   <top>
+      <HBox prefHeight="20.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER" />
+   </top>
+</BorderPane>
