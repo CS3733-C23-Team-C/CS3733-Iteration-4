@@ -2,6 +2,7 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.BorderPane?>
@@ -11,7 +12,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
 <StackPane fx:id="employeeEditStackPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.EmployeeEdit">
     <children>
         <BorderPane fx:id="employeeEditPane">
@@ -182,17 +182,12 @@
                             </children></HBox>
                         <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="441.0" spacing="20.0">
                             <children>
-                                <MFXButton fx:id="clearButton" onAction="#clearFields" minWidth="150.0" style="-fx-background-color: #012D5A;" text="Clear" textFill="WHITE">
+                                <MFXButton fx:id="clearButton" minWidth="150.0" onAction="#clearFields" style="-fx-background-color: #012D5A;" text="Clear" textFill="WHITE">
                                     <font>
                                         <Font size="15.0" />
                                     </font>
                                 </MFXButton>
-                                <MFXButton fx:id="updateButton1" disable="true" minWidth="150.0" style="-fx-background-color: #009CA6;" text="Update" textFill="WHITE">
-                                    <font>
-                                        <Font size="15.0" />
-                                    </font>
-                                </MFXButton>
-                        <MFXButton fx:id="updateButton" minWidth="150.0" style="-fx-background-color: #012D5A;" onAction="#update" text="Update" textFill="WHITE">
+                        <MFXButton fx:id="updateButton" minWidth="150.0" onAction="#update" style="-fx-background-color: #009CA6;" text="Update" textFill="WHITE">
                            <font>
                               <Font size="15.0" />
                            </font>

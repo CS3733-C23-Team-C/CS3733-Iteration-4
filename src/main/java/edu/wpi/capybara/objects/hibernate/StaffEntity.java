@@ -36,7 +36,7 @@ public class StaffEntity {
   public StaffEntity() {}
 
   public StaffEntity(
-  String staffid, String firstname, String lastname, String role, String password) {
+      String staffid, String firstname, String lastname, String role, String password) {
     this.staffid = staffid;
     this.firstname = firstname;
     this.lastname = lastname;
