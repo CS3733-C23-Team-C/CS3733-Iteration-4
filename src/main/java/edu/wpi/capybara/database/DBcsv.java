@@ -573,7 +573,7 @@ public class DBcsv {
     importAlldbcsv();
 
     String backup_folder =
-        "C:\\Users\\aidan\\Desktop\\CS3733-Iteration-2\\database_backup_20230214_194316";
+        "C:\\Users\\aidan\\Desktop\\CS3733-Iteration-2\\database_backup_20230215_105131";
 
     //    exportDatabase();
     //
@@ -582,6 +582,6 @@ public class DBcsv {
     //    Main.db.addStaff(test);
     //    Main.db.addStaff(test1);
 
-    exportDatabase();
+    importDatabase(backup_folder);
   }
 }
