@@ -15,7 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
-public class SecurityControllerTest extends ApplicationTest {
+public class CleaningControllerTest extends ApplicationTest {
   @Override
   public void start(Stage stage) throws IOException {
     // manually instantiate an App and pass the test stage to its start function
@@ -36,7 +36,7 @@ public class SecurityControllerTest extends ApplicationTest {
 
   @Test
   public void test1() {
-    clickOn("#securityButton");
+    clickOn("#sanitationButton");
     clickOn("#assignedStaffID");
     type(KeyCode.DIGIT1);
     clickOn("#Location");
