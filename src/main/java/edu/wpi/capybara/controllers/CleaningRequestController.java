@@ -176,7 +176,9 @@ public class CleaningRequestController {
           }
         });
     for (CleaningsubmissionEntity sub : cleaningdata.values()) {
-      if (Objects.equals(sub.getMemberid(), App.getUser().getStaffid())) {
+      if (App.getUser().getRole() == "admin") {
+        cleaningRequestsList.add(sub);
+      } else if (Objects.equals(sub.getMemberid(), App.getUser().getStaffid())) {
         cleaningRequestsList.add(sub);
       }
     }
@@ -271,7 +273,9 @@ public class CleaningRequestController {
         });
 
     for (TransportationsubmissionEntity sub : transportationdata.values()) {
-      if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
+      if (App.getUser().getRole() == "admin") {
+        transportationRequestsList.add(sub);
+      } else if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
         transportationRequestsList.add(sub);
       }
     }
@@ -358,7 +362,9 @@ public class CleaningRequestController {
           }
         });
     for (SecuritysubmissionEntity sub : securitydata.values()) {
-      if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
+      if (App.getUser().getRole() == "admin") {
+        securityRequestsList.add(sub);
+      } else if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
         securityRequestsList.add(sub);
       }
     }
@@ -445,7 +451,9 @@ public class CleaningRequestController {
           }
         });
     for (AudiosubmissionEntity sub : audiodata.values()) {
-      if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
+      if (App.getUser().getRole() == "admin") {
+        audioRequestsList.add(sub);
+      } else if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
         audioRequestsList.add(sub);
       }
     }
@@ -532,7 +540,9 @@ public class CleaningRequestController {
           }
         });
     for (ComputersubmissionEntity sub : computerdata.values()) {
-      if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
+      if (App.getUser().getRole() == "admin") {
+        computerRequestsList.add(sub);
+      } else if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
         computerRequestsList.add(sub);
       }
     }
