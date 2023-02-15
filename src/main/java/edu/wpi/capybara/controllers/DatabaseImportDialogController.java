@@ -58,6 +58,7 @@ public class DatabaseImportDialogController {
 
   public void exportDataFunc(ActionEvent event) {
     try {
+      importAlldbcsv();
       exportDatabase();
     } catch (Exception e) {
       errorText.setText("Unable to export data");

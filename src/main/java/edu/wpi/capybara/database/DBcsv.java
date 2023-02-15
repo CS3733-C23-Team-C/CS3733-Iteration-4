@@ -452,9 +452,15 @@ public class DBcsv {
       String reason = transportationsubmissionEntityEntry.getValue().getReason();
       String status = String.valueOf(transportationsubmissionEntityEntry.getValue().getStatus());
       String urgency = transportationsubmissionEntityEntry.getValue().getUrgency();
-      String createdate =
-          String.valueOf(transportationsubmissionEntityEntry.getValue().getCreatedate());
-      String duedate = String.valueOf(transportationsubmissionEntityEntry.getValue().getDuedate());
+
+      Date startDate = transportationsubmissionEntityEntry.getValue().getCreatedate();
+      SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
+      String createdate = sdf1.format(startDate);
+
+      Date startDate2 = transportationsubmissionEntityEntry.getValue().getDuedate();
+      SimpleDateFormat sdf2 = new SimpleDateFormat("MM/dd/yyyy");
+      String duedate = sdf2.format(startDate2);
+
       String[] row = {
         submissionid,
         employeeid,
@@ -487,8 +493,15 @@ public class DBcsv {
       String status =
           String.valueOf(cleaningsubmissionEntityEntry.getValue().getSubmissionstatus());
       String urgency = cleaningsubmissionEntityEntry.getValue().getUrgency();
-      String createdate = String.valueOf(cleaningsubmissionEntityEntry.getValue().getCreatedate());
-      String duedate = String.valueOf(cleaningsubmissionEntityEntry.getValue().getDuedate());
+
+      Date startDate = cleaningsubmissionEntityEntry.getValue().getCreatedate();
+      SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
+      String createdate = sdf1.format(startDate);
+
+      Date startDate2 = cleaningsubmissionEntityEntry.getValue().getDuedate();
+      SimpleDateFormat sdf2 = new SimpleDateFormat("MM/dd/yyyy");
+      String duedate = sdf2.format(startDate2);
+
       String[] row = {
         submissionid,
         memberid,
@@ -521,8 +534,15 @@ public class DBcsv {
       String status =
           String.valueOf(securitysubmissionEntityEntry.getValue().getSubmissionstatus());
       String urgency = securitysubmissionEntityEntry.getValue().getUrgency();
-      String createdate = String.valueOf(securitysubmissionEntityEntry.getValue().getCreatedate());
-      String duedate = String.valueOf(securitysubmissionEntityEntry.getValue().getDuedate());
+
+      Date startDate = securitysubmissionEntityEntry.getValue().getCreatedate();
+      SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
+      String createdate = sdf1.format(startDate);
+
+      Date startDate2 = securitysubmissionEntityEntry.getValue().getDuedate();
+      SimpleDateFormat sdf2 = new SimpleDateFormat("MM/dd/yyyy");
+      String duedate = sdf2.format(startDate2);
+
       String[] row = {
         submissionid,
         employeeid,
@@ -553,7 +573,7 @@ public class DBcsv {
     importAlldbcsv();
 
     String backup_folder =
-        "C:\\Users\\aidan\\Desktop\\CS3733-Iteration-2\\database_backup_20230214_194316";
+        "C:\\Users\\aidan\\Desktop\\CS3733-Iteration-2\\database_backup_20230215_105131";
 
     //    exportDatabase();
     //
