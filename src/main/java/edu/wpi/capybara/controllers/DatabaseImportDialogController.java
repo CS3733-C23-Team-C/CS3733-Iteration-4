@@ -12,6 +12,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import static edu.wpi.capybara.database.DBcsv.*;
+
 public class DatabaseImportDialogController {
 
   @FXML private MFXTextField folderText;
@@ -44,10 +46,11 @@ public class DatabaseImportDialogController {
   }
 
   public void importDataFunc(ActionEvent event) {
-    System.out.println("import data to " + folderText.getText());
+    importAlldbcsv();
+    importDatabase(folderText.getText());
   }
 
   public void exportDataFunc(ActionEvent event) {
-    System.out.println("export data to " + folderText.getText());
+    exportDatabase();
   }
 }
