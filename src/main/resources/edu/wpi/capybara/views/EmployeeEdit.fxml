@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
-<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
@@ -45,6 +44,11 @@
                                                 <Font size="15.0" />
                                             </font>
                                         </Text>
+                              <MFXButton fx:id="searchButton" disable="true" onAction="#searchEmployeeID" minWidth="150.0" style="-fx-background-color: #009CA6;" text="Search" textFill="WHITE">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </MFXButton>
                                         <MFXTextField fx:id="searchField" prefHeight="57.0" prefWidth="152.0">
                                             <font>
                                                 <Font size="15.0" />
@@ -99,14 +103,14 @@
                                           <Font size="15.0" />
                                        </font>
                                     </Text>
-                                    <MFXTextField fx:id="passwordField" prefHeight="37.0" prefWidth="205.0">
+                                    <MFXTextField fx:id="passwordField1" prefHeight="37.0" prefWidth="205.0">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </MFXTextField>
                                             </children>
                                         </VBox>
-                                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Ocupation">
+                                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Role">
                                             <font>
                                                 <Font size="15.0" />
                                             </font>
@@ -126,11 +130,6 @@
                                                 <Font size="15.0" />
                                             </font>
                                         </Text>
-                                        <MFXComboBox fx:id="resquestHistory" prefHeight="186.0" prefWidth="200.0">
-                                            <font>
-                                                <Font size="15.0" />
-                                            </font>
-                                        </MFXComboBox>
                                     </children>
                                 </VBox>
                             </children>

@@ -1,9 +1,13 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
+import edu.wpi.capybara.Main;
+import edu.wpi.capybara.objects.hibernate.StaffEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 import lombok.Getter;
@@ -14,11 +18,18 @@ public class EmployeeEdit {
   @Getter @Setter private String currFirstName;
   @Getter @Setter private String currLastName;
   @Getter @Setter private String currPassword;
+  @Getter @Setter private String currNotes;
+
+  @FXML public MFXButton searchButton;
+
+  @FXML public MFXButton updateButton;
 
   @FXML private MFXTextField firstNameField;
   @FXML private MFXTextField lastNameField;
   @FXML private MFXPasswordField passwordField;
   @FXML private MFXTextField notesField;
+
+  @FXML private MFXTextField staffIDField;
 
   @FXML private MFXButton fieldsEdit;
   //  @FXML private MFXButton lastNameEdit;
@@ -33,10 +44,44 @@ public class EmployeeEdit {
   @FXML private Text staffID;
   @FXML private Text errorTxt;
 
+  public void clearFields() {
+
+    firstNameField.clear();
+    lastNameField.clear();
+    passwordField.clear();
+    notesField.clear();
+    staffIDField.clear();
+    updateButton.setDisable(true);
+  }
+
+  public void searchEmployeeID(ActionEvent actionEvent) throws IOException {
+
+    StaffEntity s = null;
+    if (staffIDField.getText() != null) {
+      String outputID = staffIDField.getText();
+      System.out.print("this is the employee ID" + outputID + "");
+      s = Main.db.getStaff(outputID);
+    }
+    if (s == null) {
+      clearFields();
+    } else {
+      System.out.printf("the id matched an employee");
+      initialize();
+    }
+  }
+
+  //    if (staffIDField().getText() != "" && staffIDField.getText() != "") {
+  //      String outputUsername = username.getText();
+  //      String outputPassword = password.getText();
+  //      System.out.println("This is the employee username " + outputUsername);
+  //      System.out.println("This is the employee password " + outputPassword);
+  //      s = Main.db.getStaff(outputUsername, outputPassword);
+  //    }
+
   @FXML
   public void initialize() {
-    if (App.getUser() != null) {
-      staffID.setText("Employee ID: " + App.getUser().getStaffid());
+    if (Main.db.getStaff(staffIDField.getText()) != null) {
+      // staffID.setText("Employee ID: " + App.getUser().getStaffid());
       firstNameField.setText(App.getUser().getFirstname());
       lastNameField.setText(App.getUser().getLastname());
       passwordField.setText(App.getUser().getPassword());
@@ -45,10 +90,13 @@ public class EmployeeEdit {
       currFirstName = firstNameField.getText();
       currLastName = lastNameField.getText();
       currPassword = passwordField.getText();
+      currNotes = notesField.getText();
+
     } else {
       currFirstName = "";
       currLastName = "";
       currPassword = "";
+      currNotes = "";
     }
   }
 
@@ -56,6 +104,7 @@ public class EmployeeEdit {
     firstNameField.setDisable(false);
     lastNameField.setDisable(false);
     passwordField.setDisable(false);
+    notesField.setDisable(false);
   }
 
   public void save() {
@@ -63,6 +112,7 @@ public class EmployeeEdit {
     if (firstNameField.getText() == "") errorTxt.setText("First name can't be empty.");
     else if (lastNameField.getText() == "") errorTxt.setText("Last name can't be empty.");
     else if (passwordField.getText() == "") errorTxt.setText("Password can't be empty.");
+    else if (notesField.getText() == "") errorTxt.setText("Password can't be empty");
     else {
       // save changes to app
       String newFirst = firstNameField.getText();
@@ -71,14 +121,19 @@ public class EmployeeEdit {
       App.getUser().setLastname(newLast);
       String newPass = passwordField.getText();
       App.getUser().setPassword(newPass);
+      String newNote = notesField.getText();
+      App.getUser().setPassword(newNote);
       // update menu
 
       // make fields uneditable
       firstNameField.setDisable(true);
       lastNameField.setDisable(true);
       passwordField.setDisable(true);
+      notesField.setDisable(true);
     }
   }
+
+  public void searchEmployeeID(javafx.event.ActionEvent actionEvent) {}
 
   //  public void editFirstName() {
   //    firstNameField.setDisable(false);

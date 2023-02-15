@@ -13,6 +13,8 @@ public enum Screen {
   SERVICE_REQUEST_SECURITY("views/Security.fxml"),
   MAP_EDITOR("views/MapEditor.fxml"),
 
+  EMPLOYEE_EDIT("views/EmployeeEdit.fxml"),
+
   LOG_IN_PAGE("views/LogInPage.fxml"),
 
   PATHFINDING("views/Pathfinding.fxml"),

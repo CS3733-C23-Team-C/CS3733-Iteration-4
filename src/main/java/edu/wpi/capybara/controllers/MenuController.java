@@ -18,6 +18,8 @@ public class MenuController {
   @FXML private MFXButton pathfindingButton;
   @FXML private MFXButton mapEditorButton;
 
+  @FXML private MFXButton employeeEditButton;
+
   public void setUserProfile() {
     System.out.println(userProfile == null);
     System.out.println(App.getUser().getFirstname());
@@ -46,6 +48,10 @@ public class MenuController {
 
   public void goToMapEditor(ActionEvent actionEvent) {
     Navigation.navigate(Screen.MAP_EDITOR);
+  }
+
+  public void goToEmployeeEdit(ActionEvent actionEvent) {
+    Navigation.navigate(Screen.EMPLOYEE_EDIT);
   }
 
   public void giveInfo(MouseEvent mouseEvent) {}
