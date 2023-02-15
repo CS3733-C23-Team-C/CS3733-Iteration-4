@@ -9,7 +9,7 @@ import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.Setter;
 
-public class EmployeeEdit {
+public class EmployeeEdit{
 
     @Getter @Setter private String currFirstName;
     @Getter @Setter private String currLastName;
@@ -18,6 +18,8 @@ public class EmployeeEdit {
     @FXML private MFXTextField firstNameField;
     @FXML private MFXTextField lastNameField;
     @FXML private MFXPasswordField passwordField;
+    @FXML private MFXTextField notesField;
+
     @FXML private MFXButton fieldsEdit;
     //  @FXML private MFXButton lastNameEdit;
     //  @FXML private MFXButton passwordEdit;
@@ -38,6 +40,8 @@ public class EmployeeEdit {
             firstNameField.setText(App.getUser().getFirstname());
             lastNameField.setText(App.getUser().getLastname());
             passwordField.setText(App.getUser().getPassword());
+            notesField.set(Text(App.getUser().get))
+
             currFirstName = firstNameField.getText();
             currLastName = lastNameField.getText();
             currPassword = passwordField.getText();
@@ -49,29 +53,29 @@ public class EmployeeEdit {
     }
 
     public void edit() {
-        firstNameField.setDisable(false);
-        lastNameField.setDisable(false);
+        firstName.setDisable(false);
+        lastName.setDisable(false);
         passwordField.setDisable(false);
     }
 
     public void save() {
         // validate
-        if (firstNameField.getText() == "") errorTxt.setText("First name can't be empty.");
-        else if (lastNameField.getText() == "") errorTxt.setText("Last name can't be empty.");
+        if (firstName.getText() == "") errorTxt.setText("First name can't be empty.");
+        else if (lastName.getText() == "") errorTxt.setText("Last name can't be empty.");
         else if (passwordField.getText() == "") errorTxt.setText("Password can't be empty.");
         else {
             // save changes to app
-            String newFirst = firstNameField.getText();
+            String newFirst = firstName.getText();
             App.getUser().setFirstname(newFirst);
-            String newLast = lastNameField.getText();
+            String newLast = lastName.getText();
             App.getUser().setLastname(newLast);
             String newPass = passwordField.getText();
             App.getUser().setPassword(newPass);
             // update menu
 
             // make fields uneditable
-            firstNameField.setDisable(true);
-            lastNameField.setDisable(true);
+            firstName.setDisable(true);
+            lastName.setDisable(true);
             passwordField.setDisable(true);
         }
     }
