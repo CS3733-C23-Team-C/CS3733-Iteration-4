@@ -75,7 +75,7 @@
                                     <TableColumn fx:id="cleanStatus" prefWidth="89.3333740234375" text="Status" />
                                  </columns>
                               </TableView>
-                              <TableView fx:id="securityRequests">
+                              <TableView fx:id="securityRequests" visible="false">
                                  <columns>
                                     <TableColumn fx:id="securityID" prefWidth="103.20001220703125" text="Staff ID" />
                                     <TableColumn fx:id="securityLocation" prefWidth="107.20001220703125" text="Location" />
@@ -89,7 +89,7 @@
                                 <columns>
                                   <TableColumn fx:id="audioID" prefWidth="119.33334732055664" text="Employee ID" />
                                   <TableColumn fx:id="audioLocation" prefWidth="115.33329772949219" text="Location" />
-                                    <TableColumn fx:id="audioItem" prefWidth="172.00001525878906" text="Requested Item" />
+                                    <TableColumn fx:id="audioItem" prefWidth="172.00001525878906" text="Type" />
                                     <TableColumn fx:id="audioDescription" prefWidth="141.33334350585938" text="Description" />
                                     <TableColumn fx:id="audioAssignedID" prefWidth="111.333251953125" text="Assigned ID" />
                                     <TableColumn fx:id="audioStatus" prefWidth="97.99993896484375" text="Status" />
@@ -99,7 +99,7 @@
                                  <columns>
                                     <TableColumn fx:id="computerID" prefWidth="119.33334732055664" text="Employee ID" />
                                     <TableColumn fx:id="computerLocation" prefWidth="115.33329772949219" text="Location" />
-                                    <TableColumn fx:id = "computerItem" prefWidth="172.00001525878906" text="Requested Item" />
+                                    <TableColumn fx:id ="computerItem" prefWidth="172.00001525878906" text="Type" />
                                     <TableColumn fx:id="computerDescription" prefWidth="141.33334350585938" text="Description" />
                                     <TableColumn fx:id="computerAssignedID" prefWidth="111.333251953125" text="Assigned ID" />
                                     <TableColumn fx:id="computerStatus" prefWidth="97.99993896484375" text="Status" />

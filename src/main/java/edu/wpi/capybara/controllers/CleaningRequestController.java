@@ -45,6 +45,7 @@ public class CleaningRequestController {
   @FXML TableColumn<CleaningsubmissionEntity, String> cleanEmployeeAssigned;
   @FXML TableColumn<SecuritysubmissionEntity, String> securityEmployeeAssigned;
   @FXML TableColumn<TransportationsubmissionEntity, String> transportationEmployeeAssigned;
+  @FXML TableColumn<AudiosubmissionEntity, String> audioID;
   @FXML TableColumn<AudiosubmissionEntity, String> audioLocation;
   @FXML TableColumn<AudiosubmissionEntity, String> audioItem;
   @FXML TableColumn<AudiosubmissionEntity, String> audioDescription;
@@ -88,8 +89,9 @@ public class CleaningRequestController {
     HashMap<Integer, AudiosubmissionEntity> audiodata = Main.db.getAudioSubs();
     HashMap<Integer, ComputersubmissionEntity> computerdata = Main.db.getComputerSubs();
 
+    /*cleaning columns*/
     cleanEmployeeAssigned.setCellValueFactory(
-        new PropertyValueFactory<CleaningsubmissionEntity, String>("assignedID"));
+        new PropertyValueFactory<CleaningsubmissionEntity, String>("assignedid"));
     cleanEmployeeAssigned.setCellFactory(TextFieldTableCell.forTableColumn());
     cleanEmployeeAssigned.setOnEditCommit(
         new EventHandler<TableColumn.CellEditEvent<CleaningsubmissionEntity, String>>() {
@@ -133,7 +135,7 @@ public class CleaningRequestController {
           }
         });
     cleanStatus.setCellValueFactory(
-        new PropertyValueFactory<CleaningsubmissionEntity, SubmissionStatus>("submissionStatus"));
+        new PropertyValueFactory<CleaningsubmissionEntity, SubmissionStatus>("submissionstatus"));
     cleanStatus.setCellFactory(
         TextFieldTableCell.forTableColumn(new EnumStringConverter<>(SubmissionStatus.class)));
     cleanStatus.setOnEditCommit(
@@ -145,7 +147,6 @@ public class CleaningRequestController {
             clean.setSubmissionstatus(event.getNewValue());
           }
         });
-    new PropertyValueFactory<CleaningsubmissionEntity, SubmissionStatus>("submissionStatus");
     cleanDescription.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, String>("description"));
     cleanDescription.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -161,16 +162,17 @@ public class CleaningRequestController {
     }
     cleanRequests.setItems(cleaningRequestsList);
 
+    /*transportation columns*/
     transportationEmployeeAssigned.setCellValueFactory(
-        new PropertyValueFactory<TransportationsubmissionEntity, String>("assignedID"));
+        new PropertyValueFactory<TransportationsubmissionEntity, String>("assignedid"));
     transportationEmployeeAssigned.setCellFactory(TextFieldTableCell.forTableColumn());
     transportationEmployeeAssigned.setOnEditCommit(
         new EventHandler<TableColumn.CellEditEvent<TransportationsubmissionEntity, String>>() {
           @Override
           public void handle(
               TableColumn.CellEditEvent<TransportationsubmissionEntity, String> event) {
-            TransportationsubmissionEntity clean = event.getRowValue();
-            clean.setAssignedid(event.getNewValue());
+            TransportationsubmissionEntity transport = event.getRowValue();
+            transport.setAssignedid(event.getNewValue());
           }
         });
     transportationID.setCellValueFactory(
@@ -243,6 +245,7 @@ public class CleaningRequestController {
     }
     transportationRequests.setItems(transportationRequestsList);
 
+    /*security columns*/
     securityID.setCellValueFactory(
         new PropertyValueFactory<SecuritysubmissionEntity, String>("employeeid"));
     securityID.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -300,6 +303,17 @@ public class CleaningRequestController {
           }
         });
 
+    securityEmployeeAssigned.setCellValueFactory(
+        new PropertyValueFactory<SecuritysubmissionEntity, String>("assignedid"));
+    securityEmployeeAssigned.setCellFactory(TextFieldTableCell.forTableColumn());
+    securityEmployeeAssigned.setOnEditCommit(
+        new EventHandler<TableColumn.CellEditEvent<SecuritysubmissionEntity, String>>() {
+          @Override
+          public void handle(TableColumn.CellEditEvent<SecuritysubmissionEntity, String> event) {
+            SecuritysubmissionEntity security = event.getRowValue();
+            security.setAssignedid(event.getNewValue());
+          }
+        });
     for (SecuritysubmissionEntity sub : securitydata.values()) {
       if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
         securityRequestsList.add(sub);
@@ -307,8 +321,20 @@ public class CleaningRequestController {
     }
     securityRequests.setItems(securityRequestsList);
 
-    audioItem.setCellValueFactory(
-        new PropertyValueFactory<AudiosubmissionEntity, String>("requestSpecific"));
+    /*audio columns*/
+
+    audioID.setCellValueFactory(
+        new PropertyValueFactory<AudiosubmissionEntity, String>("employeeid"));
+    audioID.setCellFactory(TextFieldTableCell.forTableColumn());
+    audioID.setOnEditCommit(
+        new EventHandler<TableColumn.CellEditEvent<AudiosubmissionEntity, String>>() {
+          @Override
+          public void handle(TableColumn.CellEditEvent<AudiosubmissionEntity, String> event) {
+            AudiosubmissionEntity audio = event.getRowValue();
+            audio.setEmployeeid(event.getNewValue());
+          }
+        });
+    audioItem.setCellValueFactory(new PropertyValueFactory<AudiosubmissionEntity, String>("type"));
     audioItem.setCellFactory(TextFieldTableCell.forTableColumn());
     audioItem.setOnEditCommit(
         new EventHandler<TableColumn.CellEditEvent<AudiosubmissionEntity, String>>() {
@@ -321,7 +347,7 @@ public class CleaningRequestController {
     audioLocation.setCellValueFactory(
         new PropertyValueFactory<AudiosubmissionEntity, String>("location"));
     audioLocation.setCellFactory(TextFieldTableCell.forTableColumn());
-    audioItem.setOnEditCommit(
+    audioLocation.setOnEditCommit(
         new EventHandler<TableColumn.CellEditEvent<AudiosubmissionEntity, String>>() {
           @Override
           public void handle(TableColumn.CellEditEvent<AudiosubmissionEntity, String> event) {
@@ -330,7 +356,7 @@ public class CleaningRequestController {
           }
         });
     audioDescription.setCellValueFactory(
-        new PropertyValueFactory<AudiosubmissionEntity, String>("outputNotes"));
+        new PropertyValueFactory<AudiosubmissionEntity, String>("notesupdate"));
     audioDescription.setCellFactory(TextFieldTableCell.forTableColumn());
     audioDescription.setOnEditCommit(
         new EventHandler<TableColumn.CellEditEvent<AudiosubmissionEntity, String>>() {
@@ -341,7 +367,7 @@ public class CleaningRequestController {
           }
         });
     audioStatus.setCellValueFactory(
-        new PropertyValueFactory<AudiosubmissionEntity, SubmissionStatus>("status"));
+        new PropertyValueFactory<AudiosubmissionEntity, SubmissionStatus>("submissionstatus"));
     audioStatus.setCellFactory(
         TextFieldTableCell.forTableColumn(new EnumStringConverter<>(SubmissionStatus.class)));
     audioStatus.setOnEditCommit(
@@ -353,6 +379,17 @@ public class CleaningRequestController {
             audio.setSubmissionstatus(event.getNewValue());
           }
         });
+    audioAssignedID.setCellValueFactory(
+        new PropertyValueFactory<AudiosubmissionEntity, String>("assignedid"));
+    audioAssignedID.setCellFactory(TextFieldTableCell.forTableColumn());
+    audioAssignedID.setOnEditCommit(
+        new EventHandler<TableColumn.CellEditEvent<AudiosubmissionEntity, String>>() {
+          @Override
+          public void handle(TableColumn.CellEditEvent<AudiosubmissionEntity, String> event) {
+            AudiosubmissionEntity audio = event.getRowValue();
+            audio.setAssignedid(event.getNewValue());
+          }
+        });
     for (AudiosubmissionEntity sub : audiodata.values()) {
       if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
         audioRequestsList.add(sub);
@@ -360,8 +397,20 @@ public class CleaningRequestController {
     }
     audioRequests.setItems(audioRequestsList);
 
+    /*computer columns*/
+    computerID.setCellValueFactory(
+        new PropertyValueFactory<ComputersubmissionEntity, String>("employeeid"));
+    computerID.setCellFactory(TextFieldTableCell.forTableColumn());
+    computerID.setOnEditCommit(
+        new EventHandler<TableColumn.CellEditEvent<ComputersubmissionEntity, String>>() {
+          @Override
+          public void handle(TableColumn.CellEditEvent<ComputersubmissionEntity, String> event) {
+            ComputersubmissionEntity computer = event.getRowValue();
+            computer.setEmployeeid(event.getNewValue());
+          }
+        });
     computerItem.setCellValueFactory(
-        new PropertyValueFactory<ComputersubmissionEntity, String>("requestSpecific"));
+        new PropertyValueFactory<ComputersubmissionEntity, String>("type"));
     computerItem.setCellFactory(TextFieldTableCell.forTableColumn());
     computerItem.setOnEditCommit(
         new EventHandler<TableColumn.CellEditEvent<ComputersubmissionEntity, String>>() {
@@ -374,7 +423,7 @@ public class CleaningRequestController {
     computerLocation.setCellValueFactory(
         new PropertyValueFactory<ComputersubmissionEntity, String>("location"));
     computerLocation.setCellFactory(TextFieldTableCell.forTableColumn());
-    computerItem.setOnEditCommit(
+    computerLocation.setOnEditCommit(
         new EventHandler<TableColumn.CellEditEvent<ComputersubmissionEntity, String>>() {
           @Override
           public void handle(TableColumn.CellEditEvent<ComputersubmissionEntity, String> event) {
@@ -383,7 +432,7 @@ public class CleaningRequestController {
           }
         });
     computerDescription.setCellValueFactory(
-        new PropertyValueFactory<ComputersubmissionEntity, String>("outputNotes"));
+        new PropertyValueFactory<ComputersubmissionEntity, String>("notesupdate"));
     computerDescription.setCellFactory(TextFieldTableCell.forTableColumn());
     computerDescription.setOnEditCommit(
         new EventHandler<TableColumn.CellEditEvent<ComputersubmissionEntity, String>>() {
@@ -394,7 +443,7 @@ public class CleaningRequestController {
           }
         });
     computerStatus.setCellValueFactory(
-        new PropertyValueFactory<ComputersubmissionEntity, SubmissionStatus>("status"));
+        new PropertyValueFactory<ComputersubmissionEntity, SubmissionStatus>("submissionstatus"));
     computerStatus.setCellFactory(
         TextFieldTableCell.forTableColumn(new EnumStringConverter<>(SubmissionStatus.class)));
     computerStatus.setOnEditCommit(
@@ -406,11 +455,23 @@ public class CleaningRequestController {
             audio.setSubmissionstatus(event.getNewValue());
           }
         });
+    computerAssignedID.setCellValueFactory(
+        new PropertyValueFactory<ComputersubmissionEntity, String>("assignedid"));
+    computerAssignedID.setCellFactory(TextFieldTableCell.forTableColumn());
+    computerAssignedID.setOnEditCommit(
+        new EventHandler<TableColumn.CellEditEvent<ComputersubmissionEntity, String>>() {
+          @Override
+          public void handle(TableColumn.CellEditEvent<ComputersubmissionEntity, String> event) {
+            ComputersubmissionEntity audio = event.getRowValue();
+            audio.setAssignedid(event.getNewValue());
+          }
+        });
     for (ComputersubmissionEntity sub : computerdata.values()) {
       if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
         computerRequestsList.add(sub);
       }
     }
+    computerRequests.setItems(computerRequestsList);
 
     transportationRequests.setVisible(false);
     securityRequests.setVisible(false);
