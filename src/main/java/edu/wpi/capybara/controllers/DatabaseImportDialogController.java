@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -19,6 +20,7 @@ public class DatabaseImportDialogController {
   @FXML private MFXTextField folderText;
   @FXML private MFXButton importData;
   @FXML private MFXButton exportData;
+  @FXML private Text errorText;
 
   public static void showDialog() {
     Stage dialog;
@@ -47,10 +49,18 @@ public class DatabaseImportDialogController {
 
   public void importDataFunc(ActionEvent event) {
     importAlldbcsv();
-    importDatabase(folderText.getText());
+    try {
+      importDatabase(folderText.getText());
+    } catch (Exception e) {
+      errorText.setText("Unable to import data");
+    }
   }
 
   public void exportDataFunc(ActionEvent event) {
-    exportDatabase();
+    try {
+      exportDatabase();
+    } catch (Exception e) {
+      errorText.setText("Unable to export data");
+    }
   }
 }
