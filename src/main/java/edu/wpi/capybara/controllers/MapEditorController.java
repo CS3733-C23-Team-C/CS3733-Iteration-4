@@ -1,25 +1,21 @@
 package edu.wpi.capybara.controllers;
 
-import edu.wpi.capybara.controllers.mapeditor.*;
+import edu.wpi.capybara.controllers.mapeditor.AdapterRepository;
+import edu.wpi.capybara.controllers.mapeditor.SQLDateStringConverter;
 import edu.wpi.capybara.controllers.mapeditor.adapters.*;
 import edu.wpi.capybara.controllers.mapeditor.dialogs.AddLocationNameDialog;
 import edu.wpi.capybara.controllers.mapeditor.dialogs.AddNodeDialog;
 import edu.wpi.capybara.controllers.mapeditor.dialogs.ReplaceNodeDialog;
 import edu.wpi.capybara.controllers.mapeditor.ui.MapEditorPane;
-import edu.wpi.capybara.navigation.Navigation;
-import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.Floor;
 import edu.wpi.capybara.objects.hibernate.EdgeEntity;
-import io.github.palexdev.materialfx.controls.MFXButton;
 import jakarta.persistence.PersistenceException;
-import java.io.IOException;
 import java.util.function.Function;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.SetChangeListener;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -34,7 +30,6 @@ public class MapEditorController {
   @FXML private TableView<EdgeAdapter> edgeTableView;
   @FXML private TableView<LocationNameAdapter> locationNameTableView;
   @FXML private TableView<MoveAdapter> moveTableView;
-  @FXML private MFXButton back;
 
   @FXML private MapEditorPane mapEditor;
   @FXML private ToggleGroup editorTabs;
@@ -134,7 +129,6 @@ public class MapEditorController {
                 });
 
     final var add = new MenuItem("Add Edge");
-    // add.setOnMenuValidation();
     add.setOnAction(
         event -> {
           if (add.getUserData() instanceof NodeAdapter[] nodeArray && nodeArray.length == 2) {
@@ -148,6 +142,7 @@ public class MapEditorController {
             } catch (PersistenceException e) {
               log.error("Error creating edge", e);
               mapEditor.deselectAll();
+              new Alert(Alert.AlertType.ERROR, e.toString(), ButtonType.YES).show();
             }
             System.out.println("add edge");
           }
@@ -167,6 +162,7 @@ public class MapEditorController {
         });
     delete.disableProperty().bind(mapEditor.selectedProperty().emptyProperty());
     final var menu = new ContextMenu(add, delete);
+
     mapEditor
         .selectedProperty()
         .addListener(
@@ -217,9 +213,7 @@ public class MapEditorController {
         event -> nodeTableView.getSelectionModel().getSelectedItems().forEach(repo::deleteNode));
     final var addItem = new MenuItem("New");
     addItem.setOnAction(
-        event -> {
-          new AddNodeDialog(nodeTableView.getScene().getWindow(), repo).showAndWait();
-        });
+        event -> new AddNodeDialog(nodeTableView.getScene().getWindow(), repo).showAndWait());
     final var replaceItem = new MenuItem("Modify");
     replaceItem.setOnAction(
         event ->
@@ -232,12 +226,6 @@ public class MapEditorController {
     nodeTableView.setContextMenu(menu);
 
     nodeTableView.visibleProperty().bind(nodeToggle.selectedProperty());
-
-    /*nodeTableView
-    .getSelectionModel()
-    .selectedItemProperty()
-    .addListener(
-        (observable, oldValue, newValue) -> mapEditor.setSelected(Optional.of(newValue)));*/
   }
 
   private void initializeEdgeTable() {
@@ -255,11 +243,6 @@ public class MapEditorController {
     edgeTableView.itemsProperty().bind(edges);
 
     edgeTableView.visibleProperty().bind(edgeToggle.selectedProperty());
-    /*edgeTableView
-    .getSelectionModel()
-    .selectedItemProperty()
-    .addListener(
-        (observable, oldValue, newValue) -> mapEditor.setSelected(Optional.of(newValue)));*/
   }
 
   private void initializeLocationNameTable() {
@@ -326,9 +309,5 @@ public class MapEditorController {
     tableColumn.setCellValueFactory(adapter);
     tableColumn.setOnEditCommit(adapter);
     return tableColumn;
-  }
-
-  public void back(ActionEvent actionEvent) throws IOException {
-    Navigation.navigate(Screen.HOME);
   }
 }

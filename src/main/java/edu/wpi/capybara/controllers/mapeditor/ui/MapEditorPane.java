@@ -24,6 +24,7 @@ import lombok.NonNull;
 
 public class MapEditorPane extends SplitPane {
 
+  /** Graphical representation of a Node. */
   private class GFXNode extends Circle implements Selectable {
 
     private final NodeAdapter node;
@@ -76,6 +77,7 @@ public class MapEditorPane extends SplitPane {
     }
   }
 
+  /** Graphical representation of an Edge. */
   private class GFXEdge extends Line implements Selectable {
     private final EdgeAdapter edge;
     private final PseudoClassSelectionHandler pseudoClassHandler;
@@ -86,8 +88,7 @@ public class MapEditorPane extends SplitPane {
 
       setStrokeWidth(5);
       // since edges can be edited without deleting and recreating them in the database, we need to
-      // account for the
-      // start and end nodes possibly changing on us.
+      // account for the start and end nodes possibly changing on us.
       bindStartNodeProps();
       bindEndNodeProps();
       edge.startNodeProperty().addListener(observable -> bindStartNodeProps());
@@ -157,7 +158,6 @@ public class MapEditorPane extends SplitPane {
   // UI components
   private final ImageView floorF1, floorF2, floorF3, floorL1, floorL2;
   private final SimpleDoubleProperty viewX, viewY, zoom;
-  private final Pane mapRoot;
   private final Pane mapElementContainer;
 
   private final SimpleSetProperty<Selectable> selections;
@@ -189,7 +189,7 @@ public class MapEditorPane extends SplitPane {
     viewY = new SimpleDoubleProperty(0);
     zoom = new SimpleDoubleProperty(1);
 
-    mapRoot = new Pane(floorF1, floorF2, floorF3, floorL1, floorL2);
+    Pane mapRoot = new Pane(floorF1, floorF2, floorF3, floorL1, floorL2);
     mapRoot.translateXProperty().bind(viewX);
     mapRoot.translateYProperty().bind(viewY);
     mapRoot.scaleXProperty().bind(zoom);
@@ -258,7 +258,7 @@ public class MapEditorPane extends SplitPane {
             });
 
     // zoom out a bit for the user's convenience
-    zoom.set(0.3);
+    zoom.set(0.4);
   }
 
   private ImageView createFloorImage(String imageName, Floor floor) {

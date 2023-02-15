@@ -1,5 +1,6 @@
 package edu.wpi.capybara.objects;
 
+/** Utility enum for representing the floors of the hospital. */
 public enum Floor {
   F1,
   F2,
