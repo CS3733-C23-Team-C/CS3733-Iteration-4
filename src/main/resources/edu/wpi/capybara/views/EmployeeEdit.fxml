@@ -35,35 +35,26 @@
                         <HBox prefHeight="10.0" prefWidth="200.0" />
                         <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;" />
                         <HBox prefHeight="20.0" prefWidth="200.0" />
-                        <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #F6BD38;">
+                        <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
                             <children>
-                                <VBox prefHeight="78.0" prefWidth="182.0" HBox.hgrow="ALWAYS">
+                                <VBox alignment="TOP_CENTER" prefHeight="78.0" prefWidth="182.0" HBox.hgrow="ALWAYS">
                                     <children>
-                                        <Text fx:id="AssignedEmployeeID" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Seach">
+                                        <Text fx:id="AssignedEmployeeID" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Seach Employee ID">
                                             <font>
                                                 <Font size="15.0" />
                                             </font>
                                         </Text>
-                              <MFXButton fx:id="searchButton" disable="true" onAction="#searchEmployeeID" minWidth="150.0" style="-fx-background-color: #009CA6;" text="Search" textFill="WHITE">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </MFXButton>
                                         <MFXTextField fx:id="searchField" prefHeight="57.0" prefWidth="152.0">
                                             <font>
                                                 <Font size="15.0" />
                                             </font>
                                         </MFXTextField>
-                              <Text fx:id="AssignedEmployeeID1" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Assigned Employee ID">
+                              <HBox minHeight="20.0" prefHeight="20.0" />
+                              <MFXButton fx:id="searchButton" disable="true" minWidth="150.0" onAction="#searchEmployeeID" style="-fx-background-color: #F6BD38;" text="Search" textFill="#012d5a">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
-                              </Text>
-                              <MFXTextField fx:id="staffIDField" prefHeight="57.0" prefWidth="152.0">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </MFXTextField>
+                              </MFXButton>
                                     </children>
                                 </VBox>
                                 <VBox />
@@ -72,44 +63,59 @@
                                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                             </padding>
                         </HBox>
-                        <HBox minWidth="300.0" prefHeight="209.0" prefWidth="486.0" spacing="20.0" style="-fx-background-color: #F6BD38;">
-                            <children>
-                                <VBox prefHeight="211.0" prefWidth="197.0" HBox.hgrow="ALWAYS">
-                                    <children>
-                                        <VBox>
-                                            <children>
-                                                <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name">
-                                                    <font>
-                                                        <Font size="15.0" />
-                                                    </font>
-                                                </Text>
-                                                <MFXTextField fx:id="firstNameField" prefHeight="37.0" prefWidth="205.0">
-                                                    <font>
-                                                        <Font size="15.0" />
-                                                    </font>
-                                                </MFXTextField>
-                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                    </Text>
-                                    <MFXTextField fx:id="lastNameField" prefHeight="37.0" prefWidth="205.0">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                    </MFXTextField>
-                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                    </Text>
-                                    <MFXTextField fx:id="passwordField1" prefHeight="37.0" prefWidth="205.0">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                    </MFXTextField>
-                                            </children>
-                                        </VBox>
+                  <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                     <children>
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                                          <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name">
+                                              <font>
+                                                  <Font size="15.0" />
+                                              </font>
+                                          </Text>
+                                          <MFXTextField fx:id="firstNameField" prefHeight="37.0" prefWidth="205.0">
+                                              <font>
+                                                  <Font size="15.0" />
+                                              </font>
+                                          </MFXTextField>
+                           </children>
+                        </VBox>
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                              <MFXTextField fx:id="lastNameField" prefHeight="37.0" prefWidth="205.0">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </MFXTextField>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </HBox>
+                  <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                     <children>
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                              <MFXTextField fx:id="passwordField1" prefHeight="37.0" prefWidth="205.0">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </MFXTextField>
+                           </children>
+                        </VBox>
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
                                         <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Role">
                                             <font>
                                                 <Font size="15.0" />
@@ -120,24 +126,14 @@
                                                 <Font size="15.0" />
                                             </font>
                                         </MFXFilterComboBox>
-                                        <VBox prefHeight="30.0" prefWidth="205.0" />
-                                    </children>
-                                </VBox>
-                                <VBox prefHeight="189.0" prefWidth="214.0" HBox.hgrow="ALWAYS">
-                                    <children>
-                                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Resquest History">
-                                            <font>
-                                                <Font size="15.0" />
-                                            </font>
-                                        </Text>
-                                    </children>
-                                </VBox>
-                            </children>
-                            <padding>
-                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                            </padding>
-                        </HBox>
-                        <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #F6BD38;">
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </HBox>
+                        <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
                             <children>
                                 <VBox HBox.hgrow="ALWAYS">
                                     <children>
