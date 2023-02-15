@@ -50,7 +50,7 @@ public interface RepoFacade {
 
   void addEdge(EdgeEntity submission);
 
-  void addMove(MoveEntity submission);
+  boolean addMove(MoveEntity submission);
 
   // Get single methods
   // Submissions
