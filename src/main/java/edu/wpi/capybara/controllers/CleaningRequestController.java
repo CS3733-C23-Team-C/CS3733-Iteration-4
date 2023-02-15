@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
@@ -569,3 +570,10 @@ public class CleaningRequestController {
 
   public void save(ActionEvent actionEvent) {}
 }
+=======
+HashMap<Integer, CleaningsubmissionEntity> cleaningdata = Main.db.getCleaningSubs();
+        HashMap<Integer, TransportationsubmissionEntity> transportationdata =
+        Main.db.getTransportationSubs();
+        HashMap<Integer, SecuritysubmissionEntity> securitydata = Main.db.getSecuritySubs();
+        
+>>>>>>> Stashed changes
