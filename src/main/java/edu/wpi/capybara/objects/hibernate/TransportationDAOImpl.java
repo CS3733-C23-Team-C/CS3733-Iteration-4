@@ -28,7 +28,7 @@ public class TransportationDAOImpl implements TransportationDAO {
 
   @Override
   public void deleteTransportation(int id) {
-    transportationSubs.remove(id);
     newDBConnect.delete(getTransportation(id));
+    transportationSubs.remove(id);
   }
 }

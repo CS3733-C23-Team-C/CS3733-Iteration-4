@@ -1,6 +1,8 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.database.RepoFacade;
+import jakarta.persistence.PersistenceException;
 import java.util.*;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -19,6 +21,7 @@ public class newDBConnect implements RepoFacade {
   SecurityDAO security;
   StaffDAO staff;
   TransportationDAO transportation;
+  int id;
 
   static SessionFactory factory;
 
@@ -33,6 +36,7 @@ public class newDBConnect implements RepoFacade {
   }
 
   private void importAll() {
+    id = 0;
     importAudio();
     importCleaning();
     importComputer();
@@ -57,6 +61,9 @@ public class newDBConnect implements RepoFacade {
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         AudiosubmissionEntity temp = (AudiosubmissionEntity) iterator.next();
         ret.put(temp.getSubmissionid(), temp);
+        if (id < temp.getSubmissionid()) {
+          id = temp.getSubmissionid();
+        }
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -74,13 +81,15 @@ public class newDBConnect implements RepoFacade {
 
     HashMap<Integer, CleaningsubmissionEntity> ret =
         new HashMap<Integer, CleaningsubmissionEntity>();
-
     try {
       tx = session.beginTransaction();
       List n = session.createQuery("FROM CleaningsubmissionEntity ").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         CleaningsubmissionEntity temp = (CleaningsubmissionEntity) iterator.next();
         ret.put(temp.getSubmissionid(), temp);
+        if (id < temp.getSubmissionid()) {
+          id = temp.getSubmissionid();
+        }
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -105,6 +114,9 @@ public class newDBConnect implements RepoFacade {
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         ComputersubmissionEntity temp = (ComputersubmissionEntity) iterator.next();
         ret.put(temp.getSubmissionid(), temp);
+        if (id < temp.getSubmissionid()) {
+          id = temp.getSubmissionid();
+        }
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -129,6 +141,9 @@ public class newDBConnect implements RepoFacade {
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         SecuritysubmissionEntity temp = (SecuritysubmissionEntity) iterator.next();
         ret.put(temp.getSubmissionid(), temp);
+        if (id < temp.getSubmissionid()) {
+          id = temp.getSubmissionid();
+        }
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -153,6 +168,9 @@ public class newDBConnect implements RepoFacade {
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         TransportationsubmissionEntity temp = (TransportationsubmissionEntity) iterator.next();
         ret.put(temp.getSubmissionid(), temp);
+        if (id < temp.getSubmissionid()) {
+          id = temp.getSubmissionid();
+        }
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -375,8 +393,37 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
-  public void addMove(MoveEntity submission) {
-    move.addMove(submission);
+  public boolean addMove(MoveEntity submission) {
+
+    // Get most recent locations
+    java.util.Date date = new java.util.Date();
+    HashMap<String, MoveEntity> currentLocations = new HashMap<String, MoveEntity>();
+    for (MoveEntity move : Main.db.getMoves()) {
+      MoveEntity temp = currentLocations.get(move.getLongname());
+      if (temp == null) {
+        currentLocations.put(temp.getLongname(), temp);
+      } else {
+        if (move.getMovedate().compareTo(temp.getMovedate()) < 0
+            && move.getMovedate().compareTo(new java.sql.Date(date.getTime())) < 0) {
+          currentLocations.remove(temp.getLongname());
+          currentLocations.put(move.getLongname(), move);
+        }
+      }
+    }
+
+    // count number of moves at a location
+    int num = 0;
+    for (MoveEntity move : currentLocations.values()) {
+      if (move.getNodeid().equals(submission.getNodeid())) {
+        num++;
+      }
+    }
+
+    if (num < 2) {
+      move.addMove(submission);
+      return true;
+    }
+    return false;
   }
 
   @Override
@@ -434,19 +481,25 @@ public class newDBConnect implements RepoFacade {
   }
 
   static void insertNew(Object submission) {
-    Session session = factory.openSession();
-    Transaction tx = null;
-
-    try {
-      tx = session.beginTransaction();
-      session.save(submission);
-      tx.commit();
+    try (Session session =
+        factory.openSession()) { // automatically close the session when we are done
+      final var tx = session.beginTransaction();
+      // switched to merge instead of save
+      // it seems to check for existing keys
+      session.merge(submission);
+      try {
+        tx.commit();
+      } catch (PersistenceException e) { // this gets thrown if there's a duplicate key(?)
+        tx.rollback();
+        e.printStackTrace();
+      }
     } catch (HibernateException e) {
-      if (tx != null) tx.rollback();
       e.printStackTrace();
-    } finally {
-      session.close();
     }
+  }
+
+  public int newID() {
+    return ++id;
   }
 
   public void deleteAudio(int id) {

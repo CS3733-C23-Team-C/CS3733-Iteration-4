@@ -36,18 +36,12 @@ public class StaffEntity {
   public StaffEntity() {}
 
   public StaffEntity(
-      String staffid,
-      String firstname,
-      String lastname,
-      String password,
-      String role,
-      String notes) {
+  String staffid, String firstname, String lastname, String role, String password) {
     this.staffid = staffid;
     this.firstname = firstname;
     this.lastname = lastname;
-    this.password = password;
     this.role = role;
-    this.notes = notes;
+    this.password = password;
   }
 
   public String getStaffid() {

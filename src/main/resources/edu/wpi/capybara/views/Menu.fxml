@@ -21,6 +21,7 @@
                     <items>
                       <MenuItem fx:id="profileButton" mnemonicParsing="false" onAction="#showProfile" text="My Profile" />
                       <MenuItem fx:id="requestsButton" mnemonicParsing="false" onAction="#showRequests" text="My Requests" />
+                       <MenuItem fx:id="assignedRequests" mnemonicParsing="false" onAction="#showAssignedRequests" text="Assigned Requests" />
                         <MenuItem fx:id="logOutButton" mnemonicParsing="false" onAction="#showLogOut" text="Log Out" />
                     </items>
                      <font>

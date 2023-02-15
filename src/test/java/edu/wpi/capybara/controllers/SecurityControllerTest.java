@@ -2,12 +2,11 @@ package edu.wpi.capybara.controllers;
 
 import static org.testfx.api.FxAssert.verifyThat;
 import static org.testfx.util.NodeQueryUtils.hasText;
-import static org.testfx.util.NodeQueryUtils.isVisible;
 
 import edu.wpi.capybara.App;
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
+import edu.wpi.capybara.objects.hibernate.newDBConnect;
 import java.io.IOException;
-import java.util.function.Predicate;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
@@ -21,38 +20,64 @@ public class SecurityControllerTest extends ApplicationTest {
   public void start(Stage stage) throws IOException {
     // manually instantiate an App and pass the test stage to its start function
     // TODO: verify that this is the best way to do this (it probably isn't)
-    DatabaseConnect.connect();
-    DatabaseConnect.importData();
+    Main.db = new newDBConnect();
     new App().start(stage);
   }
 
   @BeforeEach
   public void before() {
-    clickOn("#employeeID");
-    for (int i = 0; i < 13; i++) {
-      type(KeyCode.BACK_SPACE);
-    }
-    type(KeyCode.DIGIT1, KeyCode.DIGIT2, KeyCode.DIGIT3, KeyCode.DIGIT4, KeyCode.DIGIT5);
-
-    clickOn("#SubmitButton");
+    clickOn("#username");
+    type(KeyCode.T, KeyCode.E, KeyCode.S, KeyCode.T);
+    clickOn("#password");
+    type(KeyCode.T, KeyCode.E, KeyCode.S, KeyCode.T);
+    clickOn("#loginButton");
+    clickOn("#serviceRequestsButton");
   }
 
   @Test
   public void test1() {
     clickOn("#securityButton");
-    verifyThat("#Location", isVisible());
+    clickOn("#assignedStaffID");
+    type(KeyCode.DIGIT1);
     clickOn("#Location");
-    moveTo("#Type");
-    moveBy(50, 5);
+    moveBy(75, 0);
     clickOn(MouseButton.PRIMARY);
-    sleep(1000);
-    moveBy(-50, 80);
+    sleep(500);
+    moveBy(-75, 100);
     clickOn(MouseButton.PRIMARY);
-    clickOn("#notesUpdate");
-    type(KeyCode.O, KeyCode.W);
-    Predicate<Node> isEnabled = node -> !node.isDisable();
-    verifyThat("#SubmitButton", isEnabled);
+    verifyThat("#submitButton", Node::isDisable);
     clickOn("#clearButton");
-    verifyThat("#notesUpdate", hasText(""));
+    verifyThat("#assignedStaffID", hasText(""));
+    clickOn("#assignedStaffID");
+    type(KeyCode.DIGIT1);
+    clickOn("#Location");
+    moveBy(75, 0);
+    clickOn(MouseButton.PRIMARY);
+    sleep(500);
+    moveBy(-75, 115);
+    sleep(500);
+    clickOn(MouseButton.PRIMARY);
+    clickOn("#requestSpecific");
+    moveBy(75, 0);
+    clickOn(MouseButton.PRIMARY);
+    sleep(500);
+    moveBy(-75, 100);
+    clickOn(MouseButton.PRIMARY);
+    clickOn("#emergencyLevel");
+    moveBy(75, 0);
+    clickOn(MouseButton.PRIMARY);
+    sleep(500);
+    moveBy(-75, 100);
+    clickOn(MouseButton.PRIMARY);
+    moveTo("#date");
+    moveBy(90, 0);
+    clickOn(MouseButton.PRIMARY);
+    sleep(500);
+    moveBy(-75, 225);
+    clickOn(MouseButton.PRIMARY);
+    clickOn("#notes");
+    type(KeyCode.N, KeyCode.O);
+    clickOn("#submitButton");
+    verifyThat("#submissionReceived", Node::isVisible);
   }
 }

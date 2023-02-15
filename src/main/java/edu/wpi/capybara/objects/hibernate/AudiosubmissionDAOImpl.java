@@ -23,8 +23,8 @@ public class AudiosubmissionDAOImpl implements AudiosubmissionDAO {
 
   @Override
   public void deleteAudio(int id) {
-    audioSubs.remove(id);
     newDBConnect.delete(getAudio(id));
+    audioSubs.remove(id);
   }
 
   public AudiosubmissionDAOImpl(HashMap<Integer, AudiosubmissionEntity> audioSubs) {

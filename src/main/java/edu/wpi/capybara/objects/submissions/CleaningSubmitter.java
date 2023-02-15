@@ -19,13 +19,13 @@ public class CleaningSubmitter implements ISubmission {
       String outputNotes) {
     CleaningsubmissionEntity sub =
         new CleaningsubmissionEntity(
+            submissionID,
             currStaffID,
+            assignedID,
             location,
             requestSpecific,
             outputNotes,
             status,
-            assignedID,
-            submissionID,
             emergencyLevel,
             createdDate,
             dueDate);

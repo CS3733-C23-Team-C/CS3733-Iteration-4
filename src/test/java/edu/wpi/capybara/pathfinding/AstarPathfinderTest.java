@@ -5,9 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import edu.wpi.capybara.database.DatabaseConnect;
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.hibernate.EdgeEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import edu.wpi.capybara.objects.hibernate.newDBConnect;
 import java.util.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -16,8 +17,8 @@ import org.powermock.reflect.Whitebox;
 public class AstarPathfinderTest {
 
   static NodeEntity current, n1, n2, goal;
-  static TreeMap<String, NodeEntity> nodes, mockNodes;
-  static TreeMap<Integer, EdgeEntity> edges, mockEdges;
+  static Map<String, NodeEntity> nodes, mockNodes;
+  static List<EdgeEntity> edges, mockEdges;
 
   @BeforeAll
   public static void init() {
@@ -49,19 +50,18 @@ public class AstarPathfinderTest {
     when(goal.getFloor()).thenReturn("na");
     when(goal.getBuilding()).thenReturn("building");
 
-    DatabaseConnect.connect();
-    DatabaseConnect.importData();
+    Main.db = new newDBConnect();
 
-    nodes = DatabaseConnect.getNodes();
-    edges = DatabaseConnect.getEdges();
+    nodes = Main.db.getNodes();
+    edges = Main.db.getEdges();
 
-    mockNodes = new TreeMap<>();
+    mockNodes = new HashMap<>();
     mockNodes.put("testA", current);
     mockNodes.put("testB", n1);
     mockNodes.put("testC", n2);
     mockNodes.put("testD", goal);
 
-    mockEdges = new TreeMap<>();
+    mockEdges = new ArrayList<>();
   }
 
   @Test

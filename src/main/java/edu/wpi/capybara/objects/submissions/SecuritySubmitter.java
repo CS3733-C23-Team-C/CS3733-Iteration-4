@@ -19,13 +19,13 @@ public class SecuritySubmitter implements ISubmission {
       String outputNotes) {
     SecuritysubmissionEntity sub =
         new SecuritysubmissionEntity(
-            currStaffID,
+            submissionID,
             location,
             requestSpecific,
             outputNotes,
-            status,
+            currStaffID,
             assignedID,
-            submissionID,
+            status,
             emergencyLevel,
             createdDate,
             dueDate);

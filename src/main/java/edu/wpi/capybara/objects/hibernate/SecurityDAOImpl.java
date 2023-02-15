@@ -27,7 +27,7 @@ public class SecurityDAOImpl implements SecurityDAO {
 
   @Override
   public void deleteSecurity(int id) {
-    securitySubs.remove(id);
     newDBConnect.delete(getSecurity(id));
+    securitySubs.remove(id);
   }
 }
