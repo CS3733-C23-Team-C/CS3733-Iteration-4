@@ -401,7 +401,7 @@ public class newDBConnect implements RepoFacade {
     for (MoveEntity move : Main.db.getMoves()) {
       MoveEntity temp = currentLocations.get(move.getLongname());
       if (temp == null) {
-        currentLocations.put(temp.getLongname(), temp);
+        currentLocations.put(move.getLongname(), move);
       } else {
         if (move.getMovedate().compareTo(temp.getMovedate()) < 0
             && move.getMovedate().compareTo(new java.sql.Date(date.getTime())) < 0) {
