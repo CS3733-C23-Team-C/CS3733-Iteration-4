@@ -57,6 +57,12 @@ public class CleaningRequestController {
   @FXML TableColumn<ComputersubmissionEntity, String> computerDescription;
   @FXML TableColumn<ComputersubmissionEntity, String> computerAssignedID;
   @FXML TableColumn<ComputersubmissionEntity, SubmissionStatus> computerStatus;
+  @FXML TableColumn<ComputersubmissionEntity, String> computerELevel;
+  @FXML TableColumn<CleaningsubmissionEntity, String> cleanELevel;
+  @FXML TableColumn<TransportationsubmissionEntity, String> transportationELevel;
+  @FXML TableColumn<SecuritysubmissionEntity, String> securityELevel;
+  @FXML TableColumn<AudiosubmissionEntity, String> audioELevel;
+
   @FXML MFXComboBox<String> requestType;
   @FXML MFXButton fieldsEdit;
   @FXML MFXButton fieldsSave;
@@ -153,7 +159,21 @@ public class CleaningRequestController {
     cleanDescription.setOnEditCommit(
         new EventHandler<TableColumn.CellEditEvent<CleaningsubmissionEntity, String>>() {
           @Override
-          public void handle(TableColumn.CellEditEvent<CleaningsubmissionEntity, String> event) {}
+          public void handle(TableColumn.CellEditEvent<CleaningsubmissionEntity, String> event) {
+            CleaningsubmissionEntity clean = event.getRowValue();
+            clean.setDescription(event.getNewValue());
+          }
+        });
+    cleanELevel.setCellValueFactory(
+        new PropertyValueFactory<CleaningsubmissionEntity, String>("urgency"));
+    cleanELevel.setCellFactory(TextFieldTableCell.forTableColumn());
+    cleanELevel.setOnEditCommit(
+        new EventHandler<TableColumn.CellEditEvent<CleaningsubmissionEntity, String>>() {
+          @Override
+          public void handle(TableColumn.CellEditEvent<CleaningsubmissionEntity, String> event) {
+            CleaningsubmissionEntity clean = event.getRowValue();
+            clean.setUrgency(event.getNewValue());
+          }
         });
     for (CleaningsubmissionEntity sub : cleaningdata.values()) {
       if (Objects.equals(sub.getMemberid(), App.getUser().getStaffid())) {
@@ -237,6 +257,18 @@ public class CleaningRequestController {
             transport.setStatus(event.getNewValue());
           }
         });
+    transportationELevel.setCellValueFactory(
+        new PropertyValueFactory<TransportationsubmissionEntity, String>("urgency"));
+    transportationELevel.setCellFactory(TextFieldTableCell.forTableColumn());
+    transportationELevel.setOnEditCommit(
+        new EventHandler<TableColumn.CellEditEvent<TransportationsubmissionEntity, String>>() {
+          @Override
+          public void handle(
+              TableColumn.CellEditEvent<TransportationsubmissionEntity, String> event) {
+            TransportationsubmissionEntity clean = event.getRowValue();
+            clean.setUrgency(event.getNewValue());
+          }
+        });
 
     for (TransportationsubmissionEntity sub : transportationdata.values()) {
       if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
@@ -312,6 +344,17 @@ public class CleaningRequestController {
           public void handle(TableColumn.CellEditEvent<SecuritysubmissionEntity, String> event) {
             SecuritysubmissionEntity security = event.getRowValue();
             security.setAssignedid(event.getNewValue());
+          }
+        });
+    securityELevel.setCellValueFactory(
+        new PropertyValueFactory<SecuritysubmissionEntity, String>("urgency"));
+    securityELevel.setCellFactory(TextFieldTableCell.forTableColumn());
+    securityELevel.setOnEditCommit(
+        new EventHandler<TableColumn.CellEditEvent<SecuritysubmissionEntity, String>>() {
+          @Override
+          public void handle(TableColumn.CellEditEvent<SecuritysubmissionEntity, String> event) {
+            SecuritysubmissionEntity clean = event.getRowValue();
+            clean.setUrgency(event.getNewValue());
           }
         });
     for (SecuritysubmissionEntity sub : securitydata.values()) {
@@ -390,6 +433,17 @@ public class CleaningRequestController {
             audio.setAssignedid(event.getNewValue());
           }
         });
+    audioELevel.setCellValueFactory(
+        new PropertyValueFactory<AudiosubmissionEntity, String>("urgency"));
+    audioELevel.setCellFactory(TextFieldTableCell.forTableColumn());
+    audioELevel.setOnEditCommit(
+        new EventHandler<TableColumn.CellEditEvent<AudiosubmissionEntity, String>>() {
+          @Override
+          public void handle(TableColumn.CellEditEvent<AudiosubmissionEntity, String> event) {
+            AudiosubmissionEntity clean = event.getRowValue();
+            clean.setUrgency(event.getNewValue());
+          }
+        });
     for (AudiosubmissionEntity sub : audiodata.values()) {
       if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
         audioRequestsList.add(sub);
@@ -464,6 +518,17 @@ public class CleaningRequestController {
           public void handle(TableColumn.CellEditEvent<ComputersubmissionEntity, String> event) {
             ComputersubmissionEntity audio = event.getRowValue();
             audio.setAssignedid(event.getNewValue());
+          }
+        });
+    computerELevel.setCellValueFactory(
+        new PropertyValueFactory<ComputersubmissionEntity, String>("urgency"));
+    computerELevel.setCellFactory(TextFieldTableCell.forTableColumn());
+    computerELevel.setOnEditCommit(
+        new EventHandler<TableColumn.CellEditEvent<ComputersubmissionEntity, String>>() {
+          @Override
+          public void handle(TableColumn.CellEditEvent<ComputersubmissionEntity, String> event) {
+            ComputersubmissionEntity clean = event.getRowValue();
+            clean.setUrgency(event.getNewValue());
           }
         });
     for (ComputersubmissionEntity sub : computerdata.values()) {
