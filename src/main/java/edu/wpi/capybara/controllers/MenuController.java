@@ -17,6 +17,7 @@ public class MenuController {
   @FXML private MFXButton serviceRequestsButton;
   @FXML private MFXButton pathfindingButton;
   @FXML private MFXButton mapEditorButton;
+  @FXML private MFXButton employeeEditButton;
   private static MenuButton sUserProfile;
 
   public static void setUserProfile() {
@@ -32,6 +33,8 @@ public class MenuController {
   public void initialize() {
     sUserProfile = userProfile;
     setUserProfile();
+
+    employeeEditButton.setVisible(App.getUser().getRole().equals("admin"));
   }
 
   public void goToHome(ActionEvent actionEvent) {

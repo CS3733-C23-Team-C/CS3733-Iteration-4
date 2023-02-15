@@ -111,7 +111,6 @@ public class EmployeeEdit {
     firstNameField.clear();
     lastNameField.clear();
     passwordField.clear();
-
   }
 
   public void update(javafx.event.ActionEvent actionEvent) throws IOException {
