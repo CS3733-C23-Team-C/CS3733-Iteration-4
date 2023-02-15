@@ -4,6 +4,7 @@ import edu.wpi.capybara.App;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import java.util.Objects;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 import lombok.Getter;
@@ -30,6 +31,7 @@ public class UserProfileController {
   @FXML private Text successPassword;
   @FXML private Text staffID;
   @FXML private Text errorTxt;
+  @FXML private MFXButton databaseAccess;
 
   @FXML
   public void initialize() {
@@ -41,6 +43,8 @@ public class UserProfileController {
       currFirstName = firstNameField.getText();
       currLastName = lastNameField.getText();
       currPassword = passwordField.getText();
+
+      databaseAccess.setVisible(App.getUser().getRole().equals("admin"));
     } else {
       currFirstName = "";
       currLastName = "";
@@ -56,9 +60,12 @@ public class UserProfileController {
 
   public void save() {
     // validate
-    if (firstNameField.getText() == "") errorTxt.setText("First name can't be empty.");
-    else if (lastNameField.getText() == "") errorTxt.setText("Last name can't be empty.");
-    else if (passwordField.getText() == "") errorTxt.setText("Password can't be empty.");
+    if (Objects.equals(firstNameField.getText(), ""))
+      errorTxt.setText("First name can't be empty.");
+    else if (Objects.equals(lastNameField.getText(), ""))
+      errorTxt.setText("Last name can't be empty.");
+    else if (Objects.equals(passwordField.getText(), ""))
+      errorTxt.setText("Password can't be empty.");
     else {
       // save changes to app
       String newFirst = firstNameField.getText();
@@ -68,12 +75,18 @@ public class UserProfileController {
       String newPass = passwordField.getText();
       App.getUser().setPassword(newPass);
       // update menu
-
+      MenuController.setUserProfile();
       // make fields uneditable
       firstNameField.setDisable(true);
       lastNameField.setDisable(true);
       passwordField.setDisable(true);
     }
+  }
+
+  public void databasePopup() {
+    System.out.println("database popup");
+    DatabaseImportDialogController didc = new DatabaseImportDialogController();
+    DatabaseImportDialogController.showDialog();
   }
 
   //  public void editFirstName() {

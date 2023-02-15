@@ -1,6 +1,5 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.Main;
 import java.util.HashMap;
 
 public class SecurityDAOImpl implements SecurityDAO {
@@ -18,7 +17,7 @@ public class SecurityDAOImpl implements SecurityDAO {
 
   @Override
   public void addSecurity(SecuritysubmissionEntity submission) {
-    Main.db.addSecurity(submission);
+    newDBConnect.insertNew(submission);
     this.securitySubs.put(submission.getSubmissionid(), submission);
   }
 
@@ -28,7 +27,7 @@ public class SecurityDAOImpl implements SecurityDAO {
 
   @Override
   public void deleteSecurity(int id) {
-    securitySubs.remove(id);
     newDBConnect.delete(getSecurity(id));
+    securitySubs.remove(id);
   }
 }

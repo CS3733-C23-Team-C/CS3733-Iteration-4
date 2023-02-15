@@ -1,6 +1,5 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.Main;
 import java.util.HashMap;
 
 public class TransportationDAOImpl implements TransportationDAO {
@@ -18,7 +17,7 @@ public class TransportationDAOImpl implements TransportationDAO {
 
   @Override
   public void addTransportation(TransportationsubmissionEntity submission) {
-    Main.db.addTransportation(submission);
+    newDBConnect.insertNew(submission);
     this.transportationSubs.put(submission.getSubmissionid(), submission);
   }
 
@@ -29,7 +28,7 @@ public class TransportationDAOImpl implements TransportationDAO {
 
   @Override
   public void deleteTransportation(int id) {
-    transportationSubs.remove(id);
     newDBConnect.delete(getTransportation(id));
+    transportationSubs.remove(id);
   }
 }

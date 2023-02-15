@@ -47,23 +47,26 @@ public class TransportationsubmissionEntity {
   private Date duedate;
 
   public TransportationsubmissionEntity(
+      int submissionid,
       String employeeid,
+      String assignedid,
       String currroomnum,
       String destroomnum,
       String reason,
       SubmissionStatus status,
-      String assignedid,
-      int submissionid,
       String urgency,
       Date createdate,
       Date duedate) {
+    this.submissionid = submissionid;
     this.employeeid = employeeid;
+    this.assignedid = assignedid;
     this.currroomnum = currroomnum;
     this.destroomnum = destroomnum;
     this.reason = reason;
     this.status = status;
     this.assignedid = assignedid;
     this.submissionid = submissionid;
+    System.out.println(submissionid + " entity");
     this.urgency = urgency;
     this.createdate = createdate;
     this.duedate = duedate;

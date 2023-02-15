@@ -158,7 +158,7 @@
                                     <Font size="24.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="submissionReceived" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Submission recieved!">
+                              <Text fx:id="submissionReceived" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Submission recieved!" visible="false">
                                  <font>
                                     <Font size="24.0" />
                                  </font>

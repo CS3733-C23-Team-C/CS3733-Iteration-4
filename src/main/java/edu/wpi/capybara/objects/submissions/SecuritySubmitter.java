@@ -1,10 +1,10 @@
 package edu.wpi.capybara.objects.submissions;
 
 import edu.wpi.capybara.Main;
-import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
+import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
 import java.sql.Date;
 
-public class TransportationSubmitter implements ISubmission {
+public class SecuritySubmitter implements ISubmission {
 
   public void submitNewSubmission(
       String currStaffID,
@@ -17,19 +17,18 @@ public class TransportationSubmitter implements ISubmission {
       Date createdDate,
       Date dueDate,
       String outputNotes) {
-    System.out.println(submissionID + "submitter");
-    TransportationsubmissionEntity sub =
-        new TransportationsubmissionEntity(
+    SecuritysubmissionEntity sub =
+        new SecuritysubmissionEntity(
             submissionID,
-            currStaffID,
-            assignedID,
             location,
             requestSpecific,
             outputNotes,
+            currStaffID,
+            assignedID,
             status,
             emergencyLevel,
             createdDate,
             dueDate);
-    Main.db.addTransportation(sub);
+    Main.db.addSecurity(sub);
   }
 }

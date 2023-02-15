@@ -5,13 +5,14 @@ import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import java.util.*;
 
 public class AstarPathfinder implements PathfindingAlgorithm {
-  private final HashMap<String, NodeEntity> nodes;
-  private final ArrayList<EdgeEntity> edges;
+  private final Map<String, NodeEntity> nodes;
+  private final List<EdgeEntity> edges;
 
   private static class PathNode implements Comparable<PathNode> {
     List<NodeEntity> path;
     List<EdgeEntity> edges;
     NodeEntity node, current, goal;
+    EdgeEntity edge;
     double weight;
 
     /*
@@ -131,7 +132,9 @@ public class AstarPathfinder implements PathfindingAlgorithm {
   private static double cost(NodeEntity current, NodeEntity n, NodeEntity goal) {
     float multiplier = 1f;
 
-    if (!n.getFloor().equals(current.getFloor())) multiplier = 3f;
+    if (!n.getFloor().equals(current.getFloor())) {
+      multiplier = 5f;
+    }
 
     return (calculateWeight(current, n) + calculateWeight(n, goal)) * multiplier;
   }
@@ -143,7 +146,7 @@ public class AstarPathfinder implements PathfindingAlgorithm {
     return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
   }
 
-  public AstarPathfinder(HashMap<String, NodeEntity> nodes, ArrayList<EdgeEntity> edges) {
+  public AstarPathfinder(Map<String, NodeEntity> nodes, List<EdgeEntity> edges) {
     this.nodes = nodes;
     this.edges = edges;
   }

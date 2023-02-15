@@ -48,23 +48,23 @@ public class SecuritysubmissionEntity {
   public SecuritysubmissionEntity() {}
 
   public SecuritysubmissionEntity(
+      int submissionid,
       String employeeid,
+      String assignedid,
       String location,
       String type,
       String notesupdate,
       SubmissionStatus submissionstatus,
-      String assignedid,
-      int submissionid,
       String urgency,
       Date createdate,
       Date duedate) {
+    this.submissionid = submissionid;
     this.employeeid = employeeid;
+    this.assignedid = assignedid;
     this.location = location;
     this.type = type;
     this.notesupdate = notesupdate;
     this.submissionstatus = submissionstatus;
-    this.assignedid = assignedid;
-    this.submissionid = submissionid;
     this.urgency = urgency;
     this.createdate = createdate;
     this.duedate = duedate;

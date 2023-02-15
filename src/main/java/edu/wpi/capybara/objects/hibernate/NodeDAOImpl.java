@@ -1,6 +1,5 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.Main;
 import java.util.HashMap;
 
 public class NodeDAOImpl implements NodeDAO {
@@ -18,7 +17,8 @@ public class NodeDAOImpl implements NodeDAO {
 
   @Override
   public void addNode(NodeEntity submission) {
-    Main.db.addNode(submission);
+    // Main.db.addNode(submission);
+    newDBConnect.insertNew(submission);
     this.nodes.put(submission.getNodeid(), submission);
   }
 
@@ -28,7 +28,7 @@ public class NodeDAOImpl implements NodeDAO {
 
   @Override
   public void deleteNode(String id) {
-    nodes.remove(id);
     newDBConnect.delete(getNode(id));
+    nodes.remove(id);
   }
 }

@@ -110,20 +110,33 @@
                      </children>
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" />
-                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                  <VBox>
                      <children>
-                        <MFXButton fx:id="fieldsEdit" minWidth="150.0" onAction="#edit" style="-fx-background-color: #012D5A;" text="Edit" textFill="WHITE">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </MFXButton>
-                        <MFXButton fx:id="fieldsSave" minWidth="150.0" onAction="#save" style="-fx-background-color: #009CA6;" text="Save" textFill="WHITE">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </MFXButton>
+                        <HBox alignment="TOP_RIGHT" prefHeight="45.0" prefWidth="460.0" spacing="20.0">
+                           <children>
+                              <MFXButton fx:id="fieldsEdit" minWidth="150.0" onAction="#edit" style="-fx-background-color: #012D5A;" text="Edit" textFill="WHITE">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </MFXButton>
+                              <MFXButton fx:id="fieldsSave" minWidth="150.0" onAction="#save" style="-fx-background-color: #009CA6;" text="Save" textFill="WHITE">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </MFXButton>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_RIGHT">
+                           <children>
+                              <MFXButton fx:id="databaseAccess" minWidth="150.0" onAction="#databasePopup" style="-fx-background-color: #009CA6;" text="Manage Database" textFill="WHITE" visible="false">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </MFXButton>
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
+                  </VBox>
                </children>
                <padding>
                   <Insets bottom="20.0" left="20.0" right="20.0" />
