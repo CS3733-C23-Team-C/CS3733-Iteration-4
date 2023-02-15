@@ -15,7 +15,7 @@ public class Navigation {
 
       if (screen == Screen.LOG_IN_PAGE) {
         App.getRootPane().setLeft(null);
-        App.getPrimaryStage().setFullScreen(false);
+        App.getPrimaryStage().setMaximized(false);
       }
 
       App.getRootPane().setCenter(loader.load());
@@ -32,7 +32,7 @@ public class Navigation {
       final FXMLLoader loader = new FXMLLoader(resource);
 
       App.getRootPane().setLeft(loader.load());
-      App.getPrimaryStage().setFullScreen(true);
+      App.getPrimaryStage().setMaximized(true);
     } catch (IOException | NullPointerException e) {
       e.printStackTrace();
     }

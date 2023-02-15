@@ -9,6 +9,7 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
+import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -68,7 +69,7 @@ public class LogInPageController {
 
     // Get username and password and check if the combination exists
     StaffEntity s = null;
-    if (username.getText() != "" && password.getText() != "") {
+    if (!Objects.equals(username.getText(), "") && !Objects.equals(password.getText(), "")) {
       String outputUsername = username.getText();
       String outputPassword = password.getText();
       System.out.println("This is the employee username " + outputUsername);
