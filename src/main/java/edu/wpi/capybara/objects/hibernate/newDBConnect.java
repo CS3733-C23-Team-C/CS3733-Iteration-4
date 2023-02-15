@@ -1,5 +1,6 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.database.RepoFacade;
 import java.util.*;
 import org.hibernate.HibernateException;
@@ -391,8 +392,37 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
-  public void addMove(MoveEntity submission) {
-    move.addMove(submission);
+  public boolean addMove(MoveEntity submission) {
+
+    // Get most recent locations
+    java.util.Date date = new java.util.Date();
+    HashMap<String, MoveEntity> currentLocations = new HashMap<String, MoveEntity>();
+    for (MoveEntity move : Main.db.getMoves()) {
+      MoveEntity temp = currentLocations.get(move.getLongname());
+      if (temp == null) {
+        currentLocations.put(temp.getLongname(), temp);
+      } else {
+        if (move.getMovedate().compareTo(temp.getMovedate()) < 0
+            && move.getMovedate().compareTo(new java.sql.Date(date.getTime())) < 0) {
+          currentLocations.remove(temp.getLongname());
+          currentLocations.put(move.getLongname(), move);
+        }
+      }
+    }
+
+    // count number of moves at a location
+    int num = 0;
+    for (MoveEntity move : currentLocations.values()) {
+      if (move.getNodeid().equals(submission.getNodeid())) {
+        num++;
+      }
+    }
+
+    if (num < 2) {
+      move.addMove(submission);
+      return true;
+    }
+    return false;
   }
 
   @Override
