@@ -1,4 +1,3 @@
 package edu.wpi.capybara.controllers;
 
-public class AdministorController {
-}
+public class AdministorController {}

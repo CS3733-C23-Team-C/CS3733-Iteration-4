@@ -29,15 +29,25 @@ public class StaffEntity {
   @Column(name = "role")
   private String role;
 
+  @Basic
+  @Column(name = "notes")
+  private String notes;
+
   public StaffEntity() {}
 
   public StaffEntity(
-      String staffid, String firstname, String lastname, String password, String role) {
+      String staffid,
+      String firstname,
+      String lastname,
+      String password,
+      String role,
+      String notes) {
     this.staffid = staffid;
     this.firstname = firstname;
     this.lastname = lastname;
     this.password = password;
     this.role = role;
+    this.notes = notes;
   }
 
   public String getStaffid() {
@@ -92,6 +102,19 @@ public class StaffEntity {
     session.close();
   }
 
+  public String getNotes() {
+    return notes;
+  }
+
+  public void setNotes(String notes) {
+    this.notes = notes;
+    Session session = Main.db.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
+  }
+
   public String getRole() {
     return role;
   }
@@ -113,12 +136,13 @@ public class StaffEntity {
     return Objects.equals(staffid, that.staffid)
         && Objects.equals(firstname, that.firstname)
         && Objects.equals(lastname, that.lastname)
-        && Objects.equals(password, that.password);
+        && Objects.equals(password, that.password)
+        && Objects.equals(notes, that.notes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(staffid, firstname, lastname, password);
+    return Objects.hash(staffid, firstname, lastname, password, notes);
   }
 
   public void delete() {
