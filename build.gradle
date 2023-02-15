@@ -60,6 +60,7 @@ dependencies {
             'org.powermock:powermock-core:2.0.9'
 //            'com.oracle.ojdbc:ojdbc10:19.3.0.0',
     )
+    testImplementation 'junit:junit:4.13.1'
 
 }
 

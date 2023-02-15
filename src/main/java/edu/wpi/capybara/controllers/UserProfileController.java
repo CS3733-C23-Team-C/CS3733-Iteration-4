@@ -68,7 +68,7 @@ public class UserProfileController {
       String newPass = passwordField.getText();
       App.getUser().setPassword(newPass);
       // update menu
-
+      MenuController.setUserProfile();
       // make fields uneditable
       firstNameField.setDisable(true);
       lastNameField.setDisable(true);

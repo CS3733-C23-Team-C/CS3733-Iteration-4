@@ -149,7 +149,23 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                   </HBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" />
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <StackPane prefHeight="100.0" prefWidth="466.0">
+                           <children>
+                              <Text fx:id="submissionReceived" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Submission Received!" visible="false">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                              <Text fx:id="missingFields" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter all information before submitting" visible="false">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </StackPane>
+                     </children></HBox>
                   <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                      <children>
                         <MFXButton fx:id="clearButton" minWidth="150.0" style="-fx-background-color: #012D5A;" text="Clear" textFill="WHITE">
