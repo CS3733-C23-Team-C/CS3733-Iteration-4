@@ -50,6 +50,10 @@ public class MenuController {
     Navigation.navigate(Screen.MAP_EDITOR);
   }
 
+  public void showAssignedRequests(ActionEvent actionEvent) {
+    Navigation.navigate(Screen.ASSIGNED_REQUESTS);
+  }
+
   public void giveInfo(MouseEvent mouseEvent) {}
 
   public void quitApp(MouseEvent mouseEvent) {
