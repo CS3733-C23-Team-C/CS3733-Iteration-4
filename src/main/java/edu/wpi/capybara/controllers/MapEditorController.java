@@ -11,6 +11,7 @@ import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.Floor;
 import edu.wpi.capybara.objects.hibernate.EdgeEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import jakarta.persistence.PersistenceException;
 import java.io.IOException;
 import java.util.function.Function;
 import javafx.beans.InvalidationListener;
@@ -105,25 +106,6 @@ public class MapEditorController {
     initializeLocationNameTable();
     initializeMoveTable();
 
-    //    mapEditor
-    //        .selectedProperty()
-    //        .addListener(
-    //            (observable, oldValue, newValue) -> {
-    //              if (newValue.isPresent()) {
-    //                final var obj = newValue.get();
-    //                // if we were using a newer version of Java we could use a pattern-matching
-    // switch,
-    //                // but alas we are stuck on JDK 17
-    //                if (obj instanceof NodeAdapter node) {
-    //                  editorTabs.selectToggle(nodeToggle);
-    //                  nodeTableView.scrollTo(node);
-    //                } else if (obj instanceof EdgeAdapter edge) {
-    //                  editorTabs.selectToggle(edgeToggle);
-    //                  edgeTableView.getSelectionModel().select(edge);
-    //                  edgeTableView.scrollTo(edge);
-    //                }
-    //              }
-    //            });
     mapEditor
         .selectedProperty()
         .addListener(
@@ -138,10 +120,12 @@ public class MapEditorController {
                       editorTabs.selectToggle(nodeToggle);
                       nodeTableView.getSelectionModel().select(node);
                       nodeTableView.scrollTo(node);
+                      nodeTableView.requestFocus();
                     } else if (obj instanceof EdgeAdapter edge) {
                       editorTabs.selectToggle(edgeToggle);
                       edgeTableView.getSelectionModel().select(edge);
                       edgeTableView.scrollTo(edge);
+                      edgeTableView.requestFocus();
                     }
                   }
                 });
@@ -155,8 +139,13 @@ public class MapEditorController {
             final var node2 = nodeArray[1];
             final var newEdge =
                 new EdgeAdapter(new EdgeEntity(node1.getNodeID(), node2.getNodeID()), node1, node2);
-            repo.addEdge(newEdge);
-            mapEditor.setSelection(newEdge);
+            try {
+              repo.addEdge(newEdge);
+              mapEditor.setSelection(newEdge);
+            } catch (PersistenceException e) {
+              log.error("Error creating edge", e);
+              mapEditor.deselectAll();
+            }
             System.out.println("add edge");
           }
         });
