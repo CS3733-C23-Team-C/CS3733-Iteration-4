@@ -1,0 +1,32 @@
+.ribbonToggle {
+    -fx-background-color: #00000000;
+    -fx-text-fill: white;
+    -fx-border-width: 0 0 0 10;
+    -fx-border-style: none;
+    -fx-border-color: #00000000;
+}
+
+.ribbonToggle:hover {
+    -fx-border-style: solid;
+    -fx-border-color: #F6BD38;
+}
+
+.ribbonToggle:selected {
+    -fx-border-style: solid;
+    -fx-border-color: #009CA6;
+}
+
+.selectable {
+    -fx-stroke: #000000;
+    -fx-fill: #000000;
+}
+
+.selectable:hover {
+    -fx-stroke: #F6BD38;
+    -fx-fill: #F6BD38;
+}
+
+.selectable:selected {
+    -fx-stroke: #009CA6;
+    -fx-fill: #009CA6;
+}

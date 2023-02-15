@@ -12,7 +12,7 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.MenuController">
    <center>
-      <VBox alignment="TOP_CENTER" minWidth="200.0" spacing="10.0" style="-fx-background-color: #012D5A;">
+      <VBox alignment="TOP_CENTER" minWidth="200.0" prefHeight="377.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #012D5A;">
          <children>
             <HBox alignment="BOTTOM_CENTER" maxWidth="1.7976931348623157E308" style="-fx-background-color: #009CA6;">
                <children>
@@ -46,6 +46,11 @@
                </font>
             </MFXButton>
             <MFXButton fx:id="mapEditorButton" maxWidth="1.7976931348623157E308" onAction="#goToMapEditor" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="Map Editor" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </MFXButton>
+            <MFXButton fx:id="employeeEditButton" maxWidth="1.7976931348623157E308" onAction="#goToEmployeeEdit" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="Employee Editor" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>

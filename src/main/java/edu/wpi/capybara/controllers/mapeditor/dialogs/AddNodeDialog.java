@@ -1,13 +1,13 @@
 package edu.wpi.capybara.controllers.mapeditor.dialogs;
 
-import edu.wpi.capybara.controllers.mapeditor.DBObjectRepository;
+import edu.wpi.capybara.controllers.mapeditor.AdapterRepository;
 import javafx.stage.Window;
 
 public class AddNodeDialog extends NodeDialog {
 
-  private final DBObjectRepository repository;
+  private final AdapterRepository repository;
 
-  public AddNodeDialog(Window owner, DBObjectRepository repository) {
+  public AddNodeDialog(Window owner, AdapterRepository repository) {
     super(owner);
     this.repository = repository;
     setTitle("Add Node");

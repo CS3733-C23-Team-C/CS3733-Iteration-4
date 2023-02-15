@@ -14,41 +14,24 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.MapEditorController">
+<?import edu.wpi.capybara.controllers.mapeditor.ui.MapEditorPane?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.control.Separator?>
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.MapEditorController" stylesheets="@../styles/map_editor.css">
     <center>
-        <SplitPane fx:id="splitPane" dividerPositions="0.5" prefHeight="400.0" prefWidth="1200.0">
-            <items>
-                <Pane fx:id="mapViewerPane" minWidth="200.0" prefHeight="400.0" prefWidth="600.0">
-                    <children>
-                        <Canvas fx:id="mapViewerCanvas" height="400.0" width="600.0" />
-                    </children>
-                </Pane>
-                <TabPane layoutY="59.0" maxWidth="500.0" style="-fx-background-color: #012D5A;" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="59.0">
-                    <tabs>
-                        <Tab text="Nodes">
-                            <content>
-                                <TableView fx:id="nodeTableView" prefHeight="200.0" prefWidth="200.0" />
-                            </content>
-                        </Tab>
-                        <Tab text="Edges">
-                            <content>
-                                <TableView fx:id="edgeTableView" prefHeight="200.0" prefWidth="200.0" />
-                            </content>
-                        </Tab>
-                        <Tab text="Location Names">
-                            <content>
-                                <TableView fx:id="locationNameTableView" prefHeight="200.0" prefWidth="200.0" />
-                            </content>
-                        </Tab>
-                        <Tab text="Moves">
-                            <content>
-                                <TableView fx:id="moveTableView" prefHeight="200.0" prefWidth="200.0" />
-                            </content>
-                        </Tab>
-                    </tabs>
-                </TabPane>
-            </items>
-        </SplitPane>
+        <AnchorPane prefHeight="400.0" prefWidth="1200.0">
+            <SplitPane AnchorPane.leftAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"> <!-- this is an awful, terrible kludge, but it keeps the map view from flying around everywhere and clipping through things -->
+                <MapEditorPane fx:id="mapEditor" minWidth="200.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            </SplitPane>
+            <TableView fx:id="nodeTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TableView fx:id="edgeTableView" minWidth="200" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TableView fx:id="moveTableView" minWidth="475" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <TableView fx:id="locationNameTableView" minWidth="575" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+        </AnchorPane>
     </center>
    <top>
       <VBox alignment="TOP_CENTER" spacing="10.0" BorderPane.alignment="CENTER">
@@ -69,4 +52,53 @@
                </VBox.margin></HBox>
          </children></VBox>
    </top>
+    <right>
+        <ToolBar orientation="VERTICAL" prefWidth="45.0" style="-fx-background-color: #012D5A; -fx-border-style: none;" BorderPane.alignment="CENTER">
+            <items>
+                <Group>
+                    <children>
+                        <ToggleButton fx:id="nodeToggle" mnemonicParsing="false" styleClass="ribbonToggle" text="Nodes">
+                            <toggleGroup>
+                                <ToggleGroup fx:id="editorTabs" />
+                            </toggleGroup></ToggleButton>
+                    </children>
+                </Group>
+                <Group>
+                    <children>
+                        <ToggleButton fx:id="edgeToggle" mnemonicParsing="false" styleClass="ribbonToggle" text="Edges" toggleGroup="$editorTabs" />
+                    </children>
+                </Group>
+                <Group layoutX="-7.0" layoutY="90.0">
+                    <children>
+                        <ToggleButton fx:id="moveToggle" mnemonicParsing="false" styleClass="ribbonToggle" text="Moves" toggleGroup="$editorTabs" />
+                    </children>
+                </Group>
+                <Group layoutX="-18.0" layoutY="163.0">
+                    <children>
+                        <ToggleButton fx:id="locationToggle" mnemonicParsing="false" styleClass="ribbonToggle" text="Locations" toggleGroup="$editorTabs" />
+                    </children>
+                </Group>
+                <Separator />
+                <Group>
+                    <ToggleButton fx:id="f3Toggle" mnemonicParsing="false" styleClass="ribbonToggle" text="F3">
+                        <toggleGroup>
+                            <ToggleGroup fx:id="floors"/>
+                        </toggleGroup>
+                    </ToggleButton>
+                </Group>
+                <Group>
+                    <ToggleButton fx:id="f2Toggle" mnemonicParsing="false" styleClass="ribbonToggle" text="F2" toggleGroup="$floors" />
+                </Group>
+                <Group>
+                    <ToggleButton fx:id="f1Toggle" mnemonicParsing="false" styleClass="ribbonToggle" text="F1" toggleGroup="$floors" selected="true" />
+                </Group>
+                <Group>
+                    <ToggleButton fx:id="l1Toggle" mnemonicParsing="false" styleClass="ribbonToggle" text="L1" toggleGroup="$floors" />
+                </Group>
+                <Group>
+                    <ToggleButton fx:id="l2Toggle" mnemonicParsing="false" styleClass="ribbonToggle" text="L2" toggleGroup="$floors" />
+                </Group>
+            </items>
+        </ToolBar>
+    </right>
 </BorderPane>

@@ -1,4 +1,4 @@
-package edu.wpi.capybara.controllers.mapeditor;
+package edu.wpi.capybara.controllers.mapeditor.adapters;
 
 import java.util.function.Function;
 import javafx.beans.property.Property;
