@@ -20,11 +20,11 @@ public class SecuritySubmitter implements ISubmission {
     SecuritysubmissionEntity sub =
         new SecuritysubmissionEntity(
             submissionID,
+            currStaffID,
+            assignedID,
             location,
             requestSpecific,
             outputNotes,
-            currStaffID,
-            assignedID,
             status,
             emergencyLevel,
             createdDate,

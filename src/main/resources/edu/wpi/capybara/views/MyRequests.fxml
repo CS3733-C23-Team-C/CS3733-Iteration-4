@@ -98,7 +98,7 @@
                               </TableView>
                               <TableView fx:id="audioRequests" visible="false">
                                 <columns>
-                                  <TableColumn fx:id="audioID" prefWidth="119.33334732055664" text="Employee ID" />
+                                  <TableColumn fx:id="audioID" prefWidth="119.33334732055664" text="Staff ID" />
                                   <TableColumn fx:id="audioLocation" prefWidth="115.33329772949219" text="Location" />
                                     <TableColumn fx:id="audioItem" prefWidth="172.00001525878906" text="Requested Item" />
                                     <TableColumn fx:id="audioDescription" prefWidth="141.33334350585938" text="Description" />
@@ -109,7 +109,7 @@
                               </TableView>
                               <TableView fx:id="computerRequests" visible="false">
                                  <columns>
-                                    <TableColumn fx:id="computerID" prefWidth="119.33334732055664" text="Employee ID" />
+                                    <TableColumn fx:id="computerID" prefWidth="119.33334732055664" text="Staff ID" />
                                     <TableColumn fx:id="computerLocation" prefWidth="115.33329772949219" text="Location" />
                                     <TableColumn fx:id="computerItem" prefWidth="172.00001525878906" text="Requested Item" />
                                     <TableColumn fx:id="computerDescription" prefWidth="141.33334350585938" text="Description" />

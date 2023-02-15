@@ -501,6 +501,68 @@ public class MyRequestsController {
     }
     computerRequests.setItems(computerRequestsList);
 
+    if (App.getUser().getRole().equals("admin")) {
+      transportationStatus.setEditable(true);
+      cleanStatus.setEditable(true);
+      securityStatus.setEditable(true);
+      computerStatus.setEditable(true);
+      audioStatus.setEditable(true);
+
+      transportationStatus.setOnEditCommit(
+          new EventHandler<
+              TableColumn.CellEditEvent<TransportationsubmissionEntity, SubmissionStatus>>() {
+            @Override
+            public void handle(
+                TableColumn.CellEditEvent<TransportationsubmissionEntity, SubmissionStatus> event) {
+              TransportationsubmissionEntity transport = event.getRowValue();
+              transport.setStatus(event.getNewValue());
+            }
+          });
+
+      cleanStatus.setOnEditCommit(
+          new EventHandler<
+              TableColumn.CellEditEvent<CleaningsubmissionEntity, SubmissionStatus>>() {
+            @Override
+            public void handle(
+                TableColumn.CellEditEvent<CleaningsubmissionEntity, SubmissionStatus> event) {
+              CleaningsubmissionEntity clean = event.getRowValue();
+              clean.setSubmissionstatus(event.getNewValue());
+            }
+          });
+
+      securityStatus.setOnEditCommit(
+          new EventHandler<
+              TableColumn.CellEditEvent<SecuritysubmissionEntity, SubmissionStatus>>() {
+            @Override
+            public void handle(
+                TableColumn.CellEditEvent<SecuritysubmissionEntity, SubmissionStatus> event) {
+              SecuritysubmissionEntity security = event.getRowValue();
+              security.setSubmissionstatus(event.getNewValue());
+            }
+          });
+
+      audioStatus.setOnEditCommit(
+          new EventHandler<TableColumn.CellEditEvent<AudiosubmissionEntity, SubmissionStatus>>() {
+            @Override
+            public void handle(
+                TableColumn.CellEditEvent<AudiosubmissionEntity, SubmissionStatus> event) {
+              AudiosubmissionEntity audio = event.getRowValue();
+              audio.setSubmissionstatus(event.getNewValue());
+            }
+          });
+
+      computerStatus.setOnEditCommit(
+          new EventHandler<
+              TableColumn.CellEditEvent<ComputersubmissionEntity, SubmissionStatus>>() {
+            @Override
+            public void handle(
+                TableColumn.CellEditEvent<ComputersubmissionEntity, SubmissionStatus> event) {
+              ComputersubmissionEntity audio = event.getRowValue();
+              audio.setSubmissionstatus(event.getNewValue());
+            }
+          });
+    }
+
     transportationRequests.setVisible(false);
     securityRequests.setVisible(false);
     cleanRequests.setVisible(false);
