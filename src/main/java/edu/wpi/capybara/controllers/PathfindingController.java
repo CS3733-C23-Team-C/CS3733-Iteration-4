@@ -53,10 +53,10 @@ public class PathfindingController {
   public void initialize() {
     // log.info("start");
     dateField.setValue(LocalDate.now());
-    stackPane.setPickOnBounds(false);
-    canvasPane.setPickOnBounds(false);
-    nodeDrawer.setPickOnBounds(false);
-    nodeAnchorPane.setPickOnBounds(false);
+    stackPane.setPickOnBounds(true);
+    canvasPane.setPickOnBounds(true);
+    nodeDrawer.setPickOnBounds(true);
+    nodeAnchorPane.setPickOnBounds(true);
 
     Collection<NodeEntity> nodes = Main.db.getNodes().values();
 

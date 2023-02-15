@@ -24,6 +24,8 @@ public class App extends Application {
 
   @Getter private static StaffEntity user;
 
+  @Getter private static StaffEntity tempuser;
+
   @Override
   public void init() {
     log.info("Starting Up");
@@ -62,5 +64,9 @@ public class App extends Application {
 
   public static void setUser(StaffEntity newUser) {
     user = newUser;
+  }
+
+  public static void setTempUser(StaffEntity newtempUser) {
+    tempuser = newtempUser;
   }
 }
