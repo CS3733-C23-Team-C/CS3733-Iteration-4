@@ -49,19 +49,19 @@ public class LogInPageController {
         });
 
     username.setOnKeyReleased(
-            new EventHandler<KeyEvent>() {
-              @Override
-              public void handle(KeyEvent event) {
-                enableLogin(event);
-                if (event.getCode().equals(KeyCode.ENTER) && !loginButton.isDisabled()) {
-                  try {
-                    login(new ActionEvent());
-                  } catch (IOException e) {
-                    throw new RuntimeException(e);
-                  }
-                }
+        new EventHandler<KeyEvent>() {
+          @Override
+          public void handle(KeyEvent event) {
+            enableLogin(event);
+            if (event.getCode().equals(KeyCode.ENTER) && !loginButton.isDisabled()) {
+              try {
+                login(new ActionEvent());
+              } catch (IOException e) {
+                throw new RuntimeException(e);
               }
-            });
+            }
+          }
+        });
   }
 
   public void login(ActionEvent actionEvent) throws IOException {

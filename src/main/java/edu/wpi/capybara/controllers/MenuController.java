@@ -17,18 +17,20 @@ public class MenuController {
   @FXML private MFXButton serviceRequestsButton;
   @FXML private MFXButton pathfindingButton;
   @FXML private MFXButton mapEditorButton;
+  private static MenuButton sUserProfile;
 
-  public void setUserProfile() {
-    System.out.println(userProfile == null);
+  public static void setUserProfile() {
+    System.out.println(sUserProfile == null);
     System.out.println(App.getUser().getFirstname());
     System.out.println(App.getUser().getLastname());
-    if (userProfile != null) {
-      userProfile.setText(App.getUser().getFirstname() + " " + App.getUser().getLastname());
+    if (sUserProfile != null) {
+      sUserProfile.setText(App.getUser().getFirstname() + " " + App.getUser().getLastname());
     }
   }
 
   @FXML
   public void initialize() {
+    sUserProfile = userProfile;
     setUserProfile();
   }
 

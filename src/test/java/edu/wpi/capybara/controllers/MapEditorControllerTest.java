@@ -1,19 +1,6 @@
 package edu.wpi.capybara.controllers;
 
-import static org.testfx.api.FxAssert.verifyThat;
-
-import edu.wpi.capybara.App;
-import edu.wpi.capybara.Main;
-import edu.wpi.capybara.objects.hibernate.newDBConnect;
-import java.io.IOException;
-import javafx.scene.Node;
-import javafx.scene.input.KeyCode;
-import javafx.stage.Stage;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.testfx.framework.junit5.ApplicationTest;
-
-//public class MapEditorControllerTest extends ApplicationTest {
+// public class MapEditorControllerTest extends ApplicationTest {
 //  @Override
 //  public void start(Stage stage) throws IOException {
 //    // manually instantiate an App and pass the test stage to its start function
@@ -36,4 +23,4 @@ import org.testfx.framework.junit5.ApplicationTest;
 //  public void test1() {
 //    verifyThat("#nodeTableView", Node::isVisible);
 //  }
-//}
+// }
