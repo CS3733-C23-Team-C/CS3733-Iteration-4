@@ -170,7 +170,7 @@ public class MapViewController {
     double moveX = (lastX - event.getX()) * (mapW / canvasW);
     double moveY = (lastY - event.getY()) * (mapH / canvasH);
 
-    if (moveX == 0 && moveY == 0) return;
+    if (Math.abs(moveX) < 1 && Math.abs(moveY) < 1) return;
 
     mapX += moveX;
     mapY += moveY;
@@ -311,8 +311,8 @@ public class MapViewController {
     testCircle.setCenterX(locToMapX(node.getXcoord()));
     testCircle.setCenterY(locToMapY(node.getYcoord()));
     testCircle.setCursor(Cursor.HAND);
-    testCircle.setPickOnBounds(false);
-    testCircle.setOnMouseClicked(event -> onClick.handle(event, testCircle));
+    testCircle.setPickOnBounds(true);
+    testCircle.setOnMousePressed(event -> onClick.handle(event, testCircle));
   }
 
   private void drawNode(
@@ -327,8 +327,8 @@ public class MapViewController {
     testCircle.setCenterX(locToMapX(node.getXcoord()));
     testCircle.setCenterY(locToMapY(node.getYcoord()));
     testCircle.setCursor(Cursor.HAND);
-    testCircle.setPickOnBounds(false);
-    testCircle.setOnMouseClicked(eventHandler);
+    testCircle.setPickOnBounds(true);
+    testCircle.setOnMousePressed(eventHandler);
     testCircle.setOnMouseEntered((event) -> System.out.println("test in"));
     testCircle.setOnMouseExited((event) -> System.out.println("test out"));
   }
