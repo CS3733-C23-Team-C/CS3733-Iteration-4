@@ -54,20 +54,11 @@ public class EmployeeEdit {
     updateButton.setDisable(true);
   }
 
-  public void searchEmployeeID(ActionEvent actionEvent) throws IOException {
-
-    StaffEntity s = null;
-    if (staffIDField.getText() != null) {
-      String outputID = staffIDField.getText();
-      System.out.print("this is the employee ID" + outputID + "");
-      s = Main.db.getStaff(outputID);
-    }
-    if (s == null) {
-      clearFields();
-    } else {
-      System.out.printf("the id matched an employee");
-      initialize();
-    }
+  public void edit() {
+    firstNameField.setDisable(false);
+    lastNameField.setDisable(false);
+    passwordField.setDisable(false);
+    notesField.setDisable(false);
   }
 
   //    if (staffIDField().getText() != "" && staffIDField.getText() != "") {
@@ -100,14 +91,24 @@ public class EmployeeEdit {
     }
   }
 
-  public void edit() {
-    firstNameField.setDisable(false);
-    lastNameField.setDisable(false);
-    passwordField.setDisable(false);
-    notesField.setDisable(false);
+  public void searchEmployeeID(javafx.event.ActionEvent actionEvent) throws IOException {
+
+    StaffEntity s = null;
+    if (staffIDField.getText() != null) {
+      String outputID = staffIDField.getText();
+      System.out.print("this is the employee ID" + outputID + "");
+      s = Main.db.getStaff(outputID);
+    }
+    if (s == null) {
+      clearFields();
+    } else {
+      System.out.printf("the id matched an employee");
+      initialize();
+      edit();
+    }
   }
 
-  public void save() {
+  public void updateButton(ActionEvent actionEvent) throws IOException {
     // validate
     if (firstNameField.getText() == "") errorTxt.setText("First name can't be empty.");
     else if (lastNameField.getText() == "") errorTxt.setText("Last name can't be empty.");
@@ -133,7 +134,7 @@ public class EmployeeEdit {
     }
   }
 
-  public void searchEmployeeID(javafx.event.ActionEvent actionEvent) {}
+  // public void searchEmployeeID(javafx.event.ActionEvent actionEvent) {}
 
   //  public void editFirstName() {
   //    firstNameField.setDisable(false);
