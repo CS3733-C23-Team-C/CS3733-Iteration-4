@@ -22,7 +22,7 @@ public class MoveDAOImpl implements MoveDAO {
 
   @Override
   public void deleteMove(MoveEntity move) {
-    moves.remove(move);
     newDBConnect.delete(move);
+    moves.remove(move);
   }
 }

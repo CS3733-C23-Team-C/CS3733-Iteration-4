@@ -1,10 +1,10 @@
-package edu.wpi.capybara.controllers.mapeditor;
+package edu.wpi.capybara.controllers.mapeditor.adapters;
 
 import edu.wpi.capybara.objects.hibernate.EdgeEntity;
 import javafx.beans.property.adapter.JavaBeanStringProperty;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 
-public class EdgePropertyAdapter {
+public class EdgeAdapter {
   private static final JavaBeanStringPropertyBuilder startNodeBuilder =
       JavaBeanStringPropertyBuilder.create().name("node1");
   private static final JavaBeanStringPropertyBuilder endNodeBuilder =
@@ -15,7 +15,7 @@ public class EdgePropertyAdapter {
   private final JavaBeanStringProperty startNode;
   private final JavaBeanStringProperty endNode;
 
-  public EdgePropertyAdapter(EdgeEntity edge) {
+  public EdgeAdapter(EdgeEntity edge) {
     entity = edge;
     try {
       startNode = startNodeBuilder.bean(edge).build();
@@ -26,11 +26,26 @@ public class EdgePropertyAdapter {
     }
   }
 
-  public EdgePropertyAdapter(
-      EdgeEntity edge, NodePropertyAdapter startNode, NodePropertyAdapter endNode) {
+  public EdgeAdapter(EdgeEntity edge, NodeAdapter startNode, NodeAdapter endNode) {
     this(edge);
     this.startNode.bind(startNode.nodeIDProperty());
     this.endNode.bind(endNode.nodeIDProperty());
+  }
+
+  public String getStartNode() {
+    return startNode.get();
+  }
+
+  public void setStartNode(String startNode) {
+    this.startNode.set(startNode);
+  }
+
+  public String getEndNode() {
+    return endNode.get();
+  }
+
+  public void setEndNode(String endNode) {
+    this.endNode.set(endNode);
   }
 
   public JavaBeanStringProperty startNodeProperty() {

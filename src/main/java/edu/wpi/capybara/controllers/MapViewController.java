@@ -311,6 +311,7 @@ public class MapViewController {
     testCircle.setCenterX(locToMapX(node.getXcoord()));
     testCircle.setCenterY(locToMapY(node.getYcoord()));
     testCircle.setCursor(Cursor.HAND);
+    testCircle.setPickOnBounds(false);
     testCircle.setOnMouseClicked(event -> onClick.handle(event, testCircle));
   }
 
@@ -326,7 +327,10 @@ public class MapViewController {
     testCircle.setCenterX(locToMapX(node.getXcoord()));
     testCircle.setCenterY(locToMapY(node.getYcoord()));
     testCircle.setCursor(Cursor.HAND);
+    testCircle.setPickOnBounds(false);
     testCircle.setOnMouseClicked(eventHandler);
+    testCircle.setOnMouseEntered((event) -> System.out.println("test in"));
+    testCircle.setOnMouseExited((event) -> System.out.println("test out"));
   }
 
   private void drawEdges() {

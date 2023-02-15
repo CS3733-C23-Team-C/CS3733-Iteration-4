@@ -1,7 +1,7 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
-import edu.wpi.capybara.controllers.mapeditor.NodePropertyAdapter;
+import edu.wpi.capybara.controllers.mapeditor.adapters.NodeAdapter;
 import java.util.Objects;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -19,7 +19,7 @@ public class MapViewerController {
 
   private final Canvas nodeDrawer;
 
-  private final SimpleListProperty<NodePropertyAdapter> nodesToDisplay;
+  private final SimpleListProperty<NodeAdapter> nodesToDisplay;
 
   private final GraphicsContext gc;
   private final Image image;
@@ -31,8 +31,7 @@ public class MapViewerController {
   private static final float SCROLL_SPEED = 1f;
   private static final int MOVE_SPEED = 30;
 
-  public MapViewerController(
-      Pane pane, Canvas nodeDrawer, ListProperty<NodePropertyAdapter> nodes) {
+  public MapViewerController(Pane pane, Canvas nodeDrawer, ListProperty<NodeAdapter> nodes) {
     // this dependency injection hurts my soul, but it will work for now
     this.nodeDrawer = nodeDrawer;
 
@@ -52,7 +51,7 @@ public class MapViewerController {
 
     nodesToDisplay = new SimpleListProperty<>(nodes);
     nodesToDisplay.addListener(
-        (ListChangeListener<? super NodePropertyAdapter>)
+        (ListChangeListener<? super NodeAdapter>)
             (node) -> {
               // this could be made more efficient by only redrawing the changed node, but it will
               // work for now
@@ -161,7 +160,7 @@ public class MapViewerController {
     }*/
 
     gc.setFill(Color.BLUE);
-    for (NodePropertyAdapter n : nodesToDisplay) {
+    for (NodeAdapter n : nodesToDisplay) {
       if (nodeInMapView(n)) {
         // if (n == startNode || n == endNode) continue;
         drawNode(n);
@@ -172,14 +171,14 @@ public class MapViewerController {
     // }
   }
 
-  private boolean nodeInMapView(NodePropertyAdapter n) {
+  private boolean nodeInMapView(NodeAdapter n) {
     return n.getXCoord() > mapX
         && n.getXCoord() < mapX + mapW
         && n.getYCoord() > mapY
         && n.getYCoord() < mapY + mapH;
   }
 
-  private void drawNode(NodePropertyAdapter node) {
+  private void drawNode(NodeAdapter node) {
     if (node == null) {
       System.out.println("NULL NODE");
       return;

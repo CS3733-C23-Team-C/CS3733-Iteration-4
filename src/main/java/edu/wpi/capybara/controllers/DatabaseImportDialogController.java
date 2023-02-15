@@ -1,5 +1,7 @@
 package edu.wpi.capybara.controllers;
 
+import static edu.wpi.capybara.database.DBcsv.*;
+
 import edu.wpi.capybara.App;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -9,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -17,6 +20,7 @@ public class DatabaseImportDialogController {
   @FXML private MFXTextField folderText;
   @FXML private MFXButton importData;
   @FXML private MFXButton exportData;
+  @FXML private Text errorText;
 
   public static void showDialog() {
     Stage dialog;
@@ -44,10 +48,19 @@ public class DatabaseImportDialogController {
   }
 
   public void importDataFunc(ActionEvent event) {
-    System.out.println("import data to " + folderText.getText());
+    importAlldbcsv();
+    try {
+      importDatabase(folderText.getText());
+    } catch (Exception e) {
+      errorText.setText("Unable to import data");
+    }
   }
 
   public void exportDataFunc(ActionEvent event) {
-    System.out.println("export data to " + folderText.getText());
+    try {
+      exportDatabase();
+    } catch (Exception e) {
+      errorText.setText("Unable to export data");
+    }
   }
 }

@@ -1,6 +1,5 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.Main;
 import java.util.HashMap;
 
 public class StaffDAOImpl implements StaffDAO {
@@ -18,7 +17,7 @@ public class StaffDAOImpl implements StaffDAO {
 
   @Override
   public void addStaff(StaffEntity submission) {
-    Main.db.addStaff(submission);
+    newDBConnect.insertNew(submission);
     this.staff.put(submission.getStaffid(), submission);
   }
 
@@ -28,8 +27,8 @@ public class StaffDAOImpl implements StaffDAO {
 
   @Override
   public void deleteStaff(String id) {
-    staff.remove(id);
     newDBConnect.delete(getStaff(id));
+    staff.remove(id);
   }
 
   public StaffEntity getStaff(String Staffid, String password) {

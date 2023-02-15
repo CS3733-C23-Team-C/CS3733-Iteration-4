@@ -32,6 +32,12 @@
                            </font>
                         </Text>
                         <HBox minHeight="10.0" prefHeight="100.0" prefWidth="200.0" />
+                        <Text fx:id="errorText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Text>
+                        <HBox minHeight="10.0" prefHeight="100.0" prefWidth="200.0" />
                         <MFXTextField fx:id="folderText" prefHeight="49.0" prefWidth="304.0" />
                         <HBox minHeight="20.0" prefHeight="100.0" prefWidth="200.0" />
                      </children>
