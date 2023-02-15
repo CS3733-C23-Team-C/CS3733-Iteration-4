@@ -59,7 +59,9 @@ public class MapEditorController {
 
   @FXML
   public void initialize() {
+    log.info("Initializing repository");
     repo = new AdapterRepository();
+    log.info("Repository initialized.");
     nodes = repo.getNodes();
     edges = repo.getEdges();
     moves = repo.getMoves();
@@ -82,6 +84,7 @@ public class MapEditorController {
               }
             }));
 
+    log.info("Populating map...");
     nodes.forEach(mapEditor::addNode);
     edges.forEach(mapEditor::addEdge);
     nodes.addListener(
