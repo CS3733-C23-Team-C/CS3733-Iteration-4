@@ -6,10 +6,11 @@ import edu.wpi.capybara.objects.hibernate.StaffEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.util.Objects;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
+import javax.swing.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,23 +45,6 @@ public class EmployeeEdit {
   @FXML private Text staffID;
   @FXML private Text errorTxt;
 
-  public void clearFields() {
-
-    firstNameField.clear();
-    lastNameField.clear();
-    passwordField.clear();
-    notesField.clear();
-    staffIDField.clear();
-    updateButton.setDisable(true);
-  }
-
-  public void edit() {
-    firstNameField.setDisable(false);
-    lastNameField.setDisable(false);
-    passwordField.setDisable(false);
-    notesField.setDisable(false);
-  }
-
   //    if (staffIDField().getText() != "" && staffIDField.getText() != "") {
   //      String outputUsername = username.getText();
   //      String outputPassword = password.getText();
@@ -73,10 +57,12 @@ public class EmployeeEdit {
   public void initialize() {
     if (Main.db.getStaff(staffIDField.getText()) != null) {
       // staffID.setText("Employee ID: " + App.getUser().getStaffid());
-      firstNameField.setText(App.getUser().getFirstname());
-      lastNameField.setText(App.getUser().getLastname());
-      passwordField.setText(App.getUser().getPassword());
-      notesField.setText(App.getUser().getNotes());
+      firstNameField.setText(App.getTempuser().getFirstname());
+      lastNameField.setText(App.getTempuser().getLastname());
+      passwordField.setText(App.getTempuser().getPassword());
+      String notes = App.getTempuser().getNotes();
+      if (notes == null) notes = "";
+      notesField.setText(notes);
 
       currFirstName = firstNameField.getText();
       currLastName = lastNameField.getText();
@@ -91,6 +77,13 @@ public class EmployeeEdit {
     }
   }
 
+  public void edit() {
+    firstNameField.setDisable(false);
+    lastNameField.setDisable(false);
+    passwordField.setDisable(false);
+    notesField.setDisable(false);
+  }
+
   public void searchEmployeeID(javafx.event.ActionEvent actionEvent) throws IOException {
 
     StaffEntity s = null;
@@ -98,7 +91,10 @@ public class EmployeeEdit {
       String outputID = staffIDField.getText();
       System.out.print("this is the employee ID" + outputID + "");
       s = Main.db.getStaff(outputID);
+
+      App.setTempUser(s);
     }
+
     if (s == null) {
       clearFields();
     } else {
@@ -108,29 +104,61 @@ public class EmployeeEdit {
     }
   }
 
-  public void updateButton(ActionEvent actionEvent) throws IOException {
+  public void clearFields() {
+    staffIDField.clear();
+    notesField.clear();
+
+    firstNameField.clear();
+    lastNameField.clear();
+    passwordField.clear();
+
+  }
+
+  public void update(javafx.event.ActionEvent actionEvent) throws IOException {
+    System.out.println("The update button was pressed");
+
     // validate
-    if (firstNameField.getText() == "") errorTxt.setText("First name can't be empty.");
-    else if (lastNameField.getText() == "") errorTxt.setText("Last name can't be empty.");
-    else if (passwordField.getText() == "") errorTxt.setText("Password can't be empty.");
-    else if (notesField.getText() == "") errorTxt.setText("Password can't be empty");
+    if (Objects.equals(firstNameField.getText(), ""))
+      throw new IOException("First Name cannot be Empty");
+    else if (Objects.equals(lastNameField.getText(), ""))
+      throw new IOException("Last Name cannot be Empty");
+    else if (Objects.equals(passwordField.getText(), ""))
+      throw new IOException("Password cannot be Empty");
     else {
+
       // save changes to app
+      //
+      //      StaffEntity testing = null;
+      //      StaffEntity prepairedStaement = null;
+
+      //      String sql = "tjos os a test";
+      //      prepairedStaement = Main.db.getStaff(staffIDField.getText());
+      //
+      //    prepairedStaement.setNotes("hello");
+      //
+      //    testing = prepairedStaement.executeQuery();
+      //
+      //    wguke(testing.next()){
+      //      system.out.println(test.getint("id")+ "" + resultset.getint("employee ide")+ " result
+      // set.getstring("firstname)+ ""+result getstring(notes));
+      //      }
+      //
+
       String newFirst = firstNameField.getText();
-      App.getUser().setFirstname(newFirst);
+      App.getTempuser().setFirstname(newFirst);
       String newLast = lastNameField.getText();
       App.getUser().setLastname(newLast);
       String newPass = passwordField.getText();
       App.getUser().setPassword(newPass);
       String newNote = notesField.getText();
-      App.getUser().setPassword(newNote);
+      App.getUser().setNotes(newNote);
       // update menu
 
       // make fields uneditable
-      firstNameField.setDisable(true);
-      lastNameField.setDisable(true);
-      passwordField.setDisable(true);
-      notesField.setDisable(true);
+      //      firstNameField.setDisable(true);
+      //      lastNameField.setDisable(true);
+      //      passwordField.setDisable(true);
+      //      notesField.setDisable(true);
     }
   }
 
