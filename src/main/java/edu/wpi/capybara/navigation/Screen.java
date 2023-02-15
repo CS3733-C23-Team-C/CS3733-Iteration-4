@@ -17,9 +17,11 @@ public enum Screen {
 
   PATHFINDING("views/Pathfinding.fxml"),
 
-  REQUESTS("views/CleaningRequests.fxml"),
+  REQUESTS("views/MyRequests.fxml"),
 
-  USER_PROFILE("views/UserProfile.fxml");
+  USER_PROFILE("views/UserProfile.fxml"),
+
+  ASSIGNED_REQUESTS("views/AssignedRequests.fxml");
 
   private final String filename;
 

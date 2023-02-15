@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
-public class CleaningRequestControllerTest extends ApplicationTest {
+public class MyRequestsControllerTest extends ApplicationTest {
   @Override
   public void start(Stage stage) throws IOException {
     // manually instantiate an App and pass the test stage to its start function
