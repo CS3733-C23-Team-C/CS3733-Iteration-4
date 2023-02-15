@@ -50,6 +50,10 @@ public class MenuController {
     Navigation.navigate(Screen.MAP_EDITOR);
   }
 
+  public void goToEmployeeEdit(ActionEvent actionEvent) {
+    Navigation.navigate(Screen.EMPLOYEE_EDIT);
+  }
+
   public void showAssignedRequests(ActionEvent actionEvent) {
     Navigation.navigate(Screen.ASSIGNED_REQUESTS);
   }
