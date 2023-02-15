@@ -19,6 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import lombok.NonNull;
 
 public class MapEditorPane extends SplitPane {
 
@@ -47,12 +48,13 @@ public class MapEditorPane extends SplitPane {
             if (!event.isPrimaryButtonDown()) return;
             if (!event.isShiftDown()) {
               // remove all other selections
-              selections.forEach(Selectable::deselect);
+              deselectAll();
             }
             select();
             // don't let the click propagate back to the map
             // event.consume();
           });
+      addEventHandler(MouseEvent.MOUSE_RELEASED, MouseEvent::consume);
     }
 
     @Override
@@ -97,12 +99,13 @@ public class MapEditorPane extends SplitPane {
             if (!event.isPrimaryButtonDown()) return;
             if (!event.isShiftDown()) {
               // remove all other selections
-              selections.forEach(Selectable::deselect);
+              deselectAll();
             }
             select();
             // don't let the click propagate to the map or any nodes
             // event.consume();
           });
+      addEventHandler(MouseEvent.MOUSE_RELEASED, MouseEvent::consume);
     }
 
     private void bindStartNodeProps() {
@@ -201,22 +204,24 @@ public class MapEditorPane extends SplitPane {
             event -> {
               dragOffsetVector.setX(event.getX() - viewX.get());
               dragOffsetVector.setY(event.getY() - viewY.get());
-              setCursor(Cursor.CLOSED_HAND);
             });
     onMouseDraggedProperty()
         .setValue(
             event -> {
+              setCursor(Cursor.CLOSED_HAND);
               final var eventLocation = new Vector2(event.getX(), event.getY());
               eventLocation.subtract(dragOffsetVector);
               viewX.setValue(eventLocation.getX());
               viewY.setValue(eventLocation.getY());
             });
-    onMouseReleasedProperty().setValue(event -> {
-      setCursor(Cursor.DEFAULT);
-      if (event.isStillSincePress()) {
-        selections.forEach(Selectable::deselect);
-      }
-    });
+    onMouseReleasedProperty()
+        .setValue(
+            event -> {
+              setCursor(Cursor.DEFAULT);
+              if (event.isStillSincePress()) {
+                deselectAll();
+              }
+            });
 
     onScrollProperty()
         .setValue(
@@ -305,6 +310,20 @@ public class MapEditorPane extends SplitPane {
 
   public void setShownFloor(Floor floor) {
     shownFloor.set(floor);
+  }
+
+  public void setSelection(@NonNull Object selection) {
+    if (selection instanceof NodeAdapter node) {
+      deselectAll();
+      nodes.get(node).select();
+    } else if (selection instanceof EdgeAdapter edge) {
+      deselectAll();
+      edges.get(edge).select();
+    }
+  }
+
+  public void deselectAll() {
+    selections.forEach(Selectable::deselect);
   }
 
   public ReadOnlySetProperty<Object> selectedProperty() {

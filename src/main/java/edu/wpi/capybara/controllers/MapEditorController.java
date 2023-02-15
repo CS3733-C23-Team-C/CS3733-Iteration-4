@@ -156,6 +156,7 @@ public class MapEditorController {
             final var newEdge =
                 new EdgeAdapter(new EdgeEntity(node1.getNodeID(), node2.getNodeID()), node1, node2);
             repo.addEdge(newEdge);
+            mapEditor.setSelection(newEdge);
             System.out.println("add edge");
           }
         });
