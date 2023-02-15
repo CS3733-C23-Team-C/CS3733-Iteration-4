@@ -8,9 +8,9 @@ import edu.wpi.capybara.controllers.mapeditor.adapters.NodeAdapter;
 import edu.wpi.capybara.objects.Floor;
 import edu.wpi.capybara.objects.math.Vector2;
 import java.util.Objects;
-import java.util.Optional;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.collections.SetChangeListener;
 import javafx.scene.Cursor;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
@@ -44,21 +44,26 @@ public class MapEditorPane extends SplitPane {
       addEventHandler(
           MouseEvent.MOUSE_PRESSED,
           event -> {
+            if (!event.isPrimaryButtonDown()) return;
+            if (!event.isShiftDown()) {
+              // remove all other selections
+              selections.forEach(Selectable::deselect);
+            }
             select();
             // don't let the click propagate back to the map
-            event.consume();
+            // event.consume();
           });
     }
 
     @Override
     public void select() {
-      selection.get().ifPresent(Selectable::deselect);
-      selection.set(Optional.of(this));
+      selections.add(this);
       pseudoClassHandler.onSelected();
     }
 
     @Override
     public void deselect() {
+      selections.remove(this);
       pseudoClassHandler.onDeselected();
     }
 
@@ -89,9 +94,14 @@ public class MapEditorPane extends SplitPane {
       addEventHandler(
           MouseEvent.MOUSE_PRESSED,
           event -> {
+            if (!event.isPrimaryButtonDown()) return;
+            if (!event.isShiftDown()) {
+              // remove all other selections
+              selections.forEach(Selectable::deselect);
+            }
             select();
             // don't let the click propagate to the map or any nodes
-            event.consume();
+            // event.consume();
           });
     }
 
@@ -119,13 +129,13 @@ public class MapEditorPane extends SplitPane {
 
     @Override
     public void select() {
-      selection.get().ifPresent(Selectable::deselect);
-      selection.set(Optional.of(this));
+      selections.add(this);
       pseudoClassHandler.onSelected();
     }
 
     @Override
     public void deselect() {
+      selections.remove(this);
       pseudoClassHandler.onDeselected();
     }
 
@@ -146,17 +156,24 @@ public class MapEditorPane extends SplitPane {
   private final Pane mapRoot;
   private final Pane mapElementContainer;
 
-  private final SimpleObjectProperty<Optional<Selectable>> selection;
-  private final SimpleObjectProperty<Optional<Object>> selectedEntity;
+  private final SimpleSetProperty<Selectable> selections;
+  private final SimpleSetProperty<Object> selectedEntities;
 
   public MapEditorPane() {
     nodes = new SimpleMapProperty<>(FXCollections.observableHashMap());
     edges = new SimpleMapProperty<>(FXCollections.observableHashMap());
 
     shownFloor = new SimpleObjectProperty<>(Floor.F1);
-    selection = new SimpleObjectProperty<>(Optional.empty());
-    selectedEntity = new SimpleObjectProperty<>();
-    selectedEntity.bind(selection.map(selectable -> selectable.map(Selectable::getSelectedObject)));
+    selections = new SimpleSetProperty<>(FXCollections.observableSet());
+    selectedEntities = new SimpleSetProperty<>(FXCollections.observableSet());
+    selections.addListener(
+        (SetChangeListener<? super Selectable>)
+            change -> {
+              if (change.wasAdded())
+                selectedEntities.add(change.getElementAdded().getSelectedObject());
+              if (change.wasRemoved())
+                selectedEntities.remove(change.getElementRemoved().getSelectedObject());
+            });
 
     floorF1 = createFloorImage("blankF1.png", Floor.F1);
     floorF2 = createFloorImage("blankF2.png", Floor.F2);
@@ -194,7 +211,12 @@ public class MapEditorPane extends SplitPane {
               viewX.setValue(eventLocation.getX());
               viewY.setValue(eventLocation.getY());
             });
-    onMouseReleasedProperty().setValue(event -> setCursor(Cursor.DEFAULT));
+    onMouseReleasedProperty().setValue(event -> {
+      setCursor(Cursor.DEFAULT);
+      if (event.isStillSincePress()) {
+        selections.forEach(Selectable::deselect);
+      }
+    });
 
     onScrollProperty()
         .setValue(
@@ -262,6 +284,7 @@ public class MapEditorPane extends SplitPane {
   public void removeNode(NodeAdapter node) {
     final var gfxNode = nodes.remove(node);
     if (gfxNode != null) {
+      gfxNode.deselect();
       removeUIElement(gfxNode);
     }
   }
@@ -275,6 +298,7 @@ public class MapEditorPane extends SplitPane {
   public void removeEdge(EdgeAdapter edge) {
     final var gfxEdge = edges.remove(edge);
     if (gfxEdge != null) {
+      gfxEdge.deselect();
       removeUIElement(gfxEdge);
     }
   }
@@ -283,26 +307,7 @@ public class MapEditorPane extends SplitPane {
     shownFloor.set(floor);
   }
 
-  public Optional<Object> getSelected() {
-    return selectedEntity.get();
-  }
-
-  public void setSelected(Optional<Object> selected) {
-    if (selected.isPresent()) {
-      final var obj = selected.get();
-      if (obj instanceof NodeAdapter node) {
-        nodes.get(node).select();
-      } else if (obj instanceof EdgeAdapter edge) {
-        edges.get(edge).select();
-      }
-    } else {
-      // deselect
-      selection.get().ifPresent(Selectable::deselect);
-      selection.set(Optional.empty());
-    }
-  }
-
-  public ReadOnlyObjectProperty<Optional<Object>> selectedProperty() {
-    return selectedEntity;
+  public ReadOnlySetProperty<Object> selectedProperty() {
+    return selectedEntities;
   }
 }

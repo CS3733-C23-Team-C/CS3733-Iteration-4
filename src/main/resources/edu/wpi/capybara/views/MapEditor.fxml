@@ -57,7 +57,7 @@
             <items>
                 <Group>
                     <children>
-                        <ToggleButton fx:id="nodeToggle" mnemonicParsing="false" styleClass="ribbonToggle" text="Nodes" selected="true">
+                        <ToggleButton fx:id="nodeToggle" mnemonicParsing="false" styleClass="ribbonToggle" text="Nodes">
                             <toggleGroup>
                                 <ToggleGroup fx:id="editorTabs" />
                             </toggleGroup></ToggleButton>

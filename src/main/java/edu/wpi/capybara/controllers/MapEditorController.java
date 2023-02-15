@@ -9,13 +9,15 @@ import edu.wpi.capybara.controllers.mapeditor.ui.MapEditorPane;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.Floor;
+import edu.wpi.capybara.objects.hibernate.EdgeEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.io.IOException;
-import java.util.Optional;
 import java.util.function.Function;
+import javafx.beans.InvalidationListener;
 import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.collections.ListChangeListener;
+import javafx.collections.SetChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -103,24 +105,94 @@ public class MapEditorController {
     initializeLocationNameTable();
     initializeMoveTable();
 
+    //    mapEditor
+    //        .selectedProperty()
+    //        .addListener(
+    //            (observable, oldValue, newValue) -> {
+    //              if (newValue.isPresent()) {
+    //                final var obj = newValue.get();
+    //                // if we were using a newer version of Java we could use a pattern-matching
+    // switch,
+    //                // but alas we are stuck on JDK 17
+    //                if (obj instanceof NodeAdapter node) {
+    //                  editorTabs.selectToggle(nodeToggle);
+    //                  nodeTableView.scrollTo(node);
+    //                } else if (obj instanceof EdgeAdapter edge) {
+    //                  editorTabs.selectToggle(edgeToggle);
+    //                  edgeTableView.getSelectionModel().select(edge);
+    //                  edgeTableView.scrollTo(edge);
+    //                }
+    //              }
+    //            });
     mapEditor
         .selectedProperty()
         .addListener(
-            (observable, oldValue, newValue) -> {
-              if (newValue.isPresent()) {
-                final var obj = newValue.get();
-                // if we were using a newer version of Java we could use a pattern-matching switch,
-                // but alas we are stuck on JDK 17
-                if (obj instanceof NodeAdapter node) {
-                  editorTabs.selectToggle(nodeToggle);
-                  nodeTableView.scrollTo(node);
-                } else if (obj instanceof EdgeAdapter edge) {
-                  editorTabs.selectToggle(edgeToggle);
-                  edgeTableView.getSelectionModel().select(edge);
-                  edgeTableView.scrollTo(edge);
-                }
-              }
-            });
+            (SetChangeListener<? super Object>)
+                change -> {
+                  if (change.wasAdded()) {
+                    final var obj = change.getElementAdded();
+                    // if we were using a newer version of Java we could use a pattern-matching
+                    // switch,
+                    // but alas we are stuck on JDK 17
+                    if (obj instanceof NodeAdapter node) {
+                      editorTabs.selectToggle(nodeToggle);
+                      nodeTableView.getSelectionModel().select(node);
+                      nodeTableView.scrollTo(node);
+                    } else if (obj instanceof EdgeAdapter edge) {
+                      editorTabs.selectToggle(edgeToggle);
+                      edgeTableView.getSelectionModel().select(edge);
+                      edgeTableView.scrollTo(edge);
+                    }
+                  }
+                });
+
+    final var add = new MenuItem("Add Edge");
+    // add.setOnMenuValidation();
+    add.setOnAction(
+        event -> {
+          if (add.getUserData() instanceof NodeAdapter[] nodeArray && nodeArray.length == 2) {
+            final var node1 = nodeArray[0];
+            final var node2 = nodeArray[1];
+            final var newEdge =
+                new EdgeAdapter(new EdgeEntity(node1.getNodeID(), node2.getNodeID()), node1, node2);
+            repo.addEdge(newEdge);
+            System.out.println("add edge");
+          }
+        });
+    add.setDisable(true);
+    final var delete = new MenuItem("Delete");
+    delete.setOnAction(
+        event -> {
+          final var toDelete = mapEditor.selectedProperty().toArray();
+          for (Object obj : toDelete) {
+            if (obj instanceof NodeAdapter node) {
+              repo.deleteNode(node);
+            } else if (obj instanceof EdgeAdapter edge) {
+              repo.deleteEdge(edge);
+            }
+          }
+        });
+    delete.disableProperty().bind(mapEditor.selectedProperty().emptyProperty());
+    final var menu = new ContextMenu(add, delete);
+    mapEditor
+        .selectedProperty()
+        .addListener(
+            (InvalidationListener)
+                observable -> {
+                  final var selected = mapEditor.selectedProperty().get();
+                  if (selected.size() == 2) {
+                    final var iter = selected.iterator();
+                    if (iter.next() instanceof NodeAdapter node1
+                        && iter.next() instanceof NodeAdapter node2) {
+                      add.setUserData(new NodeAdapter[] {node1, node2});
+                      add.setDisable(false);
+                      return;
+                    }
+                  }
+                  add.setUserData(null);
+                  add.setDisable(true);
+                });
+    mapEditor.setContextMenu(menu);
   }
 
   private void initializeNodeTable() {
@@ -169,10 +241,10 @@ public class MapEditorController {
     nodeTableView.visibleProperty().bind(nodeToggle.selectedProperty());
 
     /*nodeTableView
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (observable, oldValue, newValue) -> mapEditor.setSelected(Optional.of(newValue)));*/
+    .getSelectionModel()
+    .selectedItemProperty()
+    .addListener(
+        (observable, oldValue, newValue) -> mapEditor.setSelected(Optional.of(newValue)));*/
   }
 
   private void initializeEdgeTable() {
@@ -191,10 +263,10 @@ public class MapEditorController {
 
     edgeTableView.visibleProperty().bind(edgeToggle.selectedProperty());
     /*edgeTableView
-        .getSelectionModel()
-        .selectedItemProperty()
-        .addListener(
-            (observable, oldValue, newValue) -> mapEditor.setSelected(Optional.of(newValue)));*/
+    .getSelectionModel()
+    .selectedItemProperty()
+    .addListener(
+        (observable, oldValue, newValue) -> mapEditor.setSelected(Optional.of(newValue)));*/
   }
 
   private void initializeLocationNameTable() {
