@@ -1,5 +1,7 @@
 package edu.wpi.capybara.controllers;
 
+import static edu.wpi.capybara.database.DBcsv.*;
+
 import edu.wpi.capybara.App;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -12,8 +14,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import static edu.wpi.capybara.database.DBcsv.*;
 
 public class DatabaseImportDialogController {
 
