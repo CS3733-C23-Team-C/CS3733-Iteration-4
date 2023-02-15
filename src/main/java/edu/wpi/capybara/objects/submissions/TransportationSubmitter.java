@@ -20,13 +20,13 @@ public class TransportationSubmitter implements ISubmission {
     System.out.println(submissionID + "submitter");
     TransportationsubmissionEntity sub =
         new TransportationsubmissionEntity(
+            submissionID,
             currStaffID,
+            assignedID,
             location,
             requestSpecific,
             outputNotes,
             status,
-            assignedID,
-            submissionID,
             emergencyLevel,
             createdDate,
             dueDate);

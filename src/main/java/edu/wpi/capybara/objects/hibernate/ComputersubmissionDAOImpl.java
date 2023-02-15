@@ -23,8 +23,8 @@ public class ComputersubmissionDAOImpl implements ComputersubmissionDAO {
 
   @Override
   public void deleteComputer(int id) {
-    computerSubs.remove(id);
     newDBConnect.delete(getComputer(id));
+    computerSubs.remove(id);
   }
 
   public ComputersubmissionDAOImpl(HashMap<Integer, ComputersubmissionEntity> computerSubs) {

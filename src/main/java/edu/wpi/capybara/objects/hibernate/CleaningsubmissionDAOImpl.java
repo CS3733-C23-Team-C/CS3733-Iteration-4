@@ -23,8 +23,8 @@ public class CleaningsubmissionDAOImpl implements CleaningsubmissionDAO {
 
   @Override
   public void deleteCleaning(int id) {
-    cleaningSubs.remove(id);
     newDBConnect.delete(getCleaning(id));
+    cleaningSubs.remove(id);
   }
 
   public CleaningsubmissionDAOImpl(HashMap<Integer, CleaningsubmissionEntity> cleaningSubs) {

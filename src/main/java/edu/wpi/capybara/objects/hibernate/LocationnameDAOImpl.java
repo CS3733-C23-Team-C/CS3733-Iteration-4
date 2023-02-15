@@ -23,8 +23,8 @@ public class LocationnameDAOImpl implements LocationnameDAO {
 
   @Override
   public void deleteLocationname(String longname) {
-    locationnames.remove(longname);
     newDBConnect.delete(getLocationname(longname));
+    locationnames.remove(longname);
   }
 
   public LocationnameDAOImpl(HashMap<String, LocationnameEntity> locationnames) {

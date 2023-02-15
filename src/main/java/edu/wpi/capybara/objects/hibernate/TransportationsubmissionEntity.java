@@ -47,17 +47,19 @@ public class TransportationsubmissionEntity {
   private Date duedate;
 
   public TransportationsubmissionEntity(
+      int submissionid,
       String employeeid,
+      String assignedid,
       String currroomnum,
       String destroomnum,
       String reason,
       SubmissionStatus status,
-      String assignedid,
-      int submissionid,
       String urgency,
       Date createdate,
       Date duedate) {
+    this.submissionid = submissionid;
     this.employeeid = employeeid;
+    this.assignedid = assignedid;
     this.currroomnum = currroomnum;
     this.destroomnum = destroomnum;
     this.reason = reason;

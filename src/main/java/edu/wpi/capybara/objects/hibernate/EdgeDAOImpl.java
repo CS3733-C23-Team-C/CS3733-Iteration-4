@@ -18,8 +18,8 @@ public class EdgeDAOImpl implements EdgeDAO {
 
   @Override
   public void deleteEdge(EdgeEntity edge) {
-    edges.remove(edge);
     newDBConnect.delete(edge);
+    edges.remove(edge);
   }
 
   public EdgeDAOImpl(ArrayList<EdgeEntity> edges) {

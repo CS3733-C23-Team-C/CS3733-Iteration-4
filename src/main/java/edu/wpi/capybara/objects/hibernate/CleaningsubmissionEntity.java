@@ -97,23 +97,23 @@ public class CleaningsubmissionEntity {
   }
 
   public CleaningsubmissionEntity(
+      int submissionid,
       String memberid,
+      String assignedid,
       String location,
       String hazardlevel,
       String description,
       SubmissionStatus submissionstatus,
-      String assignedid,
-      int submissionid,
       String urgency,
       Date createdate,
       Date duedate) {
+    this.submissionid = submissionid;
     this.memberid = memberid;
+    this.assignedid = assignedid;
     this.location = location;
     this.hazardlevel = hazardlevel;
     this.description = description;
     this.submissionstatus = submissionstatus;
-    this.assignedid = assignedid;
-    this.submissionid = submissionid;
     this.urgency = urgency;
     this.createdate = createdate;
     this.duedate = duedate;
