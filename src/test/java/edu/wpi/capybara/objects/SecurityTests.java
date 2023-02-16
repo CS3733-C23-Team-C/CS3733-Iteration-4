@@ -3,8 +3,8 @@ package edu.wpi.capybara.objects;
 import static org.junit.jupiter.api.Assertions.*;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.newDBConnect;
 import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
-import edu.wpi.capybara.objects.hibernate.newDBConnect;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import java.io.IOException;
 import java.sql.Date;
