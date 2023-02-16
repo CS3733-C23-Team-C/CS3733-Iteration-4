@@ -4,11 +4,15 @@ import edu.wpi.capybara.App;
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.hibernate.StaffEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.util.Objects;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.text.Text;
 import javax.swing.*;
 import lombok.Getter;
@@ -20,6 +24,7 @@ public class EmployeeEdit {
   @Getter @Setter private String currLastName;
   @Getter @Setter private String currPassword;
   @Getter @Setter private String currNotes;
+  @Getter @Setter private String currRole;
 
   @FXML public MFXButton searchButton;
 
@@ -31,6 +36,8 @@ public class EmployeeEdit {
   @FXML private MFXTextField notesField;
 
   @FXML private MFXTextField staffIDField;
+
+  @FXML private MFXFilterComboBox<String> ocupationDropDown;
 
   @FXML private MFXButton fieldsEdit;
   //  @FXML private MFXButton lastNameEdit;
@@ -60,6 +67,7 @@ public class EmployeeEdit {
       firstNameField.setText(App.getTempuser().getFirstname());
       lastNameField.setText(App.getTempuser().getLastname());
       passwordField.setText(App.getTempuser().getPassword());
+
       String notes = App.getTempuser().getNotes();
       if (notes == null) notes = "";
       notesField.setText(notes);
@@ -69,11 +77,16 @@ public class EmployeeEdit {
       currPassword = passwordField.getText();
       currNotes = notesField.getText();
 
+      ocupationDropDown.setItems(FXCollections.observableArrayList("staff", "admin"));
+      ocupationDropDown.setText(App.getTempuser().getRole());
+      currRole = ocupationDropDown.getText();
     } else {
       currFirstName = "";
       currLastName = "";
       currPassword = "";
       currNotes = "";
+      ocupationDropDown.setItems(FXCollections.observableArrayList("staff", "admin"));
+      ocupationDropDown.setText("staff");
     }
   }
 
@@ -110,7 +123,9 @@ public class EmployeeEdit {
 
     firstNameField.clear();
     lastNameField.clear();
+
     passwordField.clear();
+    ocupationDropDown.setText("staff");
   }
 
   public void update(javafx.event.ActionEvent actionEvent) throws IOException {
@@ -125,39 +140,22 @@ public class EmployeeEdit {
       throw new IOException("Password cannot be Empty");
     else {
 
-      // save changes to app
-      //
-      //      StaffEntity testing = null;
-      //      StaffEntity prepairedStaement = null;
-
-      //      String sql = "tjos os a test";
-      //      prepairedStaement = Main.db.getStaff(staffIDField.getText());
-      //
-      //    prepairedStaement.setNotes("hello");
-      //
-      //    testing = prepairedStaement.executeQuery();
-      //
-      //    wguke(testing.next()){
-      //      system.out.println(test.getint("id")+ "" + resultset.getint("employee ide")+ " result
-      // set.getstring("firstname)+ ""+result getstring(notes));
-      //      }
-      //
+      //      setItems()
+      //      fxcollection.observial arrary list
 
       String newFirst = firstNameField.getText();
       App.getTempuser().setFirstname(newFirst);
       String newLast = lastNameField.getText();
-      App.getUser().setLastname(newLast);
+      App.getTempuser().setLastname(newLast);
       String newPass = passwordField.getText();
-      App.getUser().setPassword(newPass);
+      App.getTempuser().setPassword(newPass);
       String newNote = notesField.getText();
-      App.getUser().setNotes(newNote);
-      // update menu
+      App.getTempuser().setNotes(newNote);
+      String newRole = ocupationDropDown.getText();
+      App.getTempuser().setRole(newRole);
 
-      // make fields uneditable
-      //      firstNameField.setDisable(true);
-      //      lastNameField.setDisable(true);
-      //      passwordField.setDisable(true);
-      //      notesField.setDisable(true);
+      ObservableList<String> options = FXCollections.observableArrayList(getCurrRole());
+      final ComboBox comboBox = new ComboBox(options);
     }
   }
 
