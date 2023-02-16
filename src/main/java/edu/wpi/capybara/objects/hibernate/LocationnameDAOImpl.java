@@ -1,13 +1,38 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.Main;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public class LocationnameDAOImpl implements LocationnameDAO {
   HashMap<String, LocationnameEntity> locationnames = new HashMap();
 
   @Override
   public HashMap<String, LocationnameEntity> getLocationnames() {
-    return locationnames;
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+
+    HashMap<String, LocationnameEntity> ret = new HashMap<String, LocationnameEntity>();
+
+    try {
+      tx = session.beginTransaction();
+      List n = session.createQuery("FROM LocationnameEntity ").list();
+      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
+        LocationnameEntity temp = (LocationnameEntity) iterator.next();
+        ret.put(temp.getLongname(), temp);
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return ret;
   }
 
   @Override

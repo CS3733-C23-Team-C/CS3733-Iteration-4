@@ -100,4 +100,8 @@ public interface RepoFacade {
   Session getSession();
 
   int newID();
+
+  int getID();
+
+  void setID(int id);
 }

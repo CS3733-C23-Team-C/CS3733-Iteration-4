@@ -1,13 +1,38 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.Main;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public class StaffDAOImpl implements StaffDAO {
   HashMap<String, StaffEntity> staff = new HashMap();
 
   @Override
   public HashMap<String, StaffEntity> getStaff() {
-    return staff;
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+
+    HashMap<String, StaffEntity> ret = new HashMap<String, StaffEntity>();
+
+    try {
+      tx = session.beginTransaction();
+      List n = session.createQuery("FROM StaffEntity ").list();
+      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
+        StaffEntity temp = (StaffEntity) iterator.next();
+        ret.put(temp.getStaffid(), temp);
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return ret;
   }
 
   @Override

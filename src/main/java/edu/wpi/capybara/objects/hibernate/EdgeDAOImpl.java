@@ -1,13 +1,38 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.Main;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public class EdgeDAOImpl implements EdgeDAO {
   ArrayList<EdgeEntity> edges = new ArrayList<>();
 
   @Override
   public ArrayList<EdgeEntity> getEdges() {
-    return edges;
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+
+    ArrayList<EdgeEntity> ret = new ArrayList<EdgeEntity>();
+
+    try {
+      tx = session.beginTransaction();
+      List n = session.createQuery("FROM EdgeEntity ").list();
+      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
+        EdgeEntity temp = (EdgeEntity) iterator.next();
+        ret.add(temp);
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return ret;
   }
 
   @Override
