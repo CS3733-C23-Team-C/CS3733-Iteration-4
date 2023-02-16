@@ -1,6 +1,7 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.newDBConnect;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -13,26 +14,7 @@ public class LocationnameDAOImpl implements LocationnameDAO {
 
   @Override
   public HashMap<String, LocationnameEntity> getLocationnames() {
-    Session session = Main.db.getSession();
-    Transaction tx = null;
-
-    HashMap<String, LocationnameEntity> ret = new HashMap<String, LocationnameEntity>();
-
-    try {
-      tx = session.beginTransaction();
-      List n = session.createQuery("FROM LocationnameEntity ").list();
-      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        LocationnameEntity temp = (LocationnameEntity) iterator.next();
-        ret.put(temp.getLongname(), temp);
-      }
-      tx.commit();
-    } catch (HibernateException e) {
-      if (tx != null) tx.rollback();
-      e.printStackTrace();
-    } finally {
-      session.close();
-    }
-    return ret;
+    return locationnames;
   }
 
   @Override
@@ -52,7 +34,26 @@ public class LocationnameDAOImpl implements LocationnameDAO {
     locationnames.remove(longname);
   }
 
-  public LocationnameDAOImpl(HashMap<String, LocationnameEntity> locationnames) {
-    this.locationnames = locationnames;
+  public LocationnameDAOImpl() {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+
+    HashMap<String, LocationnameEntity> ret = new HashMap<String, LocationnameEntity>();
+
+    try {
+      tx = session.beginTransaction();
+      List n = session.createQuery("FROM LocationnameEntity ").list();
+      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
+        LocationnameEntity temp = (LocationnameEntity) iterator.next();
+        ret.put(temp.getLongname(), temp);
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    locationnames = ret;
   }
 }

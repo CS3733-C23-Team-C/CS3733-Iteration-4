@@ -1,6 +1,7 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.newDBConnect;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +14,22 @@ public class EdgeDAOImpl implements EdgeDAO {
 
   @Override
   public ArrayList<EdgeEntity> getEdges() {
+    return edges;
+  }
+
+  @Override
+  public void addEdge(EdgeEntity edge) {
+    newDBConnect.insertNew(edge);
+    this.edges.add(edge);
+  }
+
+  @Override
+  public void deleteEdge(EdgeEntity edge) {
+    newDBConnect.delete(edge);
+    edges.remove(edge);
+  }
+
+  public EdgeDAOImpl() {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
@@ -32,22 +49,6 @@ public class EdgeDAOImpl implements EdgeDAO {
     } finally {
       session.close();
     }
-    return ret;
-  }
-
-  @Override
-  public void addEdge(EdgeEntity edge) {
-    newDBConnect.insertNew(edge);
-    this.edges.add(edge);
-  }
-
-  @Override
-  public void deleteEdge(EdgeEntity edge) {
-    newDBConnect.delete(edge);
-    edges.remove(edge);
-  }
-
-  public EdgeDAOImpl(ArrayList<EdgeEntity> edges) {
-    this.edges = edges;
+    edges = ret;
   }
 }

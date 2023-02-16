@@ -1,6 +1,7 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.newDBConnect;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +14,27 @@ public class ComputersubmissionDAOImpl implements ComputersubmissionDAO {
 
   @Override
   public HashMap<Integer, ComputersubmissionEntity> getComputerSubs() {
+    return computerSubs;
+  }
+
+  @Override
+  public ComputersubmissionEntity getComputer(int id) {
+    return computerSubs.get(id);
+  }
+
+  @Override
+  public void addComputer(ComputersubmissionEntity submission) {
+    newDBConnect.insertNew(submission);
+    this.computerSubs.put(submission.getSubmissionid(), submission);
+  }
+
+  @Override
+  public void deleteComputer(int id) {
+    newDBConnect.delete(getComputer(id));
+    computerSubs.remove(id);
+  }
+
+  public ComputersubmissionDAOImpl() {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
@@ -36,27 +58,6 @@ public class ComputersubmissionDAOImpl implements ComputersubmissionDAO {
     } finally {
       session.close();
     }
-    return ret;
-  }
-
-  @Override
-  public ComputersubmissionEntity getComputer(int id) {
-    return computerSubs.get(id);
-  }
-
-  @Override
-  public void addComputer(ComputersubmissionEntity submission) {
-    newDBConnect.insertNew(submission);
-    this.computerSubs.put(submission.getSubmissionid(), submission);
-  }
-
-  @Override
-  public void deleteComputer(int id) {
-    newDBConnect.delete(getComputer(id));
-    computerSubs.remove(id);
-  }
-
-  public ComputersubmissionDAOImpl(HashMap<Integer, ComputersubmissionEntity> computerSubs) {
-    this.computerSubs = computerSubs;
+    computerSubs = ret;
   }
 }

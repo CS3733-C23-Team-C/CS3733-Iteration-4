@@ -1,6 +1,7 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.newDBConnect;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +14,21 @@ public class StaffDAOImpl implements StaffDAO {
 
   @Override
   public HashMap<String, StaffEntity> getStaff() {
+    return staff;
+  }
+
+  @Override
+  public StaffEntity getStaff(String nodeid) {
+    return staff.get(nodeid);
+  }
+
+  @Override
+  public void addStaff(StaffEntity submission) {
+    newDBConnect.insertNew(submission);
+    this.staff.put(submission.getStaffid(), submission);
+  }
+
+  public StaffDAOImpl() {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
@@ -32,22 +48,7 @@ public class StaffDAOImpl implements StaffDAO {
     } finally {
       session.close();
     }
-    return ret;
-  }
-
-  @Override
-  public StaffEntity getStaff(String nodeid) {
-    return staff.get(nodeid);
-  }
-
-  @Override
-  public void addStaff(StaffEntity submission) {
-    newDBConnect.insertNew(submission);
-    this.staff.put(submission.getStaffid(), submission);
-  }
-
-  public StaffDAOImpl(HashMap<String, StaffEntity> staff) {
-    this.staff = staff;
+    staff = ret;
   }
 
   @Override

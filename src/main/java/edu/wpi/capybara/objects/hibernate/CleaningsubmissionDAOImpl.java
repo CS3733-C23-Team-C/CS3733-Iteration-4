@@ -1,6 +1,7 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.newDBConnect;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +14,27 @@ public class CleaningsubmissionDAOImpl implements CleaningsubmissionDAO {
 
   @Override
   public HashMap<Integer, CleaningsubmissionEntity> getCleaningSubs() {
+    return cleaningSubs;
+  }
+
+  @Override
+  public CleaningsubmissionEntity getCleaning(int id) {
+    return cleaningSubs.get(id);
+  }
+
+  @Override
+  public void addCleaning(CleaningsubmissionEntity submission) {
+    newDBConnect.insertNew(submission);
+    this.cleaningSubs.put(submission.getSubmissionid(), submission);
+  }
+
+  @Override
+  public void deleteCleaning(int id) {
+    newDBConnect.delete(getCleaning(id));
+    cleaningSubs.remove(id);
+  }
+
+  public CleaningsubmissionDAOImpl() {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
@@ -36,27 +58,6 @@ public class CleaningsubmissionDAOImpl implements CleaningsubmissionDAO {
     } finally {
       session.close();
     }
-    return ret;
-  }
-
-  @Override
-  public CleaningsubmissionEntity getCleaning(int id) {
-    return cleaningSubs.get(id);
-  }
-
-  @Override
-  public void addCleaning(CleaningsubmissionEntity submission) {
-    newDBConnect.insertNew(submission);
-    this.cleaningSubs.put(submission.getSubmissionid(), submission);
-  }
-
-  @Override
-  public void deleteCleaning(int id) {
-    newDBConnect.delete(getCleaning(id));
-    cleaningSubs.remove(id);
-  }
-
-  public CleaningsubmissionDAOImpl(HashMap<Integer, CleaningsubmissionEntity> cleaningSubs) {
-    this.cleaningSubs = cleaningSubs;
+    cleaningSubs = ret;
   }
 }

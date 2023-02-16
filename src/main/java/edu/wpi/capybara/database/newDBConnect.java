@@ -1,7 +1,7 @@
-package edu.wpi.capybara.objects.hibernate;
+package edu.wpi.capybara.database;
 
 import edu.wpi.capybara.Main;
-import edu.wpi.capybara.database.RepoFacade;
+import edu.wpi.capybara.objects.hibernate.*;
 import jakarta.persistence.PersistenceException;
 import java.util.*;
 import org.hibernate.HibernateException;
@@ -32,10 +32,9 @@ public class newDBConnect implements RepoFacade {
       System.err.println("Failed to create sessionFactory object." + ex);
       throw new ExceptionInInitializerError(ex);
     }
-    importAll();
   }
 
-  private void importAll() {
+  public void importAll() {
     id = 0;
     importAudio();
     importCleaning();
@@ -50,251 +49,43 @@ public class newDBConnect implements RepoFacade {
   }
 
   void importAudio() {
-    Session session = factory.openSession();
-    Transaction tx = null;
-
-    HashMap<Integer, AudiosubmissionEntity> ret = new HashMap<Integer, AudiosubmissionEntity>();
-
-    try {
-      tx = session.beginTransaction();
-      List n = session.createQuery("FROM AudiosubmissionEntity").list();
-      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        AudiosubmissionEntity temp = (AudiosubmissionEntity) iterator.next();
-        ret.put(temp.getSubmissionid(), temp);
-        if (id < temp.getSubmissionid()) {
-          id = temp.getSubmissionid();
-        }
-      }
-      tx.commit();
-    } catch (HibernateException e) {
-      if (tx != null) tx.rollback();
-      e.printStackTrace();
-    } finally {
-      session.close();
-    }
-    audio = new AudiosubmissionDAOImpl(ret);
+    audio = new AudiosubmissionDAOImpl();
   }
 
   void importCleaning() {
-    Session session = factory.openSession();
-    Transaction tx = null;
-
-    HashMap<Integer, CleaningsubmissionEntity> ret =
-        new HashMap<Integer, CleaningsubmissionEntity>();
-    try {
-      tx = session.beginTransaction();
-      List n = session.createQuery("FROM CleaningsubmissionEntity ").list();
-      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        CleaningsubmissionEntity temp = (CleaningsubmissionEntity) iterator.next();
-        ret.put(temp.getSubmissionid(), temp);
-        if (id < temp.getSubmissionid()) {
-          id = temp.getSubmissionid();
-        }
-      }
-      tx.commit();
-    } catch (HibernateException e) {
-      if (tx != null) tx.rollback();
-      e.printStackTrace();
-    } finally {
-      session.close();
-    }
-    cleaning = new CleaningsubmissionDAOImpl(ret);
+    cleaning = new CleaningsubmissionDAOImpl();
   }
 
   void importComputer() {
-    Session session = factory.openSession();
-    Transaction tx = null;
-
-    HashMap<Integer, ComputersubmissionEntity> ret =
-        new HashMap<Integer, ComputersubmissionEntity>();
-
-    try {
-      tx = session.beginTransaction();
-      List n = session.createQuery("FROM ComputersubmissionEntity ").list();
-      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        ComputersubmissionEntity temp = (ComputersubmissionEntity) iterator.next();
-        ret.put(temp.getSubmissionid(), temp);
-        if (id < temp.getSubmissionid()) {
-          id = temp.getSubmissionid();
-        }
-      }
-      tx.commit();
-    } catch (HibernateException e) {
-      if (tx != null) tx.rollback();
-      e.printStackTrace();
-    } finally {
-      session.close();
-    }
-    computer = new ComputersubmissionDAOImpl(ret);
+    computer = new ComputersubmissionDAOImpl();
   }
 
   void importSecurity() {
-    Session session = factory.openSession();
-    Transaction tx = null;
-
-    HashMap<Integer, SecuritysubmissionEntity> ret =
-        new HashMap<Integer, SecuritysubmissionEntity>();
-
-    try {
-      tx = session.beginTransaction();
-      List n = session.createQuery("FROM SecuritysubmissionEntity ").list();
-      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        SecuritysubmissionEntity temp = (SecuritysubmissionEntity) iterator.next();
-        ret.put(temp.getSubmissionid(), temp);
-        if (id < temp.getSubmissionid()) {
-          id = temp.getSubmissionid();
-        }
-      }
-      tx.commit();
-    } catch (HibernateException e) {
-      if (tx != null) tx.rollback();
-      e.printStackTrace();
-    } finally {
-      session.close();
-    }
-    security = new SecurityDAOImpl(ret);
+    security = new SecurityDAOImpl();
   }
 
   void importTransportation() {
-    Session session = factory.openSession();
-    Transaction tx = null;
-
-    HashMap<Integer, TransportationsubmissionEntity> ret =
-        new HashMap<Integer, TransportationsubmissionEntity>();
-
-    try {
-      tx = session.beginTransaction();
-      List n = session.createQuery("FROM TransportationsubmissionEntity ").list();
-      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        TransportationsubmissionEntity temp = (TransportationsubmissionEntity) iterator.next();
-        ret.put(temp.getSubmissionid(), temp);
-        if (id < temp.getSubmissionid()) {
-          id = temp.getSubmissionid();
-        }
-      }
-      tx.commit();
-    } catch (HibernateException e) {
-      if (tx != null) tx.rollback();
-      e.printStackTrace();
-    } finally {
-      session.close();
-    }
-    transportation = new TransportationDAOImpl(ret);
+    transportation = new TransportationDAOImpl();
   }
 
   void importLocationname() {
-    Session session = factory.openSession();
-    Transaction tx = null;
-
-    HashMap<String, LocationnameEntity> ret = new HashMap<String, LocationnameEntity>();
-
-    try {
-      tx = session.beginTransaction();
-      List n = session.createQuery("FROM LocationnameEntity ").list();
-      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        LocationnameEntity temp = (LocationnameEntity) iterator.next();
-        ret.put(temp.getLongname(), temp);
-      }
-      tx.commit();
-    } catch (HibernateException e) {
-      if (tx != null) tx.rollback();
-      e.printStackTrace();
-    } finally {
-      session.close();
-    }
-    locationname = new LocationnameDAOImpl(ret);
+    locationname = new LocationnameDAOImpl();
   }
 
   void importNode() {
-    Session session = factory.openSession();
-    Transaction tx = null;
-
-    HashMap<String, NodeEntity> ret = new HashMap<String, NodeEntity>();
-
-    try {
-      tx = session.beginTransaction();
-      List n = session.createQuery("FROM NodeEntity ").list();
-      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        NodeEntity temp = (NodeEntity) iterator.next();
-        ret.put(temp.getNodeid(), temp);
-      }
-      tx.commit();
-    } catch (HibernateException e) {
-      if (tx != null) tx.rollback();
-      e.printStackTrace();
-    } finally {
-      session.close();
-    }
-    node = new NodeDAOImpl(ret);
+    node = new NodeDAOImpl();
   }
 
   void importStaff() {
-    Session session = factory.openSession();
-    Transaction tx = null;
-
-    HashMap<String, StaffEntity> ret = new HashMap<String, StaffEntity>();
-
-    try {
-      tx = session.beginTransaction();
-      List n = session.createQuery("FROM StaffEntity ").list();
-      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        StaffEntity temp = (StaffEntity) iterator.next();
-        ret.put(temp.getStaffid(), temp);
-      }
-      tx.commit();
-    } catch (HibernateException e) {
-      if (tx != null) tx.rollback();
-      e.printStackTrace();
-    } finally {
-      session.close();
-    }
-    staff = new StaffDAOImpl(ret);
+    staff = new StaffDAOImpl();
   }
 
   void importEdge() {
-    Session session = factory.openSession();
-    Transaction tx = null;
-
-    ArrayList<EdgeEntity> ret = new ArrayList<EdgeEntity>();
-
-    try {
-      tx = session.beginTransaction();
-      List n = session.createQuery("FROM EdgeEntity ").list();
-      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        EdgeEntity temp = (EdgeEntity) iterator.next();
-        ret.add(temp);
-      }
-      tx.commit();
-    } catch (HibernateException e) {
-      if (tx != null) tx.rollback();
-      e.printStackTrace();
-    } finally {
-      session.close();
-    }
-    edge = new EdgeDAOImpl(ret);
+    edge = new EdgeDAOImpl();
   }
 
   void importMove() {
-    Session session = factory.openSession();
-    Transaction tx = null;
-
-    ArrayList<MoveEntity> ret = new ArrayList<MoveEntity>();
-
-    try {
-      tx = session.beginTransaction();
-      List n = session.createQuery("FROM MoveEntity ").list();
-      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        MoveEntity temp = (MoveEntity) iterator.next();
-        ret.add(temp);
-      }
-      tx.commit();
-    } catch (HibernateException e) {
-      if (tx != null) tx.rollback();
-      e.printStackTrace();
-    } finally {
-      session.close();
-    }
-    move = new MoveDAOImpl(ret);
+    move = new MoveDAOImpl();
   }
 
   @Override
@@ -480,7 +271,7 @@ public class newDBConnect implements RepoFacade {
     return factory.openSession();
   }
 
-  static void insertNew(Object submission) {
+  public static void insertNew(Object submission) {
     try (Session session =
         factory.openSession()) { // automatically close the session when we are done
       final var tx = session.beginTransaction();
@@ -542,7 +333,7 @@ public class newDBConnect implements RepoFacade {
     staff.deleteStaff(id);
   }
 
-  static void delete(Object submission) {
+  public static void delete(Object submission) {
     Session session = factory.openSession();
     Transaction tx = session.beginTransaction();
     session.remove(submission);

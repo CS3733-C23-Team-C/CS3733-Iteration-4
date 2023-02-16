@@ -1,6 +1,7 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.newDBConnect;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +14,21 @@ public class TransportationDAOImpl implements TransportationDAO {
 
   @Override
   public HashMap<Integer, TransportationsubmissionEntity> getTransportationSubs() {
+    return transportationSubs;
+  }
+
+  @Override
+  public TransportationsubmissionEntity getTransportation(int id) {
+    return transportationSubs.get(id);
+  }
+
+  @Override
+  public void addTransportation(TransportationsubmissionEntity submission) {
+    newDBConnect.insertNew(submission);
+    this.transportationSubs.put(submission.getSubmissionid(), submission);
+  }
+
+  public TransportationDAOImpl() {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
@@ -36,23 +52,7 @@ public class TransportationDAOImpl implements TransportationDAO {
     } finally {
       session.close();
     }
-    return ret;
-  }
-
-  @Override
-  public TransportationsubmissionEntity getTransportation(int id) {
-    return transportationSubs.get(id);
-  }
-
-  @Override
-  public void addTransportation(TransportationsubmissionEntity submission) {
-    newDBConnect.insertNew(submission);
-    this.transportationSubs.put(submission.getSubmissionid(), submission);
-  }
-
-  public TransportationDAOImpl(
-      HashMap<Integer, TransportationsubmissionEntity> transportationSubs) {
-    this.transportationSubs = transportationSubs;
+    transportationSubs = ret;
   }
 
   @Override

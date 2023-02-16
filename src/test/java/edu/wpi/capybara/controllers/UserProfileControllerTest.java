@@ -5,7 +5,7 @@ import static org.testfx.util.NodeQueryUtils.isVisible;
 
 import edu.wpi.capybara.App;
 import edu.wpi.capybara.Main;
-import edu.wpi.capybara.objects.hibernate.newDBConnect;
+import edu.wpi.capybara.database.newDBConnect;
 import java.io.IOException;
 import java.util.function.Predicate;
 import javafx.scene.Node;

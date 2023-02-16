@@ -1,6 +1,7 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.newDBConnect;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +14,22 @@ public class NodeDAOImpl implements NodeDAO {
 
   @Override
   public HashMap<String, NodeEntity> getNodes() {
+    return nodes;
+  }
+
+  @Override
+  public NodeEntity getNode(String nodeid) {
+    return nodes.get(nodeid);
+  }
+
+  @Override
+  public void addNode(NodeEntity submission) {
+    // Main.db.addNode(submission);
+    newDBConnect.insertNew(submission);
+    this.nodes.put(submission.getNodeid(), submission);
+  }
+
+  public NodeDAOImpl() {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
@@ -32,23 +49,7 @@ public class NodeDAOImpl implements NodeDAO {
     } finally {
       session.close();
     }
-    return ret;
-  }
-
-  @Override
-  public NodeEntity getNode(String nodeid) {
-    return nodes.get(nodeid);
-  }
-
-  @Override
-  public void addNode(NodeEntity submission) {
-    // Main.db.addNode(submission);
-    newDBConnect.insertNew(submission);
-    this.nodes.put(submission.getNodeid(), submission);
-  }
-
-  public NodeDAOImpl(HashMap<String, NodeEntity> nodes) {
-    this.nodes = nodes;
+    nodes = ret;
   }
 
   @Override

@@ -1,6 +1,7 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.newDBConnect;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +14,16 @@ public class MoveDAOImpl implements MoveDAO {
 
   @Override
   public ArrayList<MoveEntity> getMoves() {
+    return moves;
+  }
+
+  @Override
+  public void addMove(MoveEntity submission) {
+    newDBConnect.insertNew(submission);
+    this.moves.add(submission);
+  }
+
+  public MoveDAOImpl() {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
@@ -32,17 +43,7 @@ public class MoveDAOImpl implements MoveDAO {
     } finally {
       session.close();
     }
-    return ret;
-  }
-
-  @Override
-  public void addMove(MoveEntity submission) {
-    newDBConnect.insertNew(submission);
-    this.moves.add(submission);
-  }
-
-  public MoveDAOImpl(ArrayList<MoveEntity> moves) {
-    this.moves = moves;
+    moves = ret;
   }
 
   @Override

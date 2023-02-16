@@ -1,6 +1,7 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.newDBConnect;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -13,6 +14,21 @@ public class SecurityDAOImpl implements SecurityDAO {
 
   @Override
   public HashMap<Integer, SecuritysubmissionEntity> getSecuritySubs() {
+    return securitySubs;
+  }
+
+  @Override
+  public SecuritysubmissionEntity getSecurity(int id) {
+    return securitySubs.get(id);
+  }
+
+  @Override
+  public void addSecurity(SecuritysubmissionEntity submission) {
+    newDBConnect.insertNew(submission);
+    this.securitySubs.put(submission.getSubmissionid(), submission);
+  }
+
+  public SecurityDAOImpl() {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
@@ -36,22 +52,7 @@ public class SecurityDAOImpl implements SecurityDAO {
     } finally {
       session.close();
     }
-    return ret;
-  }
-
-  @Override
-  public SecuritysubmissionEntity getSecurity(int id) {
-    return securitySubs.get(id);
-  }
-
-  @Override
-  public void addSecurity(SecuritysubmissionEntity submission) {
-    newDBConnect.insertNew(submission);
-    this.securitySubs.put(submission.getSubmissionid(), submission);
-  }
-
-  public SecurityDAOImpl(HashMap<Integer, SecuritysubmissionEntity> securitySubs) {
-    this.securitySubs = securitySubs;
+    securitySubs = ret;
   }
 
   @Override

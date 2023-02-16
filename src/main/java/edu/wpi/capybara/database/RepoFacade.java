@@ -104,4 +104,6 @@ public interface RepoFacade {
   int getID();
 
   void setID(int id);
+
+  void importAll();
 }
