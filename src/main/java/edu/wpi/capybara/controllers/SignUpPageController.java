@@ -24,6 +24,8 @@ public class SignUpPageController {
 
   @FXML private Text errorTxt;
 
+  private newDBConnect dbConnect;
+
   public void clearFields() {
     username.clear();
     password.clear();
@@ -33,6 +35,8 @@ public class SignUpPageController {
 
   @FXML
   public void initialize() {
+    dbConnect = new newDBConnect();
+    dbConnect.importAll();
     System.out.println("I am from the Sign Up Page!");
   }
 
@@ -50,7 +54,6 @@ public class SignUpPageController {
       System.out.println("This is the new username " + outputUsername);
       System.out.println("This is the new password " + outputPassword);
 
-      newDBConnect dbConnect = new newDBConnect();
       s = dbConnect.getStaff(outputUsername, outputPassword);
 
       // if username and password are new
