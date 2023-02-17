@@ -1,6 +1,8 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.database.newDBConnect;
+import edu.wpi.capybara.navigation.Navigation;
+import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.hibernate.StaffEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
@@ -17,6 +19,9 @@ public class SignUpPageController {
   @FXML private MFXPasswordField password;
   @FXML private MFXPasswordField confirmPassword;
   @FXML private MFXButton signUpButton;
+
+  @FXML private MFXButton backButton;
+
   @FXML private Text errorTxt;
 
   public void clearFields() {
@@ -64,6 +69,10 @@ public class SignUpPageController {
   public void enableSignUp(KeyEvent keyEvent) {
     if (username.getText() != "" && password.getText() != "" && confirmPassword.getText() != "")
       signUpButton.setDisable(false);
+  }
+
+  public void back(ActionEvent actionEvent) {
+    Navigation.navigate(Screen.LOG_IN_PAGE);
   }
 
   /*
