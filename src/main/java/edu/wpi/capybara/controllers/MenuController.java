@@ -6,8 +6,12 @@ import edu.wpi.capybara.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuButton;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
 public class MenuController {
 
@@ -34,6 +38,7 @@ public class MenuController {
     sUserProfile = userProfile;
     setUserProfile();
 
+    employeeEditButton.managedProperty().bind(employeeEditButton.visibleProperty());
     employeeEditButton.setVisible(App.getUser().getRole().equals("admin"));
   }
 
@@ -61,7 +66,17 @@ public class MenuController {
     Navigation.navigate(Screen.ASSIGNED_REQUESTS);
   }
 
-  public void giveInfo(MouseEvent mouseEvent) {}
+  public void giveInfo(MouseEvent mouseEvent) {
+    try {
+      FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("views/InfoPage.fxml"));
+      Parent root1 = (Parent) fxmlLoader.load();
+      Stage stage = new Stage();
+      stage.setScene(new Scene(root1));
+      stage.show();
+    } catch (Exception e) {
+      System.err.println(e.getMessage());
+    }
+  }
 
   public void quitApp(MouseEvent mouseEvent) {
     System.exit(0);
@@ -77,5 +92,13 @@ public class MenuController {
 
   public void showLogOut(ActionEvent actionEvent) {
     Navigation.navigate(Screen.LOG_IN_PAGE);
+  }
+
+  public void goToCreditsPage(ActionEvent actionEvent) {
+    Navigation.navigate(Screen.CREDITS_PAGE);
+  }
+
+  public void goToAboutPage(ActionEvent actionEvent) {
+    Navigation.navigate(Screen.ABOUT_PAGE);
   }
 }

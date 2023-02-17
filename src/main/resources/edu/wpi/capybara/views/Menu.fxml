@@ -55,11 +55,21 @@
                   <Font size="18.0" />
                </font>
             </MFXButton>
+            <MFXButton fx:id="creditsButton" maxWidth="1.7976931348623157E308" onAction="#goToCreditsPage" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="Credits" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </MFXButton>
+            <MFXButton fx:id="aboutButton" maxWidth="1.7976931348623157E308" onAction="#goToAboutPage" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="About" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </MFXButton>
             <HBox maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                <children>
                   <HBox alignment="BOTTOM_LEFT" styleClass="fa-cog" stylesheets="@../styles/menu1.css" HBox.hgrow="ALWAYS">
                      <children>
-                        <FontAwesomeIconView fx:id="aboutButton" fill="#f6bd38" glyphName="QUESTION" onMouseClicked="#giveInfo" size="30" styleClass="fa-cog" />
+                        <FontAwesomeIconView fx:id="questionButton" fill="#f6bd38" glyphName="QUESTION" onMouseClicked="#giveInfo" size="30" styleClass="fa-cog" />
                      </children>
                   </HBox>
                   <HBox alignment="BOTTOM_RIGHT" styleClass="fa-cog" stylesheets="@../styles/menu1.css" HBox.hgrow="ALWAYS">
