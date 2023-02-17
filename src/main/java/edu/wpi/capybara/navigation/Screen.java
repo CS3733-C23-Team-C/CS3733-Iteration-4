@@ -17,6 +17,8 @@ public enum Screen {
 
   LOG_IN_PAGE("views/LogInPage.fxml"),
 
+  SIGN_UP_PAGE("views/SignUpPage.fxml"),
+
   PATHFINDING("views/Pathfinding.fxml"),
 
   REQUESTS("views/MyRequests.fxml"),

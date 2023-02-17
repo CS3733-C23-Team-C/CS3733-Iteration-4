@@ -1,6 +1,13 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.newDBConnect;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public class EdgeDAOImpl implements EdgeDAO {
   ArrayList<EdgeEntity> edges = new ArrayList<>();
@@ -22,7 +29,26 @@ public class EdgeDAOImpl implements EdgeDAO {
     edges.remove(edge);
   }
 
-  public EdgeDAOImpl(ArrayList<EdgeEntity> edges) {
-    this.edges = edges;
+  public EdgeDAOImpl() {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+
+    ArrayList<EdgeEntity> ret = new ArrayList<EdgeEntity>();
+
+    try {
+      tx = session.beginTransaction();
+      List n = session.createQuery("FROM EdgeEntity ").list();
+      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
+        EdgeEntity temp = (EdgeEntity) iterator.next();
+        ret.add(temp);
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    edges = ret;
   }
 }

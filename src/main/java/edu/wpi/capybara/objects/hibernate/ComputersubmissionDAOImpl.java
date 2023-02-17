@@ -1,6 +1,13 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.newDBConnect;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public class ComputersubmissionDAOImpl implements ComputersubmissionDAO {
   HashMap<Integer, ComputersubmissionEntity> computerSubs = new HashMap();
@@ -27,7 +34,30 @@ public class ComputersubmissionDAOImpl implements ComputersubmissionDAO {
     computerSubs.remove(id);
   }
 
-  public ComputersubmissionDAOImpl(HashMap<Integer, ComputersubmissionEntity> computerSubs) {
-    this.computerSubs = computerSubs;
+  public ComputersubmissionDAOImpl() {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+
+    HashMap<Integer, ComputersubmissionEntity> ret =
+        new HashMap<Integer, ComputersubmissionEntity>();
+
+    try {
+      tx = session.beginTransaction();
+      List n = session.createQuery("FROM ComputersubmissionEntity").list();
+      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
+        ComputersubmissionEntity temp = (ComputersubmissionEntity) iterator.next();
+        ret.put(temp.getSubmissionid(), temp);
+        if (Main.db.getID() < temp.getSubmissionid()) {
+          Main.db.setID(temp.getSubmissionid());
+        }
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    computerSubs = ret;
   }
 }

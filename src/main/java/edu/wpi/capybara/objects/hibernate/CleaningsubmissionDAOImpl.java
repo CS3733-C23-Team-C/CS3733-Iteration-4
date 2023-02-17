@@ -1,6 +1,13 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.newDBConnect;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public class CleaningsubmissionDAOImpl implements CleaningsubmissionDAO {
   HashMap<Integer, CleaningsubmissionEntity> cleaningSubs = new HashMap();
@@ -27,7 +34,30 @@ public class CleaningsubmissionDAOImpl implements CleaningsubmissionDAO {
     cleaningSubs.remove(id);
   }
 
-  public CleaningsubmissionDAOImpl(HashMap<Integer, CleaningsubmissionEntity> cleaningSubs) {
-    this.cleaningSubs = cleaningSubs;
+  public CleaningsubmissionDAOImpl() {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+
+    HashMap<Integer, CleaningsubmissionEntity> ret =
+        new HashMap<Integer, CleaningsubmissionEntity>();
+
+    try {
+      tx = session.beginTransaction();
+      List n = session.createQuery("FROM CleaningsubmissionEntity").list();
+      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
+        CleaningsubmissionEntity temp = (CleaningsubmissionEntity) iterator.next();
+        ret.put(temp.getSubmissionid(), temp);
+        if (Main.db.getID() < temp.getSubmissionid()) {
+          Main.db.setID(temp.getSubmissionid());
+        }
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    cleaningSubs = ret;
   }
 }

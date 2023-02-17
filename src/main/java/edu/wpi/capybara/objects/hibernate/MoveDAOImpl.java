@@ -1,6 +1,13 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.newDBConnect;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 public class MoveDAOImpl implements MoveDAO {
   ArrayList<MoveEntity> moves = new ArrayList<>();
@@ -16,8 +23,27 @@ public class MoveDAOImpl implements MoveDAO {
     this.moves.add(submission);
   }
 
-  public MoveDAOImpl(ArrayList<MoveEntity> moves) {
-    this.moves = moves;
+  public MoveDAOImpl() {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+
+    ArrayList<MoveEntity> ret = new ArrayList<MoveEntity>();
+
+    try {
+      tx = session.beginTransaction();
+      List n = session.createQuery("FROM MoveEntity ").list();
+      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
+        MoveEntity temp = (MoveEntity) iterator.next();
+        ret.add(temp);
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    moves = ret;
   }
 
   @Override
