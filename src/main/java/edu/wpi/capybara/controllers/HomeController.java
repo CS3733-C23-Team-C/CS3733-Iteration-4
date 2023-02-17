@@ -1,13 +1,14 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
+import java.awt.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.text.Text;
+import javafx.scene.control.Label;
 
 public class HomeController {
 
-  @FXML private Text welcomeTxt;
+  @FXML private Label welcomeTxt;
 
   final String SECRET_PASSWORD = "team coaching";
 
@@ -17,7 +18,8 @@ public class HomeController {
     System.out.println("I am from HomeController.");
 
     if (welcomeTxt != null) {
-      welcomeTxt.setText("Welcome back, " + App.getUser().getFirstname() + "!");
+      String text = "Welcome back, " + App.getUser().getFirstname() + "!";
+      welcomeTxt.setText(text);
     }
 
     //    submit.setOnMouseClicked(event -> {});

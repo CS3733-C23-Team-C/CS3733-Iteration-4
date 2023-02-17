@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -16,30 +17,72 @@
             <HBox prefHeight="20.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER" />
          </top>
          <center>
-            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
+            <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
                <children>
                   <HBox alignment="CENTER" styleClass="body" stylesheets="@../styles/home_style.css" VBox.vgrow="ALWAYS" />
-                  <Text fx:id="welcomeTxt" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome back, User!">
+                  <Label fx:id="welcomeTxt" text="Welcome back, User!" textFill="#012d5a">
                      <font>
                         <Font size="24.0" />
                      </font>
-                  </Text>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #F6BD38;">
-                     <children>
-                        <FontAwesomeIconView glyphName="BELL" size="20" />
-                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Your recent request #12 got approved.">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Text>
-                     </children>
+                  </Label>
+                  <Text fx:id="newMessageTxt" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="You have X new messages:" VBox.vgrow="ALWAYS">
                      <VBox.margin>
-                        <Insets bottom="20.0" left="20.0" right="20.0" />
+                        <Insets bottom="-10.0" top="-10.0" />
                      </VBox.margin>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
-                  </HBox>
+                  </Text>
+                  <MFXScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="150.0" style="-fx-background-color: #F4F4F4;">
+                     <content>
+                        <VBox fx:id="vbox" alignment="CENTER" spacing="5.0">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                           <children>
+                              <HBox alignment="CENTER" styleClass="box" stylesheets="@../styles/unreadMessage.css" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Label text="New Message from ÑSLDkvjas" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2-17-2023" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" styleClass="box" stylesheets="@../styles/unreadMessage.css">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Label text="New Message from ÑSLDkvjas" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2-17-2023" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" styleClass="box" stylesheets="@../styles/unreadMessage.css">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Label text="New Message from ÑSLDkvjas" />
+                                       </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2-17-2023" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </content>
+                  </MFXScrollPane>
                </children>
             </VBox>
          </center>

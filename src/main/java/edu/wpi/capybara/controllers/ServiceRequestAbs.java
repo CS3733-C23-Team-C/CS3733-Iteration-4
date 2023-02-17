@@ -12,6 +12,8 @@ import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -43,6 +45,11 @@ public abstract class ServiceRequestAbs {
       // System.out.println(n.getShortName());
       Location.getItems().add(n.getShortName());
     }
+
+    // submissionReceived.setFont(Font.font("system", FontWeight.NORMAL, FontPosture.REGULAR, 20));
+    Label label = new Label();
+    Insets insets = new Insets(10, 5, 10, 5);
+    label.setPadding(insets);
 
     // Set a default variable
     // location.getSelectionModel().selectFirst();

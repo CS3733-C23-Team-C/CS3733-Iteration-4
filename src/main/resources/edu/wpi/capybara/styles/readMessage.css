@@ -1,0 +1,16 @@
+.box{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-inserts: 0;
+    -fx-border-color:  #707070;
+    -fx-border-radius: 10;
+    -fx-border-width: 3;
+}
+
+.box:hover{
+    -fx-border-color: #012D5A;
+}
+
+.box:selected {
+    -fx-border-color:#012D5A;
+}
