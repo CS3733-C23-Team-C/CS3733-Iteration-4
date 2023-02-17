@@ -115,7 +115,5 @@ public interface RepoFacade {
 
   void importAll();
 
-  String generateStaffID();
-
   int generateMessageID();
 }

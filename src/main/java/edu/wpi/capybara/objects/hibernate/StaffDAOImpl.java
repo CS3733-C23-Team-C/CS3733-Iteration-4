@@ -31,7 +31,6 @@ public class StaffDAOImpl implements StaffDAO {
   }
 
   public StaffDAOImpl() {
-    curID = 0;
     Session session = Main.db.getSession();
     Transaction tx = null;
 
@@ -39,12 +38,9 @@ public class StaffDAOImpl implements StaffDAO {
 
     try {
       tx = session.beginTransaction();
-      List n = session.createQuery("FROM StaffEntity ").list();
+      List n = session.createQuery("FROM StaffEntity").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         StaffEntity temp = (StaffEntity) iterator.next();
-        if (Integer.valueOf(temp.getStaffid()) > curID) {
-          curID = Integer.valueOf(temp.getStaffid());
-        }
         ret.put(temp.getStaffid(), temp);
       }
       tx.commit();
@@ -70,9 +66,5 @@ public class StaffDAOImpl implements StaffDAO {
       }
     }
     return null;
-  }
-
-  public String generateStaffID() {
-    return Integer.toString(++curID);
   }
 }

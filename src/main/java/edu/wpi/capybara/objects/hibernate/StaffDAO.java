@@ -13,6 +13,4 @@ public interface StaffDAO {
   StaffEntity getStaff(String staffid, String password);
 
   void deleteStaff(String staffid);
-
-  String generateStaffID();
 }
