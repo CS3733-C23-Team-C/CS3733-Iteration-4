@@ -29,6 +29,8 @@ public interface RepoFacade {
 
   ArrayList<MoveEntity> getMoves();
 
+  HashMap<Integer, MessagesEntity> getMessages();
+
   // Add method
   // Submissions
   void addAudio(AudiosubmissionEntity submission);
@@ -52,6 +54,8 @@ public interface RepoFacade {
 
   boolean addMove(MoveEntity submission);
 
+  void addMessage(MessagesEntity message);
+
   // Get single methods
   // Submissions
   AudiosubmissionEntity getAudio(int id);
@@ -70,6 +74,8 @@ public interface RepoFacade {
   NodeEntity getNode(String nodeid);
 
   StaffEntity getStaff(String staffid);
+
+  MessagesEntity getMessage(int id);
 
   // delete methods
   // submissions
@@ -94,6 +100,8 @@ public interface RepoFacade {
 
   void deleteStaff(String staffid);
 
+  void deleteMessage(int messageid);
+
   // Submission methods
   StaffEntity getStaff(String Staffid, String password);
 
@@ -107,5 +115,5 @@ public interface RepoFacade {
 
   void importAll();
 
-  String generateStaffID();
+  int generateMessageID();
 }
