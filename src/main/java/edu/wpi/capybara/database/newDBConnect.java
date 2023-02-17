@@ -23,7 +23,6 @@ public class newDBConnect implements RepoFacade {
   TransportationDAO transportation;
 
   MessagesDAO message;
-  int id;
 
   static SessionFactory factory;
 
@@ -37,7 +36,6 @@ public class newDBConnect implements RepoFacade {
   }
 
   public void importAll() {
-    id = 0;
     importAudio();
     importCleaning();
     importComputer();
@@ -48,7 +46,7 @@ public class newDBConnect implements RepoFacade {
     importStaff();
     importEdge();
     importMove();
-    // importMessage();
+    importMessage();
   }
 
   void importAudio() {
@@ -311,10 +309,6 @@ public class newDBConnect implements RepoFacade {
     }
   }
 
-  public int newID() {
-    return ++id;
-  }
-
   public void deleteAudio(int id) {
     audio.deleteAudio(id);
   }
@@ -367,12 +361,36 @@ public class newDBConnect implements RepoFacade {
     session.close();
   }
 
-  public int getID() {
-    return id;
-  }
+  public int newID() {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
 
-  public void setID(int id) {
-    this.id = id;
+    int id = 0;
+
+    try {
+      tx = session.beginTransaction();
+      List n =
+          session
+              .createNativeQuery(
+                  "SELECT max(submissionID)FROM("
+                      + "SELECT max(submissionid) AS submissionID FROM cdb.audiosubmission UNION "
+                      + "SELECT max(submissionid) AS submissionID FROM cdb.cleaningsubmission UNION "
+                      + "SELECT max(submissionid) AS submissionID FROM cdb.computersubmission UNION "
+                      + "SELECT max(submissionid) AS submissionID FROM cdb.securitysubmission UNION "
+                      + "SELECT max(submissionid) AS submissionID FROM cdb.transportationsubmission) as tem;")
+              .list();
+      if (n != null) {
+        id = (int) n.get(0);
+        id++;
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return id;
   }
 
   public int generateMessageID() {

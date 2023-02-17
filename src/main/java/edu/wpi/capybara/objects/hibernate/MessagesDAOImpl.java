@@ -46,6 +46,7 @@ public class MessagesDAOImpl implements MessagesDAO {
       List n = session.createQuery("SELECT MAX(messageid) FROM MessagesEntity").list();
       if (n != null) {
         id = (int) n.get(0);
+        id++;
       }
       tx.commit();
     } catch (HibernateException e) {

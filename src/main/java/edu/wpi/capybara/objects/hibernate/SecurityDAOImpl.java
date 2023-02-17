@@ -41,9 +41,6 @@ public class SecurityDAOImpl implements SecurityDAO {
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         SecuritysubmissionEntity temp = (SecuritysubmissionEntity) iterator.next();
         ret.put(temp.getSubmissionid(), temp);
-        if (Main.db.getID() < temp.getSubmissionid()) {
-          Main.db.setID(temp.getSubmissionid());
-        }
       }
       tx.commit();
     } catch (HibernateException e) {
