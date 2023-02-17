@@ -106,4 +106,6 @@ public interface RepoFacade {
   void setID(int id);
 
   void importAll();
+
+  String generateStaffID();
 }

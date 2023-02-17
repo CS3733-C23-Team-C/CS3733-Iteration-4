@@ -348,4 +348,8 @@ public class newDBConnect implements RepoFacade {
   public void setID(int id) {
     this.id = id;
   }
+
+  public String generateStaffID(){
+    return staff.generateStaffID();
+  }
 }
