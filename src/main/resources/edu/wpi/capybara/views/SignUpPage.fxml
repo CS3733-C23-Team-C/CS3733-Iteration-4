@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane fx:id="SignUpStackPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.SignUpPageController">
+    <children>
+        <BorderPane fx:id="SignUpPane" prefHeight="400.0" prefWidth="600.0">
+            <center>
+                <HBox BorderPane.alignment="CENTER">
+                    <children>
+                        <VBox alignment="CENTER" style="-fx-background-color: #012D5A;" HBox.hgrow="ALWAYS">
+                            <children>
+                                <ImageView fitHeight="105.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../images/logo.PNG" />
+                                    </image>
+                                </ImageView>
+                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="BWH">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                </Text>
+                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Brigham and Women's Hospital" textAlignment="CENTER" wrappingWidth="201.759765625">
+                                    <font>
+                                        <Font size="20.0" />
+                                    </font>
+                                </Text>
+                            </children>
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="15.0" HBox.hgrow="ALWAYS">
+                            <children>
+                                <VBox alignment="BOTTOM_CENTER" VBox.vgrow="ALWAYS">
+                                    <children>
+                                        <FontAwesomeIconView fill="#012d5a" glyphName="USERS" size="35" />
+                                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="User Sign Up">
+                                            <font>
+                                                <Font size="24.0" />
+                                            </font>
+                                        </Text>
+                                    </children>
+                                </VBox>
+                                <HBox alignment="BOTTOM_CENTER" spacing="10.0">
+                                    <children>
+                                        <FontAwesomeIconView fill="#012d5a" glyphName="USER" size="25" />
+                                        <MFXTextField fx:id="username" onKeyReleased="#enableSignUp" prefHeight="40.0" prefWidth="180.0" promptText="Username" style="-fx-background-color: transparent; -fx-border-color: #009CA6; -fx-border-width: 0px 0px 4px 0px;" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="BOTTOM_CENTER" spacing="8.0">
+                                    <children>
+                                        <FontAwesomeIconView fill="#012d5a" glyphName="KEY" size="25" />
+                                        <MFXPasswordField fx:id="password" onKeyReleased="#enableSignUp" prefHeight="40.0" prefWidth="180.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-color: #009CA6; -fx-border-width: 0px 0px 4px 0px;" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="BOTTOM_CENTER" spacing="8.0">
+                                    <children>
+                                        <FontAwesomeIconView fill="#012d5a" glyphName="KEY" size="25" />
+                                        <MFXPasswordField fx:id="confirmPassword" onKeyReleased="#enableSignUp" prefHeight="40.0" prefWidth="180.0" promptText="Confirm Password" style="-fx-background-color: transparent; -fx-border-color: #009CA6; -fx-border-width: 0px 0px 4px 0px;" />
+                                    </children>
+                                </HBox>
+                                <MFXButton fx:id="signUpButton" disable="true" onAction="#signUp" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: #012D5A;" text="SignUp" textFill="WHITE">
+                                    <font>
+                                        <Font size="18.0" />
+                                    </font>
+                                </MFXButton>
+                                <Text fx:id="errorTxt" fill="#da1a1a" strokeType="OUTSIDE" strokeWidth="0.0" />
+                            </children>
+                            <padding>
+                                <Insets bottom="40.0" left="10.0" right="10.0" top="40.0" />
+                            </padding>
+                        </VBox>
+                    </children>
+                </HBox>
+            </center>
+        </BorderPane>
+    </children>
+</StackPane>

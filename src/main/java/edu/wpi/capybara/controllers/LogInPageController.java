@@ -15,6 +15,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 public class LogInPageController {
@@ -94,5 +95,9 @@ public class LogInPageController {
 
   public void enableLogin(KeyEvent keyEvent) {
     if (username.getText() != "" && password.getText() != "") loginButton.setDisable(false);
+  }
+
+  public void signUp(MouseEvent mouseEvent) {
+    Navigation.navigate(Screen.SIGN_UP_PAGE);
   }
 }
