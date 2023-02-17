@@ -3,6 +3,8 @@ package edu.wpi.capybara.navigation;
 public enum Screen {
   ROOT("views/Root.fxml"),
   EMPTY_ROOT("views/EmptyRoot.fxml"),
+  ABOUT_PAGE("views/AboutPage.fxml"),
+  CREDITS_PAGE("views/CreditsPage.fxml"),
   MENU("views/Menu.fxml"),
   SERVICE_REQUEST_COMPUTER("views/Computer.fxml"),
   SERVICE_REQUEST_AUDIO("views/Audio.fxml"),
