@@ -42,11 +42,10 @@ public class StaffDAOImpl implements StaffDAO {
       List n = session.createQuery("FROM StaffEntity ").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         StaffEntity temp = (StaffEntity) iterator.next();
-        if(Integer.valueOf(temp.getStaffid()) > curID){
+        if (Integer.valueOf(temp.getStaffid()) > curID) {
           curID = Integer.valueOf(temp.getStaffid());
         }
         ret.put(temp.getStaffid(), temp);
-
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -73,7 +72,7 @@ public class StaffDAOImpl implements StaffDAO {
     return null;
   }
 
-  public String generateStaffID(){
+  public String generateStaffID() {
     return Integer.toString(++curID);
   }
 }

@@ -21,6 +21,8 @@ public class newDBConnect implements RepoFacade {
   SecurityDAO security;
   StaffDAO staff;
   TransportationDAO transportation;
+
+  MessagesDAO message;
   int id;
 
   static SessionFactory factory;
@@ -46,6 +48,7 @@ public class newDBConnect implements RepoFacade {
     importStaff();
     importEdge();
     importMove();
+    importMessage();
   }
 
   void importAudio() {
@@ -86,6 +89,10 @@ public class newDBConnect implements RepoFacade {
 
   void importMove() {
     move = new MoveDAOImpl();
+  }
+
+  void importMessage() {
+    message = new MessagesDAOImpl();
   }
 
   @Override
@@ -136,6 +143,11 @@ public class newDBConnect implements RepoFacade {
   @Override
   public ArrayList<MoveEntity> getMoves() {
     return move.getMoves();
+  }
+
+  @Override
+  public HashMap<Integer, MessagesEntity> getMessages() {
+    return message.getMessages();
   }
 
   @Override
@@ -218,6 +230,11 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
+  public void addMessage(MessagesEntity addition) {
+    message.addMessage(addition);
+  }
+
+  @Override
   public AudiosubmissionEntity getAudio(int id) {
     return audio.getAudio(id);
   }
@@ -264,6 +281,11 @@ public class newDBConnect implements RepoFacade {
       }
     }
     return null;
+  }
+
+  @Override
+  public MessagesEntity getMessage(int messageid) {
+    return message.getMessage(messageid);
   }
 
   @Override
@@ -333,6 +355,10 @@ public class newDBConnect implements RepoFacade {
     staff.deleteStaff(id);
   }
 
+  public void deleteMessage(int id) {
+    message.deleteMessage(id);
+  }
+
   public static void delete(Object submission) {
     Session session = factory.openSession();
     Transaction tx = session.beginTransaction();
@@ -349,7 +375,11 @@ public class newDBConnect implements RepoFacade {
     this.id = id;
   }
 
-  public String generateStaffID(){
+  public String generateStaffID() {
     return staff.generateStaffID();
+  }
+
+  public int generateMessageID() {
+    return message.generateMessageID();
   }
 }
