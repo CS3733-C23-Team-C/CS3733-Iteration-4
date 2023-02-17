@@ -11,7 +11,6 @@ public class Main {
     //    DatabaseConnect.importData();
     db = new newDBConnect();
     db.importAll();
-    // System.out.println(db.generateMessageID());
     App.launch(App.class, args);
   }
 

@@ -109,10 +109,6 @@ public interface RepoFacade {
 
   int newID();
 
-  int getID();
-
-  void setID(int id);
-
   void importAll();
 
   int generateMessageID();
