@@ -21,7 +21,8 @@ public class newDBConnect implements RepoFacade {
   SecurityDAO security;
   StaffDAO staff;
   TransportationDAO transportation;
-  int id;
+
+  MessagesDAO message;
 
   static SessionFactory factory;
 
@@ -35,7 +36,6 @@ public class newDBConnect implements RepoFacade {
   }
 
   public void importAll() {
-    id = 0;
     importAudio();
     importCleaning();
     importComputer();
@@ -46,6 +46,7 @@ public class newDBConnect implements RepoFacade {
     importStaff();
     importEdge();
     importMove();
+    importMessage();
   }
 
   void importAudio() {
@@ -86,6 +87,10 @@ public class newDBConnect implements RepoFacade {
 
   void importMove() {
     move = new MoveDAOImpl();
+  }
+
+  void importMessage() {
+    message = new MessagesDAOImpl();
   }
 
   @Override
@@ -136,6 +141,11 @@ public class newDBConnect implements RepoFacade {
   @Override
   public ArrayList<MoveEntity> getMoves() {
     return move.getMoves();
+  }
+
+  @Override
+  public HashMap<Integer, MessagesEntity> getMessages() {
+    return message.getMessages();
   }
 
   @Override
@@ -218,6 +228,11 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
+  public void addMessage(MessagesEntity addition) {
+    message.addMessage(addition);
+  }
+
+  @Override
   public AudiosubmissionEntity getAudio(int id) {
     return audio.getAudio(id);
   }
@@ -267,6 +282,11 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
+  public MessagesEntity getMessage(int messageid) {
+    return message.getMessage(messageid);
+  }
+
+  @Override
   public Session getSession() {
     return factory.openSession();
   }
@@ -287,10 +307,6 @@ public class newDBConnect implements RepoFacade {
     } catch (HibernateException e) {
       e.printStackTrace();
     }
-  }
-
-  public int newID() {
-    return ++id;
   }
 
   public void deleteAudio(int id) {
@@ -333,6 +349,10 @@ public class newDBConnect implements RepoFacade {
     staff.deleteStaff(id);
   }
 
+  public void deleteMessage(int id) {
+    message.deleteMessage(id);
+  }
+
   public static void delete(Object submission) {
     Session session = factory.openSession();
     Transaction tx = session.beginTransaction();
@@ -341,11 +361,39 @@ public class newDBConnect implements RepoFacade {
     session.close();
   }
 
-  public int getID() {
+  public int newID() {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+
+    int id = 0;
+
+    try {
+      tx = session.beginTransaction();
+      List n =
+          session
+              .createNativeQuery(
+                  "SELECT max(submissionID)FROM("
+                      + "SELECT max(submissionid) AS submissionID FROM cdb.audiosubmission UNION "
+                      + "SELECT max(submissionid) AS submissionID FROM cdb.cleaningsubmission UNION "
+                      + "SELECT max(submissionid) AS submissionID FROM cdb.computersubmission UNION "
+                      + "SELECT max(submissionid) AS submissionID FROM cdb.securitysubmission UNION "
+                      + "SELECT max(submissionid) AS submissionID FROM cdb.transportationsubmission) as tem;")
+              .list();
+      if (n != null) {
+        id = (int) n.get(0);
+        id++;
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
     return id;
   }
 
-  public void setID(int id) {
-    this.id = id;
+  public int generateMessageID() {
+    return message.generateMessageID();
   }
 }
