@@ -10,6 +10,7 @@ import edu.wpi.capybara.objects.math.Vector2;
 import java.util.Objects;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.scene.Cursor;
 import javafx.scene.control.SplitPane;
@@ -23,6 +24,11 @@ import javafx.scene.shape.Line;
 import lombok.NonNull;
 
 public class MapEditorPane extends SplitPane {
+
+  // todo: extract GFXNode
+  // todo: extract GFXEdge
+  // todo: decouple MapEditorPane and MapEditorController
+  // both should be capable of editing things, but each should specialize to their specific capabilities
 
   /** Graphical representation of a Node. */
   private class GFXNode extends Circle implements Selectable {
@@ -283,7 +289,7 @@ public class MapEditorPane extends SplitPane {
     mapElementContainer.getChildren().remove(node);
   }
 
-  private ImageView lookupFloorImage(Floor floor) {
+  ImageView lookupFloorImage(Floor floor) {
     return switch (floor) {
       case F1 -> floorF1;
       case F2 -> floorF2;
@@ -323,6 +329,14 @@ public class MapEditorPane extends SplitPane {
 
   public void setShownFloor(Floor floor) {
     shownFloor.set(floor);
+  }
+
+  void addSelection(@NonNull Selectable selectable) {
+    selections.add(selectable);
+  }
+
+  void removeSelection(@NonNull Selectable selectable) {
+    selections.remove(selectable);
   }
 
   public void setSelection(@NonNull Object selection) {
