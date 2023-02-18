@@ -3,8 +3,12 @@ package edu.wpi.capybara.controllers.mapeditor.ui.gfx;
 import edu.wpi.capybara.controllers.mapeditor.ui.Selectable;
 import javafx.css.PseudoClass;
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 
-class GFXBase extends Node implements Selectable {
+class GFXBase extends Pane implements Selectable {
+    // Graphics (GFX) objects are *only* concerned with the graphical representation of the entity they represent.
+    // they do not have *any* logic for modifying the entity. that job belongs to the controller.
+
     private static final PseudoClass PSEUDO_CLASS = PseudoClass.getPseudoClass("selected");
 
     // todo: should we expose the selection state to our subclasses? this would allow for styling beyond what CSS can do
