@@ -36,50 +36,6 @@
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
-                           <children>
-                              <HBox alignment="CENTER" styleClass="box" stylesheets="@../styles/unreadMessage.css" VBox.vgrow="ALWAYS">
-                                 <children>
-                                    <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
-                                       <children>
-                                          <Label text="New Message from ÑSLDkvjas" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
-                                       <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2-17-2023" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" styleClass="box" stylesheets="@../styles/unreadMessage.css">
-                                 <children>
-                                    <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
-                                       <children>
-                                          <Label text="New Message from ÑSLDkvjas" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
-                                       <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2-17-2023" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" styleClass="box" stylesheets="@../styles/unreadMessage.css">
-                                 <children>
-                                    <HBox alignment="CENTER_LEFT" HBox.hgrow="ALWAYS">
-                                       <children>
-                                          <Label text="New Message from ÑSLDkvjas" />
-                                       </children>
-                                    </HBox>
-                                    <HBox alignment="CENTER_RIGHT" HBox.hgrow="ALWAYS">
-                                       <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2-17-2023" />
-                                       </children>
-                                    </HBox>
-                                 </children>
-                              </HBox>
-                           </children>
                         </VBox>
                      </content>
                   </MFXScrollPane>

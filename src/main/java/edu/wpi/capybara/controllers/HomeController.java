@@ -1,16 +1,31 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
+import edu.wpi.capybara.Main;
+import edu.wpi.capybara.objects.MessageBox;
+import edu.wpi.capybara.objects.hibernate.MessagesEntity;
+import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import java.awt.*;
+import java.util.HashMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 public class HomeController {
 
   @FXML private Label welcomeTxt;
+  @FXML private Text newMessageTxt;
+  @FXML private MFXScrollPane scrollPane;
+  @FXML private VBox vbox;
 
   final String SECRET_PASSWORD = "team coaching";
+
+  private HashMap<Integer, MessagesEntity> messages;
+
+  private MessageBox messageBox = new MessageBox();
 
   /** Initialize controller by FXML Loader. */
   @FXML
@@ -21,6 +36,9 @@ public class HomeController {
       String text = "Welcome back, " + App.getUser().getFirstname() + "!";
       welcomeTxt.setText(text);
     }
+
+    messages = Main.db.getMessages();
+    showMessages();
 
     //    submit.setOnMouseClicked(event -> {});
   }
@@ -48,5 +66,15 @@ public class HomeController {
    */
   private boolean validate(final String input) {
     return input.equals(SECRET_PASSWORD);
+  }
+
+  public void showMessages() {
+    for (MessagesEntity message : messages.values()) {
+      System.out.println(message.getMessage());
+      if (!message.getRead()) {
+        HBox newMessage = messageBox.addHomeMessage(message);
+        vbox.getChildren().add(newMessage);
+      }
+    }
   }
 }
