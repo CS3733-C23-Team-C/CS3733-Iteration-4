@@ -10,7 +10,6 @@ import edu.wpi.capybara.objects.math.Vector2;
 import java.util.Objects;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableSet;
 import javafx.collections.SetChangeListener;
 import javafx.scene.Cursor;
 import javafx.scene.control.SplitPane;
@@ -31,7 +30,7 @@ public class MapEditorPane extends SplitPane {
   // both should be capable of editing things, but each should specialize to their specific capabilities
 
   /** Graphical representation of a Node. */
-  private class GFXNode extends Circle implements Selectable {
+  private class GFXNode extends Circle implements OldSelectable {
 
     private final NodeAdapter node;
     private final PseudoClassSelectionHandler pseudoClassHandler;
@@ -84,7 +83,7 @@ public class MapEditorPane extends SplitPane {
   }
 
   /** Graphical representation of an Edge. */
-  private class GFXEdge extends Line implements Selectable {
+  private class GFXEdge extends Line implements OldSelectable {
     private final EdgeAdapter edge;
     private final PseudoClassSelectionHandler pseudoClassHandler;
 
@@ -166,7 +165,7 @@ public class MapEditorPane extends SplitPane {
   private final SimpleDoubleProperty viewX, viewY, zoom;
   private final Pane mapElementContainer;
 
-  private final SimpleSetProperty<Selectable> selections;
+  private final SimpleSetProperty<OldSelectable> selections;
   private final SimpleSetProperty<Object> selectedEntities;
 
   public MapEditorPane() {
@@ -177,7 +176,7 @@ public class MapEditorPane extends SplitPane {
     selections = new SimpleSetProperty<>(FXCollections.observableSet());
     selectedEntities = new SimpleSetProperty<>(FXCollections.observableSet());
     selections.addListener(
-        (SetChangeListener<? super Selectable>)
+        (SetChangeListener<? super OldSelectable>)
             change -> {
               if (change.wasAdded())
                 selectedEntities.add(change.getElementAdded().getSelectedObject());
@@ -331,11 +330,11 @@ public class MapEditorPane extends SplitPane {
     shownFloor.set(floor);
   }
 
-  void addSelection(@NonNull Selectable selectable) {
+  void addSelection(@NonNull OldSelectable selectable) {
     selections.add(selectable);
   }
 
-  void removeSelection(@NonNull Selectable selectable) {
+  void removeSelection(@NonNull OldSelectable selectable) {
     selections.remove(selectable);
   }
 
@@ -351,9 +350,9 @@ public class MapEditorPane extends SplitPane {
 
   public void deselectAll() {
     // these array shenanigans are necessary to avoid concurrent modification of the selection set.
-    final var selectionsArray = new Selectable[selections.size()];
+    final var selectionsArray = new OldSelectable[selections.size()];
     selections.toArray(selectionsArray);
-    for (Selectable selectable : selectionsArray) {
+    for (OldSelectable selectable : selectionsArray) {
       selectable.deselect();
     }
   }
