@@ -112,4 +112,6 @@ public interface RepoFacade {
   void importAll();
 
   int generateMessageID();
+
+  public void threadRefresh(int delay);
 }
