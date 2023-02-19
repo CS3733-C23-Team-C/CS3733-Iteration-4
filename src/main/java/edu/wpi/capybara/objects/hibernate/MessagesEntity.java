@@ -144,6 +144,27 @@ public class MessagesEntity {
   }
 
   @Override
+  public String toString() {
+    return "MessagesEntity{"
+        + "messageid="
+        + messageid
+        + ", senderid='"
+        + senderid
+        + '\''
+        + ", receivingid='"
+        + receivingid
+        + '\''
+        + ", date="
+        + date
+        + ", message='"
+        + message
+        + '\''
+        + ", read="
+        + read
+        + '}';
+  }
+
+  @Override
   public int hashCode() {
     return Objects.hash(messageid, senderid, receivingid, date, message, read);
   }

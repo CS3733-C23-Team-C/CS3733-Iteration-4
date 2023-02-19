@@ -149,6 +149,11 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
+  public HashMap<Integer, MessagesEntity> getMessages(String id) {
+    return message.getMessages(id);
+  }
+
+  @Override
   public void addAudio(AudiosubmissionEntity submission) {
     audio.addAudio(submission);
   }

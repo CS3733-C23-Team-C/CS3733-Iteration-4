@@ -15,7 +15,7 @@ public class Main extends Thread {
     AutoUpdate updater = new AutoUpdate();
     Thread thread = new Thread(updater, "AutoUpdater");
     thread.start();
-    App.launch(App.class, args);
+    // App.launch(App.class, args);
     updater.stop();
   }
 
