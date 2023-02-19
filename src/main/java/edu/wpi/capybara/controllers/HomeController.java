@@ -26,6 +26,7 @@ public class HomeController {
   private HashMap<Integer, MessagesEntity> messages;
 
   private MessageBox messageBox = new MessageBox();
+  private int newMessageCount;
 
   /** Initialize controller by FXML Loader. */
   @FXML
@@ -36,9 +37,10 @@ public class HomeController {
       String text = "Welcome back, " + App.getUser().getFirstname() + "!";
       welcomeTxt.setText(text);
     }
-
-    messages = Main.db.getMessages();
+    newMessageCount = 0;
+    messages = Main.db.getMessages(App.getUser().getStaffid());
     showMessages();
+    newMessageTxt.setText("You Have " + newMessageCount + " New Messages:");
 
     //    submit.setOnMouseClicked(event -> {});
   }
@@ -72,6 +74,7 @@ public class HomeController {
     for (MessagesEntity message : messages.values()) {
       System.out.println(message.getMessage());
       if (!message.getRead()) {
+        newMessageCount++;
         HBox newMessage = messageBox.addHomeMessage(message);
         vbox.getChildren().add(newMessage);
       }

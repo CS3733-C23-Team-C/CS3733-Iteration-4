@@ -5,6 +5,7 @@
     -fx-border-color:  #707070;
     -fx-border-radius: 10;
     -fx-border-width: 3;
+    -fx-padding: 5, 5, 5, 5;
 }
 
 .box:hover{

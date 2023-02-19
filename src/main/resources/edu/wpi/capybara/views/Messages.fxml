@@ -3,7 +3,6 @@
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
@@ -29,93 +28,6 @@
                     <MFXScrollPane fx:id="scrollPane" fitToWidth="true" style="-fx-background-color: F4F4F4;">
                         <content>
                             <VBox fx:id="vbox" alignment="CENTER" spacing="10.0">
-                                <children>
-                                    <VBox styleClass="box" stylesheets="@../styles/unreadMessage.css">
-                                        <children>
-                                            <HBox alignment="CENTER">
-                                                <children>
-                                                    <HBox>
-                                                        <children>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-                                                                <font>
-                                                                    <Font size="16.0" />
-                                                                </font>
-                                                            </Text>
-                                                        </children>
-                                                        <HBox.margin>
-                                                            <Insets left="5.0" />
-                                                        </HBox.margin>
-                                                    </HBox>
-                                                    <HBox HBox.hgrow="ALWAYS" />
-                                                    <HBox alignment="TOP_RIGHT">
-                                                        <children>
-                                                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="This is the date">
-                                                                <font>
-                                                                    <Font size="16.0" />
-                                                                </font>
-                                                            </Text>
-                                                        </children>
-                                                        <HBox.margin>
-                                                            <Insets right="5.0" />
-                                                        </HBox.margin>
-                                                    </HBox>
-                                                </children>
-                                            </HBox>
-                                            <Label text="jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj" wrapText="true">
-                                                <VBox.margin>
-                                                    <Insets />
-                                                </VBox.margin>
-                                                <padding>
-                                                    <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
-                                                </padding>
-                                            </Label>
-                                        </children>
-                                 <VBox.margin>
-                                    <Insets />
-                                 </VBox.margin>
-                                    </VBox>
-                              <VBox styleClass="box" stylesheets="@../styles/unreadMessage.css">
-                                 <children>
-                                    <HBox alignment="CENTER">
-                                       <children>
-                                          <HBox>
-                                             <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
-                                                   <font>
-                                                      <Font size="16.0" />
-                                                   </font>
-                                                </Text>
-                                             </children>
-                                             <HBox.margin>
-                                                <Insets left="5.0" />
-                                             </HBox.margin>
-                                          </HBox>
-                                          <HBox HBox.hgrow="ALWAYS" />
-                                          <HBox alignment="TOP_RIGHT">
-                                             <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="This is the date">
-                                                   <font>
-                                                      <Font size="16.0" />
-                                                   </font>
-                                                </Text>
-                                             </children>
-                                             <HBox.margin>
-                                                <Insets right="5.0" />
-                                             </HBox.margin>
-                                          </HBox>
-                                       </children>
-                                    </HBox>
-                                    <Label text="jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj" wrapText="true">
-                                       <VBox.margin>
-                                          <Insets />
-                                       </VBox.margin>
-                                       <padding>
-                                          <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
-                                       </padding>
-                                    </Label>
-                                 </children>
-                              </VBox>
-                                </children>
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
@@ -135,12 +47,12 @@
                             <HBox />
                             <HBox alignment="TOP_RIGHT" HBox.hgrow="ALWAYS">
                                 <children>
-                                    <MFXButton fx:id="replyButton" style="-fx-background-color: #009CA6;" text="Reply" textFill="WHITE">
+                                    <MFXButton fx:id="replyButton" disable="true" style="-fx-background-color: #009CA6;" text="Reply" textFill="WHITE">
                                         <HBox.margin>
                                             <Insets left="10.0" />
                                         </HBox.margin>
                                     </MFXButton>
-                                    <MFXButton fx:id="deleteButton" style="-fx-background-color: #A61E00;" text="Delete" textFill="WHITE">
+                                    <MFXButton fx:id="deleteButton" disable="true" style="-fx-background-color: #A61E00;" text="Delete" textFill="WHITE">
                                         <HBox.margin>
                                             <Insets left="10.0" />
                                         </HBox.margin>
