@@ -1,8 +1,10 @@
 package edu.wpi.capybara.objects.orm;
 
+import edu.wpi.capybara.objects.Floor;
 import jakarta.persistence.*;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 @Entity
@@ -11,12 +13,12 @@ public class Node {
     private final SimpleStringProperty id = new SimpleStringProperty();
     private final SimpleIntegerProperty xCoord = new SimpleIntegerProperty();
     private final SimpleIntegerProperty yCoord = new SimpleIntegerProperty();
-    private final SimpleStringProperty floor = new SimpleStringProperty();
+    private final SimpleObjectProperty<Floor> floor = new SimpleObjectProperty<>();
     private final SimpleStringProperty building = new SimpleStringProperty();
 
     protected Node() {}
 
-    static Node createPersistent(ORMFacade orm, String id, int xCoord, int yCoord, String floor, String building) {
+    static Node createPersistent(DAOFacade orm, String id, int xCoord, int yCoord, Floor floor, String building) {
         final var newNode = new Node();
         newNode.setId(id);
         newNode.setXCoord(xCoord);
@@ -27,7 +29,7 @@ public class Node {
         return newNode;
     }
 
-    void enableAutomaticPersistence(ORMFacade orm) {
+    void enableAutomaticPersistence(DAOFacade orm) {
         final InvalidationListener listener = evt -> orm.merge(this);
         id.addListener(listener);
         xCoord.addListener(listener);
@@ -79,16 +81,17 @@ public class Node {
     }
 
     @Basic
+    @Convert(converter = Floor.SQLConverter.class)
     @Column(name = "floor")
-    public String getFloor() {
+    public Floor getFloor() {
         return floor.get();
     }
 
-    public void setFloor(String floor) {
+    public void setFloor(Floor floor) {
         this.floor.set(floor);
     }
 
-    public SimpleStringProperty floorProperty() {
+    public SimpleObjectProperty<Floor> floorProperty() {
         return floor;
     }
 

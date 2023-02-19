@@ -42,7 +42,7 @@ public class Move {
 
   protected Move() {}
 
-  static Move createPersistent(ORMFacade orm, Node node, Location location, Date moveDate) {
+  static Move createPersistent(DAOFacade orm, Node node, Location location, Date moveDate) {
     final var newMove = new Move();
     newMove.setNode(node);
     newMove.setLocation(location);
@@ -51,7 +51,7 @@ public class Move {
     return newMove;
   }
 
-  void enableAutomaticPersistence(ORMFacade orm) {
+  void enableAutomaticPersistence(DAOFacade orm) {
     final InvalidationListener listener = evt -> orm.merge(this);
     node.addListener(listener);
     location.addListener(listener);

@@ -39,7 +39,7 @@ public class Edge {
 
     protected Edge() {}
 
-    static Edge createPersistent(ORMFacade orm, Node startNode, Node endNode) {
+    static Edge createPersistent(DAOFacade orm, Node startNode, Node endNode) {
         final var newEdge = new Edge();
         newEdge.setStartNode(startNode);
         newEdge.setEndNode(endNode);
@@ -47,7 +47,7 @@ public class Edge {
         return newEdge;
     }
 
-    void enableAutomaticPersistence(ORMFacade orm) {
+    void enableAutomaticPersistence(DAOFacade orm) {
         final InvalidationListener listener = evt -> orm.merge(this);
         startNode.addListener(listener);
         endNode.addListener(listener);

@@ -14,7 +14,7 @@ public class Location {
 
     protected Location() {}
 
-    static Location createPersistent(ORMFacade orm, String longName, String shortName, String locationType) {
+    static Location createPersistent(DAOFacade orm, String longName, String shortName, String locationType) {
         final var newLocation = new Location();
         newLocation.setLongName(longName);
         newLocation.setShortName(shortName);
@@ -23,7 +23,7 @@ public class Location {
         return newLocation;
     }
 
-    void enableAutomaticPersistence(ORMFacade orm) {
+    void enableAutomaticPersistence(DAOFacade orm) {
         final InvalidationListener listener = evt -> orm.merge(this);
         longName.addListener(listener);
         shortName.addListener(listener);
