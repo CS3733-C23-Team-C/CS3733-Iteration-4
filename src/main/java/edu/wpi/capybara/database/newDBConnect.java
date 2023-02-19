@@ -286,6 +286,15 @@ public class newDBConnect implements RepoFacade {
     return null;
   }
 
+  public StaffEntity getStaff2(String firstName, String lastName) {
+    for (StaffEntity s : staff.getStaff().values()) {
+      if (s.getFirstname().equals(firstName) && s.getLastname().equals(lastName)) {
+        return s;
+      }
+    }
+    return null;
+  }
+
   @Override
   public MessagesEntity getMessage(int messageid) {
     return message.getMessage(messageid);
@@ -431,5 +440,9 @@ public class newDBConnect implements RepoFacade {
 
   public int generateMessageID() {
     return message.generateMessageID();
+  }
+
+  public String generateID() {
+    return "id123";
   }
 }
