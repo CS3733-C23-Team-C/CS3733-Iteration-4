@@ -25,7 +25,7 @@ public class TransportationController extends ServiceRequestAbs {
     while (iterator.hasNext()) {
       NodeEntity n = iterator.next();
       // System.out.println(n.getShortName());
-      requestSpecific.getItems().add(n.getShortName());
+      requestSpecific.getItems().add(n.getLongname());
     }
   }
 }
