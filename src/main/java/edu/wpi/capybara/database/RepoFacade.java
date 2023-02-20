@@ -31,6 +31,10 @@ public interface RepoFacade {
 
   HashMap<Integer, MessagesEntity> getMessages();
 
+  HashMap<Integer, MessagesEntity> getMessages(String id);
+
+  HashMap<Integer, MessagesEntity> getMessages(String id, int lastid);
+
   // Add method
   // Submissions
   void addAudio(AudiosubmissionEntity submission);
@@ -112,4 +116,6 @@ public interface RepoFacade {
   void importAll();
 
   int generateMessageID();
+
+  public void threadRefresh(int delay);
 }
