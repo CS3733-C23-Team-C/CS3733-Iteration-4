@@ -1,7 +1,6 @@
 package edu.wpi.capybara.database;
 
 import edu.wpi.capybara.objects.orm.*;
-import java.util.UUID;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
 import org.hibernate.Session;
@@ -126,7 +125,9 @@ public interface RepoFacade2 {
 
   Session getSession();
 
-  UUID newID();
+  int newID();
 
   void importAll();
+
+  int generateMessageID();
 }

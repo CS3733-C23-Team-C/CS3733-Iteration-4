@@ -1,16 +1,22 @@
 package edu.wpi.capybara.database;
 
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.database.dao.*;
 import edu.wpi.capybara.database.dao.EdgeDAO;
 import edu.wpi.capybara.database.dao.MoveDAO;
 import edu.wpi.capybara.database.dao.NodeDAO;
 import edu.wpi.capybara.database.dao.StaffDAO;
+import edu.wpi.capybara.objects.hibernate.MoveEntity;
 import edu.wpi.capybara.objects.orm.*;
-import java.util.UUID;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import java.util.HashMap;
+import java.util.List;
 
 // this would be about 20 lines long if java supported composition in addition to inheritance
 @Slf4j
@@ -158,7 +164,34 @@ public class DatabaseService implements RepoFacade2 {
 
   @Override
   public boolean addMove(Move submission) {
-    // TODO: 2/19/23
+    // Get most recent locations
+    java.util.Date date = new java.util.Date();
+    HashMap<String, Move> currentLocations = new HashMap<>();
+    for (var move : getMoves()) {
+      var temp = currentLocations.get(move.getLocation().getLongName());
+      if (temp == null) {
+        currentLocations.put(move.getLocation().getLongName(), move);
+      } else {
+        if (move.getMoveDate().compareTo(temp.getMoveDate()) < 0
+                && move.getMoveDate().compareTo(new java.sql.Date(date.getTime())) < 0) {
+          currentLocations.remove(temp.getLocation().getLongName());
+          currentLocations.put(move.getLocation().getLongName(), move);
+        }
+      }
+    }
+
+    // count number of moves at a location
+    int num = 0;
+    for (var move : currentLocations.values()) {
+      if (move.getNode().getId().equals(submission.getNode().getId())) {
+        num++;
+      }
+    }
+
+    if (num < 2) {
+      moveDAO.add(submission);
+      return true;
+    }
     return false;
   }
 
@@ -322,16 +355,54 @@ public class DatabaseService implements RepoFacade2 {
     return orm.getSession();
   }
 
-  @Override
+  /*@Override
   public UUID newID() {
     // the chance of collision is 1 in 2^128. It's hard to describe just how tiny of a chance that
     // is, but it's a small
     // enough chance we shouldn't have any collisions.
     return UUID.randomUUID();
+  }*/
+
+  @Override
+  public int newID() {
+    Session session = getSession();
+    Transaction tx = null;
+
+    int id = 0;
+
+    try {
+      tx = session.beginTransaction();
+      List n =
+              session
+                      .createNativeQuery(
+                              "SELECT max(submissionID)FROM("
+                                      + "SELECT max(submissionid) AS submissionID FROM cdb.audiosubmission UNION "
+                                      + "SELECT max(submissionid) AS submissionID FROM cdb.cleaningsubmission UNION "
+                                      + "SELECT max(submissionid) AS submissionID FROM cdb.computersubmission UNION "
+                                      + "SELECT max(submissionid) AS submissionID FROM cdb.securitysubmission UNION "
+                                      + "SELECT max(submissionid) AS submissionID FROM cdb.transportationsubmission) as tem;")
+                      .list();
+      if (n != null) {
+        id = (int) n.get(0);
+        id++;
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return id;
   }
 
   @Override
   public void importAll() {
     // nothing to be done, this is handled in the constructor
+  }
+
+  @Override
+  public int generateMessageID() {
+    return messageDAO.generateMessageID();
   }
 }
