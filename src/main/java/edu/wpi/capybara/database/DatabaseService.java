@@ -9,9 +9,13 @@ import edu.wpi.capybara.objects.hibernate.*;
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
+import org.hibernate.Session;
+
+import java.util.UUID;
 
 // this would be about 20 lines long if java supported composition in addition to inheritance
 class DatabaseService implements RepoFacade2 {
+    private final DAOFacade orm;
     private final AudioSubmissionDAO audioSubmissionDAO;
     private final CleaningSubmissionDAO cleaningSubmissionDAO;
     private final ComputerSubmissionDAO computerSubmissionDAO;
@@ -25,6 +29,7 @@ class DatabaseService implements RepoFacade2 {
     private final MessageDAO messageDAO;
 
     public DatabaseService(DAOFacade orm) {
+        this.orm = orm;
         audioSubmissionDAO = new AudioSubmissionDAO(orm);
         cleaningSubmissionDAO = new CleaningSubmissionDAO(orm);
         computerSubmissionDAO = new ComputerSubmissionDAO(orm);
@@ -155,101 +160,163 @@ class DatabaseService implements RepoFacade2 {
 
     @Override
     public CleaningsubmissionEntity getCleaning(int id) {
-        return null;
+        return cleaningSubmissionDAO.get(id);
     }
 
     @Override
     public ComputersubmissionEntity getComputer(int id) {
-        return null;
+        return computerSubmissionDAO.get(id);
     }
 
     @Override
     public SecuritysubmissionEntity getSecurity(int id) {
-        return null;
+        return securitySubmissionDAO.get(id);
     }
 
     @Override
     public TransportationsubmissionEntity getTransportation(int id) {
-        return null;
+        return transportationSubmissionDAO.get(id);
     }
 
     @Override
     public LocationnameEntity getLocationname(String longname) {
-        return null;
+        return locationDAO.get(longname);
     }
 
     @Override
     public NodeEntity getNode(String nodeid) {
-        return null;
+        return nodeDAO.get(nodeid);
     }
 
     @Override
     public StaffEntity getStaff(String staffid) {
-        return null;
+        return staffDAO.get(staffid);
     }
 
     @Override
     public MessagesEntity getMessage(int id) {
-        return null;
+        return messageDAO.get(id);
     }
 
     @Override
     public void deleteAudio(int id) {
+        deleteAudio(getAudio(id));
+    }
 
+    @Override
+    public void deleteAudio(AudiosubmissionEntity entity) {
+        audioSubmissionDAO.delete(entity);
     }
 
     @Override
     public void deleteCleaning(int id) {
+        deleteCleaning(getCleaning(id));
+    }
 
+    @Override
+    public void deleteCleaning(CleaningsubmissionEntity entity) {
+        cleaningSubmissionDAO.delete(entity);
     }
 
     @Override
     public void deleteComputer(int id) {
+        deleteComputer(getComputer(id));
+    }
 
+    @Override
+    public void deleteComputer(ComputersubmissionEntity entity) {
+        computerSubmissionDAO.delete(entity);
     }
 
     @Override
     public void deleteSecurity(int id) {
+        deleteSecurity(getSecurity(id));
+    }
 
+    @Override
+    public void deleteSecurity(SecuritysubmissionEntity entity) {
+        securitySubmissionDAO.delete(entity);
     }
 
     @Override
     public void deleteTransportation(int id) {
+        deleteTransportation(getTransportation(id));
+    }
 
+    @Override
+    public void deleteTransportation(TransportationsubmissionEntity entity) {
+        transportationSubmissionDAO.delete(entity);
     }
 
     @Override
     public void deleteEdge(EdgeEntity edge) {
-
+        edgeDAO.delete(edge);
     }
 
     @Override
     public void deleteLocationname(String longname) {
+        deleteLocationname(getLocationname(longname));
+    }
 
+    @Override
+    public void deleteLocationname(LocationnameEntity entity) {
+        locationDAO.delete(entity);
     }
 
     @Override
     public void deleteMove(MoveEntity move) {
-
+        moveDAO.delete(move);
     }
 
     @Override
     public void deleteNode(String nodeid) {
+        deleteNode(getNode(nodeid));
+    }
 
+    @Override
+    public void deleteNode(NodeEntity entity) {
+        nodeDAO.delete(entity);
     }
 
     @Override
     public void deleteStaff(String staffid) {
+        deleteStaff(getStaff(staffid));
+    }
 
+    @Override
+    public void deleteStaff(StaffEntity entity) {
+        staffDAO.delete(entity);
     }
 
     @Override
     public void deleteMessage(int messageid) {
-
+        deleteMessage(getMessage(messageid));
     }
 
     @Override
-    public StaffEntity getStaff(String Staffid, String password) {
-        return null;
+    public void deleteMessage(MessagesEntity entity) {
+        messageDAO.delete(entity);
+    }
+
+    @Override
+    public StaffEntity getStaff(String staffId, String password) {
+        return staffDAO.get(staffId, password);
+    }
+
+    @Override
+    public Session getSession() {
+        return orm.getSession();
+    }
+
+    @Override
+    public UUID newID() {
+        // the chance of collision is 1 in 2^128. It's hard to describe just how tiny of a chance that is, but it's a small
+        // enough chance we shouldn't have any collisions.
+        return UUID.randomUUID();
+    }
+
+    @Override
+    public void importAll() {
+        // nothing to be done, this is handled in the constructor
     }
 }

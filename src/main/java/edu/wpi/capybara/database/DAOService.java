@@ -2,14 +2,37 @@ package edu.wpi.capybara.database;
 
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import jakarta.persistence.PersistenceException;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 import java.util.List;
+import java.util.function.BiFunction;
 
 import static edu.wpi.capybara.Main.db;
 
 @Slf4j
 public class DAOService implements DAOFacade {
+    private static SessionFactory factory;
+
+    public DAOService() {
+        try {
+            factory = new Configuration().configure().buildSessionFactory();
+        } catch (Throwable ex) {
+            System.err.println("Failed to create sessionFactory object." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
+
+    @Override
+    public Session getSession() {
+        return factory.openSession();
+    }
+
     @Override
     public <E> void insert(E entity) throws PersistenceException {
         try (final var session = db.getSession()) {
@@ -38,6 +61,29 @@ public class DAOService implements DAOFacade {
             } catch (PersistenceException e) {
                 tx.rollback();
                 log.error("Unable to get entities of type " + entityClass.getName(), e);
+                throw e;
+            }
+        }
+    }
+
+    @Override
+    public <E> List<E> select(Class<E> entityClass, WhereBuilder<E> whereBuilder) throws PersistenceException {
+        try (final var session = db.getSession()) {
+            final var tx = session.beginTransaction();
+            try {
+                final var builder = session.getCriteriaBuilder();
+                final var queryTemplate = builder.createQuery(entityClass);
+                final var from = queryTemplate.from(entityClass);
+
+                queryTemplate.select(from).where(whereBuilder.apply(builder, from));
+
+                final var typedQuery = session.createQuery(queryTemplate);
+                final var result = typedQuery.getResultList();
+                tx.commit();
+                return result;
+            } catch (PersistenceException e) {
+                tx.rollback();
+                log.error("Unable to select entities of type " + entityClass.getName(), e);
                 throw e;
             }
         }

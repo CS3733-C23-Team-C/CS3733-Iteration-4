@@ -3,9 +3,11 @@ package edu.wpi.capybara.database;
 import edu.wpi.capybara.objects.hibernate.*;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
+import org.hibernate.Session;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 public interface RepoFacade2 {
     // Get all methods
@@ -82,28 +84,43 @@ public interface RepoFacade2 {
     // delete methods
     // submissions
     void deleteAudio(int id);
+    void deleteAudio(AudiosubmissionEntity entity);
 
     void deleteCleaning(int id);
+    void deleteCleaning(CleaningsubmissionEntity entity);
 
     void deleteComputer(int id);
+    void deleteComputer(ComputersubmissionEntity entity);
 
     void deleteSecurity(int id);
+    void deleteSecurity(SecuritysubmissionEntity entity);
 
     void deleteTransportation(int id);
+    void deleteTransportation(TransportationsubmissionEntity entity);
 
     // Others
     void deleteEdge(EdgeEntity edge);
 
     void deleteLocationname(String longname);
+    void deleteLocationname(LocationnameEntity entity);
 
     void deleteMove(MoveEntity move);
 
     void deleteNode(String nodeid);
+    void deleteNode(NodeEntity entity);
 
     void deleteStaff(String staffid);
+    void deleteStaff(StaffEntity entity);
 
     void deleteMessage(int messageid);
+    void deleteMessage(MessagesEntity entity);
 
     // Submission methods
     StaffEntity getStaff(String Staffid, String password);
+
+    Session getSession();
+
+    UUID newID();
+
+    void importAll();
 }
