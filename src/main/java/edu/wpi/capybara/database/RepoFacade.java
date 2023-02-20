@@ -3,14 +3,18 @@ package edu.wpi.capybara.database;
 import edu.wpi.capybara.objects.hibernate.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+
+import edu.wpi.capybara.objects.orm.AudioSubmission;
+import edu.wpi.capybara.objects.orm.CleaningSubmission;
 import org.hibernate.Session;
 
 public interface RepoFacade {
   // Get all methods
   // Submissions
-  HashMap<Integer, AudiosubmissionEntity> getAudioSubs();
+  Map<Integer, AudioSubmission> getAudioSubs();
 
-  HashMap<Integer, CleaningsubmissionEntity> getCleaningSubs();
+  Map<Integer, CleaningSubmission> getCleaningSubs();
 
   HashMap<Integer, ComputersubmissionEntity> getComputerSubs();
 
@@ -37,9 +41,9 @@ public interface RepoFacade {
 
   // Add method
   // Submissions
-  void addAudio(AudiosubmissionEntity submission);
+  void addAudio(AudioSubmission submission);
 
-  void addCleaning(CleaningsubmissionEntity submission);
+  void addCleaning(CleaningSubmission submission);
 
   void addComputer(ComputersubmissionEntity submission);
 
@@ -62,9 +66,9 @@ public interface RepoFacade {
 
   // Get single methods
   // Submissions
-  AudiosubmissionEntity getAudio(int id);
+  AudioSubmission getAudio(int id);
 
-  CleaningsubmissionEntity getCleaning(int id);
+  CleaningSubmission getCleaning(int id);
 
   ComputersubmissionEntity getComputer(int id);
 

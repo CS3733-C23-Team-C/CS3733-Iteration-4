@@ -1,5 +1,6 @@
 package edu.wpi.capybara.objects.orm;
 
+import edu.wpi.capybara.Main;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -11,7 +12,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "edge", schema = "cdb", catalog = "teamcdb")
 @IdClass(Edge.PK.class)
-public class Edge {
+public class Edge implements Persistent {
   public static class PK implements Serializable {
     @Getter @Setter private Node startNode;
     @Getter @Setter private Node endNode;
@@ -36,15 +37,18 @@ public class Edge {
 
   public Edge() {}
 
-  static Edge createPersistent(DAOFacade orm, Node startNode, Node endNode) {
-    final var newEdge = new Edge();
-    newEdge.setStartNode(startNode);
-    newEdge.setEndNode(endNode);
-    newEdge.enableAutomaticPersistence(orm);
-    return newEdge;
+  public Edge(Node node1, Node node2) {
+    setStartNode(node1);
+    setEndNode(node2);
   }
 
-  void enableAutomaticPersistence(DAOFacade orm) {
+  @Deprecated(forRemoval = true)
+  public Edge(String node1, String node2) {
+    this(Main.getRepo().getNode(node1), Main.getRepo().getNode(node2));
+  }
+
+  @Override
+  public void enablePersistence(DAOFacade orm) {
     final InvalidationListener listener = evt -> orm.merge(this);
     startNode.addListener(listener);
     endNode.addListener(listener);

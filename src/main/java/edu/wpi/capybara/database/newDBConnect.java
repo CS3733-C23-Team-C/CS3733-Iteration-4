@@ -2,6 +2,8 @@ package edu.wpi.capybara.database;
 
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.hibernate.*;
+import edu.wpi.capybara.objects.orm.AudioSubmission;
+import edu.wpi.capybara.objects.orm.CleaningSubmission;
 import jakarta.persistence.PersistenceException;
 import java.util.*;
 import org.hibernate.HibernateException;
@@ -94,12 +96,12 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
-  public HashMap<Integer, AudiosubmissionEntity> getAudioSubs() {
+  public Map<Integer, AudioSubmission> getAudioSubs() {
     return audio.getAudioSubs();
   }
 
   @Override
-  public HashMap<Integer, CleaningsubmissionEntity> getCleaningSubs() {
+  public Map<Integer, CleaningSubmission> getCleaningSubs() {
     return cleaning.getCleaningSubs();
   }
 
@@ -159,12 +161,12 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
-  public void addAudio(AudiosubmissionEntity submission) {
+  public void addAudio(AudioSubmission submission) {
     audio.addAudio(submission);
   }
 
   @Override
-  public void addCleaning(CleaningsubmissionEntity submission) {
+  public void addCleaning(CleaningSubmission submission) {
     cleaning.addCleaning(submission);
   }
 
@@ -243,12 +245,12 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
-  public AudiosubmissionEntity getAudio(int id) {
+  public AudioSubmission getAudio(int id) {
     return audio.getAudio(id);
   }
 
   @Override
-  public CleaningsubmissionEntity getCleaning(int id) {
+  public CleaningSubmission getCleaning(int id) {
     return cleaning.getCleaning(id);
   }
 

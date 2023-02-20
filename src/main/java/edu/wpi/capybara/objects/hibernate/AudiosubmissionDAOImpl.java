@@ -5,25 +5,27 @@ import edu.wpi.capybara.database.newDBConnect;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
+import edu.wpi.capybara.objects.orm.AudioSubmission;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class AudiosubmissionDAOImpl implements AudiosubmissionDAO {
-  HashMap<Integer, AudiosubmissionEntity> audioSubs = new HashMap();
+  HashMap<Integer, AudioSubmission> audioSubs = new HashMap();
 
   @Override
-  public HashMap<Integer, AudiosubmissionEntity> getAudioSubs() {
+  public HashMap<Integer, AudioSubmission> getAudioSubs() {
     return audioSubs;
   }
 
   @Override
-  public AudiosubmissionEntity getAudio(int id) {
+  public AudioSubmission getAudio(int id) {
     return audioSubs.get(id);
   }
 
   @Override
-  public void addAudio(AudiosubmissionEntity submission) {
+  public void addAudio(AudioSubmission submission) {
     newDBConnect.insertNew(submission);
     this.audioSubs.put(submission.getSubmissionid(), submission);
   }
@@ -38,13 +40,13 @@ public class AudiosubmissionDAOImpl implements AudiosubmissionDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<Integer, AudiosubmissionEntity> ret = new HashMap<Integer, AudiosubmissionEntity>();
+    HashMap<Integer, AudioSubmission> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();
       List n = session.createQuery("FROM AudiosubmissionEntity").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        AudiosubmissionEntity temp = (AudiosubmissionEntity) iterator.next();
+        AudioSubmission temp = (AudiosubmissionEntity) iterator.next();
         ret.put(temp.getSubmissionid(), temp);
       }
       tx.commit();

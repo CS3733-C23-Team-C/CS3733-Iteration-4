@@ -3,7 +3,7 @@ package edu.wpi.capybara.objects.orm;
 import java.util.Objects;
 import java.util.function.Function;
 
-interface Persistent {
+public interface Persistent {
   void enablePersistence(DAOFacade orm);
 
   static <T> boolean compareProperties(

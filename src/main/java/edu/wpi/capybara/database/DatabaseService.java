@@ -85,7 +85,7 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
-  public ReadOnlyMapProperty<String, Location> getLocationnames() {
+  public ReadOnlyMapProperty<String, Location> getLocationNames() {
     return locationDAO.getAll();
   }
 

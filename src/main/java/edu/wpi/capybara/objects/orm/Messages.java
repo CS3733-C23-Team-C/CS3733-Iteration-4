@@ -25,6 +25,20 @@ public class Messages implements Persistent {
 
   public Messages() {}
 
+  public Messages(int messageid,
+                  String senderid,
+                  String receivingid,
+                  Timestamp date,
+                  String message,
+                  Boolean read) {
+    setMessageID(messageid);
+    setSenderID(senderid);
+    setReceivingID(receivingid);
+    setDate(date);
+    setMessage(message);
+    setRead(read);
+  }
+
   @Override
   public void enablePersistence(DAOFacade orm) {
     final InvalidationListener listener = evt -> orm.merge(this);

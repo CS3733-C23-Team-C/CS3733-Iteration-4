@@ -5,25 +5,27 @@ import edu.wpi.capybara.database.newDBConnect;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
+import edu.wpi.capybara.objects.orm.CleaningSubmission;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class CleaningsubmissionDAOImpl implements CleaningsubmissionDAO {
-  HashMap<Integer, CleaningsubmissionEntity> cleaningSubs = new HashMap();
+  HashMap<Integer, CleaningSubmission> cleaningSubs = new HashMap();
 
   @Override
-  public HashMap<Integer, CleaningsubmissionEntity> getCleaningSubs() {
+  public HashMap<Integer, CleaningSubmission> getCleaningSubs() {
     return cleaningSubs;
   }
 
   @Override
-  public CleaningsubmissionEntity getCleaning(int id) {
+  public CleaningSubmission getCleaning(int id) {
     return cleaningSubs.get(id);
   }
 
   @Override
-  public void addCleaning(CleaningsubmissionEntity submission) {
+  public void addCleaning(CleaningSubmission submission) {
     newDBConnect.insertNew(submission);
     this.cleaningSubs.put(submission.getSubmissionid(), submission);
   }
@@ -38,14 +40,14 @@ public class CleaningsubmissionDAOImpl implements CleaningsubmissionDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<Integer, CleaningsubmissionEntity> ret =
-        new HashMap<Integer, CleaningsubmissionEntity>();
+    HashMap<Integer, CleaningSubmission> ret =
+        new HashMap<>();
 
     try {
       tx = session.beginTransaction();
       List n = session.createQuery("FROM CleaningsubmissionEntity").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        CleaningsubmissionEntity temp = (CleaningsubmissionEntity) iterator.next();
+        CleaningSubmission temp = (CleaningsubmissionEntity) iterator.next();
         ret.put(temp.getSubmissionid(), temp);
       }
       tx.commit();

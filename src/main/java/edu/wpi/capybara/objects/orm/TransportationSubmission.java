@@ -26,6 +26,28 @@ public class TransportationSubmission implements Persistent {
 
   public TransportationSubmission() {}
 
+  public TransportationSubmission(int submissionid,
+                                  String employeeid,
+                                  String assignedid,
+                                  String currroomnum,
+                                  String destroomnum,
+                                  String reason,
+                                  SubmissionStatus status,
+                                  String urgency,
+                                  Date createdate,
+                                  Date duedate) {
+    setSubmissionID(submissionid);
+    setEmployeeID(employeeid);
+    setAssignedID(assignedid);
+    setCurrRoomNum(currroomnum);
+    setDestRoomNum(destroomnum);
+    setReason(reason);
+    setStatus(status);
+    setUrgency(urgency);
+    setCreateDate(createdate);
+    setDueDate(duedate);
+  }
+
   @Override
   public void enablePersistence(DAOFacade orm) {
     final InvalidationListener listener = evt -> orm.merge(this);

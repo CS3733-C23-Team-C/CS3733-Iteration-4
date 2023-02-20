@@ -3,11 +3,13 @@ package edu.wpi.capybara.controllers;
 import edu.wpi.capybara.App;
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.hibernate.*;
+import edu.wpi.capybara.objects.orm.CleaningSubmission;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.utils.EnumStringConverter;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -88,7 +90,7 @@ public class AssignedRequestController {
     options.addAll("Transportation", "Cleaning", "Security", "Audio", "Computer");
     requestType.setItems(options);
 
-    HashMap<Integer, CleaningsubmissionEntity> cleaningdata = Main.db.getCleaningSubs();
+    Map<Integer, CleaningSubmission> cleaningdata = Main.db.getCleaningSubs();
     HashMap<Integer, TransportationsubmissionEntity> transportationdata =
         Main.db.getTransportationSubs();
     HashMap<Integer, SecuritysubmissionEntity> securitydata = Main.db.getSecuritySubs();
@@ -129,7 +131,7 @@ public class AssignedRequestController {
     cleanELevel.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, String>("urgency"));
     cleanELevel.setCellFactory(TextFieldTableCell.forTableColumn());
-    for (CleaningsubmissionEntity sub : cleaningdata.values()) {
+    for (CleaningSubmission sub : cleaningdata.values()) {
       if (Objects.equals(App.getUser().getStaffid(), sub.getAssignedid())) {
         cleaningRequestsList.add(sub);
       }

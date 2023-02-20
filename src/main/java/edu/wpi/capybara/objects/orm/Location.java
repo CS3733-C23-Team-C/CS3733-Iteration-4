@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 @Entity
 @Table(name = "locationname", schema = "cdb", catalog = "teamcdb")
-public class Location {
+public class Location implements Persistent {
 
   private final SimpleStringProperty longName = new SimpleStringProperty();
   private final SimpleStringProperty shortName = new SimpleStringProperty();
@@ -14,17 +14,14 @@ public class Location {
 
   public Location() {}
 
-  static Location createPersistent(
-      DAOFacade orm, String longName, String shortName, String locationType) {
-    final var newLocation = new Location();
-    newLocation.setLongName(longName);
-    newLocation.setShortName(shortName);
-    newLocation.setLocationType(locationType);
-    newLocation.enableAutomaticPersistence(orm);
-    return newLocation;
+  public Location(String longname, String shortname, String locationtype) {
+    setLongName(longname);
+    setShortName(shortname);
+    setLocationType(locationtype);
   }
 
-  void enableAutomaticPersistence(DAOFacade orm) {
+  @Override
+  public void enablePersistence(DAOFacade orm) {
     final InvalidationListener listener = evt -> orm.merge(this);
     longName.addListener(listener);
     shortName.addListener(listener);

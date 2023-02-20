@@ -27,6 +27,29 @@ public class CleaningSubmission implements Persistent {
 
   public CleaningSubmission() {}
 
+  public CleaningSubmission(
+          int submissionid,
+          String memberid,
+          String assignedid,
+          String location,
+          String hazardlevel,
+          String description,
+          SubmissionStatus submissionstatus,
+          String urgency,
+          Date createdate,
+          Date duedate) {
+    setSubmissionID(submissionid);
+    setMemberID(memberid);
+    setAssignedID(assignedid);
+    setLocation(location);
+    setHazardLevel(hazardlevel);
+    setDescription(description);
+    setSubmissionStatus(submissionstatus);
+    setUrgency(urgency);
+    setCreateDate(createdate);
+    setDueDate(duedate);
+  }
+
   @Override
   public void enablePersistence(DAOFacade orm) {
     final InvalidationListener listener = evt -> orm.merge(this);

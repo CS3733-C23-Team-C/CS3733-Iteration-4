@@ -27,6 +27,28 @@ public class SecuritySubmission implements Persistent {
 
   public SecuritySubmission() {}
 
+  public SecuritySubmission(int submissionid,
+                            String employeeid,
+                            String assignedid,
+                            String location,
+                            String type,
+                            String notesupdate,
+                            SubmissionStatus submissionstatus,
+                            String urgency,
+                            java.sql.Date createdate,
+                            java.sql.Date duedate) {
+    setSubmissionID(submissionid);
+    setEmployeeID(employeeid);
+    setAssignedID(assignedid);
+    setLocation(location);
+    setType(type);
+    setNotesUpdate(notesupdate);
+    setSubmissionStatus(submissionstatus);
+    setUrgency(urgency);
+    setCreateDate(createdate);
+    setDueDate(duedate);
+  }
+
   @Override
   public void enablePersistence(DAOFacade orm) {
     final InvalidationListener listener = evt -> orm.merge(this);

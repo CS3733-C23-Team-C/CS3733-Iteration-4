@@ -20,6 +20,14 @@ public class Staff implements Persistent {
 
   public Staff() {}
 
+  public Staff(String staffid, String firstname, String lastname, String role, String password) {
+    setStaffID(staffid);
+    setFirstName(firstname);
+    setLastName(lastname);
+    setRole(role);
+    setPassword(password);
+  }
+
   @Override
   public void enablePersistence(DAOFacade orm) {
     final InvalidationListener listener = evt -> orm.merge(this);

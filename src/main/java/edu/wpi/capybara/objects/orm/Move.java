@@ -1,5 +1,6 @@
 package edu.wpi.capybara.objects.orm;
 
+import edu.wpi.capybara.Main;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
@@ -12,7 +13,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "move", schema = "cdb", catalog = "teamcdb")
 @IdClass(Move.PK.class)
-public class Move {
+public class Move implements Persistent {
   public static class PK implements Serializable {
     @Getter @Setter private Node node;
     @Getter @Setter private Location location;
@@ -41,16 +42,19 @@ public class Move {
 
   public Move() {}
 
-  static Move createPersistent(DAOFacade orm, Node node, Location location, Date moveDate) {
-    final var newMove = new Move();
-    newMove.setNode(node);
-    newMove.setLocation(location);
-    newMove.setMoveDate(moveDate);
-    newMove.enableAutomaticPersistence(orm);
-    return newMove;
+  public Move(Node node, Location location, Date moveDate) {
+    setNode(node);
+    setLocation(location);
+    setMoveDate(moveDate);
   }
 
-  void enableAutomaticPersistence(DAOFacade orm) {
+  @Deprecated(forRemoval = true)
+  public Move(String node, String longname, Date moveDate) {
+    this(Main.getRepo().getNode(node), Main.getRepo().getLocationname(longname), moveDate);
+  }
+
+  @Override
+  public void enablePersistence(DAOFacade orm) {
     final InvalidationListener listener = evt -> orm.merge(this);
     node.addListener(listener);
     location.addListener(listener);

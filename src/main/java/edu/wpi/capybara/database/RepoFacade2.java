@@ -19,7 +19,7 @@ public interface RepoFacade2 {
   ReadOnlyMapProperty<Integer, TransportationSubmission> getTransportationSubs();
 
   // Others
-  ReadOnlyMapProperty<String, Location> getLocationnames();
+  ReadOnlyMapProperty<String, Location> getLocationNames();
 
   ReadOnlyMapProperty<String, Node> getNodes();
 

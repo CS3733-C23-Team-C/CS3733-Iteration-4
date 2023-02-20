@@ -9,7 +9,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 @Entity
 @Table(name = "node", schema = "cdb", catalog = "teamcdb")
-public class Node {
+public class Node implements Persistent {
   private final SimpleStringProperty id = new SimpleStringProperty();
   private final SimpleIntegerProperty xCoord = new SimpleIntegerProperty();
   private final SimpleIntegerProperty yCoord = new SimpleIntegerProperty();
@@ -18,19 +18,16 @@ public class Node {
 
   public Node() {}
 
-  static Node createPersistent(
-      DAOFacade orm, String id, int xCoord, int yCoord, Floor floor, String building) {
-    final var newNode = new Node();
-    newNode.setId(id);
-    newNode.setXCoord(xCoord);
-    newNode.setYCoord(yCoord);
-    newNode.setFloor(floor);
-    newNode.setBuilding(building);
-    newNode.enableAutomaticPersistence(orm);
-    return newNode;
+  public Node(String nodeid, Integer xcoord, Integer ycoord, String floor, String building) {
+    setId(nodeid);
+    setXCoord(xcoord);
+    setYCoord(ycoord);
+    setFloor(Floor.fromString(floor));
+    setBuilding(building);
   }
 
-  void enableAutomaticPersistence(DAOFacade orm) {
+  @Override
+  public void enablePersistence(DAOFacade orm) {
     final InvalidationListener listener = evt -> orm.merge(this);
     id.addListener(listener);
     xCoord.addListener(listener);

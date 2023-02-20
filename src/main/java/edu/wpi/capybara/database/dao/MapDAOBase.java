@@ -2,11 +2,13 @@ package edu.wpi.capybara.database.dao;
 
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import java.util.function.Function;
+
+import edu.wpi.capybara.objects.orm.Persistent;
 import javafx.beans.property.ReadOnlyMapProperty;
 import javafx.beans.property.ReadOnlyMapWrapper;
 import javafx.collections.FXCollections;
 
-public class MapDAOBase<K, E> {
+public class MapDAOBase<K, E extends Persistent> {
   protected final DAOFacade orm;
   protected final ReadOnlyMapWrapper<K, E> entities =
       new ReadOnlyMapWrapper<>(FXCollections.observableHashMap());
@@ -29,10 +31,12 @@ public class MapDAOBase<K, E> {
   public void add(E entity) {
     orm.insert(entity);
     entities.put(keyGetter.apply(entity), entity);
+    entity.enablePersistence(orm);
   }
 
   public void delete(E entity) {
     orm.delete(entity);
     entities.remove(keyGetter.apply(entity), entity);
+    // todo should we somehow disable persistence?
   }
 }

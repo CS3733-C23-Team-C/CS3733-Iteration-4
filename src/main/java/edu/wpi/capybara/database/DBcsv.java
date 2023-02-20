@@ -5,6 +5,8 @@ import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.hibernate.*;
+import edu.wpi.capybara.objects.orm.AudioSubmission;
+import edu.wpi.capybara.objects.orm.CleaningSubmission;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import java.io.*;
 import java.sql.Date;
@@ -23,12 +25,12 @@ public class DBcsv {
   public static ArrayList<MoveEntity> moves;
   public static HashMap<String, StaffEntity> staff;
   public static HashMap<Integer, TransportationsubmissionEntity> transportationSubs;
-  public static HashMap<Integer, CleaningsubmissionEntity> cleaningSubs;
+  public static Map<Integer, CleaningSubmission> cleaningSubs;
   public static HashMap<Integer, SecuritysubmissionEntity> securitySubs;
 
   public static HashMap<Integer, ComputersubmissionEntity> computerSubs;
 
-  public static HashMap<Integer, AudiosubmissionEntity> audioSubs;
+  public static Map<Integer, AudioSubmission> audioSubs;
 
   public DBcsv() {
     nodes = Main.db.getNodes();
@@ -112,8 +114,8 @@ public class DBcsv {
       Main.db.deleteComputer(computersubmissionEntity.getSubmissionid());
     }
 
-    List<AudiosubmissionEntity> audioKeys = List.copyOf(audioSubs.values());
-    for (AudiosubmissionEntity audiosubmissionEntity : audioKeys) {
+    List<AudioSubmission> audioKeys = List.copyOf(audioSubs.values());
+    for (AudioSubmission audiosubmissionEntity : audioKeys) {
       Main.db.deleteAudio(audiosubmissionEntity.getSubmissionid());
     }
 
@@ -127,8 +129,8 @@ public class DBcsv {
       Main.db.deleteSecurity(securitysubmissionEntity.getSubmissionid());
     }
 
-    List<CleaningsubmissionEntity> cleaningKeys = List.copyOf(cleaningSubs.values());
-    for (CleaningsubmissionEntity cleaningsubmissionEntity : cleaningKeys) {
+    List<CleaningSubmission> cleaningKeys = List.copyOf(cleaningSubs.values());
+    for (CleaningSubmission cleaningsubmissionEntity : cleaningKeys) {
       Main.db.deleteCleaning(cleaningsubmissionEntity.getSubmissionid());
     }
 
@@ -244,7 +246,7 @@ public class DBcsv {
       java.util.Date date2 = sdf2.parse(startDate2);
       java.sql.Date duedate = new java.sql.Date(date2.getTime());
 
-      CleaningsubmissionEntity cleaningsubmission =
+      CleaningSubmission cleaningsubmission =
           new CleaningsubmissionEntity(
               submissionid,
               memberid,
@@ -481,7 +483,7 @@ public class DBcsv {
     transportswriter.close();
 
     // Create cleaning table
-    for (Map.Entry<Integer, CleaningsubmissionEntity> cleaningsubmissionEntityEntry :
+    for (Map.Entry<Integer, CleaningSubmission> cleaningsubmissionEntityEntry :
         cleaningSubs.entrySet()) {
       String submissionid =
           String.valueOf(cleaningsubmissionEntityEntry.getValue().getSubmissionid());
