@@ -533,7 +533,7 @@ public class MyRequestsController {
             public void handle(
                 TableColumn.CellEditEvent<CleaningsubmissionEntity, ComboBox> event) {
               CleaningsubmissionEntity clean = event.getRowValue();
-              // clean.setSubmissionstatus(event.getNewValue());
+              //clean.setSubmissionstatus();
             }
           });
 
