@@ -135,6 +135,22 @@ public class NodeEntity {
     return null;
   }
 
+  public String getLongname() {
+    ArrayList<MoveEntity> moves = Main.db.getMoves();
+    Date temp = new Date((long) 0);
+    String longname = null;
+    for (MoveEntity m : moves) {
+      if (m.getNodeid().equals(this.nodeid)) {
+        if (m.getMovedate().compareTo(temp) > 0) {
+          // System.out.println("select!");
+          temp = m.getMovedate();
+          longname = m.getLongname();
+        }
+      }
+    }
+    return longname;
+  }
+
   public HashSet<EdgeEntity> getEdges() {
     HashSet<EdgeEntity> ret = new HashSet<EdgeEntity>();
 
