@@ -2,16 +2,12 @@ package edu.wpi.capybara.database;
 
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import jakarta.persistence.PersistenceException;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import java.util.List;
-import java.util.function.BiFunction;
 
 import static edu.wpi.capybara.Main.db;
 
@@ -67,29 +63,6 @@ public class DAOService implements DAOFacade {
     }
 
     @Override
-    public <E> List<E> select(Class<E> entityClass, WhereBuilder<E> whereBuilder) throws PersistenceException {
-        try (final var session = db.getSession()) {
-            final var tx = session.beginTransaction();
-            try {
-                final var builder = session.getCriteriaBuilder();
-                final var queryTemplate = builder.createQuery(entityClass);
-                final var from = queryTemplate.from(entityClass);
-
-                queryTemplate.select(from).where(whereBuilder.apply(builder, from));
-
-                final var typedQuery = session.createQuery(queryTemplate);
-                final var result = typedQuery.getResultList();
-                tx.commit();
-                return result;
-            } catch (PersistenceException e) {
-                tx.rollback();
-                log.error("Unable to select entities of type " + entityClass.getName(), e);
-                throw e;
-            }
-        }
-    }
-
-    @Override
     public <E> void merge(E entity) throws PersistenceException {
         try (final var session = db.getSession()) {
             final var tx = session.beginTransaction();
@@ -118,6 +91,29 @@ public class DAOService implements DAOFacade {
                 // this is so the caller can decide how it wants to handle the failure.
                 tx.rollback();
                 log.error("Unable to insert entity of type " + entity.getClass().getName(), e);
+                throw e;
+            }
+        }
+    }
+
+    @Override
+    public <E> List<E> select(Class<E> entityClass, WhereBuilder<E> whereBuilder) throws PersistenceException {
+        try (final var session = db.getSession()) {
+            final var tx = session.beginTransaction();
+            try {
+                final var builder = session.getCriteriaBuilder();
+                final var queryTemplate = builder.createQuery(entityClass);
+                final var from = queryTemplate.from(entityClass);
+
+                queryTemplate.select(from).where(whereBuilder.apply(builder, from));
+
+                final var typedQuery = session.createQuery(queryTemplate);
+                final var result = typedQuery.getResultList();
+                tx.commit();
+                return result;
+            } catch (PersistenceException e) {
+                tx.rollback();
+                log.error("Unable to select entities of type " + entityClass.getName(), e);
                 throw e;
             }
         }

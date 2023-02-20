@@ -10,17 +10,15 @@ import org.hibernate.Session;
 
 public interface DAOFacade {
     Session getSession();
-            <E>
-
-    void insert(E entity) throws PersistenceException;
+    <E> void insert(E entity) throws PersistenceException;
     <E> List<E> from(Class<E> entityClass) throws PersistenceException;
 
+    <E> void merge(E entity) throws PersistenceException;
+    <E> void delete(E entity) throws PersistenceException;
     @FunctionalInterface
     interface WhereBuilder<E> {
         Predicate[] apply(CriteriaBuilder criteriaBuilder, Root<E> selectionRoot);
     }
 
     <E> List<E> select(Class<E> entityClass, WhereBuilder<E> whereBuilder) throws PersistenceException;
-    <E> void merge(E entity) throws PersistenceException;
-    <E> void delete(E entity) throws PersistenceException;
 }

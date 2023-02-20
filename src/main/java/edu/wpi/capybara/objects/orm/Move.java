@@ -40,7 +40,7 @@ public class Move {
   private final SimpleObjectProperty<Location> location = new SimpleObjectProperty<>();
   private final SimpleObjectProperty<Date> moveDate = new SimpleObjectProperty<>();
 
-  protected Move() {}
+  public Move() {}
 
   static Move createPersistent(DAOFacade orm, Node node, Location location, Date moveDate) {
     final var newMove = new Move();

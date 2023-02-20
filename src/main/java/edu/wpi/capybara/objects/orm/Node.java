@@ -16,7 +16,7 @@ public class Node {
     private final SimpleObjectProperty<Floor> floor = new SimpleObjectProperty<>();
     private final SimpleStringProperty building = new SimpleStringProperty();
 
-    protected Node() {}
+    public Node() {}
 
     static Node createPersistent(DAOFacade orm, String id, int xCoord, int yCoord, Floor floor, String building) {
         final var newNode = new Node();

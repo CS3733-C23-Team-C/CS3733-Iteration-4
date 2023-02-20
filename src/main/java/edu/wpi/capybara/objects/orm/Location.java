@@ -12,7 +12,7 @@ public class Location {
     private final SimpleStringProperty shortName = new SimpleStringProperty();
     private final SimpleStringProperty locationType = new SimpleStringProperty();
 
-    protected Location() {}
+    public Location() {}
 
     static Location createPersistent(DAOFacade orm, String longName, String shortName, String locationType) {
         final var newLocation = new Location();

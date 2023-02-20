@@ -24,7 +24,7 @@ public class CleaningSubmission implements Persistent {
     private final SimpleObjectProperty<Date> createDate = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<Date> dueDate = new SimpleObjectProperty<>();
 
-    protected CleaningSubmission() {}
+    public CleaningSubmission() {}
 
     @Override
     public void enablePersistence(DAOFacade orm) {
@@ -53,6 +53,7 @@ public class CleaningSubmission implements Persistent {
                     CleaningSubmission::getDescription,
                     CleaningSubmission::getSubmissionStatus,
                     CleaningSubmission::getAssignedID,
+                    CleaningSubmission::getSubmissionID,
                     CleaningSubmission::getUrgency,
                     CleaningSubmission::getCreateDate,
                     CleaningSubmission::getDueDate);
@@ -68,6 +69,7 @@ public class CleaningSubmission implements Persistent {
                 getDescription(),
                 getSubmissionStatus(),
                 getAssignedID(),
+                getSubmissionID(),
                 getUrgency(),
                 getCreateDate(),
                 getDueDate()

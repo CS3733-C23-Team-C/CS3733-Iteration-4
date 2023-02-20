@@ -37,7 +37,7 @@ public class Edge {
     private final SimpleObjectProperty<Node> startNode = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<Node> endNode = new SimpleObjectProperty<>();
 
-    protected Edge() {}
+    public Edge() {}
 
     static Edge createPersistent(DAOFacade orm, Node startNode, Node endNode) {
         final var newEdge = new Edge();

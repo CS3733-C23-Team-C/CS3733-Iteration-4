@@ -5,7 +5,6 @@ import edu.wpi.capybara.database.dao.EdgeDAO;
 import edu.wpi.capybara.database.dao.MoveDAO;
 import edu.wpi.capybara.database.dao.NodeDAO;
 import edu.wpi.capybara.database.dao.StaffDAO;
-import edu.wpi.capybara.objects.hibernate.*;
 import edu.wpi.capybara.objects.orm.*;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
@@ -44,27 +43,27 @@ class DatabaseService implements RepoFacade2 {
     }
 
     @Override
-    public ReadOnlyMapProperty<Integer, AudiosubmissionEntity> getAudioSubs() {
+    public ReadOnlyMapProperty<UUID, AudioSubmission> getAudioSubs() {
         return audioSubmissionDAO.getAll();
     }
 
     @Override
-    public ReadOnlyMapProperty<Integer, CleaningsubmissionEntity> getCleaningSubs() {
+    public ReadOnlyMapProperty<UUID, CleaningSubmission> getCleaningSubs() {
         return cleaningSubmissionDAO.getAll();
     }
 
     @Override
-    public ReadOnlyMapProperty<Integer, ComputersubmissionEntity> getComputerSubs() {
+    public ReadOnlyMapProperty<UUID, ComputerSubmission> getComputerSubs() {
         return computerSubmissionDAO.getAll();
     }
 
     @Override
-    public ReadOnlyMapProperty<Integer, SecuritysubmissionEntity> getSecuritySubs() {
+    public ReadOnlyMapProperty<UUID, SecuritySubmission> getSecuritySubs() {
         return securitySubmissionDAO.getAll();
     }
 
     @Override
-    public ReadOnlyMapProperty<Integer, TransportationsubmissionEntity> getTransportationSubs() {
+    public ReadOnlyMapProperty<UUID, TransportationSubmission> getTransportationSubs() {
         return transportationSubmissionDAO.getAll();
     }
 
@@ -79,7 +78,7 @@ class DatabaseService implements RepoFacade2 {
     }
 
     @Override
-    public ReadOnlyMapProperty<String, StaffEntity> getStaff() {
+    public ReadOnlyMapProperty<String, Staff> getStaff() {
         return staffDAO.getAll();
     }
 
@@ -94,32 +93,32 @@ class DatabaseService implements RepoFacade2 {
     }
 
     @Override
-    public ReadOnlyMapProperty<Integer, MessagesEntity> getMessages() {
+    public ReadOnlyMapProperty<UUID, Messages> getMessages() {
         return messageDAO.getAll();
     }
 
     @Override
-    public void addAudio(AudiosubmissionEntity submission) {
+    public void addAudio(AudioSubmission submission) {
         audioSubmissionDAO.add(submission);
     }
 
     @Override
-    public void addCleaning(CleaningsubmissionEntity submission) {
+    public void addCleaning(CleaningSubmission submission) {
         cleaningSubmissionDAO.add(submission);
     }
 
     @Override
-    public void addComputer(ComputersubmissionEntity submission) {
+    public void addComputer(ComputerSubmission submission) {
         computerSubmissionDAO.add(submission);
     }
 
     @Override
-    public void addSecurity(SecuritysubmissionEntity submission) {
+    public void addSecurity(SecuritySubmission submission) {
         securitySubmissionDAO.add(submission);
     }
 
     @Override
-    public void addTransportation(TransportationsubmissionEntity submission) {
+    public void addTransportation(TransportationSubmission submission) {
         transportationSubmissionDAO.add(submission);
     }
 
@@ -134,7 +133,7 @@ class DatabaseService implements RepoFacade2 {
     }
 
     @Override
-    public void addStaff(StaffEntity submission) {
+    public void addStaff(Staff submission) {
         staffDAO.add(submission);
     }
 
@@ -145,36 +144,37 @@ class DatabaseService implements RepoFacade2 {
 
     @Override
     public boolean addMove(Move submission) {
+        // TODO: 2/19/23
         return false;
     }
 
     @Override
-    public void addMessage(MessagesEntity message) {
+    public void addMessage(Messages message) {
         messageDAO.add(message);
     }
 
     @Override
-    public AudiosubmissionEntity getAudio(int id) {
+    public AudioSubmission getAudio(UUID id) {
         return audioSubmissionDAO.get(id);
     }
 
     @Override
-    public CleaningsubmissionEntity getCleaning(int id) {
+    public CleaningSubmission getCleaning(UUID id) {
         return cleaningSubmissionDAO.get(id);
     }
 
     @Override
-    public ComputersubmissionEntity getComputer(int id) {
+    public ComputerSubmission getComputer(UUID id) {
         return computerSubmissionDAO.get(id);
     }
 
     @Override
-    public SecuritysubmissionEntity getSecurity(int id) {
+    public SecuritySubmission getSecurity(UUID id) {
         return securitySubmissionDAO.get(id);
     }
 
     @Override
-    public TransportationsubmissionEntity getTransportation(int id) {
+    public TransportationSubmission getTransportation(UUID id) {
         return transportationSubmissionDAO.get(id);
     }
 
@@ -189,62 +189,62 @@ class DatabaseService implements RepoFacade2 {
     }
 
     @Override
-    public StaffEntity getStaff(String staffid) {
+    public Staff getStaff(String staffid) {
         return staffDAO.get(staffid);
     }
 
     @Override
-    public MessagesEntity getMessage(int id) {
+    public Messages getMessage(UUID id) {
         return messageDAO.get(id);
     }
 
     @Override
-    public void deleteAudio(int id) {
+    public void deleteAudio(UUID id) {
         deleteAudio(getAudio(id));
     }
 
     @Override
-    public void deleteAudio(AudiosubmissionEntity entity) {
+    public void deleteAudio(AudioSubmission entity) {
         audioSubmissionDAO.delete(entity);
     }
 
     @Override
-    public void deleteCleaning(int id) {
+    public void deleteCleaning(UUID id) {
         deleteCleaning(getCleaning(id));
     }
 
     @Override
-    public void deleteCleaning(CleaningsubmissionEntity entity) {
+    public void deleteCleaning(CleaningSubmission entity) {
         cleaningSubmissionDAO.delete(entity);
     }
 
     @Override
-    public void deleteComputer(int id) {
+    public void deleteComputer(UUID id) {
         deleteComputer(getComputer(id));
     }
 
     @Override
-    public void deleteComputer(ComputersubmissionEntity entity) {
+    public void deleteComputer(ComputerSubmission entity) {
         computerSubmissionDAO.delete(entity);
     }
 
     @Override
-    public void deleteSecurity(int id) {
+    public void deleteSecurity(UUID id) {
         deleteSecurity(getSecurity(id));
     }
 
     @Override
-    public void deleteSecurity(SecuritysubmissionEntity entity) {
+    public void deleteSecurity(SecuritySubmission entity) {
         securitySubmissionDAO.delete(entity);
     }
 
     @Override
-    public void deleteTransportation(int id) {
+    public void deleteTransportation(UUID id) {
         deleteTransportation(getTransportation(id));
     }
 
     @Override
-    public void deleteTransportation(TransportationsubmissionEntity entity) {
+    public void deleteTransportation(TransportationSubmission entity) {
         transportationSubmissionDAO.delete(entity);
     }
 
@@ -284,22 +284,22 @@ class DatabaseService implements RepoFacade2 {
     }
 
     @Override
-    public void deleteStaff(StaffEntity entity) {
+    public void deleteStaff(Staff entity) {
         staffDAO.delete(entity);
     }
 
     @Override
-    public void deleteMessage(int messageid) {
+    public void deleteMessage(UUID messageid) {
         deleteMessage(getMessage(messageid));
     }
 
     @Override
-    public void deleteMessage(MessagesEntity entity) {
+    public void deleteMessage(Messages entity) {
         messageDAO.delete(entity);
     }
 
     @Override
-    public StaffEntity getStaff(String staffId, String password) {
+    public Staff getStaff(String staffId, String password) {
         return staffDAO.get(staffId, password);
     }
 

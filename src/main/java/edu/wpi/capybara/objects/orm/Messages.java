@@ -23,7 +23,7 @@ public class Messages implements Persistent {
     private final SimpleStringProperty message = new SimpleStringProperty();
     private final SimpleBooleanProperty read = new SimpleBooleanProperty();
 
-    protected Messages() {}
+    public Messages() {}
 
     @Override
     public void enablePersistence(DAOFacade orm) {

@@ -24,7 +24,7 @@ public class AudioSubmission implements Persistent {
     private final SimpleObjectProperty<Date> createDate = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<Date> dueDate = new SimpleObjectProperty<>();
 
-    protected AudioSubmission() {}
+    public AudioSubmission() {}
 
     @Override
     public void enablePersistence(DAOFacade orm) {

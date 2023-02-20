@@ -25,7 +25,7 @@ public class ComputerSubmission implements Persistent {
     private final SimpleObjectProperty<Date> createDate = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<Date> dueDate = new SimpleObjectProperty<>();
 
-    protected ComputerSubmission() {}
+    public ComputerSubmission() {}
 
     @Override
     public void enablePersistence(DAOFacade orm) {
