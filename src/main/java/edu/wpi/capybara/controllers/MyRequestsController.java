@@ -20,7 +20,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.Callback;
 import javax.swing.*;
 
 public class MyRequestsController {
@@ -147,11 +146,7 @@ public class MyRequestsController {
         });
     cleanStatus.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, ComboBox>("submissionstatus"));
-    cleanStatus.setCellFactory(
-        (Callback<
-                TableColumn<CleaningsubmissionEntity, ComboBox>,
-                TableCell<CleaningsubmissionEntity, ComboBox>>)
-            cleaningDropStatus);
+    cleanStatus.setCellFactory();
     cleanDescription.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, String>("description"));
     cleanDescription.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -533,7 +528,7 @@ public class MyRequestsController {
             public void handle(
                 TableColumn.CellEditEvent<CleaningsubmissionEntity, ComboBox> event) {
               CleaningsubmissionEntity clean = event.getRowValue();
-              //clean.setSubmissionstatus();
+              // clean.setSubmissionstatus();
             }
           });
 
