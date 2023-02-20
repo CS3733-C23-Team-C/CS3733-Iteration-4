@@ -39,7 +39,12 @@ public class MessagesController {
         new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent event) {
-            // do new message stuff
+            try {
+              String recipientID = messages.get(selectedID).getSenderid();
+              NewMessageDialogController.showMessageDialogReply(recipientID);
+            } catch (Exception e) {
+              System.out.println("it broke");
+            }
           }
         });
 
@@ -50,6 +55,13 @@ public class MessagesController {
             Main.db.deleteMessage(selectedID);
             VBox deletedMessage = messageBoxes.get(selectedID);
             vbox.getChildren().remove(deletedMessage);
+          }
+        });
+    newMessageButton.setOnAction(
+        new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent event) {
+            NewMessageDialogController.showMessageDialog();
           }
         });
   }
