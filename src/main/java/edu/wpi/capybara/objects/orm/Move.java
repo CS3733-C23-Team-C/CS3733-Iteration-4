@@ -1,14 +1,13 @@
 package edu.wpi.capybara.objects.orm;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
+import java.sql.Date;
+import java.util.Objects;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleObjectProperty;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.io.Serializable;
-import java.sql.Date;
-import java.util.Objects;
 
 @Entity
 @Table(name = "move", schema = "cdb", catalog = "teamcdb")

@@ -1,124 +1,132 @@
 package edu.wpi.capybara.database;
 
 import edu.wpi.capybara.objects.orm.*;
+import java.util.UUID;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
 import org.hibernate.Session;
 
-import java.util.UUID;
-
 public interface RepoFacade2 {
-    // Get all methods
-    // Submissions
-    ReadOnlyMapProperty<UUID, AudioSubmission> getAudioSubs();
+  // Get all methods
+  // Submissions
+  ReadOnlyMapProperty<Integer, AudioSubmission> getAudioSubs();
 
-    ReadOnlyMapProperty<UUID, CleaningSubmission> getCleaningSubs();
+  ReadOnlyMapProperty<Integer, CleaningSubmission> getCleaningSubs();
 
-    ReadOnlyMapProperty<UUID, ComputerSubmission> getComputerSubs();
+  ReadOnlyMapProperty<Integer, ComputerSubmission> getComputerSubs();
 
-    ReadOnlyMapProperty<UUID, SecuritySubmission> getSecuritySubs();
+  ReadOnlyMapProperty<Integer, SecuritySubmission> getSecuritySubs();
 
-    ReadOnlyMapProperty<UUID, TransportationSubmission> getTransportationSubs();
+  ReadOnlyMapProperty<Integer, TransportationSubmission> getTransportationSubs();
 
-    // Others
-    ReadOnlyMapProperty<String, Location> getLocationnames();
+  // Others
+  ReadOnlyMapProperty<String, Location> getLocationnames();
 
-    ReadOnlyMapProperty<String, Node> getNodes();
+  ReadOnlyMapProperty<String, Node> getNodes();
 
-    ReadOnlyMapProperty<String, Staff> getStaff();
+  ReadOnlyMapProperty<String, Staff> getStaff();
 
-    ReadOnlyListProperty<Edge> getEdges();
+  ReadOnlyListProperty<Edge> getEdges();
 
-    ReadOnlyListProperty<Move> getMoves();
+  ReadOnlyListProperty<Move> getMoves();
 
-    ReadOnlyMapProperty<UUID, Messages> getMessages();
+  ReadOnlyMapProperty<Integer, Messages> getMessages();
 
-    // Add method
-    // Submissions
-    void addAudio(AudioSubmission submission);
+  // Add method
+  // Submissions
+  void addAudio(AudioSubmission submission);
 
-    void addCleaning(CleaningSubmission submission);
+  void addCleaning(CleaningSubmission submission);
 
-    void addComputer(ComputerSubmission submission);
+  void addComputer(ComputerSubmission submission);
 
-    void addSecurity(SecuritySubmission submission);
+  void addSecurity(SecuritySubmission submission);
 
-    void addTransportation(TransportationSubmission submission);
+  void addTransportation(TransportationSubmission submission);
 
-    // Others
-    void addLocationName(Location submission);
+  // Others
+  void addLocationName(Location submission);
 
-    void addNode(Node submission);
+  void addNode(Node submission);
 
-    void addStaff(Staff submission);
+  void addStaff(Staff submission);
 
-    void addEdge(Edge submission);
+  void addEdge(Edge submission);
 
-    boolean addMove(Move submission);
+  boolean addMove(Move submission);
 
-    void addMessage(Messages message);
+  void addMessage(Messages message);
 
-    // Get single methods
-    // Submissions
-    AudioSubmission getAudio(UUID id);
+  // Get single methods
+  // Submissions
+  AudioSubmission getAudio(Integer id);
 
-    CleaningSubmission getCleaning(UUID id);
+  CleaningSubmission getCleaning(Integer id);
 
-    ComputerSubmission getComputer(UUID id);
+  ComputerSubmission getComputer(Integer id);
 
-    SecuritySubmission getSecurity(UUID id);
+  SecuritySubmission getSecurity(Integer id);
 
-    TransportationSubmission getTransportation(UUID id);
+  TransportationSubmission getTransportation(Integer id);
 
-    // Others
-    Location getLocationname(String longname);
+  // Others
+  Location getLocationname(String longname);
 
-    Node getNode(String nodeid);
+  Node getNode(String nodeid);
 
-    Staff getStaff(String staffid);
+  Staff getStaff(String staffid);
 
-    Messages getMessage(UUID id);
+  Messages getMessage(Integer id);
 
-    // delete methods
-    // submissions
-    void deleteAudio(UUID id);
-    void deleteAudio(AudioSubmission entity);
+  // delete methods
+  // submissions
+  void deleteAudio(Integer id);
 
-    void deleteCleaning(UUID id);
-    void deleteCleaning(CleaningSubmission entity);
+  void deleteAudio(AudioSubmission entity);
 
-    void deleteComputer(UUID id);
-    void deleteComputer(ComputerSubmission entity);
+  void deleteCleaning(Integer id);
 
-    void deleteSecurity(UUID id);
-    void deleteSecurity(SecuritySubmission entity);
+  void deleteCleaning(CleaningSubmission entity);
 
-    void deleteTransportation(UUID id);
-    void deleteTransportation(TransportationSubmission entity);
+  void deleteComputer(Integer id);
 
-    // Others
-    void deleteEdge(Edge edge);
+  void deleteComputer(ComputerSubmission entity);
 
-    void deleteLocationName(String longname);
-    void deleteLocationName(Location entity);
+  void deleteSecurity(Integer id);
 
-    void deleteMove(Move move);
+  void deleteSecurity(SecuritySubmission entity);
 
-    void deleteNode(String nodeid);
-    void deleteNode(Node entity);
+  void deleteTransportation(Integer id);
 
-    void deleteStaff(String staffid);
-    void deleteStaff(Staff entity);
+  void deleteTransportation(TransportationSubmission entity);
 
-    void deleteMessage(UUID messageid);
-    void deleteMessage(Messages entity);
+  // Others
+  void deleteEdge(Edge edge);
 
-    // Submission methods
-    Staff getStaff(String Staffid, String password);
+  void deleteLocationName(String longname);
 
-    Session getSession();
+  void deleteLocationName(Location entity);
 
-    UUID newID();
+  void deleteMove(Move move);
 
-    void importAll();
+  void deleteNode(String nodeid);
+
+  void deleteNode(Node entity);
+
+  void deleteStaff(String staffid);
+
+  void deleteStaff(Staff entity);
+
+  void deleteMessage(Integer messageid);
+
+  void deleteMessage(Messages entity);
+
+  // Submission methods
+  Staff getStaff(String Staffid, String password);
+
+  Session getSession();
+
+  UUID newID();
+
+  void importAll();
 }
