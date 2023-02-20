@@ -14,6 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -37,7 +38,7 @@ public class MyRequestsController {
   @FXML TableColumn<CleaningsubmissionEntity, String> cleanLocation;
   @FXML TableColumn<TransportationsubmissionEntity, String> transportationLocation;
   @FXML TableColumn<SecuritysubmissionEntity, String> securityLocation;
-  @FXML TableColumn<CleaningsubmissionEntity, SubmissionStatus> cleanStatus;
+  @FXML TableColumn<CleaningsubmissionEntity, ComboBox> cleanStatus;
   @FXML TableColumn<TransportationsubmissionEntity, SubmissionStatus> transportationStatus;
   @FXML TableColumn<SecuritysubmissionEntity, SubmissionStatus> securityStatus;
   @FXML TableColumn<TransportationsubmissionEntity, String> destination;
@@ -141,9 +142,9 @@ public class MyRequestsController {
           }
         });
     cleanStatus.setCellValueFactory(
-        new PropertyValueFactory<CleaningsubmissionEntity, SubmissionStatus>("submissionstatus"));
+        new PropertyValueFactory<CleaningsubmissionEntity, ComboBox>("submissionstatus"));
     cleanStatus.setCellFactory(
-        TextFieldTableCell.forTableColumn(new EnumStringConverter<>(SubmissionStatus.class)));
+    TextFieldTableCell.forTableColumn(new EnumStringConverter<>(SubmissionStatus.class)));
     cleanDescription.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, String>("description"));
     cleanDescription.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -520,13 +521,12 @@ public class MyRequestsController {
           });
 
       cleanStatus.setOnEditCommit(
-          new EventHandler<
-              TableColumn.CellEditEvent<CleaningsubmissionEntity, SubmissionStatus>>() {
+          new EventHandler<TableColumn.CellEditEvent<CleaningsubmissionEntity, ComboBox>>() {
             @Override
             public void handle(
-                TableColumn.CellEditEvent<CleaningsubmissionEntity, SubmissionStatus> event) {
+                TableColumn.CellEditEvent<CleaningsubmissionEntity, ComboBox> event) {
               CleaningsubmissionEntity clean = event.getRowValue();
-              clean.setSubmissionstatus(event.getNewValue());
+              // clean.setSubmissionstatus(event.getNewValue());
             }
           });
 
