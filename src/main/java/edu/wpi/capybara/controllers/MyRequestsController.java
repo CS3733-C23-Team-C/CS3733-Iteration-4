@@ -101,7 +101,7 @@ public class MyRequestsController {
     /*cleaning columns*/
     cleanEmployeeAssigned.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, String>("assignedid"));
-    cleanEmployeeAssigned.setCellFactory(TextFieldTableCell.forTableColumn());
+    cleanEmployeeAssigned.setCellFactory(ComboBoxTableCell.forTableColumn());
     cleanEmployeeAssigned.setOnEditCommit(
         new EventHandler<TableColumn.CellEditEvent<CleaningsubmissionEntity, String>>() {
           @Override
@@ -240,8 +240,7 @@ public class MyRequestsController {
         });
     transportationStatus.setCellValueFactory(
         new PropertyValueFactory<TransportationsubmissionEntity, SubmissionStatus>("status"));
-    transportationStatus.setCellFactory(
-        TextFieldTableCell.forTableColumn(new EnumStringConverter<>(SubmissionStatus.class)));
+    transportationStatus.setCellFactory(ComboBoxTableCell.forTableColumn(SubmissionStatus.values()));
     transportationELevel.setCellValueFactory(
         new PropertyValueFactory<TransportationsubmissionEntity, String>("urgency"));
     transportationELevel.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -310,8 +309,7 @@ public class MyRequestsController {
         });
     securityStatus.setCellValueFactory(
         new PropertyValueFactory<SecuritysubmissionEntity, SubmissionStatus>("submissionstatus"));
-    securityStatus.setCellFactory(
-        TextFieldTableCell.forTableColumn(new EnumStringConverter<>(SubmissionStatus.class)));
+    securityStatus.setCellFactory(ComboBoxTableCell.forTableColumn(SubmissionStatus.values()));
     securityEmployeeAssigned.setCellValueFactory(
         new PropertyValueFactory<SecuritysubmissionEntity, String>("assignedid"));
     securityEmployeeAssigned.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -390,8 +388,7 @@ public class MyRequestsController {
         });
     audioStatus.setCellValueFactory(
         new PropertyValueFactory<AudiosubmissionEntity, SubmissionStatus>("submissionstatus"));
-    audioStatus.setCellFactory(
-        TextFieldTableCell.forTableColumn(new EnumStringConverter<>(SubmissionStatus.class)));
+    audioStatus.setCellFactory(ComboBoxTableCell.forTableColumn(SubmissionStatus.values()));
     audioAssignedID.setCellValueFactory(
         new PropertyValueFactory<AudiosubmissionEntity, String>("assignedid"));
     audioAssignedID.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -470,8 +467,7 @@ public class MyRequestsController {
         });
     computerStatus.setCellValueFactory(
         new PropertyValueFactory<ComputersubmissionEntity, SubmissionStatus>("submissionstatus"));
-    computerStatus.setCellFactory(
-        TextFieldTableCell.forTableColumn(new EnumStringConverter<>(SubmissionStatus.class)));
+    computerStatus.setCellFactory(ComboBoxTableCell.forTableColumn(SubmissionStatus.values()));
     computerAssignedID.setCellValueFactory(
         new PropertyValueFactory<ComputersubmissionEntity, String>("assignedid"));
     computerAssignedID.setCellFactory(TextFieldTableCell.forTableColumn());
