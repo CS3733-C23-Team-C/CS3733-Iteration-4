@@ -11,7 +11,7 @@ import java.util.function.Function;
 interface Persistent {
     void enablePersistence(DAOFacade orm);
 
-    static <T> boolean compareProperties(T thisOne, T thatOne, Function<T, Object>... getters) {
+    static <T> boolean compareProperties(T thisOne, T thatOne, Function<T, ? super Object>... getters) {
         for (var getter : getters) {
             if (!Objects.equals(getter.apply(thisOne), getter.apply(thatOne))) return false;
         }

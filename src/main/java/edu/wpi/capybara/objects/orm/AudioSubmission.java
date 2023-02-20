@@ -3,7 +3,6 @@ package edu.wpi.capybara.objects.orm;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import jakarta.persistence.*;
 import javafx.beans.InvalidationListener;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -16,7 +15,7 @@ import java.util.UUID;
 public class AudioSubmission implements Persistent {
     private final SimpleObjectProperty<UUID> submissionID = new SimpleObjectProperty<>();
     private final SimpleStringProperty employeeID = new SimpleStringProperty();
-    private final SimpleStringProperty assigneeID = new SimpleStringProperty();
+    private final SimpleStringProperty assignedID = new SimpleStringProperty();
     private final SimpleStringProperty location = new SimpleStringProperty();
     private final SimpleStringProperty type = new SimpleStringProperty();
     private final SimpleStringProperty notesUpdate = new SimpleStringProperty();
@@ -32,7 +31,7 @@ public class AudioSubmission implements Persistent {
         final InvalidationListener listener = evt -> orm.merge(this);
         submissionID.addListener(listener);
         employeeID.addListener(listener);
-        assigneeID.addListener(listener);
+        assignedID.addListener(listener);
         location.addListener(listener);
         type.addListener(listener);
         notesUpdate.addListener(listener);
@@ -70,16 +69,16 @@ public class AudioSubmission implements Persistent {
     }
 
     @Column(name = "assignedid")
-    public String getAssigneeID() {
-        return assigneeID.get();
+    public String getAssignedID() {
+        return assignedID.get();
     }
 
-    public SimpleStringProperty assigneeIDProperty() {
-        return assigneeID;
+    public SimpleStringProperty assignedIDProperty() {
+        return assignedID;
     }
 
-    public void setAssigneeID(String assigneeID) {
-        this.assigneeID.set(assigneeID);
+    public void setAssignedID(String assignedID) {
+        this.assignedID.set(assignedID);
     }
 
     @Column(name = "location")
@@ -182,7 +181,7 @@ public class AudioSubmission implements Persistent {
             return Persistent.compareProperties(this, that,
                     AudioSubmission::getSubmissionID,
                     AudioSubmission::getEmployeeID,
-                    AudioSubmission::getAssigneeID,
+                    AudioSubmission::getAssignedID,
                     AudioSubmission::getLocation,
                     AudioSubmission::getType,
                     AudioSubmission::getNotesUpdate,
@@ -198,7 +197,7 @@ public class AudioSubmission implements Persistent {
         return Objects.hash(
                 getSubmissionID(),
                 getEmployeeID(),
-                getAssigneeID(),
+                getAssignedID(),
                 getLocation(),
                 getType(),
                 getNotesUpdate(),
