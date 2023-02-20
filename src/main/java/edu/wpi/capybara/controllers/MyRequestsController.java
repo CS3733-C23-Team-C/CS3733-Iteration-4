@@ -6,7 +6,6 @@ import edu.wpi.capybara.objects.hibernate.*;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.utils.EnumStringConverter;
 import java.util.HashMap;
 import java.util.Objects;
 import javafx.collections.FXCollections;
@@ -240,7 +239,8 @@ public class MyRequestsController {
         });
     transportationStatus.setCellValueFactory(
         new PropertyValueFactory<TransportationsubmissionEntity, SubmissionStatus>("status"));
-    transportationStatus.setCellFactory(ComboBoxTableCell.forTableColumn(SubmissionStatus.values()));
+    transportationStatus.setCellFactory(
+        ComboBoxTableCell.forTableColumn(SubmissionStatus.values()));
     transportationELevel.setCellValueFactory(
         new PropertyValueFactory<TransportationsubmissionEntity, String>("urgency"));
     transportationELevel.setCellFactory(TextFieldTableCell.forTableColumn());
