@@ -47,7 +47,7 @@
                         <Font size="15.0" />
                      </font>
                   </MFXButton>
-                  <MFXButton fx:id="sendMessageButton" minWidth="150.0" style="-fx-background-color: #012D5A;" text="Send Message" textFill="WHITE">
+                  <MFXButton fx:id="sendMessageButton" disable="true" minWidth="150.0" style="-fx-background-color: #012D5A;" text="Send Message" textFill="WHITE">
                      <font>
                         <Font size="15.0" />
                      </font>
