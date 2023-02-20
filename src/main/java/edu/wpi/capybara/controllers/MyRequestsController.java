@@ -19,6 +19,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javax.swing.*;
 
 public class MyRequestsController {
 
@@ -65,6 +66,7 @@ public class MyRequestsController {
   @FXML TableColumn<AudiosubmissionEntity, String> audioELevel;
 
   @FXML MFXComboBox<String> requestType;
+  @FXML MFXComboBox<SubmissionStatus> cleaningDropStatus;
   @FXML MFXButton fieldsEdit;
   @FXML MFXButton fieldsSave;
 
