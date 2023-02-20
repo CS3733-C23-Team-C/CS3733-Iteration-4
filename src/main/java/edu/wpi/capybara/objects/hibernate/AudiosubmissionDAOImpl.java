@@ -46,9 +46,6 @@ public class AudiosubmissionDAOImpl implements AudiosubmissionDAO {
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         AudiosubmissionEntity temp = (AudiosubmissionEntity) iterator.next();
         ret.put(temp.getSubmissionid(), temp);
-        if (Main.db.getID() < temp.getSubmissionid()) {
-          Main.db.setID(temp.getSubmissionid());
-        }
       }
       tx.commit();
     } catch (HibernateException e) {

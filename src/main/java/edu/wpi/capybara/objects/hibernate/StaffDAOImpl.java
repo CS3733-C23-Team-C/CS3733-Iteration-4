@@ -12,6 +12,8 @@ import org.hibernate.Transaction;
 public class StaffDAOImpl implements StaffDAO {
   HashMap<String, StaffEntity> staff = new HashMap();
 
+  int curID;
+
   @Override
   public HashMap<String, StaffEntity> getStaff() {
     return staff;
@@ -36,7 +38,7 @@ public class StaffDAOImpl implements StaffDAO {
 
     try {
       tx = session.beginTransaction();
-      List n = session.createQuery("FROM StaffEntity ").list();
+      List n = session.createQuery("FROM StaffEntity").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         StaffEntity temp = (StaffEntity) iterator.next();
         ret.put(temp.getStaffid(), temp);
@@ -60,6 +62,15 @@ public class StaffDAOImpl implements StaffDAO {
   public StaffEntity getStaff(String Staffid, String password) {
     for (StaffEntity s : staff.values()) {
       if (s.getStaffid().equals(Staffid) && s.getPassword().equals(password)) {
+        return s;
+      }
+    }
+    return null;
+  }
+
+  public StaffEntity getStaff2(String firstName, String lastName) {
+    for (StaffEntity s : staff.values()) {
+      if (s.getFirstname().equals(firstName) && s.getLastname().equals(lastName)) {
         return s;
       }
     }

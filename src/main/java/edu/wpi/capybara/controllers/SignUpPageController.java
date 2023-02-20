@@ -15,7 +15,8 @@ import javafx.scene.text.Text;
 
 public class SignUpPageController {
 
-  @FXML private MFXTextField username;
+  @FXML private MFXTextField firstName;
+  @FXML private MFXTextField lastName;
   @FXML private MFXPasswordField password;
   @FXML private MFXPasswordField confirmPassword;
   @FXML private MFXButton signUpButton;
@@ -23,11 +24,13 @@ public class SignUpPageController {
   @FXML private MFXButton backButton;
 
   @FXML private Text errorTxt;
+  @FXML private Text newUserTxt;
 
   private newDBConnect dbConnect;
 
   public void clearFields() {
-    username.clear();
+    firstName.clear();
+    lastName.clear();
     password.clear();
     confirmPassword.clear();
     signUpButton.setDisable(true);
@@ -41,37 +44,66 @@ public class SignUpPageController {
   }
 
   public void signUp(ActionEvent actionEvent) throws IOException {
-
-    // Get username and password and check if the combination exists
-    StaffEntity s = null;
-    if (!password.getText().equals(confirmPassword.getText())) {
-      clearFields();
-      errorTxt.setText("Passwords must match");
-    } else {
-      errorTxt.setText("");
-      String outputUsername = username.getText();
-      String outputPassword = password.getText();
-      System.out.println("This is the new username " + outputUsername);
-      System.out.println("This is the new password " + outputPassword);
-
-      s = dbConnect.getStaff(outputUsername, outputPassword);
-
-      // if username and password are new
-      if (s == null) {
-        // Database Magic
-        System.out.println("\"Insertion\"");
-      } else {
-        // if username and password are already in the system
-        // App.setUser(s);
+    if (signUpButton.getText().equals("Sign Up")) {
+      // Get username and password and check if the combination exists
+      StaffEntity s = null;
+      if (!password.getText().equals(confirmPassword.getText())) {
         clearFields();
-        errorTxt.setText("Username and Password already exist in the system");
+        errorTxt.setText("Passwords must match");
+      } else {
+        errorTxt.setText("");
+        String outputFirstname = firstName.getText();
+        String outputLastname = lastName.getText();
+        String outputPassword = password.getText();
+        System.out.println("This is the new first name " + outputFirstname);
+        System.out.println("This is the new last name " + outputLastname);
+        System.out.println("This is the new password " + outputPassword);
+
+        s = dbConnect.getStaff2(outputFirstname, outputLastname);
+
+        // if username and password are new
+        if (s == null) {
+
+          String newStaffID = dbConnect.generateID();
+          /*
+          Main.db.addStaff(new StaffEntity(
+                  newStaffID,
+                  outputFirstname,
+                  outputLastname,
+                  "staff",
+                  outputPassword)); */
+
+          errorTxt.setText("");
+          backButton.setDisable(true);
+          firstName.setDisable(true);
+          lastName.setDisable(true);
+          password.setDisable(true);
+          confirmPassword.setDisable(true);
+          signUpButton.setText("Login");
+
+          newUserTxt.setText(
+              "User " + outputLastname + "," + outputFirstname + " successfully created with staff id " + newStaffID);
+        } else {
+          // if username and password are already in the system
+          // App.setUser(s);
+          clearFields();
+          errorTxt.setText("User already exists");
+        }
       }
+    } else if (signUpButton.getText().equals("Login")) {
+      signUpButton.setText("Sign Up");
+      newUserTxt.setText("");
+      Navigation.navigate(Screen.LOG_IN_PAGE);
+    } else {
+      System.out.println("Unknown error");
     }
   }
 
   public void enableSignUp(KeyEvent keyEvent) {
-    if (username.getText() != "" && password.getText() != "" && confirmPassword.getText() != "")
-      signUpButton.setDisable(false);
+    if (firstName.getText() != ""
+        && lastName.getText() != ""
+        && password.getText() != ""
+        && confirmPassword.getText() != "") signUpButton.setDisable(false);
   }
 
   public void back(ActionEvent actionEvent) {

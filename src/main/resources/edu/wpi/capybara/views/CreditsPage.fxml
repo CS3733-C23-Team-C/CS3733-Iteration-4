@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.AboutPageController">
+   <children>
+      <BorderPane>
+         <top>
+            <HBox prefHeight="20.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER" />
+         </top>
+         <center>
+            <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" />
+               </padding>
+               <children>
+                  <HBox prefHeight="10.0" prefWidth="200.0" />
+                  <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Credits Page">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="10.0" prefWidth="200.0" />
+                  <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;" />
+                  <HBox prefHeight="20.0" prefWidth="200.0" />
+                  <HBox alignment="CENTER" minWidth="300.0" spacing="30.0" style="-fx-background-color: #E7E7E7;">
+                     <children>
+                        <VBox alignment="TOP_CENTER" spacing="30.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <VBox alignment="TOP_CENTER">
+                                 <children>
+                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Hospital Image">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Text>
+                                    <Hyperlink text="https://www.umass.edu/honors/sites/default/files/styles/16_9_widescreen/public/2020-02/BWH_BridgeInside_JK_CROP.jpg?h=d31eb152&amp;itok=SkYstzzy" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="TOP_CENTER">
+                                 <children>
+                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Hospital Logo">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Text>
+                                    <Hyperlink text="https://give.brighamandwomens.org/wp-content/uploads/2021/06/Brigham_and_Womens_Hospital_horiz_rgb-1.png" />
+                                 </children>
+                              </VBox>
+                              <VBox alignment="TOP_CENTER">
+                                 <children>
+                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Text Sprites">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Text>
+                                    <Hyperlink text="https://fontawesome.com/v5/search" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </children>
+</StackPane>
