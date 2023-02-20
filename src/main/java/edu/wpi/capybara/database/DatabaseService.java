@@ -6,7 +6,7 @@ import edu.wpi.capybara.database.dao.MoveDAO;
 import edu.wpi.capybara.database.dao.NodeDAO;
 import edu.wpi.capybara.database.dao.StaffDAO;
 import edu.wpi.capybara.objects.hibernate.*;
-import edu.wpi.capybara.objects.orm.DAOFacade;
+import edu.wpi.capybara.objects.orm.*;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
 import org.hibernate.Session;
@@ -69,12 +69,12 @@ class DatabaseService implements RepoFacade2 {
     }
 
     @Override
-    public ReadOnlyMapProperty<String, LocationnameEntity> getLocationnames() {
+    public ReadOnlyMapProperty<String, Location> getLocationnames() {
         return locationDAO.getAll();
     }
 
     @Override
-    public ReadOnlyMapProperty<String, NodeEntity> getNodes() {
+    public ReadOnlyMapProperty<String, Node> getNodes() {
         return nodeDAO.getAll();
     }
 
@@ -84,12 +84,12 @@ class DatabaseService implements RepoFacade2 {
     }
 
     @Override
-    public ReadOnlyListProperty<EdgeEntity> getEdges() {
+    public ReadOnlyListProperty<Edge> getEdges() {
         return edgeDAO.getAll();
     }
 
     @Override
-    public ReadOnlyListProperty<MoveEntity> getMoves() {
+    public ReadOnlyListProperty<Move> getMoves() {
         return moveDAO.getAll();
     }
 
@@ -124,12 +124,12 @@ class DatabaseService implements RepoFacade2 {
     }
 
     @Override
-    public void addLocationname(LocationnameEntity submission) {
+    public void addLocationName(Location submission) {
         locationDAO.add(submission);
     }
 
     @Override
-    public void addNode(NodeEntity submission) {
+    public void addNode(Node submission) {
         nodeDAO.add(submission);
     }
 
@@ -139,12 +139,12 @@ class DatabaseService implements RepoFacade2 {
     }
 
     @Override
-    public void addEdge(EdgeEntity submission) {
+    public void addEdge(Edge submission) {
         edgeDAO.add(submission);
     }
 
     @Override
-    public boolean addMove(MoveEntity submission) {
+    public boolean addMove(Move submission) {
         return false;
     }
 
@@ -179,12 +179,12 @@ class DatabaseService implements RepoFacade2 {
     }
 
     @Override
-    public LocationnameEntity getLocationname(String longname) {
+    public Location getLocationname(String longname) {
         return locationDAO.get(longname);
     }
 
     @Override
-    public NodeEntity getNode(String nodeid) {
+    public Node getNode(String nodeid) {
         return nodeDAO.get(nodeid);
     }
 
@@ -249,22 +249,22 @@ class DatabaseService implements RepoFacade2 {
     }
 
     @Override
-    public void deleteEdge(EdgeEntity edge) {
+    public void deleteEdge(Edge edge) {
         edgeDAO.delete(edge);
     }
 
     @Override
-    public void deleteLocationname(String longname) {
-        deleteLocationname(getLocationname(longname));
+    public void deleteLocationName(String longname) {
+        deleteLocationName(getLocationname(longname));
     }
 
     @Override
-    public void deleteLocationname(LocationnameEntity entity) {
+    public void deleteLocationName(Location entity) {
         locationDAO.delete(entity);
     }
 
     @Override
-    public void deleteMove(MoveEntity move) {
+    public void deleteMove(Move move) {
         moveDAO.delete(move);
     }
 
@@ -274,7 +274,7 @@ class DatabaseService implements RepoFacade2 {
     }
 
     @Override
-    public void deleteNode(NodeEntity entity) {
+    public void deleteNode(Node entity) {
         nodeDAO.delete(entity);
     }
 

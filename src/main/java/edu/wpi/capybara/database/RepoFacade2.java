@@ -1,12 +1,14 @@
 package edu.wpi.capybara.database;
 
 import edu.wpi.capybara.objects.hibernate.*;
+import edu.wpi.capybara.objects.orm.Edge;
+import edu.wpi.capybara.objects.orm.Location;
+import edu.wpi.capybara.objects.orm.Move;
+import edu.wpi.capybara.objects.orm.Node;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
 import org.hibernate.Session;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 
 public interface RepoFacade2 {
@@ -23,15 +25,15 @@ public interface RepoFacade2 {
     ReadOnlyMapProperty<Integer, TransportationsubmissionEntity> getTransportationSubs();
 
     // Others
-    ReadOnlyMapProperty<String, LocationnameEntity> getLocationnames();
+    ReadOnlyMapProperty<String, Location> getLocationnames();
 
-    ReadOnlyMapProperty<String, NodeEntity> getNodes();
+    ReadOnlyMapProperty<String, Node> getNodes();
 
     ReadOnlyMapProperty<String, StaffEntity> getStaff();
 
-    ReadOnlyListProperty<EdgeEntity> getEdges();
+    ReadOnlyListProperty<Edge> getEdges();
 
-    ReadOnlyListProperty<MoveEntity> getMoves();
+    ReadOnlyListProperty<Move> getMoves();
 
     ReadOnlyMapProperty<Integer, MessagesEntity> getMessages();
 
@@ -48,15 +50,15 @@ public interface RepoFacade2 {
     void addTransportation(TransportationsubmissionEntity submission);
 
     // Others
-    void addLocationname(LocationnameEntity submission);
+    void addLocationName(Location submission);
 
-    void addNode(NodeEntity submission);
+    void addNode(Node submission);
 
     void addStaff(StaffEntity submission);
 
-    void addEdge(EdgeEntity submission);
+    void addEdge(Edge submission);
 
-    boolean addMove(MoveEntity submission);
+    boolean addMove(Move submission);
 
     void addMessage(MessagesEntity message);
 
@@ -73,9 +75,9 @@ public interface RepoFacade2 {
     TransportationsubmissionEntity getTransportation(int id);
 
     // Others
-    LocationnameEntity getLocationname(String longname);
+    Location getLocationname(String longname);
 
-    NodeEntity getNode(String nodeid);
+    Node getNode(String nodeid);
 
     StaffEntity getStaff(String staffid);
 
@@ -99,15 +101,15 @@ public interface RepoFacade2 {
     void deleteTransportation(TransportationsubmissionEntity entity);
 
     // Others
-    void deleteEdge(EdgeEntity edge);
+    void deleteEdge(Edge edge);
 
-    void deleteLocationname(String longname);
-    void deleteLocationname(LocationnameEntity entity);
+    void deleteLocationName(String longname);
+    void deleteLocationName(Location entity);
 
-    void deleteMove(MoveEntity move);
+    void deleteMove(Move move);
 
     void deleteNode(String nodeid);
-    void deleteNode(NodeEntity entity);
+    void deleteNode(Node entity);
 
     void deleteStaff(String staffid);
     void deleteStaff(StaffEntity entity);
