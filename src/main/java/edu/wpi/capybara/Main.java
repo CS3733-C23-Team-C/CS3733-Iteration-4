@@ -1,7 +1,8 @@
 package edu.wpi.capybara;
 
-import edu.wpi.capybara.database.RepoFacade;
-import edu.wpi.capybara.database.newDBConnect;
+import edu.wpi.capybara.database.*;
+import edu.wpi.capybara.objects.orm.DAOFacade;
+import lombok.Getter;
 
 public class Main extends Thread {
   public static RepoFacade db;
