@@ -1,6 +1,6 @@
 package edu.wpi.capybara.controllers.mapeditor.adapters;
 
-import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import edu.wpi.capybara.objects.orm.Node;
 import javafx.beans.property.adapter.*;
 
 public class NodeAdapter {
@@ -18,7 +18,7 @@ public class NodeAdapter {
   private static final JavaBeanStringPropertyBuilder buildingBuilder =
       JavaBeanStringPropertyBuilder.create().name("building");
 
-  private final NodeEntity entity;
+  private final Node entity;
 
   private final JavaBeanStringProperty nodeID;
   private final JavaBeanIntegerProperty xCoord;
@@ -32,7 +32,7 @@ public class NodeAdapter {
    */
   // TODO: 1/31/23 implement said unit test
   // STOPSHIP: 1/31/23 see above to-do
-  public NodeAdapter(NodeEntity node) {
+  public NodeAdapter(Node node) {
     entity = node;
     try {
       nodeID = nodeIDBuilder.bean(node).build();
@@ -113,7 +113,7 @@ public class NodeAdapter {
     return building;
   }
 
-  public NodeEntity getEntity() {
+  public Node getEntity() {
     return entity;
   }
 }

@@ -1,12 +1,9 @@
 package edu.wpi.capybara.database;
 
-import edu.wpi.capybara.objects.hibernate.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import edu.wpi.capybara.objects.orm.AudioSubmission;
-import edu.wpi.capybara.objects.orm.CleaningSubmission;
+import edu.wpi.capybara.objects.orm.*;
 import org.hibernate.Session;
 
 public interface RepoFacade {
@@ -16,28 +13,28 @@ public interface RepoFacade {
 
   Map<Integer, CleaningSubmission> getCleaningSubs();
 
-  HashMap<Integer, ComputersubmissionEntity> getComputerSubs();
+  Map<Integer, ComputerSubmission> getComputerSubs();
 
-  HashMap<Integer, SecuritysubmissionEntity> getSecuritySubs();
+  Map<Integer, SecuritySubmission> getSecuritySubs();
 
-  HashMap<Integer, TransportationsubmissionEntity> getTransportationSubs();
+  Map<Integer, TransportationSubmission> getTransportationSubs();
 
   // Others
-  HashMap<String, LocationnameEntity> getLocationnames();
+  Map<String, Location> getLocationnames();
 
-  HashMap<String, NodeEntity> getNodes();
+  Map<String, Node> getNodes();
 
-  HashMap<String, StaffEntity> getStaff();
+  Map<String, Staff> getStaff();
 
-  ArrayList<EdgeEntity> getEdges();
+  List<Edge> getEdges();
 
-  ArrayList<MoveEntity> getMoves();
+  List<Move> getMoves();
 
-  HashMap<Integer, MessagesEntity> getMessages();
+  Map<Integer, Messages> getMessages();
 
-  HashMap<Integer, MessagesEntity> getMessages(String id);
+  Map<Integer, Messages> getMessages(String id);
 
-  HashMap<Integer, MessagesEntity> getMessages(String id, int lastid);
+  Map<Integer, Messages> getMessages(String id, int lastid);
 
   // Add method
   // Submissions
@@ -45,24 +42,24 @@ public interface RepoFacade {
 
   void addCleaning(CleaningSubmission submission);
 
-  void addComputer(ComputersubmissionEntity submission);
+  void addComputer(ComputerSubmission submission);
 
-  void addSecurity(SecuritysubmissionEntity submission);
+  void addSecurity(SecuritySubmission submission);
 
-  void addTransportation(TransportationsubmissionEntity submission);
+  void addTransportation(TransportationSubmission submission);
 
   // Others
-  void addLocationname(LocationnameEntity submission);
+  void addLocationname(Location submission);
 
-  void addNode(NodeEntity submission);
+  void addNode(Node submission);
 
-  void addStaff(StaffEntity submission);
+  void addStaff(Staff submission);
 
-  void addEdge(EdgeEntity submission);
+  void addEdge(Edge submission);
 
-  boolean addMove(MoveEntity submission);
+  boolean addMove(Move submission);
 
-  void addMessage(MessagesEntity message);
+  void addMessage(Messages message);
 
   // Get single methods
   // Submissions
@@ -70,20 +67,20 @@ public interface RepoFacade {
 
   CleaningSubmission getCleaning(int id);
 
-  ComputersubmissionEntity getComputer(int id);
+  ComputerSubmission getComputer(int id);
 
-  SecuritysubmissionEntity getSecurity(int id);
+  SecuritySubmission getSecurity(int id);
 
-  TransportationsubmissionEntity getTransportation(int id);
+  TransportationSubmission getTransportation(int id);
 
   // Others
-  LocationnameEntity getLocationname(String longname);
+  Location getLocationname(String longname);
 
-  NodeEntity getNode(String nodeid);
+  Node getNode(String nodeid);
 
-  StaffEntity getStaff(String staffid);
+  Staff getStaff(String staffid);
 
-  MessagesEntity getMessage(int id);
+  Messages getMessage(int id);
 
   // delete methods
   // submissions
@@ -98,11 +95,11 @@ public interface RepoFacade {
   void deleteTransportation(int id);
 
   // Others
-  void deleteEdge(EdgeEntity edge);
+  void deleteEdge(Edge edge);
 
   void deleteLocationname(String longname);
 
-  void deleteMove(MoveEntity move);
+  void deleteMove(Move move);
 
   void deleteNode(String nodeid);
 
@@ -111,7 +108,7 @@ public interface RepoFacade {
   void deleteMessage(int messageid);
 
   // Submission methods
-  StaffEntity getStaff(String Staffid, String password);
+  Staff getStaff(String Staffid, String password);
 
   Session getSession();
 

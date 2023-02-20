@@ -1,14 +1,16 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.objects.orm.TransportationSubmission;
+
 import java.util.HashMap;
 
 public interface TransportationDAO {
 
-  HashMap<Integer, TransportationsubmissionEntity> getTransportationSubs();
+  HashMap<Integer, TransportationSubmission> getTransportationSubs();
 
-  TransportationsubmissionEntity getTransportation(int id);
+  TransportationSubmission getTransportation(int id);
 
-  void addTransportation(TransportationsubmissionEntity submission);
+  void addTransportation(TransportationSubmission submission);
 
   void deleteTransportation(int id);
 }

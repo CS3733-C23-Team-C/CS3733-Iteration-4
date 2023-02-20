@@ -1,12 +1,13 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.objects.orm.Edge;
+import edu.wpi.capybara.objects.orm.Location;
+import edu.wpi.capybara.objects.orm.Move;
 import jakarta.persistence.*;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Objects;
+import java.util.*;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -110,10 +111,10 @@ public class NodeEntity {
   }
 
   public String getShortName() {
-    ArrayList<MoveEntity> moves = Main.db.getMoves();
+    List<Move> moves = Main.db.getMoves();
     Date temp = new Date((long) 0);
     String longname = null;
-    for (MoveEntity m : moves) {
+    for (Move m : moves) {
       if (m.getNodeid().equals(this.nodeid)) {
         if (m.getMovedate().compareTo(temp) > 0) {
           // System.out.println("select!");
@@ -125,8 +126,8 @@ public class NodeEntity {
     if (longname == null) {
       return "NA";
     }
-    HashMap<String, LocationnameEntity> locations = Main.db.getLocationnames();
-    for (LocationnameEntity location : locations.values()) {
+    Map<String, Location> locations = Main.db.getLocationnames();
+    for (Location location : locations.values()) {
       if (longname.equals(location.getLongname())) {
         return location.getShortname();
       }
@@ -136,10 +137,10 @@ public class NodeEntity {
   }
 
   public String getLongname() {
-    ArrayList<MoveEntity> moves = Main.db.getMoves();
+    List<Move> moves = Main.db.getMoves();
     Date temp = new Date((long) 0);
     String longname = null;
-    for (MoveEntity m : moves) {
+    for (Move m : moves) {
       if (m.getNodeid().equals(this.nodeid)) {
         if (m.getMovedate().compareTo(temp) > 0) {
           // System.out.println("select!");
@@ -151,10 +152,10 @@ public class NodeEntity {
     return longname;
   }
 
-  public HashSet<EdgeEntity> getEdges() {
-    HashSet<EdgeEntity> ret = new HashSet<EdgeEntity>();
+  public HashSet<Edge> getEdges() {
+    HashSet<Edge> ret = new HashSet<>();
 
-    for (EdgeEntity e : Main.db.getEdges()) {
+    for (Edge e : Main.db.getEdges()) {
       if (e.getNode1().equals(nodeid) || e.getNode2().equals(nodeid)) {
         ret.add(e);
       }

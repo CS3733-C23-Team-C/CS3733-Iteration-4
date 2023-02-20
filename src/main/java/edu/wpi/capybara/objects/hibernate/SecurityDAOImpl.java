@@ -5,25 +5,27 @@ import edu.wpi.capybara.database.newDBConnect;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
+import edu.wpi.capybara.objects.orm.SecuritySubmission;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class SecurityDAOImpl implements SecurityDAO {
-  HashMap<Integer, SecuritysubmissionEntity> securitySubs = new HashMap();
+  HashMap<Integer, SecuritySubmission> securitySubs = new HashMap();
 
   @Override
-  public HashMap<Integer, SecuritysubmissionEntity> getSecuritySubs() {
+  public HashMap<Integer, SecuritySubmission> getSecuritySubs() {
     return securitySubs;
   }
 
   @Override
-  public SecuritysubmissionEntity getSecurity(int id) {
+  public SecuritySubmission getSecurity(int id) {
     return securitySubs.get(id);
   }
 
   @Override
-  public void addSecurity(SecuritysubmissionEntity submission) {
+  public void addSecurity(SecuritySubmission submission) {
     newDBConnect.insertNew(submission);
     this.securitySubs.put(submission.getSubmissionid(), submission);
   }
@@ -32,14 +34,14 @@ public class SecurityDAOImpl implements SecurityDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<Integer, SecuritysubmissionEntity> ret =
-        new HashMap<Integer, SecuritysubmissionEntity>();
+    HashMap<Integer, SecuritySubmission> ret =
+        new HashMap<>();
 
     try {
       tx = session.beginTransaction();
       List n = session.createQuery("FROM SecuritysubmissionEntity").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        SecuritysubmissionEntity temp = (SecuritysubmissionEntity) iterator.next();
+        SecuritySubmission temp = (SecuritysubmissionEntity) iterator.next();
         ret.put(temp.getSubmissionid(), temp);
       }
       tx.commit();

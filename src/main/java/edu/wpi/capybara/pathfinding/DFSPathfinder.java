@@ -1,23 +1,24 @@
 package edu.wpi.capybara.pathfinding;
 
 import edu.wpi.capybara.objects.hibernate.EdgeEntity;
-import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import edu.wpi.capybara.objects.orm.Node;
+
 import java.util.*;
 
 public class DFSPathfinder implements PathfindingAlgorithm {
-  private final HashMap<String, NodeEntity> nodes;
+  private final Map<String, Node> nodes;
 
   private static class PathNode {
-    List<NodeEntity> path;
-    NodeEntity node;
+    List<Node> path;
+    Node node;
 
-    PathNode(List<NodeEntity> list, NodeEntity node) {
+    PathNode(List<Node> list, Node node) {
       this.path = list;
       this.node = node;
     }
   }
 
-  public List<NodeEntity> findPath(NodeEntity start, NodeEntity end) {
+  public List<Node> findPath(Node start, Node end) {
 
     if (start == null || end == null) {
       throw new RuntimeException("One of the NodeID doesn't exist!");
@@ -27,22 +28,22 @@ public class DFSPathfinder implements PathfindingAlgorithm {
   }
 
   @Override
-  public List<NodeEntity> findPath(String start, String end) {
-    NodeEntity startNode = getNodeFromNodeID(start);
-    NodeEntity endNode = getNodeFromNodeID(end);
+  public List<Node> findPath(String start, String end) {
+    Node startNode = getNodeFromNodeID(start);
+    Node endNode = getNodeFromNodeID(end);
 
     return findPath(startNode, endNode);
   }
 
-  private NodeEntity getNodeFromNodeID(String s) {
+  private Node getNodeFromNodeID(String s) {
     return nodes.get(s);
   }
 
-  private List<NodeEntity> dfs(
-      PathNode current,
-      NodeEntity goal,
-      Stack<PathNode> nodesLeft,
-      Collection<NodeEntity> nodesChecked) {
+  private List<Node> dfs(
+          PathNode current,
+          Node goal,
+          Stack<PathNode> nodesLeft,
+          Collection<Node> nodesChecked) {
     // System.out.println("DFS with: " + current.node.toString());
     // System.out.println("NodesLeft: " + nodesLeft.toString());
     // System.out.println("NodesChecked: " + nodesChecked.toString());
@@ -51,25 +52,25 @@ public class DFSPathfinder implements PathfindingAlgorithm {
       return dfs(nodesLeft.pop(), goal, nodesLeft, nodesChecked);
     }
     nodesChecked.add(current.node);
-    List<NodeEntity> newPath = new ArrayList<>(List.copyOf(current.path));
+    List<Node> newPath = new ArrayList<Node>(List.copyOf(current.path));
     newPath.add(current.node);
     if (current.node.equals(goal)) return newPath;
 
-    Set<NodeEntity> borderNodes = new HashSet<>();
+    Set<Node> borderNodes = new HashSet<>();
     for (EdgeEntity e : current.node.getEdges()) {
-      NodeEntity n = getNodeFromNodeID(e.getOtherNode(current.node));
+      Node n = getNodeFromNodeID(e.getOtherNode(current.node));
       // System.out.println("Found Border Node " + n.toString());
       borderNodes.add(n);
     }
 
-    for (NodeEntity n : borderNodes) {
+    for (Node n : borderNodes) {
       nodesLeft.push(new PathNode(newPath, n));
     }
 
     return dfs(nodesLeft.pop(), goal, nodesLeft, nodesChecked);
   }
 
-  public DFSPathfinder(HashMap<String, NodeEntity> nodes) {
+  public DFSPathfinder(Map<String, Node> nodes) {
     this.nodes = nodes;
   }
 

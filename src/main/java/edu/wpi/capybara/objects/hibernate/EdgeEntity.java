@@ -1,6 +1,7 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.objects.orm.Node;
 import jakarta.persistence.*;
 import java.util.Objects;
 import org.hibernate.Session;
@@ -51,7 +52,7 @@ public class EdgeEntity {
     session.close();
   }
 
-  public String getOtherNode(NodeEntity node) {
+  public String getOtherNode(Node node) {
     if (node.getNodeid().equals(node1)) return node2;
     return node1;
   }

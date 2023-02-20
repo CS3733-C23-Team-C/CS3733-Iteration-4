@@ -5,8 +5,7 @@ import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.hibernate.*;
-import edu.wpi.capybara.objects.orm.AudioSubmission;
-import edu.wpi.capybara.objects.orm.CleaningSubmission;
+import edu.wpi.capybara.objects.orm.*;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import java.io.*;
 import java.sql.Date;
@@ -19,16 +18,16 @@ import java.util.*;
 
 public class DBcsv {
 
-  public static HashMap<String, NodeEntity> nodes;
-  public static ArrayList<EdgeEntity> edges;
-  public static HashMap<String, LocationnameEntity> locationNames;
-  public static ArrayList<MoveEntity> moves;
-  public static HashMap<String, StaffEntity> staff;
-  public static HashMap<Integer, TransportationsubmissionEntity> transportationSubs;
+  public static Map<String, Node> nodes;
+  public static List<Edge> edges;
+  public static Map<String, Location> locationNames;
+  public static List<Move> moves;
+  public static Map<String, Staff> staff;
+  public static Map<Integer, TransportationSubmission> transportationSubs;
   public static Map<Integer, CleaningSubmission> cleaningSubs;
-  public static HashMap<Integer, SecuritysubmissionEntity> securitySubs;
+  public static Map<Integer, SecuritySubmission> securitySubs;
 
-  public static HashMap<Integer, ComputersubmissionEntity> computerSubs;
+  public static Map<Integer, ComputerSubmission> computerSubs;
 
   public static Map<Integer, AudioSubmission> audioSubs;
 
@@ -109,8 +108,8 @@ public class DBcsv {
     // An original method to delete the database in the following order: submissions, staff, move,
     // locationname, edge, node
 
-    List<ComputersubmissionEntity> computerKeys = List.copyOf(computerSubs.values());
-    for (ComputersubmissionEntity computersubmissionEntity : computerKeys) {
+    List<ComputerSubmission> computerKeys = List.copyOf(computerSubs.values());
+    for (ComputerSubmission computersubmissionEntity : computerKeys) {
       Main.db.deleteComputer(computersubmissionEntity.getSubmissionid());
     }
 
@@ -119,13 +118,13 @@ public class DBcsv {
       Main.db.deleteAudio(audiosubmissionEntity.getSubmissionid());
     }
 
-    List<TransportationsubmissionEntity> transportKeys = List.copyOf(transportationSubs.values());
-    for (TransportationsubmissionEntity transportationsubmissionEntity : transportKeys) {
+    List<TransportationSubmission> transportKeys = List.copyOf(transportationSubs.values());
+    for (TransportationSubmission transportationsubmissionEntity : transportKeys) {
       Main.db.deleteTransportation(transportationsubmissionEntity.getSubmissionid());
     }
 
-    List<SecuritysubmissionEntity> securityKeys = List.copyOf(securitySubs.values());
-    for (SecuritysubmissionEntity securitysubmissionEntity : securityKeys) {
+    List<SecuritySubmission> securityKeys = List.copyOf(securitySubs.values());
+    for (SecuritySubmission securitysubmissionEntity : securityKeys) {
       Main.db.deleteSecurity(securitysubmissionEntity.getSubmissionid());
     }
 
@@ -134,28 +133,28 @@ public class DBcsv {
       Main.db.deleteCleaning(cleaningsubmissionEntity.getSubmissionid());
     }
 
-    List<StaffEntity> staffKeys = List.copyOf(staff.values());
-    for (StaffEntity staffEntity : staffKeys) {
+    List<Staff> staffKeys = List.copyOf(staff.values());
+    for (Staff staffEntity : staffKeys) {
       Main.db.deleteStaff(staffEntity.getStaffid());
     }
 
-    List<MoveEntity> moveCopy = List.copyOf(moves);
-    for (MoveEntity moveEntity : moveCopy) {
+    List<Move> moveCopy = List.copyOf(moves);
+    for (Move moveEntity : moveCopy) {
       Main.db.deleteMove(moveEntity);
     }
 
-    List<LocationnameEntity> locationKeys = List.copyOf(locationNames.values());
-    for (LocationnameEntity locationnameEntity : locationKeys) {
+    List<Location> locationKeys = List.copyOf(locationNames.values());
+    for (Location locationnameEntity : locationKeys) {
       Main.db.deleteLocationname(locationnameEntity.getLongname());
     }
 
-    List<EdgeEntity> edgeCopy = List.copyOf(edges);
-    for (EdgeEntity edgeEntity : edgeCopy) {
+    List<Edge> edgeCopy = List.copyOf(edges);
+    for (Edge edgeEntity : edgeCopy) {
       Main.db.deleteEdge(edgeEntity);
     }
 
-    List<NodeEntity> nodeKeys = List.copyOf(nodes.values());
-    for (NodeEntity nodeEntity : nodeKeys) {
+    List<Node> nodeKeys = List.copyOf(nodes.values());
+    for (Node nodeEntity : nodeKeys) {
       Main.db.deleteNode(nodeEntity.getNodeid());
     }
 
@@ -168,7 +167,7 @@ public class DBcsv {
       int ycoord = Integer.parseInt(nodeBody.get(i)[2]);
       String floor = nodeBody.get(i)[3];
       String building = nodeBody.get(i)[4];
-      NodeEntity node = new NodeEntity(nodeid, xcoord, ycoord, floor, building);
+      Node node = new NodeEntity(nodeid, xcoord, ycoord, floor, building);
       Main.db.addNode(node);
     }
     nodeReader.close();
@@ -179,7 +178,7 @@ public class DBcsv {
     for (int i = 0; i < edgeBody.size(); i++) {
       String node1 = edgeBody.get(i)[0];
       String node2 = edgeBody.get(i)[1];
-      EdgeEntity edge = new EdgeEntity(node1, node2);
+      Edge edge = new EdgeEntity(node1, node2);
       Main.db.addEdge(edge);
     }
     edgeReader.close();
@@ -191,7 +190,7 @@ public class DBcsv {
       String longname = locationBody.get(i)[0];
       String shortname = locationBody.get(i)[1];
       String locationtype = locationBody.get(i)[2];
-      LocationnameEntity locationname = new LocationnameEntity(longname, shortname, locationtype);
+      Location locationname = new LocationnameEntity(longname, shortname, locationtype);
       Main.db.addLocationname(locationname);
     }
     locationReader.close();
@@ -203,7 +202,7 @@ public class DBcsv {
       String nodeid = moveBody.get(i)[0];
       String longname = moveBody.get(i)[1];
       Date movedate = Date.valueOf(moveBody.get(i)[2]);
-      MoveEntity move = new MoveEntity(nodeid, longname, movedate);
+      Move move = new MoveEntity(nodeid, longname, movedate);
       Main.db.addMove(move);
     }
     moveReader.close();
@@ -217,7 +216,7 @@ public class DBcsv {
       String lastname = staffBody.get(i)[2];
       String role = staffBody.get(i)[3];
       String password = staffBody.get(i)[4];
-      StaffEntity staff = new StaffEntity(staffid, firstname, lastname, role, password);
+      Staff staff = new StaffEntity(staffid, firstname, lastname, role, password);
       Main.db.addStaff(staff);
     }
     staffReader.close();
@@ -285,7 +284,7 @@ public class DBcsv {
       java.util.Date date2 = sdf2.parse(startDate2);
       java.sql.Date duedate = new java.sql.Date(date2.getTime());
 
-      TransportationsubmissionEntity transportationsubmission =
+      TransportationSubmission transportationsubmission =
           new TransportationsubmissionEntity(
               submissionid,
               employeeid,
@@ -324,7 +323,7 @@ public class DBcsv {
       java.util.Date date2 = sdf2.parse(startDate2);
       java.sql.Date duedate = new java.sql.Date(date2.getTime());
 
-      SecuritysubmissionEntity securitysubmission =
+      SecuritySubmission securitysubmission =
           new SecuritysubmissionEntity(
               submissionid,
               employeeid,
@@ -374,7 +373,7 @@ public class DBcsv {
     List<String[]> outputSecuritysubs = new ArrayList<>();
 
     // Create node table
-    for (Map.Entry<String, NodeEntity> nodeEntityEntry : nodes.entrySet()) {
+    for (Map.Entry<String, Node> nodeEntityEntry : nodes.entrySet()) {
       String nodeid = nodeEntityEntry.getValue().getNodeid();
       String xcoord = String.valueOf(nodeEntityEntry.getValue().getXcoord());
       String ycoord = String.valueOf(nodeEntityEntry.getValue().getYcoord());
@@ -390,7 +389,7 @@ public class DBcsv {
     nodewriter.close();
 
     // Create edge table
-    for (EdgeEntity edgeEntity : edges) {
+    for (Edge edgeEntity : edges) {
       String node1 = edgeEntity.getNode1();
       String node2 = edgeEntity.getNode2();
       String[] row = {node1, node2};
@@ -402,7 +401,7 @@ public class DBcsv {
     edgewriter.close();
 
     // Create locationname table
-    for (Map.Entry<String, LocationnameEntity> locationnameEntityEntry : locationNames.entrySet()) {
+    for (Map.Entry<String, Location> locationnameEntityEntry : locationNames.entrySet()) {
       String longname = locationnameEntityEntry.getValue().getLongname();
       String shortname = locationnameEntityEntry.getValue().getShortname();
       String locationtype = locationnameEntityEntry.getValue().getLocationtype();
@@ -415,7 +414,7 @@ public class DBcsv {
     locationwriter.close();
 
     // Create moves table
-    for (MoveEntity moveEntity : moves) {
+    for (Move moveEntity : moves) {
       String nodeid = moveEntity.getNodeid();
       String longname = moveEntity.getLongname();
       String movedate = String.valueOf(moveEntity.getMovedate());
@@ -428,7 +427,7 @@ public class DBcsv {
     movewriter.close();
 
     // Create staff table
-    for (Map.Entry<String, StaffEntity> staffEntityEntry : staff.entrySet()) {
+    for (Map.Entry<String, Staff> staffEntityEntry : staff.entrySet()) {
       String staffid = staffEntityEntry.getValue().getStaffid();
       String first = staffEntityEntry.getValue().getFirstname();
       String last = staffEntityEntry.getValue().getLastname();
@@ -443,7 +442,7 @@ public class DBcsv {
     staffwriter.close();
 
     // Create transportation table
-    for (Map.Entry<Integer, TransportationsubmissionEntity> transportationsubmissionEntityEntry :
+    for (Map.Entry<Integer, TransportationSubmission> transportationsubmissionEntityEntry :
         transportationSubs.entrySet()) {
       String submissionid =
           String.valueOf(transportationsubmissionEntityEntry.getValue().getSubmissionid());
@@ -524,7 +523,7 @@ public class DBcsv {
     cleaningswriter.close();
 
     // Create security table
-    for (Map.Entry<Integer, SecuritysubmissionEntity> securitysubmissionEntityEntry :
+    for (Map.Entry<Integer, SecuritySubmission> securitysubmissionEntityEntry :
         securitySubs.entrySet()) {
       String submissionid =
           String.valueOf(securitysubmissionEntityEntry.getValue().getSubmissionid());

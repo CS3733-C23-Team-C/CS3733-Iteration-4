@@ -4,6 +4,9 @@ import edu.wpi.capybara.App;
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.hibernate.*;
 import edu.wpi.capybara.objects.orm.CleaningSubmission;
+import edu.wpi.capybara.objects.orm.ComputerSubmission;
+import edu.wpi.capybara.objects.orm.SecuritySubmission;
+import edu.wpi.capybara.objects.orm.TransportationSubmission;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
@@ -91,11 +94,11 @@ public class AssignedRequestController {
     requestType.setItems(options);
 
     Map<Integer, CleaningSubmission> cleaningdata = Main.db.getCleaningSubs();
-    HashMap<Integer, TransportationsubmissionEntity> transportationdata =
+    Map<Integer, TransportationSubmission> transportationdata =
         Main.db.getTransportationSubs();
-    HashMap<Integer, SecuritysubmissionEntity> securitydata = Main.db.getSecuritySubs();
+    Map<Integer, SecuritySubmission> securitydata = Main.db.getSecuritySubs();
     HashMap<Integer, AudiosubmissionEntity> audiodata = Main.db.getAudioSubs();
-    HashMap<Integer, ComputersubmissionEntity> computerdata = Main.db.getComputerSubs();
+    Map<Integer, ComputerSubmission> computerdata = Main.db.getComputerSubs();
 
     /*cleaning columns*/
     cleanEmployeeAssigned.setCellValueFactory(
@@ -176,7 +179,7 @@ public class AssignedRequestController {
         new PropertyValueFactory<TransportationsubmissionEntity, String>("urgency"));
     transportationELevel.setCellFactory(TextFieldTableCell.forTableColumn());
 
-    for (TransportationsubmissionEntity sub : transportationdata.values()) {
+    for (TransportationSubmission sub : transportationdata.values()) {
       if (Objects.equals(App.getUser().getStaffid(), sub.getAssignedid())) {
         transportationRequestsList.add(sub);
       }
@@ -217,7 +220,7 @@ public class AssignedRequestController {
         new PropertyValueFactory<SecuritysubmissionEntity, String>("urgency"));
     securityELevel.setCellFactory(TextFieldTableCell.forTableColumn());
 
-    for (SecuritysubmissionEntity sub : securitydata.values()) {
+    for (SecuritySubmission sub : securitydata.values()) {
       if (Objects.equals(App.getUser().getStaffid(), sub.getAssignedid())) {
         securityRequestsList.add(sub);
       }
@@ -295,7 +298,7 @@ public class AssignedRequestController {
     computerELevel.setCellValueFactory(
         new PropertyValueFactory<ComputersubmissionEntity, String>("urgency"));
     computerELevel.setCellFactory(TextFieldTableCell.forTableColumn());
-    for (ComputersubmissionEntity sub : computerdata.values()) {
+    for (ComputerSubmission sub : computerdata.values()) {
       if (Objects.equals(App.getUser().getStaffid(), sub.getAssignedid())) {
         computerRequestsList.add(sub);
       }

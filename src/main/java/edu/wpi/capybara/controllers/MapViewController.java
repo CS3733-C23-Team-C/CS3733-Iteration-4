@@ -5,8 +5,8 @@ import edu.wpi.capybara.exceptions.FloorDoesNotExistException;
 import edu.wpi.capybara.objects.ImageLoader;
 import edu.wpi.capybara.objects.NodeCircle;
 import edu.wpi.capybara.objects.NodeCircleClickHandler;
-import edu.wpi.capybara.objects.hibernate.EdgeEntity;
-import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import edu.wpi.capybara.objects.orm.Edge;
+import edu.wpi.capybara.objects.orm.Node;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
@@ -36,14 +36,14 @@ import lombok.extern.slf4j.Slf4j;
 public class MapViewController {
 
   private double mapX, mapY, mapW, mapH;
-  private Collection<NodeEntity> allNodes;
+  private Collection<Node> allNodes;
   private Image currentFloorImage;
   private final Canvas nodeDrawer;
   private final GraphicsContext gc;
   private final StackPane stackPane;
   private AnchorPane ap;
   private Pane canvasPane;
-  @Getter private List<NodeEntity> currentPath;
+  @Getter private List<Node> currentPath;
   private int lastX, lastY;
   private double canvasW, canvasH;
   private static final float SCROLL_SPEED = 1f;
@@ -53,7 +53,9 @@ public class MapViewController {
   private String currentFloor;
   private final PathfindingController controller;
   private final NodeCircleClickHandler onClick;
-  @Setter @Getter private NodeEntity startNode, endNode, selectedNode;
+  @Setter @Getter private Node startNode;
+    @Setter @Getter private Node endNode;
+    @Setter @Getter private Node selectedNode;
 
   public MapViewController(
       Canvas nodeDrawer,
@@ -242,7 +244,7 @@ public class MapViewController {
     drawNodes();
   }
 
-  public void displayPath(List<NodeEntity> nodes) {
+  public void displayPath(List<Node> nodes) {
     currentPath = nodes;
     isPath = true;
 
@@ -275,7 +277,7 @@ public class MapViewController {
       }
 
       gc.setFill(Color.BLUE);
-      for (NodeEntity n : allNodes) {
+      for (Node n : allNodes) {
         if (nodeInMapView(n)) {
           if (n == startNode || n == endNode || n == selectedNode) continue;
           drawNode(n);
@@ -288,7 +290,7 @@ public class MapViewController {
     }
   }
 
-  private boolean nodeInMapView(NodeEntity n) {
+  private boolean nodeInMapView(Node n) {
     return n.getXcoord() > mapX + scale(4)
         && n.getXcoord() < mapX + mapW - scale(4)
         && n.getYcoord() > mapY + scale(4)
@@ -296,11 +298,11 @@ public class MapViewController {
         && n.getFloor().equals(currentFloor);
   }
 
-  private void drawNode(NodeEntity node) {
+  private void drawNode(Node node) {
     drawNode(node, Color.BLUE);
   }
 
-  private void drawNode(NodeEntity node, Paint color) {
+  private void drawNode(Node node, Paint color) {
     if (node == null) {
       System.out.println("NULL NODE");
       return;
@@ -316,7 +318,7 @@ public class MapViewController {
   }
 
   private void drawNode(
-      NodeEntity node, Paint color, EventHandler<? super MouseEvent> eventHandler) {
+          Node node, Paint color, EventHandler<? super MouseEvent> eventHandler) {
     if (node == null) {
       System.out.println("NULL NODE");
       return;
@@ -335,9 +337,9 @@ public class MapViewController {
 
   private void drawEdges() {
     gc.setStroke(Color.RED);
-    for (EdgeEntity edge : Main.db.getEdges()) {
-      NodeEntity n1 = Main.db.getNodes().get(edge.getNode1());
-      NodeEntity n2 = Main.db.getNodes().get(edge.getNode2());
+    for (Edge edge : Main.db.getEdges()) {
+      Node n1 = Main.db.getNodes().get(edge.getNode1());
+      Node n2 = Main.db.getNodes().get(edge.getNode2());
       if (!n1.getFloor().equals(currentFloor) || !n2.getFloor().equals(currentFloor)) continue;
 
       gc.strokeLine(
@@ -351,7 +353,7 @@ public class MapViewController {
 
   private void drawPath() {
     for (int i = 1; i < currentPath.size(); i++) {
-      NodeEntity n1 = currentPath.get(i - 1), n2 = currentPath.get(i);
+      Node n1 = currentPath.get(i - 1), n2 = currentPath.get(i);
       if (n1.getFloor().equals(currentFloor)
           && !n2.getFloor().equals(currentFloor)
           && nodeInMapView(n1)) {
@@ -471,7 +473,7 @@ public class MapViewController {
     drawNodes();
   }
 
-  private void alertNewFloor(NodeEntity node, String fromFloor, String toFloor) {
+  private void alertNewFloor(Node node, String fromFloor, String toFloor) {
     MFXGenericDialogBuilder dialogBuilder = new MFXGenericDialogBuilder();
 
     Text title = new Text("Take " + node.getShortName() + " from " + fromFloor + " to " + toFloor);

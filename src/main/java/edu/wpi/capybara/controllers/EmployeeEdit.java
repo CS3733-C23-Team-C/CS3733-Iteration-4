@@ -2,7 +2,7 @@ package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
 import edu.wpi.capybara.Main;
-import edu.wpi.capybara.objects.hibernate.StaffEntity;
+import edu.wpi.capybara.objects.orm.Staff;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
@@ -14,7 +14,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.text.Text;
-import javax.swing.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -99,7 +98,7 @@ public class EmployeeEdit {
 
   public void searchEmployeeID(javafx.event.ActionEvent actionEvent) throws IOException {
 
-    StaffEntity s = null;
+    Staff s = null;
     if (staffIDField.getText() != null) {
       String outputID = staffIDField.getText();
       System.out.print("this is the employee ID" + outputID + "");

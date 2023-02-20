@@ -1,12 +1,14 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.objects.orm.Move;
+
 import java.util.ArrayList;
 
 public interface MoveDAO {
 
-  ArrayList<MoveEntity> getMoves();
+  ArrayList<Move> getMoves();
 
-  void addMove(MoveEntity submission);
+  void addMove(Move submission);
 
-  void deleteMove(MoveEntity move);
+  void deleteMove(Move move);
 }

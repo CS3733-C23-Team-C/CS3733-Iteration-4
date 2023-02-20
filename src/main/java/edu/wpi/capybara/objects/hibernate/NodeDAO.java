@@ -1,14 +1,16 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.objects.orm.Node;
+
 import java.util.HashMap;
 
 public interface NodeDAO {
 
-  HashMap<String, NodeEntity> getNodes();
+  HashMap<String, Node> getNodes();
 
-  NodeEntity getNode(String nodeid);
+  Node getNode(String nodeid);
 
-  void addNode(NodeEntity submission);
+  void addNode(Node submission);
 
   void deleteNode(String nodeid);
 }

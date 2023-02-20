@@ -3,13 +3,12 @@ package edu.wpi.capybara.controllers;
 import edu.wpi.capybara.App;
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.hibernate.*;
-import edu.wpi.capybara.objects.orm.AudioSubmission;
-import edu.wpi.capybara.objects.orm.CleaningSubmission;
+import edu.wpi.capybara.objects.orm.*;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.utils.EnumStringConverter;
-import java.util.HashMap;
+
 import java.util.Map;
 import java.util.Objects;
 import javafx.collections.FXCollections;
@@ -92,11 +91,11 @@ public class MyRequestsController {
     requestType.setItems(options);
 
     Map<Integer, CleaningSubmission> cleaningdata = Main.db.getCleaningSubs();
-    HashMap<Integer, TransportationsubmissionEntity> transportationdata =
+    Map<Integer, TransportationSubmission> transportationdata =
         Main.db.getTransportationSubs();
-    HashMap<Integer, SecuritysubmissionEntity> securitydata = Main.db.getSecuritySubs();
+    Map<Integer, SecuritySubmission> securitydata = Main.db.getSecuritySubs();
     Map<Integer, AudioSubmission> audiodata = Main.db.getAudioSubs();
-    HashMap<Integer, ComputersubmissionEntity> computerdata = Main.db.getComputerSubs();
+    Map<Integer, ComputerSubmission> computerdata = Main.db.getComputerSubs();
 
     /*cleaning columns*/
     cleanEmployeeAssigned.setCellValueFactory(
@@ -256,7 +255,7 @@ public class MyRequestsController {
           }
         });
 
-    for (TransportationsubmissionEntity sub : transportationdata.values()) {
+    for (TransportationSubmission sub : transportationdata.values()) {
       if (Objects.equals(App.getUser().getRole(), "admin")) {
         transportationRequestsList.add(sub);
       } else if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
@@ -335,7 +334,7 @@ public class MyRequestsController {
             clean.setUrgency(event.getNewValue());
           }
         });
-    for (SecuritysubmissionEntity sub : securitydata.values()) {
+    for (SecuritySubmission sub : securitydata.values()) {
       if (Objects.equals(App.getUser().getRole(), "admin")) {
         securityRequestsList.add(sub);
       } else if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
@@ -495,7 +494,7 @@ public class MyRequestsController {
             clean.setUrgency(event.getNewValue());
           }
         });
-    for (ComputersubmissionEntity sub : computerdata.values()) {
+    for (ComputerSubmission sub : computerdata.values()) {
       if (Objects.equals(App.getUser().getRole(), "admin")) {
         computerRequestsList.add(sub);
       } else if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {

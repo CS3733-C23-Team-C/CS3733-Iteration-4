@@ -1,14 +1,16 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.objects.orm.SecuritySubmission;
+
 import java.util.HashMap;
 
 public interface SecurityDAO {
 
-  HashMap<Integer, SecuritysubmissionEntity> getSecuritySubs();
+  HashMap<Integer, SecuritySubmission> getSecuritySubs();
 
-  SecuritysubmissionEntity getSecurity(int id);
+  SecuritySubmission getSecurity(int id);
 
-  void addSecurity(SecuritysubmissionEntity submission);
+  void addSecurity(SecuritySubmission submission);
 
   void deleteSecurity(int id);
 }

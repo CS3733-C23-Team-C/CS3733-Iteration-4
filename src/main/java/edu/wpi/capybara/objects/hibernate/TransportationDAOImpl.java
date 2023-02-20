@@ -5,25 +5,27 @@ import edu.wpi.capybara.database.newDBConnect;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
+import edu.wpi.capybara.objects.orm.TransportationSubmission;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class TransportationDAOImpl implements TransportationDAO {
-  HashMap<Integer, TransportationsubmissionEntity> transportationSubs = new HashMap();
+  HashMap<Integer, TransportationSubmission> transportationSubs = new HashMap();
 
   @Override
-  public HashMap<Integer, TransportationsubmissionEntity> getTransportationSubs() {
+  public HashMap<Integer, TransportationSubmission> getTransportationSubs() {
     return transportationSubs;
   }
 
   @Override
-  public TransportationsubmissionEntity getTransportation(int id) {
+  public TransportationSubmission getTransportation(int id) {
     return transportationSubs.get(id);
   }
 
   @Override
-  public void addTransportation(TransportationsubmissionEntity submission) {
+  public void addTransportation(TransportationSubmission submission) {
     newDBConnect.insertNew(submission);
     this.transportationSubs.put(submission.getSubmissionid(), submission);
   }
@@ -32,14 +34,14 @@ public class TransportationDAOImpl implements TransportationDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<Integer, TransportationsubmissionEntity> ret =
-        new HashMap<Integer, TransportationsubmissionEntity>();
+    HashMap<Integer, TransportationSubmission> ret =
+        new HashMap<>();
 
     try {
       tx = session.beginTransaction();
       List n = session.createQuery("FROM TransportationsubmissionEntity").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        TransportationsubmissionEntity temp = (TransportationsubmissionEntity) iterator.next();
+        TransportationSubmission temp = (TransportationsubmissionEntity) iterator.next();
         ret.put(temp.getSubmissionid(), temp);
       }
       tx.commit();

@@ -1,12 +1,14 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.objects.orm.Edge;
+
 import java.util.ArrayList;
 
 public interface EdgeDAO {
 
-  ArrayList<EdgeEntity> getEdges();
+  ArrayList<Edge> getEdges();
 
-  void addEdge(EdgeEntity edge);
+  void addEdge(Edge edge);
 
-  void deleteEdge(EdgeEntity edge);
+  void deleteEdge(Edge edge);
 }

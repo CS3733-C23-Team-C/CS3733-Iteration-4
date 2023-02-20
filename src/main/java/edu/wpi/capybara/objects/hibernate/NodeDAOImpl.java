@@ -5,25 +5,27 @@ import edu.wpi.capybara.database.newDBConnect;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
+import edu.wpi.capybara.objects.orm.Node;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class NodeDAOImpl implements NodeDAO {
-  HashMap<String, NodeEntity> nodes = new HashMap();
+  HashMap<String, Node> nodes = new HashMap();
 
   @Override
-  public HashMap<String, NodeEntity> getNodes() {
+  public HashMap<String, Node> getNodes() {
     return nodes;
   }
 
   @Override
-  public NodeEntity getNode(String nodeid) {
+  public Node getNode(String nodeid) {
     return nodes.get(nodeid);
   }
 
   @Override
-  public void addNode(NodeEntity submission) {
+  public void addNode(Node submission) {
     // Main.db.addNode(submission);
     newDBConnect.insertNew(submission);
     this.nodes.put(submission.getNodeid(), submission);
@@ -33,13 +35,13 @@ public class NodeDAOImpl implements NodeDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<String, NodeEntity> ret = new HashMap<String, NodeEntity>();
+    HashMap<String, Node> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();
       List n = session.createQuery("FROM NodeEntity ").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        NodeEntity temp = (NodeEntity) iterator.next();
+        Node temp = (NodeEntity) iterator.next();
         ret.put(temp.getNodeid(), temp);
       }
       tx.commit();

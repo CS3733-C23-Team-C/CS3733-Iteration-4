@@ -4,7 +4,7 @@ import edu.wpi.capybara.Main;
 import edu.wpi.capybara.exceptions.FloorDoesNotExistException;
 import edu.wpi.capybara.objects.NodeCircle;
 import edu.wpi.capybara.objects.PFNode;
-import edu.wpi.capybara.objects.hibernate.*;
+import edu.wpi.capybara.objects.orm.Node;
 import edu.wpi.capybara.pathfinding.AstarPathfinder;
 import edu.wpi.capybara.pathfinding.BFSPathfinder;
 import edu.wpi.capybara.pathfinding.DFSPathfinder;
@@ -58,7 +58,7 @@ public class PathfindingController {
     nodeDrawer.setPickOnBounds(true);
     nodeAnchorPane.setPickOnBounds(true);
 
-    Collection<NodeEntity> nodes = Main.db.getNodes().values();
+    Collection<Node> nodes = Main.db.getNodes().values();
 
     // log.info("1");
     mvc =
@@ -99,10 +99,10 @@ public class PathfindingController {
    */
 
   public void submitForm() throws FloorDoesNotExistException {
-    NodeEntity currRoomNode = currRoom.getValue().getNode();
-    NodeEntity destRoomNode = destRoom.getValue().getNode();
+    Node currRoomNode = currRoom.getValue().getNode();
+    Node destRoomNode = destRoom.getValue().getNode();
 
-    List<NodeEntity> path = pathfindingAlgorithm.getValue().findPath(currRoomNode, destRoomNode);
+    List<Node> path = pathfindingAlgorithm.getValue().findPath(currRoomNode, destRoomNode);
     if (path == null) return;
 
     mvc.displayPath(path);
@@ -161,7 +161,7 @@ public class PathfindingController {
     mvc.changeFloor(floorSelect.getSelectedItem());
   }
 
-  public PFNode getPFNode(NodeEntity node) {
+  public PFNode getPFNode(Node node) {
     for (PFNode pfNode : pfNodes) {
       if (pfNode.getNode().equals(node)) return pfNode;
     }
@@ -169,7 +169,7 @@ public class PathfindingController {
   }
 
   private void nodeClickedOnAction(MouseEvent event, NodeCircle nodeCircle) {
-    NodeEntity node = nodeCircle.getConnectedNode();
+    Node node = nodeCircle.getConnectedNode();
     PFNode pfNode = getPFNode(node);
 
     MFXGenericDialogBuilder dialogBuilder = new MFXGenericDialogBuilder();

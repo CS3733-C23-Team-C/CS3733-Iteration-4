@@ -1,18 +1,20 @@
 package edu.wpi.capybara.pathfinding;
 
 import edu.wpi.capybara.objects.hibernate.EdgeEntity;
-import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import edu.wpi.capybara.objects.orm.Edge;
+import edu.wpi.capybara.objects.orm.Node;
+
 import java.util.*;
 
 public class BFSPathfinder implements PathfindingAlgorithm {
-  private final Map<String, NodeEntity> nodes;
-  private final List<EdgeEntity> edges;
+  private final Map<String, Node> nodes;
+  private final List<Edge> edges;
 
-  public Map<String, NodeEntity> getNodes() {
+  public Map<String, Node> getNodes() {
     return nodes;
   }
 
-  public List<EdgeEntity> getEdges() {
+  public List<Edge> getEdges() {
     return edges;
   }
 
@@ -20,9 +22,9 @@ public class BFSPathfinder implements PathfindingAlgorithm {
     return "BFS Pathfinder";
   }
 
-  public List<NodeEntity> findPath(String start, String end) {
-    NodeEntity startNode = getNodeFromNodeID(start);
-    NodeEntity endNode = getNodeFromNodeID(end);
+  public List<Node> findPath(String start, String end) {
+    Node startNode = getNodeFromNodeID(start);
+    Node endNode = getNodeFromNodeID(end);
 
     if (startNode == null || endNode == null) {
       throw new RuntimeException("One of the NodeID doesn't exist!");
@@ -31,7 +33,7 @@ public class BFSPathfinder implements PathfindingAlgorithm {
     return bfs(startNode, endNode);
   }
 
-  public List<NodeEntity> findPath(NodeEntity start, NodeEntity end) {
+  public List<Node> findPath(Node start, Node end) {
 
     if (start == null || end == null) {
       throw new RuntimeException("One of the NodeID doesn't exist!");
@@ -40,36 +42,36 @@ public class BFSPathfinder implements PathfindingAlgorithm {
     return bfs(start, end);
   }
 
-  public NodeEntity getNodeFromNodeID(String s) {
-    for (NodeEntity node : nodes.values()) {
+  public Node getNodeFromNodeID(String s) {
+    for (Node node : nodes.values()) {
       if (node.getNodeid().equals(s)) return node;
     }
     return null;
   }
 
-  public BFSPathfinder(Map<String, NodeEntity> nodes, List<EdgeEntity> edges) {
+  public BFSPathfinder(Map<String, Node> nodes, List<Edge> edges) {
     this.nodes = nodes;
     this.edges = edges;
   }
 
-  private List<NodeEntity> bfs(NodeEntity start, NodeEntity goal) {
+  private List<Node> bfs(Node start, Node goal) {
 
     LinkedList<BFSPathNode> queue = new LinkedList<BFSPathNode>();
-    queue.add(new BFSPathNode(start, new LinkedList<NodeEntity>()));
-    ArrayList<NodeEntity> checkedNodes = new ArrayList<NodeEntity>();
+    queue.add(new BFSPathNode(start, new LinkedList<>()));
+    ArrayList<Node> checkedNodes = new ArrayList<>();
 
     while (queue.peek() != null) {
 
       BFSPathNode bfsnode1 = queue.remove();
-      NodeEntity node1 = bfsnode1.getNode();
-      List<NodeEntity> nodePath = bfsnode1.getPath();
+      Node node1 = bfsnode1.getNode();
+      List<Node> nodePath = bfsnode1.getPath();
 
       checkedNodes.add(node1);
       nodePath.add(node1);
 
       HashSet<EdgeEntity> edges1 = node1.getEdges();
       for (EdgeEntity edge : edges1) {
-        NodeEntity node2 = this.getNodeFromNodeID(edge.getOtherNode(node1));
+        Node node2 = this.getNodeFromNodeID(edge.getOtherNode(node1));
         if (node2.equals(goal)) {
           nodePath.add(goal);
           return nodePath;
@@ -84,23 +86,23 @@ public class BFSPathfinder implements PathfindingAlgorithm {
 
   private static class BFSPathNode {
 
-    private NodeEntity node;
-    private List<NodeEntity> path;
+    private Node node;
+    private List<Node> path;
 
-    public BFSPathNode(NodeEntity node, List<NodeEntity> path) {
+    public BFSPathNode(Node node, List<Node> path) {
       this.node = node;
       this.path = path;
     }
 
-    public NodeEntity getNode() {
+    public Node getNode() {
       return node;
     }
 
-    public void setNode(NodeEntity node) {
+    public void setNode(Node node) {
       this.node = node;
     }
 
-    public List<NodeEntity> getPath() {
+    public List<Node> getPath() {
       return path;
     }
   }

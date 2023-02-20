@@ -1,6 +1,6 @@
 package edu.wpi.capybara.controllers.mapeditor.adapters;
 
-import edu.wpi.capybara.objects.hibernate.EdgeEntity;
+import edu.wpi.capybara.objects.orm.Edge;
 import javafx.beans.property.adapter.JavaBeanStringProperty;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 
@@ -10,12 +10,12 @@ public class EdgeAdapter {
   private static final JavaBeanStringPropertyBuilder endNodeBuilder =
       JavaBeanStringPropertyBuilder.create().name("node2");
 
-  private final EdgeEntity entity;
+  private final Edge entity;
 
   private final JavaBeanStringProperty startNode;
   private final JavaBeanStringProperty endNode;
 
-  public EdgeAdapter(EdgeEntity edge) {
+  public EdgeAdapter(Edge edge) {
     entity = edge;
     try {
       startNode = startNodeBuilder.bean(edge).build();
@@ -26,7 +26,7 @@ public class EdgeAdapter {
     }
   }
 
-  public EdgeAdapter(EdgeEntity edge, NodeAdapter startNode, NodeAdapter endNode) {
+  public EdgeAdapter(Edge edge, NodeAdapter startNode, NodeAdapter endNode) {
     this(edge);
     this.startNode.bind(startNode.nodeIDProperty());
     this.endNode.bind(endNode.nodeIDProperty());
@@ -56,7 +56,7 @@ public class EdgeAdapter {
     return endNode;
   }
 
-  public EdgeEntity getEntity() {
+  public Edge getEntity() {
     return entity;
   }
 }

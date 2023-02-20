@@ -5,25 +5,27 @@ import edu.wpi.capybara.database.newDBConnect;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+
+import edu.wpi.capybara.objects.orm.Location;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class LocationnameDAOImpl implements LocationnameDAO {
-  HashMap<String, LocationnameEntity> locationnames = new HashMap();
+  HashMap<String, Location> locationnames = new HashMap();
 
   @Override
-  public HashMap<String, LocationnameEntity> getLocationnames() {
+  public HashMap<String, Location> getLocationnames() {
     return locationnames;
   }
 
   @Override
-  public LocationnameEntity getLocationname(String longname) {
+  public Location getLocationname(String longname) {
     return locationnames.get(longname);
   }
 
   @Override
-  public void addLocationname(LocationnameEntity submission) {
+  public void addLocationname(Location submission) {
     newDBConnect.insertNew(submission);
     this.locationnames.put(submission.getLongname(), submission);
   }
@@ -38,13 +40,13 @@ public class LocationnameDAOImpl implements LocationnameDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<String, LocationnameEntity> ret = new HashMap<String, LocationnameEntity>();
+    HashMap<String, Location> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();
       List n = session.createQuery("FROM LocationnameEntity ").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        LocationnameEntity temp = (LocationnameEntity) iterator.next();
+        Location temp = (LocationnameEntity) iterator.next();
         ret.put(temp.getLongname(), temp);
       }
       tx.commit();

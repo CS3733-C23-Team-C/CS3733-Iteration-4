@@ -8,6 +8,8 @@ import edu.wpi.capybara.controllers.mapeditor.adapters.NodeAdapter;
 import edu.wpi.capybara.objects.Floor;
 import edu.wpi.capybara.objects.math.Vector2;
 import java.util.Objects;
+
+import edu.wpi.capybara.objects.orm.Node;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.SetChangeListener;
@@ -111,7 +113,7 @@ public class MapEditorPane extends SplitPane {
     }
 
     private void bindStartNodeProps() {
-      final var startNode = db.getNode(edge.getStartNode());
+      final Node startNode = db.getNode(edge.getStartNode());
       // the *only* reason we can get away with not binding the properties is because editing x and
       // y values of
       // nodes requires deleting and replacing them. if we could actually edit the x & y values,
@@ -127,7 +129,7 @@ public class MapEditorPane extends SplitPane {
     }
 
     private void bindEndNodeProps() {
-      final var endNode = db.getNode(edge.getEndNode());
+      final Node endNode = db.getNode(edge.getEndNode());
       endXProperty().setValue(endNode.getXcoord());
       endYProperty().setValue(endNode.getYcoord());
     }

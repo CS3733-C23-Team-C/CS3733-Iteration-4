@@ -5,20 +5,22 @@ import edu.wpi.capybara.database.newDBConnect;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import edu.wpi.capybara.objects.orm.Move;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class MoveDAOImpl implements MoveDAO {
-  ArrayList<MoveEntity> moves = new ArrayList<>();
+  ArrayList<Move> moves = new ArrayList<>();
 
   @Override
-  public ArrayList<MoveEntity> getMoves() {
+  public ArrayList<Move> getMoves() {
     return moves;
   }
 
   @Override
-  public void addMove(MoveEntity submission) {
+  public void addMove(Move submission) {
     newDBConnect.insertNew(submission);
     this.moves.add(submission);
   }
@@ -27,13 +29,13 @@ public class MoveDAOImpl implements MoveDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    ArrayList<MoveEntity> ret = new ArrayList<MoveEntity>();
+    ArrayList<Move> ret = new ArrayList<>();
 
     try {
       tx = session.beginTransaction();
       List n = session.createQuery("FROM MoveEntity ").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        MoveEntity temp = (MoveEntity) iterator.next();
+        Move temp = (MoveEntity) iterator.next();
         ret.add(temp);
       }
       tx.commit();
@@ -47,7 +49,7 @@ public class MoveDAOImpl implements MoveDAO {
   }
 
   @Override
-  public void deleteMove(MoveEntity move) {
+  public void deleteMove(Move move) {
     newDBConnect.delete(move);
     moves.remove(move);
   }

@@ -7,18 +7,25 @@ import static org.mockito.Mockito.when;
 
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.database.newDBConnect;
-import edu.wpi.capybara.objects.hibernate.EdgeEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import java.util.*;
+
+import edu.wpi.capybara.objects.orm.Edge;
+import edu.wpi.capybara.objects.orm.Node;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.powermock.reflect.Whitebox;
 
 public class AstarPathfinderTest {
 
-  static NodeEntity current, n1, n2, goal;
-  static Map<String, NodeEntity> nodes, mockNodes;
-  static List<EdgeEntity> edges, mockEdges;
+  static Node current;
+    static Node n1;
+    static Node n2;
+    static Node goal;
+  static Map<String, Node> nodes;
+    static Map<String, Node> mockNodes;
+  static List<Edge> edges;
+  static List<Edge> mockEdges;
 
   @BeforeAll
   public static void init() {
@@ -55,13 +62,13 @@ public class AstarPathfinderTest {
     nodes = Main.db.getNodes();
     edges = Main.db.getEdges();
 
-    mockNodes = new HashMap<>();
+    mockNodes = new HashMap<String, edu.wpi.capybara.objects.orm.Node>();
     mockNodes.put("testA", current);
     mockNodes.put("testB", n1);
     mockNodes.put("testC", n2);
     mockNodes.put("testD", goal);
 
-    mockEdges = new ArrayList<>();
+    mockEdges = new ArrayList<edu.wpi.capybara.objects.orm.Edge>();
   }
 
   @Test
@@ -77,7 +84,7 @@ public class AstarPathfinderTest {
   @Test
   public void testSimplePath() {
     AstarPathfinder pf = new AstarPathfinder(nodes, edges);
-    List<NodeEntity> path = pf.findPath("2X1726Y1930", "2X1686Y1931");
+    List<Node> path = pf.findPath("2X1726Y1930", "2X1686Y1931");
 
     assertEquals(path.size(), 2);
   }

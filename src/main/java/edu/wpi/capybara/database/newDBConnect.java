@@ -2,8 +2,7 @@ package edu.wpi.capybara.database;
 
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.hibernate.*;
-import edu.wpi.capybara.objects.orm.AudioSubmission;
-import edu.wpi.capybara.objects.orm.CleaningSubmission;
+import edu.wpi.capybara.objects.orm.*;
 import jakarta.persistence.PersistenceException;
 import java.util.*;
 import org.hibernate.HibernateException;
@@ -106,57 +105,57 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
-  public HashMap<Integer, ComputersubmissionEntity> getComputerSubs() {
+  public Map<Integer, ComputerSubmission> getComputerSubs() {
     return computer.getComputerSubs();
   }
 
   @Override
-  public HashMap<Integer, SecuritysubmissionEntity> getSecuritySubs() {
+  public Map<Integer, SecuritySubmission> getSecuritySubs() {
     return security.getSecuritySubs();
   }
 
   @Override
-  public HashMap<Integer, TransportationsubmissionEntity> getTransportationSubs() {
+  public Map<Integer, TransportationSubmission> getTransportationSubs() {
     return transportation.getTransportationSubs();
   }
 
   @Override
-  public HashMap<String, LocationnameEntity> getLocationnames() {
+  public Map<String, Location> getLocationnames() {
     return locationname.getLocationnames();
   }
 
   @Override
-  public HashMap<String, NodeEntity> getNodes() {
+  public Map<String, Node> getNodes() {
     return node.getNodes();
   }
 
   @Override
-  public HashMap<String, StaffEntity> getStaff() {
+  public Map<String, Staff> getStaff() {
     return staff.getStaff();
   }
 
   @Override
-  public ArrayList<EdgeEntity> getEdges() {
+  public List<Edge> getEdges() {
     return edge.getEdges();
   }
 
   @Override
-  public ArrayList<MoveEntity> getMoves() {
+  public List<Move> getMoves() {
     return move.getMoves();
   }
 
   @Override
-  public HashMap<Integer, MessagesEntity> getMessages() {
+  public Map<Integer, Messages> getMessages() {
     return message.getMessages();
   }
 
   @Override
-  public HashMap<Integer, MessagesEntity> getMessages(String id) {
+  public Map<Integer, Messages> getMessages(String id) {
     return message.getMessages(id);
   }
 
   @Override
-  public HashMap<Integer, MessagesEntity> getMessages(String id, int lastid) {
+  public Map<Integer, Messages> getMessages(String id, int lastid) {
     return message.getMessages(id, lastid);
   }
 
@@ -171,48 +170,48 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
-  public void addComputer(ComputersubmissionEntity submission) {
+  public void addComputer(ComputerSubmission submission) {
     computer.addComputer(submission);
   }
 
   @Override
-  public void addSecurity(SecuritysubmissionEntity submission) {
+  public void addSecurity(SecuritySubmission submission) {
     security.addSecurity(submission);
   }
 
   @Override
-  public void addTransportation(TransportationsubmissionEntity submission) {
+  public void addTransportation(TransportationSubmission submission) {
     transportation.addTransportation(submission);
   }
 
   @Override
-  public void addLocationname(LocationnameEntity submission) {
+  public void addLocationname(Location submission) {
     locationname.addLocationname(submission);
   }
 
   @Override
-  public void addNode(NodeEntity submission) {
+  public void addNode(Node submission) {
     node.addNode(submission);
   }
 
   @Override
-  public void addStaff(StaffEntity submission) {
+  public void addStaff(Staff submission) {
     staff.addStaff(submission);
   }
 
   @Override
-  public void addEdge(EdgeEntity submission) {
+  public void addEdge(Edge submission) {
     edge.addEdge(submission);
   }
 
   @Override
-  public boolean addMove(MoveEntity submission) {
+  public boolean addMove(Move submission) {
 
     // Get most recent locations
     java.util.Date date = new java.util.Date();
-    HashMap<String, MoveEntity> currentLocations = new HashMap<String, MoveEntity>();
-    for (MoveEntity move : Main.db.getMoves()) {
-      MoveEntity temp = currentLocations.get(move.getLongname());
+    HashMap<String, Move> currentLocations = new HashMap<>();
+    for (Move move : Main.db.getMoves()) {
+      Move temp = currentLocations.get(move.getLongname());
       if (temp == null) {
         currentLocations.put(move.getLongname(), move);
       } else {
@@ -226,7 +225,7 @@ public class newDBConnect implements RepoFacade {
 
     // count number of moves at a location
     int num = 0;
-    for (MoveEntity move : currentLocations.values()) {
+    for (Move move : currentLocations.values()) {
       if (move.getNodeid().equals(submission.getNodeid())) {
         num++;
       }
@@ -240,7 +239,7 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
-  public void addMessage(MessagesEntity addition) {
+  public void addMessage(Messages addition) {
     message.addMessage(addition);
   }
 
@@ -255,37 +254,37 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
-  public ComputersubmissionEntity getComputer(int id) {
+  public ComputerSubmission getComputer(int id) {
     return computer.getComputer(id);
   }
 
   @Override
-  public SecuritysubmissionEntity getSecurity(int id) {
+  public SecuritySubmission getSecurity(int id) {
     return security.getSecurity(id);
   }
 
   @Override
-  public TransportationsubmissionEntity getTransportation(int id) {
+  public TransportationSubmission getTransportation(int id) {
     return transportation.getTransportation(id);
   }
 
   @Override
-  public LocationnameEntity getLocationname(String longname) {
+  public Location getLocationname(String longname) {
     return locationname.getLocationname(longname);
   }
 
   @Override
-  public NodeEntity getNode(String nodeid) {
+  public Node getNode(String nodeid) {
     return node.getNode(nodeid);
   }
 
   @Override
-  public StaffEntity getStaff(String staffid) {
+  public Staff getStaff(String staffid) {
     return staff.getStaff(staffid);
   }
 
-  public StaffEntity getStaff(String Staffid, String password) {
-    for (StaffEntity s : staff.getStaff().values()) {
+  public Staff getStaff(String Staffid, String password) {
+    for (Staff s : staff.getStaff().values()) {
       if (s.getStaffid().equals(Staffid) && s.getPassword().equals(password)) {
         return s;
       }
@@ -293,8 +292,8 @@ public class newDBConnect implements RepoFacade {
     return null;
   }
 
-  public StaffEntity getStaff2(String firstName, String lastName) {
-    for (StaffEntity s : staff.getStaff().values()) {
+  public Staff getStaff2(String firstName, String lastName) {
+    for (Staff s : staff.getStaff().values()) {
       if (s.getFirstname().equals(firstName) && s.getLastname().equals(lastName)) {
         return s;
       }
@@ -303,7 +302,7 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
-  public MessagesEntity getMessage(int messageid) {
+  public Messages getMessage(int messageid) {
     return message.getMessage(messageid);
   }
 
@@ -350,7 +349,7 @@ public class newDBConnect implements RepoFacade {
     transportation.deleteTransportation(id);
   }
 
-  public void deleteEdge(EdgeEntity edge) {
+  public void deleteEdge(Edge edge) {
     this.edge.deleteEdge(edge);
   }
 
@@ -358,7 +357,7 @@ public class newDBConnect implements RepoFacade {
     locationname.deleteLocationname(longname);
   }
 
-  public void deleteMove(MoveEntity move) {
+  public void deleteMove(Move move) {
     this.move.deleteMove(move);
   }
 
