@@ -31,7 +31,9 @@ public interface RepoFacade {
 
   HashMap<Integer, MessagesEntity> getMessages();
 
-  public HashMap<Integer, MessagesEntity> getMessages(String id);
+  HashMap<Integer, MessagesEntity> getMessages(String id);
+
+  HashMap<Integer, MessagesEntity> getMessages(String id, int lastid);
 
   // Add method
   // Submissions

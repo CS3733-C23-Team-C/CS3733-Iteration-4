@@ -82,7 +82,12 @@ public class SignUpPageController {
           signUpButton.setText("Login");
 
           newUserTxt.setText(
-              "User " + outputLastname + "," + outputFirstname + " successfully created with staff id " + newStaffID);
+              "User "
+                  + outputLastname
+                  + ","
+                  + outputFirstname
+                  + " successfully created with staff id "
+                  + newStaffID);
         } else {
           // if username and password are already in the system
           // App.setUser(s);

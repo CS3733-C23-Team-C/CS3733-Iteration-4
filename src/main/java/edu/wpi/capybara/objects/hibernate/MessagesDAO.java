@@ -15,4 +15,6 @@ public interface MessagesDAO {
   int generateMessageID();
 
   HashMap<Integer, MessagesEntity> getMessages(String id);
+
+  HashMap<Integer, MessagesEntity> getMessages(String id, int lastID);
 }

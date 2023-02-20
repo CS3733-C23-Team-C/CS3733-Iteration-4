@@ -27,8 +27,40 @@ public class MessagesDAOImpl implements MessagesDAO {
 
     try {
       tx = session.beginTransaction();
-      Query query = session.createQuery("FROM MessagesEntity WHERE receivingid = :staff");
+      Query query =
+          session.createQuery(
+              "FROM MessagesEntity WHERE receivingid = :staff " + "ORDER BY date DESC");
       query.setParameter("staff", staff);
+      List n = query.list();
+      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
+        MessagesEntity temp = (MessagesEntity) iterator.next();
+        ret.put(temp.getMessageid(), temp);
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return ret;
+  }
+
+  public HashMap<Integer, MessagesEntity> getMessages(String staff, int lastid) {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+
+    HashMap<Integer, MessagesEntity> ret = new HashMap<Integer, MessagesEntity>();
+
+    try {
+      tx = session.beginTransaction();
+      Query query =
+          session.createQuery(
+              "FROM MessagesEntity WHERE receivingid = :staff AND messageid > :lastid "
+                  + "ORDER BY date DESC");
+      query.setParameter("staff", staff);
+      query.setParameter("lastid", lastid);
+
       List n = query.list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         MessagesEntity temp = (MessagesEntity) iterator.next();

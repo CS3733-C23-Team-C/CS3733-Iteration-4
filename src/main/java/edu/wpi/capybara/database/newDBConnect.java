@@ -154,6 +154,11 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
+  public HashMap<Integer, MessagesEntity> getMessages(String id, int lastid) {
+    return message.getMessages(id, lastid);
+  }
+
+  @Override
   public void addAudio(AudiosubmissionEntity submission) {
     audio.addAudio(submission);
   }
@@ -371,7 +376,6 @@ public class newDBConnect implements RepoFacade {
     try {
       Thread.sleep(delay * 1000);
       importAudio();
-      System.out.println("imported Audio!");
       Thread.sleep(delay * 1000);
       importCleaning();
       Thread.sleep(delay * 1000);
