@@ -1,14 +1,18 @@
 package edu.wpi.capybara.pathfinding;
 
+import edu.wpi.capybara.controllers.PathfindingController;
 import edu.wpi.capybara.objects.hibernate.EdgeEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import edu.wpi.capybara.pathfinding.costs.PathfindingCost;
+import edu.wpi.capybara.pathfinding.skips.PathfindingSkip;
 import java.util.*;
 
 public class AstarPathfinder implements PathfindingAlgorithm {
   private final Map<String, NodeEntity> nodes;
   private final List<EdgeEntity> edges;
+  private final PathfindingController controller;
 
-  private static class PathNode implements Comparable<PathNode> {
+  private class PathNode implements Comparable<PathNode> {
     List<NodeEntity> path;
     List<EdgeEntity> edges;
     NodeEntity node, current, goal;
@@ -27,13 +31,14 @@ public class AstarPathfinder implements PathfindingAlgorithm {
         List<EdgeEntity> edges,
         NodeEntity node,
         NodeEntity current,
-        NodeEntity goal) {
+        NodeEntity goal,
+        double pCost) {
       this.path = list;
       this.edges = edges;
       this.node = node;
       this.current = current;
       this.goal = goal;
-      this.weight = getCost();
+      this.weight = getCost() + pCost;
     }
 
     @Override
@@ -88,6 +93,7 @@ public class AstarPathfinder implements PathfindingAlgorithm {
     List<PathNode> openList = new ArrayList<>();
     List<NodeEntity> closedList = new ArrayList<>();
     NodeEntity current = start;
+    double currentWeight = 0;
     List<NodeEntity> currentPath = new ArrayList<>();
     List<EdgeEntity> currentEdges = new ArrayList<>();
 
@@ -110,10 +116,19 @@ public class AstarPathfinder implements PathfindingAlgorithm {
         // System.out.println(closedList);
 
         if (closedList.contains(otherNode)) continue;
+
+        boolean addNode = true;
+        for (PathfindingSkip skip : controller.getSkips()) {
+          if (skip.shouldSkip(current, otherNode)) {
+            addNode = false;
+            break;
+          }
+        }
+
         // System.out.println("Adding Node to openList");
 
-        PathNode pn = new PathNode(newPath, newEdges, otherNode, current, goal);
-        openList.add(pn);
+        PathNode pn = new PathNode(newPath, newEdges, otherNode, current, goal, currentWeight);
+        if (addNode) openList.add(pn);
         closedList.add(otherNode);
       }
 
@@ -126,17 +141,27 @@ public class AstarPathfinder implements PathfindingAlgorithm {
       current = next.node;
       currentPath = next.path;
       currentEdges = next.edges;
+      currentWeight = next.weight;
     }
   }
 
-  private static double cost(NodeEntity current, NodeEntity n, NodeEntity goal) {
-    float multiplier = 1f;
+  private double cost(NodeEntity current, NodeEntity n, NodeEntity goal) {
+    double additionalCost = 0;
 
-    if (!n.getFloor().equals(current.getFloor())) {
-      multiplier = 5f;
+    for (PathfindingCost cost : controller.getCosts()) {
+      if (cost.doesUseCost(current, n)) additionalCost += cost.calculateCost(current, n);
     }
 
-    return (calculateWeight(current, n) + calculateWeight(n, goal)) * multiplier;
+    double cost = (calculateWeight(current, n) + calculateWeight(n, goal)) + additionalCost;
+    System.out.println("Cost: " + cost);
+    return cost;
+  }
+
+  private static int floorDifference(NodeEntity n1, NodeEntity n2) {
+    int n1Floor = NodeEntity.floorToNum(n1.getFloor());
+    int n2Floor = NodeEntity.floorToNum(n2.getFloor());
+
+    return n2Floor - n1Floor;
   }
 
   private static double calculateWeight(NodeEntity n1, NodeEntity n2) { // move function for a*
@@ -146,9 +171,11 @@ public class AstarPathfinder implements PathfindingAlgorithm {
     return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
   }
 
-  public AstarPathfinder(Map<String, NodeEntity> nodes, List<EdgeEntity> edges) {
+  public AstarPathfinder(
+      Map<String, NodeEntity> nodes, List<EdgeEntity> edges, PathfindingController controller) {
     this.nodes = nodes;
     this.edges = edges;
+    this.controller = controller;
   }
 
   @Override

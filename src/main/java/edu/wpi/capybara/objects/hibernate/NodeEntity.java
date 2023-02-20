@@ -135,6 +135,32 @@ public class NodeEntity {
     return null;
   }
 
+  public String getLocationType() {
+    ArrayList<MoveEntity> moves = Main.db.getMoves();
+    Date temp = new Date((long) 0);
+    String longname = null;
+    for (MoveEntity m : moves) {
+      if (m.getNodeid().equals(this.nodeid)) {
+        if (m.getMovedate().compareTo(temp) > 0) {
+          // System.out.println("select!");
+          temp = m.getMovedate();
+          longname = m.getLongname();
+        }
+      }
+    }
+    if (longname == null) {
+      return "NA";
+    }
+    HashMap<String, LocationnameEntity> locations = Main.db.getLocationnames();
+    for (LocationnameEntity location : locations.values()) {
+      if (longname.equals(location.getLongname())) {
+        return location.getLocationtype();
+      }
+    }
+
+    return null;
+  }
+
   public HashSet<EdgeEntity> getEdges() {
     HashSet<EdgeEntity> ret = new HashSet<EdgeEntity>();
 
@@ -173,5 +199,14 @@ public class NodeEntity {
   @Override
   public int hashCode() {
     return Objects.hash(nodeid, xcoord, ycoord, floor, building);
+  }
+
+  public static int floorToNum(String floor) {
+    if (floor.equals("L2")) return -1;
+    if (floor.equals("L1")) return 0;
+    if (floor.equals("1")) return 1;
+    if (floor.equals("2")) return 2;
+    if (floor.equals("3")) return 3;
+    return 0;
   }
 }

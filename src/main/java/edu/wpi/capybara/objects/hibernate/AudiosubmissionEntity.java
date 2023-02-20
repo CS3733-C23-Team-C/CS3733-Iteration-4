@@ -1,6 +1,7 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.objects.SubmissionAbs;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import jakarta.persistence.*;
 import java.sql.Date;
@@ -10,7 +11,7 @@ import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "audiosubmission", schema = "cdb", catalog = "teamcdb")
-public class AudiosubmissionEntity {
+public class AudiosubmissionEntity extends SubmissionAbs {
   @Id
   @Column(name = "submissionid")
   private int submissionid;

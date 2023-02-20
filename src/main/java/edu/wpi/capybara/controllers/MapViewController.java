@@ -5,13 +5,16 @@ import edu.wpi.capybara.exceptions.FloorDoesNotExistException;
 import edu.wpi.capybara.objects.ImageLoader;
 import edu.wpi.capybara.objects.NodeCircle;
 import edu.wpi.capybara.objects.NodeCircleClickHandler;
+import edu.wpi.capybara.objects.SubmissionAbs;
 import edu.wpi.capybara.objects.hibernate.EdgeEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.*;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -255,6 +258,7 @@ public class MapViewController {
     gc.clearRect(0, 0, canvasW, canvasH);
     gc.drawImage(currentFloorImage, mapX, mapY, mapW, mapH, 0, 0, canvasW, canvasH);
     ap.getChildren().removeIf(node -> node.getClass() == NodeCircle.class);
+    ap.getChildren().removeIf(node -> node.getClass() == Text.class);
 
     // System.out.println("window: " + mapX + " x " + mapY + " size: " + mapW + " x " + mapH);
 
@@ -306,13 +310,27 @@ public class MapViewController {
       return;
     }
 
-    NodeCircle testCircle = new NodeCircle(scale(4), color, node);
+    NodeCircle testCircle;
+    Set<SubmissionAbs> requests = getServiceRequests(node);
+    if (requests.size() > 0 && controller.getServiceRequest().isSelected()) {
+      testCircle = new NodeCircle(scale(4), Color.ORANGE, node, requests);
+    } else {
+      testCircle = new NodeCircle(scale(4), color, node);
+    }
     ap.getChildren().add(testCircle);
     testCircle.setCenterX(locToMapX(node.getXcoord()));
     testCircle.setCenterY(locToMapY(node.getYcoord()));
     testCircle.setCursor(Cursor.HAND);
     testCircle.setPickOnBounds(true);
     testCircle.setOnMousePressed(event -> onClick.handle(event, testCircle));
+
+    if (controller.getLocationNames().isSelected()) {
+      Text locationNameText = new Text(node.getShortName());
+      locationNameText.setX(locToMapX(node.getXcoord()));
+      locationNameText.setY(locToMapY(node.getYcoord()) - scale(5));
+      locationNameText.setFill(color);
+      ap.getChildren().add(locationNameText);
+    }
   }
 
   private void drawNode(
@@ -322,7 +340,14 @@ public class MapViewController {
       return;
     }
 
-    NodeCircle testCircle = new NodeCircle(scale(4), color, node);
+    NodeCircle testCircle;
+    Set<SubmissionAbs> requests = getServiceRequests(node);
+
+    if (requests.size() > 0 && controller.getServiceRequest().isSelected()) {
+      testCircle = new NodeCircle(scale(4), Color.ORANGE, node, requests);
+    } else {
+      testCircle = new NodeCircle(scale(4), color, node);
+    }
     ap.getChildren().add(testCircle);
     testCircle.setCenterX(locToMapX(node.getXcoord()));
     testCircle.setCenterY(locToMapY(node.getYcoord()));
@@ -331,6 +356,45 @@ public class MapViewController {
     testCircle.setOnMousePressed(eventHandler);
     testCircle.setOnMouseEntered((event) -> System.out.println("test in"));
     testCircle.setOnMouseExited((event) -> System.out.println("test out"));
+
+    if (controller.getLocationNames().isSelected()) {
+      Text locationNameText = new Text(node.getShortName());
+      locationNameText.setX(locToMapX(node.getXcoord()));
+      locationNameText.setY(locToMapY(node.getYcoord()) - scale(5));
+      locationNameText.setFill(color);
+      ap.getChildren().add(locationNameText);
+    }
+  }
+
+  private Set<SubmissionAbs> getServiceRequests(NodeEntity node) {
+    Set<SubmissionAbs> requests = new HashSet<>();
+
+    for (SubmissionAbs sub : Main.db.getAudioSubs().values()) {
+      NodeEntity ne = sub.getLocationNode(controller.getMoveDate());
+      if (ne != null && ne.equals(node)) requests.add(sub);
+    }
+
+    for (SubmissionAbs sub : Main.db.getCleaningSubs().values()) {
+      NodeEntity ne = sub.getLocationNode(controller.getMoveDate());
+      if (ne != null && ne.equals(node)) requests.add(sub);
+    }
+
+    for (SubmissionAbs sub : Main.db.getComputerSubs().values()) {
+      NodeEntity ne = sub.getLocationNode(controller.getMoveDate());
+      if (ne != null && ne.equals(node)) requests.add(sub);
+    }
+
+    for (SubmissionAbs sub : Main.db.getSecuritySubs().values()) {
+      NodeEntity ne = sub.getLocationNode(controller.getMoveDate());
+      if (ne != null && ne.equals(node)) requests.add(sub);
+    }
+
+    for (SubmissionAbs sub : Main.db.getTransportationSubs().values()) {
+      NodeEntity ne = sub.getLocationNode(controller.getMoveDate());
+      if (ne != null && ne.equals(node)) requests.add(sub);
+    }
+
+    return requests;
   }
 
   private void drawEdges() {
@@ -498,6 +562,7 @@ public class MapViewController {
         });
     dialog.setOnClose((event1 -> stackPane.getChildren().removeAll(dialog)));
 
+    controller.removeCurrentDialog();
     stackPane.getChildren().add(dialog);
   }
 }

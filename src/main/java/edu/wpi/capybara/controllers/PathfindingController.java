@@ -4,14 +4,20 @@ import edu.wpi.capybara.Main;
 import edu.wpi.capybara.exceptions.FloorDoesNotExistException;
 import edu.wpi.capybara.objects.NodeCircle;
 import edu.wpi.capybara.objects.PFNode;
+import edu.wpi.capybara.objects.SubmissionAbs;
 import edu.wpi.capybara.objects.hibernate.*;
 import edu.wpi.capybara.pathfinding.AstarPathfinder;
 import edu.wpi.capybara.pathfinding.BFSPathfinder;
 import edu.wpi.capybara.pathfinding.DFSPathfinder;
 import edu.wpi.capybara.pathfinding.PathfindingAlgorithm;
+import edu.wpi.capybara.pathfinding.costs.ElevatorCost;
+import edu.wpi.capybara.pathfinding.costs.PathfindingCost;
+import edu.wpi.capybara.pathfinding.costs.StairsCost;
+import edu.wpi.capybara.pathfinding.skips.PathfindingSkip;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
+import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
 import java.sql.Date;
@@ -21,12 +27,15 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -43,10 +52,13 @@ public class PathfindingController {
   @FXML private MFXDatePicker dateField;
   @FXML private MFXComboBox<PathfindingAlgorithm> pathfindingAlgorithm;
   @FXML private MFXButton directionsButton;
-
+  @FXML @Getter private MFXToggleButton serviceRequest;
+  @FXML @Getter private MFXToggleButton locationNames;
   private MapViewController mvc;
-
   private List<PFNode> pfNodes;
+  @Getter private Set<PathfindingCost> costs;
+  @Getter private Set<PathfindingSkip> skips;
+  @Getter @Setter private MFXGenericDialog currentDialog;
 
   /** Initialize controller by FXML Loader. */
   @FXML
@@ -57,6 +69,12 @@ public class PathfindingController {
     canvasPane.setPickOnBounds(true);
     nodeDrawer.setPickOnBounds(true);
     nodeAnchorPane.setPickOnBounds(true);
+
+    costs = new HashSet<>();
+    costs.add(new ElevatorCost());
+    costs.add(new StairsCost());
+
+    skips = new HashSet<>();
 
     Collection<NodeEntity> nodes = Main.db.getNodes().values();
 
@@ -79,7 +97,7 @@ public class PathfindingController {
 
     pathfindingAlgorithm.setItems(
         FXCollections.observableArrayList(
-            new AstarPathfinder(Main.db.getNodes(), Main.db.getEdges()),
+            new AstarPathfinder(Main.db.getNodes(), Main.db.getEdges(), this),
             new DFSPathfinder(Main.db.getNodes()),
             new BFSPathfinder(Main.db.getNodes(), Main.db.getEdges())));
     pathfindingAlgorithm.selectFirst();
@@ -104,6 +122,7 @@ public class PathfindingController {
 
     List<NodeEntity> path = pathfindingAlgorithm.getValue().findPath(currRoomNode, destRoomNode);
     if (path == null) return;
+    // else System.out.println(path);
 
     mvc.displayPath(path);
     mvc.changeFloor(currRoom.getValue().getNode().getFloor());
@@ -189,6 +208,17 @@ public class PathfindingController {
               new Text("Node " + node.getNodeid() + " has no moves before " + dateField.getText()));
     }
 
+    if (nodeCircle.getServiceRequests().size() > 0) {
+      Text submissionTitle = new Text("Current Submissions");
+      submissionTitle.setUnderline(true);
+
+      textHolder.getChildren().add(submissionTitle);
+
+      for (SubmissionAbs sub : nodeCircle.getServiceRequests()) {
+        textHolder.getChildren().add(new Text("Service Request " + sub.getSubmissionid()));
+      }
+    }
+
     // options
     MFXButton setStartNode = new MFXButton("Set as Current Location");
     setStartNode.setBackground(Background.fill(Color.color(0f / 256f, 156f / 256f, 166f / 256f)));
@@ -221,6 +251,7 @@ public class PathfindingController {
           stackPane.getChildren().removeAll(dialog);
         }));
 
+    removeCurrentDialog();
     stackPane.getChildren().add(dialog);
   }
 
@@ -290,6 +321,15 @@ public class PathfindingController {
 
     dialog.setOnClose((event1 -> stackPane.getChildren().removeAll(dialog)));
 
+    removeCurrentDialog();
     stackPane.getChildren().add(dialog);
+  }
+
+  public void removeCurrentDialog() {
+    Set<Node> toRemove = new HashSet<>();
+    for (Node child : stackPane.getChildren()) {
+      if (child.getClass() == MFXGenericDialog.class) toRemove.add(child);
+    }
+    stackPane.getChildren().removeAll(toRemove);
   }
 }
