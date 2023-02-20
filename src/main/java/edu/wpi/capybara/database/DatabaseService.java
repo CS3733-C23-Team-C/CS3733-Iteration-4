@@ -1,22 +1,19 @@
 package edu.wpi.capybara.database;
 
-import edu.wpi.capybara.Main;
 import edu.wpi.capybara.database.dao.*;
 import edu.wpi.capybara.database.dao.EdgeDAO;
 import edu.wpi.capybara.database.dao.MoveDAO;
 import edu.wpi.capybara.database.dao.NodeDAO;
 import edu.wpi.capybara.database.dao.StaffDAO;
-import edu.wpi.capybara.objects.hibernate.MoveEntity;
 import edu.wpi.capybara.objects.orm.*;
+import java.util.HashMap;
+import java.util.List;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
-import java.util.HashMap;
-import java.util.List;
 
 // this would be about 20 lines long if java supported composition in addition to inheritance
 @Slf4j
@@ -173,7 +170,7 @@ public class DatabaseService implements RepoFacade2 {
         currentLocations.put(move.getLocation().getLongName(), move);
       } else {
         if (move.getMoveDate().compareTo(temp.getMoveDate()) < 0
-                && move.getMoveDate().compareTo(new java.sql.Date(date.getTime())) < 0) {
+            && move.getMoveDate().compareTo(new java.sql.Date(date.getTime())) < 0) {
           currentLocations.remove(temp.getLocation().getLongName());
           currentLocations.put(move.getLocation().getLongName(), move);
         }
@@ -373,15 +370,15 @@ public class DatabaseService implements RepoFacade2 {
     try {
       tx = session.beginTransaction();
       List n =
-              session
-                      .createNativeQuery(
-                              "SELECT max(submissionID)FROM("
-                                      + "SELECT max(submissionid) AS submissionID FROM cdb.audiosubmission UNION "
-                                      + "SELECT max(submissionid) AS submissionID FROM cdb.cleaningsubmission UNION "
-                                      + "SELECT max(submissionid) AS submissionID FROM cdb.computersubmission UNION "
-                                      + "SELECT max(submissionid) AS submissionID FROM cdb.securitysubmission UNION "
-                                      + "SELECT max(submissionid) AS submissionID FROM cdb.transportationsubmission) as tem;")
-                      .list();
+          session
+              .createNativeQuery(
+                  "SELECT max(submissionID)FROM("
+                      + "SELECT max(submissionid) AS submissionID FROM cdb.audiosubmission UNION "
+                      + "SELECT max(submissionid) AS submissionID FROM cdb.cleaningsubmission UNION "
+                      + "SELECT max(submissionid) AS submissionID FROM cdb.computersubmission UNION "
+                      + "SELECT max(submissionid) AS submissionID FROM cdb.securitysubmission UNION "
+                      + "SELECT max(submissionid) AS submissionID FROM cdb.transportationsubmission) as tem;")
+              .list();
       if (n != null) {
         id = (int) n.get(0);
         id++;

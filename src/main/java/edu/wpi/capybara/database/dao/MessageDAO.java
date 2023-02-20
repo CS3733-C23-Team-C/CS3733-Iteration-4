@@ -1,13 +1,11 @@
 package edu.wpi.capybara.database.dao;
 
-import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import edu.wpi.capybara.objects.orm.Messages;
+import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
-import java.util.List;
 
 public class MessageDAO extends MapDAOBase<Integer, Messages> {
   public MessageDAO(DAOFacade orm) {
