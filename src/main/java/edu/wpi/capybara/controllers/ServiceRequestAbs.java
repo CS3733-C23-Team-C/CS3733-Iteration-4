@@ -41,7 +41,7 @@ public abstract class ServiceRequestAbs {
     while (iterator.hasNext()) {
       NodeEntity n = iterator.next();
       // System.out.println(n.getShortName());
-      Location.getItems().add(n.getShortName());
+      Location.getItems().add(n.getLongname());
     }
 
     // Set a default variable
