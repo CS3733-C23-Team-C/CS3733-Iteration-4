@@ -154,6 +154,11 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
+  public HashMap<Integer, MessagesEntity> getMessages(String id, int lastid) {
+    return message.getMessages(id, lastid);
+  }
+
+  @Override
   public void addAudio(AudiosubmissionEntity submission) {
     audio.addAudio(submission);
   }
@@ -286,6 +291,15 @@ public class newDBConnect implements RepoFacade {
     return null;
   }
 
+  public StaffEntity getStaff2(String firstName, String lastName) {
+    for (StaffEntity s : staff.getStaff().values()) {
+      if (s.getFirstname().equals(firstName) && s.getLastname().equals(lastName)) {
+        return s;
+      }
+    }
+    return null;
+  }
+
   @Override
   public MessagesEntity getMessage(int messageid) {
     return message.getMessage(messageid);
@@ -362,7 +376,6 @@ public class newDBConnect implements RepoFacade {
     try {
       Thread.sleep(delay * 1000);
       importAudio();
-      System.out.println("imported Audio!");
       Thread.sleep(delay * 1000);
       importCleaning();
       Thread.sleep(delay * 1000);
@@ -431,5 +444,9 @@ public class newDBConnect implements RepoFacade {
 
   public int generateMessageID() {
     return message.generateMessageID();
+  }
+
+  public String generateID() {
+    return "id123";
   }
 }

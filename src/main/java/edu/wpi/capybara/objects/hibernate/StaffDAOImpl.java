@@ -67,4 +67,13 @@ public class StaffDAOImpl implements StaffDAO {
     }
     return null;
   }
+
+  public StaffEntity getStaff2(String firstName, String lastName) {
+    for (StaffEntity s : staff.values()) {
+      if (s.getFirstname().equals(firstName) && s.getLastname().equals(lastName)) {
+        return s;
+      }
+    }
+    return null;
+  }
 }

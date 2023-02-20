@@ -3,6 +3,7 @@ package edu.wpi.capybara;
 import edu.wpi.capybara.database.AutoUpdate;
 import edu.wpi.capybara.database.RepoFacade;
 import edu.wpi.capybara.database.newDBConnect;
+import edu.wpi.capybara.objects.hibernate.MessagesEntity;
 
 public class Main extends Thread {
   public static RepoFacade db;
