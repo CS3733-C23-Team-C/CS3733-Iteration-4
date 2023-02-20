@@ -143,8 +143,8 @@ public class MyRequestsController {
         });
     cleanStatus.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, ComboBox>("submissionstatus"));
-    cleanStatus.setCellFactory(
-    TextFieldTableCell.forTableColumn(new EnumStringConverter<>(SubmissionStatus.class)));
+    // cleanStatus.setCellFactory(
+    // TextFieldTableCell.forTableColumn(new EnumStringConverter<>(SubmissionStatus.class)));
     cleanDescription.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, String>("description"));
     cleanDescription.setCellFactory(TextFieldTableCell.forTableColumn());
