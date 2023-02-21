@@ -3,7 +3,10 @@ package edu.wpi.capybara.controllers;
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.exceptions.FloorDoesNotExistException;
 import edu.wpi.capybara.objects.*;
-import edu.wpi.capybara.objects.hibernate.*;
+import edu.wpi.capybara.objects.NodeCircle;
+import edu.wpi.capybara.objects.PFNode;
+import edu.wpi.capybara.objects.hibernate.LocationnameEntity;
+import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import edu.wpi.capybara.pathfinding.AstarPathfinder;
 import edu.wpi.capybara.pathfinding.BFSPathfinder;
 import edu.wpi.capybara.pathfinding.DFSPathfinder;
@@ -156,8 +159,8 @@ public class PathfindingController {
     // else System.out.println(path);
 
     mvc.displayPath(path);
-    mvc.changeFloor(currRoomNode.getFloor());
-    changeFloorNum(currRoomNode.getFloor());
+    mvc.changeFloor(currRoomNode.getFloor().toString());
+    changeFloorNum(currRoomNode.getFloor().toString());
     directionsButton.setVisible(true);
 
     clearFields(null);
@@ -250,7 +253,7 @@ public class PathfindingController {
     } else {
       textHolder =
           new VBox(
-              new Text("Node " + node.getNodeid() + " has no moves before " + dateField.getText()));
+              new Text("Node " + node.getNodeID() + " has no moves before " + dateField.getText()));
     }
 
     if (placesToAvoid.contains(pfPlace)) {

@@ -33,7 +33,7 @@ public class EdgeDAOImpl implements EdgeDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    ArrayList<EdgeEntity> ret = new ArrayList<EdgeEntity>();
+    ArrayList<EdgeEntity> ret = new ArrayList<>();
 
     try {
       tx = session.beginTransaction();

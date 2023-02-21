@@ -7,7 +7,7 @@ import edu.wpi.capybara.objects.hibernate.MessagesEntity;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -26,7 +26,7 @@ public class HomeController {
 
   final String SECRET_PASSWORD = "team coaching";
 
-  private HashMap<Integer, MessagesEntity> messages;
+  private Map<Integer, MessagesEntity> messages;
 
   private MessageBox messageBox = new MessageBox();
   @Getter @Setter private static int newMessageCount;

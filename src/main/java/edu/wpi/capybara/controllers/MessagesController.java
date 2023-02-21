@@ -7,6 +7,7 @@ import edu.wpi.capybara.objects.hibernate.MessagesEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -23,8 +24,8 @@ public class MessagesController {
   private static MFXButton sReplyButton;
   private static MFXButton sDeleteButton;
   @FXML private MFXButton newMessageButton;
-  private HashMap<Integer, MessagesEntity> messages;
-  private HashMap<Integer, VBox> messageBoxes = new HashMap<>();
+  private Map<Integer, MessagesEntity> messages;
+  private Map<Integer, VBox> messageBoxes = new HashMap<>();
   private MessageBox messageBox = new MessageBox();
   @Getter private static int selectedID;
   @Setter @Getter private static int previousID;
@@ -127,7 +128,7 @@ public class MessagesController {
   }
 
   public void refreshMap() {
-    HashMap<Integer, MessagesEntity> updatedMap =
+    Map<Integer, MessagesEntity> updatedMap =
         Main.db.getMessages(App.getUser().getStaffid(), highestID);
     for (MessagesEntity message : updatedMap.values()) {
       messages.put(message.getMessageid(), message);

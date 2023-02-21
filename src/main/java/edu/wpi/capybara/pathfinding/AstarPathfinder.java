@@ -173,8 +173,8 @@ public class AstarPathfinder implements PathfindingAlgorithm {
   }
 
   private static int floorDifference(NodeEntity n1, NodeEntity n2) {
-    int n1Floor = floorToNum(n1.getFloor());
-    int n2Floor = floorToNum(n2.getFloor());
+    int n1Floor = floorToNum(n1.getFloor().toString());
+    int n2Floor = floorToNum(n2.getFloor().toString());
 
     return n2Floor - n1Floor;
   }
@@ -182,7 +182,8 @@ public class AstarPathfinder implements PathfindingAlgorithm {
   private static double calculateWeight(NodeEntity n1, NodeEntity n2) { // move function for a*
     float xDiff = Math.abs(n1.getXcoord() - n2.getXcoord());
     float yDiff = Math.abs(n1.getYcoord() - n2.getYcoord());
-    float zDiff = Math.abs(floorToNum(n1.getFloor()) - floorToNum(n2.getFloor())) * 50;
+    float zDiff =
+        Math.abs(floorToNum(n1.getFloor().toString()) - floorToNum(n2.getFloor().toString())) * 50;
 
     return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2) + Math.pow(zDiff, 2));
   }

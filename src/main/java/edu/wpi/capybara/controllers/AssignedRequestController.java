@@ -8,7 +8,7 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.utils.EnumStringConverter;
 import java.sql.Timestamp;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -89,12 +89,12 @@ public class AssignedRequestController {
     options.addAll("Transportation", "Cleaning", "Security", "Audio", "Computer");
     requestType.setItems(options);
 
-    HashMap<Integer, CleaningsubmissionEntity> cleaningdata = Main.db.getCleaningSubs();
-    HashMap<Integer, TransportationsubmissionEntity> transportationdata =
+    Map<Integer, CleaningsubmissionEntity> cleaningdata = Main.db.getCleaningSubs();
+    Map<Integer, TransportationsubmissionEntity> transportationdata =
         Main.db.getTransportationSubs();
-    HashMap<Integer, SecuritysubmissionEntity> securitydata = Main.db.getSecuritySubs();
-    HashMap<Integer, AudiosubmissionEntity> audiodata = Main.db.getAudioSubs();
-    HashMap<Integer, ComputersubmissionEntity> computerdata = Main.db.getComputerSubs();
+    Map<Integer, SecuritysubmissionEntity> securitydata = Main.db.getSecuritySubs();
+    Map<Integer, AudiosubmissionEntity> audiodata = Main.db.getAudioSubs();
+    Map<Integer, ComputersubmissionEntity> computerdata = Main.db.getComputerSubs();
 
     /*cleaning columns*/
     cleanEmployeeAssigned.setCellValueFactory(

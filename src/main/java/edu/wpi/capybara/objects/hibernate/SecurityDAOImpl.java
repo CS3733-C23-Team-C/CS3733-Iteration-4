@@ -32,8 +32,7 @@ public class SecurityDAOImpl implements SecurityDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<Integer, SecuritysubmissionEntity> ret =
-        new HashMap<Integer, SecuritysubmissionEntity>();
+    HashMap<Integer, SecuritysubmissionEntity> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();

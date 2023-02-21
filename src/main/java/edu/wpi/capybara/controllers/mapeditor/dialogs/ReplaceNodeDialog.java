@@ -40,9 +40,9 @@ public class ReplaceNodeDialog extends NodeDialog {
     for (EdgeEntity edge : ((NodeEntity) node.buildingProperty().getBean()).getEdges()) {
       System.out.println("Modifying edge " + edge.toString());
       if (edge.getNode1().equals(node.getNodeID())) {
-        edge.setNode1(newNode.getNodeID());
+        edge.setNode1(newNode.getEntity());
       } else {
-        edge.setNode2(newNode.getNodeID());
+        edge.setNode2(newNode.getEntity());
       }
     }
     // repository.getNodes().remove(node);

@@ -23,7 +23,7 @@ public class MessagesDAOImpl implements MessagesDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<Integer, MessagesEntity> ret = new HashMap<Integer, MessagesEntity>();
+    HashMap<Integer, MessagesEntity> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();
@@ -50,7 +50,7 @@ public class MessagesDAOImpl implements MessagesDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<Integer, MessagesEntity> ret = new HashMap<Integer, MessagesEntity>();
+    HashMap<Integer, MessagesEntity> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();
@@ -121,7 +121,7 @@ public class MessagesDAOImpl implements MessagesDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<Integer, MessagesEntity> ret = new HashMap<Integer, MessagesEntity>();
+    HashMap<Integer, MessagesEntity> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();

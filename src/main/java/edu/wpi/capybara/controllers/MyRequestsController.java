@@ -7,6 +7,7 @@ import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import java.sql.Timestamp;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.Objects;
 import javafx.collections.FXCollections;
@@ -92,13 +93,13 @@ public class MyRequestsController {
     options.addAll("Transportation", "Cleaning", "Security", "Audio", "Computer");
     requestType.setItems(options);
 
-    HashMap<Integer, CleaningsubmissionEntity> cleaningdata = Main.db.getCleaningSubs();
-    HashMap<Integer, TransportationsubmissionEntity> transportationdata =
+    Map<Integer, CleaningsubmissionEntity> cleaningdata = Main.db.getCleaningSubs();
+    Map<Integer, TransportationsubmissionEntity> transportationdata =
         Main.db.getTransportationSubs();
-    HashMap<Integer, SecuritysubmissionEntity> securitydata = Main.db.getSecuritySubs();
-    HashMap<Integer, AudiosubmissionEntity> audiodata = Main.db.getAudioSubs();
-    HashMap<Integer, ComputersubmissionEntity> computerdata = Main.db.getComputerSubs();
-    HashMap<String, StaffEntity> staffdata = Main.db.getStaff();
+    Map<Integer, SecuritysubmissionEntity> securitydata = Main.db.getSecuritySubs();
+    Map<Integer, AudiosubmissionEntity> audiodata = Main.db.getAudioSubs();
+    Map<Integer, ComputersubmissionEntity> computerdata = Main.db.getComputerSubs();
+    Map<String, StaffEntity> staffdata = Main.db.getStaff();
 
     for (StaffEntity allStaff : staffdata.values()) {
       employees.add(allStaff.getStaffid());

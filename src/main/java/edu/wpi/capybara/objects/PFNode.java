@@ -2,7 +2,6 @@ package edu.wpi.capybara.objects;
 
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import java.sql.Date;
-import java.util.*;
 
 public class PFNode implements PFPlace {
   private final NodeEntity node;
@@ -12,11 +11,11 @@ public class PFNode implements PFPlace {
   }
 
   public String getLongname() {
-    return node.getNodeid();
+    return node.getNodeID();
   }
 
   public String getShortname() {
-    return node.getNodeid();
+    return node.getNodeID();
   }
 
   @Override
@@ -35,6 +34,6 @@ public class PFNode implements PFPlace {
   }
 
   public String toString() {
-    return node.getNodeid();
+    return node.getNodeID();
   }
 }
