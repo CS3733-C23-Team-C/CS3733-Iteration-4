@@ -1,3 +1,5 @@
 package edu.wpi.capybara.controllers.mapeditor.ui.elements;
 
-public sealed interface Element permits EdgeElement, LocationElement, MoveElement, NodeElement {}
+import edu.wpi.capybara.controllers.mapeditor.ui.Selectable;
+
+public sealed interface Element extends Selectable permits EdgeElement, LocationElement, MoveElement, NodeElement {}

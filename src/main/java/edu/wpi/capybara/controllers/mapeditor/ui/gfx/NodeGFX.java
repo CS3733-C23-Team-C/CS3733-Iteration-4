@@ -1,6 +1,7 @@
 package edu.wpi.capybara.controllers.mapeditor.ui.gfx;
 
 import edu.wpi.capybara.controllers.mapeditor.adapters.NodeAdapter;
+import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import javafx.beans.value.ObservableBooleanValue;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -16,14 +17,14 @@ public class NodeGFX extends GFXBase {
     @Getter
     private final Label label;
 
-    public NodeGFX(NodeAdapter node, ObservableBooleanValue showLabel) {
+    public NodeGFX(NodeEntity node, ObservableBooleanValue showLabel) {
         getStyleClass().add(STYLE_CLASS);
 
         circle = new Circle(RADIUS);
         label = new Label();
 
-        circle.centerXProperty().bind(node.xCoordProperty());
-        circle.centerYProperty().bind(node.yCoordProperty());
+        circle.centerXProperty().bind(node.xcoordProperty());
+        circle.centerYProperty().bind(node.ycoordProperty());
 
         label.setLabelFor(circle);
         label.textProperty().bind(node.nodeIDProperty());

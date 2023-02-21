@@ -2,6 +2,7 @@ package edu.wpi.capybara.objects;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+import javafx.util.StringConverter;
 
 /** Utility enum for representing the floors of the hospital. */
 public enum Floor {
@@ -43,6 +44,18 @@ public enum Floor {
     @Override
     public Floor convertToEntityAttribute(String dbData) {
       return Floor.fromString(dbData);
+    }
+  }
+
+  public static class StringConverter extends javafx.util.StringConverter<Floor> {
+    @Override
+    public String toString(Floor object) {
+      return object.toString();
+    }
+
+    @Override
+    public Floor fromString(String string) {
+      return Floor.fromString(string);
     }
   }
 }
