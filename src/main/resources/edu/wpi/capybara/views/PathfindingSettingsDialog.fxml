@@ -65,9 +65,9 @@
             <HBox minHeight="10.0" prefHeight="10.0" prefWidth="320.0" />
             <HBox alignment="CENTER" prefHeight="32.0" prefWidth="445.0">
                <children>
-                  <MFXButton fx:id="cancelChanges" onAction="#cancelChanges" text="Cancel" />
+                  <MFXButton fx:id="cancelChanges" onAction="#cancelChanges" style="-fx-background-color: #009CA6;" text="Cancel" />
                   <VBox prefHeight="43.0" prefWidth="22.0" />
-                  <MFXButton fx:id="applyChanges" onAction="#applyChanges" text="Apply" />
+                  <MFXButton fx:id="applyChanges" onAction="#applyChanges" style="-fx-background-color: #009CA6;" text="Apply" />
                </children>
             </HBox>
          </children>
