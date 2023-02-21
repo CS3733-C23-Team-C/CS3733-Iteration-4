@@ -117,5 +117,7 @@ public interface RepoFacade {
 
   int generateMessageID();
 
-  public void threadRefresh(int delay);
+  void threadRefresh(int delay);
+
+  StaffEntity getStaff2(String firstName, String lastName);
 }
