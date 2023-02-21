@@ -26,21 +26,21 @@ public class NodeDAOImpl implements NodeDAO {
   public void addNode(NodeEntity submission) {
     // Main.db.addNode(submission);
     newDBConnect.insertNew(submission);
-    this.nodes.put(submission.getNodeid(), submission);
+    this.nodes.put(submission.getNodeID(), submission);
   }
 
   public NodeDAOImpl() {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<String, NodeEntity> ret = new HashMap<String, NodeEntity>();
+    HashMap<String, NodeEntity> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();
       List n = session.createQuery("FROM NodeEntity ").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
         NodeEntity temp = (NodeEntity) iterator.next();
-        ret.put(temp.getNodeid(), temp);
+        ret.put(temp.getNodeID(), temp);
       }
       tx.commit();
     } catch (HibernateException e) {

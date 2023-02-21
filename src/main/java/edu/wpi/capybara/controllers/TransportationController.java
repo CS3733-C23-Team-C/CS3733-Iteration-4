@@ -16,7 +16,7 @@ public class TransportationController extends ServiceRequestAbs {
     requestSpecific = (MFXFilterComboBox) requestSpecific;
     submission = new TransportationSubmitter();
 
-    HashMap<String, NodeEntity> nodes = Main.db.getNodes();
+    Map<String, NodeEntity> nodes = Main.db.getNodes();
     SortedSet<NodeEntity> sortedset = new TreeSet<NodeEntity>(new NodeAlphabetComparator());
 
     sortedset.addAll(nodes.values());
@@ -25,7 +25,7 @@ public class TransportationController extends ServiceRequestAbs {
     while (iterator.hasNext()) {
       NodeEntity n = iterator.next();
       // System.out.println(n.getShortName());
-      requestSpecific.getItems().add(n.getShortName());
+      requestSpecific.getItems().add(n.getLongName());
     }
   }
 }

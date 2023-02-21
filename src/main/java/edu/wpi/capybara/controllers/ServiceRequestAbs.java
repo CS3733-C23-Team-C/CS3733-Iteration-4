@@ -3,15 +3,19 @@ package edu.wpi.capybara.controllers;
 import edu.wpi.capybara.App;
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
+import edu.wpi.capybara.objects.hibernate.MessagesEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import edu.wpi.capybara.objects.submissions.ISubmission;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import io.github.palexdev.materialfx.controls.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
@@ -31,7 +35,7 @@ public abstract class ServiceRequestAbs {
 
   @FXML
   public void initialize() {
-    HashMap<String, NodeEntity> nodes = Main.db.getNodes();
+    Map<String, NodeEntity> nodes = Main.db.getNodes();
 
     SortedSet<NodeEntity> sortedset = new TreeSet<NodeEntity>(new NodeAlphabetComparator());
 
@@ -41,8 +45,13 @@ public abstract class ServiceRequestAbs {
     while (iterator.hasNext()) {
       NodeEntity n = iterator.next();
       // System.out.println(n.getShortName());
-      Location.getItems().add(n.getShortName());
+      Location.getItems().add(n.getLongName());
     }
+
+    // submissionReceived.setFont(Font.font("system", FontWeight.NORMAL, FontPosture.REGULAR, 20));
+    Label label = new Label();
+    Insets insets = new Insets(10, 5, 10, 5);
+    label.setPadding(insets);
 
     // Set a default variable
     // location.getSelectionModel().selectFirst();
@@ -180,7 +189,19 @@ public abstract class ServiceRequestAbs {
     String outputNotes = notes.getText();
     java.util.Date date = new java.util.Date();
     int submissionID = Main.db.newID();
-    System.out.println(submissionID + "abs class");
+    java.util.Date submissionDate = new java.util.Date();
+    Timestamp time = new Timestamp(submissionDate.getTime());
+    int messageID = Main.db.generateMessageID();
+    MessagesEntity newMessage =
+        new MessagesEntity(
+            messageID,
+            "SYSTEM",
+            outputAssignedStaffID,
+            time,
+            "Request #" + submissionID + " has been assigned to you",
+            false);
+    Main.db.addMessage(newMessage);
+    submissionReceived.setText("Submission #" + submissionID + " has been received!");
     submission.submitNewSubmission(
         currStaffID,
         outputLocation,

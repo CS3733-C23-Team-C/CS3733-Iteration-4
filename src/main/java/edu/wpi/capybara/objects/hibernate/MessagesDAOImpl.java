@@ -8,6 +8,7 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class MessagesDAOImpl implements MessagesDAO {
   HashMap<Integer, MessagesEntity> messages = new HashMap();
@@ -15,6 +16,64 @@ public class MessagesDAOImpl implements MessagesDAO {
   @Override
   public HashMap<Integer, MessagesEntity> getMessages() {
     return messages;
+  }
+
+  @Override
+  public HashMap<Integer, MessagesEntity> getMessages(String staff) {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+
+    HashMap<Integer, MessagesEntity> ret = new HashMap<>();
+
+    try {
+      tx = session.beginTransaction();
+      Query query =
+          session.createQuery(
+              "FROM MessagesEntity WHERE receivingid = :staff " + "ORDER BY date DESC");
+      query.setParameter("staff", staff);
+      List n = query.list();
+      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
+        MessagesEntity temp = (MessagesEntity) iterator.next();
+        ret.put(temp.getMessageid(), temp);
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return ret;
+  }
+
+  public HashMap<Integer, MessagesEntity> getMessages(String staff, int lastid) {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+
+    HashMap<Integer, MessagesEntity> ret = new HashMap<>();
+
+    try {
+      tx = session.beginTransaction();
+      Query query =
+          session.createQuery(
+              "FROM MessagesEntity WHERE receivingid = :staff AND messageid > :lastid "
+                  + "ORDER BY date DESC");
+      query.setParameter("staff", staff);
+      query.setParameter("lastid", lastid);
+
+      List n = query.list();
+      for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
+        MessagesEntity temp = (MessagesEntity) iterator.next();
+        ret.put(temp.getMessageid(), temp);
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return ret;
   }
 
   @Override
@@ -62,7 +121,7 @@ public class MessagesDAOImpl implements MessagesDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<Integer, MessagesEntity> ret = new HashMap<Integer, MessagesEntity>();
+    HashMap<Integer, MessagesEntity> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();

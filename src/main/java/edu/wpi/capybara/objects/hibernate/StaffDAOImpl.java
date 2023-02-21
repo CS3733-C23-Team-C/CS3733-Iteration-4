@@ -34,7 +34,7 @@ public class StaffDAOImpl implements StaffDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<String, StaffEntity> ret = new HashMap<String, StaffEntity>();
+    HashMap<String, StaffEntity> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();
@@ -62,6 +62,15 @@ public class StaffDAOImpl implements StaffDAO {
   public StaffEntity getStaff(String Staffid, String password) {
     for (StaffEntity s : staff.values()) {
       if (s.getStaffid().equals(Staffid) && s.getPassword().equals(password)) {
+        return s;
+      }
+    }
+    return null;
+  }
+
+  public StaffEntity getStaff2(String firstName, String lastName) {
+    for (StaffEntity s : staff.values()) {
+      if (s.getFirstname().equals(firstName) && s.getLastname().equals(lastName)) {
         return s;
       }
     }

@@ -48,6 +48,7 @@
                                         </font>
                                     </MFXButton>
                                 </VBox>
+                                <Text fx:id="newUserTxt" fill="#da1a1a" strokeType="OUTSIDE" strokeWidth="0.0" />
                                 <VBox alignment="TOP_CENTER" VBox.vgrow="ALWAYS">
                                     <children>
                                         <FontAwesomeIconView fill="#012d5a" glyphName="USERS" size="35" />
@@ -61,7 +62,19 @@
                                 <HBox alignment="TOP_CENTER" spacing="10.0">
                                     <children>
                                         <FontAwesomeIconView fill="#012d5a" glyphName="USER" size="25" />
-                                        <MFXTextField fx:id="username" onKeyReleased="#enableSignUp" prefHeight="40.0" prefWidth="180.0" promptText="Username" style="-fx-background-color: transparent; -fx-border-color: #009CA6; -fx-border-width: 0px 0px 4px 0px;" />
+                                        <MFXTextField fx:id="staffID" onKeyReleased="#enableSignUp" prefHeight="40.0" prefWidth="180.0" promptText="new staff ID" style="-fx-background-color: transparent; -fx-border-color: #009CA6; -fx-border-width: 0px 0px 4px 0px;" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="TOP_CENTER" spacing="10.0">
+                                    <children>
+                                        <FontAwesomeIconView fill="#012d5a" glyphName="USER" size="25" />
+                                        <MFXTextField fx:id="firstName" onKeyReleased="#enableSignUp" prefHeight="40.0" prefWidth="180.0" promptText="First Name" style="-fx-background-color: transparent; -fx-border-color: #009CA6; -fx-border-width: 0px 0px 4px 0px;" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="TOP_CENTER" spacing="10.0">
+                                    <children>
+                                        <FontAwesomeIconView fill="#012d5a" glyphName="USER" size="25" />
+                                        <MFXTextField fx:id="lastName" onKeyReleased="#enableSignUp" prefHeight="40.0" prefWidth="180.0" promptText="Last Name" style="-fx-background-color: transparent; -fx-border-color: #009CA6; -fx-border-width: 0px 0px 4px 0px;" />
                                     </children>
                                 </HBox>
                                 <HBox alignment="CENTER" spacing="8.0">
@@ -76,7 +89,7 @@
                                         <MFXPasswordField fx:id="confirmPassword" onKeyReleased="#enableSignUp" prefHeight="40.0" prefWidth="180.0" promptText="Confirm Password" style="-fx-background-color: transparent; -fx-border-color: #009CA6; -fx-border-width: 0px 0px 4px 0px;" />
                                     </children>
                                 </HBox>
-                                <MFXButton fx:id="signUpButton" disable="true" onAction="#signUp" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: #012D5A;" text="SignUp" textFill="WHITE">
+                                <MFXButton fx:id="signUpButton" disable="true" onAction="#signUp" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: #012D5A;" text="Sign Up" textFill="WHITE">
                                     <font>
                                         <Font size="18.0" />
                                     </font>
