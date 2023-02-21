@@ -149,6 +149,16 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
+  public HashMap<Integer, MessagesEntity> getMessages(String id) {
+    return message.getMessages(id);
+  }
+
+  @Override
+  public HashMap<Integer, MessagesEntity> getMessages(String id, int lastid) {
+    return message.getMessages(id, lastid);
+  }
+
+  @Override
   public void addAudio(AudiosubmissionEntity submission) {
     audio.addAudio(submission);
   }
@@ -281,6 +291,15 @@ public class newDBConnect implements RepoFacade {
     return null;
   }
 
+  public StaffEntity getStaff2(String firstName, String lastName) {
+    for (StaffEntity s : staff.getStaff().values()) {
+      if (s.getFirstname().equals(firstName) && s.getLastname().equals(lastName)) {
+        return s;
+      }
+    }
+    return null;
+  }
+
   @Override
   public MessagesEntity getMessage(int messageid) {
     return message.getMessage(messageid);
@@ -353,6 +372,36 @@ public class newDBConnect implements RepoFacade {
     message.deleteMessage(id);
   }
 
+  public void threadRefresh(int delay) {
+    try {
+      Thread.sleep(delay * 1000);
+      importAudio();
+      Thread.sleep(delay * 1000);
+      importCleaning();
+      Thread.sleep(delay * 1000);
+      importComputer();
+      Thread.sleep(delay * 1000);
+      importSecurity();
+      Thread.sleep(delay * 1000);
+      importTransportation();
+      Thread.sleep(delay * 1000);
+      importLocationname();
+      Thread.sleep(delay * 1000);
+      importNode();
+      Thread.sleep(delay * 1000);
+      importStaff();
+      Thread.sleep(delay * 1000);
+      importEdge();
+      Thread.sleep(delay * 1000);
+      importMove();
+      Thread.sleep(delay * 1000);
+      importMessage();
+      Thread.sleep(delay * 1000);
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   public static void delete(Object submission) {
     Session session = factory.openSession();
     Transaction tx = session.beginTransaction();
@@ -395,5 +444,9 @@ public class newDBConnect implements RepoFacade {
 
   public int generateMessageID() {
     return message.generateMessageID();
+  }
+
+  public String generateID() {
+    return "id123";
   }
 }
