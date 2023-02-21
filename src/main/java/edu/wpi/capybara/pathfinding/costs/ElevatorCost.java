@@ -17,6 +17,6 @@ public class ElevatorCost implements PathfindingCost {
     int startFloor = NodeEntity.floorToNum(start.getFloor());
     int endFloor = NodeEntity.floorToNum(end.getFloor());
 
-    return 30 * Math.abs(endFloor - startFloor);
+    return 500 * Math.abs(endFloor - startFloor);
   }
 }

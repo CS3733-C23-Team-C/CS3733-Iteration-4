@@ -13,6 +13,6 @@ public class ChangeFloorCost implements PathfindingCost {
 
   @Override
   public double calculateCost(NodeEntity start, NodeEntity end) {
-    return 100;
+    return 500;
   }
 }

@@ -217,4 +217,9 @@ public class SecuritysubmissionEntity extends SubmissionAbs {
   public int hashCode() {
     return Objects.hash(employeeid, location, location, type);
   }
+
+  @Override
+  public String submissionType() {
+    return "Security";
+  }
 }

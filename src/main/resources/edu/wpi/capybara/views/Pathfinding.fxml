@@ -99,6 +99,14 @@
                         </MFXFilterComboBox>
                      </children>
                   </VBox>
+                  <MFXButton fx:id="settingsButton" onAction="#openSettings" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #009CA6;" text="Options" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </MFXButton>
                   <MFXButton fx:id="clearButton" onAction="#clearFields" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #009CA6;" text="Clear" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -158,7 +166,7 @@
                         <Insets />
                      </VBox.margin>
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="I'm not sure what my functionality is supposed to be" />
+                        <Text fx:id="infoText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children>
                   </HBox>
                   <HBox layoutX="10.0" layoutY="102.0" prefHeight="20.0" prefWidth="200.0" />

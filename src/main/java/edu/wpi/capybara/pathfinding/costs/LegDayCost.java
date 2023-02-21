@@ -7,6 +7,6 @@ public class LegDayCost extends StairsCost {
 
   @Override
   public double calculateCost(NodeEntity start, NodeEntity end) {
-    return super.calculateCost(start, end) / 10;
+    return 0;
   }
 }

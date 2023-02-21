@@ -10,7 +10,7 @@ public abstract class SubmissionAbs {
   public abstract String getLocation();
 
   public LocationnameEntity getLocationEntity() {
-    //System.out.println("Node " + getLocation());
+    // System.out.println("Node " + getLocation());
     return Main.db.getLocationname(getLocation());
   }
 
@@ -30,4 +30,7 @@ public abstract class SubmissionAbs {
     }
     return mostRecent;
   }
+
+
+  public abstract String submissionType();
 }

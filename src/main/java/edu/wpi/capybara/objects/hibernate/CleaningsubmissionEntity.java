@@ -227,4 +227,9 @@ public class CleaningsubmissionEntity extends SubmissionAbs {
   public int hashCode() {
     return Objects.hash(memberid, location, hazardlevel, description, submissionstatus);
   }
+
+  @Override
+  public String submissionType() {
+    return "Cleaning";
+  }
 }

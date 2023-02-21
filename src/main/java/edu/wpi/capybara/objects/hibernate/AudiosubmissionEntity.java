@@ -230,4 +230,8 @@ public class AudiosubmissionEntity extends SubmissionAbs {
         createdate,
         duedate);
   }
+
+  public String submissionType() {
+    return "Audio";
+  }
 }

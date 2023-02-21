@@ -230,4 +230,9 @@ public class ComputersubmissionEntity extends SubmissionAbs {
         createdate,
         duedate);
   }
+
+  @Override
+  public String submissionType() {
+    return "Computer";
+  }
 }

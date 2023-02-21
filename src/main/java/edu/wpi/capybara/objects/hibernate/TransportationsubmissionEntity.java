@@ -225,4 +225,9 @@ public class TransportationsubmissionEntity extends SubmissionAbs {
   public String getLocation() {
     return getCurrroomnum();
   }
+
+  @Override
+  public String submissionType() {
+    return "Security";
+  }
 }

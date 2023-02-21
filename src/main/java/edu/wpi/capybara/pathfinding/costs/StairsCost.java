@@ -19,7 +19,7 @@ public class StairsCost implements PathfindingCost {
 
     int diff = endFloor - startFloor;
 
-    if (diff < 0) return 50 * Math.abs(diff);
-    return 100 * Math.abs(diff);
+    if (diff < 0) return 600 * Math.abs(diff);
+    return 1000 * Math.abs(diff);
   }
 }

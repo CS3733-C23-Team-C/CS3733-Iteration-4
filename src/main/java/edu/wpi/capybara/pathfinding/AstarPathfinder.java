@@ -92,13 +92,14 @@ public class AstarPathfinder implements PathfindingAlgorithm {
   private List<NodeEntity> aStar(NodeEntity start, NodeEntity goal) {
     List<PathNode> openList = new ArrayList<>();
     List<NodeEntity> closedList = new ArrayList<>();
+    closedList.add(start);
     NodeEntity current = start;
     double currentWeight = 0;
     List<NodeEntity> currentPath = new ArrayList<>();
     List<EdgeEntity> currentEdges = new ArrayList<>();
 
     while (true) {
-      // System.out.println("Current-" + current.toString());
+      // System.out.println("Current-" + current.toString() + " Cost-" + currentWeight);
       List<NodeEntity> newPath = new ArrayList<>(List.copyOf(currentPath));
       newPath.add(current);
       if (current.equals(goal)) return newPath;
@@ -120,6 +121,7 @@ public class AstarPathfinder implements PathfindingAlgorithm {
         boolean addNode = true;
         for (PathfindingSkip skip : controller.getSkips()) {
           if (skip.shouldSkip(current, otherNode)) {
+            // System.out.println("Skipping " + otherNode);
             addNode = false;
             break;
           }
@@ -128,8 +130,10 @@ public class AstarPathfinder implements PathfindingAlgorithm {
         // System.out.println("Adding Node to openList");
 
         PathNode pn = new PathNode(newPath, newEdges, otherNode, current, goal, currentWeight);
-        if (addNode) openList.add(pn);
-        closedList.add(otherNode);
+        if (addNode) {
+          openList.add(pn);
+          closedList.add(otherNode);
+        }
       }
 
       if (openList.size() == 0) return null;
@@ -153,7 +157,8 @@ public class AstarPathfinder implements PathfindingAlgorithm {
     }
 
     double cost = (calculateWeight(current, n) + calculateWeight(n, goal)) + additionalCost;
-    System.out.println("Cost: " + cost);
+    // System.out.println("Cost: " + cost + " between " + current.getShortName() + " and " +
+    // n.getShortName());
     return cost;
   }
 
@@ -167,8 +172,10 @@ public class AstarPathfinder implements PathfindingAlgorithm {
   private static double calculateWeight(NodeEntity n1, NodeEntity n2) { // move function for a*
     float xDiff = Math.abs(n1.getXcoord() - n2.getXcoord());
     float yDiff = Math.abs(n1.getYcoord() - n2.getYcoord());
+    float zDiff =
+        Math.abs(NodeEntity.floorToNum(n1.getFloor()) - NodeEntity.floorToNum(n2.getFloor())) * 50;
 
-    return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
+    return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2) + Math.pow(zDiff, 2));
   }
 
   public AstarPathfinder(
