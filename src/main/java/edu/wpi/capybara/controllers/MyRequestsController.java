@@ -80,6 +80,8 @@ public class MyRequestsController {
       FXCollections.observableArrayList();
   private final ObservableList<String> options = FXCollections.observableArrayList();
 
+  private final ObservableList<String> employees = FXCollections.observableArrayList();
+
   /** When it switches to page, gets data from submission collector and creates tables */
   public void initialize() {
     cleanRequests.setEditable(true);
@@ -96,11 +98,16 @@ public class MyRequestsController {
     HashMap<Integer, SecuritysubmissionEntity> securitydata = Main.db.getSecuritySubs();
     HashMap<Integer, AudiosubmissionEntity> audiodata = Main.db.getAudioSubs();
     HashMap<Integer, ComputersubmissionEntity> computerdata = Main.db.getComputerSubs();
+    HashMap<String, StaffEntity> staffdata = Main.db.getStaff();
+
+    for (StaffEntity allStaff : staffdata.values()) {
+      employees.add(allStaff.getStaffid());
+    }
 
     /*cleaning columns*/
     cleanEmployeeAssigned.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, String>("assignedid"));
-    cleanEmployeeAssigned.setCellFactory(ComboBoxTableCell.forTableColumn());
+    cleanEmployeeAssigned.setCellFactory(ComboBoxTableCell.forTableColumn(employees));
     cleanEmployeeAssigned.setOnEditCommit(
         new EventHandler<TableColumn.CellEditEvent<CleaningsubmissionEntity, String>>() {
           @Override
@@ -179,7 +186,7 @@ public class MyRequestsController {
     /*transportation columns*/
     transportationEmployeeAssigned.setCellValueFactory(
         new PropertyValueFactory<TransportationsubmissionEntity, String>("assignedid"));
-    transportationEmployeeAssigned.setCellFactory(TextFieldTableCell.forTableColumn());
+    transportationEmployeeAssigned.setCellFactory(ComboBoxTableCell.forTableColumn(employees));
     transportationEmployeeAssigned.setOnEditCommit(
         new EventHandler<TableColumn.CellEditEvent<TransportationsubmissionEntity, String>>() {
           @Override
@@ -312,7 +319,7 @@ public class MyRequestsController {
     securityStatus.setCellFactory(ComboBoxTableCell.forTableColumn(SubmissionStatus.values()));
     securityEmployeeAssigned.setCellValueFactory(
         new PropertyValueFactory<SecuritysubmissionEntity, String>("assignedid"));
-    securityEmployeeAssigned.setCellFactory(TextFieldTableCell.forTableColumn());
+    securityEmployeeAssigned.setCellFactory(ComboBoxTableCell.forTableColumn(employees));
     securityEmployeeAssigned.setOnEditCommit(
         new EventHandler<TableColumn.CellEditEvent<SecuritysubmissionEntity, String>>() {
           @Override
@@ -391,7 +398,7 @@ public class MyRequestsController {
     audioStatus.setCellFactory(ComboBoxTableCell.forTableColumn(SubmissionStatus.values()));
     audioAssignedID.setCellValueFactory(
         new PropertyValueFactory<AudiosubmissionEntity, String>("assignedid"));
-    audioAssignedID.setCellFactory(TextFieldTableCell.forTableColumn());
+    audioAssignedID.setCellFactory(ComboBoxTableCell.forTableColumn(employees));
     audioAssignedID.setOnEditCommit(
         new EventHandler<TableColumn.CellEditEvent<AudiosubmissionEntity, String>>() {
           @Override
@@ -470,7 +477,7 @@ public class MyRequestsController {
     computerStatus.setCellFactory(ComboBoxTableCell.forTableColumn(SubmissionStatus.values()));
     computerAssignedID.setCellValueFactory(
         new PropertyValueFactory<ComputersubmissionEntity, String>("assignedid"));
-    computerAssignedID.setCellFactory(TextFieldTableCell.forTableColumn());
+    computerAssignedID.setCellFactory(ComboBoxTableCell.forTableColumn(employees));
     computerAssignedID.setOnEditCommit(
         new EventHandler<TableColumn.CellEditEvent<ComputersubmissionEntity, String>>() {
           @Override

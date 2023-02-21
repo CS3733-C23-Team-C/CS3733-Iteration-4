@@ -63,7 +63,7 @@
                      <children>
                         <StackPane>
                            <children>
-                              <TableView fx:id="transportationRequests" visible="false">
+                              <TableView fx:id="transportationRequests" prefHeight="476.0" prefWidth="856.0" visible="false">
                                  <columns>
                                     <TableColumn fx:id="transportationID" prefWidth="103.20001220703125" text="Staff ID" />
                                     <TableColumn fx:id="transportationLocation" prefWidth="107.20001220703125" text="Location" />
