@@ -163,8 +163,8 @@ public class AstarPathfinder implements PathfindingAlgorithm {
   }
 
   private static int floorDifference(NodeEntity n1, NodeEntity n2) {
-    int n1Floor = NodeEntity.floorToNum(n1.getFloor());
-    int n2Floor = NodeEntity.floorToNum(n2.getFloor());
+    int n1Floor = floorToNum(n1.getFloor());
+    int n2Floor = floorToNum(n2.getFloor());
 
     return n2Floor - n1Floor;
   }
@@ -172,8 +172,7 @@ public class AstarPathfinder implements PathfindingAlgorithm {
   private static double calculateWeight(NodeEntity n1, NodeEntity n2) { // move function for a*
     float xDiff = Math.abs(n1.getXcoord() - n2.getXcoord());
     float yDiff = Math.abs(n1.getYcoord() - n2.getYcoord());
-    float zDiff =
-        Math.abs(NodeEntity.floorToNum(n1.getFloor()) - NodeEntity.floorToNum(n2.getFloor())) * 50;
+    float zDiff = Math.abs(floorToNum(n1.getFloor()) - floorToNum(n2.getFloor())) * 50;
 
     return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2) + Math.pow(zDiff, 2));
   }
@@ -188,5 +187,14 @@ public class AstarPathfinder implements PathfindingAlgorithm {
   @Override
   public String toString() {
     return "A* Algorithm";
+  }
+
+  public static int floorToNum(String floor) {
+    if (floor.equals("L2")) return -1;
+    if (floor.equals("L1")) return 0;
+    if (floor.equals("1")) return 1;
+    if (floor.equals("2")) return 2;
+    if (floor.equals("3")) return 3;
+    return 0;
   }
 }

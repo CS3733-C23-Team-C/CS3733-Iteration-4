@@ -31,6 +31,5 @@ public abstract class SubmissionAbs {
     return mostRecent;
   }
 
-
   public abstract String submissionType();
 }

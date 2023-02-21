@@ -264,7 +264,11 @@ public class PathfindingController {
       textHolder.getChildren().add(submissionTitle);
 
       for (SubmissionAbs sub : nodeCircle.getServiceRequests()) {
-        textHolder.getChildren().add(new Text(sub.submissionType() + " Service Request Number " + sub.getSubmissionid()));
+        textHolder
+            .getChildren()
+            .add(
+                new Text(
+                    sub.submissionType() + " Service Request Number " + sub.getSubmissionid()));
       }
     }
 

@@ -1,6 +1,7 @@
 package edu.wpi.capybara.pathfinding.costs;
 
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import edu.wpi.capybara.pathfinding.AstarPathfinder;
 
 public class StairsCost implements PathfindingCost {
   public StairsCost() {}
@@ -14,8 +15,8 @@ public class StairsCost implements PathfindingCost {
 
   @Override
   public double calculateCost(NodeEntity start, NodeEntity end) {
-    int startFloor = NodeEntity.floorToNum(start.getFloor());
-    int endFloor = NodeEntity.floorToNum(end.getFloor());
+    int startFloor = AstarPathfinder.floorToNum(start.getFloor());
+    int endFloor = AstarPathfinder.floorToNum(end.getFloor());
 
     int diff = endFloor - startFloor;
 
