@@ -1,9 +1,13 @@
 package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
+import edu.wpi.capybara.Main;
+import edu.wpi.capybara.objects.hibernate.MessagesEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -11,6 +15,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -20,6 +26,8 @@ public class NewMessageDialogController {
   @FXML private MFXTextField message;
   @FXML private MFXButton cancelButton;
   @FXML private MFXButton sendMessageButton;
+  @FXML private Text sentTxt;
+  @FXML private VBox vbox;
 
   public void initialize() {
     receivingID.setOnKeyReleased(
@@ -43,6 +51,24 @@ public class NewMessageDialogController {
           @Override
           public void handle(ActionEvent event) {
             closeMessageDialog();
+          }
+        });
+
+    sendMessageButton.setOnAction(
+        new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent event) {
+            Date date = new java.util.Date();
+            Timestamp time = new Timestamp(date.getTime());
+            int messageID = Main.db.generateMessageID();
+            String senderID = App.getUser().getStaffid();
+            MessagesEntity newMessage =
+                new MessagesEntity(
+                    messageID, senderID, receivingID.getText(), time, message.getText(), false);
+            Main.db.addMessage(newMessage);
+            vbox.setVisible(false);
+            sentTxt.setVisible(true);
+            System.out.println("showing successful text");
           }
         });
 

@@ -1,6 +1,8 @@
 package edu.wpi.capybara.objects;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.controllers.HomeController;
+import edu.wpi.capybara.controllers.MenuController;
 import edu.wpi.capybara.controllers.MessagesController;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
@@ -25,8 +27,8 @@ public class MessageBox {
   public HBox addHomeMessage(MessagesEntity message) {
     HBox newMessage = new HBox();
     newMessage.setId(Integer.toString(message.getMessageid()));
-    newMessage.getStyleClass().add("box");
-    newMessage.getStylesheets().add("edu/wpi/capybara/styles/unreadMessage.css");
+    newMessage.getStyleClass().add("unread");
+    newMessage.getStylesheets().add("edu/wpi/capybara/styles/message.css");
     newMessage.setOnMouseClicked(
         new EventHandler<MouseEvent>() {
           @Override
@@ -37,7 +39,6 @@ public class MessageBox {
     HBox textBox = new HBox();
     textBox.setAlignment(Pos.CENTER_LEFT);
     Label label = new Label();
-    label.setFont(Font.font("system", 12));
     if (message.getSenderid().equals("SYSTEM")) label.setText(message.getMessage());
     else {
       StaffEntity sender = Main.db.getStaff(message.getSenderid());
@@ -50,8 +51,7 @@ public class MessageBox {
     HBox dateBox = new HBox();
     dateBox.setAlignment(Pos.CENTER_RIGHT);
     Text date = new Text();
-    date.setFont(Font.font("system", 12));
-    date.setText(message.getDate().toString());
+    date.setText(new SimpleDateFormat("MM/dd/yy h:mm a").format(message.getDate()));
     dateBox.getChildren().add(date);
     HBox spacerBox = new HBox();
     HBox.setHgrow(spacerBox, Priority.ALWAYS);
@@ -62,20 +62,21 @@ public class MessageBox {
   public VBox addMessageBox(MessagesEntity message) {
     VBox newMessage = new VBox();
     newMessage.setId(Integer.toString(message.getMessageid()));
-    newMessage.getStyleClass().add("box");
-    if (message.getRead())
-      newMessage.getStylesheets().add("edu/wpi/capybara/styles/readMessage.css");
-    else newMessage.getStylesheets().add("edu/wpi/capybara/styles/unreadMessage.css");
+    if (message.getRead()) newMessage.getStyleClass().add("read");
+    else newMessage.getStyleClass().add("unread");
+    newMessage.getStylesheets().add("edu/wpi/capybara/styles/message.css");
     newMessage.setOnMouseClicked(
         new EventHandler<MouseEvent>() {
           @Override
           public void handle(MouseEvent event) {
             if (!message.getRead()) {
               message.setRead(true);
-              newMessage.getStylesheets().removeAll();
-              newMessage.getStylesheets().add("edu/wpi/capybara/styles/readMessage.css");
-              MessagesController.setSelectedMessage(message.getMessageid());
+              HomeController.setNewMessageCount(HomeController.getNewMessageCount() - 1);
+              MenuController.updateMessageNotif();
             }
+            newMessage.getStyleClass().clear();
+            newMessage.getStyleClass().add("selected");
+            MessagesController.setSelectedMessage(message.getMessageid());
           }
         });
     HBox topBox = new HBox();
@@ -85,9 +86,12 @@ public class MessageBox {
     Text fromText = new Text();
     fromText.setFont(Font.font(16));
     StaffEntity sender = Main.db.getStaff(message.getSenderid());
-    String firstName = sender.getFirstname();
-    String lastName = sender.getLastname();
-    fromText.setText("From: " + firstName + " " + lastName);
+    if(sender.equals("SYSTEM")) fromText.setText("");
+    else{
+      String firstName = sender.getFirstname();
+      String lastName = sender.getLastname();
+      fromText.setText("From: " + firstName + " " + lastName);
+    }
     fromTextBox.getChildren().add(fromText);
     Text date = new Text();
     date.setFont(Font.font(16));

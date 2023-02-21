@@ -13,6 +13,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 public class HomeController {
 
@@ -26,7 +28,7 @@ public class HomeController {
   private HashMap<Integer, MessagesEntity> messages;
 
   private MessageBox messageBox = new MessageBox();
-  private int newMessageCount;
+  @Getter @Setter private static int newMessageCount;
 
   /** Initialize controller by FXML Loader. */
   @FXML
