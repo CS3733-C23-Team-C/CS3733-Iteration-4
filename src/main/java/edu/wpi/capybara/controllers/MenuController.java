@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.MenuButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 public class MenuController {
@@ -21,8 +22,11 @@ public class MenuController {
   @FXML private MFXButton serviceRequestsButton;
   @FXML private MFXButton pathfindingButton;
   @FXML private MFXButton mapEditorButton;
+  @FXML private MFXButton messagesButton;
+  @FXML private Circle newMessageCircle;
   @FXML private MFXButton employeeEditButton;
   private static MenuButton sUserProfile;
+  private static Circle sNewMessageCircle;
 
   public static void setUserProfile() {
     System.out.println(sUserProfile == null);
@@ -36,10 +40,13 @@ public class MenuController {
   @FXML
   public void initialize() {
     sUserProfile = userProfile;
+
     setUserProfile();
 
     employeeEditButton.managedProperty().bind(employeeEditButton.visibleProperty());
     employeeEditButton.setVisible(App.getUser().getRole().equals("admin"));
+    if (HomeController.getNewMessageCount() > 0) newMessageCircle.setVisible(true);
+    sNewMessageCircle = newMessageCircle;
   }
 
   public void goToHome(ActionEvent actionEvent) {
@@ -94,11 +101,20 @@ public class MenuController {
     Navigation.navigate(Screen.LOG_IN_PAGE);
   }
 
+  public void goToMessages(ActionEvent actionEvent) {
+    Navigation.navigate(Screen.MESSAGES);
+  }
+
   public void goToCreditsPage(ActionEvent actionEvent) {
     Navigation.navigate(Screen.CREDITS_PAGE);
   }
 
   public void goToAboutPage(ActionEvent actionEvent) {
     Navigation.navigate(Screen.ABOUT_PAGE);
+  }
+
+  public static void updateMessageNotif() {
+    if (HomeController.getNewMessageCount() > 0) sNewMessageCircle.setVisible(true);
+    else sNewMessageCircle.setVisible(false);
   }
 }

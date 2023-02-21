@@ -27,7 +27,9 @@ public enum Screen {
 
   USER_PROFILE("views/UserProfile.fxml"),
 
-  ASSIGNED_REQUESTS("views/AssignedRequests.fxml");
+  ASSIGNED_REQUESTS("views/AssignedRequests.fxml"),
+
+  MESSAGES("views/Messages.fxml");
 
   private final String filename;
 
