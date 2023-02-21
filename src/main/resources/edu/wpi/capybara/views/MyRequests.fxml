@@ -63,7 +63,7 @@
                      <children>
                         <StackPane>
                            <children>
-                              <TableView fx:id="transportationRequests" visible="false">
+                              <TableView fx:id="transportationRequests" prefHeight="476.0" prefWidth="856.0" visible="false">
                                  <columns>
                                     <TableColumn fx:id="transportationID" prefWidth="103.20001220703125" text="Staff ID" />
                                     <TableColumn fx:id="transportationLocation" prefWidth="107.20001220703125" text="Location" />
@@ -97,15 +97,15 @@
                                  </columns>
                               </TableView>
                               <TableView fx:id="audioRequests" visible="false">
-                                <columns>
-                                  <TableColumn fx:id="audioID" prefWidth="119.33334732055664" text="Staff ID" />
-                                  <TableColumn fx:id="audioLocation" prefWidth="115.33329772949219" text="Location" />
+                                 <columns>
+                                    <TableColumn fx:id="audioID" prefWidth="119.33334732055664" text="Staff ID" />
+                                    <TableColumn fx:id="audioLocation" prefWidth="115.33329772949219" text="Location" />
                                     <TableColumn fx:id="audioItem" prefWidth="172.00001525878906" text="Requested Item" />
                                     <TableColumn fx:id="audioDescription" prefWidth="141.33334350585938" text="Description" />
                                     <TableColumn fx:id="audioELevel" prefWidth="75.0" text="Emergency Level" />
                                     <TableColumn fx:id="audioAssignedID" prefWidth="111.333251953125" text="Assigned ID" />
                                     <TableColumn fx:id="audioStatus" editable="false" prefWidth="97.99993896484375" text="Status" />
-                                </columns>
+                                 </columns>
                               </TableView>
                               <TableView fx:id="computerRequests" visible="false">
                                  <columns>

@@ -8,6 +8,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.MenuController">
@@ -54,6 +55,14 @@
                <font>
                   <Font size="18.0" />
                </font>
+            </MFXButton>
+            <MFXButton fx:id="messagesButton" alignment="CENTER" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" onAction="#goToMessages" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="   Messages" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <graphic>
+                  <Circle fx:id="newMessageCircle" fill="#f6bd38" nodeOrientation="LEFT_TO_RIGHT" radius="6.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+               </graphic>
             </MFXButton>
             <MFXButton fx:id="creditsButton" maxWidth="1.7976931348623157E308" onAction="#goToCreditsPage" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="Credits" textFill="WHITE">
                <font>

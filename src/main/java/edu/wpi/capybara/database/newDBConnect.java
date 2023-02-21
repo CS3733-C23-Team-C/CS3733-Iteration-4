@@ -445,8 +445,4 @@ public class newDBConnect implements RepoFacade {
   public int generateMessageID() {
     return message.generateMessageID();
   }
-
-  public String generateID() {
-    return "id123";
-  }
 }
