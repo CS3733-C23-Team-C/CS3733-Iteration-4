@@ -5,6 +5,7 @@ import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.MessageBox;
 import edu.wpi.capybara.objects.hibernate.MessagesEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -28,19 +29,18 @@ public class MessagesController {
   @Getter private static int selectedID;
   @Setter @Getter private static int previousID;
   private int highestID;
+  private ArrayList<Integer> keyList = new ArrayList<>();
 
   public void initialize() {
     System.out.println("I am from MessageController.");
     messages = Main.db.getMessages(App.getUser().getStaffid());
     highestID = 0;
     previousID = Integer.MAX_VALUE;
-    for (MessagesEntity message : messages.values()) {
-      VBox newMessage = messageBox.addMessageBox(message);
-      int messageID = message.getMessageid();
-      messageBoxes.put(messageID, newMessage);
-      vbox.getChildren().add(newMessage);
-      if (messageID > highestID) highestID = messageID;
+    for (Integer key : messages.keySet()) {
+      keyList.add(key);
     }
+    keyList.sort(null);
+    displayMessages();
     System.out.println(MenuController.getSelectedHomeMessage());
     if (MenuController.getSelectedHomeMessage() != 0) {
       System.out.println("got here");
@@ -108,6 +108,17 @@ public class MessagesController {
         });
   }
 
+  public void displayMessages() {
+    for (int i = (keyList.size() - 1); i >= 0; i--) {
+      MessagesEntity message = messages.get(keyList.get(i));
+      VBox newMessage = messageBox.addMessageBox(message);
+      int messageID = message.getMessageid();
+      messageBoxes.put(messageID, newMessage);
+      vbox.getChildren().add(newMessage);
+      if (messageID > highestID) highestID = messageID;
+    }
+  }
+
   public static void setSelectedMessage(int messageID) {
     selectedID = messageID;
     System.out.println(selectedID);
@@ -120,9 +131,10 @@ public class MessagesController {
         Main.db.getMessages(App.getUser().getStaffid(), highestID);
     for (MessagesEntity message : updatedMap.values()) {
       messages.put(message.getMessageid(), message);
-      VBox newMessage = messageBox.addMessageBox(message);
-      messageBoxes.put(message.getMessageid(), newMessage);
-      vbox.getChildren().add(newMessage);
+      keyList.add(message.getMessageid());
     }
+    keyList.sort(null);
+    vbox.getChildren().clear();
+    displayMessages();
   }
 }

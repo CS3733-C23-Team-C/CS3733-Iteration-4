@@ -27,7 +27,7 @@
                     <HBox prefHeight="20.0" />
                     <MFXScrollPane fx:id="scrollPane" fitToWidth="true" style="-fx-background-color: F4F4F4;">
                         <content>
-                            <VBox fx:id="vbox" alignment="CENTER" spacing="10.0">
+                            <VBox fx:id="vbox" alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" spacing="10.0">
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
