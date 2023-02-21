@@ -1,7 +1,6 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.objects.orm.CleaningsubmissionEntity;
-
 import java.util.HashMap;
 
 public interface CleaningsubmissionDAO {

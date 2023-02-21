@@ -8,6 +8,7 @@ import edu.wpi.capybara.database.dao.StaffDAO;
 import edu.wpi.capybara.objects.orm.*;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
 import lombok.extern.slf4j.Slf4j;
@@ -243,6 +244,16 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
+  public Map<Integer, MessagesEntity> getMessages(String staff) {
+    return messageDAO.getMessages(staff);
+  }
+
+  @Override
+  public Map<Integer, MessagesEntity> getMessages(String staff, int lastid) {
+    return messageDAO.getMessages(staff, lastid);
+  }
+
+  @Override
   public void deleteAudio(Integer id) {
     deleteAudio(getAudio(id));
   }
@@ -401,5 +412,15 @@ public class DatabaseService implements RepoFacade2 {
   @Override
   public int generateMessageID() {
     return messageDAO.generateMessageID();
+  }
+
+  @Override
+  public void threadRefresh(int delay) {
+    try {
+      Thread.sleep(delay * 1000L);
+      getMessages().values().forEach(orm::refresh);
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
   }
 }

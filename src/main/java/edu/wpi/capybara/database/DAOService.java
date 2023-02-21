@@ -84,7 +84,7 @@ public class DAOService implements DAOFacade {
     try (final var session = getSession()) {
       final var tx = session.beginTransaction();
       try {
-        // session.remove(entity);
+        session.remove(entity);
         tx.commit();
       } catch (PersistenceException e) {
         // rollback the database, log the exception, and throw it back to the caller.
@@ -115,6 +115,23 @@ public class DAOService implements DAOFacade {
       } catch (PersistenceException e) {
         tx.rollback();
         log.error("Unable to select entities of type " + entityClass.getName(), e);
+        throw e;
+      }
+    }
+  }
+
+  @Override
+  public <E> void refresh(E entity) throws PersistenceException {
+    try (final var session = getSession()) {
+      final var tx = session.beginTransaction();
+      try {
+        session.refresh(entity);
+        tx.commit();
+      } catch (PersistenceException e) {
+        // rollback the database, log the exception, and throw it back to the caller.
+        // this is so the caller can decide how it wants to handle the failure.
+        tx.rollback();
+        log.error("Unable to insert entity of type " + entity.getClass().getName(), e);
         throw e;
       }
     }

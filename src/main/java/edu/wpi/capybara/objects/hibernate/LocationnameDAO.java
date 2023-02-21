@@ -1,7 +1,6 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.objects.orm.LocationnameEntity;
-
 import java.util.HashMap;
 
 public interface LocationnameDAO {

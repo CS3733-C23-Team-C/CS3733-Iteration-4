@@ -9,6 +9,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleObjectProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "move", schema = "cdb", catalog = "teamcdb")
@@ -64,6 +65,7 @@ public class MoveEntity implements Persistent {
   @Id
   @ManyToOne
   @JoinColumn(name = "nodeid")
+  @Cascade(org.hibernate.annotations.CascadeType.REFRESH)
   public NodeEntity getNode() {
     return node.get();
   }
@@ -87,6 +89,7 @@ public class MoveEntity implements Persistent {
   @Id
   @ManyToOne
   @JoinColumn(name = "longname")
+  @Cascade(org.hibernate.annotations.CascadeType.REFRESH)
   public LocationnameEntity getLocation() {
     return location.get();
   }

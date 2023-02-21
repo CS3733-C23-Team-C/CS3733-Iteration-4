@@ -1,9 +1,8 @@
 package edu.wpi.capybara.database;
 
+import edu.wpi.capybara.objects.orm.*;
 import java.util.List;
 import java.util.Map;
-
-import edu.wpi.capybara.objects.orm.*;
 import org.hibernate.Session;
 
 public interface RepoFacade {

@@ -25,4 +25,6 @@ public interface DAOFacade {
 
   <E> List<E> select(Class<E> entityClass, WhereBuilder<E> whereBuilder)
       throws PersistenceException;
+
+  <E> void refresh(E entity) throws PersistenceException;
 }

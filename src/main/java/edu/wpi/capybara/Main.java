@@ -16,7 +16,8 @@ public class Main extends Thread {
     orm = new DAOService();
     repo = new DatabaseService(orm);
 
-    db = new newDBConnect();
+    // db = new newDBConnect();
+    db = new RepoFacadeAdapter(repo);
     db.importAll();
     AutoUpdate updater = new AutoUpdate();
     Thread thread = new Thread(updater, "AutoUpdater");

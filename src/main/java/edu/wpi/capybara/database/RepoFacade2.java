@@ -1,6 +1,7 @@
 package edu.wpi.capybara.database;
 
 import edu.wpi.capybara.objects.orm.*;
+import java.util.Map;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
 import org.hibernate.Session;
@@ -30,6 +31,10 @@ public interface RepoFacade2 {
   ReadOnlyListProperty<MoveEntity> getMoves();
 
   ReadOnlyMapProperty<Integer, MessagesEntity> getMessages();
+
+  Map<Integer, MessagesEntity> getMessages(String id);
+
+  Map<Integer, MessagesEntity> getMessages(String id, int lastid);
 
   // Add method
   // Submissions
@@ -130,4 +135,6 @@ public interface RepoFacade2 {
   void importAll();
 
   int generateMessageID();
+
+  void threadRefresh(int delay);
 }
