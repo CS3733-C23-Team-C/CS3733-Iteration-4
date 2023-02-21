@@ -237,6 +237,10 @@ public class RepoFacadeAdapter implements RepoFacade {
     return repo.getStaff(Staffid, password);
   }
 
+  public StaffEntity getStaff2(String firstName, String lastName) {
+    return repo.getStaff2(firstName, lastName);
+  }
+
   @Override
   public Session getSession() {
     return repo.getSession();
