@@ -7,6 +7,7 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.util.Objects;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -85,6 +86,8 @@ public class UserProfileController {
 
   public void databasePopup() {
     System.out.println("database popup");
+    final var file = new FileChooser().showOpenDialog(firstNameField.getScene().getWindow());
+    //file.getAbsolutePath();
     DatabaseImportDialogController didc = new DatabaseImportDialogController();
     DatabaseImportDialogController.showDialog();
   }

@@ -1,16 +1,20 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.CSVExportable;
+import edu.wpi.capybara.database.CSVImporter;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import jakarta.persistence.*;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "cleaningsubmission", schema = "cdb", catalog = "teamcdb")
-public class CleaningsubmissionEntity {
+public class CleaningsubmissionEntity implements CSVExportable {
   // @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "memberid")
   private String memberid;
@@ -225,5 +229,63 @@ public class CleaningsubmissionEntity {
   @Override
   public int hashCode() {
     return Objects.hash(memberid, location, hazardlevel, description, submissionstatus);
+  }
+
+  @Override
+  public String[] toCSV() {
+    return new String[] {
+      Integer.toString(getSubmissionid()),
+      getMemberid(),
+      getAssignedid(),
+      getLocation(),
+      getHazardlevel(),
+      getDescription(),
+      getSubmissionstatus().toString(),
+      getUrgency(),
+      getCreatedate().toString(),
+      getDuedate().toString()
+    };
+  }
+
+  public static class Importer implements CSVImporter<CleaningsubmissionEntity> {
+    @Override
+    public CleaningsubmissionEntity fromCSV(String[] csv) {
+      int submissionid = Integer.parseInt(csv[0]);
+      String employeeid = csv[1];
+      String assignedid = csv[2];
+      String location = csv[3];
+      String hazardlevel = csv[4];
+      String description = csv[5];
+      SubmissionStatus submissionstatus = SubmissionStatus.valueOf(csv[6]);
+      String urgency = csv[7];
+
+      java.sql.Date createdate;
+      java.sql.Date duedate;
+      try {
+        String startDate = csv[8];
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date date = sdf1.parse(startDate);
+        createdate = new Date(date.getTime());
+
+        String startDate2 = csv[9];
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date date2 = sdf2.parse(startDate2);
+        duedate = new Date(date2.getTime());
+      } catch (ParseException e) {
+        throw new IllegalArgumentException(e);
+      }
+
+      return new CleaningsubmissionEntity(
+          submissionid,
+          employeeid,
+          assignedid,
+          location,
+          hazardlevel,
+          description,
+          submissionstatus,
+          urgency,
+          createdate,
+          duedate);
+    }
   }
 }

@@ -1,8 +1,12 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.CSVExportable;
+import edu.wpi.capybara.database.CSVImporter;
 import jakarta.persistence.*;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -10,7 +14,7 @@ import org.hibernate.Transaction;
 @Entity
 @Table(name = "move", schema = "cdb", catalog = "teamcdb")
 @IdClass(MoveEntityPK.class)
-public class MoveEntity {
+public class MoveEntity implements CSVExportable {
   @Id
   @Column(name = "nodeid")
   private String nodeid;
@@ -83,5 +87,31 @@ public class MoveEntity {
   @Override
   public int hashCode() {
     return Objects.hash(nodeid, longname, movedate);
+  }
+
+  @Override
+  public String[] toCSV() {
+    return new String[] {getNodeid(), getLongname(), getMovedate().toString()};
+  }
+
+  public static class Importer implements CSVImporter<MoveEntity> {
+    @Override
+    public MoveEntity fromCSV(String[] csv) {
+
+      String nodeid = csv[0];
+      String longname = csv[1];
+
+      java.sql.Date movedate;
+      try {
+        String startDate = csv[2];
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date date = sdf1.parse(startDate);
+        movedate = new Date(date.getTime());
+      } catch (ParseException e) {
+        throw new IllegalArgumentException(e);
+      }
+
+      return new MoveEntity(nodeid, longname, movedate);
+    }
   }
 }

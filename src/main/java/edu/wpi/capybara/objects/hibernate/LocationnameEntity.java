@@ -1,6 +1,8 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.CSVExportable;
+import edu.wpi.capybara.database.CSVImporter;
 import jakarta.persistence.*;
 import java.util.Objects;
 import org.hibernate.Session;
@@ -8,7 +10,7 @@ import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "locationname", schema = "cdb", catalog = "teamcdb")
-public class LocationnameEntity {
+public class LocationnameEntity implements CSVExportable {
   @Id
   @Column(name = "longname")
   private String longname;
@@ -81,5 +83,22 @@ public class LocationnameEntity {
   @Override
   public int hashCode() {
     return Objects.hash(longname, shortname, locationtype);
+  }
+
+  @Override
+  public String[] toCSV() {
+    return new String[] {getLongname(), getShortname(), getLocationtype()};
+  }
+
+  public static class Importer implements CSVImporter<LocationnameEntity> {
+    @Override
+    public LocationnameEntity fromCSV(String[] csv) {
+
+      String longname = csv[0];
+      String shortname = csv[1];
+      String locationtype = csv[2];
+
+      return new LocationnameEntity(longname, shortname, locationtype);
+    }
   }
 }

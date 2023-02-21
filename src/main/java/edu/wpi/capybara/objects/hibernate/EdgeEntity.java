@@ -1,6 +1,8 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.CSVExportable;
+import edu.wpi.capybara.database.CSVImporter;
 import jakarta.persistence.*;
 import java.util.Objects;
 import org.hibernate.Session;
@@ -9,7 +11,7 @@ import org.hibernate.Transaction;
 @Entity
 @Table(name = "edge", schema = "cdb", catalog = "teamcdb")
 @IdClass(EdgeEntityPK.class)
-public class EdgeEntity {
+public class EdgeEntity implements CSVExportable {
   @Id
   @Column(name = "node1")
   private String node1;
@@ -71,5 +73,21 @@ public class EdgeEntity {
   @Override
   public int hashCode() {
     return Objects.hash(node1, node2);
+  }
+
+  @Override
+  public String[] toCSV() {
+    return new String[] {getNode1(), getNode2()};
+  }
+
+  public static class Importer implements CSVImporter<EdgeEntity> {
+    @Override
+    public EdgeEntity fromCSV(String[] csv) {
+
+      String node1 = csv[0];
+      String node2 = csv[1];
+
+      return new EdgeEntity(node1, node2);
+    }
   }
 }

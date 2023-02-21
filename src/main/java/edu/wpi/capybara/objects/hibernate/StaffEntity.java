@@ -1,6 +1,8 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.CSVExportable;
+import edu.wpi.capybara.database.CSVImporter;
 import jakarta.persistence.*;
 import java.util.Objects;
 import org.hibernate.Session;
@@ -8,7 +10,7 @@ import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "staff", schema = "cdb", catalog = "teamcdb")
-public class StaffEntity {
+public class StaffEntity implements CSVExportable {
   @Id
   @Column(name = "staffid")
   private String staffid;
@@ -145,5 +147,27 @@ public class StaffEntity {
     session.remove(this);
     tx.commit();
     session.close();
+  }
+
+  @Override
+  public String[] toCSV() {
+    return new String[] {
+      getStaffid(), getFirstname(), getLastname(), getRole(), getPassword(), getNotes()
+    };
+  }
+
+  public static class Importer implements CSVImporter<StaffEntity> {
+    @Override
+    public StaffEntity fromCSV(String[] csv) {
+
+      String staffid = csv[0];
+      String firstname = csv[1];
+      String lastname = csv[2];
+      String role = csv[3];
+      String password = csv[4];
+      // String notes = csv[5];
+
+      return new StaffEntity(staffid, firstname, lastname, role, password);
+    }
   }
 }
