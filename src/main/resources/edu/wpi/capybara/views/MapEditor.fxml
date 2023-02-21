@@ -21,11 +21,11 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.Separator?>
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.MapEditorController" stylesheets="@../styles/map_editor.css">
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.mapeditor.MapEditorController" stylesheets="@../styles/map_editor.css">
     <center>
         <AnchorPane prefHeight="400.0" prefWidth="1200.0">
             <SplitPane AnchorPane.leftAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"> <!-- this is an awful, terrible kludge, but it keeps the map view from flying around everywhere and clipping through things -->
-                <MapEditorPane fx:id="mapEditor" minWidth="200.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                <StackPane fx:id="mapViewRoot" minWidth="200.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
             </SplitPane>
             <TableView fx:id="nodeTableView" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
             <TableView fx:id="edgeTableView" minWidth="200" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />

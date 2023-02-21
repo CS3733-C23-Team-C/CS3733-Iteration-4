@@ -28,7 +28,8 @@ public class MapEditorPane extends SplitPane {
   // todo: extract GFXNode
   // todo: extract GFXEdge
   // todo: decouple MapEditorPane and MapEditorController
-  // both should be capable of editing things, but each should specialize to their specific capabilities
+  // both should be capable of editing things, but each should specialize to their specific
+  // capabilities
 
   /** Graphical representation of a Node. */
   private class GFXNode extends Circle implements OldSelectable {

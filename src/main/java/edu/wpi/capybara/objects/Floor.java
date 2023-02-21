@@ -2,7 +2,6 @@ package edu.wpi.capybara.objects;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-import javafx.util.StringConverter;
 
 /** Utility enum for representing the floors of the hospital. */
 public enum Floor {
