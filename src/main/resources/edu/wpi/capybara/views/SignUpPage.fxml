@@ -62,6 +62,12 @@
                                 <HBox alignment="TOP_CENTER" spacing="10.0">
                                     <children>
                                         <FontAwesomeIconView fill="#012d5a" glyphName="USER" size="25" />
+                                        <MFXTextField fx:id="staffID" onKeyReleased="#enableSignUp" prefHeight="40.0" prefWidth="180.0" promptText="new staff ID" style="-fx-background-color: transparent; -fx-border-color: #009CA6; -fx-border-width: 0px 0px 4px 0px;" />
+                                    </children>
+                                </HBox>
+                                <HBox alignment="TOP_CENTER" spacing="10.0">
+                                    <children>
+                                        <FontAwesomeIconView fill="#012d5a" glyphName="USER" size="25" />
                                         <MFXTextField fx:id="firstName" onKeyReleased="#enableSignUp" prefHeight="40.0" prefWidth="180.0" promptText="First Name" style="-fx-background-color: transparent; -fx-border-color: #009CA6; -fx-border-width: 0px 0px 4px 0px;" />
                                     </children>
                                 </HBox>
