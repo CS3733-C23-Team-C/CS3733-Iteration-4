@@ -38,8 +38,7 @@ public class ComputersubmissionDAOImpl implements ComputersubmissionDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<Integer, ComputersubmissionEntity> ret =
-        new HashMap<Integer, ComputersubmissionEntity>();
+    HashMap<Integer, ComputersubmissionEntity> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();

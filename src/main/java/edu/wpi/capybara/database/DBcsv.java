@@ -14,16 +14,18 @@ import java.util.*;
 
 public class DBcsv {
 
-  public static HashMap<String, NodeEntity> nodes;
-  public static ArrayList<EdgeEntity> edges;
-  public static HashMap<String, LocationnameEntity> locationNames;
-  public static ArrayList<MoveEntity> moves;
-  public static HashMap<String, StaffEntity> staff;
-  public static HashMap<Integer, TransportationsubmissionEntity> transportationSubs;
-  public static HashMap<Integer, CleaningsubmissionEntity> cleaningSubs;
-  public static HashMap<Integer, SecuritysubmissionEntity> securitySubs;
-  public static HashMap<Integer, ComputersubmissionEntity> computerSubs;
-  public static HashMap<Integer, AudiosubmissionEntity> audioSubs;
+  public static Map<String, NodeEntity> nodes;
+  public static List<EdgeEntity> edges;
+  public static Map<String, LocationnameEntity> locationNames;
+  public static List<MoveEntity> moves;
+  public static Map<String, StaffEntity> staff;
+  public static Map<Integer, TransportationsubmissionEntity> transportationSubs;
+  public static Map<Integer, CleaningsubmissionEntity> cleaningSubs;
+  public static Map<Integer, SecuritysubmissionEntity> securitySubs;
+
+  public static Map<Integer, ComputersubmissionEntity> computerSubs;
+
+  public static Map<Integer, AudiosubmissionEntity> audioSubs;
 
   public DBcsv() {
     nodes = Main.db.getNodes();
@@ -164,7 +166,7 @@ public class DBcsv {
 
     List<NodeEntity> nodeKeys = List.copyOf(nodes.values());
     for (NodeEntity nodeEntity : nodeKeys) {
-      Main.db.deleteNode(nodeEntity.getNodeid());
+      Main.db.deleteNode(nodeEntity.getNodeID());
     }
 
     // Inserts nodes

@@ -38,8 +38,7 @@ public class CleaningsubmissionDAOImpl implements CleaningsubmissionDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<Integer, CleaningsubmissionEntity> ret =
-        new HashMap<Integer, CleaningsubmissionEntity>();
+    HashMap<Integer, CleaningsubmissionEntity> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();

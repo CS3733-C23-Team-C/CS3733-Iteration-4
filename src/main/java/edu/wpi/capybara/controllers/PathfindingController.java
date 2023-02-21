@@ -2,16 +2,26 @@ package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.exceptions.FloorDoesNotExistException;
+import edu.wpi.capybara.objects.*;
 import edu.wpi.capybara.objects.NodeCircle;
 import edu.wpi.capybara.objects.PFNode;
-import edu.wpi.capybara.objects.hibernate.*;
+import edu.wpi.capybara.objects.hibernate.LocationnameEntity;
+import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import edu.wpi.capybara.pathfinding.AstarPathfinder;
 import edu.wpi.capybara.pathfinding.BFSPathfinder;
 import edu.wpi.capybara.pathfinding.DFSPathfinder;
 import edu.wpi.capybara.pathfinding.PathfindingAlgorithm;
+import edu.wpi.capybara.pathfinding.costs.ElevatorCost;
+import edu.wpi.capybara.pathfinding.costs.LegDayCost;
+import edu.wpi.capybara.pathfinding.costs.PathfindingCost;
+import edu.wpi.capybara.pathfinding.costs.StairsCost;
+import edu.wpi.capybara.pathfinding.skips.AvoidStairsSkip;
+import edu.wpi.capybara.pathfinding.skips.NodeSkip;
+import edu.wpi.capybara.pathfinding.skips.PathfindingSkip;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
+import io.github.palexdev.materialfx.controls.MFXToggleButton;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialog;
 import io.github.palexdev.materialfx.dialogs.MFXGenericDialogBuilder;
 import java.sql.Date;
@@ -21,20 +31,23 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class PathfindingController {
 
   @FXML private MFXButton submitButton;
-  @FXML private MFXComboBox<PFNode> currRoom;
-  @FXML private MFXComboBox<PFNode> destRoom;
+  @FXML private MFXComboBox<PFPlace> currRoom;
+  @FXML private MFXComboBox<PFPlace> destRoom;
   @FXML private Pane canvasPane;
   @FXML private StackPane stackPane;
   @FXML private Canvas nodeDrawer;
@@ -43,10 +56,18 @@ public class PathfindingController {
   @FXML private MFXDatePicker dateField;
   @FXML private MFXComboBox<PathfindingAlgorithm> pathfindingAlgorithm;
   @FXML private MFXButton directionsButton;
-
+  @FXML @Getter private MFXToggleButton serviceRequest;
+  @FXML @Getter private MFXToggleButton locationNames;
+  @FXML private MFXButton settingsButton;
+  @FXML private Text infoText;
+  @Getter @Setter private List<PFPlace> placesToAvoid;
   private MapViewController mvc;
-
-  private List<PFNode> pfNodes;
+  @Getter private List<PFPlace> pfLocations;
+  @Getter @Setter private Set<PathfindingCost> costs;
+  @Getter private Set<PathfindingSkip> skips;
+  @Getter @Setter private MFXGenericDialog currentDialog;
+  @Getter @Setter private boolean avoidStairs, preferStairs;
+  @Getter private String mapText;
 
   /** Initialize controller by FXML Loader. */
   @FXML
@@ -58,33 +79,45 @@ public class PathfindingController {
     nodeDrawer.setPickOnBounds(true);
     nodeAnchorPane.setPickOnBounds(true);
 
-    Collection<NodeEntity> nodes = Main.db.getNodes().values();
+    costs = new HashSet<>();
+    costs.add(new ElevatorCost());
+    costs.add(new StairsCost());
+
+    skips = new HashSet<>();
+
+    // Collection<NodeEntity> nodes = Main.db.getNodes().values();
+    Collection<LocationnameEntity> locations = Main.db.getLocationnames().values();
 
     // log.info("1");
     mvc =
         new MapViewController(
             nodeDrawer, nodeAnchorPane, canvasPane, this::nodeClickedOnAction, stackPane, this);
     // log.info("2");
-    pfNodes = new ArrayList<>(nodes.stream().map((n) -> new PFNode(n, this)).toList());
+    pfLocations = new ArrayList<>(locations.stream().map((n) -> new PFLocation(n, this)).toList());
     // log.info("3");
     dateField.setPopupOffsetX(-70);
 
-    pfNodes.sort(Comparator.comparing(PFNode::toString));
+    pfLocations.sort(Comparator.comparing(Object::toString));
 
     floorSelect.setItems(FXCollections.observableArrayList("L2", "L1", "1", "2", "3"));
     floorSelect.setText("L1");
 
-    currRoom.setItems(FXCollections.observableArrayList(pfNodes));
-    destRoom.setItems(FXCollections.observableArrayList(pfNodes));
+    currRoom.setItems(FXCollections.observableArrayList(pfLocations));
+    destRoom.setItems(FXCollections.observableArrayList(pfLocations));
 
     pathfindingAlgorithm.setItems(
         FXCollections.observableArrayList(
-            new AstarPathfinder(Main.db.getNodes(), Main.db.getEdges()),
+            new AstarPathfinder(Main.db.getNodes(), Main.db.getEdges(), this),
             new DFSPathfinder(Main.db.getNodes()),
             new BFSPathfinder(Main.db.getNodes(), Main.db.getEdges())));
     pathfindingAlgorithm.selectFirst();
     mvc.drawNodes();
     getMoveDate();
+
+    placesToAvoid = new ArrayList<>();
+    preferStairs = false;
+    avoidStairs = false;
+    mapText = "";
     // log.info("done");
   }
 
@@ -99,15 +132,35 @@ public class PathfindingController {
    */
 
   public void submitForm() throws FloorDoesNotExistException {
-    NodeEntity currRoomNode = currRoom.getValue().getNode();
-    NodeEntity destRoomNode = destRoom.getValue().getNode();
+    NodeEntity currRoomNode = currRoom.getValue().getNode(getMoveDate());
+    NodeEntity destRoomNode = destRoom.getValue().getNode(getMoveDate());
+
+    costs = new HashSet<>();
+
+    skips = new HashSet<>();
+    for (PFPlace place : placesToAvoid) {
+      skips.add(new NodeSkip(place.getNode(getMoveDate())));
+    }
+
+    if (avoidStairs) skips.add(new AvoidStairsSkip());
+
+    if (preferStairs) {
+      costs.add(new LegDayCost());
+      System.out.println("preferring stairs");
+    } else costs.add(new StairsCost());
+
+    costs.add(new ElevatorCost());
 
     List<NodeEntity> path = pathfindingAlgorithm.getValue().findPath(currRoomNode, destRoomNode);
-    if (path == null) return;
+    if (path == null) {
+      infoText.setText("Unable to find a path with the current settings");
+      return;
+    }
+    // else System.out.println(path);
 
     mvc.displayPath(path);
-    mvc.changeFloor(currRoom.getValue().getNode().getFloor());
-    changeFloorNum(currRoom.getValue().getNode().getFloor());
+    mvc.changeFloor(currRoomNode.getFloor().toString());
+    changeFloorNum(currRoomNode.getFloor().toString());
     directionsButton.setVisible(true);
 
     clearFields(null);
@@ -139,15 +192,22 @@ public class PathfindingController {
 
     submitButton.setDisable(!valid);
 
-    PFNode currRoomNode = currRoom.getValue();
-    PFNode destRoomNode = destRoom.getValue();
+    PFPlace currRoomNode = currRoom.getValue();
+    PFPlace destRoomNode = destRoom.getValue();
     if (currRoomNode != null) {
       currRoom.selectItem(currRoomNode);
-      mvc.setStartNode(currRoom.getValue().getNode());
+      NodeEntity node = currRoom.getValue().getNode(getMoveDate());
+      if (node != null) {
+        mvc.setStartNode(node);
+      } else {
+        infoText.setText(
+            currRoom.getValue().getLongname() + " doesn't have a Node at " + getMoveDate());
+        mvc.setStartNode(null);
+      }
     }
     if (destRoomNode != null) {
       destRoom.selectItem(destRoomNode);
-      mvc.setEndNode(destRoom.getValue().getNode());
+      mvc.setEndNode(destRoom.getValue().getNode(getMoveDate()));
     }
 
     mvc.drawNodes();
@@ -161,32 +221,58 @@ public class PathfindingController {
     mvc.changeFloor(floorSelect.getSelectedItem());
   }
 
-  public PFNode getPFNode(NodeEntity node) {
-    for (PFNode pfNode : pfNodes) {
-      if (pfNode.getNode().equals(node)) return pfNode;
+  public PFPlace getPFPlace(NodeEntity node) {
+    for (PFPlace location : pfLocations) {
+      if (location.getNode(getMoveDate()).equals(node)) return location;
     }
-    return null;
+    return new PFNode(node);
+  }
+
+  public PFPlace getPFPlace(LocationnameEntity locationname) {
+    for (PFPlace location : pfLocations) {
+      if (location.getLongname().equals(locationname.getLongname())) return location;
+    }
+    return new PFLocation(locationname, this);
   }
 
   private void nodeClickedOnAction(MouseEvent event, NodeCircle nodeCircle) {
     NodeEntity node = nodeCircle.getConnectedNode();
-    PFNode pfNode = getPFNode(node);
+    PFPlace pfPlace = getPFPlace(node);
 
     MFXGenericDialogBuilder dialogBuilder = new MFXGenericDialogBuilder();
     VBox textHolder;
 
     // text
-    if (pfNode.hasRecentNode(getMoveDate())) {
-      Text title = new Text(pfNode.getLongname(getMoveDate()));
+    if (pfPlace.hasRecentNode(getMoveDate())) {
+      Text title = new Text(pfPlace.getLongname());
       title.setFont(Font.font(16));
-      Text shortName = new Text("Short Name: " + pfNode.getShortname(getMoveDate()));
-      Text longName = new Text("Long Name: " + pfNode.getLongname(getMoveDate()));
-      Text locationType = new Text("Location Type: " + pfNode.getLocationtype(getMoveDate()));
+      Text shortName = new Text("Short Name: " + pfPlace.getShortname());
+      Text longName = new Text("Long Name: " + pfPlace.getLongname());
+      Text locationType = new Text("Location Type: " + pfPlace.getLocationtype());
       textHolder = new VBox(title, shortName, longName, locationType);
     } else {
       textHolder =
           new VBox(
-              new Text("Node " + node.getNodeid() + " has no moves before " + dateField.getText()));
+              new Text("Node " + node.getNodeID() + " has no moves before " + dateField.getText()));
+    }
+
+    if (placesToAvoid.contains(pfPlace)) {
+      textHolder.getChildren().add(new Text("This node will be avoided when pathfinding!"));
+    }
+
+    if (nodeCircle.getServiceRequests().size() > 0) {
+      Text submissionTitle = new Text("Current Submissions");
+      submissionTitle.setUnderline(true);
+
+      textHolder.getChildren().add(submissionTitle);
+
+      for (SubmissionAbs sub : nodeCircle.getServiceRequests()) {
+        textHolder
+            .getChildren()
+            .add(
+                new Text(
+                    sub.submissionType() + " Service Request Number " + sub.getSubmissionid()));
+      }
     }
 
     // options
@@ -207,20 +293,21 @@ public class PathfindingController {
     dialog.setPrefSize(200, 300);
 
     dialog.setOnClose((event1 -> stackPane.getChildren().removeAll(dialog)));
-    dialog.setOnMouseClicked(event1 -> System.out.println("i was clicked"));
+    // dialog.setOnMouseClicked(event1 -> System.out.println("i was clicked"));
     setEndNode.setOnAction(
         (event1 -> {
-          destRoom.selectItem(pfNode);
+          destRoom.selectItem(pfPlace);
           validateButton();
           stackPane.getChildren().removeAll(dialog);
         }));
     setStartNode.setOnAction(
         (event1 -> {
-          currRoom.selectItem(pfNode);
+          currRoom.selectItem(pfPlace);
           validateButton();
           stackPane.getChildren().removeAll(dialog);
         }));
 
+    removeCurrentDialog();
     stackPane.getChildren().add(dialog);
   }
 
@@ -234,47 +321,46 @@ public class PathfindingController {
 
   public void showDirections() {
     if (!mvc.isPath()) throw new RuntimeException("No path exists!");
-    List<PFNode> path = mvc.getCurrentPath().stream().map(this::getPFNode).toList();
+    List<PFPlace> path = mvc.getCurrentPath().stream().map(this::getPFPlace).toList();
 
     MFXGenericDialogBuilder dialogBuilder = new MFXGenericDialogBuilder();
 
-    Text firstDirection = new Text("First, start at " + path.get(0).getLongname(getMoveDate()));
+    Text firstDirection = new Text("First, start at " + path.get(0).getLongname());
 
     VBox textHolder = new VBox(firstDirection);
 
     for (int i = 1; i < path.size() - 1; i++) {
       Text nextDirection;
 
-      if (path.get(i).getLocationtype(getMoveDate()).equals("ELEV")
-          && path.get(i + 1).getLocationtype(getMoveDate()).equals("ELEV")) {
+      if (path.get(i).getLocationtype().equals("ELEV")
+          && path.get(i + 1).getLocationtype().equals("ELEV")) {
         nextDirection =
             new Text(
                 "Then, take "
-                    + path.get(i).getLongname(getMoveDate())
+                    + path.get(i).getLongname()
                     + " from "
-                    + path.get(i).getNode().getFloor()
+                    + path.get(i).getNode(getMoveDate()).getFloor()
                     + " to "
-                    + path.get(i + 1).getNode().getFloor());
+                    + path.get(i + 1).getNode(getMoveDate()).getFloor());
         i++;
-      } else if (path.get(i).getLocationtype(getMoveDate()).equals("STAI")
-          && path.get(i + 1).getLocationtype(getMoveDate()).equals("STAI")) {
+      } else if (path.get(i).getLocationtype().equals("STAI")
+          && path.get(i + 1).getLocationtype().equals("STAI")) {
         nextDirection =
             new Text(
                 "Then, take "
-                    + path.get(i).getLongname(getMoveDate())
+                    + path.get(i).getLongname()
                     + " from "
-                    + path.get(i).getNode().getFloor()
+                    + path.get(i).getNode(getMoveDate()).getFloor()
                     + " to "
-                    + path.get(i + 1).getNode().getFloor());
+                    + path.get(i + 1).getNode(getMoveDate()).getFloor());
         i++;
       } else {
-        nextDirection = new Text("Then, walk to " + path.get(i).getLongname(getMoveDate()));
+        nextDirection = new Text("Then, walk to " + path.get(i).getLongname());
       }
       textHolder.getChildren().add(nextDirection);
     }
 
-    Text lastDirection =
-        new Text("Finally, walk to " + path.get(path.size() - 1).getLongname(getMoveDate()));
+    Text lastDirection = new Text("Finally, walk to " + path.get(path.size() - 1).getLongname());
     Text lastText = new Text("and you will arrive at your destination!");
     textHolder.getChildren().addAll(lastDirection, lastText);
 
@@ -290,6 +376,44 @@ public class PathfindingController {
 
     dialog.setOnClose((event1 -> stackPane.getChildren().removeAll(dialog)));
 
+    removeCurrentDialog();
     stackPane.getChildren().add(dialog);
+  }
+
+  public void removeCurrentDialog() {
+    Set<Node> toRemove = new HashSet<>();
+    for (Node child : stackPane.getChildren()) {
+      if (child.getClass() == MFXGenericDialog.class) toRemove.add(child);
+    }
+    stackPane.getChildren().removeAll(toRemove);
+  }
+
+  public void openSettings() {
+    PathfindingDialogController.showDialog(this);
+  }
+
+  public void openFindNode() {
+    PathfindingSearchDialogController.showDialog(this);
+  }
+
+  public void setMapText(String mapText) {
+    this.mapText = mapText;
+    mvc.drawNodes();
+  }
+
+  public void setCurrRoom(PFPlace place) {
+    currRoom.selectItem(place);
+    mvc.setStartNode(place.getNode(getMoveDate()));
+    mvc.drawNodes();
+  }
+
+  public void setDestRoom(PFPlace place) {
+    destRoom.selectItem(place);
+    mvc.setEndNode(place.getNode(getMoveDate()));
+    mvc.drawNodes();
+  }
+
+  public PFPlace getCurrRoom() {
+    return currRoom.getValue();
   }
 }

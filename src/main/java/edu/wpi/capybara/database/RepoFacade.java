@@ -1,39 +1,39 @@
 package edu.wpi.capybara.database;
 
 import edu.wpi.capybara.objects.hibernate.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.hibernate.Session;
 
 public interface RepoFacade {
   // Get all methods
   // Submissions
-  HashMap<Integer, AudiosubmissionEntity> getAudioSubs();
+  Map<Integer, AudiosubmissionEntity> getAudioSubs();
 
-  HashMap<Integer, CleaningsubmissionEntity> getCleaningSubs();
+  Map<Integer, CleaningsubmissionEntity> getCleaningSubs();
 
-  HashMap<Integer, ComputersubmissionEntity> getComputerSubs();
+  Map<Integer, ComputersubmissionEntity> getComputerSubs();
 
-  HashMap<Integer, SecuritysubmissionEntity> getSecuritySubs();
+  Map<Integer, SecuritysubmissionEntity> getSecuritySubs();
 
-  HashMap<Integer, TransportationsubmissionEntity> getTransportationSubs();
+  Map<Integer, TransportationsubmissionEntity> getTransportationSubs();
 
   // Others
-  HashMap<String, LocationnameEntity> getLocationnames();
+  Map<String, LocationnameEntity> getLocationnames();
 
-  HashMap<String, NodeEntity> getNodes();
+  Map<String, NodeEntity> getNodes();
 
-  HashMap<String, StaffEntity> getStaff();
+  Map<String, StaffEntity> getStaff();
 
-  ArrayList<EdgeEntity> getEdges();
+  List<EdgeEntity> getEdges();
 
-  ArrayList<MoveEntity> getMoves();
+  List<MoveEntity> getMoves();
 
-  HashMap<Integer, MessagesEntity> getMessages();
+  Map<Integer, MessagesEntity> getMessages();
 
-  HashMap<Integer, MessagesEntity> getMessages(String id);
+  Map<Integer, MessagesEntity> getMessages(String id);
 
-  HashMap<Integer, MessagesEntity> getMessages(String id, int lastid);
+  Map<Integer, MessagesEntity> getMessages(String id, int lastid);
 
   // Add method
   // Submissions
