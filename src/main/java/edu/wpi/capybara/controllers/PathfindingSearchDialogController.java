@@ -5,8 +5,11 @@ import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.PFPlace;
 import edu.wpi.capybara.objects.SubmissionAbs;
 import edu.wpi.capybara.objects.hibernate.LocationnameEntity;
+import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import edu.wpi.capybara.pathfinding.AstarPathfinder;
 import io.github.palexdev.materialfx.controls.*;
 import java.io.IOException;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -179,6 +182,20 @@ public class PathfindingSearchDialogController {
           setStartNodeButton.setVisible(true);
         }
       }
+    } else if (targetField.getValue().equals("Node Type")) {
+      NodeEntity start = startNode.getValue().getNode(controller.getMoveDate());
+      AstarPathfinder pf = new AstarPathfinder(Main.db.getNodes(), Main.db.getEdges(), controller);
+      List<NodeEntity> path = pf.findPath(start, (node) -> isOfType(node, typeField.getValue()));
+      if (path == null) {
+        outputText.setText("Unable to find that location type");
+      } else {
+        NodeEntity found = path.get(path.size() - 1);
+        PFPlace place = controller.getPFPlace(found);
+        foundNode = place;
+        outputText.setText("Found " + place.getLongname());
+        setEndNodeButton.setVisible(true);
+        setStartNodeButton.setVisible(true);
+      }
     }
   }
 
@@ -190,16 +207,22 @@ public class PathfindingSearchDialogController {
 
   public void onSetStartNode() {
     controller.setCurrRoom(foundNode);
+    controller.validateButton();
     closeDialog();
   }
 
   public void onSetEndNode() {
     controller.setDestRoom(foundNode);
+    controller.validateButton();
     closeDialog();
   }
 
   public void onGetStartNode() {
     PFPlace place = controller.getCurrRoom();
     if (place != null) startNode.selectItem(place);
+  }
+
+  private boolean isOfType(NodeEntity ne, String type) {
+    return controller.getPFPlace(ne).getLocationtype().equals(type);
   }
 }

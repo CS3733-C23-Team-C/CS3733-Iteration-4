@@ -99,22 +99,27 @@
                         </MFXFilterComboBox>
                      </children>
                   </VBox>
-                  <MFXButton fx:id="settingsButton1" onAction="#openFindNode" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #009CA6;" text="Find Node" textFill="WHITE">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </MFXButton>
-                  <MFXButton fx:id="settingsButton" onAction="#openSettings" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #009CA6;" text="Options" textFill="WHITE">
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </MFXButton>
+                  <HBox>
+                     <children>
+                        <MFXButton fx:id="settingsButton1" onAction="#openFindNode" prefHeight="50.0" prefWidth="90.0" style="-fx-background-color: #009CA6;" text="Search" textFill="WHITE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </MFXButton>
+                        <Pane prefHeight="0.0" prefWidth="20.0" />
+                        <MFXButton fx:id="settingsButton" onAction="#openSettings" prefHeight="50.0" prefWidth="90.0" style="-fx-background-color: #009CA6;" text="Options" textFill="WHITE">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </MFXButton>
+                     </children>
+                  </HBox>
                   <MFXButton fx:id="clearButton" onAction="#clearFields" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #009CA6;" text="Clear" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />

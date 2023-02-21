@@ -46,7 +46,7 @@
                            </font>
                         </Text>
                         <Pane prefHeight="51.0" prefWidth="14.0" />
-                        <MFXButton onAction="#onGetStartNode" text="Get Selected Start Node" />
+                        <MFXButton onAction="#onGetStartNode" style="-fx-background-color: #009CA6;" text="Get Selected Start Node" />
                         <Pane prefHeight="51.0" prefWidth="50.0" />
                         <MFXFilterComboBox fx:id="startNode" onAction="#validateFindNode" promptText="Start Node" />
                      </children>
@@ -75,7 +75,7 @@
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="51.0" prefWidth="445.0">
                      <children>
-                        <MFXButton fx:id="findNodeButton" onAction="#findNode" text="Find Node" />
+                        <MFXButton fx:id="findNodeButton" onAction="#findNode" style="-fx-background-color: #009CA6;" text="Find Node" />
                      </children>
                   </HBox>
                   <HBox alignment="CENTER" prefHeight="51.0" prefWidth="445.0">
@@ -92,13 +92,13 @@
             <HBox prefHeight="10.0" />
             <HBox alignment="CENTER" prefHeight="30.0" prefWidth="445.0">
                <children>
-                  <MFXButton fx:id="resetButton" onAction="#reset" text="Reset" />
+                  <MFXButton fx:id="resetButton" onAction="#reset" style="-fx-background-color: #009CA6;" text="Reset" />
                   <Pane prefHeight="30.0" prefWidth="27.0" />
-                  <MFXButton fx:id="cancelButton" onAction="#closeDialog" text="Cancel" />
+                  <MFXButton fx:id="cancelButton" onAction="#closeDialog" style="-fx-background-color: #009CA6;" text="Cancel" />
                   <Pane prefHeight="30.0" prefWidth="27.0" />
-                  <MFXButton fx:id="setStartNodeButton" onAction="#onSetStartNode" text="Set Start Node" />
+                  <MFXButton fx:id="setStartNodeButton" onAction="#onSetStartNode" style="-fx-background-color: #009CA6;" text="Set Start Node" />
                   <Pane prefHeight="30.0" prefWidth="27.0" />
-                  <MFXButton fx:id="setEndNodeButton" onAction="#onSetEndNode" text="Set End Node" />
+                  <MFXButton fx:id="setEndNodeButton" onAction="#onSetEndNode" style="-fx-background-color: #009CA6;" text="Set End Node" />
                </children>
             </HBox>
          </children>
