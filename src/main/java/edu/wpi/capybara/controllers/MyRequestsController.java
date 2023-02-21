@@ -2,13 +2,11 @@ package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
 import edu.wpi.capybara.Main;
-import edu.wpi.capybara.objects.hibernate.*;
 import edu.wpi.capybara.objects.orm.*;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.utils.EnumStringConverter;
-
 import java.util.Map;
 import java.util.Objects;
 import javafx.collections.FXCollections;
@@ -90,12 +88,12 @@ public class MyRequestsController {
     options.addAll("Transportation", "Cleaning", "Security", "Audio", "Computer");
     requestType.setItems(options);
 
-    Map<Integer, CleaningSubmission> cleaningdata = Main.db.getCleaningSubs();
-    Map<Integer, TransportationSubmission> transportationdata =
+    Map<Integer, CleaningsubmissionEntity> cleaningdata = Main.db.getCleaningSubs();
+    Map<Integer, TransportationsubmissionEntity> transportationdata =
         Main.db.getTransportationSubs();
-    Map<Integer, SecuritySubmission> securitydata = Main.db.getSecuritySubs();
-    Map<Integer, AudioSubmission> audiodata = Main.db.getAudioSubs();
-    Map<Integer, ComputerSubmission> computerdata = Main.db.getComputerSubs();
+    Map<Integer, SecuritysubmissionEntity> securitydata = Main.db.getSecuritySubs();
+    Map<Integer, AudiosubmissionEntity> audiodata = Main.db.getAudioSubs();
+    Map<Integer, ComputersubmissionEntity> computerdata = Main.db.getComputerSubs();
 
     /*cleaning columns*/
     cleanEmployeeAssigned.setCellValueFactory(
@@ -168,7 +166,7 @@ public class MyRequestsController {
             clean.setUrgency(event.getNewValue());
           }
         });
-    for (CleaningSubmission sub : cleaningdata.values()) {
+    for (CleaningsubmissionEntity sub : cleaningdata.values()) {
       if (Objects.equals(App.getUser().getRole(), "admin")) {
         cleaningRequestsList.add(sub);
       } else if (Objects.equals(sub.getMemberid(), App.getUser().getStaffid())) {
@@ -255,7 +253,7 @@ public class MyRequestsController {
           }
         });
 
-    for (TransportationSubmission sub : transportationdata.values()) {
+    for (TransportationsubmissionEntity sub : transportationdata.values()) {
       if (Objects.equals(App.getUser().getRole(), "admin")) {
         transportationRequestsList.add(sub);
       } else if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
@@ -334,7 +332,7 @@ public class MyRequestsController {
             clean.setUrgency(event.getNewValue());
           }
         });
-    for (SecuritySubmission sub : securitydata.values()) {
+    for (SecuritysubmissionEntity sub : securitydata.values()) {
       if (Objects.equals(App.getUser().getRole(), "admin")) {
         securityRequestsList.add(sub);
       } else if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
@@ -414,7 +412,7 @@ public class MyRequestsController {
             clean.setUrgency(event.getNewValue());
           }
         });
-    for (AudioSubmission sub : audiodata.values()) {
+    for (AudiosubmissionEntity sub : audiodata.values()) {
       if (Objects.equals(App.getUser().getRole(), "admin")) {
         audioRequestsList.add(sub);
       } else if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {
@@ -494,7 +492,7 @@ public class MyRequestsController {
             clean.setUrgency(event.getNewValue());
           }
         });
-    for (ComputerSubmission sub : computerdata.values()) {
+    for (ComputersubmissionEntity sub : computerdata.values()) {
       if (Objects.equals(App.getUser().getRole(), "admin")) {
         computerRequestsList.add(sub);
       } else if (Objects.equals(sub.getEmployeeid(), App.getUser().getStaffid())) {

@@ -14,26 +14,27 @@ import javafx.beans.property.SimpleStringProperty;
 
 @Entity
 @Table(name = "messages", schema = "cdb", catalog = "teamcdb")
-public class Messages implements Persistent {
+public class MessagesEntity implements Persistent {
   // private final SimpleObjectProperty<UUID> messageID = new SimpleObjectProperty<>();
-  private final SimpleIntegerProperty messageID = new SimpleIntegerProperty();
-  private final SimpleStringProperty senderID = new SimpleStringProperty();
-  private final SimpleStringProperty receivingID = new SimpleStringProperty();
+  private final SimpleIntegerProperty messageid = new SimpleIntegerProperty();
+  private final SimpleStringProperty senderid = new SimpleStringProperty();
+  private final SimpleStringProperty receivingid = new SimpleStringProperty();
   private final SimpleObjectProperty<Timestamp> date = new SimpleObjectProperty<>();
   private final SimpleStringProperty message = new SimpleStringProperty();
   private final SimpleBooleanProperty read = new SimpleBooleanProperty();
 
-  public Messages() {}
+  public MessagesEntity() {}
 
-  public Messages(int messageid,
-                  String senderid,
-                  String receivingid,
-                  Timestamp date,
-                  String message,
-                  Boolean read) {
-    setMessageID(messageid);
-    setSenderID(senderid);
-    setReceivingID(receivingid);
+  public MessagesEntity(
+      int messageid,
+      String senderid,
+      String receivingid,
+      Timestamp date,
+      String message,
+      Boolean read) {
+    setMessageid(messageid);
+    setSenderid(senderid);
+    setReceivingid(receivingid);
     setDate(date);
     setMessage(message);
     setRead(read);
@@ -42,9 +43,9 @@ public class Messages implements Persistent {
   @Override
   public void enablePersistence(DAOFacade orm) {
     final InvalidationListener listener = evt -> orm.merge(this);
-    messageID.addListener(listener);
-    senderID.addListener(listener);
-    receivingID.addListener(listener);
+    messageid.addListener(listener);
+    senderid.addListener(listener);
+    receivingid.addListener(listener);
     date.addListener(listener);
     message.addListener(listener);
     read.addListener(listener);
@@ -54,63 +55,63 @@ public class Messages implements Persistent {
   public boolean equals(Object obj) {
     if (obj == null) return false;
     else if (obj == this) return true;
-    else if (obj instanceof Messages that) {
+    else if (obj instanceof MessagesEntity that) {
       return Persistent.compareProperties(
           this,
           that,
-          Messages::getMessageID,
-          Messages::getSenderID,
-          Messages::getReceivingID,
-          Messages::getDate,
-          Messages::getMessage,
-          Messages::isRead);
+          MessagesEntity::getMessageid,
+          MessagesEntity::getSenderid,
+          MessagesEntity::getReceivingid,
+          MessagesEntity::getDate,
+          MessagesEntity::getMessage,
+          MessagesEntity::isRead);
     } else return false;
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(
-        getMessageID(), getSenderID(), getReceivingID(), getDate(), getMessageID(), isRead());
+        getMessageid(), getSenderid(), getReceivingid(), getDate(), getMessageid(), isRead());
   }
 
   @Id
   @Column(name = "messageid")
-  public int getMessageID() {
-    return messageID.get();
+  public int getMessageid() {
+    return messageid.get();
   }
 
-  public SimpleIntegerProperty messageIDProperty() {
-    return messageID;
+  public SimpleIntegerProperty messageidProperty() {
+    return messageid;
   }
 
-  public void setMessageID(int messageID) {
-    this.messageID.set(messageID);
+  public void setMessageid(int messageid) {
+    this.messageid.set(messageid);
   }
 
   @Column(name = "senderid")
-  public String getSenderID() {
-    return senderID.get();
+  public String getSenderid() {
+    return senderid.get();
   }
 
-  public SimpleStringProperty senderIDProperty() {
-    return senderID;
+  public SimpleStringProperty senderidProperty() {
+    return senderid;
   }
 
-  public void setSenderID(String senderID) {
-    this.senderID.set(senderID);
+  public void setSenderid(String senderid) {
+    this.senderid.set(senderid);
   }
 
   @Column(name = "receivingid")
-  public String getReceivingID() {
-    return receivingID.get();
+  public String getReceivingid() {
+    return receivingid.get();
   }
 
-  public SimpleStringProperty receivingIDProperty() {
-    return receivingID;
+  public SimpleStringProperty receivingidProperty() {
+    return receivingid;
   }
 
-  public void setReceivingID(String receivingID) {
-    this.receivingID.set(receivingID);
+  public void setReceivingid(String receivingid) {
+    this.receivingid.set(receivingid);
   }
 
   @Column(name = "date")

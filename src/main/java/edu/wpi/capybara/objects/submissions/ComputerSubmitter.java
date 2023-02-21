@@ -1,9 +1,7 @@
 package edu.wpi.capybara.objects.submissions;
 
 import edu.wpi.capybara.Main;
-import edu.wpi.capybara.objects.hibernate.ComputersubmissionEntity;
-import edu.wpi.capybara.objects.orm.ComputerSubmission;
-
+import edu.wpi.capybara.objects.orm.ComputersubmissionEntity;
 import java.sql.Date;
 
 public class ComputerSubmitter implements ISubmission {
@@ -19,7 +17,7 @@ public class ComputerSubmitter implements ISubmission {
       Date createdDate,
       Date dueDate,
       String outputNotes) {
-    ComputerSubmission sub =
+    ComputersubmissionEntity sub =
         new ComputersubmissionEntity(
             submissionID,
             currStaffID,

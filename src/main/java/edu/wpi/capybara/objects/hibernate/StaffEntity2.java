@@ -8,7 +8,7 @@ import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "staff", schema = "cdb", catalog = "teamcdb")
-public class StaffEntity {
+public class StaffEntity2 {
   @Id
   @Column(name = "staffid")
   private String staffid;
@@ -33,9 +33,9 @@ public class StaffEntity {
   @Column(name = "notes")
   private String notes;
 
-  public StaffEntity() {}
+  public StaffEntity2() {}
 
-  public StaffEntity(
+  public StaffEntity2(
       String staffid, String firstname, String lastname, String role, String password) {
     this.staffid = staffid;
     this.firstname = firstname;
@@ -126,7 +126,7 @@ public class StaffEntity {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    StaffEntity that = (StaffEntity) o;
+    StaffEntity2 that = (StaffEntity2) o;
     return Objects.equals(staffid, that.staffid)
         && Objects.equals(firstname, that.firstname)
         && Objects.equals(lastname, that.lastname)

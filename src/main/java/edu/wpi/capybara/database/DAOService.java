@@ -15,7 +15,7 @@ public class DAOService implements DAOFacade {
   public DAOService() {
     log.info("Initializing DAO service.");
     try {
-      factory = new Configuration().configure("hibernate2.cfg.xml").buildSessionFactory();
+      factory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
       log.info("Successfully initialized.");
     } catch (Throwable ex) {
       System.err.println("Failed to create sessionFactory object." + ex);

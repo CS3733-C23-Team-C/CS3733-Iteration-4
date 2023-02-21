@@ -2,8 +2,8 @@ package edu.wpi.capybara.controllers.mapeditor.dialogs;
 
 import edu.wpi.capybara.controllers.mapeditor.AdapterRepository;
 import edu.wpi.capybara.controllers.mapeditor.adapters.NodeAdapter;
-import edu.wpi.capybara.objects.hibernate.NodeEntity;
-import edu.wpi.capybara.objects.orm.Edge;
+import edu.wpi.capybara.objects.orm.EdgeEntity;
+import edu.wpi.capybara.objects.orm.NodeEntity;
 import javafx.stage.Window;
 
 public class ReplaceNodeDialog extends NodeDialog {
@@ -37,12 +37,12 @@ public class ReplaceNodeDialog extends NodeDialog {
             Integer.parseInt(yCoord.getText()),
             floor.getText(),
             building.getText());
-    for (Edge edge : ((NodeEntity) node.buildingProperty().getBean()).getEdges()) {
+    for (EdgeEntity edge : ((NodeEntity) node.buildingProperty().getBean()).getEdges()) {
       System.out.println("Modifying edge " + edge.toString());
       if (edge.getNode1().equals(node.getNodeID())) {
-        edge.setNode1(newNode.getNodeID());
+        edge.setNode1(newNode.getEntity());
       } else {
-        edge.setNode2(newNode.getNodeID());
+        edge.setNode2(newNode.getEntity());
       }
     }
     // repository.getNodes().remove(node);

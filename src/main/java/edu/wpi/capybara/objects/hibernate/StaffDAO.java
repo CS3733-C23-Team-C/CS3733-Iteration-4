@@ -1,18 +1,18 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.objects.orm.Staff;
+import edu.wpi.capybara.objects.orm.StaffEntity;
 
 import java.util.HashMap;
 
 public interface StaffDAO {
 
-  HashMap<String, Staff> getStaff();
+  HashMap<String, StaffEntity> getStaff();
 
-  Staff getStaff(String staff);
+  StaffEntity getStaff(String staff);
 
-  void addStaff(Staff submission);
+  void addStaff(StaffEntity submission);
 
-  Staff getStaff(String staffid, String password);
+  StaffEntity getStaff(String staffid, String password);
 
   void deleteStaff(String staffid);
 }

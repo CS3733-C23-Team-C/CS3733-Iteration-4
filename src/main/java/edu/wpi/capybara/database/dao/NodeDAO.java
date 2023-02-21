@@ -1,10 +1,10 @@
 package edu.wpi.capybara.database.dao;
 
+import edu.wpi.capybara.objects.orm.NodeEntity;
 import edu.wpi.capybara.objects.orm.DAOFacade;
-import edu.wpi.capybara.objects.orm.Node;
 
-public class NodeDAO extends MapDAOBase<String, Node> {
+public class NodeDAO extends MapDAOBase<String, NodeEntity> {
   public NodeDAO(DAOFacade orm) {
-    super(orm, Node.class, Node::getId);
+    super(orm, NodeEntity.class, NodeEntity::getNodeID);
   }
 }

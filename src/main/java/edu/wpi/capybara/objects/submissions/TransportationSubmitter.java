@@ -1,9 +1,7 @@
 package edu.wpi.capybara.objects.submissions;
 
 import edu.wpi.capybara.Main;
-import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
-import edu.wpi.capybara.objects.orm.TransportationSubmission;
-
+import edu.wpi.capybara.objects.orm.TransportationsubmissionEntity;
 import java.sql.Date;
 
 public class TransportationSubmitter implements ISubmission {
@@ -20,7 +18,7 @@ public class TransportationSubmitter implements ISubmission {
       Date dueDate,
       String outputNotes) {
     System.out.println(submissionID + "submitter");
-    TransportationSubmission sub =
+    TransportationsubmissionEntity sub =
         new TransportationsubmissionEntity(
             submissionID,
             currStaffID,

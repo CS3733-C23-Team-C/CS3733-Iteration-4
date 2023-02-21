@@ -6,10 +6,8 @@ import edu.wpi.capybara.controllers.mapeditor.adapters.EdgeAdapter;
 import edu.wpi.capybara.controllers.mapeditor.adapters.LocationNameAdapter;
 import edu.wpi.capybara.controllers.mapeditor.adapters.MoveAdapter;
 import edu.wpi.capybara.controllers.mapeditor.adapters.NodeAdapter;
-import edu.wpi.capybara.objects.hibernate.LocationnameEntity;
-import edu.wpi.capybara.objects.hibernate.NodeEntity;
-import edu.wpi.capybara.objects.orm.Location;
-import edu.wpi.capybara.objects.orm.Node;
+import edu.wpi.capybara.objects.orm.LocationnameEntity;
+import edu.wpi.capybara.objects.orm.NodeEntity;
 import io.github.palexdev.materialfx.utils.FXCollectors;
 import java.util.Collection;
 import java.util.function.Function;
@@ -41,7 +39,7 @@ public class AdapterRepository {
 
   public NodeAdapter createNode(
       String nodeID, int xCoord, int yCoord, String floor, String building) {
-    final Node nodeEntity = new NodeEntity(nodeID, xCoord, yCoord, floor, building);
+    final NodeEntity nodeEntity = new NodeEntity(nodeID, xCoord, yCoord, floor, building);
     final var newNode = new NodeAdapter(nodeEntity);
     addNode(newNode);
     return newNode;
@@ -75,7 +73,8 @@ public class AdapterRepository {
 
   public LocationNameAdapter createLocationName(
       String longName, String shortName, String locationType) {
-    final Location locationNameEntity = new LocationnameEntity(longName, shortName, locationType);
+    final LocationnameEntity locationNameEntity =
+        new LocationnameEntity(longName, shortName, locationType);
     final var newLocationName = new LocationNameAdapter(locationNameEntity);
     addLocationName(newLocationName);
     return newLocationName;

@@ -1,16 +1,16 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.objects.orm.Location;
+import edu.wpi.capybara.objects.orm.LocationnameEntity;
 
 import java.util.HashMap;
 
 public interface LocationnameDAO {
 
-  HashMap<String, Location> getLocationnames();
+  HashMap<String, LocationnameEntity> getLocationnames();
 
-  Location getLocationname(String longname);
+  LocationnameEntity getLocationname(String longname);
 
-  void addLocationname(Location submission);
+  void addLocationname(LocationnameEntity submission);
 
   void deleteLocationname(String longname);
 }

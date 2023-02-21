@@ -1,15 +1,15 @@
 package edu.wpi.capybara.database.dao;
 
+import edu.wpi.capybara.objects.orm.MessagesEntity;
 import edu.wpi.capybara.objects.orm.DAOFacade;
-import edu.wpi.capybara.objects.orm.Messages;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-public class MessageDAO extends MapDAOBase<Integer, Messages> {
+public class MessageDAO extends MapDAOBase<Integer, MessagesEntity> {
   public MessageDAO(DAOFacade orm) {
-    super(orm, Messages.class, Messages::getMessageID);
+    super(orm, MessagesEntity.class, MessagesEntity::getMessageid);
   }
 
   public int generateMessageID() {

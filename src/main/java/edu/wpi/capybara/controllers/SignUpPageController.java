@@ -3,7 +3,7 @@ package edu.wpi.capybara.controllers;
 import edu.wpi.capybara.database.newDBConnect;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
-import edu.wpi.capybara.objects.orm.Staff;
+import edu.wpi.capybara.objects.orm.StaffEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -46,7 +46,7 @@ public class SignUpPageController {
   public void signUp(ActionEvent actionEvent) throws IOException {
     if (signUpButton.getText().equals("Sign Up")) {
       // Get username and password and check if the combination exists
-      Staff s = null;
+      StaffEntity s = null;
       if (!password.getText().equals(confirmPassword.getText())) {
         clearFields();
         errorTxt.setText("Passwords must match");

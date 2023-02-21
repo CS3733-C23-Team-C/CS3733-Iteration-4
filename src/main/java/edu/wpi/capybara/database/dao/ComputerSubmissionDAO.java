@@ -1,10 +1,10 @@
 package edu.wpi.capybara.database.dao;
 
-import edu.wpi.capybara.objects.orm.ComputerSubmission;
+import edu.wpi.capybara.objects.orm.ComputersubmissionEntity;
 import edu.wpi.capybara.objects.orm.DAOFacade;
 
-public class ComputerSubmissionDAO extends MapDAOBase<Integer, ComputerSubmission> {
+public class ComputerSubmissionDAO extends MapDAOBase<Integer, ComputersubmissionEntity> {
   public ComputerSubmissionDAO(DAOFacade orm) {
-    super(orm, ComputerSubmission.class, ComputerSubmission::getSubmissionID);
+    super(orm, ComputersubmissionEntity.class, ComputersubmissionEntity::getSubmissionid);
   }
 }

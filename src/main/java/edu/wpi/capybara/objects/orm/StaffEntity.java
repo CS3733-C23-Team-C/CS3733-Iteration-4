@@ -10,20 +10,21 @@ import javafx.beans.property.SimpleStringProperty;
 
 @Entity
 @Table(name = "staff", schema = "cdb", catalog = "teamcdb")
-public class Staff implements Persistent {
-  private final SimpleStringProperty staffID = new SimpleStringProperty();
-  private final SimpleStringProperty firstName = new SimpleStringProperty();
-  private final SimpleStringProperty lastName = new SimpleStringProperty();
+public class StaffEntity implements Persistent {
+  private final SimpleStringProperty staffid = new SimpleStringProperty();
+  private final SimpleStringProperty firstname = new SimpleStringProperty();
+  private final SimpleStringProperty lastname = new SimpleStringProperty();
   private final SimpleStringProperty password = new SimpleStringProperty();
   private final SimpleStringProperty role = new SimpleStringProperty();
   private final SimpleStringProperty notes = new SimpleStringProperty();
 
-  public Staff() {}
+  public StaffEntity() {}
 
-  public Staff(String staffid, String firstname, String lastname, String role, String password) {
-    setStaffID(staffid);
-    setFirstName(firstname);
-    setLastName(lastname);
+  public StaffEntity(
+      String staffid, String firstname, String lastname, String role, String password) {
+    setStaffid(staffid);
+    setFirstname(firstname);
+    setLastname(lastname);
     setRole(role);
     setPassword(password);
   }
@@ -31,9 +32,9 @@ public class Staff implements Persistent {
   @Override
   public void enablePersistence(DAOFacade orm) {
     final InvalidationListener listener = evt -> orm.merge(this);
-    staffID.addListener(listener);
-    firstName.addListener(listener);
-    lastName.addListener(listener);
+    staffid.addListener(listener);
+    firstname.addListener(listener);
+    lastname.addListener(listener);
     password.addListener(listener);
     role.addListener(listener);
     notes.addListener(listener);
@@ -43,63 +44,63 @@ public class Staff implements Persistent {
   public boolean equals(Object obj) {
     if (obj == null) return false;
     else if (obj == this) return true;
-    else if (obj instanceof Staff that) {
+    else if (obj instanceof StaffEntity that) {
       return Persistent.compareProperties(
           this,
           that,
-          Staff::getStaffID,
-          Staff::getFirstName,
-          Staff::getLastName,
-          Staff::getPassword,
-          Staff::getRole,
-          Staff::getNotes);
+          StaffEntity::getStaffid,
+          StaffEntity::getFirstname,
+          StaffEntity::getLastname,
+          StaffEntity::getPassword,
+          StaffEntity::getRole,
+          StaffEntity::getNotes);
     } else return false;
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(
-        getStaffID(), getFirstName(), getLastName(), getPassword(), getRole(), getNotes());
+        getStaffid(), getFirstname(), getLastname(), getPassword(), getRole(), getNotes());
   }
 
   @Id
   @Column(name = "staffid")
-  public String getStaffID() {
-    return staffID.get();
+  public String getStaffid() {
+    return staffid.get();
   }
 
-  public SimpleStringProperty staffIDProperty() {
-    return staffID;
+  public SimpleStringProperty staffidProperty() {
+    return staffid;
   }
 
-  public void setStaffID(String staffID) {
-    this.staffID.set(staffID);
+  public void setStaffid(String staffid) {
+    this.staffid.set(staffid);
   }
 
   @Column(name = "firstname")
-  public String getFirstName() {
-    return firstName.get();
+  public String getFirstname() {
+    return firstname.get();
   }
 
-  public SimpleStringProperty firstNameProperty() {
-    return firstName;
+  public SimpleStringProperty firstnameProperty() {
+    return firstname;
   }
 
-  public void setFirstName(String firstName) {
-    this.firstName.set(firstName);
+  public void setFirstname(String firstname) {
+    this.firstname.set(firstname);
   }
 
   @Column(name = "lastname")
-  public String getLastName() {
-    return lastName.get();
+  public String getLastname() {
+    return lastname.get();
   }
 
-  public SimpleStringProperty lastNameProperty() {
-    return lastName;
+  public SimpleStringProperty lastnameProperty() {
+    return lastname;
   }
 
-  public void setLastName(String lastName) {
-    this.lastName.set(lastName);
+  public void setLastname(String lastname) {
+    this.lastname.set(lastname);
   }
 
   @Column(name = "password")

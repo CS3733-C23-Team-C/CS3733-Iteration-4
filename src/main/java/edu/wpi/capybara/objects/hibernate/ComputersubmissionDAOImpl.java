@@ -6,26 +6,26 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import edu.wpi.capybara.objects.orm.ComputerSubmission;
+import edu.wpi.capybara.objects.orm.ComputersubmissionEntity;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class ComputersubmissionDAOImpl implements ComputersubmissionDAO {
-  HashMap<Integer, ComputerSubmission> computerSubs = new HashMap();
+  HashMap<Integer, ComputersubmissionEntity> computerSubs = new HashMap();
 
   @Override
-  public HashMap<Integer, ComputerSubmission> getComputerSubs() {
+  public HashMap<Integer, ComputersubmissionEntity> getComputerSubs() {
     return computerSubs;
   }
 
   @Override
-  public ComputerSubmission getComputer(int id) {
+  public ComputersubmissionEntity getComputer(int id) {
     return computerSubs.get(id);
   }
 
   @Override
-  public void addComputer(ComputerSubmission submission) {
+  public void addComputer(ComputersubmissionEntity submission) {
     newDBConnect.insertNew(submission);
     this.computerSubs.put(submission.getSubmissionid(), submission);
   }
@@ -40,14 +40,13 @@ public class ComputersubmissionDAOImpl implements ComputersubmissionDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<Integer, ComputerSubmission> ret =
-        new HashMap<>();
+    HashMap<Integer, ComputersubmissionEntity> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();
       List n = session.createQuery("FROM ComputersubmissionEntity").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        ComputerSubmission temp = (ComputersubmissionEntity) iterator.next();
+        ComputersubmissionEntity temp = (ComputersubmissionEntity) iterator.next();
         ret.put(temp.getSubmissionid(), temp);
       }
       tx.commit();

@@ -60,119 +60,119 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
-  public ReadOnlyMapProperty<Integer, AudioSubmission> getAudioSubs() {
+  public ReadOnlyMapProperty<Integer, AudiosubmissionEntity> getAudioSubs() {
     return audioSubmissionDAO.getAll();
   }
 
   @Override
-  public ReadOnlyMapProperty<Integer, CleaningSubmission> getCleaningSubs() {
+  public ReadOnlyMapProperty<Integer, CleaningsubmissionEntity> getCleaningSubs() {
     return cleaningSubmissionDAO.getAll();
   }
 
   @Override
-  public ReadOnlyMapProperty<Integer, ComputerSubmission> getComputerSubs() {
+  public ReadOnlyMapProperty<Integer, ComputersubmissionEntity> getComputerSubs() {
     return computerSubmissionDAO.getAll();
   }
 
   @Override
-  public ReadOnlyMapProperty<Integer, SecuritySubmission> getSecuritySubs() {
+  public ReadOnlyMapProperty<Integer, SecuritysubmissionEntity> getSecuritySubs() {
     return securitySubmissionDAO.getAll();
   }
 
   @Override
-  public ReadOnlyMapProperty<Integer, TransportationSubmission> getTransportationSubs() {
+  public ReadOnlyMapProperty<Integer, TransportationsubmissionEntity> getTransportationSubs() {
     return transportationSubmissionDAO.getAll();
   }
 
   @Override
-  public ReadOnlyMapProperty<String, Location> getLocationNames() {
+  public ReadOnlyMapProperty<String, LocationnameEntity> getLocationNames() {
     return locationDAO.getAll();
   }
 
   @Override
-  public ReadOnlyMapProperty<String, Node> getNodes() {
+  public ReadOnlyMapProperty<String, NodeEntity> getNodes() {
     return nodeDAO.getAll();
   }
 
   @Override
-  public ReadOnlyMapProperty<String, Staff> getStaff() {
+  public ReadOnlyMapProperty<String, StaffEntity> getStaff() {
     return staffDAO.getAll();
   }
 
   @Override
-  public ReadOnlyListProperty<Edge> getEdges() {
+  public ReadOnlyListProperty<EdgeEntity> getEdges() {
     return edgeDAO.getAll();
   }
 
   @Override
-  public ReadOnlyListProperty<Move> getMoves() {
+  public ReadOnlyListProperty<MoveEntity> getMoves() {
     return moveDAO.getAll();
   }
 
   @Override
-  public ReadOnlyMapProperty<Integer, Messages> getMessages() {
+  public ReadOnlyMapProperty<Integer, MessagesEntity> getMessages() {
     return messageDAO.getAll();
   }
 
   @Override
-  public void addAudio(AudioSubmission submission) {
+  public void addAudio(AudiosubmissionEntity submission) {
     audioSubmissionDAO.add(submission);
   }
 
   @Override
-  public void addCleaning(CleaningSubmission submission) {
+  public void addCleaning(CleaningsubmissionEntity submission) {
     cleaningSubmissionDAO.add(submission);
   }
 
   @Override
-  public void addComputer(ComputerSubmission submission) {
+  public void addComputer(ComputersubmissionEntity submission) {
     computerSubmissionDAO.add(submission);
   }
 
   @Override
-  public void addSecurity(SecuritySubmission submission) {
+  public void addSecurity(SecuritysubmissionEntity submission) {
     securitySubmissionDAO.add(submission);
   }
 
   @Override
-  public void addTransportation(TransportationSubmission submission) {
+  public void addTransportation(TransportationsubmissionEntity submission) {
     transportationSubmissionDAO.add(submission);
   }
 
   @Override
-  public void addLocationName(Location submission) {
+  public void addLocationName(LocationnameEntity submission) {
     locationDAO.add(submission);
   }
 
   @Override
-  public void addNode(Node submission) {
+  public void addNode(NodeEntity submission) {
     nodeDAO.add(submission);
   }
 
   @Override
-  public void addStaff(Staff submission) {
+  public void addStaff(StaffEntity submission) {
     staffDAO.add(submission);
   }
 
   @Override
-  public void addEdge(Edge submission) {
+  public void addEdge(EdgeEntity submission) {
     edgeDAO.add(submission);
   }
 
   @Override
-  public boolean addMove(Move submission) {
+  public boolean addMove(MoveEntity submission) {
     // Get most recent locations
     java.util.Date date = new java.util.Date();
-    HashMap<String, Move> currentLocations = new HashMap<>();
+    HashMap<String, MoveEntity> currentLocations = new HashMap<>();
     for (var move : getMoves()) {
-      var temp = currentLocations.get(move.getLocation().getLongName());
+      var temp = currentLocations.get(move.getLocation().getLongname());
       if (temp == null) {
-        currentLocations.put(move.getLocation().getLongName(), move);
+        currentLocations.put(move.getLocation().getLongname(), move);
       } else {
-        if (move.getMoveDate().compareTo(temp.getMoveDate()) < 0
-            && move.getMoveDate().compareTo(new java.sql.Date(date.getTime())) < 0) {
-          currentLocations.remove(temp.getLocation().getLongName());
-          currentLocations.put(move.getLocation().getLongName(), move);
+        if (move.getMovedate().compareTo(temp.getMovedate()) < 0
+            && move.getMovedate().compareTo(new java.sql.Date(date.getTime())) < 0) {
+          currentLocations.remove(temp.getLocation().getLongname());
+          currentLocations.put(move.getLocation().getLongname(), move);
         }
       }
     }
@@ -180,7 +180,7 @@ public class DatabaseService implements RepoFacade2 {
     // count number of moves at a location
     int num = 0;
     for (var move : currentLocations.values()) {
-      if (move.getNode().getId().equals(submission.getNode().getId())) {
+      if (move.getNode().getNodeID().equals(submission.getNode().getNodeID())) {
         num++;
       }
     }
@@ -193,52 +193,52 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
-  public void addMessage(Messages message) {
+  public void addMessage(MessagesEntity message) {
     messageDAO.add(message);
   }
 
   @Override
-  public AudioSubmission getAudio(Integer id) {
+  public AudiosubmissionEntity getAudio(Integer id) {
     return audioSubmissionDAO.get(id);
   }
 
   @Override
-  public CleaningSubmission getCleaning(Integer id) {
+  public CleaningsubmissionEntity getCleaning(Integer id) {
     return cleaningSubmissionDAO.get(id);
   }
 
   @Override
-  public ComputerSubmission getComputer(Integer id) {
+  public ComputersubmissionEntity getComputer(Integer id) {
     return computerSubmissionDAO.get(id);
   }
 
   @Override
-  public SecuritySubmission getSecurity(Integer id) {
+  public SecuritysubmissionEntity getSecurity(Integer id) {
     return securitySubmissionDAO.get(id);
   }
 
   @Override
-  public TransportationSubmission getTransportation(Integer id) {
+  public TransportationsubmissionEntity getTransportation(Integer id) {
     return transportationSubmissionDAO.get(id);
   }
 
   @Override
-  public Location getLocationname(String longname) {
+  public LocationnameEntity getLocationname(String longname) {
     return locationDAO.get(longname);
   }
 
   @Override
-  public Node getNode(String nodeid) {
+  public NodeEntity getNode(String nodeid) {
     return nodeDAO.get(nodeid);
   }
 
   @Override
-  public Staff getStaff(String staffid) {
+  public StaffEntity getStaff(String staffid) {
     return staffDAO.get(staffid);
   }
 
   @Override
-  public Messages getMessage(Integer id) {
+  public MessagesEntity getMessage(Integer id) {
     return messageDAO.get(id);
   }
 
@@ -248,7 +248,7 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
-  public void deleteAudio(AudioSubmission entity) {
+  public void deleteAudio(AudiosubmissionEntity entity) {
     audioSubmissionDAO.delete(entity);
   }
 
@@ -258,7 +258,7 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
-  public void deleteCleaning(CleaningSubmission entity) {
+  public void deleteCleaning(CleaningsubmissionEntity entity) {
     cleaningSubmissionDAO.delete(entity);
   }
 
@@ -268,7 +268,7 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
-  public void deleteComputer(ComputerSubmission entity) {
+  public void deleteComputer(ComputersubmissionEntity entity) {
     computerSubmissionDAO.delete(entity);
   }
 
@@ -278,7 +278,7 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
-  public void deleteSecurity(SecuritySubmission entity) {
+  public void deleteSecurity(SecuritysubmissionEntity entity) {
     securitySubmissionDAO.delete(entity);
   }
 
@@ -288,12 +288,12 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
-  public void deleteTransportation(TransportationSubmission entity) {
+  public void deleteTransportation(TransportationsubmissionEntity entity) {
     transportationSubmissionDAO.delete(entity);
   }
 
   @Override
-  public void deleteEdge(Edge edge) {
+  public void deleteEdge(EdgeEntity edge) {
     edgeDAO.delete(edge);
   }
 
@@ -303,12 +303,12 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
-  public void deleteLocationName(Location entity) {
+  public void deleteLocationName(LocationnameEntity entity) {
     locationDAO.delete(entity);
   }
 
   @Override
-  public void deleteMove(Move move) {
+  public void deleteMove(MoveEntity move) {
     moveDAO.delete(move);
   }
 
@@ -318,7 +318,7 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
-  public void deleteNode(Node entity) {
+  public void deleteNode(NodeEntity entity) {
     nodeDAO.delete(entity);
   }
 
@@ -328,7 +328,7 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
-  public void deleteStaff(Staff entity) {
+  public void deleteStaff(StaffEntity entity) {
     staffDAO.delete(entity);
   }
 
@@ -338,12 +338,12 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
-  public void deleteMessage(Messages entity) {
+  public void deleteMessage(MessagesEntity entity) {
     messageDAO.delete(entity);
   }
 
   @Override
-  public Staff getStaff(String staffId, String password) {
+  public StaffEntity getStaff(String staffId, String password) {
     return staffDAO.get(staffId, password);
   }
 

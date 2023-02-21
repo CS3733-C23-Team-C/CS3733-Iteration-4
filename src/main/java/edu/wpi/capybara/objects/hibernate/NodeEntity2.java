@@ -1,19 +1,18 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
-import edu.wpi.capybara.objects.orm.Edge;
-import edu.wpi.capybara.objects.orm.Location;
-import edu.wpi.capybara.objects.orm.Move;
+import edu.wpi.capybara.objects.orm.EdgeEntity;
+import edu.wpi.capybara.objects.orm.LocationnameEntity;
+import edu.wpi.capybara.objects.orm.MoveEntity;
 import jakarta.persistence.*;
 import java.sql.Date;
 import java.util.*;
-
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "node", schema = "cdb", catalog = "teamcdb")
-public class NodeEntity {
+public class NodeEntity2 {
 
   @Id
   @Column(name = "nodeid")
@@ -35,9 +34,9 @@ public class NodeEntity {
   @Column(name = "building")
   private String building;
 
-  public NodeEntity() {}
+  public NodeEntity2() {}
 
-  public NodeEntity(String nodeid, Integer xcoord, Integer ycoord, String floor, String building) {
+  public NodeEntity2(String nodeid, Integer xcoord, Integer ycoord, String floor, String building) {
     this.nodeid = nodeid;
     this.xcoord = xcoord;
     this.ycoord = ycoord;
@@ -111,23 +110,23 @@ public class NodeEntity {
   }
 
   public String getShortName() {
-    List<Move> moves = Main.db.getMoves();
+    List<MoveEntity> moves = Main.db.getMoves();
     Date temp = new Date((long) 0);
     String longname = null;
-    for (Move m : moves) {
-      if (m.getNodeid().equals(this.nodeid)) {
+    for (MoveEntity m : moves) {
+      if (m.getNodeID().equals(this.nodeid)) {
         if (m.getMovedate().compareTo(temp) > 0) {
           // System.out.println("select!");
           temp = m.getMovedate();
-          longname = m.getLongname();
+          longname = m.getLongName();
         }
       }
     }
     if (longname == null) {
       return "NA";
     }
-    Map<String, Location> locations = Main.db.getLocationnames();
-    for (Location location : locations.values()) {
+    Map<String, LocationnameEntity> locations = Main.db.getLocationnames();
+    for (LocationnameEntity location : locations.values()) {
       if (longname.equals(location.getLongname())) {
         return location.getShortname();
       }
@@ -137,25 +136,25 @@ public class NodeEntity {
   }
 
   public String getLongname() {
-    List<Move> moves = Main.db.getMoves();
+    List<MoveEntity> moves = Main.db.getMoves();
     Date temp = new Date((long) 0);
     String longname = null;
-    for (Move m : moves) {
-      if (m.getNodeid().equals(this.nodeid)) {
+    for (MoveEntity m : moves) {
+      if (m.getNodeID().equals(this.nodeid)) {
         if (m.getMovedate().compareTo(temp) > 0) {
           // System.out.println("select!");
           temp = m.getMovedate();
-          longname = m.getLongname();
+          longname = m.getLongName();
         }
       }
     }
     return longname;
   }
 
-  public HashSet<Edge> getEdges() {
-    HashSet<Edge> ret = new HashSet<>();
+  public HashSet<EdgeEntity> getEdges() {
+    HashSet<EdgeEntity> ret = new HashSet<>();
 
-    for (Edge e : Main.db.getEdges()) {
+    for (EdgeEntity e : Main.db.getEdges()) {
       if (e.getNode1().equals(nodeid) || e.getNode2().equals(nodeid)) {
         ret.add(e);
       }
@@ -179,7 +178,7 @@ public class NodeEntity {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    NodeEntity that = (NodeEntity) o;
+    NodeEntity2 that = (NodeEntity2) o;
     return Objects.equals(nodeid, that.nodeid)
         && Objects.equals(xcoord, that.xcoord)
         && Objects.equals(ycoord, that.ycoord)

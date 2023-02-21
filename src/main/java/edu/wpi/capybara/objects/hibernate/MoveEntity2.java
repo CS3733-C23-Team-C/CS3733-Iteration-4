@@ -10,7 +10,7 @@ import org.hibernate.Transaction;
 @Entity
 @Table(name = "move", schema = "cdb", catalog = "teamcdb")
 @IdClass(MoveEntityPK.class)
-public class MoveEntity {
+public class MoveEntity2 {
   @Id
   @Column(name = "nodeid")
   private String nodeid;
@@ -27,9 +27,9 @@ public class MoveEntity {
     return nodeid;
   }
 
-  public MoveEntity() {}
+  public MoveEntity2() {}
 
-  public MoveEntity(String nodeid, String longname, Date movedate) {
+  public MoveEntity2(String nodeid, String longname, Date movedate) {
     this.nodeid = nodeid;
     this.longname = longname;
     this.movedate = movedate;
@@ -74,7 +74,7 @@ public class MoveEntity {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    MoveEntity that = (MoveEntity) o;
+    MoveEntity2 that = (MoveEntity2) o;
     return Objects.equals(nodeid, that.nodeid)
         && Objects.equals(longname, that.longname)
         && Objects.equals(movedate, that.movedate);

@@ -8,120 +8,120 @@ import org.hibernate.Session;
 public interface RepoFacade2 {
   // Get all methods
   // Submissions
-  ReadOnlyMapProperty<Integer, AudioSubmission> getAudioSubs();
+  ReadOnlyMapProperty<Integer, AudiosubmissionEntity> getAudioSubs();
 
-  ReadOnlyMapProperty<Integer, CleaningSubmission> getCleaningSubs();
+  ReadOnlyMapProperty<Integer, CleaningsubmissionEntity> getCleaningSubs();
 
-  ReadOnlyMapProperty<Integer, ComputerSubmission> getComputerSubs();
+  ReadOnlyMapProperty<Integer, ComputersubmissionEntity> getComputerSubs();
 
-  ReadOnlyMapProperty<Integer, SecuritySubmission> getSecuritySubs();
+  ReadOnlyMapProperty<Integer, SecuritysubmissionEntity> getSecuritySubs();
 
-  ReadOnlyMapProperty<Integer, TransportationSubmission> getTransportationSubs();
+  ReadOnlyMapProperty<Integer, TransportationsubmissionEntity> getTransportationSubs();
 
   // Others
-  ReadOnlyMapProperty<String, Location> getLocationNames();
+  ReadOnlyMapProperty<String, LocationnameEntity> getLocationNames();
 
-  ReadOnlyMapProperty<String, Node> getNodes();
+  ReadOnlyMapProperty<String, NodeEntity> getNodes();
 
-  ReadOnlyMapProperty<String, Staff> getStaff();
+  ReadOnlyMapProperty<String, StaffEntity> getStaff();
 
-  ReadOnlyListProperty<Edge> getEdges();
+  ReadOnlyListProperty<EdgeEntity> getEdges();
 
-  ReadOnlyListProperty<Move> getMoves();
+  ReadOnlyListProperty<MoveEntity> getMoves();
 
-  ReadOnlyMapProperty<Integer, Messages> getMessages();
+  ReadOnlyMapProperty<Integer, MessagesEntity> getMessages();
 
   // Add method
   // Submissions
-  void addAudio(AudioSubmission submission);
+  void addAudio(AudiosubmissionEntity submission);
 
-  void addCleaning(CleaningSubmission submission);
+  void addCleaning(CleaningsubmissionEntity submission);
 
-  void addComputer(ComputerSubmission submission);
+  void addComputer(ComputersubmissionEntity submission);
 
-  void addSecurity(SecuritySubmission submission);
+  void addSecurity(SecuritysubmissionEntity submission);
 
-  void addTransportation(TransportationSubmission submission);
+  void addTransportation(TransportationsubmissionEntity submission);
 
   // Others
-  void addLocationName(Location submission);
+  void addLocationName(LocationnameEntity submission);
 
-  void addNode(Node submission);
+  void addNode(NodeEntity submission);
 
-  void addStaff(Staff submission);
+  void addStaff(StaffEntity submission);
 
-  void addEdge(Edge submission);
+  void addEdge(EdgeEntity submission);
 
-  boolean addMove(Move submission);
+  boolean addMove(MoveEntity submission);
 
-  void addMessage(Messages message);
+  void addMessage(MessagesEntity message);
 
   // Get single methods
   // Submissions
-  AudioSubmission getAudio(Integer id);
+  AudiosubmissionEntity getAudio(Integer id);
 
-  CleaningSubmission getCleaning(Integer id);
+  CleaningsubmissionEntity getCleaning(Integer id);
 
-  ComputerSubmission getComputer(Integer id);
+  ComputersubmissionEntity getComputer(Integer id);
 
-  SecuritySubmission getSecurity(Integer id);
+  SecuritysubmissionEntity getSecurity(Integer id);
 
-  TransportationSubmission getTransportation(Integer id);
+  TransportationsubmissionEntity getTransportation(Integer id);
 
   // Others
-  Location getLocationname(String longname);
+  LocationnameEntity getLocationname(String longname);
 
-  Node getNode(String nodeid);
+  NodeEntity getNode(String nodeid);
 
-  Staff getStaff(String staffid);
+  StaffEntity getStaff(String staffid);
 
-  Messages getMessage(Integer id);
+  MessagesEntity getMessage(Integer id);
 
   // delete methods
   // submissions
   void deleteAudio(Integer id);
 
-  void deleteAudio(AudioSubmission entity);
+  void deleteAudio(AudiosubmissionEntity entity);
 
   void deleteCleaning(Integer id);
 
-  void deleteCleaning(CleaningSubmission entity);
+  void deleteCleaning(CleaningsubmissionEntity entity);
 
   void deleteComputer(Integer id);
 
-  void deleteComputer(ComputerSubmission entity);
+  void deleteComputer(ComputersubmissionEntity entity);
 
   void deleteSecurity(Integer id);
 
-  void deleteSecurity(SecuritySubmission entity);
+  void deleteSecurity(SecuritysubmissionEntity entity);
 
   void deleteTransportation(Integer id);
 
-  void deleteTransportation(TransportationSubmission entity);
+  void deleteTransportation(TransportationsubmissionEntity entity);
 
   // Others
-  void deleteEdge(Edge edge);
+  void deleteEdge(EdgeEntity edge);
 
   void deleteLocationName(String longname);
 
-  void deleteLocationName(Location entity);
+  void deleteLocationName(LocationnameEntity entity);
 
-  void deleteMove(Move move);
+  void deleteMove(MoveEntity move);
 
   void deleteNode(String nodeid);
 
-  void deleteNode(Node entity);
+  void deleteNode(NodeEntity entity);
 
   void deleteStaff(String staffid);
 
-  void deleteStaff(Staff entity);
+  void deleteStaff(StaffEntity entity);
 
   void deleteMessage(Integer messageid);
 
-  void deleteMessage(Messages entity);
+  void deleteMessage(MessagesEntity entity);
 
   // Submission methods
-  Staff getStaff(String Staffid, String password);
+  StaffEntity getStaff(String Staffid, String password);
 
   Session getSession();
 

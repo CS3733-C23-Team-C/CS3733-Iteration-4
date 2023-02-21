@@ -1,14 +1,14 @@
 package edu.wpi.capybara.database.dao;
 
+import edu.wpi.capybara.objects.orm.StaffEntity;
 import edu.wpi.capybara.objects.orm.DAOFacade;
-import edu.wpi.capybara.objects.orm.Staff;
 
-public class StaffDAO extends MapDAOBase<String, Staff> {
+public class StaffDAO extends MapDAOBase<String, StaffEntity> {
   public StaffDAO(DAOFacade orm) {
-    super(orm, Staff.class, Staff::getStaffID);
+    super(orm, StaffEntity.class, StaffEntity::getStaffid);
   }
 
-  public Staff get(String staffId, String password) {
+  public StaffEntity get(String staffId, String password) {
     final var staff = get(staffId);
     if (staff != null && staff.getPassword().equals(password)) {
       return staff;

@@ -1,16 +1,16 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.objects.orm.AudioSubmission;
+import edu.wpi.capybara.objects.orm.AudiosubmissionEntity;
 
 import java.util.HashMap;
 
 public interface AudiosubmissionDAO {
 
-  HashMap<Integer, AudioSubmission> getAudioSubs();
+  HashMap<Integer, AudiosubmissionEntity> getAudioSubs();
 
-  AudioSubmission getAudio(int id);
+  AudiosubmissionEntity getAudio(int id);
 
-  void addAudio(AudioSubmission submission);
+  void addAudio(AudiosubmissionEntity submission);
 
   void deleteAudio(int id);
 }

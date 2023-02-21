@@ -1,9 +1,8 @@
 package edu.wpi.capybara.database.dao;
 
 import edu.wpi.capybara.objects.orm.DAOFacade;
-import java.util.function.Function;
-
 import edu.wpi.capybara.objects.orm.Persistent;
+import java.util.function.Function;
 import javafx.beans.property.ReadOnlyMapProperty;
 import javafx.beans.property.ReadOnlyMapWrapper;
 import javafx.collections.FXCollections;

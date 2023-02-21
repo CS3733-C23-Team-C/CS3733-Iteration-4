@@ -1,16 +1,16 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.objects.orm.ComputerSubmission;
+import edu.wpi.capybara.objects.orm.ComputersubmissionEntity;
 
 import java.util.HashMap;
 
 public interface ComputersubmissionDAO {
 
-  HashMap<Integer, ComputerSubmission> getComputerSubs();
+  HashMap<Integer, ComputersubmissionEntity> getComputerSubs();
 
-  ComputerSubmission getComputer(int id);
+  ComputersubmissionEntity getComputer(int id);
 
-  void addComputer(ComputerSubmission submission);
+  void addComputer(ComputersubmissionEntity submission);
 
   void deleteComputer(int id);
 }

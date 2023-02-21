@@ -1,21 +1,19 @@
 package edu.wpi.capybara.pathfinding;
 
-import edu.wpi.capybara.objects.hibernate.EdgeEntity;
-import edu.wpi.capybara.objects.orm.Edge;
-import edu.wpi.capybara.objects.orm.Node;
-
+import edu.wpi.capybara.objects.orm.EdgeEntity;
+import edu.wpi.capybara.objects.orm.NodeEntity;
 import java.util.*;
 
 public class AstarPathfinder implements PathfindingAlgorithm {
-  private final Map<String, Node> nodes;
-  private final List<Edge> edges;
+  private final Map<String, NodeEntity> nodes;
+  private final List<EdgeEntity> edges;
 
   private static class PathNode implements Comparable<PathNode> {
-    List<Node> path;
+    List<NodeEntity> path;
     List<EdgeEntity> edges;
-    Node node;
-      Node current;
-      Node goal;
+    NodeEntity node;
+    NodeEntity current;
+    NodeEntity goal;
     EdgeEntity edge;
     double weight;
 
@@ -27,11 +25,11 @@ public class AstarPathfinder implements PathfindingAlgorithm {
     }*/
 
     PathNode(
-            List<Node> list,
-            List<EdgeEntity> edges,
-            Node node,
-            Node current,
-            Node goal) {
+        List<NodeEntity> list,
+        List<EdgeEntity> edges,
+        NodeEntity node,
+        NodeEntity current,
+        NodeEntity goal) {
       this.path = list;
       this.edges = edges;
       this.node = node;
@@ -64,9 +62,9 @@ public class AstarPathfinder implements PathfindingAlgorithm {
     }
   }
 
-  public List<Node> findPath(String start, String end) {
-    Node startNode = getNodeFromNodeID(start);
-    Node endNode = getNodeFromNodeID(end);
+  public List<NodeEntity> findPath(String start, String end) {
+    NodeEntity startNode = getNodeFromNodeID(start);
+    NodeEntity endNode = getNodeFromNodeID(end);
 
     if (startNode == null || endNode == null) {
       throw new RuntimeException("One of the NodeID doesn't exist!");
@@ -75,7 +73,7 @@ public class AstarPathfinder implements PathfindingAlgorithm {
     return aStar(startNode, endNode);
   }
 
-  public List<Node> findPath(Node start, Node end) {
+  public List<NodeEntity> findPath(NodeEntity start, NodeEntity end) {
 
     if (start == null || end == null) {
       throw new RuntimeException("One of the NodeID doesn't exist!");
@@ -84,20 +82,20 @@ public class AstarPathfinder implements PathfindingAlgorithm {
     return aStar(start, end);
   }
 
-  private Node getNodeFromNodeID(String s) {
+  private NodeEntity getNodeFromNodeID(String s) {
     return nodes.get(s);
   }
 
-  private List<Node> aStar(Node start, Node goal) {
+  private List<NodeEntity> aStar(NodeEntity start, NodeEntity goal) {
     List<PathNode> openList = new ArrayList<>();
-    List<Node> closedList = new ArrayList<>();
-    Node current = start;
-    List<Node> currentPath = new ArrayList<>();
+    List<NodeEntity> closedList = new ArrayList<>();
+    NodeEntity current = start;
+    List<NodeEntity> currentPath = new ArrayList<>();
     List<EdgeEntity> currentEdges = new ArrayList<>();
 
     while (true) {
       // System.out.println("Current-" + current.toString());
-      List<Node> newPath = new ArrayList<>(List.copyOf(currentPath));
+      List<NodeEntity> newPath = new ArrayList<>(List.copyOf(currentPath));
       newPath.add(current);
       if (current.equals(goal)) return newPath;
 
@@ -109,7 +107,7 @@ public class AstarPathfinder implements PathfindingAlgorithm {
         List<EdgeEntity> newEdges = new ArrayList<>(List.copyOf(currentEdges));
         newEdges.add(e);
 
-        Node otherNode = getNodeFromNodeID(e.getOtherNode(current));
+        NodeEntity otherNode = getNodeFromNodeID(e.getOtherNode(current));
         // System.out.println("Other Node: " + otherNode.getNodeID());
         // System.out.println(closedList);
 
@@ -133,7 +131,7 @@ public class AstarPathfinder implements PathfindingAlgorithm {
     }
   }
 
-  private static double cost(Node current, Node n, Node goal) {
+  private static double cost(NodeEntity current, NodeEntity n, NodeEntity goal) {
     float multiplier = 1f;
 
     if (!n.getFloor().equals(current.getFloor())) {
@@ -143,14 +141,14 @@ public class AstarPathfinder implements PathfindingAlgorithm {
     return (calculateWeight(current, n) + calculateWeight(n, goal)) * multiplier;
   }
 
-  private static double calculateWeight(Node n1, Node n2) { // move function for a*
+  private static double calculateWeight(NodeEntity n1, NodeEntity n2) { // move function for a*
     float xDiff = Math.abs(n1.getXcoord() - n2.getXcoord());
     float yDiff = Math.abs(n1.getYcoord() - n2.getYcoord());
 
     return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
   }
 
-  public AstarPathfinder(Map<String, Node> nodes, List<Edge> edges) {
+  public AstarPathfinder(Map<String, NodeEntity> nodes, List<EdgeEntity> edges) {
     this.nodes = nodes;
     this.edges = edges;
   }

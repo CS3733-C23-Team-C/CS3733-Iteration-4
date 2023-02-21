@@ -1,10 +1,12 @@
 package edu.wpi.capybara.database.dao;
 
+import edu.wpi.capybara.objects.orm.TransportationsubmissionEntity;
 import edu.wpi.capybara.objects.orm.DAOFacade;
-import edu.wpi.capybara.objects.orm.TransportationSubmission;
 
-public class TransportationSubmissionDAO extends MapDAOBase<Integer, TransportationSubmission> {
+public class TransportationSubmissionDAO
+    extends MapDAOBase<Integer, TransportationsubmissionEntity> {
   public TransportationSubmissionDAO(DAOFacade orm) {
-    super(orm, TransportationSubmission.class, TransportationSubmission::getSubmissionID);
+    super(
+        orm, TransportationsubmissionEntity.class, TransportationsubmissionEntity::getSubmissionid);
   }
 }

@@ -9,29 +9,25 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 @Entity
-@Table(name = "cleaningsubmission", schema = "cdb", catalog = "teamcdb")
-public class CleaningsubmissionEntity {
-  // @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "memberid")
-  private String memberid;
+@Table(name = "transportationsubmission", schema = "cdb", catalog = "teamcdb")
+public class TransportationsubmissionEntity2 {
+  @Column(name = "employeeid")
+  private String employeeid;
 
-  // @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "location")
-  private String location;
+  @Column(name = "currroomnum")
+  private String currroomnum;
 
-  // @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "hazardlevel")
-  private String hazardlevel;
+  @Column(name = "destroomnum")
+  private String destroomnum;
 
-  // @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "description")
-  private String description;
+  @Column(name = "reason")
+  private String reason;
 
-  // @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Enumerated(EnumType.STRING)
-  @Column(name = "submissionstatus")
-  private SubmissionStatus submissionstatus;
+  @Column(name = "status")
+  private SubmissionStatus status;
 
+  @Basic
   @Column(name = "assignedid")
   private String assignedid;
 
@@ -50,80 +46,40 @@ public class CleaningsubmissionEntity {
   @Column(name = "duedate")
   private Date duedate;
 
-  public String getMemberid() {
-    return memberid;
-  }
-
-  public void setMemberid(String memberid) {
-
-    Session session = Main.db.getSession();
-    Transaction tx = session.beginTransaction();
-    this.memberid = memberid;
-    session.merge(this);
-    tx.commit();
-    session.close();
-  }
-
-  public String getLocation() {
-    return location;
-  }
-
-  public void setLocation(String location) {
-
-    this.location = location;
-    Session session = Main.db.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
-  }
-
-  public String getHazardlevel() {
-    return hazardlevel;
-  }
-
-  public void setHazardlevel(String hazardlevel) {
-
-    this.hazardlevel = hazardlevel;
-    Session session = Main.db.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public CleaningsubmissionEntity(
+  public TransportationsubmissionEntity2(
       int submissionid,
-      String memberid,
+      String employeeid,
       String assignedid,
-      String location,
-      String hazardlevel,
-      String description,
-      SubmissionStatus submissionstatus,
+      String currroomnum,
+      String destroomnum,
+      String reason,
+      SubmissionStatus status,
       String urgency,
       Date createdate,
       Date duedate) {
     this.submissionid = submissionid;
-    this.memberid = memberid;
+    this.employeeid = employeeid;
     this.assignedid = assignedid;
-    this.location = location;
-    this.hazardlevel = hazardlevel;
-    this.description = description;
-    this.submissionstatus = submissionstatus;
+    this.currroomnum = currroomnum;
+    this.destroomnum = destroomnum;
+    this.reason = reason;
+    this.status = status;
+    this.assignedid = assignedid;
+    this.submissionid = submissionid;
+    System.out.println(submissionid + " entity");
     this.urgency = urgency;
     this.createdate = createdate;
     this.duedate = duedate;
   }
 
-  public CleaningsubmissionEntity() {}
+  public TransportationsubmissionEntity2() {}
 
-  public void setDescription(String description) {
+  public String getEmployeeid() {
+    return employeeid;
+  }
 
-    this.description = description;
+  public void setEmployeeid(String employeeid) {
+    this.employeeid = employeeid;
     Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
@@ -131,13 +87,12 @@ public class CleaningsubmissionEntity {
     session.close();
   }
 
-  public SubmissionStatus getSubmissionstatus() {
-    return submissionstatus;
+  public String getCurrroomnum() {
+    return currroomnum;
   }
 
-  public void setSubmissionstatus(SubmissionStatus submissionstatus) {
-
-    this.submissionstatus = submissionstatus;
+  public void setCurrroomnum(String currroomnum) {
+    this.currroomnum = currroomnum;
     Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
@@ -145,16 +100,43 @@ public class CleaningsubmissionEntity {
     session.close();
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    CleaningsubmissionEntity that = (CleaningsubmissionEntity) o;
-    return Objects.equals(memberid, that.memberid)
-        && Objects.equals(location, that.location)
-        && Objects.equals(hazardlevel, that.hazardlevel)
-        && Objects.equals(description, that.description)
-        && Objects.equals(submissionstatus, that.submissionstatus);
+  public String getDestroomnum() {
+    return destroomnum;
+  }
+
+  public void setDestroomnum(String destroomnum) {
+    this.destroomnum = destroomnum;
+    Session session = Main.db.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
+  }
+
+  public String getReason() {
+    return reason;
+  }
+
+  public void setReason(String reason) {
+    this.reason = reason;
+    Session session = Main.db.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
+  }
+
+  public SubmissionStatus getStatus() {
+    return status;
+  }
+
+  public void setStatus(SubmissionStatus status) {
+    this.status = status;
+    Session session = Main.db.getSession();
+    Transaction tx = session.beginTransaction();
+    session.merge(this);
+    tx.commit();
+    session.close();
   }
 
   public String getAssignedid() {
@@ -223,7 +205,19 @@ public class CleaningsubmissionEntity {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    TransportationsubmissionEntity2 that = (TransportationsubmissionEntity2) o;
+    return Objects.equals(employeeid, that.employeeid)
+        && Objects.equals(currroomnum, that.currroomnum)
+        && Objects.equals(destroomnum, that.destroomnum)
+        && Objects.equals(reason, that.reason)
+        && Objects.equals(status, that.status);
+  }
+
+  @Override
   public int hashCode() {
-    return Objects.hash(memberid, location, hazardlevel, description, submissionstatus);
+    return Objects.hash(employeeid, currroomnum, destroomnum, reason, status);
   }
 }

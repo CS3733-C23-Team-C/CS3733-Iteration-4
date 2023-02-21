@@ -10,7 +10,7 @@ import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "audiosubmission", schema = "cdb", catalog = "teamcdb")
-public class AudiosubmissionEntity {
+public class AudiosubmissionEntity2 {
   @Id
   @Column(name = "submissionid")
   private int submissionid;
@@ -173,9 +173,9 @@ public class AudiosubmissionEntity {
     session.close();
   }
 
-  public AudiosubmissionEntity() {}
+  public AudiosubmissionEntity2() {}
 
-  public AudiosubmissionEntity(
+  public AudiosubmissionEntity2(
       int submissionid,
       String employeeid,
       String assignedid,
@@ -202,7 +202,7 @@ public class AudiosubmissionEntity {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    AudiosubmissionEntity that = (AudiosubmissionEntity) o;
+    AudiosubmissionEntity2 that = (AudiosubmissionEntity2) o;
     return Objects.equals(submissionid, that.submissionid)
         && Objects.equals(employeeid, that.employeeid)
         && Objects.equals(assignedid, that.assignedid)

@@ -3,8 +3,7 @@ package edu.wpi.capybara.controllers;
 import edu.wpi.capybara.App;
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.NodeAlphabetComparator;
-import edu.wpi.capybara.objects.hibernate.NodeEntity;
-import edu.wpi.capybara.objects.orm.Node;
+import edu.wpi.capybara.objects.orm.NodeEntity;
 import edu.wpi.capybara.objects.submissions.ISubmission;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import io.github.palexdev.materialfx.controls.*;
@@ -32,7 +31,7 @@ public abstract class ServiceRequestAbs {
 
   @FXML
   public void initialize() {
-    Map<String, Node> nodes = Main.db.getNodes();
+    Map<String, NodeEntity> nodes = Main.db.getNodes();
 
     SortedSet<NodeEntity> sortedset = new TreeSet<NodeEntity>(new NodeAlphabetComparator());
 
@@ -42,7 +41,7 @@ public abstract class ServiceRequestAbs {
     while (iterator.hasNext()) {
       NodeEntity n = iterator.next();
       // System.out.println(n.getShortName());
-      Location.getItems().add(n.getLongname());
+      Location.getItems().add(n.getLongName());
     }
 
     // Set a default variable

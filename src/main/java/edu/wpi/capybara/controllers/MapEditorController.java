@@ -8,7 +8,7 @@ import edu.wpi.capybara.controllers.mapeditor.dialogs.AddNodeDialog;
 import edu.wpi.capybara.controllers.mapeditor.dialogs.ReplaceNodeDialog;
 import edu.wpi.capybara.controllers.mapeditor.ui.MapEditorPane;
 import edu.wpi.capybara.objects.Floor;
-import edu.wpi.capybara.objects.hibernate.EdgeEntity;
+import edu.wpi.capybara.objects.orm.EdgeEntity;
 import jakarta.persistence.PersistenceException;
 import java.util.function.Function;
 import javafx.beans.InvalidationListener;

@@ -2,10 +2,9 @@ package edu.wpi.capybara.objects;
 
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.controllers.PathfindingController;
-import edu.wpi.capybara.objects.orm.Location;
-import edu.wpi.capybara.objects.orm.Move;
-import edu.wpi.capybara.objects.orm.Node;
-
+import edu.wpi.capybara.objects.orm.LocationnameEntity;
+import edu.wpi.capybara.objects.orm.MoveEntity;
+import edu.wpi.capybara.objects.orm.NodeEntity;
 import java.sql.Date;
 import java.util.*;
 
@@ -45,18 +44,18 @@ public class PFNode {
     }
   }
 
-  private Node node;
+  private NodeEntity node;
   private List<MoveInformation> moves;
   private PathfindingController controller;
 
-  public PFNode(Node node, PathfindingController controller) {
+  public PFNode(NodeEntity node, PathfindingController controller) {
     this.controller = controller;
     this.node = node;
     moves = new ArrayList<>();
 
-    for (Move move : Main.db.getMoves()) {
-      if (move.getNodeid().equals(node.getNodeid())) {
-        Location LNE = Main.db.getLocationnames().get(move.getLongname());
+    for (MoveEntity move : Main.db.getMoves()) {
+      if (move.getNodeID().equals(node.getNodeID())) {
+        LocationnameEntity LNE = Main.db.getLocationnames().get(move.getLongName());
         MoveInformation information =
             new MoveInformation(
                 LNE.getLongname(), LNE.getShortname(), LNE.getLocationtype(), move.getMovedate());
@@ -67,11 +66,11 @@ public class PFNode {
     moves.sort(MoveInformation::compareTo);
   }
 
-  public Node getNode() {
+  public NodeEntity getNode() {
     return node;
   }
 
-  public void setNode(Node node) {
+  public void setNode(NodeEntity node) {
     this.node = node;
   }
 
@@ -119,7 +118,7 @@ public class PFNode {
 
   public String toString() {
     MoveInformation mi = mostRecentMoveInformation(controller.getMoveDate());
-    if (mi == null) return node.getNodeid();
+    if (mi == null) return node.getNodeID();
     return mi.longname;
   }
 }

@@ -6,27 +6,27 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import edu.wpi.capybara.objects.orm.Edge;
+import edu.wpi.capybara.objects.orm.EdgeEntity;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class EdgeDAOImpl implements EdgeDAO {
-  ArrayList<Edge> edges = new ArrayList<>();
+  ArrayList<EdgeEntity> edges = new ArrayList<>();
 
   @Override
-  public ArrayList<Edge> getEdges() {
+  public ArrayList<EdgeEntity> getEdges() {
     return edges;
   }
 
   @Override
-  public void addEdge(Edge edge) {
+  public void addEdge(EdgeEntity edge) {
     newDBConnect.insertNew(edge);
     this.edges.add(edge);
   }
 
   @Override
-  public void deleteEdge(Edge edge) {
+  public void deleteEdge(EdgeEntity edge) {
     newDBConnect.delete(edge);
     edges.remove(edge);
   }
@@ -35,13 +35,13 @@ public class EdgeDAOImpl implements EdgeDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    ArrayList<Edge> ret = new ArrayList<>();
+    ArrayList<EdgeEntity> ret = new ArrayList<>();
 
     try {
       tx = session.beginTransaction();
       List n = session.createQuery("FROM EdgeEntity ").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        Edge temp = (EdgeEntity) iterator.next();
+        EdgeEntity temp = (EdgeEntity) iterator.next();
         ret.add(temp);
       }
       tx.commit();

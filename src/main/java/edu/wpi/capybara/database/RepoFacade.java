@@ -9,78 +9,78 @@ import org.hibernate.Session;
 public interface RepoFacade {
   // Get all methods
   // Submissions
-  Map<Integer, AudioSubmission> getAudioSubs();
+  Map<Integer, AudiosubmissionEntity> getAudioSubs();
 
-  Map<Integer, CleaningSubmission> getCleaningSubs();
+  Map<Integer, CleaningsubmissionEntity> getCleaningSubs();
 
-  Map<Integer, ComputerSubmission> getComputerSubs();
+  Map<Integer, ComputersubmissionEntity> getComputerSubs();
 
-  Map<Integer, SecuritySubmission> getSecuritySubs();
+  Map<Integer, SecuritysubmissionEntity> getSecuritySubs();
 
-  Map<Integer, TransportationSubmission> getTransportationSubs();
+  Map<Integer, TransportationsubmissionEntity> getTransportationSubs();
 
   // Others
-  Map<String, Location> getLocationnames();
+  Map<String, LocationnameEntity> getLocationnames();
 
-  Map<String, Node> getNodes();
+  Map<String, NodeEntity> getNodes();
 
-  Map<String, Staff> getStaff();
+  Map<String, StaffEntity> getStaff();
 
-  List<Edge> getEdges();
+  List<EdgeEntity> getEdges();
 
-  List<Move> getMoves();
+  List<MoveEntity> getMoves();
 
-  Map<Integer, Messages> getMessages();
+  Map<Integer, MessagesEntity> getMessages();
 
-  Map<Integer, Messages> getMessages(String id);
+  Map<Integer, MessagesEntity> getMessages(String id);
 
-  Map<Integer, Messages> getMessages(String id, int lastid);
+  Map<Integer, MessagesEntity> getMessages(String id, int lastid);
 
   // Add method
   // Submissions
-  void addAudio(AudioSubmission submission);
+  void addAudio(AudiosubmissionEntity submission);
 
-  void addCleaning(CleaningSubmission submission);
+  void addCleaning(CleaningsubmissionEntity submission);
 
-  void addComputer(ComputerSubmission submission);
+  void addComputer(ComputersubmissionEntity submission);
 
-  void addSecurity(SecuritySubmission submission);
+  void addSecurity(SecuritysubmissionEntity submission);
 
-  void addTransportation(TransportationSubmission submission);
+  void addTransportation(TransportationsubmissionEntity submission);
 
   // Others
-  void addLocationname(Location submission);
+  void addLocationname(LocationnameEntity submission);
 
-  void addNode(Node submission);
+  void addNode(NodeEntity submission);
 
-  void addStaff(Staff submission);
+  void addStaff(StaffEntity submission);
 
-  void addEdge(Edge submission);
+  void addEdge(EdgeEntity submission);
 
-  boolean addMove(Move submission);
+  boolean addMove(MoveEntity submission);
 
-  void addMessage(Messages message);
+  void addMessage(MessagesEntity message);
 
   // Get single methods
   // Submissions
-  AudioSubmission getAudio(int id);
+  AudiosubmissionEntity getAudio(int id);
 
-  CleaningSubmission getCleaning(int id);
+  CleaningsubmissionEntity getCleaning(int id);
 
-  ComputerSubmission getComputer(int id);
+  ComputersubmissionEntity getComputer(int id);
 
-  SecuritySubmission getSecurity(int id);
+  SecuritysubmissionEntity getSecurity(int id);
 
-  TransportationSubmission getTransportation(int id);
+  TransportationsubmissionEntity getTransportation(int id);
 
   // Others
-  Location getLocationname(String longname);
+  LocationnameEntity getLocationname(String longname);
 
-  Node getNode(String nodeid);
+  NodeEntity getNode(String nodeid);
 
-  Staff getStaff(String staffid);
+  StaffEntity getStaff(String staffid);
 
-  Messages getMessage(int id);
+  MessagesEntity getMessage(int id);
 
   // delete methods
   // submissions
@@ -95,11 +95,11 @@ public interface RepoFacade {
   void deleteTransportation(int id);
 
   // Others
-  void deleteEdge(Edge edge);
+  void deleteEdge(EdgeEntity edge);
 
   void deleteLocationname(String longname);
 
-  void deleteMove(Move move);
+  void deleteMove(MoveEntity move);
 
   void deleteNode(String nodeid);
 
@@ -108,7 +108,7 @@ public interface RepoFacade {
   void deleteMessage(int messageid);
 
   // Submission methods
-  Staff getStaff(String Staffid, String password);
+  StaffEntity getStaff(String Staffid, String password);
 
   Session getSession();
 

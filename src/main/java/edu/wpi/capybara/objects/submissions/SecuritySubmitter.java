@@ -1,9 +1,7 @@
 package edu.wpi.capybara.objects.submissions;
 
 import edu.wpi.capybara.Main;
-import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
-import edu.wpi.capybara.objects.orm.SecuritySubmission;
-
+import edu.wpi.capybara.objects.orm.SecuritysubmissionEntity;
 import java.sql.Date;
 
 public class SecuritySubmitter implements ISubmission {
@@ -19,7 +17,7 @@ public class SecuritySubmitter implements ISubmission {
       Date createdDate,
       Date dueDate,
       String outputNotes) {
-    SecuritySubmission sub =
+    SecuritysubmissionEntity sub =
         new SecuritysubmissionEntity(
             submissionID,
             currStaffID,

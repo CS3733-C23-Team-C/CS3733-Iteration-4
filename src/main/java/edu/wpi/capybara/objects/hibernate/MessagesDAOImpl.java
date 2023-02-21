@@ -6,26 +6,26 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import edu.wpi.capybara.objects.orm.Messages;
+import edu.wpi.capybara.objects.orm.MessagesEntity;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 public class MessagesDAOImpl implements MessagesDAO {
-  HashMap<Integer, Messages> messages = new HashMap();
+  HashMap<Integer, MessagesEntity> messages = new HashMap();
 
   @Override
-  public HashMap<Integer, Messages> getMessages() {
+  public HashMap<Integer, MessagesEntity> getMessages() {
     return messages;
   }
 
   @Override
-  public HashMap<Integer, Messages> getMessages(String staff) {
+  public HashMap<Integer, MessagesEntity> getMessages(String staff) {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<Integer, Messages> ret = new HashMap<>();
+    HashMap<Integer, MessagesEntity> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();
@@ -35,7 +35,7 @@ public class MessagesDAOImpl implements MessagesDAO {
       query.setParameter("staff", staff);
       List n = query.list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        Messages temp = (MessagesEntity) iterator.next();
+        MessagesEntity temp = (MessagesEntity) iterator.next();
         ret.put(temp.getMessageid(), temp);
       }
       tx.commit();
@@ -48,11 +48,11 @@ public class MessagesDAOImpl implements MessagesDAO {
     return ret;
   }
 
-  public HashMap<Integer, Messages> getMessages(String staff, int lastid) {
+  public HashMap<Integer, MessagesEntity> getMessages(String staff, int lastid) {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<Integer, Messages> ret = new HashMap<>();
+    HashMap<Integer, MessagesEntity> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();
@@ -65,7 +65,7 @@ public class MessagesDAOImpl implements MessagesDAO {
 
       List n = query.list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        Messages temp = (MessagesEntity) iterator.next();
+        MessagesEntity temp = (MessagesEntity) iterator.next();
         ret.put(temp.getMessageid(), temp);
       }
       tx.commit();
@@ -79,12 +79,12 @@ public class MessagesDAOImpl implements MessagesDAO {
   }
 
   @Override
-  public Messages getMessage(int id) {
+  public MessagesEntity getMessage(int id) {
     return messages.get(id);
   }
 
   @Override
-  public void addMessage(Messages message) {
+  public void addMessage(MessagesEntity message) {
     newDBConnect.insertNew(message);
     this.messages.put(message.getMessageid(), message);
   }
@@ -123,13 +123,13 @@ public class MessagesDAOImpl implements MessagesDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<Integer, Messages> ret = new HashMap<>();
+    HashMap<Integer, MessagesEntity> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();
       List n = session.createQuery("FROM MessagesEntity").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        Messages temp = (MessagesEntity) iterator.next();
+        MessagesEntity temp = (MessagesEntity) iterator.next();
         ret.put(temp.getMessageid(), temp);
       }
       tx.commit();

@@ -6,28 +6,28 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import edu.wpi.capybara.objects.orm.Staff;
+import edu.wpi.capybara.objects.orm.StaffEntity;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 public class StaffDAOImpl implements StaffDAO {
-  HashMap<String, Staff> staff = new HashMap();
+  HashMap<String, StaffEntity> staff = new HashMap();
 
   int curID;
 
   @Override
-  public HashMap<String, Staff> getStaff() {
+  public HashMap<String, StaffEntity> getStaff() {
     return staff;
   }
 
   @Override
-  public Staff getStaff(String nodeid) {
+  public StaffEntity getStaff(String nodeid) {
     return staff.get(nodeid);
   }
 
   @Override
-  public void addStaff(Staff submission) {
+  public void addStaff(StaffEntity submission) {
     newDBConnect.insertNew(submission);
     this.staff.put(submission.getStaffid(), submission);
   }
@@ -36,13 +36,13 @@ public class StaffDAOImpl implements StaffDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<String, Staff> ret = new HashMap<>();
+    HashMap<String, StaffEntity> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();
       List n = session.createQuery("FROM StaffEntity").list();
       for (Iterator iterator = n.iterator(); iterator.hasNext(); ) {
-        Staff temp = (StaffEntity) iterator.next();
+        StaffEntity temp = (StaffEntity) iterator.next();
         ret.put(temp.getStaffid(), temp);
       }
       tx.commit();
@@ -61,8 +61,8 @@ public class StaffDAOImpl implements StaffDAO {
     staff.remove(id);
   }
 
-  public Staff getStaff(String Staffid, String password) {
-    for (Staff s : staff.values()) {
+  public StaffEntity getStaff(String Staffid, String password) {
+    for (StaffEntity s : staff.values()) {
       if (s.getStaffid().equals(Staffid) && s.getPassword().equals(password)) {
         return s;
       }
@@ -70,8 +70,8 @@ public class StaffDAOImpl implements StaffDAO {
     return null;
   }
 
-  public Staff getStaff2(String firstName, String lastName) {
-    for (Staff s : staff.values()) {
+  public StaffEntity getStaff2(String firstName, String lastName) {
+    for (StaffEntity s : staff.values()) {
       if (s.getFirstname().equals(firstName) && s.getLastname().equals(lastName)) {
         return s;
       }

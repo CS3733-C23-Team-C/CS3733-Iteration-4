@@ -2,8 +2,7 @@ package edu.wpi.capybara.objects;
 
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.database.newDBConnect;
-import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
-import edu.wpi.capybara.objects.orm.SecuritySubmission;
+import edu.wpi.capybara.objects.orm.SecuritysubmissionEntity;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import java.io.IOException;
 import java.sql.Date;
@@ -21,7 +20,7 @@ public class SecurityTests extends ApplicationTest {
 
   @Test
   public void test1() {
-    SecuritySubmission test =
+    SecuritysubmissionEntity test =
         new SecuritysubmissionEntity(
             "12345",
             "15 Lobby Entrance",

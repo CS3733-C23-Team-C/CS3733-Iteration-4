@@ -9,7 +9,7 @@ import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "messages", schema = "cdb", catalog = "teamcdb")
-public class MessagesEntity {
+public class MessagesEntity2 {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "messageid")
@@ -35,9 +35,9 @@ public class MessagesEntity {
   @Column(name = "read")
   private Boolean read;
 
-  public MessagesEntity() {}
+  public MessagesEntity2() {}
 
-  public MessagesEntity(
+  public MessagesEntity2(
       int messageid,
       String senderid,
       String receivingid,
@@ -134,7 +134,7 @@ public class MessagesEntity {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    MessagesEntity that = (MessagesEntity) o;
+    MessagesEntity2 that = (MessagesEntity2) o;
     return messageid == that.messageid
         && Objects.equals(senderid, that.senderid)
         && Objects.equals(receivingid, that.receivingid)
@@ -145,7 +145,7 @@ public class MessagesEntity {
 
   @Override
   public String toString() {
-    return "MessagesEntity{"
+    return "MessagesEntity2{"
         + "messageid="
         + messageid
         + ", senderid='"

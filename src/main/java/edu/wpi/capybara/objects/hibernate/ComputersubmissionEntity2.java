@@ -10,7 +10,7 @@ import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "computersubmission", schema = "cdb", catalog = "teamcdb")
-public class ComputersubmissionEntity {
+public class ComputersubmissionEntity2 {
   @Id
   @Column(name = "submissionid")
   private int submissionid;
@@ -173,9 +173,9 @@ public class ComputersubmissionEntity {
     session.close();
   }
 
-  public ComputersubmissionEntity() {}
+  public ComputersubmissionEntity2() {}
 
-  public ComputersubmissionEntity(
+  public ComputersubmissionEntity2(
       int submissionid,
       String employeeid,
       String assignedid,
@@ -202,7 +202,7 @@ public class ComputersubmissionEntity {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    ComputersubmissionEntity that = (ComputersubmissionEntity) o;
+    ComputersubmissionEntity2 that = (ComputersubmissionEntity2) o;
     return Objects.equals(submissionid, that.submissionid)
         && Objects.equals(employeeid, that.employeeid)
         && Objects.equals(assignedid, that.assignedid)

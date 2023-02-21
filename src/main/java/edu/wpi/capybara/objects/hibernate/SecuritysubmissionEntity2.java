@@ -9,25 +9,24 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 @Entity
-@Table(name = "transportationsubmission", schema = "cdb", catalog = "teamcdb")
-public class TransportationsubmissionEntity {
+@Table(name = "securitysubmission", schema = "cdb", catalog = "teamcdb")
+public class SecuritysubmissionEntity2 {
   @Column(name = "employeeid")
   private String employeeid;
 
-  @Column(name = "currroomnum")
-  private String currroomnum;
+  @Column(name = "location")
+  private String location;
 
-  @Column(name = "destroomnum")
-  private String destroomnum;
+  @Column(name = "type")
+  private String type;
 
-  @Column(name = "reason")
-  private String reason;
+  @Column(name = "notesupdate")
+  private String notesupdate;
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "status")
-  private SubmissionStatus status;
+  @Column(name = "submissionstatus")
+  private SubmissionStatus submissionstatus;
 
-  @Basic
   @Column(name = "assignedid")
   private String assignedid;
 
@@ -46,40 +45,50 @@ public class TransportationsubmissionEntity {
   @Column(name = "duedate")
   private Date duedate;
 
-  public TransportationsubmissionEntity(
+  public SecuritysubmissionEntity2() {}
+
+  public SecuritysubmissionEntity2(
       int submissionid,
       String employeeid,
       String assignedid,
-      String currroomnum,
-      String destroomnum,
-      String reason,
-      SubmissionStatus status,
+      String location,
+      String type,
+      String notesupdate,
+      SubmissionStatus submissionstatus,
       String urgency,
       Date createdate,
       Date duedate) {
     this.submissionid = submissionid;
     this.employeeid = employeeid;
     this.assignedid = assignedid;
-    this.currroomnum = currroomnum;
-    this.destroomnum = destroomnum;
-    this.reason = reason;
-    this.status = status;
-    this.assignedid = assignedid;
-    this.submissionid = submissionid;
-    System.out.println(submissionid + " entity");
+    this.location = location;
+    this.type = type;
+    this.notesupdate = notesupdate;
+    this.submissionstatus = submissionstatus;
     this.urgency = urgency;
     this.createdate = createdate;
     this.duedate = duedate;
   }
-
-  public TransportationsubmissionEntity() {}
 
   public String getEmployeeid() {
     return employeeid;
   }
 
   public void setEmployeeid(String employeeid) {
+    Session session = Main.db.getSession();
+    Transaction tx = session.beginTransaction();
     this.employeeid = employeeid;
+    session.merge(this);
+    tx.commit();
+    session.close();
+  }
+
+  public String getLocation() {
+    return location;
+  }
+
+  public void setLocation(String location) {
+    this.location = location;
     Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
@@ -87,12 +96,12 @@ public class TransportationsubmissionEntity {
     session.close();
   }
 
-  public String getCurrroomnum() {
-    return currroomnum;
+  public String getType() {
+    return type;
   }
 
-  public void setCurrroomnum(String currroomnum) {
-    this.currroomnum = currroomnum;
+  public void setType(String type) {
+    this.type = type;
     Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
@@ -100,12 +109,12 @@ public class TransportationsubmissionEntity {
     session.close();
   }
 
-  public String getDestroomnum() {
-    return destroomnum;
+  public String getNotesupdate() {
+    return notesupdate;
   }
 
-  public void setDestroomnum(String destroomnum) {
-    this.destroomnum = destroomnum;
+  public void setNotesupdate(String notesupdate) {
+    this.notesupdate = notesupdate;
     Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
@@ -113,25 +122,13 @@ public class TransportationsubmissionEntity {
     session.close();
   }
 
-  public String getReason() {
-    return reason;
+  public SubmissionStatus getSubmissionstatus() {
+    return submissionstatus;
   }
 
-  public void setReason(String reason) {
-    this.reason = reason;
-    Session session = Main.db.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
-  }
+  public void setSubmissionstatus(SubmissionStatus submissionstatus) {
 
-  public SubmissionStatus getStatus() {
-    return status;
-  }
-
-  public void setStatus(SubmissionStatus status) {
-    this.status = status;
+    this.submissionstatus = submissionstatus;
     Session session = Main.db.getSession();
     Transaction tx = session.beginTransaction();
     session.merge(this);
@@ -208,16 +205,15 @@ public class TransportationsubmissionEntity {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    TransportationsubmissionEntity that = (TransportationsubmissionEntity) o;
+    SecuritysubmissionEntity2 that = (SecuritysubmissionEntity2) o;
     return Objects.equals(employeeid, that.employeeid)
-        && Objects.equals(currroomnum, that.currroomnum)
-        && Objects.equals(destroomnum, that.destroomnum)
-        && Objects.equals(reason, that.reason)
-        && Objects.equals(status, that.status);
+        && Objects.equals(location, that.location)
+        && Objects.equals(type, that.type)
+        && Objects.equals(submissionstatus, that.submissionstatus);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(employeeid, currroomnum, destroomnum, reason, status);
+    return Objects.hash(employeeid, location, location, type);
   }
 }

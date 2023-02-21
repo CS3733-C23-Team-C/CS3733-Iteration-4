@@ -1,9 +1,7 @@
 package edu.wpi.capybara.objects.submissions;
 
 import edu.wpi.capybara.Main;
-import edu.wpi.capybara.objects.hibernate.AudiosubmissionEntity;
-import edu.wpi.capybara.objects.orm.AudioSubmission;
-
+import edu.wpi.capybara.objects.orm.AudiosubmissionEntity;
 import java.sql.Date;
 
 public class AudioVisualSubmitter implements ISubmission {
@@ -18,7 +16,7 @@ public class AudioVisualSubmitter implements ISubmission {
       Date createdDate,
       Date dueDate,
       String outputNotes) {
-    AudioSubmission sub =
+    AudiosubmissionEntity sub =
         new AudiosubmissionEntity(
             submissionID,
             currStaffID,

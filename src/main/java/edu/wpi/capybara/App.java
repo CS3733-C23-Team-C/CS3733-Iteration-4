@@ -3,10 +3,8 @@ package edu.wpi.capybara;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.ImageLoader;
-import edu.wpi.capybara.objects.hibernate.StaffEntity;
+import edu.wpi.capybara.objects.orm.StaffEntity;
 import java.io.IOException;
-
-import edu.wpi.capybara.objects.orm.Staff;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -24,9 +22,9 @@ public class App extends Application {
 
   // @Getter private static SubmissionCollector totalSubmissions = new SubmissionCollector();
 
-  @Getter private static Staff user;
+  @Getter private static StaffEntity user;
 
-  @Getter private static Staff tempuser;
+  @Getter private static StaffEntity tempuser;
 
   @Override
   public void init() {
@@ -64,11 +62,11 @@ public class App extends Application {
     log.info("Shutting Down");
   }
 
-  public static void setUser(Staff newUser) {
+  public static void setUser(StaffEntity newUser) {
     user = newUser;
   }
 
-  public static void setTempUser(Staff newtempUser) {
+  public static void setTempUser(StaffEntity newtempUser) {
     tempuser = newtempUser;
   }
 }

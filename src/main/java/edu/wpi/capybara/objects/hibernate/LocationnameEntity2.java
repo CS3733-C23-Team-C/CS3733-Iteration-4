@@ -8,7 +8,7 @@ import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "locationname", schema = "cdb", catalog = "teamcdb")
-public class LocationnameEntity {
+public class LocationnameEntity2 {
   @Id
   @Column(name = "longname")
   private String longname;
@@ -21,9 +21,9 @@ public class LocationnameEntity {
   @Column(name = "locationtype")
   private String locationtype;
 
-  public LocationnameEntity() {}
+  public LocationnameEntity2() {}
 
-  public LocationnameEntity(String longname, String shortname, String locationtype) {
+  public LocationnameEntity2(String longname, String shortname, String locationtype) {
     this.longname = longname;
     this.shortname = shortname;
     this.locationtype = locationtype;
@@ -72,7 +72,7 @@ public class LocationnameEntity {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    LocationnameEntity that = (LocationnameEntity) o;
+    LocationnameEntity2 that = (LocationnameEntity2) o;
     return Objects.equals(longname, that.longname)
         && Objects.equals(shortname, that.shortname)
         && Objects.equals(locationtype, that.locationtype);

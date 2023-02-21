@@ -1,9 +1,7 @@
 package edu.wpi.capybara.objects.submissions;
 
 import edu.wpi.capybara.Main;
-import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
-import edu.wpi.capybara.objects.orm.CleaningSubmission;
-
+import edu.wpi.capybara.objects.orm.CleaningsubmissionEntity;
 import java.sql.Date;
 
 public class CleaningSubmitter implements ISubmission {
@@ -19,7 +17,7 @@ public class CleaningSubmitter implements ISubmission {
       Date createdDate,
       Date dueDate,
       String outputNotes) {
-    CleaningSubmission sub =
+    CleaningsubmissionEntity sub =
         new CleaningsubmissionEntity(
             submissionID,
             currStaffID,

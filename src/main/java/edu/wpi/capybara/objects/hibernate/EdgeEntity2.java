@@ -1,7 +1,6 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
-import edu.wpi.capybara.objects.orm.Node;
 import jakarta.persistence.*;
 import java.util.Objects;
 import org.hibernate.Session;
@@ -10,7 +9,7 @@ import org.hibernate.Transaction;
 @Entity
 @Table(name = "edge", schema = "cdb", catalog = "teamcdb")
 @IdClass(EdgeEntityPK.class)
-public class EdgeEntity {
+public class EdgeEntity2 {
   @Id
   @Column(name = "node1")
   private String node1;
@@ -19,9 +18,9 @@ public class EdgeEntity {
   @Column(name = "node2")
   private String node2;
 
-  public EdgeEntity() {}
+  public EdgeEntity2() {}
 
-  public EdgeEntity(String node1, String node2) {
+  public EdgeEntity2(String node1, String node2) {
     this.node1 = node1;
     this.node2 = node2;
   }
@@ -52,7 +51,7 @@ public class EdgeEntity {
     session.close();
   }
 
-  public String getOtherNode(Node node) {
+  public String getOtherNode(NodeEntity2 node) {
     if (node.getNodeid().equals(node1)) return node2;
     return node1;
   }
@@ -61,7 +60,7 @@ public class EdgeEntity {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    EdgeEntity that = (EdgeEntity) o;
+    EdgeEntity2 that = (EdgeEntity2) o;
     return Objects.equals(node1, that.node1) && Objects.equals(node2, that.node2);
   }
 

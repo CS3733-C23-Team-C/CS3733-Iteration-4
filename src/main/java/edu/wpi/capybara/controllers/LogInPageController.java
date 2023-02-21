@@ -4,7 +4,7 @@ import edu.wpi.capybara.App;
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
-import edu.wpi.capybara.objects.orm.Staff;
+import edu.wpi.capybara.objects.orm.StaffEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
@@ -69,7 +69,7 @@ public class LogInPageController {
   public void login(ActionEvent actionEvent) throws IOException {
 
     // Get username and password and check if the combination exists
-    Staff s = null;
+    StaffEntity s = null;
     if (!Objects.equals(username.getText(), "") && !Objects.equals(password.getText(), "")) {
       String outputUsername = username.getText();
       String outputPassword = password.getText();

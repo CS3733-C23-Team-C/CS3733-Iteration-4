@@ -1,22 +1,22 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.objects.orm.Messages;
+import edu.wpi.capybara.objects.orm.MessagesEntity;
 
 import java.util.HashMap;
 
 public interface MessagesDAO {
 
-  HashMap<Integer, Messages> getMessages();
+  HashMap<Integer, MessagesEntity> getMessages();
 
-  Messages getMessage(int id);
+  MessagesEntity getMessage(int id);
 
-  void addMessage(Messages message);
+  void addMessage(MessagesEntity message);
 
   void deleteMessage(int id);
 
   int generateMessageID();
 
-  HashMap<Integer, Messages> getMessages(String id);
+  HashMap<Integer, MessagesEntity> getMessages(String id);
 
-  HashMap<Integer, Messages> getMessages(String id, int lastID);
+  HashMap<Integer, MessagesEntity> getMessages(String id, int lastID);
 }
