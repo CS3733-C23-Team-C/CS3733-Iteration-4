@@ -11,6 +11,7 @@ import edu.wpi.capybara.objects.hibernate.StaffEntity;
 import java.text.SimpleDateFormat;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -26,6 +27,7 @@ public class MessageBox {
 
   public HBox addHomeMessage(MessagesEntity message) {
     HBox newMessage = new HBox();
+    newMessage.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
     newMessage.setId(Integer.toString(message.getMessageid()));
     newMessage.getStyleClass().add("unread");
     newMessage.getStylesheets().add("edu/wpi/capybara/styles/message.css");
@@ -33,6 +35,7 @@ public class MessageBox {
         new EventHandler<MouseEvent>() {
           @Override
           public void handle(MouseEvent event) {
+            MenuController.setSelectedHomeMessage(message.getMessageid());
             Navigation.navigate(Screen.MESSAGES);
           }
         });
@@ -61,6 +64,7 @@ public class MessageBox {
 
   public VBox addMessageBox(MessagesEntity message) {
     VBox newMessage = new VBox();
+    newMessage.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
     newMessage.setId(Integer.toString(message.getMessageid()));
     if (message.getRead()) newMessage.getStyleClass().add("read");
     else newMessage.getStyleClass().add("unread");
