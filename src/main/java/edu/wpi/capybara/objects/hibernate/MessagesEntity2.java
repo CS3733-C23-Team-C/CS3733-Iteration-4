@@ -10,7 +10,6 @@ import org.hibernate.Transaction;
 @Entity
 @Table(name = "messages", schema = "cdb", catalog = "teamcdb")
 public class MessagesEntity2 {
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
   @Column(name = "messageid")
   private int messageid;

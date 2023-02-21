@@ -1,6 +1,7 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.objects.SubmissionAbs;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import jakarta.persistence.*;
 import java.sql.Date;
@@ -10,7 +11,7 @@ import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "cleaningsubmission", schema = "cdb", catalog = "teamcdb")
-public class CleaningsubmissionEntity2 {
+public class CleaningsubmissionEntity2 extends SubmissionAbs {
   // @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "memberid")
   private String memberid;
@@ -225,5 +226,10 @@ public class CleaningsubmissionEntity2 {
   @Override
   public int hashCode() {
     return Objects.hash(memberid, location, hazardlevel, description, submissionstatus);
+  }
+
+  @Override
+  public String submissionType() {
+    return "Cleaning";
   }
 }

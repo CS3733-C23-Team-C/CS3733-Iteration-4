@@ -8,6 +8,8 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.utils.EnumStringConverter;
 import java.util.Map;
+import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.Objects;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -121,6 +123,24 @@ public class AssignedRequestController {
               TableColumn.CellEditEvent<CleaningsubmissionEntity, SubmissionStatus> event) {
             CleaningsubmissionEntity clean = event.getRowValue();
             clean.setSubmissionstatus(event.getNewValue());
+            clean.setSubmissionstatus(event.getNewValue());
+            if (!clean.getSubmissionstatus().equals(SubmissionStatus.BLANK)) {
+              java.util.Date submissionDate = new java.util.Date();
+              Timestamp time = new Timestamp(submissionDate.getTime());
+              int messageID = Main.db.generateMessageID();
+              MessagesEntity newMessage =
+                  new MessagesEntity(
+                      messageID,
+                      "SYSTEM",
+                      clean.getMemberid(),
+                      time,
+                      "Request #"
+                          + clean.getSubmissionid()
+                          + " has been marked as "
+                          + clean.getSubmissionstatus().toString(),
+                      false);
+              Main.db.addMessage(newMessage);
+            }
           }
         });
     cleanDescription.setCellValueFactory(
@@ -168,6 +188,24 @@ public class AssignedRequestController {
               TableColumn.CellEditEvent<TransportationsubmissionEntity, SubmissionStatus> event) {
             TransportationsubmissionEntity transport = event.getRowValue();
             transport.setStatus(event.getNewValue());
+            transport.setStatus(event.getNewValue());
+            if (!transport.getStatus().equals(SubmissionStatus.BLANK)) {
+              java.util.Date submissionDate = new java.util.Date();
+              Timestamp time = new Timestamp(submissionDate.getTime());
+              int messageID = Main.db.generateMessageID();
+              MessagesEntity newMessage =
+                  new MessagesEntity(
+                      messageID,
+                      "SYSTEM",
+                      transport.getEmployeeid(),
+                      time,
+                      "Request #"
+                          + transport.getSubmissionid()
+                          + " has been marked as "
+                          + transport.getStatus().toString(),
+                      false);
+              Main.db.addMessage(newMessage);
+            }
           }
         });
     transportationELevel.setCellValueFactory(
@@ -205,6 +243,24 @@ public class AssignedRequestController {
               TableColumn.CellEditEvent<SecuritysubmissionEntity, SubmissionStatus> event) {
             SecuritysubmissionEntity security = event.getRowValue();
             security.setSubmissionstatus(event.getNewValue());
+            security.setSubmissionstatus(event.getNewValue());
+            if (!security.getSubmissionstatus().equals(SubmissionStatus.BLANK)) {
+              java.util.Date submissionDate = new java.util.Date();
+              Timestamp time = new Timestamp(submissionDate.getTime());
+              int messageID = Main.db.generateMessageID();
+              MessagesEntity newMessage =
+                  new MessagesEntity(
+                      messageID,
+                      "SYSTEM",
+                      security.getEmployeeid(),
+                      time,
+                      "Request #"
+                          + security.getSubmissionid()
+                          + " has been marked as "
+                          + security.getSubmissionstatus().toString(),
+                      false);
+              Main.db.addMessage(newMessage);
+            }
           }
         });
 
@@ -246,6 +302,24 @@ public class AssignedRequestController {
               TableColumn.CellEditEvent<AudiosubmissionEntity, SubmissionStatus> event) {
             AudiosubmissionEntity audio = event.getRowValue();
             audio.setSubmissionstatus(event.getNewValue());
+            audio.setSubmissionstatus(event.getNewValue());
+            if (!audio.getSubmissionstatus().equals(SubmissionStatus.BLANK)) {
+              java.util.Date submissionDate = new java.util.Date();
+              Timestamp time = new Timestamp(submissionDate.getTime());
+              int messageID = Main.db.generateMessageID();
+              MessagesEntity newMessage =
+                  new MessagesEntity(
+                      messageID,
+                      "SYSTEM",
+                      audio.getEmployeeid(),
+                      time,
+                      "Request #"
+                          + audio.getSubmissionid()
+                          + " has been marked as "
+                          + audio.getSubmissionstatus().toString(),
+                      false);
+              Main.db.addMessage(newMessage);
+            }
           }
         });
     audioAssignedID.setCellValueFactory(
@@ -283,8 +357,26 @@ public class AssignedRequestController {
           @Override
           public void handle(
               TableColumn.CellEditEvent<ComputersubmissionEntity, SubmissionStatus> event) {
-            ComputersubmissionEntity audio = event.getRowValue();
-            audio.setSubmissionstatus(event.getNewValue());
+            ComputersubmissionEntity computer = event.getRowValue();
+            computer.setSubmissionstatus(event.getNewValue());
+            computer.setSubmissionstatus(event.getNewValue());
+            if (!computer.getSubmissionstatus().equals(SubmissionStatus.BLANK)) {
+              java.util.Date submissionDate = new java.util.Date();
+              Timestamp time = new Timestamp(submissionDate.getTime());
+              int messageID = Main.db.generateMessageID();
+              MessagesEntity newMessage =
+                  new MessagesEntity(
+                      messageID,
+                      "SYSTEM",
+                      computer.getEmployeeid(),
+                      time,
+                      "Request #"
+                          + computer.getSubmissionid()
+                          + " has been marked as "
+                          + computer.getSubmissionstatus().toString(),
+                      false);
+              Main.db.addMessage(newMessage);
+            }
           }
         });
     computerAssignedID.setCellValueFactory(

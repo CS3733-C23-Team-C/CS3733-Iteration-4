@@ -1,6 +1,7 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.objects.SubmissionAbs;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import jakarta.persistence.*;
 import java.sql.Date;
@@ -10,7 +11,7 @@ import org.hibernate.Transaction;
 
 @Entity
 @Table(name = "computersubmission", schema = "cdb", catalog = "teamcdb")
-public class ComputersubmissionEntity2 {
+public class ComputersubmissionEntity2 extends SubmissionAbs {
   @Id
   @Column(name = "submissionid")
   private int submissionid;
@@ -228,5 +229,10 @@ public class ComputersubmissionEntity2 {
         urgency,
         createdate,
         duedate);
+  }
+
+  @Override
+  public String submissionType() {
+    return "Computer";
   }
 }
