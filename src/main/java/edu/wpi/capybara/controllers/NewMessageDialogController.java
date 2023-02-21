@@ -13,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -43,6 +44,7 @@ public class NewMessageDialogController {
           @Override
           public void handle(KeyEvent event) {
             validateButton();
+            if (event.getCode().equals(KeyCode.ENTER)) sendMessage();
           }
         });
 
@@ -58,20 +60,9 @@ public class NewMessageDialogController {
         new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent event) {
-            Date date = new java.util.Date();
-            Timestamp time = new Timestamp(date.getTime());
-            int messageID = Main.db.generateMessageID();
-            String senderID = App.getUser().getStaffid();
-            MessagesEntity newMessage =
-                new MessagesEntity(
-                    messageID, senderID, receivingID.getText(), time, message.getText(), false);
-            Main.db.addMessage(newMessage);
-            vbox.setVisible(false);
-            sentTxt.setVisible(true);
-            System.out.println("showing successful text");
+            sendMessage();
           }
         });
-
     sReceivingID = receivingID;
   }
 
@@ -122,5 +113,18 @@ public class NewMessageDialogController {
   public void validateButton() {
     if (!receivingID.getText().equals("") && !message.getText().equals(""))
       sendMessageButton.setDisable(false);
+  }
+
+  public void sendMessage() {
+    Date date = new java.util.Date();
+    Timestamp time = new Timestamp(date.getTime());
+    int messageID = Main.db.generateMessageID();
+    String senderID = App.getUser().getStaffid();
+    MessagesEntity newMessage =
+        new MessagesEntity(
+            messageID, senderID, receivingID.getText(), time, message.getText(), false);
+    Main.db.addMessage(newMessage);
+    vbox.setVisible(false);
+    sentTxt.setVisible(true);
   }
 }

@@ -6,6 +6,7 @@ import edu.wpi.capybara.objects.MessageBox;
 import edu.wpi.capybara.objects.hibernate.MessagesEntity;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,6 +31,8 @@ public class HomeController {
   private MessageBox messageBox = new MessageBox();
   @Getter @Setter private static int newMessageCount;
 
+  private ArrayList<Integer> keyList = new ArrayList<>();
+
   /** Initialize controller by FXML Loader. */
   @FXML
   public void initialize() {
@@ -41,6 +44,11 @@ public class HomeController {
     }
     newMessageCount = 0;
     messages = Main.db.getMessages(App.getUser().getStaffid());
+
+    for (Integer key : messages.keySet()) {
+      keyList.add(key);
+    }
+    keyList.sort(null);
     showMessages();
     newMessageTxt.setText("You Have " + newMessageCount + " New Messages:");
 
@@ -73,8 +81,8 @@ public class HomeController {
   }
 
   public void showMessages() {
-    for (MessagesEntity message : messages.values()) {
-      System.out.println(message.getMessage());
+    for (int i = (keyList.size() - 1); i >= 0; i--) {
+      MessagesEntity message = messages.get(keyList.get(i));
       if (!message.getRead()) {
         newMessageCount++;
         HBox newMessage = messageBox.addHomeMessage(message);
