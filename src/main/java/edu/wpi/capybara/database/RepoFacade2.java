@@ -80,6 +80,8 @@ public interface RepoFacade2 {
 
   StaffEntity getStaff(String staffid);
 
+  StaffEntity getStaff2(String firstName, String lastName);
+
   MessagesEntity getMessage(Integer id);
 
   // delete methods

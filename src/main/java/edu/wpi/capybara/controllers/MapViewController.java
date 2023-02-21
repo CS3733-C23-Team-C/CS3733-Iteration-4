@@ -428,7 +428,8 @@ public class MapViewController {
     for (EdgeEntity edge : Main.db.getEdges()) {
       NodeEntity n1 = edge.getNode1();
       NodeEntity n2 = edge.getNode2();
-      if (!n1.getFloor().toString().equals(currentFloor) || !n2.getFloor().toString().equals(currentFloor)) continue;
+      if (!n1.getFloor().toString().equals(currentFloor)
+          || !n2.getFloor().toString().equals(currentFloor)) continue;
 
       gc.strokeLine(
           locToMapX(n1.getXcoord()),
@@ -445,12 +446,15 @@ public class MapViewController {
       if (n1.getFloor().toString().equals(currentFloor)
           && !n2.getFloor().toString().equals(currentFloor)
           && nodeInMapView(n1)) {
-        drawNode(n1, (event -> alertNewFloor(n1, n1.getFloor().toString(), n2.getFloor().toString())));
+        drawNode(
+            n1, (event -> alertNewFloor(n1, n1.getFloor().toString(), n2.getFloor().toString())));
       } else if (n2.getFloor().toString().equals(currentFloor)
           && !n1.getFloor().toString().equals(currentFloor)
           && nodeInMapView(n2)) {
-        drawNode(n2, (event -> alertNewFloor(n2, n2.getFloor().toString(), n1.getFloor().toString())));
-      } else if (!n1.getFloor().toString().equals(currentFloor) && !n2.getFloor().toString().equals(currentFloor)) {
+        drawNode(
+            n2, (event -> alertNewFloor(n2, n2.getFloor().toString(), n1.getFloor().toString())));
+      } else if (!n1.getFloor().toString().equals(currentFloor)
+          && !n2.getFloor().toString().equals(currentFloor)) {
         continue;
       } else if ((!nodeInMapView(n1)) && (!nodeInMapView(n2))) {
         continue;
