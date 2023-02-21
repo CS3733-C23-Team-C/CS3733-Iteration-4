@@ -3,7 +3,7 @@ package edu.wpi.capybara.controllers;
 import edu.wpi.capybara.database.newDBConnect;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
-import edu.wpi.capybara.objects.orm.StaffEntity;
+import edu.wpi.capybara.objects.hibernate.StaffEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;

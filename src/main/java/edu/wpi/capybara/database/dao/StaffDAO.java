@@ -1,7 +1,7 @@
 package edu.wpi.capybara.database.dao;
 
+import edu.wpi.capybara.objects.hibernate.StaffEntity;
 import edu.wpi.capybara.objects.orm.DAOFacade;
-import edu.wpi.capybara.objects.orm.StaffEntity;
 
 public class StaffDAO extends MapDAOBase<String, StaffEntity> {
   public StaffDAO(DAOFacade orm) {

@@ -16,7 +16,12 @@ public class MapDAOBase<K, E extends Persistent> {
   protected MapDAOBase(DAOFacade orm, Class<E> entityClass, Function<E, K> keyGetter) {
     this.orm = orm;
     this.keyGetter = keyGetter;
-    orm.from(entityClass).forEach(entity -> entities.put(keyGetter.apply(entity), entity));
+    orm.from(entityClass)
+        .forEach(
+            entity -> {
+              entity.enablePersistence(orm);
+              entities.put(keyGetter.apply(entity), entity);
+            });
   }
 
   public ReadOnlyMapProperty<K, E> getAll() {

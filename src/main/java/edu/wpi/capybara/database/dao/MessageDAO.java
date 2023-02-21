@@ -1,7 +1,7 @@
 package edu.wpi.capybara.database.dao;
 
+import edu.wpi.capybara.objects.hibernate.MessagesEntity;
 import edu.wpi.capybara.objects.orm.DAOFacade;
-import edu.wpi.capybara.objects.orm.MessagesEntity;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;

@@ -14,6 +14,7 @@ class ListDAOBase<E extends Persistent> {
   protected ListDAOBase(DAOFacade orm, Class<E> entityClass) {
     this.orm = orm;
     entities.addAll(orm.from(entityClass));
+    entities.forEach(entity -> entity.enablePersistence(orm));
   }
 
   public ReadOnlyListProperty<E> getAll() {

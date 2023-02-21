@@ -1,7 +1,7 @@
 package edu.wpi.capybara.pathfinding;
 
-import edu.wpi.capybara.objects.orm.EdgeEntity;
-import edu.wpi.capybara.objects.orm.NodeEntity;
+import edu.wpi.capybara.objects.hibernate.EdgeEntity;
+import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import java.util.*;
 
 public class BFSPathfinder implements PathfindingAlgorithm {

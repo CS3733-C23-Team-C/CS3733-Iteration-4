@@ -1,7 +1,9 @@
-package edu.wpi.capybara.objects.orm;
+package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.Floor;
+import edu.wpi.capybara.objects.orm.DAOFacade;
+import edu.wpi.capybara.objects.orm.Persistent;
 import jakarta.persistence.*;
 import java.sql.Date;
 import java.util.HashSet;
@@ -168,6 +170,33 @@ public class NodeEntity implements Persistent {
       }
     }
     return longname;
+  }
+
+  @Transient
+  public String getLocationType() {
+    List<MoveEntity> moves = Main.db.getMoves();
+    Date temp = new Date((long) 0);
+    String longname = null;
+    for (MoveEntity m : moves) {
+      if (m.getNodeID().equals(getNodeID())) {
+        if (m.getMovedate().compareTo(temp) > 0) {
+          // System.out.println("select!");
+          temp = m.getMovedate();
+          longname = m.getLongName();
+        }
+      }
+    }
+    if (longname == null) {
+      return "NA";
+    }
+    Map<String, LocationnameEntity> locations = Main.db.getLocationnames();
+    for (LocationnameEntity location : locations.values()) {
+      if (longname.equals(location.getLongname())) {
+        return location.getLocationtype();
+      }
+    }
+
+    return null;
   }
 
   @Override

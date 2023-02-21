@@ -2,8 +2,8 @@ package edu.wpi.capybara.controllers.mapeditor.dialogs;
 
 import edu.wpi.capybara.controllers.mapeditor.AdapterRepository;
 import edu.wpi.capybara.controllers.mapeditor.adapters.NodeAdapter;
-import edu.wpi.capybara.objects.orm.EdgeEntity;
-import edu.wpi.capybara.objects.orm.NodeEntity;
+import edu.wpi.capybara.objects.hibernate.EdgeEntity;
+import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import javafx.stage.Window;
 
 public class ReplaceNodeDialog extends NodeDialog {

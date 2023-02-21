@@ -1,7 +1,7 @@
 package edu.wpi.capybara.objects.submissions;
 
 import edu.wpi.capybara.Main;
-import edu.wpi.capybara.objects.orm.CleaningsubmissionEntity;
+import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
 import java.sql.Date;
 
 public class CleaningSubmitter implements ISubmission {

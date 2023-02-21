@@ -10,18 +10,21 @@ public class Main extends Thread {
   @Getter private static DAOFacade orm;
   @Getter private static RepoFacade2 repo;
 
+  @Getter private static Thread updaterThread;
+
   public static void main(String[] args) {
     //    DatabaseConnect.connect();
     //    DatabaseConnect.importData();
+    AutoUpdate updater = new AutoUpdate();
+    updaterThread = new Thread(updater, "AutoUpdater");
+
     orm = new DAOService();
     repo = new DatabaseService(orm);
 
     // db = new newDBConnect();
     db = new RepoFacadeAdapter(repo);
     db.importAll();
-    AutoUpdate updater = new AutoUpdate();
-    Thread thread = new Thread(updater, "AutoUpdater");
-    thread.start();
+    updaterThread.start();
     App.launch(App.class, args);
     updater.stop();
   }

@@ -1,7 +1,7 @@
 package edu.wpi.capybara.objects;
 
+import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import java.util.Set;
-import edu.wpi.capybara.objects.orm.NodeEntity;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import lombok.Getter;

@@ -5,6 +5,7 @@ import edu.wpi.capybara.database.dao.EdgeDAO;
 import edu.wpi.capybara.database.dao.MoveDAO;
 import edu.wpi.capybara.database.dao.NodeDAO;
 import edu.wpi.capybara.database.dao.StaffDAO;
+import edu.wpi.capybara.objects.hibernate.*;
 import edu.wpi.capybara.objects.orm.*;
 import java.util.HashMap;
 import java.util.List;

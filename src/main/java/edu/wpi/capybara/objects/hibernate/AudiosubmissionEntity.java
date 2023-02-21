@@ -1,5 +1,8 @@
-package edu.wpi.capybara.objects.orm;
+package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.objects.SubmissionAbs;
+import edu.wpi.capybara.objects.orm.DAOFacade;
+import edu.wpi.capybara.objects.orm.Persistent;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import jakarta.persistence.*;
 import java.sql.Date;
@@ -10,8 +13,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 @Entity
-@Table(name = "computersubmission", schema = "cdb", catalog = "teamcdb")
-public class ComputersubmissionEntity implements Persistent {
+@Table(name = "audiosubmission", schema = "cdb", catalog = "teamcdb")
+public class AudiosubmissionEntity extends SubmissionAbs implements Persistent {
   // private final SimpleObjectProperty<UUID> submissionID = new SimpleObjectProperty<>();
   private final SimpleIntegerProperty submissionid = new SimpleIntegerProperty();
   private final SimpleStringProperty employeeid = new SimpleStringProperty();
@@ -25,9 +28,9 @@ public class ComputersubmissionEntity implements Persistent {
   private final SimpleObjectProperty<Date> createdate = new SimpleObjectProperty<>();
   private final SimpleObjectProperty<Date> duedate = new SimpleObjectProperty<>();
 
-  public ComputersubmissionEntity() {}
+  public AudiosubmissionEntity() {}
 
-  public ComputersubmissionEntity(
+  public AudiosubmissionEntity(
       int submissionid,
       String employeeid,
       String assignedid,
@@ -63,42 +66,6 @@ public class ComputersubmissionEntity implements Persistent {
     urgency.addListener(listener);
     createdate.addListener(listener);
     duedate.addListener(listener);
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (obj == null) return false;
-    else if (obj == this) return true;
-    else if (obj instanceof ComputersubmissionEntity that) {
-      return Persistent.compareProperties(
-          this,
-          that,
-          ComputersubmissionEntity::getSubmissionid,
-          ComputersubmissionEntity::getEmployeeid,
-          ComputersubmissionEntity::getAssignedid,
-          ComputersubmissionEntity::getLocation,
-          ComputersubmissionEntity::getType,
-          ComputersubmissionEntity::getNotesupdate,
-          ComputersubmissionEntity::getSubmissionstatus,
-          ComputersubmissionEntity::getUrgency,
-          ComputersubmissionEntity::getCreatedate,
-          ComputersubmissionEntity::getDuedate);
-    } else return false;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(
-        getSubmissionid(),
-        getAssignedid(),
-        getAssignedid(),
-        getLocation(),
-        getType(),
-        getNotesupdate(),
-        getSubmissionstatus(),
-        getUrgency(),
-        getCreatedate(),
-        getDuedate());
   }
 
   @Id
@@ -231,5 +198,46 @@ public class ComputersubmissionEntity implements Persistent {
 
   public void setDuedate(Date duedate) {
     this.duedate.set(duedate);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) return false;
+    else if (this == obj) return true;
+    else if (obj instanceof AudiosubmissionEntity that) {
+      return Persistent.compareProperties(
+          this,
+          that,
+          AudiosubmissionEntity::getSubmissionid,
+          AudiosubmissionEntity::getEmployeeid,
+          AudiosubmissionEntity::getAssignedid,
+          AudiosubmissionEntity::getLocation,
+          AudiosubmissionEntity::getType,
+          AudiosubmissionEntity::getNotesupdate,
+          AudiosubmissionEntity::getSubmissionstatus,
+          AudiosubmissionEntity::getUrgency,
+          AudiosubmissionEntity::getCreatedate,
+          AudiosubmissionEntity::getDuedate);
+    } else return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(
+        getSubmissionid(),
+        getEmployeeid(),
+        getAssignedid(),
+        getLocation(),
+        getType(),
+        getNotesupdate(),
+        getSubmissionstatus(),
+        getUrgency(),
+        getCreatedate(),
+        getDuedate());
+  }
+
+  @Override
+  public String submissionType() {
+    return "Audio";
   }
 }

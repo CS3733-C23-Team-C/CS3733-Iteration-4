@@ -1,6 +1,8 @@
-package edu.wpi.capybara.objects.orm;
+package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.objects.orm.DAOFacade;
+import edu.wpi.capybara.objects.orm.Persistent;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
@@ -79,7 +81,7 @@ public class MoveEntity implements Persistent {
   }
 
   // Caused by: org.hibernate.MappingException: Column 'nodeid' is duplicated in mapping for entity
-  // 'edu.wpi.capybara.objects.orm.MoveEntity' (use '@Column(insertable=false,
+  // 'edu.wpi.capybara.objects.hibernate.MoveEntity' (use '@Column(insertable=false,
   // updatable=false)' when mapping multiple properties to the same column)
   @Transient
   public String getNodeID() {

@@ -1,6 +1,8 @@
-package edu.wpi.capybara.objects.orm;
+package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.objects.orm.DAOFacade;
+import edu.wpi.capybara.objects.orm.Persistent;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;

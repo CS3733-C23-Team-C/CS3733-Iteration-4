@@ -1,5 +1,8 @@
-package edu.wpi.capybara.objects.orm;
+package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.objects.SubmissionAbs;
+import edu.wpi.capybara.objects.orm.DAOFacade;
+import edu.wpi.capybara.objects.orm.Persistent;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import jakarta.persistence.*;
 import java.sql.Date;
@@ -11,7 +14,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 @Entity
 @Table(name = "transportationsubmission", schema = "cdb", catalog = "teamcdb")
-public class TransportationsubmissionEntity implements Persistent {
+public class TransportationsubmissionEntity extends SubmissionAbs implements Persistent {
   private final SimpleStringProperty employeeid = new SimpleStringProperty();
   private final SimpleStringProperty currroomnum = new SimpleStringProperty();
   private final SimpleStringProperty destroomnum = new SimpleStringProperty();
@@ -230,5 +233,16 @@ public class TransportationsubmissionEntity implements Persistent {
 
   public void setDuedate(Date duedate) {
     this.duedate.set(duedate);
+  }
+
+  @Transient
+  @Override
+  public String getLocation() {
+    return getCurrroomnum();
+  }
+
+  @Override
+  public String submissionType() {
+    return "Security";
   }
 }

@@ -1,6 +1,6 @@
 package edu.wpi.capybara.database.dao;
 
-import edu.wpi.capybara.objects.orm.ComputersubmissionEntity;
+import edu.wpi.capybara.objects.hibernate.ComputersubmissionEntity;
 import edu.wpi.capybara.objects.orm.DAOFacade;
 
 public class ComputerSubmissionDAO extends MapDAOBase<Integer, ComputersubmissionEntity> {

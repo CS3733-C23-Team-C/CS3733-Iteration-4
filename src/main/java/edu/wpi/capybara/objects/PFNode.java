@@ -1,13 +1,7 @@
 package edu.wpi.capybara.objects;
 
-import edu.wpi.capybara.objects.orm.NodeEntity;
-import edu.wpi.capybara.Main;
-import edu.wpi.capybara.controllers.PathfindingController;
-import edu.wpi.capybara.objects.orm.LocationnameEntity;
-import edu.wpi.capybara.objects.orm.MoveEntity;
-import edu.wpi.capybara.objects.orm.NodeEntity;
+import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import java.sql.Date;
-import java.util.*;
 
 public class PFNode implements PFPlace {
   private final NodeEntity node;

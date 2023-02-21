@@ -1,9 +1,9 @@
-package edu.wpi.capybara.objects.orm;
+package edu.wpi.capybara.objects.hibernate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import edu.wpi.capybara.Main;
+import edu.wpi.capybara.objects.orm.DAOFacade;
+import edu.wpi.capybara.objects.orm.Persistent;
+import jakarta.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 import javafx.beans.InvalidationListener;
@@ -42,7 +42,10 @@ public class MessagesEntity implements Persistent {
 
   @Override
   public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener = evt -> orm.merge(this);
+    final InvalidationListener listener =
+        evt -> {
+          if (Thread.currentThread() != Main.getUpdaterThread()) orm.merge(this);
+        };
     messageid.addListener(listener);
     senderid.addListener(listener);
     receivingid.addListener(listener);
@@ -151,5 +154,10 @@ public class MessagesEntity implements Persistent {
 
   public void setRead(boolean read) {
     this.read.set(read);
+  }
+
+  @Transient
+  public boolean getRead() {
+    return isRead();
   }
 }

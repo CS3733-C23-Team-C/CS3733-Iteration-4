@@ -1,6 +1,6 @@
 package edu.wpi.capybara.database;
 
-import edu.wpi.capybara.objects.orm.*;
+import edu.wpi.capybara.objects.hibernate.*;
 import java.util.List;
 import java.util.Map;
 import org.hibernate.Session;

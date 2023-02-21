@@ -1,9 +1,6 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
-import edu.wpi.capybara.objects.orm.EdgeEntity;
-import edu.wpi.capybara.objects.orm.LocationnameEntity;
-import edu.wpi.capybara.objects.orm.MoveEntity;
 import jakarta.persistence.*;
 import java.sql.Date;
 import java.util.*;
@@ -152,22 +149,22 @@ public class NodeEntity2 {
   }
 
   public String getLocationType() {
-    ArrayList<MoveEntity> moves = Main.db.getMoves();
+    List<MoveEntity> moves = Main.db.getMoves();
     Date temp = new Date((long) 0);
     String longname = null;
     for (MoveEntity m : moves) {
-      if (m.getNodeid().equals(this.nodeid)) {
+      if (m.getNodeID().equals(this.nodeid)) {
         if (m.getMovedate().compareTo(temp) > 0) {
           // System.out.println("select!");
           temp = m.getMovedate();
-          longname = m.getLongname();
+          longname = m.getLongName();
         }
       }
     }
     if (longname == null) {
       return "NA";
     }
-    HashMap<String, LocationnameEntity> locations = Main.db.getLocationnames();
+    Map<String, LocationnameEntity> locations = Main.db.getLocationnames();
     for (LocationnameEntity location : locations.values()) {
       if (longname.equals(location.getLongname())) {
         return location.getLocationtype();

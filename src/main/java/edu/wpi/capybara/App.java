@@ -3,7 +3,7 @@ package edu.wpi.capybara;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.ImageLoader;
-import edu.wpi.capybara.objects.orm.StaffEntity;
+import edu.wpi.capybara.objects.hibernate.StaffEntity;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

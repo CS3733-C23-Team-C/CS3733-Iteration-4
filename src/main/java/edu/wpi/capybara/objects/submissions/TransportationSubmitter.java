@@ -1,7 +1,7 @@
 package edu.wpi.capybara.objects.submissions;
 
 import edu.wpi.capybara.Main;
-import edu.wpi.capybara.objects.orm.TransportationsubmissionEntity;
+import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
 import java.sql.Date;
 
 public class TransportationSubmitter implements ISubmission {

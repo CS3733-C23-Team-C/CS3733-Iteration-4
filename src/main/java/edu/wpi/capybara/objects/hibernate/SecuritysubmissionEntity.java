@@ -1,8 +1,11 @@
-package edu.wpi.capybara.objects.orm;
+package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.objects.SubmissionAbs;
+import edu.wpi.capybara.objects.orm.DAOFacade;
+import edu.wpi.capybara.objects.orm.Persistent;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import jakarta.persistence.*;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -10,12 +13,12 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 @Entity
-@Table(name = "cleaningsubmission", schema = "cdb", catalog = "teamcdb")
-public class CleaningsubmissionEntity implements Persistent {
-  private final SimpleStringProperty memberid = new SimpleStringProperty();
+@Table(name = "securitysubmission", schema = "cdb", catalog = "teamcdb")
+public class SecuritysubmissionEntity extends SubmissionAbs implements Persistent {
+  private final SimpleStringProperty employeeid = new SimpleStringProperty();
   private final SimpleStringProperty location = new SimpleStringProperty();
-  private final SimpleStringProperty hazardlevel = new SimpleStringProperty();
-  private final SimpleStringProperty description = new SimpleStringProperty();
+  private final SimpleStringProperty type = new SimpleStringProperty();
+  private final SimpleStringProperty notesupdate = new SimpleStringProperty();
   private final SimpleObjectProperty<SubmissionStatus> submissionstatus =
       new SimpleObjectProperty<>();
   private final SimpleStringProperty assignedid = new SimpleStringProperty();
@@ -25,25 +28,25 @@ public class CleaningsubmissionEntity implements Persistent {
   private final SimpleObjectProperty<Date> createdate = new SimpleObjectProperty<>();
   private final SimpleObjectProperty<Date> duedate = new SimpleObjectProperty<>();
 
-  public CleaningsubmissionEntity() {}
+  public SecuritysubmissionEntity() {}
 
-  public CleaningsubmissionEntity(
+  public SecuritysubmissionEntity(
       int submissionid,
-      String memberid,
+      String employeeid,
       String assignedid,
       String location,
-      String hazardlevel,
-      String description,
+      String type,
+      String notesupdate,
       SubmissionStatus submissionstatus,
       String urgency,
-      Date createdate,
-      Date duedate) {
+      java.sql.Date createdate,
+      java.sql.Date duedate) {
     setSubmissionid(submissionid);
-    setMemberid(memberid);
+    setEmployeeid(employeeid);
     setAssignedid(assignedid);
     setLocation(location);
-    setHazardlevel(hazardlevel);
-    setDescription(description);
+    setType(type);
+    setNotesupdate(notesupdate);
     setSubmissionstatus(submissionstatus);
     setUrgency(urgency);
     setCreatedate(createdate);
@@ -53,10 +56,10 @@ public class CleaningsubmissionEntity implements Persistent {
   @Override
   public void enablePersistence(DAOFacade orm) {
     final InvalidationListener listener = evt -> orm.merge(this);
-    memberid.addListener(listener);
+    employeeid.addListener(listener);
     location.addListener(listener);
-    hazardlevel.addListener(listener);
-    description.addListener(listener);
+    type.addListener(listener);
+    notesupdate.addListener(listener);
     submissionstatus.addListener(listener);
     assignedid.addListener(listener);
     submissionid.addListener(listener);
@@ -69,30 +72,29 @@ public class CleaningsubmissionEntity implements Persistent {
   public boolean equals(Object obj) {
     if (obj == null) return false;
     else if (obj == this) return true;
-    else if (obj instanceof CleaningsubmissionEntity that) {
+    else if (obj instanceof SecuritysubmissionEntity that) {
       return Persistent.compareProperties(
           this,
           that,
-          CleaningsubmissionEntity::getMemberid,
-          CleaningsubmissionEntity::getLocation,
-          CleaningsubmissionEntity::getHazardlevel,
-          CleaningsubmissionEntity::getDescription,
-          CleaningsubmissionEntity::getSubmissionstatus,
-          CleaningsubmissionEntity::getAssignedid,
-          CleaningsubmissionEntity::getSubmissionid,
-          CleaningsubmissionEntity::getUrgency,
-          CleaningsubmissionEntity::getCreatedate,
-          CleaningsubmissionEntity::getDuedate);
+          SecuritysubmissionEntity::getEmployeeid,
+          SecuritysubmissionEntity::getLocation,
+          SecuritysubmissionEntity::getType,
+          SecuritysubmissionEntity::getNotesupdate,
+          SecuritysubmissionEntity::getAssignedid,
+          SecuritysubmissionEntity::getSubmissionid,
+          SecuritysubmissionEntity::getUrgency,
+          SecuritysubmissionEntity::getCreatedate,
+          SecuritysubmissionEntity::getDuedate);
     } else return false;
   }
 
   @Override
   public int hashCode() {
     return Objects.hash(
-        getMemberid(),
+        getEmployeeid(),
         getLocation(),
-        getHazardlevel(),
-        getDescription(),
+        getType(),
+        getNotesupdate(),
         getSubmissionstatus(),
         getAssignedid(),
         getSubmissionid(),
@@ -101,17 +103,17 @@ public class CleaningsubmissionEntity implements Persistent {
         getDuedate());
   }
 
-  @Column(name = "memberid")
-  public String getMemberid() {
-    return memberid.get();
+  @Column(name = "employeeid")
+  public String getEmployeeid() {
+    return employeeid.get();
   }
 
-  public SimpleStringProperty memberidProperty() {
-    return memberid;
+  public SimpleStringProperty employeeidProperty() {
+    return employeeid;
   }
 
-  public void setMemberid(String memberid) {
-    this.memberid.set(memberid);
+  public void setEmployeeid(String employeeid) {
+    this.employeeid.set(employeeid);
   }
 
   @Column(name = "location")
@@ -127,30 +129,30 @@ public class CleaningsubmissionEntity implements Persistent {
     this.location.set(location);
   }
 
-  @Column(name = "hazardlevel")
-  public String getHazardlevel() {
-    return hazardlevel.get();
+  @Column(name = "type")
+  public String getType() {
+    return type.get();
   }
 
-  public SimpleStringProperty hazardlevelProperty() {
-    return hazardlevel;
+  public SimpleStringProperty typeProperty() {
+    return type;
   }
 
-  public void setHazardlevel(String hazardlevel) {
-    this.hazardlevel.set(hazardlevel);
+  public void setType(String type) {
+    this.type.set(type);
   }
 
-  @Column(name = "description")
-  public String getDescription() {
-    return description.get();
+  @Column(name = "notesupdate")
+  public String getNotesupdate() {
+    return notesupdate.get();
   }
 
-  public SimpleStringProperty descriptionProperty() {
-    return description;
+  public SimpleStringProperty notesupdateProperty() {
+    return notesupdate;
   }
 
-  public void setDescription(String description) {
-    this.description.set(description);
+  public void setNotesupdate(String notesupdate) {
+    this.notesupdate.set(notesupdate);
   }
 
   @Enumerated(EnumType.STRING)
@@ -231,5 +233,10 @@ public class CleaningsubmissionEntity implements Persistent {
 
   public void setDuedate(Date duedate) {
     this.duedate.set(duedate);
+  }
+
+  @Override
+  public String submissionType() {
+    return "Security";
   }
 }

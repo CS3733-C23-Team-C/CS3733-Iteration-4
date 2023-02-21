@@ -1,5 +1,7 @@
-package edu.wpi.capybara.objects.orm;
+package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.objects.orm.DAOFacade;
+import edu.wpi.capybara.objects.orm.Persistent;
 import jakarta.persistence.*;
 import java.util.Objects;
 import javafx.beans.InvalidationListener;

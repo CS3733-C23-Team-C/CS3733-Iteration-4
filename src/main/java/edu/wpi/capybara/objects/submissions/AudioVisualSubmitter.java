@@ -1,7 +1,7 @@
 package edu.wpi.capybara.objects.submissions;
 
 import edu.wpi.capybara.Main;
-import edu.wpi.capybara.objects.orm.AudiosubmissionEntity;
+import edu.wpi.capybara.objects.hibernate.AudiosubmissionEntity;
 import java.sql.Date;
 
 public class AudioVisualSubmitter implements ISubmission {

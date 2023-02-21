@@ -1,6 +1,5 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.objects.orm.StaffEntity;
 import java.util.HashMap;
 
 public interface StaffDAO {

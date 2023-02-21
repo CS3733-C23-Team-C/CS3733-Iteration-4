@@ -30,6 +30,7 @@ public class DAOService implements DAOFacade {
 
   @Override
   public <E> void insert(E entity) throws PersistenceException {
+    log.info("Executing INSERT operation for entity of type " + entity.getClass().getName());
     try (final var session = getSession()) {
       final var tx = session.beginTransaction();
       try {
@@ -47,6 +48,7 @@ public class DAOService implements DAOFacade {
 
   @Override
   public <E> List<E> from(Class<E> entityClass) throws PersistenceException {
+    log.info("Executing FROM operation for entity type " + entityClass.getName());
     try (final var session = getSession()) {
       final var tx = session.beginTransaction();
       try {
@@ -64,6 +66,7 @@ public class DAOService implements DAOFacade {
 
   @Override
   public <E> void merge(E entity) throws PersistenceException {
+    log.info("Executing MERGE operation for entity of type " + entity.getClass().getName());
     try (final var session = getSession()) {
       final var tx = session.beginTransaction();
       try {
@@ -81,6 +84,7 @@ public class DAOService implements DAOFacade {
 
   @Override
   public <E> void delete(E entity) throws PersistenceException {
+    log.info("Executing DELETE operation for entity of type " + entity.getClass().getName());
     try (final var session = getSession()) {
       final var tx = session.beginTransaction();
       try {
@@ -99,6 +103,7 @@ public class DAOService implements DAOFacade {
   @Override
   public <E> List<E> select(Class<E> entityClass, WhereBuilder<E> whereBuilder)
       throws PersistenceException {
+    log.info("Executing SELECT operation for entity type " + entityClass.getName());
     try (final var session = getSession()) {
       final var tx = session.beginTransaction();
       try {
@@ -122,6 +127,7 @@ public class DAOService implements DAOFacade {
 
   @Override
   public <E> void refresh(E entity) throws PersistenceException {
+    log.debug("Executing REFRESH operation for entity of type " + entity.getClass().getName());
     try (final var session = getSession()) {
       final var tx = session.beginTransaction();
       try {

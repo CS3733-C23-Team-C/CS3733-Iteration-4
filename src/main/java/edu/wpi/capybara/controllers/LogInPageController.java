@@ -4,7 +4,7 @@ import edu.wpi.capybara.App;
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
-import edu.wpi.capybara.objects.orm.StaffEntity;
+import edu.wpi.capybara.objects.hibernate.StaffEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;

@@ -1,6 +1,6 @@
 package edu.wpi.capybara.controllers.mapeditor.adapters;
 
-import edu.wpi.capybara.objects.orm.MoveEntity;
+import edu.wpi.capybara.objects.hibernate.MoveEntity;
 import java.sql.Date;
 import javafx.beans.property.adapter.JavaBeanObjectProperty;
 import javafx.beans.property.adapter.JavaBeanObjectPropertyBuilder;

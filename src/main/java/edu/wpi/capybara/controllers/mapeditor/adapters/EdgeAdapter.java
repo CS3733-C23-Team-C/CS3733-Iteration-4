@@ -1,6 +1,6 @@
 package edu.wpi.capybara.controllers.mapeditor.adapters;
 
-import edu.wpi.capybara.objects.orm.EdgeEntity;
+import edu.wpi.capybara.objects.hibernate.EdgeEntity;
 import javafx.beans.property.adapter.JavaBeanStringProperty;
 import javafx.beans.property.adapter.JavaBeanStringPropertyBuilder;
 

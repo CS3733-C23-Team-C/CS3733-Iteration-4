@@ -2,7 +2,7 @@ package edu.wpi.capybara.controllers;
 
 import edu.wpi.capybara.App;
 import edu.wpi.capybara.Main;
-import edu.wpi.capybara.objects.orm.StaffEntity;
+import edu.wpi.capybara.objects.hibernate.StaffEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
