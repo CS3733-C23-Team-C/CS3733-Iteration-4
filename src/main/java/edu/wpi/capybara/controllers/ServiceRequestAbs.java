@@ -35,7 +35,7 @@ public abstract class ServiceRequestAbs {
 
   @FXML
   public void initialize() {
-    HashMap<String, NodeEntity> nodes = Main.db.getNodes();
+    Map<String, NodeEntity> nodes = Main.db.getNodes();
 
     SortedSet<NodeEntity> sortedset = new TreeSet<NodeEntity>(new NodeAlphabetComparator());
 
@@ -45,7 +45,7 @@ public abstract class ServiceRequestAbs {
     while (iterator.hasNext()) {
       NodeEntity n = iterator.next();
       // System.out.println(n.getShortName());
-      Location.getItems().add(n.getLongname());
+      Location.getItems().add(n.getLongName());
     }
 
     // submissionReceived.setFont(Font.font("system", FontWeight.NORMAL, FontPosture.REGULAR, 20));

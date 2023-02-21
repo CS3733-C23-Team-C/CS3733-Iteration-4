@@ -3,7 +3,10 @@ package edu.wpi.capybara.controllers;
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.exceptions.FloorDoesNotExistException;
 import edu.wpi.capybara.objects.*;
-import edu.wpi.capybara.objects.hibernate.*;
+import edu.wpi.capybara.objects.NodeCircle;
+import edu.wpi.capybara.objects.PFNode;
+import edu.wpi.capybara.objects.hibernate.LocationnameEntity;
+import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import edu.wpi.capybara.pathfinding.AstarPathfinder;
 import edu.wpi.capybara.pathfinding.BFSPathfinder;
 import edu.wpi.capybara.pathfinding.DFSPathfinder;
@@ -156,8 +159,8 @@ public class PathfindingController {
     // else System.out.println(path);
 
     mvc.displayPath(path);
-    mvc.changeFloor(currRoomNode.getFloor());
-    changeFloorNum(currRoomNode.getFloor());
+    mvc.changeFloor(currRoomNode.getFloor().toString());
+    changeFloorNum(currRoomNode.getFloor().toString());
     directionsButton.setVisible(true);
 
     clearFields(null);
@@ -250,7 +253,7 @@ public class PathfindingController {
     } else {
       textHolder =
           new VBox(
-              new Text("Node " + node.getNodeid() + " has no moves before " + dateField.getText()));
+              new Text("Node " + node.getNodeID() + " has no moves before " + dateField.getText()));
     }
 
     if (placesToAvoid.contains(pfPlace)) {
@@ -290,7 +293,7 @@ public class PathfindingController {
     dialog.setPrefSize(200, 300);
 
     dialog.setOnClose((event1 -> stackPane.getChildren().removeAll(dialog)));
-    dialog.setOnMouseClicked(event1 -> System.out.println("i was clicked"));
+    // dialog.setOnMouseClicked(event1 -> System.out.println("i was clicked"));
     setEndNode.setOnAction(
         (event1 -> {
           destRoom.selectItem(pfPlace);
@@ -385,12 +388,32 @@ public class PathfindingController {
     stackPane.getChildren().removeAll(toRemove);
   }
 
-  public void openSettings(ActionEvent event) {
+  public void openSettings() {
     PathfindingDialogController.showDialog(this);
+  }
+
+  public void openFindNode() {
+    PathfindingSearchDialogController.showDialog(this);
   }
 
   public void setMapText(String mapText) {
     this.mapText = mapText;
     mvc.drawNodes();
+  }
+
+  public void setCurrRoom(PFPlace place) {
+    currRoom.selectItem(place);
+    mvc.setStartNode(place.getNode(getMoveDate()));
+    mvc.drawNodes();
+  }
+
+  public void setDestRoom(PFPlace place) {
+    destRoom.selectItem(place);
+    mvc.setEndNode(place.getNode(getMoveDate()));
+    mvc.drawNodes();
+  }
+
+  public PFPlace getCurrRoom() {
+    return currRoom.getValue();
   }
 }

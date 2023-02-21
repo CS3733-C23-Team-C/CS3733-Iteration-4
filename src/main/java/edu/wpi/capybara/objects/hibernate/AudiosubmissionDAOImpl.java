@@ -38,7 +38,7 @@ public class AudiosubmissionDAOImpl implements AudiosubmissionDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<Integer, AudiosubmissionEntity> ret = new HashMap<Integer, AudiosubmissionEntity>();
+    HashMap<Integer, AudiosubmissionEntity> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();

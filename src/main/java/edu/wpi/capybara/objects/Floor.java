@@ -1,5 +1,8 @@
 package edu.wpi.capybara.objects;
 
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
+
 /** Utility enum for representing the floors of the hospital. */
 public enum Floor {
   F1,
@@ -28,5 +31,18 @@ public enum Floor {
       case "L2" -> L2;
       default -> null;
     };
+  }
+
+  @Converter
+  public static class SQLConverter implements AttributeConverter<Floor, String> {
+    @Override
+    public String convertToDatabaseColumn(Floor attribute) {
+      return attribute.toString();
+    }
+
+    @Override
+    public Floor convertToEntityAttribute(String dbData) {
+      return Floor.fromString(dbData);
+    }
   }
 }

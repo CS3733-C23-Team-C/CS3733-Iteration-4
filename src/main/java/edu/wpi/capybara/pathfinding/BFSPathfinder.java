@@ -42,7 +42,7 @@ public class BFSPathfinder implements PathfindingAlgorithm {
 
   public NodeEntity getNodeFromNodeID(String s) {
     for (NodeEntity node : nodes.values()) {
-      if (node.getNodeid().equals(s)) return node;
+      if (node.getNodeID().equals(s)) return node;
     }
     return null;
   }
@@ -55,8 +55,8 @@ public class BFSPathfinder implements PathfindingAlgorithm {
   private List<NodeEntity> bfs(NodeEntity start, NodeEntity goal) {
 
     LinkedList<BFSPathNode> queue = new LinkedList<BFSPathNode>();
-    queue.add(new BFSPathNode(start, new LinkedList<NodeEntity>()));
-    ArrayList<NodeEntity> checkedNodes = new ArrayList<NodeEntity>();
+    queue.add(new BFSPathNode(start, new LinkedList<>()));
+    ArrayList<NodeEntity> checkedNodes = new ArrayList<>();
 
     while (queue.peek() != null) {
 

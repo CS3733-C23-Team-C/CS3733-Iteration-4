@@ -17,18 +17,18 @@ import java.util.*;
 
 public class DBcsv {
 
-  public static HashMap<String, NodeEntity> nodes;
-  public static ArrayList<EdgeEntity> edges;
-  public static HashMap<String, LocationnameEntity> locationNames;
-  public static ArrayList<MoveEntity> moves;
-  public static HashMap<String, StaffEntity> staff;
-  public static HashMap<Integer, TransportationsubmissionEntity> transportationSubs;
-  public static HashMap<Integer, CleaningsubmissionEntity> cleaningSubs;
-  public static HashMap<Integer, SecuritysubmissionEntity> securitySubs;
+  public static Map<String, NodeEntity> nodes;
+  public static List<EdgeEntity> edges;
+  public static Map<String, LocationnameEntity> locationNames;
+  public static List<MoveEntity> moves;
+  public static Map<String, StaffEntity> staff;
+  public static Map<Integer, TransportationsubmissionEntity> transportationSubs;
+  public static Map<Integer, CleaningsubmissionEntity> cleaningSubs;
+  public static Map<Integer, SecuritysubmissionEntity> securitySubs;
 
-  public static HashMap<Integer, ComputersubmissionEntity> computerSubs;
+  public static Map<Integer, ComputersubmissionEntity> computerSubs;
 
-  public static HashMap<Integer, AudiosubmissionEntity> audioSubs;
+  public static Map<Integer, AudiosubmissionEntity> audioSubs;
 
   public DBcsv() {
     nodes = Main.db.getNodes();
@@ -154,7 +154,7 @@ public class DBcsv {
 
     List<NodeEntity> nodeKeys = List.copyOf(nodes.values());
     for (NodeEntity nodeEntity : nodeKeys) {
-      Main.db.deleteNode(nodeEntity.getNodeid());
+      Main.db.deleteNode(nodeEntity.getNodeID());
     }
 
     // Inserts nodes
@@ -373,10 +373,10 @@ public class DBcsv {
 
     // Create node table
     for (Map.Entry<String, NodeEntity> nodeEntityEntry : nodes.entrySet()) {
-      String nodeid = nodeEntityEntry.getValue().getNodeid();
+      String nodeid = nodeEntityEntry.getValue().getNodeID();
       String xcoord = String.valueOf(nodeEntityEntry.getValue().getXcoord());
       String ycoord = String.valueOf(nodeEntityEntry.getValue().getYcoord());
-      String floor = nodeEntityEntry.getValue().getFloor();
+      String floor = nodeEntityEntry.getValue().getFloor().toString();
       String building = nodeEntityEntry.getValue().getBuilding();
 
       String[] row = {nodeid, xcoord, ycoord, floor, building};
@@ -389,8 +389,8 @@ public class DBcsv {
 
     // Create edge table
     for (EdgeEntity edgeEntity : edges) {
-      String node1 = edgeEntity.getNode1();
-      String node2 = edgeEntity.getNode2();
+      String node1 = edgeEntity.getNode1().getNodeID();
+      String node2 = edgeEntity.getNode2().getNodeID();
       String[] row = {node1, node2};
       outputEdges.add(row);
     }
@@ -414,8 +414,8 @@ public class DBcsv {
 
     // Create moves table
     for (MoveEntity moveEntity : moves) {
-      String nodeid = moveEntity.getNodeid();
-      String longname = moveEntity.getLongname();
+      String nodeid = moveEntity.getNodeID();
+      String longname = moveEntity.getLongName();
       String movedate = String.valueOf(moveEntity.getMovedate());
       String[] row = {nodeid, longname, movedate};
       outputMoves.add(row);
@@ -535,11 +535,11 @@ public class DBcsv {
           String.valueOf(securitysubmissionEntityEntry.getValue().getSubmissionstatus());
       String urgency = securitysubmissionEntityEntry.getValue().getUrgency();
 
-      Date startDate = securitysubmissionEntityEntry.getValue().getCreatedate();
+      java.util.Date startDate = securitysubmissionEntityEntry.getValue().getCreatedate();
       SimpleDateFormat sdf1 = new SimpleDateFormat("MM/dd/yyyy");
       String createdate = sdf1.format(startDate);
 
-      Date startDate2 = securitysubmissionEntityEntry.getValue().getDuedate();
+      java.util.Date startDate2 = securitysubmissionEntityEntry.getValue().getDuedate();
       SimpleDateFormat sdf2 = new SimpleDateFormat("MM/dd/yyyy");
       String duedate = sdf2.format(startDate2);
 

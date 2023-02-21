@@ -6,6 +6,7 @@ import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import edu.wpi.capybara.pathfinding.costs.PathfindingCost;
 import edu.wpi.capybara.pathfinding.skips.PathfindingSkip;
 import java.util.*;
+import java.util.function.Function;
 
 public class AstarPathfinder implements PathfindingAlgorithm {
   private final Map<String, NodeEntity> nodes;
@@ -73,23 +74,32 @@ public class AstarPathfinder implements PathfindingAlgorithm {
       throw new RuntimeException("One of the NodeID doesn't exist!");
     }
 
-    return aStar(startNode, endNode);
+    return aStar(startNode, endNode, (node) -> node.equals(endNode));
   }
 
   public List<NodeEntity> findPath(NodeEntity start, NodeEntity end) {
 
     if (start == null || end == null) {
+      throw new RuntimeException("One of the Nodes doesn't exist!");
+    }
+
+    return aStar(start, end, (node) -> node.equals(end));
+  }
+
+  public List<NodeEntity> findPath(NodeEntity start, Function<NodeEntity, Boolean> condition) {
+    if (start == null) {
       throw new RuntimeException("One of the NodeID doesn't exist!");
     }
 
-    return aStar(start, end);
+    return aStar(start, start, condition);
   }
 
   private NodeEntity getNodeFromNodeID(String s) {
     return nodes.get(s);
   }
 
-  private List<NodeEntity> aStar(NodeEntity start, NodeEntity goal) {
+  private List<NodeEntity> aStar(
+      NodeEntity start, NodeEntity goal, Function<NodeEntity, Boolean> condition) {
     List<PathNode> openList = new ArrayList<>();
     List<NodeEntity> closedList = new ArrayList<>();
     closedList.add(start);
@@ -102,7 +112,7 @@ public class AstarPathfinder implements PathfindingAlgorithm {
       // System.out.println("Current-" + current.toString() + " Cost-" + currentWeight);
       List<NodeEntity> newPath = new ArrayList<>(List.copyOf(currentPath));
       newPath.add(current);
-      if (current.equals(goal)) return newPath;
+      if (condition.apply(current)) return newPath;
 
       Collection<EdgeEntity> edges = current.getEdges();
       if (edges == null) return null;
@@ -163,8 +173,8 @@ public class AstarPathfinder implements PathfindingAlgorithm {
   }
 
   private static int floorDifference(NodeEntity n1, NodeEntity n2) {
-    int n1Floor = floorToNum(n1.getFloor());
-    int n2Floor = floorToNum(n2.getFloor());
+    int n1Floor = floorToNum(n1.getFloor().toString());
+    int n2Floor = floorToNum(n2.getFloor().toString());
 
     return n2Floor - n1Floor;
   }
@@ -172,7 +182,8 @@ public class AstarPathfinder implements PathfindingAlgorithm {
   private static double calculateWeight(NodeEntity n1, NodeEntity n2) { // move function for a*
     float xDiff = Math.abs(n1.getXcoord() - n2.getXcoord());
     float yDiff = Math.abs(n1.getYcoord() - n2.getYcoord());
-    float zDiff = Math.abs(floorToNum(n1.getFloor()) - floorToNum(n2.getFloor())) * 50;
+    float zDiff =
+        Math.abs(floorToNum(n1.getFloor().toString()) - floorToNum(n2.getFloor().toString())) * 50;
 
     return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2) + Math.pow(zDiff, 2));
   }

@@ -27,7 +27,7 @@ public class MoveDAOImpl implements MoveDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    ArrayList<MoveEntity> ret = new ArrayList<MoveEntity>();
+    ArrayList<MoveEntity> ret = new ArrayList<>();
 
     try {
       tx = session.beginTransaction();

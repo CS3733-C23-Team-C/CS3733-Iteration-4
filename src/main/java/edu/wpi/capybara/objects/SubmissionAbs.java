@@ -22,9 +22,9 @@ public abstract class SubmissionAbs {
     NodeEntity mostRecent = null;
     Date mostRecentDate = new Date(0);
     for (MoveEntity move : Main.db.getMoves()) {
-      if (move.getLongname().equals(le.getLongname()) && move.getMovedate().compareTo(date) < 0) {
+      if (move.getLongName().equals(le.getLongname()) && move.getMovedate().compareTo(date) < 0) {
         if (move.getMovedate().compareTo(mostRecentDate) > 0) {
-          mostRecent = Main.db.getNode(move.getNodeid());
+          mostRecent = Main.db.getNode(move.getNodeID());
         }
       }
     }

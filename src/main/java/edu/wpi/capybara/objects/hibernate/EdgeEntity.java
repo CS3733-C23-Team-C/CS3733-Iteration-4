@@ -1,75 +1,109 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.objects.orm.DAOFacade;
+import edu.wpi.capybara.objects.orm.Persistent;
 import jakarta.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.SimpleObjectProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "edge", schema = "cdb", catalog = "teamcdb")
-@IdClass(EdgeEntityPK.class)
-public class EdgeEntity {
-  @Id
-  @Column(name = "node1")
-  private String node1;
+@IdClass(EdgeEntity.PK.class)
+public class EdgeEntity implements Persistent {
+  // happy
+  public static class PK implements Serializable {
+    @Getter @Setter private NodeEntity node1;
+    @Getter @Setter private NodeEntity node2;
 
-  @Id
-  @Column(name = "node2")
-  private String node2;
+    @Override
+    public int hashCode() {
+      return Objects.hash(node1, node2);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (obj == this) return true;
+      if (obj instanceof PK other) {
+        return Objects.equals(node1, other.node1) && Objects.equals(node2, other.node2);
+      }
+      return false;
+    }
+  }
+
+  private final SimpleObjectProperty<NodeEntity> node1 = new SimpleObjectProperty<>();
+  private final SimpleObjectProperty<NodeEntity> node2 = new SimpleObjectProperty<>();
 
   public EdgeEntity() {}
 
+  public EdgeEntity(NodeEntity node1, NodeEntity node2) {
+    setNode1(node1);
+    setNode2(node2);
+  }
+
+  @Deprecated(forRemoval = true)
   public EdgeEntity(String node1, String node2) {
-    this.node1 = node1;
-    this.node2 = node2;
-  }
-
-  public String getNode1() {
-    return node1;
-  }
-
-  public void setNode1(String node1) {
-    this.node1 = node1;
-    Session session = Main.db.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
-  }
-
-  public String getNode2() {
-    return node2;
-  }
-
-  public void setNode2(String node2) {
-    this.node2 = node2;
-    Session session = Main.db.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
-  }
-
-  public String getOtherNode(NodeEntity node) {
-    if (node.getNodeid().equals(node1)) return node2;
-    return node1;
+    this(Main.getRepo().getNode(node1), Main.getRepo().getNode(node2));
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    EdgeEntity that = (EdgeEntity) o;
-    return Objects.equals(node1, that.node1) && Objects.equals(node2, that.node2);
+  public void enablePersistence(DAOFacade orm) {
+    final InvalidationListener listener = evt -> orm.merge(this);
+    node1.addListener(listener);
+    node2.addListener(listener);
   }
 
-  public String toString() {
-    return node1 + " | " + node2;
+  @Id
+  @ManyToOne
+  @JoinColumn(name = "node1")
+  public NodeEntity getNode1() {
+    return node1.get();
+  }
+
+  public void setNode1(NodeEntity node1) {
+    this.node1.set(node1);
+  }
+
+  public SimpleObjectProperty<NodeEntity> node1Property() {
+    return node1;
+  }
+
+  @Id
+  @ManyToOne
+  @JoinColumn(name = "node2")
+  public NodeEntity getNode2() {
+    return node2.get();
+  }
+
+  public void setNode2(NodeEntity node2) {
+    this.node2.set(node2);
+  }
+
+  public SimpleObjectProperty<NodeEntity> node2Property() {
+    return node2;
+  }
+
+  @Transient
+  public String getOtherNode(NodeEntity node) {
+    if (node.getNodeID().equals(getNode1().getNodeID())) return getNode2().getNodeID();
+    return getNode1().getNodeID();
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) return false;
+    else if (obj == this) return true;
+    else if (obj instanceof EdgeEntity that) {
+      return Persistent.compareProperties(this, that, EdgeEntity::getNode1, EdgeEntity::getNode2);
+    } else return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(node1, node2);
+    return Objects.hash(getNode1(), getNode2());
   }
 }

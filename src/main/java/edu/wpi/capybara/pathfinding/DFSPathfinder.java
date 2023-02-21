@@ -5,7 +5,7 @@ import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import java.util.*;
 
 public class DFSPathfinder implements PathfindingAlgorithm {
-  private final HashMap<String, NodeEntity> nodes;
+  private final Map<String, NodeEntity> nodes;
 
   private static class PathNode {
     List<NodeEntity> path;
@@ -51,7 +51,7 @@ public class DFSPathfinder implements PathfindingAlgorithm {
       return dfs(nodesLeft.pop(), goal, nodesLeft, nodesChecked);
     }
     nodesChecked.add(current.node);
-    List<NodeEntity> newPath = new ArrayList<>(List.copyOf(current.path));
+    List<NodeEntity> newPath = new ArrayList<NodeEntity>(List.copyOf(current.path));
     newPath.add(current.node);
     if (current.node.equals(goal)) return newPath;
 
@@ -69,7 +69,7 @@ public class DFSPathfinder implements PathfindingAlgorithm {
     return dfs(nodesLeft.pop(), goal, nodesLeft, nodesChecked);
   }
 
-  public DFSPathfinder(HashMap<String, NodeEntity> nodes) {
+  public DFSPathfinder(Map<String, NodeEntity> nodes) {
     this.nodes = nodes;
   }
 

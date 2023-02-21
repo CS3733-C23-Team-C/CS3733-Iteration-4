@@ -2,6 +2,17 @@ package edu.wpi.capybara.database;
 
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.hibernate.*;
+import edu.wpi.capybara.objects.hibernate.AudiosubmissionEntity;
+import edu.wpi.capybara.objects.hibernate.CleaningsubmissionEntity;
+import edu.wpi.capybara.objects.hibernate.ComputersubmissionEntity;
+import edu.wpi.capybara.objects.hibernate.EdgeEntity;
+import edu.wpi.capybara.objects.hibernate.LocationnameEntity;
+import edu.wpi.capybara.objects.hibernate.MessagesEntity;
+import edu.wpi.capybara.objects.hibernate.MoveEntity;
+import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import edu.wpi.capybara.objects.hibernate.SecuritysubmissionEntity;
+import edu.wpi.capybara.objects.hibernate.StaffEntity;
+import edu.wpi.capybara.objects.hibernate.TransportationsubmissionEntity;
 import jakarta.persistence.PersistenceException;
 import java.util.*;
 import org.hibernate.HibernateException;
@@ -94,67 +105,67 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
-  public HashMap<Integer, AudiosubmissionEntity> getAudioSubs() {
+  public Map<Integer, AudiosubmissionEntity> getAudioSubs() {
     return audio.getAudioSubs();
   }
 
   @Override
-  public HashMap<Integer, CleaningsubmissionEntity> getCleaningSubs() {
+  public Map<Integer, CleaningsubmissionEntity> getCleaningSubs() {
     return cleaning.getCleaningSubs();
   }
 
   @Override
-  public HashMap<Integer, ComputersubmissionEntity> getComputerSubs() {
+  public Map<Integer, ComputersubmissionEntity> getComputerSubs() {
     return computer.getComputerSubs();
   }
 
   @Override
-  public HashMap<Integer, SecuritysubmissionEntity> getSecuritySubs() {
+  public Map<Integer, SecuritysubmissionEntity> getSecuritySubs() {
     return security.getSecuritySubs();
   }
 
   @Override
-  public HashMap<Integer, TransportationsubmissionEntity> getTransportationSubs() {
+  public Map<Integer, TransportationsubmissionEntity> getTransportationSubs() {
     return transportation.getTransportationSubs();
   }
 
   @Override
-  public HashMap<String, LocationnameEntity> getLocationnames() {
+  public Map<String, LocationnameEntity> getLocationnames() {
     return locationname.getLocationnames();
   }
 
   @Override
-  public HashMap<String, NodeEntity> getNodes() {
+  public Map<String, NodeEntity> getNodes() {
     return node.getNodes();
   }
 
   @Override
-  public HashMap<String, StaffEntity> getStaff() {
+  public Map<String, StaffEntity> getStaff() {
     return staff.getStaff();
   }
 
   @Override
-  public ArrayList<EdgeEntity> getEdges() {
+  public List<EdgeEntity> getEdges() {
     return edge.getEdges();
   }
 
   @Override
-  public ArrayList<MoveEntity> getMoves() {
+  public List<MoveEntity> getMoves() {
     return move.getMoves();
   }
 
   @Override
-  public HashMap<Integer, MessagesEntity> getMessages() {
+  public Map<Integer, MessagesEntity> getMessages() {
     return message.getMessages();
   }
 
   @Override
-  public HashMap<Integer, MessagesEntity> getMessages(String id) {
+  public Map<Integer, MessagesEntity> getMessages(String id) {
     return message.getMessages(id);
   }
 
   @Override
-  public HashMap<Integer, MessagesEntity> getMessages(String id, int lastid) {
+  public Map<Integer, MessagesEntity> getMessages(String id, int lastid) {
     return message.getMessages(id, lastid);
   }
 
@@ -208,16 +219,16 @@ public class newDBConnect implements RepoFacade {
 
     // Get most recent locations
     java.util.Date date = new java.util.Date();
-    HashMap<String, MoveEntity> currentLocations = new HashMap<String, MoveEntity>();
+    HashMap<String, MoveEntity> currentLocations = new HashMap<>();
     for (MoveEntity move : Main.db.getMoves()) {
-      MoveEntity temp = currentLocations.get(move.getLongname());
+      MoveEntity temp = currentLocations.get(move.getLongName());
       if (temp == null) {
-        currentLocations.put(move.getLongname(), move);
+        currentLocations.put(move.getLongName(), move);
       } else {
         if (move.getMovedate().compareTo(temp.getMovedate()) < 0
             && move.getMovedate().compareTo(new java.sql.Date(date.getTime())) < 0) {
-          currentLocations.remove(temp.getLongname());
-          currentLocations.put(move.getLongname(), move);
+          currentLocations.remove(temp.getLongName());
+          currentLocations.put(move.getLongName(), move);
         }
       }
     }
@@ -225,7 +236,7 @@ public class newDBConnect implements RepoFacade {
     // count number of moves at a location
     int num = 0;
     for (MoveEntity move : currentLocations.values()) {
-      if (move.getNodeid().equals(submission.getNodeid())) {
+      if (move.getNodeID().equals(submission.getNodeID())) {
         num++;
       }
     }

@@ -1,149 +1,146 @@
 package edu.wpi.capybara.objects.hibernate;
 
-import edu.wpi.capybara.Main;
-import jakarta.persistence.*;
+import edu.wpi.capybara.objects.orm.DAOFacade;
+import edu.wpi.capybara.objects.orm.Persistent;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.util.Objects;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import javafx.beans.InvalidationListener;
+import javafx.beans.property.SimpleStringProperty;
 
 @Entity
 @Table(name = "staff", schema = "cdb", catalog = "teamcdb")
-public class StaffEntity {
-  @Id
-  @Column(name = "staffid")
-  private String staffid;
-
-  @Basic
-  @Column(name = "firstname")
-  private String firstname;
-
-  @Basic
-  @Column(name = "lastname")
-  private String lastname;
-
-  @Basic
-  @Column(name = "password")
-  private String password;
-
-  @Basic
-  @Column(name = "role")
-  private String role;
-
-  @Basic
-  @Column(name = "notes")
-  private String notes;
+public class StaffEntity implements Persistent {
+  private final SimpleStringProperty staffid = new SimpleStringProperty();
+  private final SimpleStringProperty firstname = new SimpleStringProperty();
+  private final SimpleStringProperty lastname = new SimpleStringProperty();
+  private final SimpleStringProperty password = new SimpleStringProperty();
+  private final SimpleStringProperty role = new SimpleStringProperty();
+  private final SimpleStringProperty notes = new SimpleStringProperty();
 
   public StaffEntity() {}
 
   public StaffEntity(
       String staffid, String firstname, String lastname, String role, String password) {
-    this.staffid = staffid;
-    this.firstname = firstname;
-    this.lastname = lastname;
-    this.role = role;
-    this.password = password;
-  }
-
-  public String getStaffid() {
-    return staffid;
-  }
-
-  public void setStaffid(String staffid) {
-    this.staffid = staffid;
-    Session session = Main.db.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
-  }
-
-  public String getFirstname() {
-    return firstname;
-  }
-
-  public void setFirstname(String firstname) {
-    this.firstname = firstname;
-    Session session = Main.db.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
-  }
-
-  public String getLastname() {
-    return lastname;
-  }
-
-  public void setLastname(String lastname) {
-    this.lastname = lastname;
-    Session session = Main.db.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-    Session session = Main.db.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
-  }
-
-  public String getNotes() {
-    return notes;
-  }
-
-  public void setNotes(String notes) {
-    this.notes = notes;
-    Session session = Main.db.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
-  }
-
-  public String getRole() {
-    return role;
-  }
-
-  public void setRole(String role) {
-    this.role = role;
-    Session session = Main.db.getSession();
-    Transaction tx = session.beginTransaction();
-    session.merge(this);
-    tx.commit();
-    session.close();
+    setStaffid(staffid);
+    setFirstname(firstname);
+    setLastname(lastname);
+    setRole(role);
+    setPassword(password);
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    StaffEntity that = (StaffEntity) o;
-    return Objects.equals(staffid, that.staffid)
-        && Objects.equals(firstname, that.firstname)
-        && Objects.equals(lastname, that.lastname)
-        && Objects.equals(password, that.password)
-        && Objects.equals(notes, that.notes);
+  public void enablePersistence(DAOFacade orm) {
+    final InvalidationListener listener = evt -> orm.merge(this);
+    staffid.addListener(listener);
+    firstname.addListener(listener);
+    lastname.addListener(listener);
+    password.addListener(listener);
+    role.addListener(listener);
+    notes.addListener(listener);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null) return false;
+    else if (obj == this) return true;
+    else if (obj instanceof StaffEntity that) {
+      return Persistent.compareProperties(
+          this,
+          that,
+          StaffEntity::getStaffid,
+          StaffEntity::getFirstname,
+          StaffEntity::getLastname,
+          StaffEntity::getPassword,
+          StaffEntity::getRole,
+          StaffEntity::getNotes);
+    } else return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(staffid, firstname, lastname, password, notes);
+    return Objects.hash(
+        getStaffid(), getFirstname(), getLastname(), getPassword(), getRole(), getNotes());
   }
 
-  public void delete() {
-    Session session = Main.db.getSession();
-    Transaction tx = session.beginTransaction();
-    session.remove(this);
-    tx.commit();
-    session.close();
+  @Id
+  @Column(name = "staffid")
+  public String getStaffid() {
+    return staffid.get();
+  }
+
+  public SimpleStringProperty staffidProperty() {
+    return staffid;
+  }
+
+  public void setStaffid(String staffid) {
+    this.staffid.set(staffid);
+  }
+
+  @Column(name = "firstname")
+  public String getFirstname() {
+    return firstname.get();
+  }
+
+  public SimpleStringProperty firstnameProperty() {
+    return firstname;
+  }
+
+  public void setFirstname(String firstname) {
+    this.firstname.set(firstname);
+  }
+
+  @Column(name = "lastname")
+  public String getLastname() {
+    return lastname.get();
+  }
+
+  public SimpleStringProperty lastnameProperty() {
+    return lastname;
+  }
+
+  public void setLastname(String lastname) {
+    this.lastname.set(lastname);
+  }
+
+  @Column(name = "password")
+  public String getPassword() {
+    return password.get();
+  }
+
+  public SimpleStringProperty passwordProperty() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password.set(password);
+  }
+
+  @Column(name = "role")
+  public String getRole() {
+    return role.get();
+  }
+
+  public SimpleStringProperty roleProperty() {
+    return role;
+  }
+
+  public void setRole(String role) {
+    this.role.set(role);
+  }
+
+  @Column(name = "notes")
+  public String getNotes() {
+    return notes.get();
+  }
+
+  public SimpleStringProperty notesProperty() {
+    return notes;
+  }
+
+  public void setNotes(String notes) {
+    this.notes.set(notes);
   }
 }

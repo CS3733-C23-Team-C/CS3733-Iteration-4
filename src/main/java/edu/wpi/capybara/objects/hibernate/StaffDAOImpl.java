@@ -34,7 +34,7 @@ public class StaffDAOImpl implements StaffDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<String, StaffEntity> ret = new HashMap<String, StaffEntity>();
+    HashMap<String, StaffEntity> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();

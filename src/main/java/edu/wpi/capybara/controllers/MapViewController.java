@@ -251,7 +251,6 @@ public class MapViewController {
     isPath = true;
 
     drawNodes();
-    // todo
   }
 
   public void drawNodes() {
@@ -286,7 +285,7 @@ public class MapViewController {
           if (n == startNode || n == endNode || n == selectedNode) continue;
           Set<SubmissionAbs> requests = getServiceRequests(n);
           if (requests.size() > 0 && controller.getServiceRequest().isSelected()) {
-            drawNode(n, Color.ORANGE);
+            drawNode(n, requests);
           } else {
             drawNode(n);
           }
@@ -297,7 +296,6 @@ public class MapViewController {
 
       // drawEdges();
     }
-    System.out.println("done");
     drawPathText();
   }
 
@@ -306,7 +304,7 @@ public class MapViewController {
         && n.getXcoord() < mapX + mapW - scale(4)
         && n.getYcoord() > mapY + scale(4)
         && n.getYcoord() < mapY + mapH - scale(4)
-        && n.getFloor().equals(currentFloor);
+        && n.getFloor().toString().equals(currentFloor);
   }
 
   private void drawNode(NodeEntity node) {
@@ -331,18 +329,41 @@ public class MapViewController {
     drawNodeText(node, color);
   }
 
+  private void drawNode(NodeEntity node, Set<SubmissionAbs> subs) {
+    if (node == null) {
+      System.out.println("NULL NODE");
+      return;
+    }
+
+    NodeCircle testCircle;
+    testCircle = new NodeCircle(scale(4), Color.ORANGE, node, subs);
+    ap.getChildren().add(testCircle);
+    testCircle.setCenterX(locToMapX(node.getXcoord()));
+    testCircle.setCenterY(locToMapY(node.getYcoord()));
+    testCircle.setCursor(Cursor.HAND);
+    testCircle.setPickOnBounds(true);
+    testCircle.setOnMousePressed(event -> onClick.handle(event, testCircle));
+
+    drawNodeText(node, Color.ORANGE);
+  }
+
   private void drawNodeText(NodeEntity node, Paint color) {
     if (controller.getLocationNames().isSelected()) {
       Text locationNameText = new Text(node.getShortName());
-      locationNameText.setX(locToMapX(node.getXcoord()));
-      locationNameText.setY(locToMapY(node.getYcoord()) - scale(5));
+      double x = locToMapX(node.getXcoord());
+      double y = locToMapY(node.getYcoord()) - scale(5);
+      System.out.println(
+          "x- " + x + " w-" + locationNameText.getBoundsInLocal().getWidth() + " cw-" + canvasW);
+      if (x < 0 || x + locationNameText.getBoundsInLocal().getWidth() > canvasW) return;
+      if (y - locationNameText.getFont().getSize() < 0 || y > canvasH) return;
+      locationNameText.setX(x);
+      locationNameText.setY(y);
       locationNameText.setFill(color);
       ap.getChildren().add(locationNameText);
     }
   }
 
-  private void drawNode(
-      NodeEntity node, Paint color, EventHandler<? super MouseEvent> eventHandler) {
+  private void drawNode(NodeEntity node, EventHandler<? super MouseEvent> eventHandler) {
     if (node == null) {
       System.out.println("NULL NODE");
       return;
@@ -350,17 +371,15 @@ public class MapViewController {
 
     NodeCircle testCircle;
 
-    testCircle = new NodeCircle(scale(4), color, node);
+    testCircle = new NodeCircle(scale(4), Color.PURPLE, node);
     ap.getChildren().add(testCircle);
     testCircle.setCenterX(locToMapX(node.getXcoord()));
     testCircle.setCenterY(locToMapY(node.getYcoord()));
     testCircle.setCursor(Cursor.HAND);
     testCircle.setPickOnBounds(true);
     testCircle.setOnMousePressed(eventHandler);
-    testCircle.setOnMouseEntered((event) -> System.out.println("test in"));
-    testCircle.setOnMouseExited((event) -> System.out.println("test out"));
 
-    drawNodeText(node, color);
+    drawNodeText(node, Color.PURPLE);
   }
 
   private void drawPathText() {
@@ -407,9 +426,9 @@ public class MapViewController {
   private void drawEdges() {
     gc.setStroke(Color.RED);
     for (EdgeEntity edge : Main.db.getEdges()) {
-      NodeEntity n1 = Main.db.getNodes().get(edge.getNode1());
-      NodeEntity n2 = Main.db.getNodes().get(edge.getNode2());
-      if (!n1.getFloor().equals(currentFloor) || !n2.getFloor().equals(currentFloor)) continue;
+      NodeEntity n1 = edge.getNode1();
+      NodeEntity n2 = edge.getNode2();
+      if (!n1.getFloor().toString().equals(currentFloor) || !n2.getFloor().toString().equals(currentFloor)) continue;
 
       gc.strokeLine(
           locToMapX(n1.getXcoord()),
@@ -423,18 +442,21 @@ public class MapViewController {
   private void drawPath() {
     for (int i = 1; i < currentPath.size(); i++) {
       NodeEntity n1 = currentPath.get(i - 1), n2 = currentPath.get(i);
-      if (n1.getFloor().equals(currentFloor)
-          && !n2.getFloor().equals(currentFloor)
+      if (n1.getFloor().toString().equals(currentFloor)
+          && !n2.getFloor().toString().equals(currentFloor)
           && nodeInMapView(n1)) {
-        drawNode(n1, Color.PURPLE, (event -> alertNewFloor(n1, n1.getFloor(), n2.getFloor())));
-      } else if (n2.getFloor().equals(currentFloor)
-          && !n1.getFloor().equals(currentFloor)
+        drawNode(n1, (event -> alertNewFloor(n1, n1.getFloor().toString(), n2.getFloor().toString())));
+      } else if (n2.getFloor().toString().equals(currentFloor)
+          && !n1.getFloor().toString().equals(currentFloor)
           && nodeInMapView(n2)) {
-        drawNode(n2, Color.PURPLE, (event -> alertNewFloor(n2, n2.getFloor(), n1.getFloor())));
-      } else if (!n1.getFloor().equals(currentFloor) && !n2.getFloor().equals(currentFloor)) {
+        drawNode(n2, (event -> alertNewFloor(n2, n2.getFloor().toString(), n1.getFloor().toString())));
+      } else if (!n1.getFloor().toString().equals(currentFloor) && !n2.getFloor().toString().equals(currentFloor)) {
         continue;
+      } else if ((!nodeInMapView(n1)) && (!nodeInMapView(n2))) {
+        continue;
+      } else if (!controller.getPFPlace(n1).getLocationtype().equals("HALL")) {
+        drawNodeText(n1, Color.BLUE);
       }
-      if ((!nodeInMapView(n1)) && (!nodeInMapView(n2))) continue;
 
       gc.strokeLine(
           locToMapX(n1.getXcoord()),
