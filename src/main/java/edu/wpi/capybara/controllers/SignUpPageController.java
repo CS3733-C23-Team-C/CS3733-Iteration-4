@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 
 public class SignUpPageController {
 
+  @FXML private MFXTextField staffID;
   @FXML private MFXTextField firstName;
   @FXML private MFXTextField lastName;
   @FXML private MFXPasswordField password;
@@ -29,6 +30,7 @@ public class SignUpPageController {
   private newDBConnect dbConnect;
 
   public void clearFields() {
+    staffID.clear();
     firstName.clear();
     lastName.clear();
     password.clear();
@@ -52,9 +54,12 @@ public class SignUpPageController {
         errorTxt.setText("Passwords must match");
       } else {
         errorTxt.setText("");
+        String outputStaffID = staffID.getText();
         String outputFirstname = firstName.getText();
         String outputLastname = lastName.getText();
         String outputPassword = password.getText();
+
+        System.out.println("This is the new staff ID " + outputStaffID);
         System.out.println("This is the new first name " + outputFirstname);
         System.out.println("This is the new last name " + outputLastname);
         System.out.println("This is the new password " + outputPassword);
@@ -64,10 +69,9 @@ public class SignUpPageController {
         // if username and password are new
         if (s == null) {
 
-          String newStaffID = dbConnect.generateID();
           /*
           Main.db.addStaff(new StaffEntity(
-                  newStaffID,
+                  outputStaffID,
                   outputFirstname,
                   outputLastname,
                   "staff",
@@ -75,6 +79,7 @@ public class SignUpPageController {
 
           errorTxt.setText("");
           backButton.setDisable(true);
+          staffID.setDisable(true);
           firstName.setDisable(true);
           lastName.setDisable(true);
           password.setDisable(true);
@@ -87,12 +92,14 @@ public class SignUpPageController {
                   + ","
                   + outputFirstname
                   + " successfully created with staff id "
-                  + newStaffID);
+                  + outputStaffID);
         } else {
+          clearFields();
           // if username and password are already in the system
           // App.setUser(s);
-          clearFields();
-          errorTxt.setText("User already exists");
+
+          s = dbConnect.getStaff(outputStaffID);
+          errorTxt.setText(((s == null) ? "User" : "Staff ID") + " already exists");
         }
       }
     } else if (signUpButton.getText().equals("Login")) {
