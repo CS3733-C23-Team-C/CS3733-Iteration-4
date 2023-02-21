@@ -290,7 +290,7 @@ public class PathfindingController {
     dialog.setPrefSize(200, 300);
 
     dialog.setOnClose((event1 -> stackPane.getChildren().removeAll(dialog)));
-    dialog.setOnMouseClicked(event1 -> System.out.println("i was clicked"));
+    // dialog.setOnMouseClicked(event1 -> System.out.println("i was clicked"));
     setEndNode.setOnAction(
         (event1 -> {
           destRoom.selectItem(pfPlace);
@@ -385,12 +385,32 @@ public class PathfindingController {
     stackPane.getChildren().removeAll(toRemove);
   }
 
-  public void openSettings(ActionEvent event) {
+  public void openSettings() {
     PathfindingDialogController.showDialog(this);
+  }
+
+  public void openFindNode() {
+    PathfindingSearchDialogController.showDialog(this);
   }
 
   public void setMapText(String mapText) {
     this.mapText = mapText;
     mvc.drawNodes();
+  }
+
+  public void setCurrRoom(PFPlace place) {
+    currRoom.selectItem(place);
+    mvc.setStartNode(place.getNode(getMoveDate()));
+    mvc.drawNodes();
+  }
+
+  public void setDestRoom(PFPlace place) {
+    destRoom.selectItem(place);
+    mvc.setEndNode(place.getNode(getMoveDate()));
+    mvc.drawNodes();
+  }
+
+  public PFPlace getCurrRoom() {
+    return currRoom.getValue();
   }
 }

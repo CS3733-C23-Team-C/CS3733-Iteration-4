@@ -1,73 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
-<?import io.github.palexdev.materialfx.controls.MFXListView?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
-<?import io.github.palexdev.materialfx.controls.MFXToggleButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.PathfindingDialogController">
+<BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.PathfindingSearchDialogController">
    <center>
       <VBox alignment="TOP_CENTER" prefHeight="455.0" prefWidth="485.0" BorderPane.alignment="CENTER">
          <children>
             <HBox prefHeight="10.0" />
-            <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Pathfinding Settings">
+            <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Find A Location">
                <font>
                   <Font size="24.0" />
                </font>
             </Text>
             <HBox prefHeight="10.0" />
             <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;" />
-            <HBox prefHeight="18.0" prefWidth="320.0" />
-            <HBox alignment="CENTER" prefHeight="225.0" prefWidth="320.0">
+            <HBox prefHeight="10.0" />
+            <VBox prefHeight="324.0" prefWidth="415.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="445.0">
                      <children>
-                        <MFXToggleButton fx:id="avoidStairs" contentDisposition="RIGHT" onAction="#validateSliders" text="Avoid Stairs">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="What are you looking for?">
                            <font>
-                              <Font size="14.0" />
+                              <Font size="16.0" />
                            </font>
-                        </MFXToggleButton>
-                        <MFXToggleButton fx:id="preferStairs" contentDisposition="RIGHT" onAction="#validatePreferStairs" text="Prefer Stairs">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </MFXToggleButton>
+                        </Text>
+                        <Pane prefHeight="51.0" prefWidth="50.0" />
+                        <MFXComboBox fx:id="targetField" onAction="#onTargetSelection" promptText="Target" />
                      </children>
-                  </VBox>
-                  <VBox prefHeight="190.0" prefWidth="14.0" />
-                  <VBox alignment="TOP_CENTER" prefHeight="225.0" prefWidth="265.0">
+                  </HBox>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="445.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Locations To Avoid">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start Node">
                            <font>
-                              <Font size="18.0" />
-                           </font></Text>
-                        <HBox prefHeight="11.0" prefWidth="118.0" />
-                        <MFXFilterComboBox fx:id="locationDropdown" onAction="#selected" prefHeight="40.0" prefWidth="247.0" promptText="Add Location" />
-                        <HBox prefHeight="18.0" prefWidth="118.0" />
-                        <MFXListView fx:id="listView" prefHeight="130.0" prefWidth="243.0" />
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Pane prefHeight="51.0" prefWidth="14.0" />
+                        <MFXButton onAction="#onGetStartNode" text="Get Selected Start Node" />
+                        <Pane prefHeight="51.0" prefWidth="50.0" />
+                        <MFXFilterComboBox fx:id="startNode" onAction="#validateFindNode" promptText="Start Node" />
                      </children>
-                  </VBox>
+                  </HBox>
+                  <HBox fx:id="question3" alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="445.0">
+                     <children>
+                        <Text fx:id="typeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Which Request / Which Type">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Pane prefHeight="51.0" prefWidth="50.0" />
+                        <MFXComboBox fx:id="typeField" onAction="#validateFindNode" promptText="Request" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="question4" alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="445.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Request Number">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                        <Pane prefHeight="51.0" prefWidth="50.0" />
+                        <MFXTextField fx:id="requestField" prefHeight="49.0" prefWidth="118.0" promptText="Request Number" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="51.0" prefWidth="445.0">
+                     <children>
+                        <MFXButton fx:id="findNodeButton" onAction="#findNode" text="Find Node" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="51.0" prefWidth="445.0">
+                     <children>
+                        <Text fx:id="outputText" strokeType="OUTSIDE" strokeWidth="0.0" text="Found: XXXXXXXX">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
-            <HBox minHeight="10.0" prefHeight="10.0" prefWidth="320.0" />
-            <HBox alignment="CENTER" minHeight="10.0" prefHeight="66.0" prefWidth="445.0">
+            </VBox>
+            <HBox prefHeight="10.0" />
+            <HBox alignment="CENTER" prefHeight="30.0" prefWidth="445.0">
                <children>
-                  <MFXTextField fx:id="mapText" disable="true" prefHeight="49.0" prefWidth="435.0" promptText="Map Text (Admin Only)" />
-               </children>
-            </HBox>
-            <HBox minHeight="10.0" prefHeight="10.0" prefWidth="320.0" />
-            <HBox alignment="CENTER" prefHeight="32.0" prefWidth="445.0">
-               <children>
-                  <MFXButton fx:id="cancelChanges" onAction="#cancelChanges" text="Cancel" />
-                  <VBox prefHeight="43.0" prefWidth="22.0" />
-                  <MFXButton fx:id="applyChanges" onAction="#applyChanges" text="Apply" />
+                  <MFXButton fx:id="resetButton" onAction="#reset" text="Reset" />
+                  <Pane prefHeight="30.0" prefWidth="27.0" />
+                  <MFXButton fx:id="cancelButton" onAction="#closeDialog" text="Cancel" />
+                  <Pane prefHeight="30.0" prefWidth="27.0" />
+                  <MFXButton fx:id="setStartNodeButton" onAction="#onSetStartNode" text="Set Start Node" />
+                  <Pane prefHeight="30.0" prefWidth="27.0" />
+                  <MFXButton fx:id="setEndNodeButton" onAction="#onSetEndNode" text="Set End Node" />
                </children>
             </HBox>
          </children>

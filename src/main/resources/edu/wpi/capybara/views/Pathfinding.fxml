@@ -99,6 +99,14 @@
                         </MFXFilterComboBox>
                      </children>
                   </VBox>
+                  <MFXButton fx:id="settingsButton1" onAction="#openFindNode" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #009CA6;" text="Find Node" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </MFXButton>
                   <MFXButton fx:id="settingsButton" onAction="#openSettings" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: #009CA6;" text="Options" textFill="WHITE">
                      <cursor>
                         <Cursor fx:constant="HAND" />
