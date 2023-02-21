@@ -41,6 +41,18 @@ public class MessagesController {
       vbox.getChildren().add(newMessage);
       if (messageID > highestID) highestID = messageID;
     }
+    System.out.println(MenuController.getSelectedHomeMessage());
+    if (MenuController.getSelectedHomeMessage() != 0) {
+      System.out.println("got here");
+      selectedID = MenuController.getSelectedHomeMessage();
+      VBox selectedMessage = messageBoxes.get(selectedID);
+      selectedMessage.getStyleClass().clear();
+      selectedMessage.getStyleClass().add("selected");
+      messages.get(selectedID).setRead(true);
+      MenuController.setSelectedHomeMessage(0);
+      replyButton.setDisable(false);
+      deleteButton.setDisable(false);
+    }
     sReplyButton = replyButton;
     sDeleteButton = deleteButton;
 

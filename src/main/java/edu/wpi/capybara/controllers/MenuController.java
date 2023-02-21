@@ -13,6 +13,8 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import lombok.Getter;
+import lombok.Setter;
 
 public class MenuController {
 
@@ -27,6 +29,7 @@ public class MenuController {
   @FXML private MFXButton employeeEditButton;
   private static MenuButton sUserProfile;
   private static Circle sNewMessageCircle;
+  @Getter @Setter private static int selectedHomeMessage;
 
   public static void setUserProfile() {
     System.out.println(sUserProfile == null);
