@@ -452,8 +452,11 @@ public class MapViewController {
         drawNode(n2, (event -> alertNewFloor(n2, n2.getFloor(), n1.getFloor())));
       } else if (!n1.getFloor().equals(currentFloor) && !n2.getFloor().equals(currentFloor)) {
         continue;
+      } else if ((!nodeInMapView(n1)) && (!nodeInMapView(n2))) {
+        continue;
+      } else if (!controller.getPFPlace(n1).getLocationtype().equals("HALL")) {
+        drawNodeText(n1, Color.BLUE);
       }
-      if ((!nodeInMapView(n1)) && (!nodeInMapView(n2))) continue;
 
       gc.strokeLine(
           locToMapX(n1.getXcoord()),
