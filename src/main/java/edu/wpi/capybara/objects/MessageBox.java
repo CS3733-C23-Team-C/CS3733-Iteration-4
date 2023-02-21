@@ -86,8 +86,8 @@ public class MessageBox {
     Text fromText = new Text();
     fromText.setFont(Font.font(16));
     StaffEntity sender = Main.db.getStaff(message.getSenderid());
-    if(sender.equals("SYSTEM")) fromText.setText("");
-    else{
+    if (sender.equals("SYSTEM")) fromText.setText("");
+    else {
       String firstName = sender.getFirstname();
       String lastName = sender.getLastname();
       fromText.setText("From: " + firstName + " " + lastName);
