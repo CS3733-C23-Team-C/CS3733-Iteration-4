@@ -32,8 +32,7 @@ public class TransportationDAOImpl implements TransportationDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<Integer, TransportationsubmissionEntity> ret =
-        new HashMap<Integer, TransportationsubmissionEntity>();
+    HashMap<Integer, TransportationsubmissionEntity> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();

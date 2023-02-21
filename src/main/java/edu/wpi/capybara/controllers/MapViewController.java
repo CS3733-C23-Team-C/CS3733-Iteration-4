@@ -304,7 +304,7 @@ public class MapViewController {
         && n.getXcoord() < mapX + mapW - scale(4)
         && n.getYcoord() > mapY + scale(4)
         && n.getYcoord() < mapY + mapH - scale(4)
-        && n.getFloor().equals(currentFloor);
+        && n.getFloor().toString().equals(currentFloor);
   }
 
   private void drawNode(NodeEntity node) {
@@ -426,9 +426,9 @@ public class MapViewController {
   private void drawEdges() {
     gc.setStroke(Color.RED);
     for (EdgeEntity edge : Main.db.getEdges()) {
-      NodeEntity n1 = Main.db.getNodes().get(edge.getNode1());
-      NodeEntity n2 = Main.db.getNodes().get(edge.getNode2());
-      if (!n1.getFloor().equals(currentFloor) || !n2.getFloor().equals(currentFloor)) continue;
+      NodeEntity n1 = edge.getNode1();
+      NodeEntity n2 = edge.getNode2();
+      if (!n1.getFloor().toString().equals(currentFloor) || !n2.getFloor().toString().equals(currentFloor)) continue;
 
       gc.strokeLine(
           locToMapX(n1.getXcoord()),
@@ -442,15 +442,15 @@ public class MapViewController {
   private void drawPath() {
     for (int i = 1; i < currentPath.size(); i++) {
       NodeEntity n1 = currentPath.get(i - 1), n2 = currentPath.get(i);
-      if (n1.getFloor().equals(currentFloor)
-          && !n2.getFloor().equals(currentFloor)
+      if (n1.getFloor().toString().equals(currentFloor)
+          && !n2.getFloor().toString().equals(currentFloor)
           && nodeInMapView(n1)) {
-        drawNode(n1, (event -> alertNewFloor(n1, n1.getFloor(), n2.getFloor())));
-      } else if (n2.getFloor().equals(currentFloor)
-          && !n1.getFloor().equals(currentFloor)
+        drawNode(n1, (event -> alertNewFloor(n1, n1.getFloor().toString(), n2.getFloor().toString())));
+      } else if (n2.getFloor().toString().equals(currentFloor)
+          && !n1.getFloor().toString().equals(currentFloor)
           && nodeInMapView(n2)) {
-        drawNode(n2, (event -> alertNewFloor(n2, n2.getFloor(), n1.getFloor())));
-      } else if (!n1.getFloor().equals(currentFloor) && !n2.getFloor().equals(currentFloor)) {
+        drawNode(n2, (event -> alertNewFloor(n2, n2.getFloor().toString(), n1.getFloor().toString())));
+      } else if (!n1.getFloor().toString().equals(currentFloor) && !n2.getFloor().toString().equals(currentFloor)) {
         continue;
       } else if ((!nodeInMapView(n1)) && (!nodeInMapView(n2))) {
         continue;

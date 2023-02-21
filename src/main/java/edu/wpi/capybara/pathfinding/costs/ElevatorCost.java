@@ -15,8 +15,8 @@ public class ElevatorCost implements PathfindingCost {
 
   @Override
   public double calculateCost(NodeEntity start, NodeEntity end) {
-    int startFloor = AstarPathfinder.floorToNum(start.getFloor());
-    int endFloor = AstarPathfinder.floorToNum(end.getFloor());
+    int startFloor = AstarPathfinder.floorToNum(start.getFloor().toString());
+    int endFloor = AstarPathfinder.floorToNum(end.getFloor().toString());
 
     return 500 * Math.abs(endFloor - startFloor);
   }

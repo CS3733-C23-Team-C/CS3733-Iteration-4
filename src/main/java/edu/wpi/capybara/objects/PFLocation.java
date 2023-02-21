@@ -72,14 +72,14 @@ public class PFLocation implements PFPlace {
     moves = new ArrayList<>();
 
     for (MoveEntity move : Main.db.getMoves()) {
-      if (move.getLongname().equals(locationname.getLongname())) {
-        NodeEntity ne = Main.db.getNode(move.getNodeid());
+      if (move.getLongName().equals(locationname.getLongname())) {
+        NodeEntity ne = Main.db.getNode(move.getNodeID());
         MoveInformation mi =
             new MoveInformation(
-                ne.getNodeid(),
+                ne.getNodeID(),
                 ne.getXcoord(),
                 ne.getYcoord(),
-                ne.getFloor(),
+                ne.getFloor().toString(),
                 ne.getBuilding(),
                 move.getMovedate(),
                 ne);

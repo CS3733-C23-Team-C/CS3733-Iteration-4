@@ -38,7 +38,7 @@ public class LocationnameDAOImpl implements LocationnameDAO {
     Session session = Main.db.getSession();
     Transaction tx = null;
 
-    HashMap<String, LocationnameEntity> ret = new HashMap<String, LocationnameEntity>();
+    HashMap<String, LocationnameEntity> ret = new HashMap<>();
 
     try {
       tx = session.beginTransaction();

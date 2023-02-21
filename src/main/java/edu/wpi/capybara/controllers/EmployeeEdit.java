@@ -14,7 +14,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.text.Text;
-import javax.swing.*;
 import lombok.Getter;
 import lombok.Setter;
 
