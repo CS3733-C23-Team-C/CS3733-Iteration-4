@@ -87,7 +87,7 @@ public class DatabaseImportDialogController {
     File defaultDirectory = new File(System.getProperty("user.dir"));
     chooser.setInitialDirectory(defaultDirectory);
     File selectedDirectory = chooser.showDialog(folderText.getScene().getWindow());
-    folderText.setText(selectedDirectory.getAbsolutePath());
+    if (selectedDirectory != null) folderText.setText(selectedDirectory.getAbsolutePath());
   }
 
   public void validate() {
