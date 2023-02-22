@@ -7,10 +7,7 @@ import edu.wpi.capybara.objects.NodeCircle;
 import edu.wpi.capybara.objects.PFNode;
 import edu.wpi.capybara.objects.hibernate.LocationnameEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
-import edu.wpi.capybara.pathfinding.AstarPathfinder;
-import edu.wpi.capybara.pathfinding.BFSPathfinder;
-import edu.wpi.capybara.pathfinding.DFSPathfinder;
-import edu.wpi.capybara.pathfinding.PathfindingAlgorithm;
+import edu.wpi.capybara.pathfinding.*;
 import edu.wpi.capybara.pathfinding.costs.ElevatorCost;
 import edu.wpi.capybara.pathfinding.costs.LegDayCost;
 import edu.wpi.capybara.pathfinding.costs.PathfindingCost;
@@ -110,7 +107,8 @@ public class PathfindingController {
         FXCollections.observableArrayList(
             new AstarPathfinder(Main.db.getNodes(), Main.db.getEdges(), this),
             new DFSPathfinder(Main.db.getNodes()),
-            new BFSPathfinder(Main.db.getNodes(), Main.db.getEdges())));
+            new BFSPathfinder(Main.db.getNodes(), Main.db.getEdges()),
+            new BestFSPathfinder(Main.db.getNodes(), Main.db.getEdges())));
     pathfindingAlgorithm.selectFirst();
     mvc.drawNodes();
     getMoveDate();
