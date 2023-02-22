@@ -265,4 +265,9 @@ public class RepoFacadeAdapter implements RepoFacade {
   public void threadRefresh(int delay) {
     repo.threadRefresh(delay);
   }
+
+  @Override
+  public void refreshMessages() {
+    repo.refreshMessages();
+  }
 }

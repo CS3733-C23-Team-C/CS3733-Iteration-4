@@ -385,6 +385,7 @@ public class newDBConnect implements RepoFacade {
 
   public void threadRefresh(int delay) {
     try {
+      System.out.println("Auto update!");
       Thread.sleep(delay * 1000);
       importAudio();
       Thread.sleep(delay * 1000);
@@ -455,5 +456,10 @@ public class newDBConnect implements RepoFacade {
 
   public int generateMessageID() {
     return message.generateMessageID();
+  }
+
+  @Override
+  public void refreshMessages() {
+    message = new MessagesDAOImpl();
   }
 }

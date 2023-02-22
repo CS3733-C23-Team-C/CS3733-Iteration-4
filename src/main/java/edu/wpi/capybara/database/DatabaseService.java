@@ -21,17 +21,17 @@ import org.hibernate.Transaction;
 @Slf4j
 public class DatabaseService implements RepoFacade2 {
   private final DAOFacade orm;
-  private final AudioSubmissionDAO audioSubmissionDAO;
-  private final CleaningSubmissionDAO cleaningSubmissionDAO;
-  private final ComputerSubmissionDAO computerSubmissionDAO;
-  private final SecuritySubmissionDAO securitySubmissionDAO;
-  private final TransportationSubmissionDAO transportationSubmissionDAO;
-  private final LocationDAO locationDAO;
-  private final NodeDAO nodeDAO;
-  private final StaffDAO staffDAO;
-  private final EdgeDAO edgeDAO;
-  private final MoveDAO moveDAO;
-  private final MessageDAO messageDAO;
+  private AudioSubmissionDAO audioSubmissionDAO;
+  private CleaningSubmissionDAO cleaningSubmissionDAO;
+  private ComputerSubmissionDAO computerSubmissionDAO;
+  private SecuritySubmissionDAO securitySubmissionDAO;
+  private TransportationSubmissionDAO transportationSubmissionDAO;
+  private LocationDAO locationDAO;
+  private NodeDAO nodeDAO;
+  private StaffDAO staffDAO;
+  private EdgeDAO edgeDAO;
+  private MoveDAO moveDAO;
+  private MessageDAO messageDAO;
 
   public DatabaseService(DAOFacade orm) {
     log.info("Initializing database service.");
@@ -422,11 +422,37 @@ public class DatabaseService implements RepoFacade2 {
 
   @Override
   public void threadRefresh(int delay) {
+    System.out.println("REFRES2!");
     try {
       Thread.sleep(delay * 1000L);
-      getMessages().values().forEach(orm::refresh);
+      messageDAO = new MessageDAO(orm);
+      Thread.sleep(delay * 1000L);
+      audioSubmissionDAO = new AudioSubmissionDAO(orm);
+      Thread.sleep(delay * 1000L);
+      cleaningSubmissionDAO = new CleaningSubmissionDAO(orm);
+      Thread.sleep(delay * 1000L);
+      computerSubmissionDAO = new ComputerSubmissionDAO(orm);
+      Thread.sleep(delay * 1000L);
+      edgeDAO = new EdgeDAO(orm);
+      Thread.sleep(delay * 1000L);
+      locationDAO = new LocationDAO(orm);
+      Thread.sleep(delay * 1000L);
+      moveDAO = new MoveDAO(orm);
+      Thread.sleep(delay * 1000L);
+      nodeDAO = new NodeDAO(orm);
+      Thread.sleep(delay * 1000L);
+      securitySubmissionDAO = new SecuritySubmissionDAO(orm);
+      Thread.sleep(delay * 1000L);
+      staffDAO = new StaffDAO(orm);
+      Thread.sleep(delay * 1000L);
+      transportationSubmissionDAO = new TransportationSubmissionDAO(orm);
     } catch (InterruptedException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  @Override
+  public void refreshMessages() {
+    messageDAO = new MessageDAO(orm);
   }
 }

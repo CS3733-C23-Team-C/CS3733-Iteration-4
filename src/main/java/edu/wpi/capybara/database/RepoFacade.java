@@ -120,4 +120,6 @@ public interface RepoFacade {
   void threadRefresh(int delay);
 
   StaffEntity getStaff2(String firstName, String lastName);
+
+  public void refreshMessages();
 }

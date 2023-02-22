@@ -95,6 +95,7 @@ public class MessagesController {
         new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent event) {
+
             refreshMap();
           }
         });
@@ -136,6 +137,7 @@ public class MessagesController {
   }
 
   public void refreshMap() {
+    Main.db.refreshMessages();
     Map<Integer, MessagesEntity> updatedMap =
         Main.db.getMessages(App.getUser().getStaffid(), highestID);
     for (MessagesEntity message : updatedMap.values()) {

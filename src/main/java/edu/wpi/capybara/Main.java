@@ -16,8 +16,6 @@ public class Main extends Thread {
   public static void main(String[] args) {
     //    DatabaseConnect.connect();
     //    DatabaseConnect.importData();
-    AutoUpdate updater = new AutoUpdate();
-    updaterThread = new Thread(updater, "AutoUpdater");
 
     orm = new DAOService();
     repo = new DatabaseService(orm);
@@ -25,6 +23,8 @@ public class Main extends Thread {
     // db = new newDBConnect();
     db = new RepoFacadeAdapter(repo);
     db.importAll();
+    AutoUpdate updater = new AutoUpdate();
+    updaterThread = new Thread(updater, "AutoUpdater");
     updaterThread.start();
     App.launch(App.class, args);
     updater.stop();
