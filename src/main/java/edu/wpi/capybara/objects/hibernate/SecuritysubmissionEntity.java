@@ -1,11 +1,15 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.database.CSVExportable;
+import edu.wpi.capybara.database.CSVImporter;
 import edu.wpi.capybara.objects.SubmissionAbs;
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import edu.wpi.capybara.objects.orm.Persistent;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import jakarta.persistence.*;
-import java.util.Date;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -14,7 +18,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 @Entity
 @Table(name = "securitysubmission", schema = "cdb", catalog = "teamcdb")
-public class SecuritysubmissionEntity extends SubmissionAbs implements Persistent {
+public class SecuritysubmissionEntity extends SubmissionAbs implements Persistent, CSVExportable {
   private final SimpleStringProperty employeeid = new SimpleStringProperty();
   private final SimpleStringProperty location = new SimpleStringProperty();
   private final SimpleStringProperty type = new SimpleStringProperty();

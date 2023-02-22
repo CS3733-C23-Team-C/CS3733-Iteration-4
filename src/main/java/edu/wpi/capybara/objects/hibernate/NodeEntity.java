@@ -1,11 +1,11 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
-
+import edu.wpi.capybara.database.CSVExportable;
+import edu.wpi.capybara.database.CSVImporter;
 import edu.wpi.capybara.objects.Floor;
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import edu.wpi.capybara.objects.orm.Persistent;
-
 import jakarta.persistence.*;
 import java.sql.Date;
 import java.util.HashSet;
@@ -19,14 +19,12 @@ import javafx.beans.property.SimpleStringProperty;
 
 @Entity
 @Table(name = "node", schema = "cdb", catalog = "teamcdb")
-
-public class NodeEntity implements Persistent {
+public class NodeEntity implements Persistent, CSVExportable {
   private final SimpleStringProperty nodeID = new SimpleStringProperty();
   private final SimpleIntegerProperty xcoord = new SimpleIntegerProperty();
   private final SimpleIntegerProperty ycoord = new SimpleIntegerProperty();
   private final SimpleObjectProperty<Floor> floor = new SimpleObjectProperty<>();
   private final SimpleStringProperty building = new SimpleStringProperty();
-
 
   public NodeEntity() {}
 
@@ -227,7 +225,11 @@ public class NodeEntity implements Persistent {
   @Override
   public String[] toCSV() {
     return new String[] {
-      getNodeid(), getXcoord().toString(), getYcoord().toString(), getFloor(), getBuilding()
+      getNodeID(),
+      Integer.toString(getXcoord()),
+      Integer.toString(getYcoord()),
+      getFloor().toString(),
+      getBuilding()
     };
   }
 

@@ -87,7 +87,7 @@ public class UserProfileController {
   public void databasePopup() {
     System.out.println("database popup");
     final var file = new FileChooser().showOpenDialog(firstNameField.getScene().getWindow());
-    //file.getAbsolutePath();
+    // file.getAbsolutePath();
     DatabaseImportDialogController didc = new DatabaseImportDialogController();
     DatabaseImportDialogController.showDialog();
   }

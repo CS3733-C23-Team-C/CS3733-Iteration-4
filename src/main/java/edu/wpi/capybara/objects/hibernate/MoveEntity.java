@@ -1,10 +1,10 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
-
+import edu.wpi.capybara.database.CSVExportable;
+import edu.wpi.capybara.database.CSVImporter;
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import edu.wpi.capybara.objects.orm.Persistent;
-
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
@@ -19,14 +19,12 @@ import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "move", schema = "cdb", catalog = "teamcdb")
-
 @IdClass(MoveEntity.PK.class)
-public class MoveEntity implements Persistent {
+public class MoveEntity implements Persistent, CSVExportable {
   public static class PK implements Serializable {
     @Getter @Setter private NodeEntity node;
     @Getter @Setter private LocationnameEntity location;
     @Getter @Setter private Date movedate;
-
 
     @Override
     public int hashCode() {
@@ -146,7 +144,7 @@ public class MoveEntity implements Persistent {
 
   @Override
   public String[] toCSV() {
-    return new String[] {getNodeid(), getLongname(), getMovedate().toString()};
+    return new String[] {getNodeID(), getLongName(), getMovedate().toString()};
   }
 
   public static class Importer implements CSVImporter<MoveEntity> {

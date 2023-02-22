@@ -1,10 +1,10 @@
 package edu.wpi.capybara.objects.hibernate;
 
-
+import edu.wpi.capybara.database.CSVExportable;
+import edu.wpi.capybara.database.CSVImporter;
 import edu.wpi.capybara.objects.SubmissionAbs;
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import edu.wpi.capybara.objects.orm.Persistent;
-
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import jakarta.persistence.*;
 import java.sql.Date;
@@ -18,8 +18,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 @Entity
 @Table(name = "cleaningsubmission", schema = "cdb", catalog = "teamcdb")
-
-public class CleaningsubmissionEntity extends SubmissionAbs implements Persistent {
+public class CleaningsubmissionEntity extends SubmissionAbs implements Persistent, CSVExportable {
   private final SimpleStringProperty memberid = new SimpleStringProperty();
   private final SimpleStringProperty location = new SimpleStringProperty();
   private final SimpleStringProperty hazardlevel = new SimpleStringProperty();

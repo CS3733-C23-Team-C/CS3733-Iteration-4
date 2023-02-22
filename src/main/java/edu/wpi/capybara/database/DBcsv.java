@@ -22,9 +22,7 @@ public class DBcsv {
   public static Map<Integer, TransportationsubmissionEntity> transportationSubs;
   public static Map<Integer, CleaningsubmissionEntity> cleaningSubs;
   public static Map<Integer, SecuritysubmissionEntity> securitySubs;
-
   public static Map<Integer, ComputersubmissionEntity> computerSubs;
-
   public static Map<Integer, AudiosubmissionEntity> audioSubs;
 
   public DBcsv() {
@@ -274,13 +272,15 @@ public class DBcsv {
 
   public static void main(String[] args) throws IOException, CsvException, ParseException {
 
-    Main.db = new newDBConnect();
+    Main.setOrm(new DAOService());
+    Main.setRepo(new DatabaseService(Main.getOrm()));
+    Main.db = new RepoFacadeAdapter(Main.getRepo());
     importAlldbcsv();
 
     String backup_folder =
-        "C:\\Users\\aidan\\Desktop\\CS3733-Iteration-3\\database_backup_20230220_201715";
+        "C:\\Users\\aidan\\Desktop\\CS3733-Iteration-3\\database_backup_20230221_150910";
 
     // exportDatabase();
-    // importDatabase(backup_folder);
+    importDatabase(backup_folder);
   }
 }

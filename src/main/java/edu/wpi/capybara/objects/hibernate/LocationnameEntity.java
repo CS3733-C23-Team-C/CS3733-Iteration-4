@@ -1,9 +1,9 @@
 package edu.wpi.capybara.objects.hibernate;
 
-
+import edu.wpi.capybara.database.CSVExportable;
+import edu.wpi.capybara.database.CSVImporter;
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import edu.wpi.capybara.objects.orm.Persistent;
-
 import jakarta.persistence.*;
 import java.util.Objects;
 import javafx.beans.InvalidationListener;
@@ -11,8 +11,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 @Entity
 @Table(name = "locationname", schema = "cdb", catalog = "teamcdb")
-
-public class LocationnameEntity implements Persistent {
+public class LocationnameEntity implements Persistent, CSVExportable {
 
   private final SimpleStringProperty longname = new SimpleStringProperty();
   private final SimpleStringProperty shortname = new SimpleStringProperty();

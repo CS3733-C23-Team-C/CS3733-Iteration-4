@@ -1,9 +1,10 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.CSVExportable;
+import edu.wpi.capybara.database.CSVImporter;
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import edu.wpi.capybara.objects.orm.Persistent;
-
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -15,7 +16,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "edge", schema = "cdb", catalog = "teamcdb")
 @IdClass(EdgeEntity.PK.class)
-public class EdgeEntity implements Persistent {
+public class EdgeEntity implements Persistent, CSVExportable {
   // happy
   public static class PK implements Serializable {
     @Getter @Setter private NodeEntity node1;
@@ -110,7 +111,7 @@ public class EdgeEntity implements Persistent {
 
   @Override
   public String[] toCSV() {
-    return new String[] {getNode1(), getNode2()};
+    return new String[] {getNode1().getNodeID(), getNode2().getNodeID()};
   }
 
   public static class Importer implements CSVImporter<EdgeEntity> {

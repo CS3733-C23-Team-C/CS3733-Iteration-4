@@ -1,27 +1,26 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.database.CSVExportable;
+import edu.wpi.capybara.database.CSVImporter;
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import edu.wpi.capybara.objects.orm.Persistent;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
 import java.util.Objects;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;
 
 @Entity
 @Table(name = "staff", schema = "cdb", catalog = "teamcdb")
-
-public class StaffEntity implements Persistent {
+public class StaffEntity implements Persistent, CSVExportable {
   private final SimpleStringProperty staffid = new SimpleStringProperty();
   private final SimpleStringProperty firstname = new SimpleStringProperty();
   private final SimpleStringProperty lastname = new SimpleStringProperty();
   private final SimpleStringProperty password = new SimpleStringProperty();
   private final SimpleStringProperty role = new SimpleStringProperty();
   private final SimpleStringProperty notes = new SimpleStringProperty();
-
 
   public StaffEntity() {}
 
