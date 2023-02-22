@@ -49,7 +49,7 @@ public class HomeController {
     keyList.sort(null);
     showMessages();
 
-    newMessageTxt.setText("You Have " + messageBox.getUnreadMessages() + " New Messages:");
+    newMessageTxt.setText("You have " + messageBox.getUnreadMessages() + " new messages:");
     unreadMessagesCount = messageBox.getUnreadMessages();
 
     //    submit.setOnMouseClicked(event -> {});
