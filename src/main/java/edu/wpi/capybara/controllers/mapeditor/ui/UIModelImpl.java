@@ -52,9 +52,16 @@ public class UIModelImpl implements UIModel {
                 new NodeRow(nodeTableView, entity),
                 entity);
     final Function<EdgeEntity, EdgeElement> edgeElementFactory =
-        entity ->
-            new EdgeElement(
-                this, new EdgeGFX(entity, shownFloor), new EdgeRow(edgeTableView, entity), entity);
+        entity -> {
+          var edgeElement =
+              new EdgeElement(
+                  this,
+                  new EdgeGFX(entity, shownFloor),
+                  new EdgeRow(edgeTableView, entity),
+                  entity);
+          edgeElement.getOnMap().bind();
+          return edgeElement;
+        };
     final Function<MoveEntity, MoveElement> moveElementFactory =
         entity -> new MoveElement(this, new MoveGFX(), new MoveRow(moveTableView, entity), entity);
     final Function<LocationnameEntity, LocationElement> locationElementFactory =
@@ -102,6 +109,7 @@ public class UIModelImpl implements UIModel {
   @Override
   public void delete(Element element) {
     elements.remove(element);
+    selected.remove(element);
   }
 
   public <T> void deleteEntity(T entity) {

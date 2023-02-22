@@ -177,7 +177,7 @@ public class MapEditorTableView {
     edgeTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
   }
 
-  private static class NodeConverter extends StringConverter<NodeEntity> {
+  public static class NodeConverter extends StringConverter<NodeEntity> {
     @Override
     public String toString(NodeEntity object) {
       return object.getNodeID();

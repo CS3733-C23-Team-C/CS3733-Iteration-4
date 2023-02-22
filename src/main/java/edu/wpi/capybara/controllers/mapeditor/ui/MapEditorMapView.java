@@ -17,13 +17,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import lombok.Getter;
 
 public class MapEditorMapView {
   // UI components
   private final ImageView floorF1, floorF2, floorF3, floorL1, floorL2;
   private final SimpleDoubleProperty viewX, viewY, zoom;
   private final StackPane rootPane;
-  private final Pane viewPane;
+  @Getter private final Pane viewPane;
 
   // rootPane (receives drag events)
   //   |- viewPane (translates)
@@ -139,7 +140,7 @@ public class MapEditorMapView {
   }
 
   public void removeElement(Element element) {
-    viewPane.getChildren().add(element.getNode());
+    viewPane.getChildren().remove(element.getNode());
   }
 
   private ImageView createFloorImage(

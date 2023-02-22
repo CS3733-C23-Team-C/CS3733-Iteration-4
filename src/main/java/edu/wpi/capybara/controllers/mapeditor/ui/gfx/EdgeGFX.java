@@ -2,6 +2,7 @@ package edu.wpi.capybara.controllers.mapeditor.ui.gfx;
 
 import edu.wpi.capybara.objects.Floor;
 import edu.wpi.capybara.objects.hibernate.EdgeEntity;
+import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.shape.Line;
 import lombok.Getter;
@@ -11,28 +12,34 @@ public class EdgeGFX extends GFXBase {
 
   @Getter private final Line line;
 
+  private EdgeEntity edge;
+  private ObjectProperty<Floor> shownFloor;
+
   public EdgeGFX(EdgeEntity edge, ObjectProperty<Floor> shownFloor) {
+    this.edge = edge;
+    this.shownFloor = shownFloor;
     getStyleClass().addAll("selectable", STYLE_CLASS);
     line = new Line();
 
     line.setStrokeWidth(5);
 
-    bind(edge, shownFloor);
+    Platform.runLater(this::bind);
 
-    edge.node1Property().addListener(change -> bind(edge, shownFloor));
-    edge.node2Property().addListener(change -> bind(edge, shownFloor));
+    edge.node1Property().addListener(change -> bind());
+    edge.node2Property().addListener(change -> bind());
 
     getChildren().add(line);
     // getChildren().forEach(child -> child.getStyleClass().addAll("selectable", STYLE_CLASS));
+
+    edge.getNode1().xcoordProperty().addListener(change -> System.out.println("node change"));
   }
 
-  private void bind(EdgeEntity edge, ObjectProperty<Floor> shownFloor) {
-    translateXProperty().bind(edge.getNode1().xcoordProperty());
-    translateYProperty().bind(edge.getNode1().ycoordProperty());
-    line.endXProperty()
-        .bind(edge.getNode2().xcoordProperty().subtract(edge.getNode1().xcoordProperty()));
-    line.endYProperty()
-        .bind(edge.getNode2().ycoordProperty().subtract(edge.getNode1().ycoordProperty()));
+  public void bind() {
+    System.out.println("bind");
+    line.startXProperty().bind(edge.getNode1().xcoordProperty());
+    line.startYProperty().bind(edge.getNode1().ycoordProperty());
+    line.endXProperty().bind(edge.getNode2().xcoordProperty());
+    line.endYProperty().bind(edge.getNode2().ycoordProperty());
     visibleProperty()
         .bind(
             edge.getNode1()

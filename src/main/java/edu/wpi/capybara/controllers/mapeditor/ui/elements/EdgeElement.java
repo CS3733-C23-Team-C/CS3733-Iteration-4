@@ -4,7 +4,6 @@ import edu.wpi.capybara.controllers.mapeditor.ui.UIModel;
 import edu.wpi.capybara.controllers.mapeditor.ui.gfx.EdgeGFX;
 import edu.wpi.capybara.controllers.mapeditor.ui.row.EdgeRow;
 import edu.wpi.capybara.objects.hibernate.EdgeEntity;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 public final class EdgeElement extends ElementBase<EdgeGFX, EdgeRow, EdgeEntity>
@@ -16,7 +15,7 @@ public final class EdgeElement extends ElementBase<EdgeGFX, EdgeRow, EdgeEntity>
     onMap.addEventHandler(
         MouseEvent.MOUSE_PRESSED,
         event -> {
-          if (event.getButton() != MouseButton.PRIMARY) return;
+          // if (event.getButton() != MouseButton.PRIMARY) return;
 
           if (event.isShiftDown()) {
             model.select(this);

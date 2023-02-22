@@ -4,7 +4,6 @@ import edu.wpi.capybara.controllers.mapeditor.ui.UIModel;
 import edu.wpi.capybara.controllers.mapeditor.ui.gfx.NodeGFX;
 import edu.wpi.capybara.controllers.mapeditor.ui.row.NodeRow;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 public final class NodeElement extends ElementBase<NodeGFX, NodeRow, NodeEntity>
@@ -15,7 +14,7 @@ public final class NodeElement extends ElementBase<NodeGFX, NodeRow, NodeEntity>
     onMap.addEventHandler(
         MouseEvent.MOUSE_PRESSED,
         event -> {
-          if (event.getButton() != MouseButton.PRIMARY) return;
+          // if (event.getButton() != MouseButton.PRIMARY) return;
 
           if (event.isShiftDown()) {
             model.select(this);
