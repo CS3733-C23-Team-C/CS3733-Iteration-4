@@ -4,6 +4,7 @@ import edu.wpi.capybara.objects.orm.DAOFacade;
 import jakarta.persistence.PersistenceException;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -88,8 +89,12 @@ public class DAOService implements DAOFacade {
     try (final var session = getSession()) {
       final var tx = session.beginTransaction();
       try {
+        // session.merge(entity);
         session.remove(entity);
         tx.commit();
+      } catch (ObjectNotFoundException e) {
+        // well, the object's gone regardless. log a warning but otherwise ignore it.
+        log.debug("Attempted to delete an object, but it was already deleted.");
       } catch (PersistenceException e) {
         // rollback the database, log the exception, and throw it back to the caller.
         // this is so the caller can decide how it wants to handle the failure.

@@ -13,7 +13,9 @@ import edu.wpi.capybara.objects.hibernate.EdgeEntity;
 import edu.wpi.capybara.objects.hibernate.LocationnameEntity;
 import edu.wpi.capybara.objects.hibernate.MoveEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -195,7 +197,7 @@ public class MapEditorController {
         MouseEvent.MOUSE_RELEASED,
         event -> {
           if (moveState == MoveState.DRAG) {
-            repairID(editingNode.getInRepo());
+            // repairID(editingNode.getInRepo());
             moveState = MoveState.CLICK;
             event.consume();
           } else {
@@ -245,10 +247,42 @@ public class MapEditorController {
     node.setNodeID(
         String.format("%sX%dY%d", node.getFloor().toString(), node.getXcoord(), node.getYcoord()));
     Platform.runLater(() -> Main.getRepo().deleteNode(prevID));
+    final var moves =
+        Main.getRepo().getMoves().stream()
+            .filter(move -> move.getNode().equals(node))
+            .collect(Collectors.toSet());
   }
 
   private void repairEdgesAndDelete(NodeEntity node) {
-    node.getEdges();
+    final var edges = node.getEdges();
+
+    // find all nodes connected to this node. all nodes in this set are reachable from any other
+    // node in the set.
+    final var nodes = new HashSet<NodeEntity>();
+    for (EdgeEntity edge : edges) {
+      nodes.add(edge.getNode1());
+      nodes.add(edge.getNode2());
+    }
+
+    // remove the deleted node, as we don't want to create edges to it.
+    nodes.remove(node);
+
+    // recreate the graph. if you were to include the original edges, this graph would be
+    // transitive.
+    // unfortunately this is O(n^2), but we really shouldn't see high enough values of n to care.
+    final var newEdges = new HashSet<EdgeEntity>();
+    for (NodeEntity node1 : nodes) {
+      for (NodeEntity node2 : nodes) {
+        newEdges.add(new EdgeEntity(node1, node2));
+      }
+    }
+
+    // remove the old edges
+    edges.forEach(Main.getRepo()::deleteEdge);
+    // add the new ones
+    newEdges.forEach(Main.getRepo()::addEdge);
+
+    // finally, delete the node.
     Main.getRepo().deleteNode(node);
   }
 }
