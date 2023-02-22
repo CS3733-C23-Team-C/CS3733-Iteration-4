@@ -22,13 +22,16 @@
                   <HBox alignment="CENTER" styleClass="body" stylesheets="@../styles/home_style.css" VBox.vgrow="ALWAYS" />
                   <Label fx:id="welcomeTxt" text="Welcome back, User!" textFill="#012d5a">
                      <font>
-                        <Font size="24.0" />
+                        <Font size="26.0" />
                      </font>
                   </Label>
                   <Text fx:id="newMessageTxt" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="You have X new messages:" VBox.vgrow="ALWAYS">
                      <VBox.margin>
                         <Insets bottom="-10.0" top="-10.0" />
                      </VBox.margin>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
                   </Text>
                   <MFXScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="150.0" style="-fx-background-color: #F4F4F4;">
                      <content>
@@ -38,6 +41,9 @@
                            </padding>
                         </VBox>
                      </content>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
                   </MFXScrollPane>
                </children>
             </VBox>

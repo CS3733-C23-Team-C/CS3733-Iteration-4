@@ -50,7 +50,7 @@ public class HomeController {
     }
     keyList.sort(null);
     showMessages();
-    newMessageTxt.setText("You Have " + newMessageCount + " New Messages:");
+    newMessageTxt.setText("You have " + newMessageCount + " new messages:");
 
     //    submit.setOnMouseClicked(event -> {});
   }
