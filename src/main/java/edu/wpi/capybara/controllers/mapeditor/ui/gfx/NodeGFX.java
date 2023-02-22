@@ -18,28 +18,27 @@ public class NodeGFX extends GFXBase {
 
   public NodeGFX(
       NodeEntity node, ObservableBooleanValue showLabel, ObservableValue<Floor> shownFloor) {
-    getStyleClass().addAll("selectable", STYLE_CLASS);
-
     circle = new Circle(RADIUS);
     label = new Label();
 
-    circle.centerXProperty().bind(node.xcoordProperty());
-    circle.centerYProperty().bind(node.ycoordProperty());
+    translateXProperty().bind(node.xcoordProperty());
+    translateYProperty().bind(node.ycoordProperty());
 
     label.setLabelFor(circle);
     label.textProperty().bind(node.nodeIDProperty());
     label.visibleProperty().bind(showLabel);
+    label.managedProperty().bind(showLabel);
 
-    label.layoutXProperty().bind(circle.centerXProperty());
-    label.layoutYProperty().bind(circle.centerYProperty());
     label.setTranslateX(RADIUS);
 
     getChildren().addAll(circle, label);
-    visibleProperty()
-        .bind(
-            Bindings.createBooleanBinding(
-                () -> shownFloor.getValue().equals(node.getFloor()), shownFloor));
 
-    getChildren().forEach(child -> child.getStyleClass().addAll(getStyleClass()));
+    final var shouldShow =
+        Bindings.createBooleanBinding(
+            () -> shownFloor.getValue().equals(node.getFloor()), shownFloor);
+    visibleProperty().bind(shouldShow);
+    managedProperty().bind(shouldShow);
+
+    getChildren().forEach(child -> child.getStyleClass().addAll("selectable", STYLE_CLASS));
   }
 }

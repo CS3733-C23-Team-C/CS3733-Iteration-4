@@ -131,7 +131,11 @@ public class MapEditorMapView {
   }
 
   public void addElement(Element element) {
-    viewPane.getChildren().add(element.getNode());
+    if (element instanceof EdgeElement) {
+      viewPane.getChildren().add(5, element.getNode());
+    } else {
+      viewPane.getChildren().add(element.getNode());
+    }
   }
 
   public void removeElement(Element element) {

@@ -2,9 +2,9 @@ package edu.wpi.capybara.controllers.mapeditor.ui.gfx;
 
 import edu.wpi.capybara.controllers.mapeditor.ui.Selectable;
 import javafx.css.PseudoClass;
-import javafx.scene.layout.Pane;
+import javafx.scene.Group;
 
-class GFXBase extends Pane implements Selectable {
+class GFXBase extends Group implements Selectable {
   // Graphics (GFX) objects are *only* concerned with the graphical representation of the entity
   // they represent.
   // they do not have *any* logic for modifying the entity. that job belongs to the controller.
