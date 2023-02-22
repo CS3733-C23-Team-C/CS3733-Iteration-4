@@ -6,7 +6,6 @@ import edu.wpi.capybara.objects.hibernate.*;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
-import io.github.palexdev.materialfx.utils.EnumStringConverter;
 import java.sql.Timestamp;
 import java.util.Map;
 import java.util.Objects;
@@ -17,6 +16,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 
@@ -113,8 +113,7 @@ public class AssignedRequestController {
 
     cleanStatus.setCellValueFactory(
         new PropertyValueFactory<CleaningsubmissionEntity, SubmissionStatus>("submissionstatus"));
-    cleanStatus.setCellFactory(
-        TextFieldTableCell.forTableColumn(new EnumStringConverter<>(SubmissionStatus.class)));
+    cleanStatus.setCellFactory(ComboBoxTableCell.forTableColumn(SubmissionStatus.values()));
     cleanStatus.setOnEditCommit(
         new EventHandler<TableColumn.CellEditEvent<CleaningsubmissionEntity, SubmissionStatus>>() {
           @Override
@@ -178,7 +177,7 @@ public class AssignedRequestController {
     transportationStatus.setCellValueFactory(
         new PropertyValueFactory<TransportationsubmissionEntity, SubmissionStatus>("status"));
     transportationStatus.setCellFactory(
-        TextFieldTableCell.forTableColumn(new EnumStringConverter<>(SubmissionStatus.class)));
+        ComboBoxTableCell.forTableColumn(SubmissionStatus.values()));
     transportationStatus.setOnEditCommit(
         new EventHandler<
             TableColumn.CellEditEvent<TransportationsubmissionEntity, SubmissionStatus>>() {
@@ -233,8 +232,7 @@ public class AssignedRequestController {
     type.setCellFactory(TextFieldTableCell.forTableColumn());
     securityStatus.setCellValueFactory(
         new PropertyValueFactory<SecuritysubmissionEntity, SubmissionStatus>("submissionstatus"));
-    securityStatus.setCellFactory(
-        TextFieldTableCell.forTableColumn(new EnumStringConverter<>(SubmissionStatus.class)));
+    securityStatus.setCellFactory(ComboBoxTableCell.forTableColumn(SubmissionStatus.values()));
     securityStatus.setOnEditCommit(
         new EventHandler<TableColumn.CellEditEvent<SecuritysubmissionEntity, SubmissionStatus>>() {
           @Override
@@ -292,8 +290,7 @@ public class AssignedRequestController {
     audioDescription.setCellFactory(TextFieldTableCell.forTableColumn());
     audioStatus.setCellValueFactory(
         new PropertyValueFactory<AudiosubmissionEntity, SubmissionStatus>("submissionstatus"));
-    audioStatus.setCellFactory(
-        TextFieldTableCell.forTableColumn(new EnumStringConverter<>(SubmissionStatus.class)));
+    audioStatus.setCellFactory(ComboBoxTableCell.forTableColumn(SubmissionStatus.values()));
     audioStatus.setOnEditCommit(
         new EventHandler<TableColumn.CellEditEvent<AudiosubmissionEntity, SubmissionStatus>>() {
           @Override
@@ -349,8 +346,7 @@ public class AssignedRequestController {
     computerDescription.setCellFactory(TextFieldTableCell.forTableColumn());
     computerStatus.setCellValueFactory(
         new PropertyValueFactory<ComputersubmissionEntity, SubmissionStatus>("submissionstatus"));
-    computerStatus.setCellFactory(
-        TextFieldTableCell.forTableColumn(new EnumStringConverter<>(SubmissionStatus.class)));
+    computerStatus.setCellFactory(ComboBoxTableCell.forTableColumn(SubmissionStatus.values()));
     computerStatus.setOnEditCommit(
         new EventHandler<TableColumn.CellEditEvent<ComputersubmissionEntity, SubmissionStatus>>() {
           @Override
