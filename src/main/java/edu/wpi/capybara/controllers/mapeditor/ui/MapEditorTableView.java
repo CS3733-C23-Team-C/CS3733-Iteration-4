@@ -161,6 +161,8 @@ public class MapEditorTableView {
     //        }
     //      }
     //    });
+
+    nodeTableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
   }
 
   private void initializeEdgeTable() {
@@ -175,6 +177,7 @@ public class MapEditorTableView {
 
     edgeTableView.visibleProperty().bind(edgeToggle.selectedProperty());
     edgeTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    edgeTableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
   }
 
   public static class NodeConverter extends StringConverter<NodeEntity> {
@@ -208,6 +211,7 @@ public class MapEditorTableView {
 
     locationNameTableView.visibleProperty().bind(locationToggle.selectedProperty());
     locationNameTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    locationNameTableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
   }
 
   private void initializeMoveTable() {
@@ -224,6 +228,7 @@ public class MapEditorTableView {
 
     moveTableView.visibleProperty().bind(moveToggle.selectedProperty());
     moveTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+    moveTableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
   }
 
   private static class LocationNameConverter extends StringConverter<LocationnameEntity> {

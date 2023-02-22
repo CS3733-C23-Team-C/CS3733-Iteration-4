@@ -197,7 +197,7 @@ public class MapEditorController {
         MouseEvent.MOUSE_RELEASED,
         event -> {
           if (moveState == MoveState.DRAG) {
-            // repairID(editingNode.getInRepo());
+            repairID(editingNode.getInRepo());
             moveState = MoveState.CLICK;
             event.consume();
           } else {
@@ -237,32 +237,67 @@ public class MapEditorController {
   }
 
   public static void repairID(NodeEntity node) {
-    // this was way simpler than I thought it was going to be.
-    // this works because setting the node id triggers a DB merge after the change, thus creating a
-    // new node in the
-    // DB and updating all references to it. this leaves behind the old node, which can be deleted
-    // without any foreign
-    // key issues.
-    var prevID = node.getNodeID();
-    node.setNodeID(
-        String.format("%sX%dY%d", node.getFloor().toString(), node.getXcoord(), node.getYcoord()));
-    Platform.runLater(() -> Main.getRepo().deleteNode(prevID));
+    var newNode =
+        new NodeEntity(
+            String.format(
+                "%sX%dY%d", node.getFloor().toString(), node.getXcoord(), node.getYcoord()),
+            node.getXcoord(),
+            node.getYcoord(),
+            node.getFloor().toString(),
+            node.getBuilding());
+    Main.getRepo().addNode(newNode);
+
+    final var n1Edges =
+        Main.getRepo().getEdges().stream()
+            .filter(edge -> edge.getNode1().equals(node))
+            .collect(Collectors.toSet());
+    final var n2Edges =
+        Main.getRepo().getEdges().stream()
+            .filter(edge -> edge.getNode2().equals(node))
+            .collect(Collectors.toSet());
     final var moves =
         Main.getRepo().getMoves().stream()
             .filter(move -> move.getNode().equals(node))
             .collect(Collectors.toSet());
+
+    n1Edges.forEach(edge -> edge.setNode1(newNode));
+    n2Edges.forEach(edge -> edge.setNode2(newNode));
+    moves.forEach(move -> move.setNode(newNode));
+
+    Main.getRepo().deleteNode(node);
   }
 
   private void repairEdgesAndDelete(NodeEntity node) {
+    final var hasMoves =
+        Main.getRepo().getMoves().stream().anyMatch(move -> move.getNode().equals(node));
+    if (hasMoves) {
+      final var alert =
+          new Alert(
+              Alert.AlertType.CONFIRMATION,
+              "This node has moves associated with it. If you continue, they will be deleted as well.",
+              ButtonType.OK,
+              ButtonType.CANCEL);
+      final var button = alert.showAndWait();
+      if (button.isEmpty() || !button.get().equals(ButtonType.OK)) return;
+
+      final var moves =
+          Main.getRepo().getMoves().stream()
+              .filter(move -> move.getNode().equals(node))
+              .collect(Collectors.toSet());
+      moves.forEach(Main.getRepo()::deleteMove);
+    }
+
     final var edges = node.getEdges();
 
     // find all nodes connected to this node. all nodes in this set are reachable from any other
     // node in the set.
     final var nodes = new HashSet<NodeEntity>();
-    for (EdgeEntity edge : edges) {
-      nodes.add(edge.getNode1());
-      nodes.add(edge.getNode2());
-    }
+
+    edges.forEach(
+        edge -> {
+          nodes.add(edge.getNode1());
+          nodes.add(edge.getNode2());
+        });
 
     // remove the deleted node, as we don't want to create edges to it.
     nodes.remove(node);
