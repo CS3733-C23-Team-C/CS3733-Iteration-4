@@ -30,7 +30,7 @@ public abstract class ServiceRequestAbs {
   @FXML protected MFXButton clearButton;
   @FXML protected MFXButton submitButton;
   @FXML protected Text submissionReceived;
-  @FXML protected Text missingFields;
+  @FXML protected Text dateError;
   protected ISubmission submission; // sets submission type
 
   @FXML
@@ -64,13 +64,10 @@ public abstract class ServiceRequestAbs {
         new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent event) {
-            if (submitButton.isDisabled()) missingFields.setVisible(true);
-            else {
-              newSubmission();
-              clearFields();
-              missingFields.setVisible(false);
-              submissionReceived.setVisible(true);
-            }
+            newSubmission();
+            clearFields();
+            dateError.setVisible(false);
+            submissionReceived.setVisible(true);
           }
         });
 
@@ -142,7 +139,11 @@ public abstract class ServiceRequestAbs {
         new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent event) {
-            validateButton();
+            java.util.Date someDate = new java.util.Date();
+            Date currDate = new java.sql.Date(someDate.getTime());
+            dateError.setVisible(false);
+            if (currDate.compareTo(Date.valueOf(date.getValue())) > 0) dateError.setVisible(true);
+            else validateButton();
           }
         });
 
@@ -172,11 +173,9 @@ public abstract class ServiceRequestAbs {
         && Location.getValue() != null
         && requestSpecific.getValue() != null
         && emergencyLevel.getValue() != null
-        && date.getValue() != null
-        && !notes.getText().equals("")) valid = true;
+        && date.getValue() != null) valid = true;
     submitButton.setDisable(!valid);
     submissionReceived.setVisible(false);
-    missingFields.setVisible(false);
   }
 
   public void newSubmission() {
