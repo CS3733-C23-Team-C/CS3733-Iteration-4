@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import lombok.Getter;
 
 public class HomeController {
 
@@ -21,12 +22,13 @@ public class HomeController {
   @FXML private Text newMessageTxt;
   @FXML private MFXScrollPane scrollPane;
   @FXML private VBox vbox;
+  @Getter static int unreadMessagesCount;
 
   final String SECRET_PASSWORD = "team coaching";
 
   private Map<Integer, MessagesEntity> messages;
 
-  private MessageBox messageBox = new MessageBox();
+  @Getter private MessageBox messageBox = new MessageBox();
 
   private ArrayList<Integer> keyList = new ArrayList<>();
 
@@ -47,7 +49,7 @@ public class HomeController {
     keyList.sort(null);
     showMessages();
     newMessageTxt.setText("You Have " + messageBox.getUnreadMessages() + " New Messages:");
-    if (messageBox.getUnreadMessages() == 0) MenuController.messageNotiOff();
+    unreadMessagesCount = messageBox.getUnreadMessages();
 
     //    submit.setOnMouseClicked(event -> {});
   }

@@ -48,8 +48,8 @@ public class MenuController {
 
     employeeEditButton.managedProperty().bind(employeeEditButton.visibleProperty());
     employeeEditButton.setVisible(App.getUser().getRole().equals("admin"));
-    newMessageCircle.setVisible(true);
     sNewMessageCircle = newMessageCircle;
+    if (MenuController.getSelectedHomeMessage() != 0) MenuController.messageNotiOn();
   }
 
   public void goToHome(ActionEvent actionEvent) {
