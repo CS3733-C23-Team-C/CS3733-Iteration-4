@@ -40,7 +40,7 @@ public class PathfindingSearchDialogController {
   private ObservableList<String> requestTypes;
   private PFPlace foundNode;
   private static PathfindingController controller;
-  private static Stage dialog;
+  public static Stage dialog;
 
   public static void showDialog(PathfindingController pcontroller) {
     controller = pcontroller;
