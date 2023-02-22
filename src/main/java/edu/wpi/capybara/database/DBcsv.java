@@ -199,7 +199,7 @@ public class DBcsv {
     csv2DB(audioBody, new AudiosubmissionEntity.Importer()).forEach(Main.db::addAudio);
   }
 
-  public static void exportDatabase() throws IOException, CsvException {
+  public static void exportDatabase(String path) throws IOException, CsvException {
 
     DateTimeFormatter dtfDate = DateTimeFormatter.ofPattern("uuuuMMdd");
     LocalDate localDate = LocalDate.now();
@@ -207,7 +207,7 @@ public class DBcsv {
     LocalTime localTime = LocalTime.now();
     String currDate = dtfDate.format(localDate);
     String currTime = dtfTime.format(localTime);
-    String currPath = System.getProperty("user.dir") + "\\";
+    String currPath = path + "\\";
     String folder = currPath + "database_backup_" + currDate + "_" + currTime;
     new File(folder).mkdirs();
 
@@ -272,15 +272,18 @@ public class DBcsv {
 
   public static void main(String[] args) throws IOException, CsvException, ParseException {
 
-    Main.setOrm(new DAOService());
-    Main.setRepo(new DatabaseService(Main.getOrm()));
-    Main.db = new RepoFacadeAdapter(Main.getRepo());
-    importAlldbcsv();
+    /*
+       Main.setOrm(new DAOService());
+       Main.setRepo(new DatabaseService(Main.getOrm()));
+       Main.db = new RepoFacadeAdapter(Main.getRepo());
+       importAlldbcsv();
 
-    String backup_folder =
-        "C:\\Users\\aidan\\Desktop\\CS3733-Iteration-3\\database_backup_20230221_150910";
+       String backup_folder =
+           "C:\\Users\\aidan\\Desktop\\CS3733-Iteration-3\\database_backup_20230220_201715";
 
-    // exportDatabase();
-    importDatabase(backup_folder);
+       // exportDatabase();
+       importDatabase(backup_folder);
+
+    */
   }
 }

@@ -61,7 +61,7 @@ public class EdgeEntity implements Persistent, CSVExportable {
 
   @Id
   @ManyToOne
-  @JoinColumn(name = "node1")
+  @JoinColumn(name = "node1", insertable = false)
   public NodeEntity getNode1() {
     return node1.get();
   }
@@ -76,7 +76,7 @@ public class EdgeEntity implements Persistent, CSVExportable {
 
   @Id
   @ManyToOne
-  @JoinColumn(name = "node2")
+  @JoinColumn(name = "node2", insertable = false)
   public NodeEntity getNode2() {
     return node2.get();
   }
@@ -121,7 +121,7 @@ public class EdgeEntity implements Persistent, CSVExportable {
       String node1 = csv[0];
       String node2 = csv[1];
 
-      return new EdgeEntity(node1, node2);
+      return new EdgeEntity(Main.db.getNode(node1), Main.db.getNode(node2));
     }
   }
 }
