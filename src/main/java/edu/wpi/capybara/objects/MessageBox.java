@@ -1,7 +1,6 @@
 package edu.wpi.capybara.objects;
 
 import edu.wpi.capybara.Main;
-import edu.wpi.capybara.controllers.HomeController;
 import edu.wpi.capybara.controllers.MenuController;
 import edu.wpi.capybara.controllers.MessagesController;
 import edu.wpi.capybara.navigation.Navigation;
@@ -20,8 +19,12 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import lombok.Getter;
+import lombok.Setter;
 
 public class MessageBox {
+
+  @Getter @Setter private int unreadMessages = 0;
 
   public MessageBox() {}
 
@@ -30,6 +33,7 @@ public class MessageBox {
     newMessage.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
     newMessage.setId(Integer.toString(message.getMessageid()));
     newMessage.getStyleClass().add("unread");
+    unreadMessages++;
     newMessage.getStylesheets().add("edu/wpi/capybara/styles/message.css");
     newMessage.setOnMouseClicked(
         new EventHandler<MouseEvent>() {
@@ -66,8 +70,12 @@ public class MessageBox {
     VBox newMessage = new VBox();
     newMessage.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
     newMessage.setId(Integer.toString(message.getMessageid()));
-    if (message.getRead()) newMessage.getStyleClass().add("read");
-    else newMessage.getStyleClass().add("unread");
+    if (message.getRead()) {
+      newMessage.getStyleClass().add("read");
+    } else {
+      newMessage.getStyleClass().add("unread");
+      unreadMessages++;
+    }
     newMessage.getStylesheets().add("edu/wpi/capybara/styles/message.css");
     newMessage.setOnMouseClicked(
         new EventHandler<MouseEvent>() {
@@ -75,8 +83,7 @@ public class MessageBox {
           public void handle(MouseEvent event) {
             if (!message.getRead()) {
               message.setRead(true);
-              HomeController.setNewMessageCount(HomeController.getNewMessageCount() - 1);
-              MenuController.updateMessageNotif();
+              unreadMessages--;
             }
             newMessage.getStyleClass().clear();
             newMessage.getStyleClass().add("selected");
@@ -90,8 +97,9 @@ public class MessageBox {
     Text fromText = new Text();
     fromText.setFont(Font.font(16));
     StaffEntity sender = Main.db.getStaff(message.getSenderid());
-    if (sender.equals("SYSTEM")) fromText.setText("");
-    else {
+    if (sender.getStaffid().equals("SYSTEM")) {
+      fromText.setText("From: Service Request System");
+    } else {
       String firstName = sender.getFirstname();
       String lastName = sender.getLastname();
       fromText.setText("From: " + firstName + " " + lastName);
