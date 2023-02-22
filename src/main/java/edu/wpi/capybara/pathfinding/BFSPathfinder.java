@@ -104,4 +104,5 @@ public class BFSPathfinder implements PathfindingAlgorithm {
       return path;
     }
   }
+
 }
