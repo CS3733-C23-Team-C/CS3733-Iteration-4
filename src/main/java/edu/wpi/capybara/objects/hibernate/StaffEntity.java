@@ -6,12 +6,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+
 import java.util.Objects;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;
 
 @Entity
 @Table(name = "staff", schema = "cdb", catalog = "teamcdb")
+
 public class StaffEntity implements Persistent {
   private final SimpleStringProperty staffid = new SimpleStringProperty();
   private final SimpleStringProperty firstname = new SimpleStringProperty();
@@ -19,6 +21,7 @@ public class StaffEntity implements Persistent {
   private final SimpleStringProperty password = new SimpleStringProperty();
   private final SimpleStringProperty role = new SimpleStringProperty();
   private final SimpleStringProperty notes = new SimpleStringProperty();
+
 
   public StaffEntity() {}
 
@@ -142,5 +145,27 @@ public class StaffEntity implements Persistent {
 
   public void setNotes(String notes) {
     this.notes.set(notes);
+  }
+
+  @Override
+  public String[] toCSV() {
+    return new String[] {
+      getStaffid(), getFirstname(), getLastname(), getRole(), getPassword(), getNotes()
+    };
+  }
+
+  public static class Importer implements CSVImporter<StaffEntity> {
+    @Override
+    public StaffEntity fromCSV(String[] csv) {
+
+      String staffid = csv[0];
+      String firstname = csv[1];
+      String lastname = csv[2];
+      String role = csv[3];
+      String password = csv[4];
+      // String notes = csv[5];
+
+      return new StaffEntity(staffid, firstname, lastname, role, password);
+    }
   }
 }

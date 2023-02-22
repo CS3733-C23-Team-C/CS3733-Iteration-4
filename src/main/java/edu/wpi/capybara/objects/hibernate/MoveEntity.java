@@ -1,11 +1,15 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import edu.wpi.capybara.objects.orm.Persistent;
+
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleObjectProperty;
@@ -15,12 +19,14 @@ import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "move", schema = "cdb", catalog = "teamcdb")
+
 @IdClass(MoveEntity.PK.class)
 public class MoveEntity implements Persistent {
   public static class PK implements Serializable {
     @Getter @Setter private NodeEntity node;
     @Getter @Setter private LocationnameEntity location;
     @Getter @Setter private Date movedate;
+
 
     @Override
     public int hashCode() {
@@ -136,5 +142,31 @@ public class MoveEntity implements Persistent {
   @Override
   public int hashCode() {
     return Objects.hash(getNode(), getLocation(), getLongName());
+  }
+
+  @Override
+  public String[] toCSV() {
+    return new String[] {getNodeid(), getLongname(), getMovedate().toString()};
+  }
+
+  public static class Importer implements CSVImporter<MoveEntity> {
+    @Override
+    public MoveEntity fromCSV(String[] csv) {
+
+      String nodeid = csv[0];
+      String longname = csv[1];
+
+      java.sql.Date movedate;
+      try {
+        String startDate = csv[2];
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date date = sdf1.parse(startDate);
+        movedate = new Date(date.getTime());
+      } catch (ParseException e) {
+        throw new IllegalArgumentException(e);
+      }
+
+      return new MoveEntity(nodeid, longname, movedate);
+    }
   }
 }

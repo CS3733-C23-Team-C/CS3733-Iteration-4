@@ -1,7 +1,9 @@
 package edu.wpi.capybara.objects.hibernate;
 
+
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import edu.wpi.capybara.objects.orm.Persistent;
+
 import jakarta.persistence.*;
 import java.util.Objects;
 import javafx.beans.InvalidationListener;
@@ -9,6 +11,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 @Entity
 @Table(name = "locationname", schema = "cdb", catalog = "teamcdb")
+
 public class LocationnameEntity implements Persistent {
 
   private final SimpleStringProperty longname = new SimpleStringProperty();
@@ -90,5 +93,22 @@ public class LocationnameEntity implements Persistent {
   @Override
   public int hashCode() {
     return Objects.hash(getLongname(), getShortname(), getLocationtype());
+  }
+
+  @Override
+  public String[] toCSV() {
+    return new String[] {getLongname(), getShortname(), getLocationtype()};
+  }
+
+  public static class Importer implements CSVImporter<LocationnameEntity> {
+    @Override
+    public LocationnameEntity fromCSV(String[] csv) {
+
+      String longname = csv[0];
+      String shortname = csv[1];
+      String locationtype = csv[2];
+
+      return new LocationnameEntity(longname, shortname, locationtype);
+    }
   }
 }

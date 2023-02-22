@@ -3,6 +3,7 @@ package edu.wpi.capybara.objects.hibernate;
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import edu.wpi.capybara.objects.orm.Persistent;
+
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -105,5 +106,21 @@ public class EdgeEntity implements Persistent {
   @Override
   public int hashCode() {
     return Objects.hash(getNode1(), getNode2());
+  }
+
+  @Override
+  public String[] toCSV() {
+    return new String[] {getNode1(), getNode2()};
+  }
+
+  public static class Importer implements CSVImporter<EdgeEntity> {
+    @Override
+    public EdgeEntity fromCSV(String[] csv) {
+
+      String node1 = csv[0];
+      String node2 = csv[1];
+
+      return new EdgeEntity(node1, node2);
+    }
   }
 }
