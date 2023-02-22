@@ -45,6 +45,11 @@ public class DatabaseImportDialogController {
     System.out.println("INITIALIZED");
     importData.setOnAction(this::importDataFunc);
     exportData.setOnAction(this::exportDataFunc);
+
+    folderText.textProperty().addListener((observable, oldValue, newValue) -> validate());
+
+    importData.setDisable(true);
+    exportData.setDisable(true);
   }
 
   public void importDataFunc(ActionEvent event) {
@@ -62,6 +67,20 @@ public class DatabaseImportDialogController {
       exportDatabase();
     } catch (Exception e) {
       errorText.setText("Unable to export data");
+    }
+  }
+
+  public void onFileSelect() {
+    // todo add file select
+  }
+
+  public void validate() {
+    if (folderText.getText() == null || folderText.getText().equals("")) {
+      importData.setDisable(true);
+      exportData.setDisable(true);
+    } else {
+      importData.setDisable(false);
+      exportData.setDisable(false);
     }
   }
 }

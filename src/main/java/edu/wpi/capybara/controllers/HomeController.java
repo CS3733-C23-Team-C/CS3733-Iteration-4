@@ -48,6 +48,7 @@ public class HomeController {
     }
     keyList.sort(null);
     showMessages();
+
     newMessageTxt.setText("You Have " + messageBox.getUnreadMessages() + " New Messages:");
     unreadMessagesCount = messageBox.getUnreadMessages();
 
