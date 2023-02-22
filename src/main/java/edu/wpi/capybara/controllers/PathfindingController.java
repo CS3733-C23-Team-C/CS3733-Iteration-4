@@ -223,8 +223,11 @@ public class PathfindingController {
   }
 
   public PFPlace getPFPlace(NodeEntity node) {
+    if (node == null) return null;
     for (PFPlace location : pfLocations) {
-      if (location.getNode(getMoveDate()).equals(node)) return location;
+      NodeEntity foundNode = location.getNode(getMoveDate());
+      if (foundNode == null) continue;
+      if (foundNode.equals(node)) return location;
     }
     return new PFNode(node);
   }
@@ -313,6 +316,7 @@ public class PathfindingController {
   }
 
   public Date getMoveDate() {
+    //System.out.println(test);
     return Date.valueOf(dateField.getValue());
   }
 
