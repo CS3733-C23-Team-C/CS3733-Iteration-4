@@ -71,7 +71,7 @@ public class DatabaseImportDialogController {
   }
 
   public void onFileSelect() {
-    //todo add file select
+    // todo add file select
   }
 
   public void validate() {

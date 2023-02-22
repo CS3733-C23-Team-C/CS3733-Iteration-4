@@ -50,7 +50,6 @@ public class HomeController {
     newMessageTxt.setText("You Have " + messageBox.getUnreadMessages() + " New Messages:");
     if (messageBox.getUnreadMessages() == 0) MenuController.messageNotiOff();
 
-
     //    submit.setOnMouseClicked(event -> {});
   }
 
