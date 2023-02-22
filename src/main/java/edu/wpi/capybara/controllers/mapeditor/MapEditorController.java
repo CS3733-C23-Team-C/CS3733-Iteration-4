@@ -16,7 +16,6 @@ import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
@@ -213,16 +212,17 @@ public class MapEditorController {
     // I'm not entirely sure why this works, but it seems to be related to some interaction between
     // the Hibernate
     // threads and the JavaFX Application thread
-    Platform.runLater(
-        () -> {
-          final var converter = new MapEditorTableView.NodeConverter();
-          for (EdgeEntity edge : Main.getRepo().getEdges()) {
-            String str = converter.toString(edge.node1Property().get());
-            edge.node1Property().set(converter.fromString(str));
-            str = converter.toString(edge.node2Property().get());
-            edge.node2Property().set(converter.fromString(str));
-          }
-        });
+    new Thread(
+            () -> {
+              final var converter = new MapEditorTableView.NodeConverter();
+              for (EdgeEntity edge : Main.getRepo().getEdges()) {
+                String str = converter.toString(edge.node1Property().get());
+                edge.node1Property().set(converter.fromString(str));
+                str = converter.toString(edge.node2Property().get());
+                edge.node2Property().set(converter.fromString(str));
+              }
+            })
+        .start();
   }
 
   private enum MoveState {

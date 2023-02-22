@@ -1,6 +1,5 @@
 package edu.wpi.capybara.controllers.mapeditor.ui.gfx;
 
-import edu.wpi.capybara.Main;
 import edu.wpi.capybara.objects.Floor;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import javafx.beans.binding.Bindings;
