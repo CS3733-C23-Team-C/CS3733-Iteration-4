@@ -36,12 +36,16 @@
                   </Text>
                   <HBox prefHeight="10.0" prefWidth="200.0" />
                   <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;" />
-                  <HBox prefHeight="20.0" prefWidth="200.0" />
+                  <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter Information for Required Fields Marked With *">
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                  </Text>
                   <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
                      <children>
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
-                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Assigned Employee ID">
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Assigned Employee ID *">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -61,7 +65,7 @@
                      <children>
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
-                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Location">
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Location *">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -75,7 +79,7 @@
                         </VBox>
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
-                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Destination Location">
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Destination Location *">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -96,7 +100,7 @@
                      <children>
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
-                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Emergency Level">
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Emergency Level *">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -110,7 +114,7 @@
                         </VBox>
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
-                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Move Date">
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Due Date *">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -150,7 +154,7 @@
                      <children>
                         <StackPane prefHeight="100.0" prefWidth="319.0">
                            <children>
-                              <Text fx:id="missingFields" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter all information before submitting" visible="false">
+                              <Text fx:id="dateError" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Due date must be current or future date" visible="false">
                                  <font>
                                     <Font size="24.0" />
                                  </font></Text>

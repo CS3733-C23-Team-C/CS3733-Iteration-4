@@ -33,7 +33,7 @@ public class PathfindingDialogController {
   @FXML private MFXTextField mapText;
   private static PathfindingController controller;
   private ObservableList<PFPlace> items;
-  private static Stage dialog;
+  public static Stage dialog;
 
   public static void showDialog(PathfindingController pcontroller) {
     controller = pcontroller;

@@ -1,6 +1,6 @@
 package edu.wpi.capybara.controllers;
 
-import edu.wpi.capybara.database.newDBConnect;
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.navigation.Navigation;
 import edu.wpi.capybara.navigation.Screen;
 import edu.wpi.capybara.objects.hibernate.StaffEntity;
@@ -8,9 +8,11 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
+import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 
 public class SignUpPageController {
@@ -27,8 +29,6 @@ public class SignUpPageController {
   @FXML private Text errorTxt;
   @FXML private Text newUserTxt;
 
-  private newDBConnect dbConnect;
-
   public void clearFields() {
     staffID.clear();
     firstName.clear();
@@ -40,8 +40,6 @@ public class SignUpPageController {
 
   @FXML
   public void initialize() {
-    dbConnect = new newDBConnect();
-    dbConnect.importAll();
     System.out.println("I am from the Sign Up Page!");
   }
 
@@ -64,18 +62,14 @@ public class SignUpPageController {
         System.out.println("This is the new last name " + outputLastname);
         System.out.println("This is the new password " + outputPassword);
 
-        s = dbConnect.getStaff2(outputFirstname, outputLastname);
+        s = Main.db.getStaff2(outputFirstname, outputLastname);
 
         // if username and password are new
         if (s == null) {
 
-          /*
-          Main.db.addStaff(new StaffEntity(
-                  outputStaffID,
-                  outputFirstname,
-                  outputLastname,
-                  "staff",
-                  outputPassword)); */
+          Main.db.addStaff(
+              new StaffEntity(
+                  outputStaffID, outputFirstname, outputLastname, "staff", outputPassword));
 
           errorTxt.setText("");
           backButton.setDisable(true);
@@ -98,7 +92,7 @@ public class SignUpPageController {
           // if username and password are already in the system
           // App.setUser(s);
 
-          s = dbConnect.getStaff(outputStaffID);
+          s = Main.db.getStaff(outputStaffID);
           errorTxt.setText(((s == null) ? "User" : "Staff ID") + " already exists");
         }
       }
@@ -112,13 +106,14 @@ public class SignUpPageController {
   }
 
   public void enableSignUp(KeyEvent keyEvent) {
-    if (firstName.getText() != ""
-        && lastName.getText() != ""
-        && password.getText() != ""
-        && confirmPassword.getText() != "") signUpButton.setDisable(false);
+    signUpButton.setDisable(
+        Objects.equals(firstName.getText(), "")
+            || Objects.equals(lastName.getText(), "")
+            || Objects.equals(password.getText(), "")
+            || Objects.equals(confirmPassword.getText(), ""));
   }
 
-  public void back(ActionEvent actionEvent) {
+  public void backToLogin(MouseEvent mouseEvent) {
     Navigation.navigate(Screen.LOG_IN_PAGE);
   }
 

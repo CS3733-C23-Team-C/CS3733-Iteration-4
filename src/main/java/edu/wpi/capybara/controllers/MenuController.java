@@ -48,8 +48,8 @@ public class MenuController {
 
     employeeEditButton.managedProperty().bind(employeeEditButton.visibleProperty());
     employeeEditButton.setVisible(App.getUser().getRole().equals("admin"));
-    if (HomeController.getNewMessageCount() > 0) newMessageCircle.setVisible(true);
     sNewMessageCircle = newMessageCircle;
+    if (MenuController.getSelectedHomeMessage() != 0) MenuController.messageNotiOn();
   }
 
   public void goToHome(ActionEvent actionEvent) {
@@ -116,8 +116,11 @@ public class MenuController {
     Navigation.navigate(Screen.ABOUT_PAGE);
   }
 
-  public static void updateMessageNotif() {
-    if (HomeController.getNewMessageCount() > 0) sNewMessageCircle.setVisible(true);
-    else sNewMessageCircle.setVisible(false);
+  public static void messageNotiOn() {
+    sNewMessageCircle.setVisible(true);
+  }
+
+  public static void messageNotiOff() {
+    sNewMessageCircle.setVisible(false);
   }
 }

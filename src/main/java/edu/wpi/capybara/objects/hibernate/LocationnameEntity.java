@@ -1,5 +1,7 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.database.CSVExportable;
+import edu.wpi.capybara.database.CSVImporter;
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import edu.wpi.capybara.objects.orm.Persistent;
 import jakarta.persistence.*;
@@ -9,7 +11,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 @Entity
 @Table(name = "locationname", schema = "cdb", catalog = "teamcdb")
-public class LocationnameEntity implements Persistent {
+public class LocationnameEntity implements Persistent, CSVExportable {
 
   private final SimpleStringProperty longname = new SimpleStringProperty();
   private final SimpleStringProperty shortname = new SimpleStringProperty();
@@ -90,5 +92,22 @@ public class LocationnameEntity implements Persistent {
   @Override
   public int hashCode() {
     return Objects.hash(getLongname(), getShortname(), getLocationtype());
+  }
+
+  @Override
+  public String[] toCSV() {
+    return new String[] {getLongname(), getShortname(), getLocationtype()};
+  }
+
+  public static class Importer implements CSVImporter<LocationnameEntity> {
+    @Override
+    public LocationnameEntity fromCSV(String[] csv) {
+
+      String longname = csv[0];
+      String shortname = csv[1];
+      String locationtype = csv[2];
+
+      return new LocationnameEntity(longname, shortname, locationtype);
+    }
   }
 }

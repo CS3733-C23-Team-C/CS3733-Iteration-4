@@ -1,11 +1,15 @@
 package edu.wpi.capybara.objects.hibernate;
 
+import edu.wpi.capybara.database.CSVExportable;
+import edu.wpi.capybara.database.CSVImporter;
 import edu.wpi.capybara.objects.SubmissionAbs;
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import edu.wpi.capybara.objects.orm.Persistent;
 import edu.wpi.capybara.objects.submissions.SubmissionStatus;
 import jakarta.persistence.*;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -14,7 +18,8 @@ import javafx.beans.property.SimpleStringProperty;
 
 @Entity
 @Table(name = "transportationsubmission", schema = "cdb", catalog = "teamcdb")
-public class TransportationsubmissionEntity extends SubmissionAbs implements Persistent {
+public class TransportationsubmissionEntity extends SubmissionAbs
+    implements Persistent, CSVExportable {
   private final SimpleStringProperty employeeid = new SimpleStringProperty();
   private final SimpleStringProperty currroomnum = new SimpleStringProperty();
   private final SimpleStringProperty destroomnum = new SimpleStringProperty();
@@ -244,5 +249,63 @@ public class TransportationsubmissionEntity extends SubmissionAbs implements Per
   @Override
   public String submissionType() {
     return "Security";
+  }
+
+  @Override
+  public String[] toCSV() {
+    return new String[] {
+      Integer.toString(getSubmissionid()),
+      getEmployeeid(),
+      getAssignedid(),
+      getCurrroomnum(),
+      getDestroomnum(),
+      getReason(),
+      getStatus().toString(),
+      getUrgency(),
+      getCreatedate().toString(),
+      getDuedate().toString()
+    };
+  }
+
+  public static class Importer implements CSVImporter<TransportationsubmissionEntity> {
+    @Override
+    public TransportationsubmissionEntity fromCSV(String[] csv) {
+      int submissionid = Integer.parseInt(csv[0]);
+      String employeeid = csv[1];
+      String assignedid = csv[2];
+      String currroomnum = csv[3];
+      String destroomnum = csv[4];
+      String reason = csv[5];
+      SubmissionStatus submissionstatus = SubmissionStatus.valueOf(csv[6]);
+      String urgency = csv[7];
+
+      java.sql.Date createdate;
+      java.sql.Date duedate;
+      try {
+        String startDate = csv[8];
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date date = sdf1.parse(startDate);
+        createdate = new Date(date.getTime());
+
+        String startDate2 = csv[9];
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date date2 = sdf2.parse(startDate2);
+        duedate = new Date(date2.getTime());
+      } catch (ParseException e) {
+        throw new IllegalArgumentException(e);
+      }
+
+      return new TransportationsubmissionEntity(
+          submissionid,
+          employeeid,
+          assignedid,
+          currroomnum,
+          destroomnum,
+          reason,
+          submissionstatus,
+          urgency,
+          createdate,
+          duedate);
+    }
   }
 }

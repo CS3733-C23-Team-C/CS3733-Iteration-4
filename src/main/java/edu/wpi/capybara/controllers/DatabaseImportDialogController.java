@@ -5,13 +5,16 @@ import static edu.wpi.capybara.database.DBcsv.*;
 import edu.wpi.capybara.App;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import java.io.File;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -45,23 +48,55 @@ public class DatabaseImportDialogController {
     System.out.println("INITIALIZED");
     importData.setOnAction(this::importDataFunc);
     exportData.setOnAction(this::exportDataFunc);
+
+    folderText.textProperty().addListener((observable, oldValue, newValue) -> validate());
+
+    importData.setDisable(true);
+    exportData.setDisable(true);
   }
 
   public void importDataFunc(ActionEvent event) {
     importAlldbcsv();
     try {
       importDatabase(folderText.getText());
+      errorText.setText("Import Success!");
+      errorText.setFill(Color.GREEN);
+      folderText.clear();
     } catch (Exception e) {
       errorText.setText("Unable to import data");
+      errorText.setFill(Color.RED);
     }
   }
 
   public void exportDataFunc(ActionEvent event) {
     try {
       importAlldbcsv();
-      exportDatabase();
+      exportDatabase(folderText.getText());
+      errorText.setText("Export Success!");
+      errorText.setFill(Color.GREEN);
+      folderText.clear();
     } catch (Exception e) {
       errorText.setText("Unable to export data");
+      errorText.setFill(Color.RED);
+    }
+  }
+
+  public void onFileSelect() {
+    DirectoryChooser chooser = new DirectoryChooser();
+    chooser.setTitle("JavaFX Projects");
+    File defaultDirectory = new File(System.getProperty("user.dir"));
+    chooser.setInitialDirectory(defaultDirectory);
+    File selectedDirectory = chooser.showDialog(folderText.getScene().getWindow());
+    if (selectedDirectory != null) folderText.setText(selectedDirectory.getAbsolutePath());
+  }
+
+  public void validate() {
+    if (folderText.getText() == null || folderText.getText().equals("")) {
+      importData.setDisable(true);
+      exportData.setDisable(true);
+    } else {
+      importData.setDisable(false);
+      exportData.setDisable(false);
     }
   }
 }

@@ -15,7 +15,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import lombok.Getter;
-import lombok.Setter;
 
 public class HomeController {
 
@@ -23,13 +22,13 @@ public class HomeController {
   @FXML private Text newMessageTxt;
   @FXML private MFXScrollPane scrollPane;
   @FXML private VBox vbox;
+  @Getter static int unreadMessagesCount;
 
   final String SECRET_PASSWORD = "team coaching";
 
   private Map<Integer, MessagesEntity> messages;
 
-  private MessageBox messageBox = new MessageBox();
-  @Getter @Setter private static int newMessageCount;
+  @Getter private MessageBox messageBox = new MessageBox();
 
   private ArrayList<Integer> keyList = new ArrayList<>();
 
@@ -42,7 +41,6 @@ public class HomeController {
       String text = "Welcome back, " + App.getUser().getFirstname() + "!";
       welcomeTxt.setText(text);
     }
-    newMessageCount = 0;
     messages = Main.db.getMessages(App.getUser().getStaffid());
 
     for (Integer key : messages.keySet()) {
@@ -50,7 +48,9 @@ public class HomeController {
     }
     keyList.sort(null);
     showMessages();
-    newMessageTxt.setText("You Have " + newMessageCount + " New Messages:");
+
+    newMessageTxt.setText("You have " + messageBox.getUnreadMessages() + " new messages:");
+    unreadMessagesCount = messageBox.getUnreadMessages();
 
     //    submit.setOnMouseClicked(event -> {});
   }
@@ -84,7 +84,6 @@ public class HomeController {
     for (int i = (keyList.size() - 1); i >= 0; i--) {
       MessagesEntity message = messages.get(keyList.get(i));
       if (!message.getRead()) {
-        newMessageCount++;
         HBox newMessage = messageBox.addHomeMessage(message);
         vbox.getChildren().add(newMessage);
       }

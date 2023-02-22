@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.*?>
-<?import io.github.palexdev.materialfx.controls.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<StackPane fx:id="LoginStackPane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.LogInPageController">
+<StackPane fx:id="LoginStackPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.capybara.controllers.LogInPageController">
     <children>
         <BorderPane fx:id="loginPane" prefHeight="400.0" prefWidth="600.0">
          <center>
@@ -56,21 +63,21 @@
                               <MFXPasswordField fx:id="password" onKeyReleased="#enableLogin" prefHeight="40.0" prefWidth="180.0" promptText="Password" style="-fx-background-color: transparent; -fx-border-color: #009CA6; -fx-border-width: 0px 0px 4px 0px;" />
                            </children>
                         </HBox>
-                        <Text fill="#7c7c7c" strokeType="OUTSIDE" strokeWidth="0.0" text="Forgot Password?" textAlignment="RIGHT" wrappingWidth="212.84375">
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </Text>
+                        <HBox alignment="TOP_CENTER" stylesheets="@../styles/hoverText.css" VBox.vgrow="NEVER">
+                           <children>
+                              <Text fill="#7c7c7c" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Forgot Password?" textAlignment="RIGHT" wrappingWidth="212.84375" />
+                           </children>
+                        </HBox>
                         <MFXButton fx:id="loginButton" defaultButton="true" disable="true" onAction="#login" prefHeight="40.0" prefWidth="130.0" style="-fx-background-color: #012D5A;" text="Login" textFill="WHITE">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </MFXButton>
                         <Text fx:id="errorTxt" fill="#da1a1a" strokeType="OUTSIDE" strokeWidth="0.0" />
-                        <HBox alignment="BOTTOM_CENTER" spacing="5.0" VBox.vgrow="ALWAYS">
+                        <HBox alignment="BOTTOM_CENTER" spacing="5.0" stylesheets="@../styles/hoverText.css" VBox.vgrow="ALWAYS">
                            <children>
                               <Text fill="#7c7c7c" strokeType="OUTSIDE" strokeWidth="0.0" text="New user?" />
-                              <Text fill="#009ca6" strokeType="OUTSIDE" strokeWidth="0.0" text="Signup" onMouseClicked="#signUp"/>
+                              <Text fill="#009ca6" onMouseClicked="#signUp" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Signup" />
                            </children>
                         </HBox>
                      </children>

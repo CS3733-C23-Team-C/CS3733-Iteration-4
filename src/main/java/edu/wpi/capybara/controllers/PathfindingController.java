@@ -7,10 +7,7 @@ import edu.wpi.capybara.objects.NodeCircle;
 import edu.wpi.capybara.objects.PFNode;
 import edu.wpi.capybara.objects.hibernate.LocationnameEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
-import edu.wpi.capybara.pathfinding.AstarPathfinder;
-import edu.wpi.capybara.pathfinding.BFSPathfinder;
-import edu.wpi.capybara.pathfinding.DFSPathfinder;
-import edu.wpi.capybara.pathfinding.PathfindingAlgorithm;
+import edu.wpi.capybara.pathfinding.*;
 import edu.wpi.capybara.pathfinding.costs.ElevatorCost;
 import edu.wpi.capybara.pathfinding.costs.LegDayCost;
 import edu.wpi.capybara.pathfinding.costs.PathfindingCost;
@@ -72,6 +69,7 @@ public class PathfindingController {
   /** Initialize controller by FXML Loader. */
   @FXML
   public void initialize() {
+    infoText.managedProperty().bind(infoText.visibleProperty());
     // log.info("start");
     dateField.setValue(LocalDate.now());
     stackPane.setPickOnBounds(true);
@@ -109,7 +107,8 @@ public class PathfindingController {
         FXCollections.observableArrayList(
             new AstarPathfinder(Main.db.getNodes(), Main.db.getEdges(), this),
             new DFSPathfinder(Main.db.getNodes()),
-            new BFSPathfinder(Main.db.getNodes(), Main.db.getEdges())));
+            new BFSPathfinder(Main.db.getNodes(), Main.db.getEdges()),
+            new BestFSPathfinder(Main.db.getNodes(), Main.db.getEdges())));
     pathfindingAlgorithm.selectFirst();
     mvc.drawNodes();
     getMoveDate();
@@ -154,6 +153,7 @@ public class PathfindingController {
     List<NodeEntity> path = pathfindingAlgorithm.getValue().findPath(currRoomNode, destRoomNode);
     if (path == null) {
       infoText.setText("Unable to find a path with the current settings");
+      infoText.setVisible(true);
       return;
     }
     // else System.out.println(path);
@@ -202,6 +202,7 @@ public class PathfindingController {
       } else {
         infoText.setText(
             currRoom.getValue().getLongname() + " doesn't have a Node at " + getMoveDate());
+        infoText.setVisible(true);
         mvc.setStartNode(null);
       }
     }
