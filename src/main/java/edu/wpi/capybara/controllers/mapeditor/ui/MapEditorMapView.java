@@ -99,17 +99,20 @@ public class MapEditorMapView {
           final var MIN_ZOOM = 0.1;
           final var MAX_ZOOM = 5;
 
-          final var eventOrigin = new Vector2(event.getX(), event.getY());
-          final var nodeOrigin = new Vector2(viewX.get(), viewY.get());
+          // final var eventOrigin = new Vector2(event.getX(), event.getY());
+          // final var nodeOrigin = new Vector2(viewX.get(), viewY.get());
 
-          final var zoomOffset = Vector2.minus(nodeOrigin, eventOrigin);
+          // final var zoomOffset = Vector2.minus(nodeOrigin, eventOrigin);
+          // final var zoomOffsetPoint =
+          //    viewPane.screenToLocal(event.getScreenX(), event.getScreenY());
+          // final var zoomOffset = new Vector2(-zoomOffsetPoint.getX(), -zoomOffsetPoint.getY());
           final var zoomDelta = ZOOM_COEFFICIENT * event.getDeltaY();
           var newZoom = zoom.get() * (1 + zoomDelta);
           if (newZoom > MAX_ZOOM) newZoom = MAX_ZOOM;
           else if (newZoom < MIN_ZOOM) newZoom = MIN_ZOOM;
 
           // normalize, rescale, then offset zoomOffset
-          zoomOffset.divide(zoom.get()).multiply(newZoom).add(eventOrigin);
+          // zoomOffset.multiply(newZoom).add(eventOrigin);
           // viewX.set(zoomOffset.getX());
           // viewY.set(zoomOffset.getY());
 

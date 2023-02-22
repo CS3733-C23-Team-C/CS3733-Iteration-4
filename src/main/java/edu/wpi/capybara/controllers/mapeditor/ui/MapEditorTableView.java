@@ -140,7 +140,7 @@ public class MapEditorTableView {
     final var buildingColumn =
         createTableColumn("Building", NodeEntity::buildingProperty, new DefaultStringConverter());
 
-    // nodeIDColumn.setEditable(false);
+    nodeIDColumn.setEditable(false);
     // xCoordColumn.setEditable(false);
     // yCoordColumn.setEditable(false);
 

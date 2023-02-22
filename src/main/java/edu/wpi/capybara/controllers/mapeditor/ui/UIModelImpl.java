@@ -15,7 +15,9 @@ import edu.wpi.capybara.objects.hibernate.EdgeEntity;
 import edu.wpi.capybara.objects.hibernate.LocationnameEntity;
 import edu.wpi.capybara.objects.hibernate.MoveEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -113,20 +115,22 @@ public class UIModelImpl implements UIModel {
   }
 
   public <T> void deleteEntity(T entity) {
-    elements.stream()
-        .filter(
-            element -> {
-              if (element instanceof NodeElement node) {
-                return node.getInRepo().equals(entity);
-              } else if (element instanceof EdgeElement edge) {
-                return edge.getInRepo().equals(entity);
-              } else if (element instanceof MoveElement move) {
-                return move.getInRepo().equals(entity);
-              } else if (element instanceof LocationElement location) {
-                return location.getInRepo().equals(entity);
-              }
-              return false;
-            })
+    Set.copyOf(
+            elements.stream()
+                .filter(
+                    element -> {
+                      if (element instanceof NodeElement node) {
+                        return node.getInRepo().equals(entity);
+                      } else if (element instanceof EdgeElement edge) {
+                        return edge.getInRepo().equals(entity);
+                      } else if (element instanceof MoveElement move) {
+                        return move.getInRepo().equals(entity);
+                      } else if (element instanceof LocationElement location) {
+                        return location.getInRepo().equals(entity);
+                      }
+                      return false;
+                    })
+                .collect(Collectors.toSet()))
         .forEach(this::delete);
   }
 

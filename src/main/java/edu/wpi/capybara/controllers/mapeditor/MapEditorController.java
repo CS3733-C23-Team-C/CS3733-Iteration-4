@@ -131,13 +131,15 @@ public class MapEditorController {
         event -> {
           final var toDelete = Set.copyOf(model.selectedProperty());
           for (Element element : toDelete) {
-            if (element instanceof NodeElement node) Main.getRepo().deleteNode(node.getInRepo());
-            else if (element instanceof EdgeElement edge)
+            if (element instanceof NodeElement node) {
+              repairEdgesAndDelete(node.getInRepo());
+            } else if (element instanceof EdgeElement edge)
               Main.getRepo().deleteEdge(edge.getInRepo());
           }
         });
     deleteSelected.disableProperty().bind(model.selectedProperty().emptyProperty());
     final var contextMenu = new ContextMenu(addNode, addEdge, deleteSelected);
+    contextMenu.setAutoHide(true);
 
     mapViewRoot.setOnContextMenuRequested(
         event -> {
@@ -145,10 +147,16 @@ public class MapEditorController {
           clickY.set(event.getScreenY());
           contextMenu.show(mapViewRoot, event.getScreenX(), event.getScreenY());
         });
+    mapViewRoot.addEventFilter(
+        MouseEvent.MOUSE_PRESSED,
+        event -> {
+          if (contextMenu.isShowing()) contextMenu.hide();
+        });
 
     mapViewRoot.addEventFilter(
         MouseEvent.MOUSE_PRESSED,
         event -> {
+          if (!event.isPrimaryButtonDown()) return;
           System.out.println("mousePressed" + model.selectedProperty().size());
           if (model.selectedProperty().size() == 1) {
             System.out.println("one selected");
@@ -187,13 +195,16 @@ public class MapEditorController {
         MouseEvent.MOUSE_RELEASED,
         event -> {
           if (moveState == MoveState.DRAG) {
+            repairID(editingNode.getInRepo());
             moveState = MoveState.CLICK;
             event.consume();
+          } else {
+            moveState = MoveState.CLICK;
           }
         });
 
     // this looks like it doesn't do anything but if you remove this then the edges don't update
-    // when you move nodes
+    // when you move nodes around
     // I'm not entirely sure why this works, but it seems to be related to some interaction between
     // the Hibernate
     // threads and the JavaFX Application thread
@@ -221,5 +232,23 @@ public class MapEditorController {
 
   private Point2D click2Coord(double clickX, double clickY) {
     return mapView.getViewPane().screenToLocal(clickX, clickY);
+  }
+
+  public static void repairID(NodeEntity node) {
+    // this was way simpler than I thought it was going to be.
+    // this works because setting the node id triggers a DB merge after the change, thus creating a
+    // new node in the
+    // DB and updating all references to it. this leaves behind the old node, which can be deleted
+    // without any foreign
+    // key issues.
+    var prevID = node.getNodeID();
+    node.setNodeID(
+        String.format("%sX%dY%d", node.getFloor().toString(), node.getXcoord(), node.getYcoord()));
+    Platform.runLater(() -> Main.getRepo().deleteNode(prevID));
+  }
+
+  private void repairEdgesAndDelete(NodeEntity node) {
+    node.getEdges();
+    Main.getRepo().deleteNode(node);
   }
 }

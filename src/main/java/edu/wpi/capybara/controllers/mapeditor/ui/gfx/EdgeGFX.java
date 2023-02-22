@@ -35,7 +35,6 @@ public class EdgeGFX extends GFXBase {
   }
 
   public void bind() {
-    System.out.println("bind");
     line.startXProperty().bind(edge.getNode1().xcoordProperty());
     line.startYProperty().bind(edge.getNode1().ycoordProperty());
     line.endXProperty().bind(edge.getNode2().xcoordProperty());
