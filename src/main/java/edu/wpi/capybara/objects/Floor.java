@@ -45,4 +45,16 @@ public enum Floor {
       return Floor.fromString(dbData);
     }
   }
+
+  public static class StringConverter extends javafx.util.StringConverter<Floor> {
+    @Override
+    public String toString(Floor object) {
+      return object.toString();
+    }
+
+    @Override
+    public Floor fromString(String string) {
+      return Floor.fromString(string);
+    }
+  }
 }

@@ -1,7 +1,8 @@
 package edu.wpi.capybara.controllers.mapeditor.dialogs;
 
 import edu.wpi.capybara.App;
-import edu.wpi.capybara.controllers.mapeditor.AdapterRepository;
+import edu.wpi.capybara.Main;
+import edu.wpi.capybara.objects.hibernate.LocationnameEntity;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
@@ -17,7 +18,7 @@ public class AddLocationNameDialog extends FXMLDialog<Void> {
 
   @FXML private ButtonType okButton;
 
-  public AddLocationNameDialog(Window owner, AdapterRepository repository) {
+  public AddLocationNameDialog(Window owner) {
     super(owner, App.class.getResource("views/LocationNameDialog.fxml"));
 
     setTitle("Add Location");
@@ -30,8 +31,10 @@ public class AddLocationNameDialog extends FXMLDialog<Void> {
     ok.addEventHandler(
         ActionEvent.ACTION,
         event ->
-            repository.createLocationName(
-                longName.getText(), shortName.getText(), locationType.getText()));
+            Main.getRepo()
+                .addLocationName(
+                    new LocationnameEntity(
+                        longName.getText(), shortName.getText(), locationType.getText())));
     ok.disableProperty()
         .bind(
             Bindings.createBooleanBinding(
