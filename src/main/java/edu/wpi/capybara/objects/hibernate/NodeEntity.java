@@ -44,6 +44,8 @@ public class NodeEntity implements Persistent, CSVExportable {
     ycoord.addListener(listener);
     floor.addListener(listener);
     building.addListener(listener);
+    // xcoord.addListener(evt -> repairID());
+    // ycoord.addListener(evt -> repairID());
   }
 
   @Id
@@ -199,6 +201,18 @@ public class NodeEntity implements Persistent, CSVExportable {
     }
 
     return null;
+  }
+
+  private void repairID() {
+    // this was way simpler than I thought it was going to be.
+    // this works because setting the node id triggers a DB merge after the change, thus creating a
+    // new node in the
+    // DB and updating all references to it. this leaves behind the old node, which can be deleted
+    // without any foreign
+    // key issues.
+    var prevID = getNodeID();
+    setNodeID(String.format("%sX%dY%d", getFloor().toString(), getXcoord(), getYcoord()));
+    Main.getRepo().deleteNode(prevID);
   }
 
   @Override

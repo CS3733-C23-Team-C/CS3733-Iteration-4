@@ -3,7 +3,6 @@ package edu.wpi.capybara.controllers;
 import edu.wpi.capybara.controllers.mapeditor.AdapterRepository;
 import edu.wpi.capybara.controllers.mapeditor.SQLDateStringConverter;
 import edu.wpi.capybara.controllers.mapeditor.adapters.*;
-import edu.wpi.capybara.controllers.mapeditor.dialogs.AddLocationNameDialog;
 import edu.wpi.capybara.controllers.mapeditor.dialogs.AddNodeDialog;
 import edu.wpi.capybara.controllers.mapeditor.dialogs.ReplaceNodeDialog;
 import edu.wpi.capybara.controllers.mapeditor.ui.MapEditorPane;
@@ -272,10 +271,10 @@ public class MapEditorController {
                 .getSelectedItems()
                 .forEach(repo::deleteLocationName));
     final var addItem = new MenuItem("New");
-    addItem.setOnAction(
-        event ->
-            new AddLocationNameDialog(locationNameTableView.getScene().getWindow(), repo)
-                .showAndWait());
+    //    addItem.setOnAction(
+    //        event ->
+    //            new AddLocationNameDialog(locationNameTableView.getScene().getWindow(), repo)
+    //                .showAndWait());
     final var menu = new ContextMenu(addItem, deleteItem);
     locationNameTableView.setContextMenu(menu);
 

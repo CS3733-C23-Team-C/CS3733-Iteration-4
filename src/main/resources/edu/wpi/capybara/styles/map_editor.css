@@ -16,17 +16,17 @@
     -fx-border-color: #009CA6;
 }
 
-.selectable {
+.selectable * {
     -fx-stroke: #000000;
     -fx-fill: #000000;
 }
 
-.selectable:hover {
+.selectable:hover * {
     -fx-stroke: #F6BD38;
     -fx-fill: #F6BD38;
 }
 
-.selectable:selected {
+.selectable:selected * {
     -fx-stroke: #009CA6;
     -fx-fill: #009CA6;
 }
