@@ -4,6 +4,7 @@ import edu.wpi.capybara.Main;
 import edu.wpi.capybara.controllers.mapeditor.SQLDateStringConverter;
 import edu.wpi.capybara.controllers.mapeditor.adapters.*;
 import edu.wpi.capybara.controllers.mapeditor.dialogs.AddLocationNameDialog;
+import edu.wpi.capybara.controllers.mapeditor.dialogs.AddMoveDialog;
 import edu.wpi.capybara.controllers.mapeditor.ui.elements.*;
 import edu.wpi.capybara.objects.Floor;
 import edu.wpi.capybara.objects.hibernate.EdgeEntity;
@@ -236,20 +237,20 @@ public class MapEditorTableView {
         Main.getRepo().getMoves().stream().anyMatch(move -> move.getLocation().equals(entity));
     if (hasMoves) {
       final var alert =
-              new Alert(
-                      Alert.AlertType.CONFIRMATION,
-                      "Location '"
-                              + entity.getLongname()
-                              + "' has moves associated with it. If you continue, they will be deleted as well.",
-                      ButtonType.OK,
-                      ButtonType.CANCEL);
+          new Alert(
+              Alert.AlertType.CONFIRMATION,
+              "Location '"
+                  + entity.getLongname()
+                  + "' has moves associated with it. If you continue, they will be deleted as well.",
+              ButtonType.OK,
+              ButtonType.CANCEL);
       final var button = alert.showAndWait();
       if (button.isEmpty() || !button.get().equals(ButtonType.OK)) return;
 
       final var moves =
-              Main.getRepo().getMoves().stream()
-                      .filter(move -> move.getLocation().equals(entity))
-                      .collect(Collectors.toSet());
+          Main.getRepo().getMoves().stream()
+              .filter(move -> move.getLocation().equals(entity))
+              .collect(Collectors.toSet());
       moves.forEach(Main.getRepo()::deleteMove);
     }
     Main.getRepo().deleteLocationName(entity);
@@ -270,6 +271,18 @@ public class MapEditorTableView {
     moveTableView.visibleProperty().bind(moveToggle.selectedProperty());
     moveTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     moveTableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+
+    final var addItem = new MenuItem("Add...");
+    addItem.setOnAction(
+        event -> new AddMoveDialog(moveTableView.getScene().getWindow()).showAndWait());
+    final var deleteItem = new MenuItem("Delete");
+    deleteItem.setOnAction(
+        event -> {
+          final var toDelete = List.copyOf(moveTableView.getSelectionModel().getSelectedItems());
+          toDelete.forEach(Main.getRepo()::deleteMove);
+        });
+    final var contextMenu = new ContextMenu(addItem, deleteItem);
+    moveTableView.setContextMenu(contextMenu);
   }
 
   private static class LocationNameConverter extends StringConverter<LocationnameEntity> {
