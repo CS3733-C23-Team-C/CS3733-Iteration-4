@@ -3,13 +3,16 @@ package edu.wpi.capybara.controllers.mapeditor.ui;
 import edu.wpi.capybara.Main;
 import edu.wpi.capybara.controllers.mapeditor.SQLDateStringConverter;
 import edu.wpi.capybara.controllers.mapeditor.adapters.*;
+import edu.wpi.capybara.controllers.mapeditor.dialogs.AddLocationNameDialog;
 import edu.wpi.capybara.controllers.mapeditor.ui.elements.*;
 import edu.wpi.capybara.objects.Floor;
 import edu.wpi.capybara.objects.hibernate.EdgeEntity;
 import edu.wpi.capybara.objects.hibernate.LocationnameEntity;
 import edu.wpi.capybara.objects.hibernate.MoveEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import javafx.beans.property.Property;
 import javafx.collections.SetChangeListener;
 import javafx.scene.control.*;
@@ -212,6 +215,44 @@ public class MapEditorTableView {
     locationNameTableView.visibleProperty().bind(locationToggle.selectedProperty());
     locationNameTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     locationNameTableView.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+
+    final var addItem = new MenuItem("Add...");
+    addItem.setOnAction(
+        event ->
+            new AddLocationNameDialog(locationNameTableView.getScene().getWindow()).showAndWait());
+    final var deleteItem = new MenuItem("Delete");
+    deleteItem.setOnAction(
+        event -> {
+          final var toDelete =
+              List.copyOf(locationNameTableView.getSelectionModel().getSelectedItems());
+          toDelete.forEach(this::deleteLocationName);
+        });
+    final var contextMenu = new ContextMenu(addItem, deleteItem);
+    locationNameTableView.setContextMenu(contextMenu);
+  }
+
+  private void deleteLocationName(LocationnameEntity entity) {
+    final var hasMoves =
+        Main.getRepo().getMoves().stream().anyMatch(move -> move.getLocation().equals(entity));
+    if (hasMoves) {
+      final var alert =
+              new Alert(
+                      Alert.AlertType.CONFIRMATION,
+                      "Location '"
+                              + entity.getLongname()
+                              + "' has moves associated with it. If you continue, they will be deleted as well.",
+                      ButtonType.OK,
+                      ButtonType.CANCEL);
+      final var button = alert.showAndWait();
+      if (button.isEmpty() || !button.get().equals(ButtonType.OK)) return;
+
+      final var moves =
+              Main.getRepo().getMoves().stream()
+                      .filter(move -> move.getLocation().equals(entity))
+                      .collect(Collectors.toSet());
+      moves.forEach(Main.getRepo()::deleteMove);
+    }
+    Main.getRepo().deleteLocationName(entity);
   }
 
   private void initializeMoveTable() {

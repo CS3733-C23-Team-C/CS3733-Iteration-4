@@ -274,7 +274,9 @@ public class MapEditorController {
       final var alert =
           new Alert(
               Alert.AlertType.CONFIRMATION,
-              "This node has moves associated with it. If you continue, they will be deleted as well.",
+              "Node '"
+                  + node.getNodeID()
+                  + "' has moves associated with it. If you continue, they will be deleted as well.",
               ButtonType.OK,
               ButtonType.CANCEL);
       final var button = alert.showAndWait();
