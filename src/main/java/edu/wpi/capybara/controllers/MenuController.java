@@ -48,31 +48,37 @@ public class MenuController {
 
     employeeEditButton.managedProperty().bind(employeeEditButton.visibleProperty());
     employeeEditButton.setVisible(App.getUser().getRole().equals("admin"));
-    newMessageCircle.setVisible(true);
     sNewMessageCircle = newMessageCircle;
+    newMessageCircle.setVisible(true);
   }
 
   public void goToHome(ActionEvent actionEvent) {
+    closeAllDialogs();
     Navigation.navigate(Screen.HOME);
   }
 
   public void goToServiceRequests(ActionEvent actionEvent) {
+    closeAllDialogs();
     Navigation.navigate(Screen.SERVICE_REQUESTS);
   }
 
   public void goToPathfinding(ActionEvent actionEvent) {
+    closeAllDialogs();
     Navigation.navigate(Screen.PATHFINDING);
   }
 
   public void goToMapEditor(ActionEvent actionEvent) {
+    closeAllDialogs();
     Navigation.navigate(Screen.MAP_EDITOR);
   }
 
   public void goToEmployeeEdit(ActionEvent actionEvent) {
+    closeAllDialogs();
     Navigation.navigate(Screen.EMPLOYEE_EDIT);
   }
 
   public void showAssignedRequests(ActionEvent actionEvent) {
+    closeAllDialogs();
     Navigation.navigate(Screen.ASSIGNED_REQUESTS);
   }
 
@@ -89,30 +95,37 @@ public class MenuController {
   }
 
   public void quitApp(MouseEvent mouseEvent) {
+    closeAllDialogs();
     System.exit(0);
   }
 
   public void showProfile(ActionEvent actionEvent) {
+    closeAllDialogs();
     Navigation.navigate(Screen.USER_PROFILE);
   }
 
   public void showRequests(ActionEvent actionEvent) {
+    closeAllDialogs();
     Navigation.navigate(Screen.REQUESTS);
   }
 
   public void showLogOut(ActionEvent actionEvent) {
+    closeAllDialogs();
     Navigation.navigate(Screen.LOG_IN_PAGE);
   }
 
   public void goToMessages(ActionEvent actionEvent) {
+    closeAllDialogs();
     Navigation.navigate(Screen.MESSAGES);
   }
 
   public void goToCreditsPage(ActionEvent actionEvent) {
+    closeAllDialogs();
     Navigation.navigate(Screen.CREDITS_PAGE);
   }
 
   public void goToAboutPage(ActionEvent actionEvent) {
+    closeAllDialogs();
     Navigation.navigate(Screen.ABOUT_PAGE);
   }
 
@@ -122,5 +135,17 @@ public class MenuController {
 
   public static void messageNotiOff() {
     sNewMessageCircle.setVisible(false);
+  }
+
+  private void closeAllDialogs() {
+    if (PathfindingSearchDialogController.dialog != null) {
+      PathfindingSearchDialogController.dialog.close();
+      PathfindingSearchDialogController.dialog = null;
+    }
+
+    if (PathfindingDialogController.dialog != null) {
+      PathfindingDialogController.dialog.close();
+      PathfindingDialogController.dialog = null;
+    }
   }
 }
