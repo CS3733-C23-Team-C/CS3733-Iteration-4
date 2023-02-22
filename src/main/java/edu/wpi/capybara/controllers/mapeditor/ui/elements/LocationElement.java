@@ -11,15 +11,15 @@ public final class LocationElement extends ElementBase<LocationGFX, LocationRow,
       UIModel model, LocationGFX onMap, LocationRow inTable, LocationnameEntity inRepo) {
     super(model, onMap, inTable, inRepo);
 
-    inTable
-        .selectedProperty()
-        .addListener(
-            (observable, oldValue, newValue) -> {
-              if (newValue) {
-                model.select(this);
-              } else {
-                model.deselect(this);
-              }
-            });
+    //    inTable
+    //        .selectedProperty()
+    //        .addListener(
+    //            (observable, oldValue, newValue) -> {
+    //              if (newValue) {
+    //                model.select(this);
+    //              } else {
+    //                model.deselect(this);
+    //              }
+    //            });
   }
 }

@@ -18,6 +18,7 @@ public class NodeGFX extends GFXBase {
 
   public NodeGFX(
       NodeEntity node, ObservableBooleanValue showLabel, ObservableValue<Floor> shownFloor) {
+    getStyleClass().addAll("selectable", STYLE_CLASS);
     circle = new Circle(RADIUS);
     label = new Label();
 
@@ -39,6 +40,6 @@ public class NodeGFX extends GFXBase {
     visibleProperty().bind(shouldShow);
     managedProperty().bind(shouldShow);
 
-    getChildren().forEach(child -> child.getStyleClass().addAll("selectable", STYLE_CLASS));
+    // getChildren().forEach(child -> child.getStyleClass().addAll("selectable", STYLE_CLASS));
   }
 }

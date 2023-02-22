@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableView;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
 public class MapEditorController {
@@ -43,7 +44,7 @@ public class MapEditorController {
 
   @FXML
   public void initialize() {
-    model = new UIModelImpl();
+    model = new UIModelImpl(nodeTableView, edgeTableView, moveTableView, locationNameTableView);
     mapView = new MapEditorMapView(model, mapViewRoot);
     tableView =
         new MapEditorTableView(
@@ -74,5 +75,11 @@ public class MapEditorController {
                 model.setShownFloor((Floor) newValue.getUserData());
               }
             }));
+
+    mapViewRoot.addEventHandler(
+        MouseEvent.MOUSE_PRESSED,
+        event -> {
+          if (event.isStillSincePress()) model.deselectAll();
+        });
   }
 }

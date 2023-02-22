@@ -13,7 +13,7 @@ public final class EdgeElement extends ElementBase<EdgeGFX, EdgeRow, EdgeEntity>
     super(model, onMap, inTable, inRepo);
 
     // handle selection from the map
-    onMap.addEventFilter(
+    onMap.addEventHandler(
         MouseEvent.MOUSE_PRESSED,
         event -> {
           if (event.getButton() != MouseButton.PRIMARY) return;
@@ -24,18 +24,20 @@ public final class EdgeElement extends ElementBase<EdgeGFX, EdgeRow, EdgeEntity>
             model.deselectAll();
             model.select(this);
           }
+
+          event.consume();
         });
 
     // handle selection from the table
-    inTable
-        .selectedProperty()
-        .addListener(
-            (observable, oldValue, newValue) -> {
-              if (newValue) {
-                model.select(this);
-              } else {
-                model.deselect(this);
-              }
-            });
+    /*inTable
+    .selectedProperty()
+    .addListener(
+        (observable, oldValue, newValue) -> {
+          if (newValue) {
+            model.select(this);
+          } else {
+            model.deselect(this);
+          }
+        });*/
   }
 }

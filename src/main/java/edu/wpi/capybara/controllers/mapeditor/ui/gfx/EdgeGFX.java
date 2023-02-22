@@ -12,6 +12,7 @@ public class EdgeGFX extends GFXBase {
   @Getter private final Line line;
 
   public EdgeGFX(EdgeEntity edge, ObjectProperty<Floor> shownFloor) {
+    getStyleClass().addAll("selectable", STYLE_CLASS);
     line = new Line();
 
     line.setStrokeWidth(5);
@@ -22,7 +23,7 @@ public class EdgeGFX extends GFXBase {
     edge.node2Property().addListener(change -> bind(edge, shownFloor));
 
     getChildren().add(line);
-    getChildren().forEach(child -> child.getStyleClass().addAll("selectable", STYLE_CLASS));
+    // getChildren().forEach(child -> child.getStyleClass().addAll("selectable", STYLE_CLASS));
   }
 
   private void bind(EdgeEntity edge, ObjectProperty<Floor> shownFloor) {

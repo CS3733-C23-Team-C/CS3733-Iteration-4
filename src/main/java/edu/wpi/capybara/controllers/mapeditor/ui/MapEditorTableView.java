@@ -4,10 +4,6 @@ import edu.wpi.capybara.Main;
 import edu.wpi.capybara.controllers.mapeditor.SQLDateStringConverter;
 import edu.wpi.capybara.controllers.mapeditor.adapters.*;
 import edu.wpi.capybara.controllers.mapeditor.ui.elements.*;
-import edu.wpi.capybara.controllers.mapeditor.ui.row.EdgeRow;
-import edu.wpi.capybara.controllers.mapeditor.ui.row.LocationRow;
-import edu.wpi.capybara.controllers.mapeditor.ui.row.MoveRow;
-import edu.wpi.capybara.controllers.mapeditor.ui.row.NodeRow;
 import edu.wpi.capybara.objects.Floor;
 import edu.wpi.capybara.objects.hibernate.EdgeEntity;
 import edu.wpi.capybara.objects.hibernate.LocationnameEntity;
@@ -75,6 +71,45 @@ public class MapEditorTableView {
 
     // add the extant elements
     model.elementsProperty().forEach(this::addElement);
+
+    model
+        .selectedProperty()
+        .addListener(
+            (SetChangeListener<? super Element>)
+                change -> {
+                  if (change.wasAdded()) {
+                    final var added = change.getElementAdded();
+                    if (added instanceof NodeElement node)
+                      selectItem(nodeTableView, node.getInRepo(), nodeToggle);
+                    else if (added instanceof EdgeElement edge)
+                      selectItem(edgeTableView, edge.getInRepo(), edgeToggle);
+                    else if (added instanceof MoveElement move)
+                      selectItem(moveTableView, move.getInRepo(), moveToggle);
+                    else if (added instanceof LocationElement location)
+                      selectItem(locationNameTableView, location.getInRepo(), locationToggle);
+                  }
+                  if (change.wasRemoved()) {
+                    final var removed = change.getElementRemoved();
+                    if (removed instanceof NodeElement node)
+                      deselectItem(nodeTableView, node.getInRepo());
+                    else if (removed instanceof EdgeElement edge)
+                      deselectItem(edgeTableView, edge.getInRepo());
+                    else if (removed instanceof MoveElement move)
+                      deselectItem(moveTableView, move.getInRepo());
+                    else if (removed instanceof LocationElement location)
+                      deselectItem(locationNameTableView, location.getInRepo());
+                  }
+                });
+  }
+
+  private <T> void selectItem(TableView<T> table, T item, Toggle toggle) {
+    table.getSelectionModel().select(item);
+    table.scrollTo(item);
+    editorTabs.selectToggle(toggle);
+  }
+
+  private <T> void deselectItem(TableView<T> table, T item) {
+    table.getSelectionModel().clearSelection(table.getItems().indexOf(item));
   }
 
   private void addElement(Element element) {
@@ -105,18 +140,27 @@ public class MapEditorTableView {
     final var buildingColumn =
         createTableColumn("Building", NodeEntity::buildingProperty, new DefaultStringConverter());
 
-    nodeIDColumn.setEditable(false);
-    xCoordColumn.setEditable(false);
-    yCoordColumn.setEditable(false);
+    // nodeIDColumn.setEditable(false);
+    // xCoordColumn.setEditable(false);
+    // yCoordColumn.setEditable(false);
 
     //noinspection unchecked
     nodeTableView
         .getColumns()
         .setAll(nodeIDColumn, xCoordColumn, yCoordColumn, floorColumn, buildingColumn);
     nodeTableView.setEditable(true);
-    nodeTableView.setRowFactory(param -> new NodeRow());
 
     nodeTableView.visibleProperty().bind(nodeToggle.selectedProperty());
+    nodeTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+    //    nodeTableView.getSelectionModel().getSelectedItems().addListener((ListChangeListener<?
+    // super NodeEntity>) change -> {
+    //      while (change.next()) {
+    //        if (change.wasAdded()) {
+    //          change.getAddedSubList().forEach();
+    //        }
+    //      }
+    //    });
   }
 
   private void initializeEdgeTable() {
@@ -128,9 +172,9 @@ public class MapEditorTableView {
     //noinspection unchecked
     edgeTableView.getColumns().setAll(startNodeColumn, endNodeColumn);
     edgeTableView.setEditable(true);
-    edgeTableView.setRowFactory(param -> new EdgeRow());
 
     edgeTableView.visibleProperty().bind(edgeToggle.selectedProperty());
+    edgeTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
   }
 
   private static class NodeConverter extends StringConverter<NodeEntity> {
@@ -161,9 +205,9 @@ public class MapEditorTableView {
     //noinspection unchecked
     locationNameTableView.getColumns().setAll(longNameColumn, shortNameColumn, locationTypeColumn);
     locationNameTableView.setEditable(true);
-    locationNameTableView.setRowFactory(param -> new LocationRow());
 
     locationNameTableView.visibleProperty().bind(locationToggle.selectedProperty());
+    locationNameTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
   }
 
   private void initializeMoveTable() {
@@ -177,9 +221,9 @@ public class MapEditorTableView {
     //noinspection unchecked
     moveTableView.getColumns().setAll(nodeIDColumn, longNameColumn, moveDateColumn);
     moveTableView.setEditable(true);
-    moveTableView.setRowFactory(param -> new MoveRow());
 
     moveTableView.visibleProperty().bind(moveToggle.selectedProperty());
+    moveTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
   }
 
   private static class LocationNameConverter extends StringConverter<LocationnameEntity> {

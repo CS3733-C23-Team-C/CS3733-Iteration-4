@@ -10,15 +10,15 @@ public final class MoveElement extends ElementBase<MoveGFX, MoveRow, MoveEntity>
   public MoveElement(UIModel model, MoveGFX onMap, MoveRow inTable, MoveEntity inRepo) {
     super(model, onMap, inTable, inRepo);
 
-    inTable
-        .selectedProperty()
-        .addListener(
-            (observable, oldValue, newValue) -> {
-              if (newValue) {
-                model.select(this);
-              } else {
-                model.deselect(this);
-              }
-            });
+    //    inTable
+    //        .selectedProperty()
+    //        .addListener(
+    //            (observable, oldValue, newValue) -> {
+    //              if (newValue) {
+    //                model.select(this);
+    //              } else {
+    //                model.deselect(this);
+    //              }
+    //            });
   }
 }

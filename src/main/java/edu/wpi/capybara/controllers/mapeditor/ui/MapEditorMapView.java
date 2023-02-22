@@ -55,7 +55,7 @@ public class MapEditorMapView {
     rootPane.getChildren().add(viewPane);
 
     final var dragOffsetVector = new Vector2(0, 0);
-    rootPane.addEventHandler(
+    rootPane.addEventFilter(
         MouseEvent.MOUSE_PRESSED,
         event -> {
           if (event.getButton() == MouseButton.PRIMARY) {

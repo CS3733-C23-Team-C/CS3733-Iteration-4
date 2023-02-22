@@ -19,6 +19,7 @@ import java.util.function.Function;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.SetChangeListener;
+import javafx.scene.control.TableView;
 
 public class UIModelImpl implements UIModel {
   private final ReadOnlySetWrapper<Element> elements =
@@ -26,11 +27,14 @@ public class UIModelImpl implements UIModel {
   private final ReadOnlySetWrapper<Element> selected =
       new ReadOnlySetWrapper<>(FXCollections.observableSet());
 
-  private final SimpleBooleanProperty showLabels = new SimpleBooleanProperty();
+  private final SimpleBooleanProperty showLabels = new SimpleBooleanProperty(false);
   private final SimpleObjectProperty<Floor> shownFloor = new SimpleObjectProperty<>(Floor.F1);
 
-  public UIModelImpl() {
-    // TODO: 2/18/23 add listeners to elements and selected
+  public UIModelImpl(
+      TableView<NodeEntity> nodeTableView,
+      TableView<EdgeEntity> edgeTableView,
+      TableView<MoveEntity> moveTableView,
+      TableView<LocationnameEntity> locationTableView) {
     selected.addListener(
         (SetChangeListener<? super Element>)
             change -> {
@@ -41,13 +45,20 @@ public class UIModelImpl implements UIModel {
     final Function<NodeEntity, NodeElement> nodeElementFactory =
         entity ->
             new NodeElement(
-                this, new NodeGFX(entity, showLabels, shownFloor), new NodeRow(), entity);
+                this,
+                new NodeGFX(entity, showLabels, shownFloor),
+                new NodeRow(nodeTableView, entity),
+                entity);
     final Function<EdgeEntity, EdgeElement> edgeElementFactory =
-        entity -> new EdgeElement(this, new EdgeGFX(entity, shownFloor), new EdgeRow(), entity);
+        entity ->
+            new EdgeElement(
+                this, new EdgeGFX(entity, shownFloor), new EdgeRow(edgeTableView, entity), entity);
     final Function<MoveEntity, MoveElement> moveElementFactory =
-        entity -> new MoveElement(this, new MoveGFX(), new MoveRow(), entity);
+        entity -> new MoveElement(this, new MoveGFX(), new MoveRow(moveTableView, entity), entity);
     final Function<LocationnameEntity, LocationElement> locationElementFactory =
-        entity -> new LocationElement(this, new LocationGFX(), new LocationRow(), entity);
+        entity ->
+            new LocationElement(
+                this, new LocationGFX(), new LocationRow(locationTableView, entity), entity);
     Main.getRepo().getNodes().values().stream().map(nodeElementFactory).forEach(this::add);
     Main.getRepo().getEdges().stream().map(edgeElementFactory).forEach(this::add);
     Main.getRepo().getMoves().stream().map(moveElementFactory).forEach(this::add);
