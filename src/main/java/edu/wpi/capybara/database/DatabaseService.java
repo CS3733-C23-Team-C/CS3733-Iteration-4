@@ -360,6 +360,11 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
+  public StaffEntity getStaff2(String firstName, String lastName) {
+    return staffDAO.find(firstName, lastName);
+  }
+
+  @Override
   public Session getSession() {
     return orm.getSession();
   }

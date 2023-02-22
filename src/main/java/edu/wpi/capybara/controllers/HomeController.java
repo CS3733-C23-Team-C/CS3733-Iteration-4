@@ -14,8 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import lombok.Getter;
-import lombok.Setter;
 
 public class HomeController {
 
@@ -29,7 +27,6 @@ public class HomeController {
   private Map<Integer, MessagesEntity> messages;
 
   private MessageBox messageBox = new MessageBox();
-  @Getter @Setter private static int newMessageCount;
 
   private ArrayList<Integer> keyList = new ArrayList<>();
 
@@ -42,7 +39,6 @@ public class HomeController {
       String text = "Welcome back, " + App.getUser().getFirstname() + "!";
       welcomeTxt.setText(text);
     }
-    newMessageCount = 0;
     messages = Main.db.getMessages(App.getUser().getStaffid());
 
     for (Integer key : messages.keySet()) {
@@ -50,7 +46,10 @@ public class HomeController {
     }
     keyList.sort(null);
     showMessages();
-    newMessageTxt.setText("You Have " + newMessageCount + " New Messages:");
+
+    newMessageTxt.setText("You Have " + messageBox.getUnreadMessages() + " New Messages:");
+    if (messageBox.getUnreadMessages() == 0) MenuController.messageNotiOff();
+
 
     //    submit.setOnMouseClicked(event -> {});
   }
@@ -84,7 +83,6 @@ public class HomeController {
     for (int i = (keyList.size() - 1); i >= 0; i--) {
       MessagesEntity message = messages.get(keyList.get(i));
       if (!message.getRead()) {
-        newMessageCount++;
         HBox newMessage = messageBox.addHomeMessage(message);
         vbox.getChildren().add(newMessage);
       }

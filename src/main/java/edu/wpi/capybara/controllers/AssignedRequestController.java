@@ -135,7 +135,9 @@ public class AssignedRequestController {
                       "Request #"
                           + clean.getSubmissionid()
                           + " has been marked as "
-                          + clean.getSubmissionstatus().toString(),
+                          + clean.getSubmissionstatus().toString()
+                          + " by "
+                          + clean.getMemberid(),
                       false);
               Main.db.addMessage(newMessage);
             }
@@ -200,7 +202,9 @@ public class AssignedRequestController {
                       "Request #"
                           + transport.getSubmissionid()
                           + " has been marked as "
-                          + transport.getStatus().toString(),
+                          + transport.getStatus().toString()
+                          + " by "
+                          + transport.getEmployeeid(),
                       false);
               Main.db.addMessage(newMessage);
             }
@@ -254,7 +258,9 @@ public class AssignedRequestController {
                       "Request #"
                           + security.getSubmissionid()
                           + " has been marked as "
-                          + security.getSubmissionstatus().toString(),
+                          + security.getSubmissionstatus().toString()
+                          + " by "
+                          + security.getEmployeeid(),
                       false);
               Main.db.addMessage(newMessage);
             }
@@ -312,7 +318,9 @@ public class AssignedRequestController {
                       "Request #"
                           + audio.getSubmissionid()
                           + " has been marked as "
-                          + audio.getSubmissionstatus().toString(),
+                          + audio.getSubmissionstatus().toString()
+                          + " by "
+                          + audio.getEmployeeid(),
                       false);
               Main.db.addMessage(newMessage);
             }
@@ -368,7 +376,9 @@ public class AssignedRequestController {
                       "Request #"
                           + computer.getSubmissionid()
                           + " has been marked as "
-                          + computer.getSubmissionstatus().toString(),
+                          + computer.getSubmissionstatus().toString()
+                          + " by "
+                          + computer.getEmployeeid(),
                       false);
               Main.db.addMessage(newMessage);
             }
