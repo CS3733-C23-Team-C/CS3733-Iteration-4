@@ -1,5 +1,6 @@
 package edu.wpi.capybara.controllers.mapeditor;
 
+import edu.wpi.capybara.Main;
 import edu.wpi.capybara.controllers.mapeditor.ui.MapEditorMapView;
 import edu.wpi.capybara.controllers.mapeditor.ui.MapEditorTableView;
 import edu.wpi.capybara.controllers.mapeditor.ui.UIModel;
@@ -9,10 +10,10 @@ import edu.wpi.capybara.objects.hibernate.EdgeEntity;
 import edu.wpi.capybara.objects.hibernate.LocationnameEntity;
 import edu.wpi.capybara.objects.hibernate.MoveEntity;
 import edu.wpi.capybara.objects.hibernate.NodeEntity;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.fxml.FXML;
-import javafx.scene.control.TableView;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.geometry.Point2D;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
@@ -81,5 +82,37 @@ public class MapEditorController {
         event -> {
           if (event.isStillSincePress()) model.deselectAll();
         });
+
+    final var clickX = new SimpleDoubleProperty();
+    final var clickY = new SimpleDoubleProperty();
+    final var addNode = new MenuItem("Add Node");
+    addNode.setOnAction(
+        event -> {
+            final var coords = click2Coord(clickX.get(), clickY.get());
+            int x = (int) coords.getX();
+            int y = (int) coords.getY();
+          final var newNode =
+              new NodeEntity(
+                  String.format("%sX%dY%d", model.getShownFloor().toString(), x, y),
+                  x,
+                  y,
+                  model.getShownFloor().toString(),
+                  "");
+          Main.getRepo().addNode(newNode);
+        });
+
+    final var addEdge = new MenuItem("Add Edge");
+    final var contextMenu = new ContextMenu(addNode);
+
+    mapViewRoot.setOnContextMenuRequested(
+        event -> {
+          clickX.set(event.getX());
+          clickY.set(event.getY());
+          contextMenu.show(mapViewRoot, event.getScreenX(), event.getScreenY());
+        });
+  }
+
+  private Point2D click2Coord(double clickX, double clickY) {
+      return new Point2D(clickX, clickY);
   }
 }

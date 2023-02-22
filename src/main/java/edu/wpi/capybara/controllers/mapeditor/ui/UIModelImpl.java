@@ -18,6 +18,8 @@ import edu.wpi.capybara.objects.hibernate.NodeEntity;
 import java.util.function.Function;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.MapChangeListener;
 import javafx.collections.SetChangeListener;
 import javafx.scene.control.TableView;
 
@@ -65,6 +67,26 @@ public class UIModelImpl implements UIModel {
     Main.getRepo().getLocationNames().values().stream()
         .map(locationElementFactory)
         .forEach(this::add);
+    Main.getRepo().getNodes().addListener(createMapListener(nodeElementFactory));
+    Main.getRepo().getEdges().addListener(createListListener(edgeElementFactory));
+    Main.getRepo().getMoves().addListener(createListListener(moveElementFactory));
+    Main.getRepo().getLocationNames().addListener(createMapListener(locationElementFactory));
+  }
+
+  private <K, E> MapChangeListener<K, E> createMapListener(Function<E, ? extends Element> factory) {
+    return change -> {
+      if (change.wasAdded()) add(factory.apply(change.getValueAdded()));
+      if (change.wasRemoved()) deleteEntity(change.getValueRemoved());
+    };
+  }
+
+  private <E> ListChangeListener<E> createListListener(Function<E, ? extends Element> factory) {
+    return change -> {
+      while (change.next()) {
+        if (change.wasAdded()) change.getAddedSubList().stream().map(factory).forEach(this::add);
+        if (change.wasRemoved()) change.getRemoved().forEach(this::deleteEntity);
+      }
+    };
   }
 
   @Override
@@ -80,6 +102,24 @@ public class UIModelImpl implements UIModel {
   @Override
   public void delete(Element element) {
     elements.remove(element);
+  }
+
+  public <T> void deleteEntity(T entity) {
+    elements.stream()
+        .filter(
+            element -> {
+              if (element instanceof NodeElement node) {
+                return node.getInRepo().equals(entity);
+              } else if (element instanceof EdgeElement edge) {
+                return edge.getInRepo().equals(entity);
+              } else if (element instanceof MoveElement move) {
+                return move.getInRepo().equals(entity);
+              } else if (element instanceof LocationElement location) {
+                return location.getInRepo().equals(entity);
+              }
+              return false;
+            })
+        .forEach(this::delete);
   }
 
   @Override
