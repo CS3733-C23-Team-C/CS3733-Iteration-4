@@ -38,7 +38,10 @@
                         <children>
                             <HBox HBox.hgrow="ALWAYS">
                                 <children>
-                                    <MFXButton fx:id="refreshButton" style="-fx-background-color: #F6BD38;" text="Refresh" />
+                                    <MFXButton fx:id="refreshButton" style="-fx-background-color: #F6BD38;" text="Refresh">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font></MFXButton>
                                 </children>
                                 <HBox.margin>
                                     <Insets top="10.0" />
@@ -51,16 +54,25 @@
                                         <HBox.margin>
                                             <Insets left="10.0" />
                                         </HBox.margin>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
                                     </MFXButton>
                                     <MFXButton fx:id="deleteButton" disable="true" style="-fx-background-color: #A61E00;" text="Delete" textFill="WHITE">
                                         <HBox.margin>
                                             <Insets left="10.0" />
                                         </HBox.margin>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
                                     </MFXButton>
                                     <MFXButton fx:id="newMessageButton" style="-fx-background-color: #012D5A;" text="New Message" textFill="WHITE">
                                         <HBox.margin>
                                             <Insets left="10.0" />
                                         </HBox.margin>
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
                                     </MFXButton>
                                 </children>
                                 <HBox.margin>

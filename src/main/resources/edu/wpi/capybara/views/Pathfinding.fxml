@@ -160,7 +160,7 @@
             <VBox alignment="TOP_CENTER" spacing="10.0" BorderPane.alignment="CENTER">
                <children>
                   <HBox prefHeight="20.0" style="-fx-background-color: #012D5A;" />
-                  <HBox alignment="CENTER">
+                  <HBox alignment="CENTER" VBox.vgrow="NEVER">
                      <children>
                         <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Pathfinding">
                            <font>
@@ -169,20 +169,16 @@
                         </Text>
                      </children>
                   </HBox>
-                  <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;">
+                  <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;" VBox.vgrow="NEVER">
                      <VBox.margin>
                         <Insets left="20.0" right="20.0" />
                      </VBox.margin>
                   </VBox>
-                  <HBox alignment="CENTER" prefHeight="20.0" prefWidth="200.0">
+                  <Text fx:id="infoText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" visible="false">
                      <VBox.margin>
                         <Insets />
-                     </VBox.margin>
-                     <children>
-                        <Text fx:id="infoText" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" />
-                     </children>
-                  </HBox>
-                  <HBox layoutX="10.0" layoutY="102.0" prefHeight="20.0" prefWidth="200.0" />
+                     </VBox.margin></Text>
+                  <HBox prefHeight="10.0" />
                   <Pane fx:id="canvasPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="300.0" minWidth="400.0" VBox.vgrow="ALWAYS">
                      <children>
                         <StackPane fx:id="stackPane">

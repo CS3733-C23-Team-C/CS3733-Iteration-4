@@ -72,6 +72,7 @@ public class PathfindingController {
   /** Initialize controller by FXML Loader. */
   @FXML
   public void initialize() {
+    infoText.managedProperty().bind(infoText.visibleProperty());
     // log.info("start");
     dateField.setValue(LocalDate.now());
     stackPane.setPickOnBounds(true);
@@ -154,6 +155,7 @@ public class PathfindingController {
     List<NodeEntity> path = pathfindingAlgorithm.getValue().findPath(currRoomNode, destRoomNode);
     if (path == null) {
       infoText.setText("Unable to find a path with the current settings");
+      infoText.setVisible(true);
       return;
     }
     // else System.out.println(path);
@@ -202,6 +204,7 @@ public class PathfindingController {
       } else {
         infoText.setText(
             currRoom.getValue().getLongname() + " doesn't have a Node at " + getMoveDate());
+        infoText.setVisible(true);
         mvc.setStartNode(null);
       }
     }

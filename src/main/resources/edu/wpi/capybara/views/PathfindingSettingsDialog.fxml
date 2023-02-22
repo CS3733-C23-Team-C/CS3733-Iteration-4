@@ -29,22 +29,25 @@
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <MFXToggleButton fx:id="avoidStairs" contentDisposition="RIGHT" onAction="#validateSliders" text="Avoid Stairs">
+                        <MFXToggleButton fx:id="avoidStairs" contentDisposition="RIGHT" onAction="#validateSliders" text="Avoid Stairs" textFill="#012d5a">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </MFXToggleButton>
-                        <MFXToggleButton fx:id="preferStairs" contentDisposition="RIGHT" onAction="#validatePreferStairs" text="Prefer Stairs">
+                        <MFXToggleButton fx:id="preferStairs" contentDisposition="RIGHT" onAction="#validatePreferStairs" text="Prefer Stairs" textFill="#012d5a">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </MFXToggleButton>
                      </children>
+                     <HBox.margin>
+                        <Insets top="10.0" />
+                     </HBox.margin>
                   </VBox>
                   <VBox prefHeight="190.0" prefWidth="14.0" />
                   <VBox alignment="TOP_CENTER" prefHeight="225.0" prefWidth="265.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Locations To Avoid">
+                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Locations To Avoid">
                            <font>
                               <Font size="18.0" />
                            </font></Text>
@@ -62,13 +65,20 @@
                   <MFXTextField fx:id="mapText" disable="true" prefHeight="49.0" prefWidth="435.0" promptText="Map Text (Admin Only)" />
                </children>
             </HBox>
-            <HBox minHeight="10.0" prefHeight="10.0" prefWidth="320.0" />
-            <HBox alignment="CENTER" prefHeight="32.0" prefWidth="445.0">
+            <HBox alignment="CENTER" spacing="20.0">
                <children>
-                  <MFXButton fx:id="cancelChanges" onAction="#cancelChanges" style="-fx-background-color: #009CA6;" text="Cancel" />
-                  <VBox prefHeight="43.0" prefWidth="22.0" />
-                  <MFXButton fx:id="applyChanges" onAction="#applyChanges" style="-fx-background-color: #009CA6;" text="Apply" />
+                  <MFXButton fx:id="cancelChanges" onAction="#cancelChanges" style="-fx-background-color: #009CA6;" text="Cancel" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font></MFXButton>
+                  <MFXButton fx:id="applyChanges" onAction="#applyChanges" style="-fx-background-color: #009CA6;" text="Apply" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font></MFXButton>
                </children>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
             </HBox>
          </children>
          <padding>
