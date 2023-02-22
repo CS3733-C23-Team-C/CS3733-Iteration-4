@@ -42,18 +42,21 @@ public class MessagesController {
     }
     keyList.sort(null);
     displayMessages();
-    System.out.println(MenuController.getSelectedHomeMessage());
+    // System.out.println(MenuController.getSelectedHomeMessage());
     if (MenuController.getSelectedHomeMessage() != 0) {
-      System.out.println("got here");
       selectedID = MenuController.getSelectedHomeMessage();
       VBox selectedMessage = messageBoxes.get(selectedID);
       selectedMessage.getStyleClass().clear();
       selectedMessage.getStyleClass().add("selected");
       messages.get(selectedID).setRead(true);
+      messageBox.setUnreadMessages(messageBox.getUnreadMessages() - 1);
+      previousID = selectedID;
       MenuController.setSelectedHomeMessage(0);
       replyButton.setDisable(false);
       deleteButton.setDisable(false);
     }
+    if (messageBox.getUnreadMessages() > 0) MenuController.messageNotiOn();
+    else MenuController.messageNotiOff();
     sReplyButton = replyButton;
     sDeleteButton = deleteButton;
 
@@ -105,6 +108,9 @@ public class MessagesController {
               oldBox.getStyleClass().add("read");
             }
             previousID = selectedID;
+            if (messageBox.getUnreadMessages() != 0) MenuController.messageNotiOn();
+            else MenuController.messageNotiOff();
+            System.out.println(messageBox.getUnreadMessages());
           }
         });
   }
@@ -117,12 +123,14 @@ public class MessagesController {
       messageBoxes.put(messageID, newMessage);
       vbox.getChildren().add(newMessage);
       if (messageID > highestID) highestID = messageID;
+      // System.out.println(message.getRead());
     }
+    System.out.println(messageBox.getUnreadMessages());
   }
 
   public static void setSelectedMessage(int messageID) {
     selectedID = messageID;
-    System.out.println(selectedID);
+    // System.out.println(selectedID);
     sReplyButton.setDisable(false);
     sDeleteButton.setDisable(false);
   }
