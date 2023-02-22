@@ -1,6 +1,8 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.CSVExportable;
+import edu.wpi.capybara.database.CSVImporter;
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import edu.wpi.capybara.objects.orm.Persistent;
 import jakarta.persistence.*;
@@ -14,7 +16,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "edge", schema = "cdb", catalog = "teamcdb")
 @IdClass(EdgeEntity.PK.class)
-public class EdgeEntity implements Persistent {
+public class EdgeEntity implements Persistent, CSVExportable {
   // happy
   public static class PK implements Serializable {
     @Getter @Setter private NodeEntity node1;
@@ -59,7 +61,7 @@ public class EdgeEntity implements Persistent {
 
   @Id
   @ManyToOne
-  @JoinColumn(name = "node1")
+  @JoinColumn(name = "node1", insertable = false)
   public NodeEntity getNode1() {
     return node1.get();
   }
@@ -74,7 +76,7 @@ public class EdgeEntity implements Persistent {
 
   @Id
   @ManyToOne
-  @JoinColumn(name = "node2")
+  @JoinColumn(name = "node2", insertable = false)
   public NodeEntity getNode2() {
     return node2.get();
   }
@@ -105,5 +107,21 @@ public class EdgeEntity implements Persistent {
   @Override
   public int hashCode() {
     return Objects.hash(getNode1(), getNode2());
+  }
+
+  @Override
+  public String[] toCSV() {
+    return new String[] {getNode1().getNodeID(), getNode2().getNodeID()};
+  }
+
+  public static class Importer implements CSVImporter<EdgeEntity> {
+    @Override
+    public EdgeEntity fromCSV(String[] csv) {
+
+      String node1 = csv[0];
+      String node2 = csv[1];
+
+      return new EdgeEntity(Main.db.getNode(node1), Main.db.getNode(node2));
+    }
   }
 }

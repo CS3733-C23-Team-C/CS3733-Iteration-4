@@ -1,6 +1,8 @@
 package edu.wpi.capybara.objects.hibernate;
 
 import edu.wpi.capybara.Main;
+import edu.wpi.capybara.database.CSVExportable;
+import edu.wpi.capybara.database.CSVImporter;
 import edu.wpi.capybara.objects.Floor;
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import edu.wpi.capybara.objects.orm.Persistent;
@@ -17,7 +19,7 @@ import javafx.beans.property.SimpleStringProperty;
 
 @Entity
 @Table(name = "node", schema = "cdb", catalog = "teamcdb")
-public class NodeEntity implements Persistent {
+public class NodeEntity implements Persistent, CSVExportable {
   private final SimpleStringProperty nodeID = new SimpleStringProperty();
   private final SimpleIntegerProperty xcoord = new SimpleIntegerProperty();
   private final SimpleIntegerProperty ycoord = new SimpleIntegerProperty();
@@ -218,5 +220,30 @@ public class NodeEntity implements Persistent {
   @Override
   public int hashCode() {
     return Objects.hash(getNodeID(), getXcoord(), getYcoord(), getFloor(), getBuilding());
+  }
+
+  @Override
+  public String[] toCSV() {
+    return new String[] {
+      getNodeID(),
+      Integer.toString(getXcoord()),
+      Integer.toString(getYcoord()),
+      getFloor().toString(),
+      getBuilding()
+    };
+  }
+
+  public static class Importer implements CSVImporter<NodeEntity> {
+    @Override
+    public NodeEntity fromCSV(String[] csv) {
+
+      String nodeid = csv[0];
+      int xcoord = Integer.parseInt(csv[1]);
+      int ycoord = Integer.parseInt(csv[2]);
+      String floor = csv[3];
+      String building = csv[4];
+
+      return new NodeEntity(nodeid, xcoord, ycoord, floor, building);
+    }
   }
 }

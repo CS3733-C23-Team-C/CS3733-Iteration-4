@@ -34,7 +34,7 @@ public class DAOService implements DAOFacade {
     try (final var session = getSession()) {
       final var tx = session.beginTransaction();
       try {
-        session.persist(entity);
+        session.merge(entity);
         tx.commit();
       } catch (PersistenceException e) {
         // rollback the database, log the exception, and throw it back to the caller.

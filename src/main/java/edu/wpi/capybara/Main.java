@@ -3,12 +3,13 @@ package edu.wpi.capybara;
 import edu.wpi.capybara.database.*;
 import edu.wpi.capybara.objects.orm.DAOFacade;
 import lombok.Getter;
+import lombok.Setter;
 
 public class Main extends Thread {
   public static RepoFacade db;
 
-  @Getter private static DAOFacade orm;
-  @Getter private static RepoFacade2 repo;
+  @Getter @Setter private static DAOFacade orm;
+  @Getter @Setter private static RepoFacade2 repo;
 
   @Getter private static Thread updaterThread;
 
