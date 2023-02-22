@@ -51,9 +51,12 @@ public class MapEditorController {
   @FXML private ToggleButton f2Toggle;
   @FXML private ToggleButton f3Toggle;
 
+  @FXML private ToggleButton showNames;
+
   @FXML
   public void initialize() {
     model = new UIModelImpl(nodeTableView, edgeTableView, moveTableView, locationNameTableView);
+    model.showLabelsProperty().bind(showNames.selectedProperty());
     mapView = new MapEditorMapView(model, mapViewRoot);
     tableView =
         new MapEditorTableView(
@@ -237,6 +240,7 @@ public class MapEditorController {
   }
 
   public static void repairID(NodeEntity node) {
+    /*
     var newNode =
         new NodeEntity(
             String.format(
@@ -249,27 +253,38 @@ public class MapEditorController {
 
     final var n1Edges =
         Main.getRepo().getEdges().stream()
-            .filter(edge -> edge.getNode1().equals(node))
-            .collect(Collectors.toSet());
+            .filter(edge -> edge.getNode1().getNodeID().equals(node.getNodeID()))
+            .toList();
     final var n2Edges =
         Main.getRepo().getEdges().stream()
-            .filter(edge -> edge.getNode2().equals(node))
-            .collect(Collectors.toSet());
+            .filter(edge -> edge.getNode2().getNodeID().equals(node.getNodeID()))
+            .toList();
     final var moves =
         Main.getRepo().getMoves().stream()
-            .filter(move -> move.getNode().equals(node))
+            .filter(move -> move.getNode().getNodeID().equals(node.getNodeID()))
             .collect(Collectors.toSet());
 
-    n1Edges.forEach(edge -> edge.setNode1(newNode));
-    n2Edges.forEach(edge -> edge.setNode2(newNode));
+    n1Edges.forEach(
+        edge -> {
+          System.out.println(
+              "Updating edge " + edge.getNode1().getNodeID() + " " + edge.getNode2().getNodeID());
+          edge.setNode1(newNode);
+        });
+    n2Edges.forEach(
+        edge -> {
+          System.out.println(
+              "Updating edge " + edge.getNode1().getNodeID() + " " + edge.getNode2().getNodeID());
+          edge.setNode2(newNode);
+        });
     moves.forEach(move -> move.setNode(newNode));
 
-    Main.getRepo().deleteNode(node);
+    Main.getRepo().deleteNode(node);*/
   }
 
   private void repairEdgesAndDelete(NodeEntity node) {
     final var hasMoves =
-        Main.getRepo().getMoves().stream().anyMatch(move -> move.getNode().equals(node));
+        Main.getRepo().getMoves().stream()
+            .anyMatch(move -> move.getNode().getNodeID().equals(node.getNodeID()));
     if (hasMoves) {
       final var alert =
           new Alert(
@@ -284,7 +299,7 @@ public class MapEditorController {
 
       final var moves =
           Main.getRepo().getMoves().stream()
-              .filter(move -> move.getNode().equals(node))
+              .filter(move -> move.getNode().getNodeID().equals(node.getNodeID()))
               .collect(Collectors.toSet());
       moves.forEach(Main.getRepo()::deleteMove);
     }

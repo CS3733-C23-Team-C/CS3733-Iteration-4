@@ -98,6 +98,10 @@
                 <Group>
                     <ToggleButton fx:id="l2Toggle" mnemonicParsing="false" styleClass="ribbonToggle" text="L2" toggleGroup="$floors" />
                 </Group>
+                <Separator />
+                <Group>
+                    <ToggleButton fx:id="showNames" mnemonicParsing="false" styleClass="ribbonToggle" text="Show Names" />
+                </Group>
             </items>
         </ToolBar>
     </right>

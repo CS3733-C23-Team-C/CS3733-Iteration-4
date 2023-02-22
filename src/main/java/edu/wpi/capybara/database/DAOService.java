@@ -99,7 +99,7 @@ public class DAOService implements DAOFacade {
         // rollback the database, log the exception, and throw it back to the caller.
         // this is so the caller can decide how it wants to handle the failure.
         tx.rollback();
-        log.error("Unable to insert entity of type " + entity.getClass().getName(), e);
+        log.error("Unable to delete entity of type " + entity.getClass().getName(), e);
         throw e;
       }
     }
