@@ -46,8 +46,10 @@ public class HomeController {
     }
     keyList.sort(null);
     showMessages();
+
     newMessageTxt.setText("You Have " + messageBox.getUnreadMessages() + " New Messages:");
     if (messageBox.getUnreadMessages() == 0) MenuController.messageNotiOff();
+
 
     //    submit.setOnMouseClicked(event -> {});
   }
