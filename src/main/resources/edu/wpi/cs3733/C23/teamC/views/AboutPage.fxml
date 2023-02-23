@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.controllers.AboutPageController">
+   <children>
+      <BorderPane>
+         <top>
+            <HBox prefHeight="20.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER" />
+         </top>
+         <center>
+            <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" />
+               </padding>
+               <children>
+                  <HBox prefHeight="10.0" prefWidth="200.0" />
+                  <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="About Page">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="10.0" prefWidth="200.0" />
+                  <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;" />
+                  <HBox prefHeight="20.0" prefWidth="200.0" />
+                  <HBox alignment="CENTER" minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                     <children>
+                        <VBox alignment="TOP_CENTER" spacing="30.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="WPI Computer Science Department">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="CS3733-C23 Software Engineering">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Prof. Wilsong Wong">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Coach Nestor Lopez">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                              <VBox alignment="TOP_CENTER">
+                                 <children>
+                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Team Members">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Kseniia Romanova - Front End Feature Engineer">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Aidan Syrgak Uulu - Project Manager">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="John Hall - Documentation Analyst">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Sam David - Assistant Lead Software Engineer">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Alexander Rickards - Product Owner">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Spencer Dill - Back End Feature Engineer">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Christopher Johnson - Assistant Lead Software Engineer">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Owen Rago - Back End Database Engineer">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="David Rosenstein - Lead Software Engineer">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Text>
+                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Preston Van Fleet - Scrum Master">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Text>
+                                 </children>
+                              </VBox>
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Thank you Andrew Shinn and Brigham and Women's Hospital for your time and input!">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </children>
+</StackPane>

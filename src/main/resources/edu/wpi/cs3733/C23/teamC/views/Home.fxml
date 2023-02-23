@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane fx:id="homeStackPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.controllers.HomeController">
+   <children>
+      <BorderPane fx:id="homePagePane">
+         <top>
+            <HBox prefHeight="20.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER" />
+         </top>
+         <center>
+            <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" styleClass="body" stylesheets="@../styles/home_style.css" VBox.vgrow="ALWAYS" />
+                  <Label fx:id="welcomeTxt" text="Welcome back, User!" textFill="#012d5a">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <Text fx:id="newMessageTxt" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="You have X new messages:" VBox.vgrow="ALWAYS">
+                     <VBox.margin>
+                        <Insets bottom="-10.0" top="-10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <MFXScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="150.0" style="-fx-background-color: #F4F4F4;">
+                     <content>
+                        <VBox fx:id="vbox" alignment="CENTER" spacing="5.0">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </VBox>
+                     </content>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </MFXScrollPane>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </children>
+</StackPane>
