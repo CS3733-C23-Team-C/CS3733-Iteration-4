@@ -25,8 +25,8 @@ public class EdgeGFX extends GFXBase {
 
     Platform.runLater(this::bind);
 
-    edge.node1Property().addListener(change -> bind());
-    edge.node2Property().addListener(change -> bind());
+    edge.node1IDProperty().addListener(change -> bind());
+    edge.node2IDProperty().addListener(change -> bind());
 
     getChildren().add(line);
     // getChildren().forEach(child -> child.getStyleClass().addAll("selectable", STYLE_CLASS));

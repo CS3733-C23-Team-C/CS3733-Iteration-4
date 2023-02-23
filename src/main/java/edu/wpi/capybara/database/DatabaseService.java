@@ -167,14 +167,14 @@ public class DatabaseService implements RepoFacade2 {
     java.util.Date date = new java.util.Date();
     HashMap<String, MoveEntity> currentLocations = new HashMap<>();
     for (var move : getMoves()) {
-      var temp = currentLocations.get(move.getLocation().getLongname());
+      var temp = currentLocations.get(move.getLongName());
       if (temp == null) {
-        currentLocations.put(move.getLocation().getLongname(), move);
+        currentLocations.put(move.getLongName(), move);
       } else {
         if (move.getMovedate().compareTo(temp.getMovedate()) < 0
             && move.getMovedate().compareTo(new java.sql.Date(date.getTime())) < 0) {
-          currentLocations.remove(temp.getLocation().getLongname());
-          currentLocations.put(move.getLocation().getLongname(), move);
+          currentLocations.remove(temp.getLongName());
+          currentLocations.put(move.getLongName(), move);
         }
       }
     }
@@ -182,7 +182,7 @@ public class DatabaseService implements RepoFacade2 {
     // count number of moves at a location
     int num = 0;
     for (var move : currentLocations.values()) {
-      if (move.getNode().getNodeID().equals(submission.getNode().getNodeID())) {
+      if (move.getNodeID().equals(submission.getNodeID())) {
         num++;
       }
     }
