@@ -4,17 +4,18 @@ import edu.wpi.cs3733.C23.teamC.database.CSVExportable;
 import edu.wpi.cs3733.C23.teamC.database.CSVImporter;
 import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
 import edu.wpi.cs3733.C23.teamC.objects.orm.Persistent;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleStringProperty;
+import org.hibernate.collection.spi.PersistentSet;
 
 @Entity
 @Table(name = "staff", schema = "cdb", catalog = "teamcdb")
 public class StaffEntity implements Persistent, CSVExportable {
+
+  private Set<AlertEntity> alerts = new PersistentSet<>();
   private final SimpleStringProperty staffid = new SimpleStringProperty();
   private final SimpleStringProperty firstname = new SimpleStringProperty();
   private final SimpleStringProperty lastname = new SimpleStringProperty();
@@ -144,6 +145,18 @@ public class StaffEntity implements Persistent, CSVExportable {
 
   public void setNotes(String notes) {
     this.notes.set(notes);
+  }
+
+  @ManyToMany(
+      fetch = FetchType.EAGER,
+      cascade = {CascadeType.ALL, CascadeType.MERGE})
+  @JoinTable(name = "staff_alerts", schema = "cdb")
+  public Set<AlertEntity> getAlerts() {
+    return this.alerts;
+  }
+
+  public void setAlerts(Set<AlertEntity> alerts) {
+    this.alerts = alerts;
   }
 
   @Override

@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.C23.teamC;
 
 import edu.wpi.cs3733.C23.teamC.database.*;
+import edu.wpi.cs3733.C23.teamC.objects.hibernate.AlertEntity;
 import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +27,13 @@ public class Main extends Thread {
     AutoUpdate updater = new AutoUpdate();
     updaterThread = new Thread(updater, "AutoUpdater");
     updaterThread.start();
-    App.launch(App.class, args);
+
+    // System.out.println(db.getStaff("admin").getAlerts());
+
+    // App.launch(App.class, args);
+    for (AlertEntity alert : db.getStaff("admin").getAlerts()) {
+      System.out.println(alert.getMessage());
+    }
     updater.stop();
   }
 
