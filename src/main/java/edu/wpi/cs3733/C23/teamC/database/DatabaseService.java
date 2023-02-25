@@ -455,8 +455,9 @@ public class DatabaseService implements RepoFacade2 {
 
     try {
       tx = session.beginTransaction();
-      Query q = session.createNativeQuery("INSERT INTO cdb.pics values (1, :bytes)");
+      Query q = session.createNativeQuery("INSERT INTO cdb.pics values (:id, :bytes)");
       q.setParameter("bytes", bytes);
+      q.setParameter("id", getMaxImageID());
       q.executeUpdate();
       tx.commit();
     } catch (HibernateException e) {
@@ -466,6 +467,29 @@ public class DatabaseService implements RepoFacade2 {
       session.close();
     }
     return null;
+  }
+
+  private int getMaxImageID() {
+    Session session = orm.getSession();
+    Transaction tx = null;
+
+    int id = 0;
+
+    try {
+      tx = session.beginTransaction();
+      List n = session.createNativeQuery("SELECT MAX(cdb.pics.picnum) FROM cdb.pics").list();
+      if (n != null) {
+        id = (int) n.get(0);
+        id++;
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return id;
   }
 
   @Override

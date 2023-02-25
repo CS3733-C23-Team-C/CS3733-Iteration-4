@@ -8,11 +8,12 @@ import io.github.palexdev.materialfx.controls.MFXTextField;
 import io.github.palexdev.materialfx.utils.SwingFXUtils;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
-import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -84,6 +85,13 @@ public class UserProfileController {
       App.getUser().setLastname(newLast);
       String newPass = passwordField.getText();
       App.getUser().setPassword(newPass);
+      if (!Objects.equals(folderText.getText(), "")) {
+        try {
+          Main.getRepo().setImage(folderText.getText());
+        } catch (IOException e) {
+          throw new RuntimeException(e);
+        }
+      }
       // update menu
       MenuController.setUserProfile();
       // make fields uneditable
@@ -100,11 +108,11 @@ public class UserProfileController {
   }
 
   public void onFileSelect() {
-    DirectoryChooser chooser = new DirectoryChooser();
+    FileChooser chooser = new FileChooser();
     chooser.setTitle("JavaFX Projects");
     File defaultDirectory = new File(System.getProperty("user.dir"));
     chooser.setInitialDirectory(defaultDirectory);
-    File selectedDirectory = chooser.showDialog(folderText.getScene().getWindow());
+    File selectedDirectory = chooser.showOpenDialog(folderText.getScene().getWindow());
     if (selectedDirectory != null) folderText.setText(selectedDirectory.getAbsolutePath());
   }
 

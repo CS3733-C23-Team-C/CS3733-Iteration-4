@@ -112,7 +112,7 @@
                      <children>
                         <HBox alignment="CENTER">
                            <children>
-                              <MFXTextField fx:id="folderText" onAction="#validate" prefHeight="49.0" prefWidth="343.0" />
+                              <MFXTextField fx:id="folderText" prefHeight="49.0" prefWidth="343.0" />
                               <Pane prefHeight="49.0" prefWidth="20.0" />
                               <MFXButton onAction="#onFileSelect" style="-fx-background-color: #009CA6;" text="Select" />
                            </children>
