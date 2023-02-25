@@ -2,8 +2,11 @@ package edu.wpi.cs3733.C23.teamC.controllers;
 
 import edu.wpi.cs3733.C23.teamC.App;
 import edu.wpi.cs3733.C23.teamC.Main;
+import edu.wpi.cs3733.C23.teamC.navigation.Navigation;
+import edu.wpi.cs3733.C23.teamC.navigation.Screen;
 import edu.wpi.cs3733.C23.teamC.objects.MessageBox;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.MessagesEntity;
+import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
+import edu.wpi.cs3733.C23.teamC.objects.submissions.SubmissionStatus;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import java.util.ArrayList;
 import java.util.Map;
@@ -19,6 +22,8 @@ public class HomeController {
 
   @FXML private Label welcomeTxt;
   @FXML private Text newMessageTxt;
+  @FXML private Text assignedTxt;
+  @FXML private Text pendingTxt;
   @FXML private MFXScrollPane scrollPane;
   @FXML private VBox vbox;
   @Getter static int unreadMessagesCount;
@@ -30,6 +35,9 @@ public class HomeController {
   @Getter private MessageBox messageBox = new MessageBox();
 
   private ArrayList<Integer> keyList = new ArrayList<>();
+
+  private int assignedRequests;
+  private int pendingRequests;
 
   /** Initialize controller by FXML Loader. */
   @FXML
@@ -48,7 +56,11 @@ public class HomeController {
     keyList.sort(null);
     showMessages();
 
-    newMessageTxt.setText("You have " + messageBox.getUnreadMessages() + " new messages:");
+    findRequests();
+    newMessageTxt.setText("" + messageBox.getUnreadMessages());
+    assignedTxt.setText("" + assignedRequests);
+    pendingTxt.setText("" + pendingRequests);
+
     unreadMessagesCount = messageBox.getUnreadMessages();
 
     //    submit.setOnMouseClicked(event -> {});
@@ -85,6 +97,87 @@ public class HomeController {
       if (!message.getRead()) {
         HBox newMessage = messageBox.addHomeMessage(message);
         vbox.getChildren().add(newMessage);
+      }
+    }
+  }
+
+  public void showAssigned() {
+    Navigation.navigate(Screen.ASSIGNED_REQUESTS);
+  }
+
+  public void showPending() {
+    Navigation.navigate(Screen.REQUESTS);
+  }
+
+  public void showMessage() {
+    Navigation.navigate(Screen.MESSAGES);
+  }
+
+  public void findRequests() {
+    int i = 0;
+    while (i < 5) {
+      String currentID = App.getUser().getStaffid();
+      switch (i) {
+        case 0:
+          Map<Integer, CleaningsubmissionEntity> cleaningdata = Main.db.getCleaningSubs();
+          for (CleaningsubmissionEntity data : cleaningdata.values()) {
+            if (data.getAssignedid().equals(currentID)
+                && (!data.getSubmissionstatus().equals(SubmissionStatus.DONE))) assignedRequests++;
+            if (data.getMemberid().equals(currentID)
+                && (data.getSubmissionstatus().equals(SubmissionStatus.BLANK)
+                    || data.getSubmissionstatus().equals(SubmissionStatus.PROCESSING)))
+              pendingRequests++;
+          }
+          i++;
+          break;
+        case 1:
+          Map<Integer, TransportationsubmissionEntity> transportdata =
+              Main.db.getTransportationSubs();
+          for (TransportationsubmissionEntity data : transportdata.values()) {
+            if (data.getAssignedid().equals(currentID)
+                && (!data.getStatus().equals(SubmissionStatus.DONE))) assignedRequests++;
+            if (data.getEmployeeid().equals(currentID)
+                && (data.getStatus().equals(SubmissionStatus.BLANK)
+                    || data.getStatus().equals(SubmissionStatus.PROCESSING))) pendingRequests++;
+          }
+          i++;
+          break;
+        case 2:
+          Map<Integer, SecuritysubmissionEntity> securitydata = Main.db.getSecuritySubs();
+          for (SecuritysubmissionEntity data : securitydata.values()) {
+            if (data.getAssignedid().equals(currentID)
+                && (!data.getSubmissionstatus().equals(SubmissionStatus.DONE))) assignedRequests++;
+            if (data.getEmployeeid().equals(currentID)
+                && (data.getSubmissionstatus().equals(SubmissionStatus.BLANK)
+                    || data.getSubmissionstatus().equals(SubmissionStatus.PROCESSING)))
+              pendingRequests++;
+          }
+          i++;
+          break;
+        case 3:
+          Map<Integer, AudiosubmissionEntity> audiodata = Main.db.getAudioSubs();
+          for (AudiosubmissionEntity data : audiodata.values()) {
+            if (data.getAssignedid().equals(currentID)
+                && (!data.getSubmissionstatus().equals(SubmissionStatus.DONE))) assignedRequests++;
+            if (data.getEmployeeid().equals(currentID)
+                && (data.getSubmissionstatus().equals(SubmissionStatus.BLANK)
+                    || data.getSubmissionstatus().equals(SubmissionStatus.PROCESSING)))
+              pendingRequests++;
+          }
+          i++;
+          break;
+        case 4:
+          Map<Integer, ComputersubmissionEntity> computerdata = Main.db.getComputerSubs();
+          for (ComputersubmissionEntity data : computerdata.values()) {
+            if (data.getAssignedid().equals(currentID)
+                && (!data.getSubmissionstatus().equals(SubmissionStatus.DONE))) assignedRequests++;
+            if (data.getEmployeeid().equals(currentID)
+                && (data.getSubmissionstatus().equals(SubmissionStatus.BLANK)
+                    || data.getSubmissionstatus().equals(SubmissionStatus.PROCESSING)))
+              pendingRequests++;
+          }
+          i++;
+          break;
       }
     }
   }

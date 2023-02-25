@@ -34,7 +34,7 @@ public class MessageBox {
     newMessage.setId(Integer.toString(message.getMessageid()));
     newMessage.getStyleClass().add("unread");
     unreadMessages++;
-    newMessage.getStylesheets().add("edu/wpi/capybara/styles/message.css");
+    newMessage.getStylesheets().add("edu/wpi/cs3733/C23/teamC/styles/message.css");
     newMessage.setOnMouseClicked(
         new EventHandler<MouseEvent>() {
           @Override
@@ -76,7 +76,7 @@ public class MessageBox {
       newMessage.getStyleClass().add("unread");
       unreadMessages++;
     }
-    newMessage.getStylesheets().add("edu/wpi/capybara/styles/message.css");
+    newMessage.getStylesheets().add("edu/wpi/cs3733/C23/teamC/styles/message.css");
     newMessage.setOnMouseClicked(
         new EventHandler<MouseEvent>() {
           @Override
