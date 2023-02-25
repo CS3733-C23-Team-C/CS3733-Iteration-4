@@ -95,7 +95,7 @@ public class AlertEntity implements Persistent {
     this.message.set(message);
   }
 
-  @OneToMany(cascade = CascadeType.ALL)
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "staff")
   public PersistentSet<AlertstaffEntity> getAlertstaff() {
     return this.alertstaff;
   }

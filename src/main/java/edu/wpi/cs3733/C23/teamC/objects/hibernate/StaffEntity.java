@@ -146,7 +146,7 @@ public class StaffEntity implements Persistent, CSVExportable {
     this.notes.set(notes);
   }
 
-  @OneToMany(cascade = CascadeType.ALL)
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "alert")
   public PersistentSet<AlertstaffEntity> getAlertstaff() {
     return this.alertstaff;
   }
