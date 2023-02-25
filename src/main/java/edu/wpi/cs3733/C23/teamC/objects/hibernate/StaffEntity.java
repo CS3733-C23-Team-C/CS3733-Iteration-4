@@ -6,16 +6,17 @@ import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
 import edu.wpi.cs3733.C23.teamC.objects.orm.Persistent;
 import jakarta.persistence.*;
 import java.util.Objects;
-import java.util.Set;
 import javafx.beans.InvalidationListener;
+import javafx.beans.property.SimpleSetProperty;
 import javafx.beans.property.SimpleStringProperty;
-import org.hibernate.collection.spi.PersistentSet;
+import javafx.collections.ObservableSet;
 
 @Entity
 @Table(name = "staff", schema = "cdb", catalog = "teamcdb")
 public class StaffEntity implements Persistent, CSVExportable {
 
-  private Set<AlertEntity> alerts = new PersistentSet<>();
+  private SimpleSetProperty<AlertstaffEntity> alertstaff =
+      new SimpleSetProperty<AlertstaffEntity>();
   private final SimpleStringProperty staffid = new SimpleStringProperty();
   private final SimpleStringProperty firstname = new SimpleStringProperty();
   private final SimpleStringProperty lastname = new SimpleStringProperty();
@@ -147,16 +148,17 @@ public class StaffEntity implements Persistent, CSVExportable {
     this.notes.set(notes);
   }
 
-  @ManyToMany(
-      fetch = FetchType.EAGER,
-      cascade = {CascadeType.ALL, CascadeType.MERGE})
-  @JoinTable(name = "staff_alerts", schema = "cdb")
-  public Set<AlertEntity> getAlerts() {
-    return this.alerts;
+  @OneToMany()
+  public ObservableSet<AlertstaffEntity> getAlertstaff() {
+    return this.alertstaff;
   }
 
-  public void setAlerts(Set<AlertEntity> alerts) {
-    this.alerts = alerts;
+  SimpleSetProperty<AlertstaffEntity> alertsProperty() {
+    return alertstaff;
+  }
+
+  public void setAlertstaff(ObservableSet<AlertstaffEntity> alerts) {
+    this.alertstaff.set(alerts);
   }
 
   @Override

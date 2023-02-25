@@ -8,7 +8,7 @@
     <property name="connection.driver_class">org.postgresql.Driver</property>
     <property name="connection.username">teamc</property>
     <property name="connection.password">teamc30</property>
-    <property name="hibernate.default_schema">cdb</property>
+    <property name="show_sql">true</property>
     <mapping class="edu.wpi.cs3733.C23.teamC.objects.hibernate.AudiosubmissionEntity"/>
     <mapping class="edu.wpi.cs3733.C23.teamC.objects.hibernate.CleaningsubmissionEntity"/>
     <mapping class="edu.wpi.cs3733.C23.teamC.objects.hibernate.ComputersubmissionEntity"/>
@@ -21,7 +21,7 @@
     <mapping class="edu.wpi.cs3733.C23.teamC.objects.hibernate.StaffEntity"/>
     <mapping class="edu.wpi.cs3733.C23.teamC.objects.hibernate.TransportationsubmissionEntity"/>
     <mapping class="edu.wpi.cs3733.C23.teamC.objects.hibernate.AlertEntity"/>
-    <mapping class="edu.wpi.cs3733.C23.teamC.objects.hibernate.StaffAlertsEntity"/>
+    <mapping class="edu.wpi.cs3733.C23.teamC.objects.hibernate.AlertstaffEntity"/>
     <!-- <property name="connection.username"/> -->
     <!-- <property name="connection.password"/> -->
 

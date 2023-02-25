@@ -8,15 +8,16 @@ import java.util.*;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleSetProperty;
 import javafx.beans.property.SimpleStringProperty;
-import org.hibernate.collection.spi.PersistentSet;
+import javafx.collections.ObservableSet;
 
 @Entity
 @Table(name = "alerts", schema = "cdb", catalog = "teamcdb")
 public class AlertEntity implements Persistent {
   // private final SimpleObjectProperty<UUID> messageID = new SimpleObjectProperty<>();
 
-  private Set<StaffEntity> staff = new PersistentSet<>();
+  private SimpleSetProperty<AlertstaffEntity> alertstaff = new SimpleSetProperty<>();
   private final SimpleIntegerProperty alertid = new SimpleIntegerProperty();
   private final SimpleObjectProperty<Date> date = new SimpleObjectProperty<>();
   private final SimpleStringProperty message = new SimpleStringProperty();
@@ -95,12 +96,12 @@ public class AlertEntity implements Persistent {
     this.message.set(message);
   }
 
-  @ManyToMany(mappedBy = "alerts")
-  public Set<StaffEntity> getStaff() {
-    return this.staff;
+  @OneToMany(mappedBy = "staff1")
+  public ObservableSet<AlertstaffEntity> getAlertstaff() {
+    return this.alertstaff;
   }
 
-  public void setStaff(Set<StaffEntity> staff) {
-    this.staff = staff;
+  public void setAlertstaff(ObservableSet<AlertstaffEntity> staff) {
+    this.alertstaff.set(staff);
   }
 }
