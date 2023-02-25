@@ -12,28 +12,79 @@
 
 <StackPane fx:id="homeStackPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.controllers.HomeController">
    <children>
-      <BorderPane fx:id="homePagePane">
+      <BorderPane fx:id="homePagePane" prefHeight="600.0" prefWidth="800.0">
          <top>
             <HBox prefHeight="20.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER" />
          </top>
          <center>
-            <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" BorderPane.alignment="CENTER">
+            <VBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" style="-fx-background-color: D9D9D9;" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER" styleClass="body" stylesheets="@../styles/home_style.css" VBox.vgrow="ALWAYS" />
-                  <Label fx:id="welcomeTxt" text="Welcome back, User!" textFill="#012d5a">
-                     <font>
-                        <Font size="26.0" />
-                     </font>
-                  </Label>
-                  <Text fx:id="newMessageTxt" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="You have X new messages:" VBox.vgrow="ALWAYS">
+                  <HBox alignment="CENTER" prefHeight="600.0" styleClass="body" stylesheets="@../styles/home_style.css" VBox.vgrow="ALWAYS" />
+                  <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                     <children>
+                        <Label fx:id="welcomeTxt" text="Welcome back, User!" textFill="#012d5a">
+                           <font>
+                              <Font size="26.0" />
+                           </font>
+                        </Label>
+                     </children>
                      <VBox.margin>
                         <Insets bottom="-10.0" top="-10.0" />
                      </VBox.margin>
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <MFXScrollPane fx:id="scrollPane" fitToWidth="true" prefHeight="150.0" style="-fx-background-color: #F4F4F4;">
+                  </HBox>
+                  <HBox VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox fx:id="messagesBox" alignment="CENTER" onMousePressed="#showMessage" styleClass="text" stylesheets="@../styles/home_style.css" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Text fx:id="newMessageTxt" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="X">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </Text>
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="New Messages">
+                                 <VBox.margin>
+                                    <Insets />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="assignedBox" alignment="CENTER" onMousePressed="#showAssigned" styleClass="text" stylesheets="@../styles/home_style.css" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Text fx:id="assignedTxt" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="X">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </Text>
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Assigned Service Requests">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="pendingBox" alignment="CENTER" onMousePressed="#showPending" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Text fx:id="pendingTxt" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="X">
+                                 <font>
+                                    <Font size="40.0" />
+                                 </font>
+                              </Text>
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Pending Requests">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" top="10.0" />
+                     </padding>
+                  </HBox>
+                  <MFXScrollPane fx:id="scrollPane" fitToWidth="true" minHeight="90.0" prefHeight="200.0" style="-fx-background-color: #F4F4F4;">
                      <content>
                         <VBox fx:id="vbox" alignment="CENTER" spacing="5.0">
                            <padding>
