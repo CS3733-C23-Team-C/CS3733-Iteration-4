@@ -7,15 +7,20 @@ import edu.wpi.cs3733.C23.teamC.database.dao.NodeDAO;
 import edu.wpi.cs3733.C23.teamC.database.dao.StaffDAO;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
 import edu.wpi.cs3733.C23.teamC.objects.orm.*;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
+import javafx.scene.image.Image;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 // this would be about 20 lines long if java supported composition in addition to inheritance
 @Slf4j
@@ -408,6 +413,51 @@ public class DatabaseService implements RepoFacade2 {
       session.close();
     }
     return id;
+  }
+
+  @Override
+  public byte[] getImage(int id) {
+    Session session = getSession();
+    Transaction tx = null;
+
+    try {
+      tx = session.beginTransaction();
+      Query q =
+          session.createNativeQuery(
+              "SELECT cdb.pics.pic FROM cdb.pics WHERE cdb.pics.picnum = :id ");
+      q.setParameter("id", id);
+      System.out.println(q.getQueryString());
+      byte[] b = (byte[]) q.list().get(0);
+      return b;
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return null;
+  }
+
+  @Override
+  public Image setImage(String filepath) throws IOException {
+    Session session = getSession();
+    Transaction tx = null;
+
+    byte[] bytes = Files.readAllBytes(Paths.get(filepath));
+
+    try {
+      tx = session.beginTransaction();
+      Query q = session.createNativeQuery("INSERT INTO cdb.pics values (1, :bytes)");
+      q.setParameter("bytes", bytes);
+      q.executeUpdate();
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return null;
   }
 
   @Override

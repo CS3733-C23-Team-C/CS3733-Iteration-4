@@ -1,9 +1,11 @@
 package edu.wpi.cs3733.C23.teamC.database;
 
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
+import java.io.IOException;
 import java.util.Map;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
+import javafx.scene.image.Image;
 import org.hibernate.Session;
 
 public interface RepoFacade2 {
@@ -133,6 +135,10 @@ public interface RepoFacade2 {
   Session getSession();
 
   int newID();
+
+  byte[] getImage(int id);
+
+  Image setImage(String filepath) throws IOException;
 
   void importAll();
 
