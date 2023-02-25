@@ -32,6 +32,8 @@ public class DatabaseService implements RepoFacade2 {
   private EdgeDAO edgeDAO;
   private MoveDAO moveDAO;
   private MessageDAO messageDAO;
+  private AlertstaffDAO alertstaffDAO;
+  private AlertDAO alertDAO;
 
   public DatabaseService(DAOFacade orm) {
     log.info("Initializing database service.");
@@ -50,6 +52,8 @@ public class DatabaseService implements RepoFacade2 {
     locationDAO = new LocationDAO(orm);
     log.info("Importing nodes.");
     nodeDAO = new NodeDAO(orm);
+    alertstaffDAO = new AlertstaffDAO(orm);
+    log.info("Initialization complete.");
     log.info("Importing staff.");
     staffDAO = new StaffDAO(orm);
     log.info("Importing edges.");
@@ -58,7 +62,9 @@ public class DatabaseService implements RepoFacade2 {
     moveDAO = new MoveDAO(orm);
     log.info("Importing messages.");
     messageDAO = new MessageDAO(orm);
-    log.info("Initialization complete.");
+    log.info("Importing alerts.");
+    alertDAO = new AlertDAO(orm);
+    log.info("Importing alertstaff");
   }
 
   @Override

@@ -7,16 +7,14 @@ import edu.wpi.cs3733.C23.teamC.objects.orm.Persistent;
 import jakarta.persistence.*;
 import java.util.Objects;
 import javafx.beans.InvalidationListener;
-import javafx.beans.property.SimpleSetProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.ObservableSet;
+import org.hibernate.collection.spi.PersistentSet;
 
 @Entity
 @Table(name = "staff", schema = "cdb", catalog = "teamcdb")
 public class StaffEntity implements Persistent, CSVExportable {
 
-  private SimpleSetProperty<AlertstaffEntity> alertstaff =
-      new SimpleSetProperty<AlertstaffEntity>();
+  private PersistentSet<AlertstaffEntity> alertstaff = new PersistentSet<AlertstaffEntity>();
   private final SimpleStringProperty staffid = new SimpleStringProperty();
   private final SimpleStringProperty firstname = new SimpleStringProperty();
   private final SimpleStringProperty lastname = new SimpleStringProperty();
@@ -148,17 +146,17 @@ public class StaffEntity implements Persistent, CSVExportable {
     this.notes.set(notes);
   }
 
-  @OneToMany()
-  public ObservableSet<AlertstaffEntity> getAlertstaff() {
+  @OneToMany(cascade = CascadeType.ALL)
+  public PersistentSet<AlertstaffEntity> getAlertstaff() {
     return this.alertstaff;
   }
 
-  SimpleSetProperty<AlertstaffEntity> alertsProperty() {
-    return alertstaff;
-  }
+  //  SimpleSetProperty<AlertstaffEntity> alertsProperty() {
+  //    return alertstaff;
+  //  }
 
-  public void setAlertstaff(ObservableSet<AlertstaffEntity> alerts) {
-    this.alertstaff.set(alerts);
+  public void setAlertstaff(PersistentSet<AlertstaffEntity> alerts) {
+    this.alertstaff = alerts;
   }
 
   @Override

@@ -17,9 +17,9 @@ public class AlertstaffEntity implements Persistent {
 
   private final SimpleIntegerProperty id = new SimpleIntegerProperty();
 
-  private final SimpleObjectProperty<StaffEntity> staff1 = new SimpleObjectProperty<StaffEntity>();
+  private final SimpleObjectProperty<StaffEntity> staff = new SimpleObjectProperty<StaffEntity>();
 
-  private final SimpleObjectProperty<AlertEntity> alert1 = new SimpleObjectProperty<AlertEntity>();
+  private final SimpleObjectProperty<AlertEntity> alert = new SimpleObjectProperty<AlertEntity>();
 
   private final SimpleBooleanProperty seen = new SimpleBooleanProperty();
 
@@ -27,8 +27,8 @@ public class AlertstaffEntity implements Persistent {
 
   public AlertstaffEntity(int id, StaffEntity staff, AlertEntity alert, boolean seen) {
     setId(id);
-    setStaff1(staff);
-    setAlert1(alert);
+    setStaff(staff);
+    setAlert(alert);
     setSeen(seen);
   }
 
@@ -39,8 +39,8 @@ public class AlertstaffEntity implements Persistent {
           if (Thread.currentThread() != Main.getUpdaterThread()) orm.merge(this);
         };
     id.addListener(listener);
-    staff1.addListener(listener);
-    alert1.addListener(listener);
+    staff.addListener(listener);
+    alert.addListener(listener);
     seen.addListener(listener);
   }
 
@@ -53,15 +53,15 @@ public class AlertstaffEntity implements Persistent {
           this,
           that,
           AlertstaffEntity::getId,
-          AlertstaffEntity::getStaff1,
-          AlertstaffEntity::getAlert1,
+          AlertstaffEntity::getStaff,
+          AlertstaffEntity::getAlert,
           AlertstaffEntity::getSeen);
     } else return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getId(), getStaff1(), getAlert1(), getSeen());
+    return Objects.hash(getId(), getStaff(), getAlert(), getSeen());
   }
 
   @Id
@@ -81,31 +81,31 @@ public class AlertstaffEntity implements Persistent {
   @ManyToOne
   @JoinColumn(name = "staff", insertable = false)
   @Cascade(org.hibernate.annotations.CascadeType.REFRESH)
-  public StaffEntity getStaff1() {
-    return staff1.get();
+  public StaffEntity getStaff() {
+    return staff.get();
   }
 
-  public SimpleObjectProperty<StaffEntity> staff1Property() {
-    return staff1;
+  public SimpleObjectProperty<StaffEntity> staffProperty() {
+    return staff;
   }
 
-  public void setStaff1(StaffEntity staff1) {
-    this.staff1.set(staff1);
+  public void setStaff(StaffEntity staff) {
+    this.staff.set(staff);
   }
 
   @ManyToOne
   @JoinColumn(name = "alert", insertable = false)
   @Cascade(org.hibernate.annotations.CascadeType.REFRESH)
-  public AlertEntity getAlert1() {
-    return alert1.get();
+  public AlertEntity getAlert() {
+    return alert.get();
   }
 
-  public SimpleObjectProperty<AlertEntity> alert1Property() {
-    return alert1;
+  public SimpleObjectProperty<AlertEntity> alertProperty() {
+    return alert;
   }
 
-  public void setAlert1(AlertEntity alert1) {
-    this.alert1.set(alert1);
+  public void setAlert(AlertEntity alert) {
+    this.alert.set(alert);
   }
 
   @Column(name = "seen")
