@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane fx:id="transportationStackPane" minHeight="400.0" minWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.controllers.InfoPageController">
+   <children>
+      <BorderPane fx:id="transportationPane">
+         <top>
+            <HBox prefHeight="20.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER" />
+         </top>
+         <center>
+            <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" />
+               </padding>
+               <children>
+                  <HBox prefHeight="10.0" prefWidth="200.0" />
+                  <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Help Menu">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="10.0" prefWidth="200.0" />
+                  <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;" />
+                  <HBox prefHeight="20.0" prefWidth="200.0" />
+                  <HBox style="-fx-background-color: #012D5A;">
+                     <children>
+                        <MFXButton fx:id="helpProfile" onAction="#goToHelpProfile" style="-fx-background-color: #012D5A;" text="User Profile" textFill="WHITE" />
+                        <MFXButton fx:id="helpHomeButton" onAction="#goToHelpHome" style="-fx-background-color: #012D5A;" text="Home Page" textFill="WHITE" />
+                        <MFXButton fx:id="helpServiceButton" onAction="#goToHelpService" style="-fx-background-color: #012D5A;" text="Service Requests" textFill="WHITE" />
+                        <MFXButton fx:id="helpPathfindingButton" onAction="#goToHelpPathfinding" style="-fx-background-color: #012D5A;" text="Pathfinding" textFill="WHITE" />
+                        <MFXButton fx:id="helpMapButton" onAction="#goToHelpMap" style="-fx-background-color: #012D5A;" text="Map Editor" textFill="WHITE" />
+                        <MFXButton fx:id="helpEmployeeButton" onAction="#goToHelpEmployee" style="-fx-background-color: #012D5A;" text="Employee Editor" textFill="WHITE" />
+                        <MFXButton fx:id="helpCreditsButton" onAction="#goToHelpCredits" style="-fx-background-color: #012D5A;" text="Credits" textFill="WHITE" />
+                        <MFXButton fx:id="helpAboutButton" onAction="#goToHelpAbout" style="-fx-background-color: #012D5A;" text="About" textFill="WHITE" />
+                     </children>
+                  </HBox>
+                  <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                     <children>
+                        <VBox fx:id="vboxText" alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Text fx:id="infoMessage" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Select appropriate tab to learn more about the app">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </VBox>
+         </center>
+      </BorderPane>
+   </children>
+</StackPane>

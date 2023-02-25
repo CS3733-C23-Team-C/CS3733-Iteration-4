@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.controllers.MyRequestsController">
+   <children>
+      <BorderPane>
+         <center>
+            <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox prefHeight="10.0" />
+                  <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Submitted Requests">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+                  <HBox prefHeight="10.0" />
+                  <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;" />
+                  <HBox prefHeight="20.0" />
+                  <HBox alignment="CENTER" minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                     <children>
+                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Request Type:">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Text>
+                        <MFXComboBox fx:id="requestType" floatMode="ABOVE" onAction="#updateTable" prefWidth="200.0">
+                           <HBox.margin>
+                              <Insets left="25.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                           <textFill>
+                              <Color red="0.003921568859368563" green="0.1764705926179886" blue="0.3529411852359772" opacity="0.8700000047683716" />
+                           </textFill>
+                        </MFXComboBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="10.0" prefWidth="200.0" style="-fx-background-color: #E7E7E7;">
+                     <children>
+                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Double click on cell to edit, hit enter on keyboard to save">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                     <children>
+                        <StackPane>
+                           <children>
+                              <TableView fx:id="transportationRequests" prefHeight="476.0" prefWidth="856.0" visible="false">
+                                 <columns>
+                                    <TableColumn fx:id="transportationID" prefWidth="103.20001220703125" text="Staff ID" />
+                                    <TableColumn fx:id="transportationLocation" prefWidth="107.20001220703125" text="Location" />
+                                    <TableColumn fx:id="destination" prefWidth="140.0" text="Destination" />
+                                    <TableColumn fx:id="reason" prefWidth="157.3333740234375" text="Reason" />
+                                    <TableColumn fx:id="transportationELevel" prefWidth="75.0" text="Urgency" />
+                                    <TableColumn fx:id="transportationEmployeeAssigned" prefWidth="157.3333740234375" text="Employee Assigned" />
+                                    <TableColumn fx:id="transportationStatus" editable="false" prefWidth="89.3333740234375" text="Status" />
+                                 </columns>
+                              </TableView>
+                              <TableView fx:id="cleanRequests" visible="false">
+                                 <columns>
+                                    <TableColumn fx:id="cleanID" prefWidth="103.20001220703125" text="Staff ID" />
+                                    <TableColumn fx:id="cleanLocation" prefWidth="107.20001220703125" text="Location" />
+                                    <TableColumn fx:id="hazardLevel" prefWidth="140.0" text="Hazard Level" />
+                                    <TableColumn fx:id="cleanDescription" prefWidth="157.3333740234375" text="Description" />
+                                    <TableColumn fx:id="cleanELevel" prefWidth="75.0" text="Urgency" />
+                                    <TableColumn fx:id="cleanEmployeeAssigned" prefWidth="157.3333740234375" text="Employee Assigned" />
+                                    <TableColumn fx:id="cleanStatus" editable="false" prefWidth="89.3333740234375" text="Status" />
+                                 </columns>
+                              </TableView>
+                              <TableView fx:id="securityRequests" visible="false">
+                                 <columns>
+                                    <TableColumn fx:id="securityID" prefWidth="103.20001220703125" text="Staff ID" />
+                                    <TableColumn fx:id="securityLocation" prefWidth="107.20001220703125" text="Location" />
+                                    <TableColumn fx:id="type" prefWidth="140.0" text="Type" />
+                                    <TableColumn fx:id="securityDescription" prefWidth="157.3333740234375" text="Description" />
+                                    <TableColumn fx:id="securityELevel" prefWidth="75.0" text="Urgency" />
+                                    <TableColumn fx:id="securityEmployeeAssigned" prefWidth="157.3333740234375" text="Employee Assigned" />
+                                    <TableColumn fx:id="securityStatus" editable="false" prefWidth="89.3333740234375" text="Status" />
+                                 </columns>
+                              </TableView>
+                              <TableView fx:id="audioRequests" visible="false">
+                                 <columns>
+                                    <TableColumn fx:id="audioID" prefWidth="119.33334732055664" text="Staff ID" />
+                                    <TableColumn fx:id="audioLocation" prefWidth="115.33329772949219" text="Location" />
+                                    <TableColumn fx:id="audioItem" prefWidth="172.00001525878906" text="Requested Item" />
+                                    <TableColumn fx:id="audioDescription" prefWidth="141.33334350585938" text="Description" />
+                                    <TableColumn fx:id="audioELevel" prefWidth="75.0" text="Urgency" />
+                                    <TableColumn fx:id="audioAssignedID" prefWidth="111.333251953125" text="Assigned ID" />
+                                    <TableColumn fx:id="audioStatus" editable="false" prefWidth="97.99993896484375" text="Status" />
+                                 </columns>
+                              </TableView>
+                              <TableView fx:id="computerRequests" visible="false">
+                                 <columns>
+                                    <TableColumn fx:id="computerID" prefWidth="119.33334732055664" text="Staff ID" />
+                                    <TableColumn fx:id="computerLocation" prefWidth="115.33329772949219" text="Location" />
+                                    <TableColumn fx:id="computerItem" prefWidth="172.00001525878906" text="Requested Item" />
+                                    <TableColumn fx:id="computerDescription" prefWidth="141.33334350585938" text="Description" />
+                                    <TableColumn fx:id="computerELevel" prefWidth="75.0" text="Urgency" />
+                                    <TableColumn fx:id="computerAssignedID" prefWidth="111.333251953125" text="Assigned ID" />
+                                    <TableColumn fx:id="computerStatus" editable="false" prefWidth="97.99993896484375" text="Status" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </StackPane>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" />
+                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0" />
+               </children>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" />
+               </padding>
+            </VBox>
+         </center>
+         <top>
+            <HBox prefHeight="20.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER" />
+         </top>
+      </BorderPane>
+   </children>
+</StackPane>
