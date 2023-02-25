@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.util.Objects;
 import javafx.beans.InvalidationListener;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 @Entity
@@ -21,6 +22,7 @@ public class StaffEntity implements Persistent, CSVExportable {
   private final SimpleStringProperty password = new SimpleStringProperty();
   private final SimpleStringProperty role = new SimpleStringProperty();
   private final SimpleStringProperty notes = new SimpleStringProperty();
+  private final SimpleIntegerProperty picid = new SimpleIntegerProperty();
 
   public StaffEntity() {}
 
@@ -42,6 +44,7 @@ public class StaffEntity implements Persistent, CSVExportable {
     password.addListener(listener);
     role.addListener(listener);
     notes.addListener(listener);
+    picid.addListener(listener);
   }
 
   @Override
@@ -57,7 +60,8 @@ public class StaffEntity implements Persistent, CSVExportable {
           StaffEntity::getLastname,
           StaffEntity::getPassword,
           StaffEntity::getRole,
-          StaffEntity::getNotes);
+          StaffEntity::getNotes,
+          StaffEntity::getPicid);
     } else return false;
   }
 
@@ -144,6 +148,19 @@ public class StaffEntity implements Persistent, CSVExportable {
 
   public void setNotes(String notes) {
     this.notes.set(notes);
+  }
+
+  @Column(name = "picid")
+  public int getPicid() {
+    return picid.get();
+  }
+
+  public SimpleIntegerProperty picidProperty() {
+    return picid;
+  }
+
+  public void setPicid(int picid) {
+    this.picid.set(picid);
   }
 
   @Override

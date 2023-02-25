@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
-import javafx.scene.image.Image;
 import javax.imageio.ImageIO;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
@@ -447,7 +446,7 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
-  public Image setImage(String filepath) throws IOException {
+  public int setImage(String filepath) throws IOException {
     Session session = getSession();
     Transaction tx = null;
 
@@ -457,7 +456,7 @@ public class DatabaseService implements RepoFacade2 {
       tx = session.beginTransaction();
       Query q = session.createNativeQuery("INSERT INTO cdb.pics values (:id, :bytes)");
       q.setParameter("bytes", bytes);
-      q.setParameter("id", getMaxImageID());
+      q.setParameter("id", getMaxImageID() + 1);
       q.executeUpdate();
       tx.commit();
     } catch (HibernateException e) {
@@ -466,7 +465,7 @@ public class DatabaseService implements RepoFacade2 {
     } finally {
       session.close();
     }
-    return null;
+    return getMaxImageID();
   }
 
   private int getMaxImageID() {
@@ -480,7 +479,6 @@ public class DatabaseService implements RepoFacade2 {
       List n = session.createNativeQuery("SELECT MAX(cdb.pics.picnum) FROM cdb.pics").list();
       if (n != null) {
         id = (int) n.get(0);
-        id++;
       }
       tx.commit();
     } catch (HibernateException e) {

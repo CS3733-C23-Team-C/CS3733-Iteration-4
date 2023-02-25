@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.Map;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
-import javafx.scene.image.Image;
 import org.hibernate.Session;
 
 public interface RepoFacade2 {
@@ -139,7 +138,7 @@ public interface RepoFacade2 {
 
   BufferedImage getImage(int id);
 
-  Image setImage(String filepath) throws IOException;
+  int setImage(String filepath) throws IOException;
 
   void importAll();
 

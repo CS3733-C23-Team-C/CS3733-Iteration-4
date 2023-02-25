@@ -52,7 +52,8 @@ public class UserProfileController {
       currFirstName = firstNameField.getText();
       currLastName = lastNameField.getText();
       currPassword = passwordField.getText();
-      BufferedImage tempimage = Main.getRepo().getImage(1);
+
+      BufferedImage tempimage = Main.getRepo().getImage(App.getUser().getPicid());
       image.setImage(SwingFXUtils.toFXImage(tempimage, null));
 
       databaseAccess.setVisible(App.getUser().getRole().equals("admin"));
@@ -87,10 +88,13 @@ public class UserProfileController {
       App.getUser().setPassword(newPass);
       if (!Objects.equals(folderText.getText(), "")) {
         try {
-          Main.getRepo().setImage(folderText.getText());
+          int val = Main.getRepo().setImage(folderText.getText());
+          App.getUser().setPicid(val);
         } catch (IOException e) {
           throw new RuntimeException(e);
         }
+        BufferedImage tempimage = Main.getRepo().getImage(App.getUser().getPicid());
+        image.setImage(SwingFXUtils.toFXImage(tempimage, null));
       }
       // update menu
       MenuController.setUserProfile();
