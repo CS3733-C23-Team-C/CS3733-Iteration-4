@@ -2,11 +2,6 @@ package edu.wpi.cs3733.C23.teamC;
 
 import edu.wpi.cs3733.C23.teamC.database.*;
 import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,8 +25,9 @@ public class Main extends Thread {
     db.importAll();
     AutoUpdate updater = new AutoUpdate();
     updaterThread = new Thread(updater, "AutoUpdater");
-    // updaterThread.start();
-    // App.launch(App.class, args);
+    updaterThread.start();
+    App.launch(App.class, args);
+
     //    try {
     //      repo.setImage(
     //
@@ -40,15 +36,15 @@ public class Main extends Thread {
     //      throw new RuntimeException(e);
     //    }
 
-    ByteArrayInputStream inStreambj = new ByteArrayInputStream(repo.getImage(1));
-    try {
-      BufferedImage newImage = ImageIO.read(inStreambj);
-      File file = new File("C:\\Users\\owen\\Desktop\\outputImage.png");
-      file.getParentFile().mkdirs();
-      ImageIO.write(newImage, "png", file);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    //    ByteArrayInputStream inStreambj = new ByteArrayInputStream(repo.getImage(1));
+    //    try {
+    //      BufferedImage newImage = ImageIO.read(inStreambj);
+    //      File file = new File("C:\\Users\\owen\\Desktop\\outputImage.png");
+    //      file.getParentFile().mkdirs();
+    //      ImageIO.write(newImage, "png", file);
+    //    } catch (IOException e) {
+    //      throw new RuntimeException(e);
+    //    }
     updater.stop();
   }
 

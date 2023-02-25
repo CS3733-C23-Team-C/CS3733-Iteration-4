@@ -4,8 +4,10 @@
 <?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -41,7 +43,8 @@
                         <Text fx:id="staffID" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID: id">
                            <font>
                               <Font size="18.0" />
-                           </font></Text>
+                           </font>
+                        </Text>
                      </children>
                   </HBox>
                   <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
@@ -79,9 +82,9 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                   </HBox>
-                  <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                  <HBox minWidth="150.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
                      <children>
-                        <VBox HBox.hgrow="ALWAYS">
+                        <VBox prefHeight="50.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                            <children>
                               <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
                                  <font>
@@ -95,6 +98,11 @@
                               </MFXPasswordField>
                            </children>
                         </VBox>
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <ImageView fx:id="image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </VBox>
                      </children>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
@@ -102,6 +110,13 @@
                   </HBox>
                   <HBox alignment="CENTER" style="-fx-background-color: #E7E7E7;">
                      <children>
+                        <HBox alignment="CENTER">
+                           <children>
+                              <MFXTextField fx:id="folderText" onAction="#validate" prefHeight="49.0" prefWidth="343.0" />
+                              <Pane prefHeight="49.0" prefWidth="20.0" />
+                              <MFXButton onAction="#onFileSelect" style="-fx-background-color: #009CA6;" text="Select" />
+                           </children>
+                        </HBox>
                         <Text fx:id="errorTxt" fill="#da1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
                            <font>
                               <Font size="15.0" />

@@ -7,6 +7,7 @@ import edu.wpi.cs3733.C23.teamC.database.dao.NodeDAO;
 import edu.wpi.cs3733.C23.teamC.database.dao.StaffDAO;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
 import edu.wpi.cs3733.C23.teamC.objects.orm.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -16,6 +17,7 @@ import java.util.Map;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
 import javafx.scene.image.Image;
+import javax.imageio.ImageIO;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -416,7 +418,7 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
-  public byte[] getImage(int id) {
+  public BufferedImage getImage(int id) {
     Session session = getSession();
     Transaction tx = null;
 
@@ -428,7 +430,13 @@ public class DatabaseService implements RepoFacade2 {
       q.setParameter("id", id);
       System.out.println(q.getQueryString());
       byte[] b = (byte[]) q.list().get(0);
-      return b;
+      ByteArrayInputStream inStreambj = new ByteArrayInputStream(b);
+      try {
+        BufferedImage newImage = ImageIO.read(inStreambj);
+        return newImage;
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
     } catch (HibernateException e) {
       if (tx != null) tx.rollback();
       e.printStackTrace();

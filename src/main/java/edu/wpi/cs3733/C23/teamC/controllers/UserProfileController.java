@@ -1,12 +1,18 @@
 package edu.wpi.cs3733.C23.teamC.controllers;
 
 import edu.wpi.cs3733.C23.teamC.App;
+import edu.wpi.cs3733.C23.teamC.Main;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import io.github.palexdev.materialfx.utils.SwingFXUtils;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Objects;
 import javafx.fxml.FXML;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +22,8 @@ public class UserProfileController {
   @Getter @Setter private String currLastName;
   @Getter @Setter private String currPassword;
 
+  @FXML private MFXTextField folderText;
+  @FXML private ImageView image;
   @FXML private MFXTextField firstNameField;
   @FXML private MFXTextField lastNameField;
   @FXML private MFXPasswordField passwordField;
@@ -43,6 +51,8 @@ public class UserProfileController {
       currFirstName = firstNameField.getText();
       currLastName = lastNameField.getText();
       currPassword = passwordField.getText();
+      BufferedImage tempimage = Main.getRepo().getImage(1);
+      image.setImage(SwingFXUtils.toFXImage(tempimage, null));
 
       databaseAccess.setVisible(App.getUser().getRole().equals("admin"));
     } else {
@@ -87,6 +97,15 @@ public class UserProfileController {
     System.out.println("database popup");
     DatabaseImportDialogController didc = new DatabaseImportDialogController();
     DatabaseImportDialogController.showDialog();
+  }
+
+  public void onFileSelect() {
+    DirectoryChooser chooser = new DirectoryChooser();
+    chooser.setTitle("JavaFX Projects");
+    File defaultDirectory = new File(System.getProperty("user.dir"));
+    chooser.setInitialDirectory(defaultDirectory);
+    File selectedDirectory = chooser.showDialog(folderText.getScene().getWindow());
+    if (selectedDirectory != null) folderText.setText(selectedDirectory.getAbsolutePath());
   }
 
   //  public void editFirstName() {
