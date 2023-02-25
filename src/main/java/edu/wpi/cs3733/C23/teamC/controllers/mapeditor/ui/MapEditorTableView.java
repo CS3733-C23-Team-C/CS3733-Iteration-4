@@ -171,9 +171,10 @@ public class MapEditorTableView {
 
   private void initializeEdgeTable() {
     final var startNodeColumn =
-        createTableColumn("Start Node ID", EdgeEntity::node1Property, new NodeConverter());
+        createTableColumn(
+            "Start Node ID", EdgeEntity::node1IDProperty, new DefaultStringConverter());
     final var endNodeColumn =
-        createTableColumn("End Node ID", EdgeEntity::node2Property, new NodeConverter());
+        createTableColumn("End Node ID", EdgeEntity::node2IDProperty, new DefaultStringConverter());
 
     //noinspection unchecked
     edgeTableView.getColumns().setAll(startNodeColumn, endNodeColumn);
@@ -234,7 +235,7 @@ public class MapEditorTableView {
 
   private void deleteLocationName(LocationnameEntity entity) {
     final var hasMoves =
-        Main.getRepo().getMoves().stream().anyMatch(move -> move.getLocation().equals(entity));
+        Main.getRepo().getMoves().stream().anyMatch(move -> move.getLongName().equals(entity));
     if (hasMoves) {
       final var alert =
           new Alert(
@@ -249,7 +250,7 @@ public class MapEditorTableView {
 
       final var moves =
           Main.getRepo().getMoves().stream()
-              .filter(move -> move.getLocation().equals(entity))
+              .filter(move -> move.getLongName().equals(entity))
               .collect(Collectors.toSet());
       moves.forEach(Main.getRepo()::deleteMove);
     }
@@ -258,9 +259,9 @@ public class MapEditorTableView {
 
   private void initializeMoveTable() {
     final var nodeIDColumn =
-        createTableColumn("Node ID", MoveEntity::nodeProperty, new NodeConverter());
+        createTableColumn("Node ID", MoveEntity::nodeIDProperty, new DefaultStringConverter());
     final var longNameColumn =
-        createTableColumn("Long Name", MoveEntity::locationProperty, new LocationNameConverter());
+        createTableColumn("Long Name", MoveEntity::longNameProperty, new DefaultStringConverter());
     final var moveDateColumn =
         createTableColumn("Move Date", MoveEntity::movedateProperty, new SQLDateStringConverter());
 
