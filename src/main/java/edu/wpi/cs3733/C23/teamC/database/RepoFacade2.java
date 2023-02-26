@@ -146,5 +146,7 @@ public interface RepoFacade2 {
 
   void threadRefresh(int delay);
 
+  StaffEntity getStaff3(String firstName, String lastName, String staffId);
+
   void refreshMessages();
 }
