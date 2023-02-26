@@ -6,7 +6,7 @@ plugins {
     id "io.freefair.lombok" version "6.6.1"
     id 'org.openjfx.javafxplugin' version '0.0.13'
 }
-mainClassName = 'edu.wpi.capybara.Main'
+mainClassName = 'edu.wpi.cs3733.C23.teamC.Main'
 
 repositories {
     mavenCentral()

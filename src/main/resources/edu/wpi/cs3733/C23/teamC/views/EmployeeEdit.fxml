@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
+<?import io.github.palexdev.materialfx.controls.MFXPasswordField?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane fx:id="employeeEditStackPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.controllers.EmployeeEdit">
+    <children>
+        <BorderPane fx:id="employeeEditPane">
+            <top>
+                <HBox prefHeight="20.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER" />
+            </top>
+            <center>
+                <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets />
+                    </BorderPane.margin>
+                    <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" />
+                    </padding>
+                    <children>
+                        <HBox prefHeight="10.0" prefWidth="200.0" />
+                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee Information Editor">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </Text>
+                        <HBox prefHeight="10.0" prefWidth="200.0" />
+                        <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;" />
+                        <HBox prefHeight="20.0" prefWidth="200.0" />
+                        <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                            <children>
+                                <VBox alignment="TOP_CENTER" prefHeight="78.0" prefWidth="182.0" HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Text fx:id="AssignedEmployeeID" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Seach Employee ID">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </Text>
+                                        <MFXTextField fx:id="staffIDField" prefHeight="57.0" prefWidth="152.0">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </MFXTextField>
+                                        <HBox alignment="CENTER" minHeight="20.0" prefHeight="20.0">
+                                 <children>
+                                    <MFXButton fx:id="searchButton" minWidth="150.0" onAction="#searchEmployeeID" style="-fx-background-color: #F6BD38;" text="Search" textFill="#012d5a">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                       <opaqueInsets>
+                                          <Insets top="10.0" />
+                                       </opaqueInsets>
+                                    </MFXButton>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets top="13.0" />
+                                 </VBox.margin></HBox>
+                                    </children>
+                                </VBox>
+                                <VBox />
+                            </children>
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                            </padding>
+                        </HBox>
+                        <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                            <children>
+                                <VBox HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </Text>
+                                        <MFXTextField fx:id="firstNameField" prefHeight="37.0" prefWidth="205.0">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </MFXTextField>
+                                    </children>
+                                </VBox>
+                                <VBox HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </Text>
+                                        <MFXTextField fx:id="lastNameField" prefHeight="37.0" prefWidth="205.0">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </MFXTextField>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                            </padding>
+                        </HBox>
+                        <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                            <children>
+                                <VBox HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </Text>
+                                        <MFXPasswordField fx:id="passwordField" prefHeight="37.0" prefWidth="205.0">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </MFXPasswordField>
+                                    </children>
+                                </VBox>
+                                <VBox HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Role">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </Text>
+                                        <MFXFilterComboBox fx:id="ocupationDropDown" prefHeight="47.0" prefWidth="214.0">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </MFXFilterComboBox>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                            </padding>
+                        </HBox>
+                        <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                            <children>
+                                <VBox HBox.hgrow="ALWAYS">
+                                    <children>
+                                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Additional Notes">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </Text>
+                                        <MFXTextField fx:id="notesField" maxWidth="1.7976931348623157E308">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </MFXTextField>
+                                    </children>
+                                </VBox>
+                            </children>
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                            </padding>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <StackPane prefHeight="150.0" prefWidth="200.0">
+                                    <children>
+                                        <Text fx:id="missingFields" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Please enter all information before submitting" visible="false">
+                                            <font>
+                                                <Font size="24.0" />
+                                            </font>
+                                        </Text>
+                                        <Text fx:id="submissionReceived" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Submission recieved!" visible="false">
+                                            <font>
+                                                <Font size="24.0" />
+                                            </font>
+                                        </Text>
+                                    </children>
+                                </StackPane>
+                            </children></HBox>
+                        <HBox alignment="TOP_CENTER" prefHeight="50.0" prefWidth="441.0" spacing="20.0">
+                            <children>
+                                <MFXButton fx:id="clearButton" minWidth="150.0" onAction="#clearFields" style="-fx-background-color: #012D5A;" text="Clear" textFill="WHITE">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font>
+                                </MFXButton>
+                        <MFXButton fx:id="updateButton" minWidth="150.0" onAction="#update" style="-fx-background-color: #009CA6;" text="Update" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </MFXButton>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </center>
+        </BorderPane>
+    </children>
+</StackPane>
