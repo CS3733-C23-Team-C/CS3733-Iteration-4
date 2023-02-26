@@ -6,7 +6,7 @@ import edu.wpi.cs3733.C23.teamC.database.dao.MoveDAO;
 import edu.wpi.cs3733.C23.teamC.database.dao.NodeDAO;
 import edu.wpi.cs3733.C23.teamC.database.dao.StaffDAO;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
-import edu.wpi.cs3733.C23.teamC.objects.orm.*;
+import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -362,6 +362,11 @@ public class DatabaseService implements RepoFacade2 {
   @Override
   public StaffEntity getStaff2(String firstName, String lastName) {
     return staffDAO.find(firstName, lastName);
+  }
+
+  @Override
+  public StaffEntity getStaff3(String firstName, String lastName, String staffId) {
+    return staffDAO.find(firstName, lastName, staffId);
   }
 
   @Override
