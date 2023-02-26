@@ -61,7 +61,7 @@ public class UIModelImpl implements UIModel {
                   new EdgeGFX(entity, shownFloor),
                   new EdgeRow(edgeTableView, entity),
                   entity);
-          edgeElement.getOnMap().bind();
+          // edgeElement.getOnMap().bind();
           return edgeElement;
         };
     final Function<MoveEntity, MoveElement> moveElementFactory =
