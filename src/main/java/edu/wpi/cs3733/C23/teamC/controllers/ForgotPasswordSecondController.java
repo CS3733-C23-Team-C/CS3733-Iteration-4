@@ -2,18 +2,17 @@ package edu.wpi.cs3733.C23.teamC.controllers;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.Random;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import org.w3c.dom.Text;
-
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.*;
-import java.io.IOException;
-import java.util.Properties;
-import java.util.Random;
+import org.w3c.dom.Text;
 
 public class ForgotPasswordSecondController extends ForgotPasswordController {
 
