@@ -13,6 +13,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Consumer;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -179,6 +180,7 @@ public class MapEditorMapView {
     gfx.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> onNodeClicked(event, node, gfx));
     nodes.put(node, gfx);
     nodeGroup.getChildren().add(gfx);
+    System.out.println("Node added");
   }
 
   private void removeNode(NodeEntity node) {
@@ -186,6 +188,7 @@ public class MapEditorMapView {
     // gfx.removeEventHandler(MouseEvent.MOUSE_PRESSED, this::onNodeClicked);
     nodes.remove(node);
     nodeGroup.getChildren().remove(gfx);
+    System.out.println("Node removed");
   }
 
   private void addEdge(EdgeEntity edge) {
@@ -193,6 +196,7 @@ public class MapEditorMapView {
     gfx.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> onEdgeClicked(event, edge, gfx));
     edges.put(edge, gfx);
     edgeGroup.getChildren().add(gfx);
+    System.out.println("Edge added");
   }
 
   private void removeEdge(EdgeEntity edge) {
@@ -200,6 +204,7 @@ public class MapEditorMapView {
     // gfx.removeEventHandler(MouseEvent.MOUSE_PRESSED, this::onEdgeClicked);
     edges.remove(edge);
     edgeGroup.getChildren().remove(gfx);
+    System.out.println("Edge removed");
   }
 
   private void bindFloorVisibility(ImageView floorImage, Floor associatedFloor) {
@@ -292,32 +297,32 @@ public class MapEditorMapView {
     return inRectangle(edge.getNode1()) && inRectangle(edge.getNode2());
   }
 
-  private final Vector2 lastDragPosition = Vector2.zero();
-  private final HashSet<NodeEntity> nodesToMove = new HashSet<>();
+  private final Vector2 dragOrigin = Vector2.zero();
+  private final Map<NodeEntity, Vector2> nodesToMove = new IdentityHashMap<>();
 
   private void beginDragSelection(Vector2 origin) {
     log.info("Beginning drag selection");
-    lastDragPosition.setX(origin.getX());
-    lastDragPosition.setY(origin.getY());
+    dragOrigin.setX(origin.getX());
+    dragOrigin.setY(origin.getY());
     nodesToMove.clear();
-    nodesToMove.addAll(selectedNodes);
+    final Consumer<NodeEntity> mapper =
+        node -> nodesToMove.put(node, new Vector2(node.getXcoord(), node.getYcoord()));
+    selectedNodes.forEach(mapper);
     selectedEdges.forEach(
         edge -> {
-          nodesToMove.add(edge.getNode1());
-          nodesToMove.add(edge.getNode2());
+          mapper.accept(edge.getNode1());
+          mapper.accept(edge.getNode2());
         });
   }
 
   private void updateDragSelection(Vector2 position) {
     log.info("Updating drag selection");
-    final var delta = Vector2.minus(position, lastDragPosition);
+    final var delta = Vector2.minus(position, dragOrigin);
     nodesToMove.forEach(
-        node -> {
-          node.setXcoord(node.getXcoord() + (int) delta.getX());
-          node.setYcoord(node.getYcoord() + (int) delta.getY());
+        (node, origin) -> {
+          node.setXcoord((int) Math.round(origin.getX() + delta.getX()));
+          node.setYcoord((int) Math.round(origin.getY() + delta.getY()));
         });
-    lastDragPosition.setX(position.getX());
-    lastDragPosition.setY(position.getY());
   }
 
   private void endDragSelection() {

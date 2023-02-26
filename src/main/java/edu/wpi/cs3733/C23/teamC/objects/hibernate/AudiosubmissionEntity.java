@@ -59,7 +59,7 @@ public class AudiosubmissionEntity extends SubmissionAbs implements Persistent, 
 
   @Override
   public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener = evt -> orm.merge(this);
+    final InvalidationListener listener = evt -> orm.mergeOnlyWhenManual(this);
     submissionid.addListener(listener);
     employeeid.addListener(listener);
     assignedid.addListener(listener);

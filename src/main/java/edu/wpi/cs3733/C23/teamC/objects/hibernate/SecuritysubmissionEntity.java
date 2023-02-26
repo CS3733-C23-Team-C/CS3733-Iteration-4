@@ -59,7 +59,7 @@ public class SecuritysubmissionEntity extends SubmissionAbs implements Persisten
 
   @Override
   public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener = evt -> orm.merge(this);
+    final InvalidationListener listener = evt -> orm.mergeOnlyWhenManual(this);
     employeeid.addListener(listener);
     location.addListener(listener);
     type.addListener(listener);

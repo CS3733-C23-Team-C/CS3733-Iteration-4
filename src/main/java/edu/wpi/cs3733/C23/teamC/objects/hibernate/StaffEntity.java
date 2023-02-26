@@ -35,7 +35,7 @@ public class StaffEntity implements Persistent, CSVExportable {
 
   @Override
   public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener = evt -> orm.merge(this);
+    final InvalidationListener listener = evt -> orm.mergeOnlyWhenManual(this);
     staffid.addListener(listener);
     firstname.addListener(listener);
     lastname.addListener(listener);

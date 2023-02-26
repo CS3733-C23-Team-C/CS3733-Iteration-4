@@ -27,7 +27,7 @@ public class LocationnameEntity implements Persistent, CSVExportable {
 
   @Override
   public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener = evt -> orm.merge(this);
+    final InvalidationListener listener = evt -> orm.mergeOnlyWhenManual(this);
     longname.addListener(listener);
     shortname.addListener(listener);
     locationtype.addListener(listener);

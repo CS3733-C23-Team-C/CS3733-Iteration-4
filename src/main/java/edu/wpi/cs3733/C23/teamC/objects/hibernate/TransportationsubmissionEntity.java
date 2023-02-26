@@ -59,7 +59,7 @@ public class TransportationsubmissionEntity extends SubmissionAbs
 
   @Override
   public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener = evt -> orm.merge(this);
+    final InvalidationListener listener = evt -> orm.mergeOnlyWhenManual(this);
     employeeid.addListener(listener);
     currroomnum.addListener(listener);
     destroomnum.addListener(listener);

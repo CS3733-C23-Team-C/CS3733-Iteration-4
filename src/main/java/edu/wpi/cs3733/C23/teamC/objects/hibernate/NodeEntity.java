@@ -38,7 +38,7 @@ public class NodeEntity implements Persistent, CSVExportable {
 
   @Override
   public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener = evt -> orm.merge(this);
+    final InvalidationListener listener = evt -> orm.mergeOnlyWhenManual(this);
     nodeID.addListener(listener);
     xcoord.addListener(listener);
     ycoord.addListener(listener);

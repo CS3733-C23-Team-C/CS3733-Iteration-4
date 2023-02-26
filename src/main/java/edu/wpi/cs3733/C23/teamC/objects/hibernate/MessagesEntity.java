@@ -1,6 +1,5 @@
 package edu.wpi.cs3733.C23.teamC.objects.hibernate;
 
-import edu.wpi.cs3733.C23.teamC.Main;
 import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
 import edu.wpi.cs3733.C23.teamC.objects.orm.Persistent;
 import jakarta.persistence.*;
@@ -42,10 +41,7 @@ public class MessagesEntity implements Persistent {
 
   @Override
   public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener =
-        evt -> {
-          if (Thread.currentThread() != Main.getUpdaterThread()) orm.merge(this);
-        };
+    final InvalidationListener listener = evt -> orm.mergeOnlyWhenManual(this);
     messageid.addListener(listener);
     senderid.addListener(listener);
     receivingid.addListener(listener);

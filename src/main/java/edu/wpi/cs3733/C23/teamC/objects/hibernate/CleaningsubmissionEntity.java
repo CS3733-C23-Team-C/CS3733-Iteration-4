@@ -59,7 +59,7 @@ public class CleaningsubmissionEntity extends SubmissionAbs implements Persisten
 
   @Override
   public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener = evt -> orm.merge(this);
+    final InvalidationListener listener = evt -> orm.mergeOnlyWhenManual(this);
     memberid.addListener(listener);
     location.addListener(listener);
     hazardlevel.addListener(listener);
