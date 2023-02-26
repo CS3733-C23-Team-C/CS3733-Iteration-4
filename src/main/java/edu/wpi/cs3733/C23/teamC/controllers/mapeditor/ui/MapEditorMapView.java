@@ -1,26 +1,31 @@
 package edu.wpi.cs3733.C23.teamC.controllers.mapeditor.ui;
 
-import edu.wpi.cs3733.C23.teamC.App;
 import edu.wpi.cs3733.C23.teamC.Main;
 import edu.wpi.cs3733.C23.teamC.controllers.mapeditor.ui.gfx.EdgeGFX;
 import edu.wpi.cs3733.C23.teamC.controllers.mapeditor.ui.gfx.NodeGFX;
 import edu.wpi.cs3733.C23.teamC.database.RepoFacade2;
 import edu.wpi.cs3733.C23.teamC.objects.Floor;
+import edu.wpi.cs3733.C23.teamC.objects.ImageLoader;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.EdgeEntity;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.NodeEntity;
 import edu.wpi.cs3733.C23.teamC.objects.math.Vector2;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.image.Image;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,6 +38,7 @@ public class MapEditorMapView {
   @Getter private final Pane viewPane;
   private final Group nodeGroup;
   private final Group edgeGroup;
+  private final Rectangle selectionRectangle;
   private final SimpleObjectProperty<Floor> shownFloor = new SimpleObjectProperty<>(Floor.F1);
   private final SimpleBooleanProperty showLabels = new SimpleBooleanProperty(false);
 
@@ -45,6 +51,7 @@ public class MapEditorMapView {
   //        |- floorL2
   //        |- edgeGroup
   //        |- nodeGroup
+  //        |- selectionRectangle
 
   private enum State {
     IDLE,
@@ -58,15 +65,33 @@ public class MapEditorMapView {
   private final Map<NodeEntity, NodeGFX> nodes = new HashMap<>();
   private final Map<EdgeEntity, EdgeGFX> edges = new HashMap<>();
 
-  public MapEditorMapView(StackPane rootPane) {
-    this.rootPane = rootPane;
-    rootPane.setAlignment(Pos.TOP_LEFT);
+  public MapEditorMapView(Pane parent) {
+    final var startTime = Instant.now();
+    log.info("Map Editor map view initializing... {}", startTime.toString());
+    // in  hindsight, I should have just used a ScrollPane for panning... but I already have the pan
+    // code working. I'm not going to change it now. Right now it's just used for clipping.
+    final var clipPane = new ScrollPane();
+    clipPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    clipPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    clipPane.prefWidthProperty().bind(parent.widthProperty());
+    clipPane.prefHeightProperty().bind(parent.heightProperty());
+    parent.getChildren().add(clipPane);
 
-    floorF1 = createFloorImage("blankF1.png");
-    floorF2 = createFloorImage("blankF2.png");
-    floorF3 = createFloorImage("blankF3.png");
-    floorL1 = createFloorImage("blankL1.png");
-    floorL2 = createFloorImage("blankL2.png");
+    rootPane = new StackPane();
+    clipPane.setContent(rootPane);
+
+    log.info("Loading images {}ms", startTime.until(Instant.now(), ChronoUnit.MILLIS));
+    try {
+      floorF1 = new ImageView(ImageLoader.getF1().get());
+      floorF2 = new ImageView(ImageLoader.getF2().get());
+      floorF3 = new ImageView(ImageLoader.getF3().get());
+      floorL1 = new ImageView(ImageLoader.getL1().get());
+      floorL2 = new ImageView(ImageLoader.getL2().get());
+    } catch (ExecutionException | InterruptedException e) {
+      log.error("Error loading images.", e);
+      throw new RuntimeException(e);
+    }
+    log.info("Loaded. {}ms", startTime.until(Instant.now(), ChronoUnit.MILLIS));
 
     bindFloorVisibility(floorF1, Floor.F1);
     bindFloorVisibility(floorF2, Floor.F2);
@@ -80,52 +105,21 @@ public class MapEditorMapView {
 
     nodeGroup = new Group();
     edgeGroup = new Group();
+    selectionRectangle = new Rectangle();
+    selectionRectangle.getStyleClass().add("mapEditorSelect");
+    selectionRectangle.managedProperty().bind(selectionRectangle.visibleProperty());
+    selectionRectangle.setVisible(false);
     viewPane = new Pane(floorF1, floorF2, floorF3, floorL1, floorL2, edgeGroup, nodeGroup);
+    rootPane.setAlignment(Pos.CENTER);
+    rootPane.getChildren().add(viewPane);
 
-    viewPane.translateXProperty().bind(viewX);
-    viewPane.translateYProperty().bind(viewY);
+    rootPane.translateXProperty().bind(viewX);
+    rootPane.translateYProperty().bind(viewY);
+
     rootPane.scaleXProperty().bind(zoom);
     rootPane.scaleYProperty().bind(zoom);
 
-    rootPane.getChildren().add(viewPane);
-
-    /*final var dragOffsetVector = new Vector2(0, 0);
-    rootPane.addEventFilter(
-        MouseEvent.MOUSE_PRESSED,
-        event -> {
-          if (event.getButton() == MouseButton.PRIMARY) {
-            dragOffsetVector.setX(event.getX() - viewX.get());
-            dragOffsetVector.setY(event.getY() - viewY.get());
-          }
-        });
-    rootPane.addEventHandler(
-        MouseEvent.MOUSE_PRESSED,
-        event -> {
-          if (event.getButton() == MouseButton.PRIMARY) {
-            rootPane.setCursor(Cursor.CLOSED_HAND);
-          }
-        });
-    rootPane.addEventHandler(
-        MouseEvent.MOUSE_DRAGGED,
-        event -> {
-          rootPane.setCursor(Cursor.CLOSED_HAND);
-          final var eventLocation = new Vector2(event.getX(), event.getY());
-          eventLocation.subtract(dragOffsetVector);
-          viewX.setValue(eventLocation.getX());
-          viewY.setValue(eventLocation.getY());
-        });
-    rootPane.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> rootPane.setCursor(Cursor.DEFAULT));*/
-    //        rootPane.addEventHandler(
-    //                MouseEvent.MOUSE_RELEASED,
-    //                event -> {
-    //                    if (event.getButton() == MouseButton.PRIMARY && event.isStillSincePress())
-    // {
-    //                        // deselectAll();
-    //                        // todo
-    //                    }
-    //                });
-
-    rootPane.addEventFilter(
+    clipPane.addEventFilter(
         ScrollEvent.SCROLL,
         event -> {
           if (event.getDeltaY() == 0) return;
@@ -133,26 +127,27 @@ public class MapEditorMapView {
           final var MIN_ZOOM = 0.1;
           final var MAX_ZOOM = 5;
 
-          // final var eventOrigin = new Vector2(event.getX(), event.getY());
-          // final var nodeOrigin = new Vector2(viewX.get(), viewY.get());
+          /*final var eventOrigin = new Vector2(event.getX(), event.getY());
+          final var nodeOrigin = new Vector2(viewX.get(), viewY.get());
 
           // final var zoomOffset = Vector2.minus(nodeOrigin, eventOrigin);
-          // final var zoomOffsetPoint =
-          //    viewPane.screenToLocal(event.getScreenX(), event.getScreenY());
-          // final var zoomOffset = new Vector2(-zoomOffsetPoint.getX(), -zoomOffsetPoint.getY());
-          final var zoomDelta = ZOOM_COEFFICIENT * event.getDeltaY();
-          var newZoom = zoom.get() * (1 + zoomDelta);
+          final var zoomPoint =
+              new Vector2(rootPane.screenToLocal(event.getScreenX(), event.getScreenY()));*/
+          final var zoomDelta = 1 + ZOOM_COEFFICIENT * event.getDeltaY();
+          var newZoom = zoom.get() * zoomDelta;
           if (newZoom > MAX_ZOOM) newZoom = MAX_ZOOM;
           else if (newZoom < MIN_ZOOM) newZoom = MIN_ZOOM;
 
-          // normalize, rescale, then offset zoomOffset
-          // zoomOffset.multiply(newZoom).add(eventOrigin);
-          // viewX.set(zoomOffset.getX());
-          // viewY.set(zoomOffset.getY());
+          /*final var zoomPointDelta = zoomPoint.multiply(zoomDelta);
+          viewX.set(viewX.get() + zoomPointDelta.getX());
+          viewY.set(viewY.get() + zoomPointDelta.getY());*/
 
           zoom.set(newZoom);
+
+          event.consume();
         });
 
+    log.info("Populating map... {}ms", startTime.until(Instant.now(), ChronoUnit.MILLIS));
     Main.getRepo()
         .getNodes()
         .addListener(RepoFacade2.createMapListener(this::addNode, this::removeNode));
@@ -162,14 +157,17 @@ public class MapEditorMapView {
 
     Main.getRepo().getNodes().values().forEach(this::addNode);
     Main.getRepo().getEdges().forEach(this::addEdge);
+    log.info("Populated. {}ms", startTime.until(Instant.now(), ChronoUnit.MILLIS));
 
     // zoom out a bit for the user's convenience
     // zoom.set(0.4);
 
     // set up interaction logic
     rootPane.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onMapClicked);
-    rootPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, this::onMouseDragged);
+    rootPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, this::onMouseDragged);
     rootPane.addEventHandler(MouseEvent.MOUSE_RELEASED, this::onMouseReleased);
+
+    log.info("Initialized. {}ms", startTime.until(Instant.now(), ChronoUnit.MILLIS));
   }
 
   private void addNode(NodeEntity node) {
@@ -200,18 +198,12 @@ public class MapEditorMapView {
     edgeGroup.getChildren().remove(gfx);
   }
 
-  private static ImageView createFloorImage(String imageName) {
-    return new ImageView(
-        new Image(Objects.requireNonNull(App.class.getResourceAsStream("images/" + imageName))));
-  }
-
   private void bindFloorVisibility(ImageView floorImage, Floor associatedFloor) {
     final var binding = shownFloor.isEqualTo(associatedFloor);
     floorImage.visibleProperty().bind(binding);
     floorImage.managedProperty().bind(binding);
   }
 
-  private final Vector2 interactionStartPoint = new Vector2(0, 0);
   private final Set<NodeEntity> selectedNodes = new HashSet<>();
   private final Set<EdgeEntity> selectedEdges = new HashSet<>();
 
@@ -249,8 +241,11 @@ public class MapEditorMapView {
     Set.copyOf(selectedEdges).forEach(this::deselect);
   }
 
-  private void beginRectangleSelect(Vector2 anchor) {
+  private Vector2 interactionStart = Vector2.zero();
+
+  private void beginRectangleSelect(final Vector2 anchor) {
     log.info("Beginning rectangle select");
+    interactionStart = anchor;
   }
 
   private void updateRectangleSelect(Vector2 extent) {
@@ -261,8 +256,9 @@ public class MapEditorMapView {
     log.info("Ending rectangle select");
   }
 
-  private void beginDragSelection(Vector2 origin) {
+  private void beginDragSelection(final Vector2 origin) {
     log.info("Beginning drag selection");
+    interactionStart = origin;
   }
 
   private void updateDragSelection(Vector2 position) {
@@ -273,16 +269,25 @@ public class MapEditorMapView {
     log.info("Ending drag selection");
   }
 
+  private final Vector2 dragOffsetVector = Vector2.zero();
+
   private void beginPanMap(Vector2 origin) {
     log.info("Beginning pan map");
+    dragOffsetVector.setX(origin.getX() - viewX.get());
+    dragOffsetVector.setY(origin.getY() - viewY.get());
+    rootPane.setCursor(Cursor.CLOSED_HAND);
   }
 
   private void updatePanMap(Vector2 position) {
     log.info("Updating pan map");
+    final var newView = Vector2.minus(position, dragOffsetVector);
+    viewX.setValue(newView.getX());
+    viewY.setValue(newView.getY());
   }
 
   private void endPanMap() {
     log.info("Ending pan map");
+    rootPane.setCursor(Cursor.DEFAULT);
   }
 
   // left-click on the map: deselect everything

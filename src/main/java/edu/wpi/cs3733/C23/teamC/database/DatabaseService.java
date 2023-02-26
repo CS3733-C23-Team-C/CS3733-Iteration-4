@@ -447,7 +447,7 @@ public class DatabaseService implements RepoFacade2 {
       Thread.sleep(delay * 1000L);
       transportationSubmissionDAO = new TransportationSubmissionDAO(orm);
     } catch (InterruptedException e) {
-      throw new RuntimeException(e);
+      log.info("Shutting down auto-update.");
     }
   }
 

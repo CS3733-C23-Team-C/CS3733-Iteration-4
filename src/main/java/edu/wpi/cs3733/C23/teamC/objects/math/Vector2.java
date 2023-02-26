@@ -54,6 +54,10 @@ public class Vector2 {
     return new Vector2(minuend).subtract(subtrahend);
   }
 
+  public static Vector2 zero() {
+    return new Vector2(0, 0);
+  }
+
   @Override
   public String toString() {
     return String.format("(%f, %f)", x, y);
