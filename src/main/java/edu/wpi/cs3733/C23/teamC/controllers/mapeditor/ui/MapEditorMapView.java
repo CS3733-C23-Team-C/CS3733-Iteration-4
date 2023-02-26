@@ -283,7 +283,8 @@ public class MapEditorMapView {
     return x >= 0
         && x <= selectionRectangle.getWidth()
         && y >= 0
-        && y <= selectionRectangle.getHeight();
+        && y <= selectionRectangle.getHeight()
+        && nodes.get(node).isVisible();
   }
 
   private boolean inRectangle(EdgeEntity edge) {
