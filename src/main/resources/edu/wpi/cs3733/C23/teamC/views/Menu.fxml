@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.controllers.MenuController">
+   <center>
+      <VBox alignment="TOP_CENTER" minWidth="200.0" prefHeight="377.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #012D5A;">
+         <children>
+            <HBox alignment="BOTTOM_CENTER" maxWidth="1.7976931348623157E308" style="-fx-background-color: #009CA6;">
+               <children>
+                  <FontAwesomeIconView fill="WHITE" glyphName="USER" size="25" />
+                  <MenuButton fx:id="userProfile" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: transparent;" text="First Last" textFill="WHITE">
+                    <items>
+                      <MenuItem fx:id="profileButton" mnemonicParsing="false" onAction="#showProfile" text="My Profile" />
+                      <MenuItem fx:id="requestsButton" mnemonicParsing="false" onAction="#showRequests" text="My Requests" />
+                       <MenuItem fx:id="assignedRequests" mnemonicParsing="false" onAction="#showAssignedRequests" text="Assigned Requests" />
+                        <MenuItem fx:id="logOutButton" mnemonicParsing="false" onAction="#showLogOut" text="Log Out" />
+                    </items>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </MenuButton>
+               </children>
+            </HBox>
+            <MFXButton fx:id="homeButton" maxWidth="1.7976931348623157E308" onAction="#goToHome" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="Home" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </MFXButton>
+            <MFXButton fx:id="serviceRequestsButton" maxWidth="1.7976931348623157E308" onAction="#goToServiceRequests" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="Service Requests" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </MFXButton>
+            <MFXButton fx:id="pathfindingButton" maxWidth="1.7976931348623157E308" onAction="#goToPathfinding" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="Pathfinding" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </MFXButton>
+            <MFXButton fx:id="mapEditorButton" maxWidth="1.7976931348623157E308" onAction="#goToMapEditor" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="Map Editor" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </MFXButton>
+            <MFXButton fx:id="employeeEditButton" maxWidth="1.7976931348623157E308" onAction="#goToEmployeeEdit" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="Employee Editor" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </MFXButton>
+            <MFXButton fx:id="messagesButton" alignment="CENTER" contentDisplay="RIGHT" maxWidth="1.7976931348623157E308" nodeOrientation="LEFT_TO_RIGHT" onAction="#goToMessages" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="   Messages" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <graphic>
+                  <Circle fx:id="newMessageCircle" fill="#f6bd38" nodeOrientation="LEFT_TO_RIGHT" radius="6.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
+               </graphic>
+            </MFXButton>
+            <MFXButton fx:id="creditsButton" maxWidth="1.7976931348623157E308" onAction="#goToCreditsPage" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="Credits" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </MFXButton>
+            <MFXButton fx:id="aboutButton" maxWidth="1.7976931348623157E308" onAction="#goToAboutPage" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="About" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </MFXButton>
+            <HBox maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+               <children>
+                  <HBox alignment="BOTTOM_LEFT" styleClass="fa-cog" stylesheets="@../styles/menu1.css" HBox.hgrow="ALWAYS">
+                     <children>
+                        <FontAwesomeIconView fx:id="questionButton" fill="#f6bd38" glyphName="QUESTION" onMouseClicked="#giveInfo" size="30" styleClass="fa-cog" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="BOTTOM_RIGHT" styleClass="fa-cog" stylesheets="@../styles/menu1.css" HBox.hgrow="ALWAYS">
+                     <children>
+                        <FontAwesomeIconView fx:id="quitButton" fill="#f6bd38" glyphName="POWER_OFF" onMouseClicked="#quitApp" size="30" styleClass="fa-cog" />
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets left="20.0" right="20.0" />
+               </padding>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="20.0" top="20.0" />
+         </padding>
+      </VBox>
+   </center>
+</BorderPane>
