@@ -100,6 +100,11 @@
                         </VBox>
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Profile Picture">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
                               <ImageView fx:id="image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
                            </children>
                         </VBox>
@@ -108,22 +113,35 @@
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
                   </HBox>
-                  <HBox alignment="CENTER" style="-fx-background-color: #E7E7E7;">
+                  <VBox prefHeight="77.0" prefWidth="460.0">
                      <children>
-                        <HBox alignment="CENTER">
+                        <HBox alignment="CENTER" style="-fx-background-color: #E7E7E7;">
                            <children>
-                              <MFXTextField fx:id="folderText" prefHeight="49.0" prefWidth="343.0" />
-                              <Pane prefHeight="49.0" prefWidth="20.0" />
-                              <MFXButton onAction="#onFileSelect" style="-fx-background-color: #009CA6;" text="Select" />
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="New Image File Path" textAlignment="CENTER" wrappingWidth="459.4906463623047">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
                            </children>
                         </HBox>
-                        <Text fx:id="errorTxt" fill="#da1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Text>
+                        <HBox alignment="CENTER" style="-fx-background-color: #E7E7E7;">
+                           <children>
+                              <HBox alignment="CENTER">
+                                 <children>
+                                    <MFXTextField fx:id="folderText" prefHeight="49.0" prefWidth="343.0" />
+                                    <Pane prefHeight="49.0" prefWidth="20.0" />
+                                    <MFXButton onAction="#onFileSelect" style="-fx-background-color: #009CA6;" text="Select" />
+                                 </children>
+                              </HBox>
+                              <Text fx:id="errorTxt" fill="#da1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
+                  </VBox>
                   <HBox prefHeight="100.0" prefWidth="200.0" />
                   <VBox>
                      <children>
