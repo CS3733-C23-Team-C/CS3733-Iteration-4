@@ -13,19 +13,18 @@ import java.util.*;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class MapEditorMapView {
   // UI components
   private final ImageView floorF1, floorF2, floorF3, floorL1, floorL2;
@@ -49,7 +48,7 @@ public class MapEditorMapView {
 
   private enum State {
     IDLE,
-    DRAGGING_MAP,
+    PANNING_MAP,
     DRAGGING_SELECTION,
     SELECTING
   }
@@ -90,7 +89,7 @@ public class MapEditorMapView {
 
     rootPane.getChildren().add(viewPane);
 
-    final var dragOffsetVector = new Vector2(0, 0);
+    /*final var dragOffsetVector = new Vector2(0, 0);
     rootPane.addEventFilter(
         MouseEvent.MOUSE_PRESSED,
         event -> {
@@ -115,7 +114,7 @@ public class MapEditorMapView {
           viewX.setValue(eventLocation.getX());
           viewY.setValue(eventLocation.getY());
         });
-    rootPane.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> rootPane.setCursor(Cursor.DEFAULT));
+    rootPane.addEventFilter(MouseEvent.MOUSE_RELEASED, event -> rootPane.setCursor(Cursor.DEFAULT));*/
     //        rootPane.addEventHandler(
     //                MouseEvent.MOUSE_RELEASED,
     //                event -> {
@@ -219,7 +218,7 @@ public class MapEditorMapView {
   private void select(NodeEntity node) {
     selectedNodes.add(node);
     nodes.get(node).showAsSelected();
-    System.out.printf("Selected node %s\n", node.getNodeID());
+    log.info("Selected node {}\n", node.getNodeID());
   }
 
   private void select(EdgeEntity edge) {
@@ -250,11 +249,45 @@ public class MapEditorMapView {
     Set.copyOf(selectedEdges).forEach(this::deselect);
   }
 
-  private void beginRectangleSelection() {}
+  private void beginRectangleSelect(Vector2 anchor) {
+    log.info("Beginning rectangle select");
+  }
+
+  private void updateRectangleSelect(Vector2 extent) {
+    log.info("Updating rectangle select");
+  }
+
+  private void endRectangleSelect() {
+    log.info("Ending rectangle select");
+  }
+
+  private void beginDragSelection(Vector2 origin) {
+    log.info("Beginning drag selection");
+  }
+
+  private void updateDragSelection(Vector2 position) {
+    log.info("Updating drag selection");
+  }
+
+  private void endDragSelection() {
+    log.info("Ending drag selection");
+  }
+
+  private void beginPanMap(Vector2 origin) {
+    log.info("Beginning pan map");
+  }
+
+  private void updatePanMap(Vector2 position) {
+    log.info("Updating pan map");
+  }
+
+  private void endPanMap() {
+    log.info("Ending pan map");
+  }
 
   // left-click on the map: deselect everything
-  // left-click and drag on the map: deselect everything and begin rectangle selection
-  // shift-left-click and drag on the map: begin rectangle selection
+  // left-click and drag on the map: deselect everything and begin rectangle select
+  // shift-left-click and drag on the map: begin rectangle select
   // middle-click and drag on the map: pan map
 
   private void onMapClicked(MouseEvent event) {
@@ -264,22 +297,19 @@ public class MapEditorMapView {
         switch (event.getButton()) {
           case PRIMARY -> {
             state = State.SELECTING;
-            interactionStartPoint.setX(event.getScreenX());
-            interactionStartPoint.setY(event.getScreenY());
 
             if (!event.isShiftDown()) {
               deselectEverything();
             }
-            beginRectangleSelection();
+            beginRectangleSelect(getCoordsPosition(event));
           }
           case MIDDLE -> {
-            state = State.DRAGGING_MAP;
-            interactionStartPoint.setX(event.getScreenX());
-            interactionStartPoint.setY(event.getScreenY());
+            state = State.PANNING_MAP;
+            beginPanMap(getScreenPosition(event));
           }
         }
       }
-      case DRAGGING_MAP, DRAGGING_SELECTION, SELECTING -> {}
+      case PANNING_MAP, DRAGGING_SELECTION, SELECTING -> {}
     }
   }
 
@@ -306,9 +336,10 @@ public class MapEditorMapView {
               deselect(node);
             }
           }
+          beginDragSelection(getCoordsPosition(event));
         }
       }
-      case DRAGGING_MAP, DRAGGING_SELECTION, SELECTING -> {}
+      case PANNING_MAP, DRAGGING_SELECTION, SELECTING -> {}
     }
   }
 
@@ -335,44 +366,49 @@ public class MapEditorMapView {
               deselect(edge);
             }
           }
+          beginDragSelection(getCoordsPosition(event));
         }
       }
-      case DRAGGING_MAP -> {}
-      case DRAGGING_SELECTION -> {}
-      case SELECTING -> {}
+      case PANNING_MAP, DRAGGING_SELECTION, SELECTING -> {}
     }
   }
 
   private void onMouseDragged(MouseEvent event) {
-
     switch (state) {
-      case IDLE -> {
-        state = State.DRAGGING_MAP;
-      }
-      case DRAGGING_MAP -> {}
-      case DRAGGING_SELECTION -> {}
-      case SELECTING -> {}
+      case IDLE -> {}
+      case PANNING_MAP -> updatePanMap(getScreenPosition(event));
+      case DRAGGING_SELECTION -> updateDragSelection(getCoordsPosition(event));
+      case SELECTING -> updateRectangleSelect(getCoordsPosition(event));
     }
   }
 
   private void onMouseReleased(MouseEvent event) {
     switch (state) {
       case IDLE -> {}
-      case DRAGGING_MAP -> {}
+      case PANNING_MAP -> endPanMap();
       case DRAGGING_SELECTION -> {
+        endDragSelection();
         if (!event.isStillSincePress() // were we dragging or just a short click?
             && !event.isShiftDown()) {
           // deselect on release after dragging.
           deselectEverything();
         }
       }
-      case SELECTING -> {}
+      case SELECTING -> endRectangleSelect();
     }
     state = State.IDLE;
   }
 
-  private Point2D screenToCoords(double screenX, double screenY) {
-    return viewPane.screenToLocal(screenX, screenY);
+  private Vector2 screenToCoords(double screenX, double screenY) {
+    return new Vector2(viewPane.screenToLocal(screenX, screenY));
+  }
+
+  private Vector2 getCoordsPosition(MouseEvent event) {
+    return screenToCoords(event.getScreenX(), event.getScreenY());
+  }
+
+  private Vector2 getScreenPosition(MouseEvent event) {
+    return new Vector2(event.getScreenX(), event.getScreenY());
   }
 
   public Floor getShownFloor() {
