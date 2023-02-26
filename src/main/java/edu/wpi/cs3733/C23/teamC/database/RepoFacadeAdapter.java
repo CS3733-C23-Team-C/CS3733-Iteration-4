@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.C23.teamC.database;
 
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.util.List;
 import java.util.Map;
 import org.hibernate.Session;
@@ -239,6 +240,15 @@ public class RepoFacadeAdapter implements RepoFacade {
 
   public StaffEntity getStaff2(String firstName, String lastName) {
     return repo.getStaff2(firstName, lastName);
+  }
+
+  public StaffEntity getStaff3(String firstName, String lastName, String staffId) {
+    return repo.getStaff3(firstName, lastName, staffId);
+  }
+
+  @Override
+  public String getUser(MFXTextField staffID) {
+    return null;
   }
 
   @Override
