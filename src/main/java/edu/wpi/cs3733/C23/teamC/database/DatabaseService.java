@@ -365,6 +365,11 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
+  public StaffEntity getStaff3(String firstName, String lastName, String staffId) {
+    return staffDAO.find(firstName, lastName, staffId);
+  }
+
+  @Override
   public Session getSession() {
     return orm.getSession();
   }
@@ -449,11 +454,6 @@ public class DatabaseService implements RepoFacade2 {
     } catch (InterruptedException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  @Override
-  public StaffEntity getStaff3(String firstName, String lastName, String staffId) {
-    return null;
   }
 
   @Override

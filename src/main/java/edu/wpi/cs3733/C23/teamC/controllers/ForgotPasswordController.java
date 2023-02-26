@@ -59,34 +59,36 @@ public class ForgotPasswordController extends Throwable {
   public void submitButtonPressed(ActionEvent ActionEvent) throws MessagingException, IOException {
     initialize1();
 
-    // StaffEntity s = null;
-    //    if (staffID.getText() != ""
-    //        && firstNameField.getText() != ""
-    //        && lastNameField.getText() != ""
-    //        && emailAddress.getText() != "") {
+    if (staffID.getText() != ""
+        && firstNameField.getText() != ""
+        && lastNameField.getText() != ""
+        && emailAddress.getText() != "") {
 
-    App.setTempUser(
-        Main.db.getStaff3(staffID.getText(), firstNameField.getText(), lastNameField.getText()));
+      App.setTempUser(
+          Main.db.getStaff3(staffID.getText(), firstNameField.getText(), lastNameField.getText()));
 
-    if (App.getTempuser() == null) {
-      clearFields();
-      errorTextP1.setText("Invalid Staff ID, First Name or Last Name");
+      if (App.getTempuser() == null) {
+        clearFields();
+        errorTextP1.setText("Invalid Staff ID, First Name or Last Name");
+      } else {
+        System.out.printf("the id matched an employee\n");
+
+        Singleton singleton = Singleton.getInstance();
+        singleton.setData(emailAddress.getText());
+
+        Singleton2 singleton2 = Singleton2.getInstance();
+        singleton2.setData(App.getTempuser().getPassword());
+
+        Singleton3 singleton3 = Singleton3.getInstance();
+        singleton3.setData(App.getTempuser().getPassword());
+        //  initialize();
+        Navigation.navigate(Screen.FORGOT_PASSWORD_SECOND_SCREEN);
+      }
     } else {
-      System.out.printf("the id matched an employee\n");
-
-      Singleton singleton = Singleton.getInstance();
-      singleton.setData(emailAddress.getText());
-
-      Singleton2 singleton2 = Singleton2.getInstance();
-      singleton2.setData(App.getTempuser().getPassword());
-      //  initialize();
-      Navigation.navigate(Screen.FORGOT_PASSWORD_SECOND_SCREEN);
+      clearFields();
+      errorTextP1.setText("Please fill out all of the above fields");
     }
   }
-  //    else {
-  //      clearFields();
-  //      errorTextP1.setText("Please fill out all of the above fields");
-  //    }
 
   public void backToLogin(MouseEvent mouseEvent) {
     Navigation.navigate(Screen.LOG_IN_PAGE);

@@ -2,17 +2,18 @@ package edu.wpi.cs3733.C23.teamC.controllers;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-import java.io.IOException;
-import java.util.Properties;
-import java.util.Random;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import org.w3c.dom.Text;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.*;
-import org.w3c.dom.Text;
+import java.io.IOException;
+import java.util.Properties;
+import java.util.Random;
 
 public class ForgotPasswordSecondController extends ForgotPasswordController {
 
@@ -127,11 +128,13 @@ public class ForgotPasswordSecondController extends ForgotPasswordController {
     Singleton singleton = Singleton.getInstance();
     System.out.println(singleton.getData());
 
+    Singleton3 singleton3 = Singleton3.getInstance();
+
     // singleton.getData()
 
     String[] emailRecipients = {singleton.getData()};
 
-    String emailBody = "your code is \n \n" + code;
+    String emailBody = "Your Code is \n \n" + code;
     String emailSubject = "Log In Verification Code from Brigham and Women's Hospital";
     mimeMessage = new MimeMessage(newSession);
 
@@ -142,7 +145,9 @@ public class ForgotPasswordSecondController extends ForgotPasswordController {
     mimeMessage.setSubject(emailSubject);
     MimeBodyPart bodyPart = new MimeBodyPart();
     bodyPart.setText(
-        "Hello,\n this is Brigum and Women's Hospital contacting you to inform you that you have forgotten your password. If you have not tried to search for your password, CONTACT YOUR MANAGER AS SOON AS POSSIBLE.\n \n \n Your Password is "
+        "Hello "
+            + singleton3.getData()
+            + ",\n \n \t This is Brigum and Women's Hospital contacting you to inform you that you have forgotten your password. If you have not tried to search for your password, CONTACT YOUR MANAGER AS SOON AS POSSIBLE.\n \n"
             + emailBody);
     MimeMultipart multiPart = new MimeMultipart();
     multiPart.addBodyPart(bodyPart);

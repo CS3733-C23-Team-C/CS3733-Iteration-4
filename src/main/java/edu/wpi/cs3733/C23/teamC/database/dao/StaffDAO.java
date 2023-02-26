@@ -27,4 +27,16 @@ public class StaffDAO extends MapDAOBase<String, StaffEntity> {
     }
     return null;
   }
+
+  public StaffEntity find(String firstName, String lastName, String staffId) {
+    Collection<StaffEntity> staffMembers = getAll().values();
+    for (StaffEntity staff : staffMembers) {
+      if (staff.getFirstname().equals(firstName)
+          && staff.getLastname().equals(lastName)
+          && staff.getStaffid().equals(staffId)) {
+        return staff;
+      }
+    }
+    return null;
+  }
 }
