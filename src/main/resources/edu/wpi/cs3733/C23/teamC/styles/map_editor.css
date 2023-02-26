@@ -30,3 +30,7 @@
     -fx-stroke: #009CA6;
     -fx-fill: #009CA6;
 }
+
+.mapEditorEdge * {
+    -fx-stroke: red;
+}

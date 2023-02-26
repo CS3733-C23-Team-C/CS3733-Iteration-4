@@ -56,10 +56,10 @@ public class MapEditorController {
   public void initialize() {
     model = new UIModelImpl(nodeTableView, edgeTableView, moveTableView, locationNameTableView);
     model.showLabelsProperty().bind(showNames.selectedProperty());
-    mapView = new MapEditorMapView(model, mapViewRoot);
+    mapView = new MapEditorMapView(mapViewRoot);
+    mapView.showLabelsProperty().bind(showNames.selectedProperty());
     tableView =
         new MapEditorTableView(
-            model,
             nodeTableView,
             edgeTableView,
             moveTableView,
@@ -81,9 +81,9 @@ public class MapEditorController {
             ((observable, oldValue, newValue) -> {
               if (newValue == null) {
                 floors.selectToggle(oldValue);
-                model.setShownFloor((Floor) oldValue.getUserData());
+                mapView.setShownFloor((Floor) oldValue.getUserData());
               } else {
-                model.setShownFloor((Floor) newValue.getUserData());
+                mapView.setShownFloor((Floor) newValue.getUserData());
               }
             }));
 
@@ -145,7 +145,7 @@ public class MapEditorController {
     final var contextMenu = new ContextMenu(addNode, addEdge, deleteSelected);
     contextMenu.setAutoHide(true);
 
-    mapViewRoot.setOnContextMenuRequested(
+    /*mapViewRoot.setOnContextMenuRequested(
         event -> {
           clickX.set(event.getScreenX());
           clickY.set(event.getScreenY());
@@ -205,7 +205,7 @@ public class MapEditorController {
           } else {
             moveState = MoveState.CLICK;
           }
-        });
+        });*/
 
     // this looks like it doesn't do anything but if you remove this then the edges don't update
     // when you move nodes around

@@ -2,9 +2,8 @@ package edu.wpi.cs3733.C23.teamC.controllers.mapeditor.ui.gfx;
 
 import edu.wpi.cs3733.C23.teamC.objects.Floor;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.NodeEntity;
-import javafx.beans.binding.Bindings;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ObservableBooleanValue;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
 import javafx.scene.shape.Circle;
 import lombok.Getter;
@@ -17,7 +16,7 @@ public class NodeGFX extends GFXBase {
   @Getter private final Label label;
 
   public NodeGFX(
-      NodeEntity node, ObservableBooleanValue showLabel, ObservableValue<Floor> shownFloor) {
+      NodeEntity node, ObservableBooleanValue showLabel, ObjectProperty<Floor> shownFloor) {
     getStyleClass().addAll("selectable", STYLE_CLASS);
     circle = new Circle(RADIUS);
     label = new Label();
@@ -34,9 +33,7 @@ public class NodeGFX extends GFXBase {
 
     getChildren().addAll(circle, label);
 
-    final var shouldShow =
-        Bindings.createBooleanBinding(
-            () -> shownFloor.getValue().equals(node.getFloor()), shownFloor);
+    final var shouldShow = shownFloor.isEqualTo(node.floorProperty());
     visibleProperty().bind(shouldShow);
     managedProperty().bind(shouldShow);
 

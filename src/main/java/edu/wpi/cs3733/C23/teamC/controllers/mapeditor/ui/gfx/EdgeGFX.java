@@ -2,7 +2,6 @@ package edu.wpi.cs3733.C23.teamC.controllers.mapeditor.ui.gfx;
 
 import edu.wpi.cs3733.C23.teamC.objects.Floor;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.EdgeEntity;
-import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.shape.Line;
 import lombok.Getter;
@@ -12,8 +11,8 @@ public class EdgeGFX extends GFXBase {
 
   @Getter private final Line line;
 
-  private EdgeEntity edge;
-  private ObjectProperty<Floor> shownFloor;
+  private final EdgeEntity edge;
+  private final ObjectProperty<Floor> shownFloor;
 
   public EdgeGFX(EdgeEntity edge, ObjectProperty<Floor> shownFloor) {
     this.edge = edge;
@@ -23,10 +22,10 @@ public class EdgeGFX extends GFXBase {
 
     line.setStrokeWidth(5);
 
-    Platform.runLater(this::bind);
-
     edge.node1IDProperty().addListener(change -> bind());
     edge.node2IDProperty().addListener(change -> bind());
+
+    bind();
 
     getChildren().add(line);
     // getChildren().forEach(child -> child.getStyleClass().addAll("selectable", STYLE_CLASS));
