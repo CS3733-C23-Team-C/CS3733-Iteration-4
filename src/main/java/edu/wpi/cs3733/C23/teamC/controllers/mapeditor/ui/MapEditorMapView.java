@@ -34,6 +34,7 @@ public class MapEditorMapView {
   // UI components
   private final ImageView floorF1, floorF2, floorF3, floorL1, floorL2;
   private final SimpleDoubleProperty viewX, viewY, zoom;
+  private final ScrollPane clipPane;
   private final StackPane rootPane;
   @Getter private final Pane viewPane;
   private final Group nodeGroup;
@@ -70,7 +71,7 @@ public class MapEditorMapView {
     log.info("Map Editor map view initializing... {}", startTime.toString());
     // in  hindsight, I should have just used a ScrollPane for panning... but I already have the pan
     // code working. I'm not going to change it now. Right now it's just used for clipping.
-    final var clipPane = new ScrollPane();
+    clipPane = new ScrollPane();
     clipPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     clipPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
     clipPane.prefWidthProperty().bind(parent.widthProperty());
@@ -105,11 +106,13 @@ public class MapEditorMapView {
 
     nodeGroup = new Group();
     edgeGroup = new Group();
-    selectionRectangle = new Rectangle();
+    selectionRectangle = new Rectangle(0, 0, 100, 100);
     selectionRectangle.getStyleClass().add("mapEditorSelect");
     selectionRectangle.managedProperty().bind(selectionRectangle.visibleProperty());
     selectionRectangle.setVisible(false);
-    viewPane = new Pane(floorF1, floorF2, floorF3, floorL1, floorL2, edgeGroup, nodeGroup);
+    viewPane =
+        new Pane(
+            floorF1, floorF2, floorF3, floorL1, floorL2, edgeGroup, nodeGroup, selectionRectangle);
     rootPane.setAlignment(Pos.CENTER);
     rootPane.getChildren().add(viewPane);
 
@@ -163,9 +166,9 @@ public class MapEditorMapView {
     // zoom.set(0.4);
 
     // set up interaction logic
-    rootPane.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onMapClicked);
-    rootPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, this::onMouseDragged);
-    rootPane.addEventHandler(MouseEvent.MOUSE_RELEASED, this::onMouseReleased);
+    clipPane.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onMapClicked);
+    clipPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, this::onMouseDragged);
+    clipPane.addEventHandler(MouseEvent.MOUSE_RELEASED, this::onMouseReleased);
 
     log.info("Initialized. {}ms", startTime.until(Instant.now(), ChronoUnit.MILLIS));
   }
@@ -241,24 +244,54 @@ public class MapEditorMapView {
     Set.copyOf(selectedEdges).forEach(this::deselect);
   }
 
-  private Vector2 interactionStart = Vector2.zero();
+  private final Vector2 anchor = Vector2.zero();
 
-  private void beginRectangleSelect(final Vector2 anchor) {
+  private void beginRectangleSelect(Vector2 anchor) {
     log.info("Beginning rectangle select");
-    interactionStart = anchor;
+    this.anchor.setX(anchor.getX());
+    this.anchor.setY(anchor.getY());
+    recalculateRectangleCoords(this.anchor, anchor);
+    selectionRectangle.setVisible(true);
   }
 
   private void updateRectangleSelect(Vector2 extent) {
     log.info("Updating rectangle select");
+    recalculateRectangleCoords(anchor, extent);
   }
 
   private void endRectangleSelect() {
     log.info("Ending rectangle select");
+    selectionRectangle.setVisible(false);
+    nodes.keySet().stream().filter(this::inRectangle).forEach(this::select);
+    edges.keySet().stream().filter(this::inRectangle).forEach(this::select);
   }
 
-  private void beginDragSelection(final Vector2 origin) {
+  private void recalculateRectangleCoords(Vector2 anchor, Vector2 extent) {
+    final var x = Math.min(anchor.getX(), extent.getX());
+    final var y = Math.min(anchor.getY(), extent.getY());
+    final var width = Math.max(anchor.getX(), extent.getX()) - x;
+    final var height = Math.max(anchor.getY(), extent.getY()) - y;
+    selectionRectangle.setX(x);
+    selectionRectangle.setY(y);
+    selectionRectangle.setWidth(width);
+    selectionRectangle.setHeight(height);
+  }
+
+  private boolean inRectangle(NodeEntity node) {
+    final var x = node.getXcoord() - selectionRectangle.getX();
+    final var y = node.getYcoord() - selectionRectangle.getY();
+    return x >= 0
+        && x <= selectionRectangle.getWidth()
+        && y >= 0
+        && y <= selectionRectangle.getHeight();
+  }
+
+  private boolean inRectangle(EdgeEntity edge) {
+    return inRectangle(edge.getNode1()) && inRectangle(edge.getNode2());
+  }
+
+  private void beginDragSelection(Vector2 origin) {
     log.info("Beginning drag selection");
-    interactionStart = origin;
   }
 
   private void updateDragSelection(Vector2 position) {
@@ -275,7 +308,7 @@ public class MapEditorMapView {
     log.info("Beginning pan map");
     dragOffsetVector.setX(origin.getX() - viewX.get());
     dragOffsetVector.setY(origin.getY() - viewY.get());
-    rootPane.setCursor(Cursor.CLOSED_HAND);
+    clipPane.setCursor(Cursor.CLOSED_HAND);
   }
 
   private void updatePanMap(Vector2 position) {
@@ -287,7 +320,7 @@ public class MapEditorMapView {
 
   private void endPanMap() {
     log.info("Ending pan map");
-    rootPane.setCursor(Cursor.DEFAULT);
+    clipPane.setCursor(Cursor.DEFAULT);
   }
 
   // left-click on the map: deselect everything

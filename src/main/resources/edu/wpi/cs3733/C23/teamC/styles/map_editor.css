@@ -34,3 +34,11 @@
 .mapEditorEdge * {
     -fx-stroke: red;
 }
+
+.mapEditorSelect {
+    -fx-fill: #009CA640;
+    -fx-stroke: #009CA6;
+    -fx-stroke-width: 4;
+    -fx-arc-height: 5;
+    -fx-arc-width: 5;
+}
