@@ -28,6 +28,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.internal.util.collections.IdentitySet;
 
 @Slf4j
 public class MapEditorMapView {
@@ -63,8 +64,8 @@ public class MapEditorMapView {
 
   private State state = State.IDLE;
 
-  private final Map<NodeEntity, NodeGFX> nodes = new HashMap<>();
-  private final Map<EdgeEntity, EdgeGFX> edges = new HashMap<>();
+  private final Map<NodeEntity, NodeGFX> nodes = new IdentityHashMap<>();
+  private final Map<EdgeEntity, EdgeGFX> edges = new IdentityHashMap<>();
 
   public MapEditorMapView(Pane parent) {
     final var startTime = Instant.now();
@@ -207,8 +208,8 @@ public class MapEditorMapView {
     floorImage.managedProperty().bind(binding);
   }
 
-  private final Set<NodeEntity> selectedNodes = new HashSet<>();
-  private final Set<EdgeEntity> selectedEdges = new HashSet<>();
+  private final Set<NodeEntity> selectedNodes = new IdentitySet<>();
+  private final Set<EdgeEntity> selectedEdges = new IdentitySet<>();
 
   private void select(NodeEntity node) {
     selectedNodes.add(node);
@@ -291,12 +292,32 @@ public class MapEditorMapView {
     return inRectangle(edge.getNode1()) && inRectangle(edge.getNode2());
   }
 
+  private final Vector2 lastDragPosition = Vector2.zero();
+  private final HashSet<NodeEntity> nodesToMove = new HashSet<>();
+
   private void beginDragSelection(Vector2 origin) {
     log.info("Beginning drag selection");
+    lastDragPosition.setX(origin.getX());
+    lastDragPosition.setY(origin.getY());
+    nodesToMove.clear();
+    nodesToMove.addAll(selectedNodes);
+    selectedEdges.forEach(
+        edge -> {
+          nodesToMove.add(edge.getNode1());
+          nodesToMove.add(edge.getNode2());
+        });
   }
 
   private void updateDragSelection(Vector2 position) {
     log.info("Updating drag selection");
+    final var delta = Vector2.minus(position, lastDragPosition);
+    nodesToMove.forEach(
+        node -> {
+          node.setXcoord(node.getXcoord() + (int) delta.getX());
+          node.setYcoord(node.getYcoord() + (int) delta.getY());
+        });
+    lastDragPosition.setX(position.getX());
+    lastDragPosition.setY(position.getY());
   }
 
   private void endDragSelection() {
