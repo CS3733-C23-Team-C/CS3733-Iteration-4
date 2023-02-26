@@ -6,16 +6,26 @@ import edu.wpi.cs3733.C23.teamC.database.dao.MoveDAO;
 import edu.wpi.cs3733.C23.teamC.database.dao.NodeDAO;
 import edu.wpi.cs3733.C23.teamC.database.dao.StaffDAO;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
+
+import edu.wpi.cs3733.C23.teamC.objects.orm.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
+import javax.imageio.ImageIO;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 // this would be about 20 lines long if java supported composition in addition to inheritance
 @Slf4j
@@ -404,6 +414,80 @@ public class DatabaseService implements RepoFacade2 {
       if (n != null) {
         id = (int) n.get(0);
         id++;
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return id;
+  }
+
+  @Override
+  public BufferedImage getImage(int id) {
+    Session session = getSession();
+    Transaction tx = null;
+
+    try {
+      tx = session.beginTransaction();
+      Query q =
+          session.createNativeQuery(
+              "SELECT cdb.pics.pic FROM cdb.pics WHERE cdb.pics.picnum = :id ");
+      q.setParameter("id", id);
+      System.out.println(q.getQueryString());
+      byte[] b = (byte[]) q.list().get(0);
+      ByteArrayInputStream inStreambj = new ByteArrayInputStream(b);
+      try {
+        BufferedImage newImage = ImageIO.read(inStreambj);
+        return newImage;
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return null;
+  }
+
+  @Override
+  public int setImage(String filepath) throws IOException {
+    Session session = getSession();
+    Transaction tx = null;
+
+    byte[] bytes = Files.readAllBytes(Paths.get(filepath));
+
+    try {
+      tx = session.beginTransaction();
+      Query q = session.createNativeQuery("INSERT INTO cdb.pics values (:id, :bytes)");
+      q.setParameter("bytes", bytes);
+      q.setParameter("id", getMaxImageID() + 1);
+      q.executeUpdate();
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return getMaxImageID();
+  }
+
+  private int getMaxImageID() {
+    Session session = orm.getSession();
+    Transaction tx = null;
+
+    int id = 0;
+
+    try {
+      tx = session.beginTransaction();
+      List n = session.createNativeQuery("SELECT MAX(cdb.pics.picnum) FROM cdb.pics").list();
+      if (n != null) {
+        id = (int) n.get(0);
       }
       tx.commit();
     } catch (HibernateException e) {

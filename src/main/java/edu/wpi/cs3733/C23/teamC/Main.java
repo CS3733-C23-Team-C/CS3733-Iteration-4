@@ -27,6 +27,24 @@ public class Main extends Thread {
     updaterThread = new Thread(updater, "AutoUpdater");
     updaterThread.start();
     App.launch(App.class, args);
+
+    //    try {
+    //      repo.setImage(
+    //
+    // "C:\\Users\\owen\\Documents\\GitHub\\CS3733-Iteration-4\\src\\main\\resources\\capybara.png");
+    //    } catch (IOException e) {
+    //      throw new RuntimeException(e);
+    //    }
+
+    //    ByteArrayInputStream inStreambj = new ByteArrayInputStream(repo.getImage(1));
+    //    try {
+    //      BufferedImage newImage = ImageIO.read(inStreambj);
+    //      File file = new File("C:\\Users\\owen\\Desktop\\outputImage.png");
+    //      file.getParentFile().mkdirs();
+    //      ImageIO.write(newImage, "png", file);
+    //    } catch (IOException e) {
+    //      throw new RuntimeException(e);
+    //    }
     updater.stop();
   }
 
