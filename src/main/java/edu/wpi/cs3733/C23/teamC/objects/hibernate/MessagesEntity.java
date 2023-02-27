@@ -39,15 +39,30 @@ public class MessagesEntity implements Persistent {
     setRead(read);
   }
 
+  private InvalidationListener listener;
+
   @Override
   public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener = evt -> orm.mergeOnlyWhenManual(this);
+    listener = evt -> orm.mergeOnlyWhenManual(this);
     messageid.addListener(listener);
     senderid.addListener(listener);
     receivingid.addListener(listener);
     date.addListener(listener);
     message.addListener(listener);
     read.addListener(listener);
+  }
+
+  @Override
+  public void disablePersistence() {
+    if (listener != null) {
+      messageid.removeListener(listener);
+      senderid.removeListener(listener);
+      receivingid.removeListener(listener);
+      date.removeListener(listener);
+      message.removeListener(listener);
+      read.removeListener(listener);
+      listener = null;
+    }
   }
 
   @Override

@@ -6,6 +6,8 @@ import java.util.function.Function;
 public interface Persistent {
   void enablePersistence(DAOFacade orm);
 
+  void disablePersistence();
+
   static <T> boolean compareProperties(
       T thisOne, T thatOne, Function<T, ? super Object>... getters) {
     for (var getter : getters) {

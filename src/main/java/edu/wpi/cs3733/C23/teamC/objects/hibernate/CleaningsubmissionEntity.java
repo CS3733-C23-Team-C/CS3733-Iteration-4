@@ -57,9 +57,11 @@ public class CleaningsubmissionEntity extends SubmissionAbs implements Persisten
     setDuedate(duedate);
   }
 
+  private InvalidationListener listener;
+
   @Override
   public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener = evt -> orm.mergeOnlyWhenManual(this);
+    listener = evt -> orm.mergeOnlyWhenManual(this);
     memberid.addListener(listener);
     location.addListener(listener);
     hazardlevel.addListener(listener);
@@ -70,6 +72,23 @@ public class CleaningsubmissionEntity extends SubmissionAbs implements Persisten
     urgency.addListener(listener);
     createdate.addListener(listener);
     duedate.addListener(listener);
+  }
+
+  @Override
+  public void disablePersistence() {
+    if (listener != null) {
+      memberid.removeListener(listener);
+      location.removeListener(listener);
+      hazardlevel.removeListener(listener);
+      description.removeListener(listener);
+      submissionstatus.removeListener(listener);
+      assignedid.removeListener(listener);
+      submissionid.removeListener(listener);
+      urgency.removeListener(listener);
+      createdate.removeListener(listener);
+      duedate.removeListener(listener);
+      listener = null;
+    }
   }
 
   @Override

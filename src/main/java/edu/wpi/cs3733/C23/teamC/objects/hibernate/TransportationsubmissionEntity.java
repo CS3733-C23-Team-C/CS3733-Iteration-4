@@ -57,9 +57,11 @@ public class TransportationsubmissionEntity extends SubmissionAbs
     setDuedate(duedate);
   }
 
+  private InvalidationListener listener;
+
   @Override
   public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener = evt -> orm.mergeOnlyWhenManual(this);
+    listener = evt -> orm.mergeOnlyWhenManual(this);
     employeeid.addListener(listener);
     currroomnum.addListener(listener);
     destroomnum.addListener(listener);
@@ -70,6 +72,23 @@ public class TransportationsubmissionEntity extends SubmissionAbs
     urgency.addListener(listener);
     createdate.addListener(listener);
     duedate.addListener(listener);
+  }
+
+  @Override
+  public void disablePersistence() {
+    if (listener != null) {
+      employeeid.removeListener(listener);
+      currroomnum.removeListener(listener);
+      destroomnum.removeListener(listener);
+      reason.removeListener(listener);
+      status.removeListener(listener);
+      assignedid.removeListener(listener);
+      submissionid.removeListener(listener);
+      urgency.removeListener(listener);
+      createdate.removeListener(listener);
+      duedate.removeListener(listener);
+      listener = null;
+    }
   }
 
   @Override

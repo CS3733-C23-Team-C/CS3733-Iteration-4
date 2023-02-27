@@ -60,12 +60,24 @@ public class MoveEntity implements Persistent, CSVExportable {
     setMovedate(moveDate);
   }
 
+  private InvalidationListener listener;
+
   @Override
   public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener = evt -> orm.mergeOnlyWhenManual(this);
+    listener = evt -> orm.mergeOnlyWhenManual(this);
     nodeID.addListener(listener);
     longName.addListener(listener);
     movedate.addListener(listener);
+  }
+
+  @Override
+  public void disablePersistence() {
+    if (listener != null) {
+      nodeID.removeListener(listener);
+      longName.removeListener(listener);
+      movedate.removeListener(listener);
+      listener = null;
+    }
   }
 
   @Id

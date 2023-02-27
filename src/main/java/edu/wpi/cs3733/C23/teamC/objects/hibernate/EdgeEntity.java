@@ -51,11 +51,21 @@ public class EdgeEntity implements Persistent, CSVExportable {
     setNode2ID(node2ID);
   }
 
+  private InvalidationListener listener;
+
   @Override
   public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener = evt -> orm.mergeOnlyWhenManual(this);
+    listener = evt -> orm.mergeOnlyWhenManual(this);
     node1ID.addListener(listener);
     node2ID.addListener(listener);
+  }
+
+  public void disablePersistence() {
+    if (listener != null) {
+      node1ID.removeListener(listener);
+      node2ID.removeListener(listener);
+      listener = null;
+    }
   }
 
   @Id

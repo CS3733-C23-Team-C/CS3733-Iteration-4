@@ -399,17 +399,20 @@ public class MapEditorMapView {
             log.info("Updating edge " + edge.getNode1ID() + " " + edge.getNode2ID());
             Main.getRepo().deleteEdge(edge);
             edge.setNode1(newNode);
+            Main.getRepo().addEdge(edge);
           });
       n2Edges.forEach(
           edge -> {
             log.info("Updating edge " + edge.getNode1ID() + " " + edge.getNode2ID());
             Main.getRepo().deleteEdge(edge);
             edge.setNode2(newNode);
+            Main.getRepo().addEdge(edge);
           });
       moves.forEach(
           move -> {
             Main.getRepo().deleteMove(move);
             move.setNodeID(newNode.getNodeID());
+            Main.getRepo().addMove(move);
           });
 
       Main.getRepo().deleteNode(node);
@@ -521,6 +524,7 @@ public class MapEditorMapView {
     for (NodeEntity node1 : nodes) {
       for (NodeEntity node2 : nodes) {
         if (node1.equals(node2)) continue;
+        if (edges.contains(new EdgeEntity(node2, node1))) continue;
         edges.add(new EdgeEntity(node1, node2));
       }
     }
