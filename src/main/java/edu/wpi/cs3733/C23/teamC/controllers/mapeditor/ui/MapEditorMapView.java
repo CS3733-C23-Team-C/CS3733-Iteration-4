@@ -31,6 +31,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Transform;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -73,6 +74,12 @@ public class MapEditorMapView {
   private final Map<NodeEntity, NodeGFX> nodes = new IdentityHashMap<>();
   private final Map<EdgeEntity, EdgeGFX> edges = new IdentityHashMap<>();
 
+  private final SimpleDoubleProperty viewMinX = new SimpleDoubleProperty();
+  private final SimpleDoubleProperty viewMinY = new SimpleDoubleProperty();
+  private final SimpleDoubleProperty viewMaxX = new SimpleDoubleProperty();
+  private final SimpleDoubleProperty viewMaxY = new SimpleDoubleProperty();
+  private final SimpleDoubleProperty viewportWidth = new SimpleDoubleProperty();
+
   public MapEditorMapView(Pane parent) {
     final var startTime = Instant.now();
     log.info("Map Editor map view initializing... {}", startTime.toString());
@@ -85,9 +92,6 @@ public class MapEditorMapView {
     clipPane.prefWidthProperty().bind(parent.widthProperty());
     clipPane.prefHeightProperty().bind(parent.heightProperty());
     parent.getChildren().add(clipPane);
-
-    rootPane = new StackPane();
-    clipPane.setContent(rootPane);
 
     log.info("Loading images {}ms", startTime.until(Instant.now(), ChronoUnit.MILLIS));
     try {
@@ -121,71 +125,105 @@ public class MapEditorMapView {
     viewPane =
         new Pane(
             floorF1, floorF2, floorF3, floorL1, floorL2, edgeGroup, nodeGroup, selectionRectangle);
+    rootPane = new StackPane();
     rootPane.setAlignment(Pos.CENTER);
     rootPane.getChildren().add(viewPane);
 
-    rootPane.translateXProperty().bind(viewX);
-    rootPane.translateYProperty().bind(viewY);
+    clipPane.setContent(rootPane);
 
-    rootPane.scaleXProperty().bind(zoom);
-    rootPane.scaleYProperty().bind(zoom);
+    //    rootPane.translateXProperty().bind(viewX);
+    //    rootPane.translateYProperty().bind(viewY);
+    //
+    //    rootPane.scaleXProperty().bind(zoom);
+    //    rootPane.scaleYProperty().bind(zoom);
 
-    clipPane.addEventFilter(
+    final var IMAGE_WIDTH = floorF1.getImage().getWidth();
+    final var IMAGE_HEIGHT = floorF1.getImage().getHeight();
+    final var IMAGE_ASPECT_RATIO = IMAGE_WIDTH / IMAGE_HEIGHT;
+    final var aspectRatio = clipPane.widthProperty().divide(clipPane.heightProperty());
+
+    viewportWidth.set(clipPane.getWidth());
+
+    viewMinX.bind(viewX);
+    viewMinY.bind(viewY);
+    final var translate = Transform.translate(0, 0);
+    final var scale = Transform.scale(zoom.get(), zoom.get(), translate.getX(), translate.getY());
+    rootPane.getTransforms().addAll(translate, scale);
+
+    viewX.addListener(
+        (observable, oldValue, newValue) -> {
+          translate.setX((double) newValue);
+          // scale.setPivotX((double) newValue);
+        });
+    viewY.addListener(
+        (observable, oldValue, newValue) -> {
+          translate.setY((double) newValue);
+          // scale.setPivotY((double) newValue);
+        });
+    zoom.addListener(
+        (observable, oldValue, newValue) -> {
+          scale.setX((double) newValue);
+          scale.setY((double) newValue);
+        });
+
+    parent.addEventFilter(
         ScrollEvent.SCROLL,
         event -> {
-          log.info("Scroll event");
-          if (event.getDeltaY() == 0) return;
-          final var ZOOM_COEFFICIENT = 0.003;
+          log.info(
+              "sx: {} sy: {} c: {} d: {}",
+              event.getScreenY(),
+              event.getScreenY(),
+              getCoordsPosition(event),
+              event.getDeltaY());
+          if (event.getDeltaY() == 0) {
+            log.warn("Received garbage data in scroll event");
+            return;
+          }
+          /*final var ZOOM_COEFFICIENT = 0.001;
           final var MIN_ZOOM = 0.1;
           final var MAX_ZOOM = 5;
+          final var ZOOM_ORIGIN = Vector2.zero();
+          // new Vector2(floorF1.getImage().getWidth(), floorF1.getImage().getHeight());
+
+          final var eventOrigin = getCoordsPosition(event);
+          final var nodeOrigin = new Vector2(viewX.get(), viewY.get());
+
+          eventOrigin.subtract(ZOOM_ORIGIN);
+          nodeOrigin.subtract(ZOOM_ORIGIN);
+
+          log.info("e: {} n: {}", eventOrigin, nodeOrigin);
 
           final var zoomDelta = 1 + ZOOM_COEFFICIENT * event.getDeltaY();
           var newZoom = zoom.get() * zoomDelta;
           if (newZoom > MAX_ZOOM) newZoom = MAX_ZOOM;
           else if (newZoom < MIN_ZOOM) newZoom = MIN_ZOOM;
 
-          final var originalPoint = getCoordsPosition(event);
+          // normalize, rescale, then offset zoomOffset
+          eventOrigin.multiply(1 - zoomDelta);
+          log.info("e: {} n: {}", eventOrigin, nodeOrigin);
+
+          translateView(eventOrigin.getX(), eventOrigin.getY());
+
+          zoom.set(newZoom);*/
+          final var ZOOM_COEFFICIENT = 0.001;
+          final var MIN_ZOOM = 0.1;
+          final var MAX_ZOOM = 5;
+
+          final var eventOrigin = new Vector2(event.getX(), event.getY());
+          final var nodeOrigin = new Vector2(viewX.get(), viewY.get());
+          final var zoomOffset = Vector2.minus(nodeOrigin, eventOrigin);
+
+          final var zoomDelta = ZOOM_COEFFICIENT * event.getDeltaY();
+          var newZoom = zoom.get() + zoomDelta;
+          if (newZoom > MAX_ZOOM) newZoom = MAX_ZOOM;
+          else if (newZoom < MIN_ZOOM) newZoom = MIN_ZOOM;
+
+          // normalize, rescale, then offset zoomOffset
+          zoomOffset.divide(zoom.get()).multiply(newZoom).add(eventOrigin);
+          // viewX.set(zoomOffset.getX());
+          // viewY.set(zoomOffset.getY());
+
           zoom.set(newZoom);
-          rootPane.layout();
-
-          var newPoint = getCoordsPosition(event);
-          var lastXError = newPoint.getX() - originalPoint.getX();
-          var lastYError = newPoint.getY() - originalPoint.getY();
-          // naive initial correction
-          var lastXCorrection = lastXError;
-          var lastYCorrection = lastYError;
-          translateView(lastXCorrection, lastYCorrection);
-
-          // apply gradient descent
-          /*final double TOLERANCE = 20;
-          for (int i = 0; i < 30; i++) {
-            newPoint = getCoordsPosition(event);
-            var xError = newPoint.getX() - originalPoint.getX();
-            var yError = newPoint.getY() - originalPoint.getY();
-
-            if (Math.abs(xError) < TOLERANCE && Math.abs(yError) < TOLERANCE) break;
-
-            final var xDeriv = (Math.abs(xError) - Math.abs(lastXError)) / lastXCorrection;
-            final var yDeriv = (Math.abs(yError) - Math.abs(lastYError)) / lastYCorrection;
-
-            final var xCorrection = Math.copySign(10 * zoom.get(), lastXCorrection * xDeriv);
-            final var yCorrection = Math.copySign(10 * zoom.get(), lastYCorrection * yDeriv);
-
-            log.info(
-                "ex: {} ey: {} dx: {} dy: {} cx: {} cy: {}",
-                xError,
-                yError,
-                xDeriv,
-                yDeriv,
-                xCorrection,
-                yCorrection);
-
-            translateView(xCorrection, yCorrection);
-
-            lastXCorrection = xCorrection;
-            lastYCorrection = yCorrection;
-          }*/
-
           event.consume();
         });
 
@@ -212,6 +250,8 @@ public class MapEditorMapView {
 
     log.info("Initialized. {}ms", startTime.until(Instant.now(), ChronoUnit.MILLIS));
   }
+
+  private void calculateViewport(double x, double y, double scale) {}
 
   private double constrain(double number, double low, double high) {
     if (number > high) return high;
@@ -489,8 +529,8 @@ public class MapEditorMapView {
   private void updatePanMap(Vector2 position) {
     log.debug("Updating pan map");
     final var newView = Vector2.minus(position, dragOffsetVector);
-    viewX.setValue(newView.getX());
-    viewY.setValue(newView.getY());
+    viewX.set(newView.getX());
+    viewY.set(newView.getY());
   }
 
   private void endPanMap() {
