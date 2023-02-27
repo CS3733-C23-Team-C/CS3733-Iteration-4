@@ -157,4 +157,6 @@ public interface RepoFacade2 {
   StaffEntity getStaff3(String firstName, String lastName, String staffId);
 
   void refreshMessages();
+
+  int getNewAlertID();
 }
