@@ -7,7 +7,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -35,141 +34,135 @@
                      </VBox.margin>
                   </VBox>
                   <HBox prefHeight="20.0" prefWidth="200.0" />
-                  <HBox alignment="CENTER" minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
-                     <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                     </padding>
-                     <children>
-                        <Text fx:id="staffID" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID: id">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Text>
-                     </children>
-                  </HBox>
-                  <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                  <HBox maxHeight="350.0" style="-fx-background-color: #E7E7E7;" VBox.vgrow="ALWAYS">
                      <children>
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
-                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Text>
-                              <MFXTextField fx:id="firstNameField" disable="true" prefWidth="200.0">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </MFXTextField>
-                           </children>
-                        </VBox>
-                        <VBox HBox.hgrow="ALWAYS">
-                           <children>
-                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Text>
-                              <MFXTextField fx:id="lastNameField" disable="true" prefWidth="200.0">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </MFXTextField>
-                           </children>
-                        </VBox>
-                     </children>
-                     <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                     </padding>
-                  </HBox>
-                  <HBox minWidth="150.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
-                     <children>
-                        <VBox prefHeight="50.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Text>
-                              <MFXPasswordField fx:id="passwordField" disable="true" prefWidth="200.0">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </MFXPasswordField>
-                           </children>
-                        </VBox>
-                        <VBox HBox.hgrow="ALWAYS">
-                           <children>
-                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Profile Picture">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Text>
-                              <ImageView fx:id="image" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-                           </children>
-                        </VBox>
-                     </children>
-                     <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                     </padding>
-                  </HBox>
-                  <VBox prefHeight="77.0" prefWidth="460.0">
-                     <children>
-                        <HBox alignment="CENTER" style="-fx-background-color: #E7E7E7;">
-                           <children>
-                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="New Image File Path" textAlignment="CENTER" wrappingWidth="459.4906463623047">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Text>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" style="-fx-background-color: #E7E7E7;">
-                           <children>
-                              <HBox alignment="CENTER">
+                              <HBox alignment="CENTER" minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                                 <padding>
+                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                 </padding>
                                  <children>
-                                    <MFXTextField fx:id="folderText" prefHeight="49.0" prefWidth="343.0" />
-                                    <Pane prefHeight="49.0" prefWidth="20.0" />
-                                    <MFXButton onAction="#onFileSelect" style="-fx-background-color: #009CA6;" text="Select" />
+                                    <Text fx:id="staffID" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Employee ID: id">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Text>
                                  </children>
                               </HBox>
-                              <Text fx:id="errorTxt" fill="#da1a1a" strokeType="OUTSIDE" strokeWidth="0.0">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Text>
+                              <VBox alignment="CENTER">
+                                 <children>
+                                    <ImageView fx:id="image" fitHeight="231.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true" />
+                                    <MFXButton fx:id="updateButton" onAction="#onFileSelect" style="-fx-background-color: #009CA6;" text="Update Profile Photo" textFill="WHITE">
+                                       <VBox.margin>
+                                          <Insets bottom="10.0" top="10.0" />
+                                       </VBox.margin>
+                                    </MFXButton>
+                                 </children>
+                              </VBox>
                            </children>
-                        </HBox>
-                     </children>
-                  </VBox>
-                  <HBox prefHeight="100.0" prefWidth="200.0" />
-                  <VBox>
-                     <children>
-                        <HBox alignment="TOP_RIGHT" prefHeight="45.0" prefWidth="460.0" spacing="20.0">
+                        </VBox>
+                        <VBox HBox.hgrow="ALWAYS">
                            <children>
-                              <MFXButton fx:id="fieldsEdit" minWidth="150.0" onAction="#edit" style="-fx-background-color: #012D5A;" text="Edit" textFill="WHITE">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </MFXButton>
-                              <MFXButton fx:id="fieldsSave" minWidth="150.0" onAction="#save" style="-fx-background-color: #009CA6;" text="Save" textFill="WHITE">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </MFXButton>
+                              <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                                 <children>
+                                    <VBox HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="First Name">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <MFXTextField fx:id="firstNameField" disable="true" prefWidth="200.0">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </MFXTextField>
+                                       </children>
+                                    </VBox>
+                                    <VBox HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Last Name">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <MFXTextField fx:id="lastNameField" disable="true" prefWidth="200.0">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </MFXTextField>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox minWidth="150.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                                 <children>
+                                    <VBox HBox.hgrow="ALWAYS">
+                                       <children>
+                                          <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                             </VBox.margin>
+                                          </Text>
+                                          <MFXPasswordField fx:id="passwordField" disable="true" prefWidth="200.0">
+                                             <font>
+                                                <Font size="15.0" />
+                                             </font>
+                                          </MFXPasswordField>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                                 </padding>
+                              </HBox>
+                              <HBox alignment="CENTER_RIGHT" prefHeight="45.0" prefWidth="460.0" spacing="20.0" VBox.vgrow="ALWAYS">
+                                 <children>
+                                    <MFXButton fx:id="fieldsEdit" minWidth="150.0" onAction="#edit" style="-fx-background-color: #012D5A;" text="Edit" textFill="WHITE">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </MFXButton>
+                                    <MFXButton fx:id="fieldsSave" minWidth="150.0" onAction="#save" style="-fx-background-color: #009CA6;" text="Save" textFill="WHITE">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </MFXButton>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets right="10.0" top="10.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox alignment="CENTER_RIGHT">
+                                 <children>
+                                    <MFXButton fx:id="databaseAccess" onAction="#databasePopup" style="-fx-background-color: #009CA6;" text="Manage Database" textFill="WHITE">
+                                       <HBox.margin>
+                                          <Insets bottom="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </MFXButton>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets right="10.0" />
+                                 </VBox.margin>
+                              </HBox>
                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT">
-                           <children>
-                              <MFXButton fx:id="databaseAccess" minWidth="150.0" onAction="#databasePopup" style="-fx-background-color: #009CA6;" text="Manage Database" textFill="WHITE" visible="false">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </MFXButton>
-                           </children>
-                        </HBox>
+                        </VBox>
                      </children>
-                  </VBox>
+                  </HBox>
+                  <VBox prefHeight="150.0" VBox.vgrow="ALWAYS" />
                </children>
                <padding>
                   <Insets bottom="20.0" left="20.0" right="20.0" />
