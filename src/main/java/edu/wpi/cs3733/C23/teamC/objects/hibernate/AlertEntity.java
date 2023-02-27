@@ -148,4 +148,50 @@ public class AlertEntity implements Persistent {
     }
     return ret;
   }
+
+  public void addStaff(StaffEntity staff) {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+
+    try {
+      tx = session.beginTransaction();
+      Query q =
+          session.createNativeQuery(
+              "INSERT INTO cdb.alertstaff "
+                  + "(staff, alert, seen)"
+                  + "VALUES (:staff, :alert, FALSE)");
+      q.setParameter("staff", staff.getStaffid());
+      q.setParameter("alert", getAlertid());
+      q.executeUpdate();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+  }
+
+  public void addStaff(List<StaffEntity> staff) {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+
+    try {
+      tx = session.beginTransaction();
+      for (StaffEntity s : staff) {
+        Query q =
+            session.createNativeQuery(
+                "INSERT INTO cdb.alertstaff "
+                    + "(staff, alert, seen)"
+                    + "VALUES (:staff, :alert, FALSE)");
+        q.setParameter("staff", s.getStaffid());
+        q.setParameter("alert", getAlertid());
+        q.executeUpdate();
+      }
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+  }
 }
