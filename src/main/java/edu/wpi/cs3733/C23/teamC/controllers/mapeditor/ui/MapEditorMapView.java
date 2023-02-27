@@ -74,12 +74,6 @@ public class MapEditorMapView {
   private final Map<NodeEntity, NodeGFX> nodes = new IdentityHashMap<>();
   private final Map<EdgeEntity, EdgeGFX> edges = new IdentityHashMap<>();
 
-  private final SimpleDoubleProperty viewMinX = new SimpleDoubleProperty();
-  private final SimpleDoubleProperty viewMinY = new SimpleDoubleProperty();
-  private final SimpleDoubleProperty viewMaxX = new SimpleDoubleProperty();
-  private final SimpleDoubleProperty viewMaxY = new SimpleDoubleProperty();
-  private final SimpleDoubleProperty viewportWidth = new SimpleDoubleProperty();
-
   public MapEditorMapView(Pane parent) {
     final var startTime = Instant.now();
     log.info("Map Editor map view initializing... {}", startTime.toString());
@@ -131,35 +125,23 @@ public class MapEditorMapView {
 
     clipPane.setContent(rootPane);
 
-    //    rootPane.translateXProperty().bind(viewX);
-    //    rootPane.translateYProperty().bind(viewY);
-    //
-    //    rootPane.scaleXProperty().bind(zoom);
-    //    rootPane.scaleYProperty().bind(zoom);
+    final var viewTranslate = Transform.translate(0, 0);
+    final var scale =
+        Transform.scale(
+            zoom.get(), zoom.get(), 0.5 * clipPane.getWidth(), 0.5 * clipPane.getHeight());
+    rootPane.getTransforms().addAll(scale, viewTranslate);
 
-    final var IMAGE_WIDTH = floorF1.getImage().getWidth();
-    final var IMAGE_HEIGHT = floorF1.getImage().getHeight();
-    final var IMAGE_ASPECT_RATIO = IMAGE_WIDTH / IMAGE_HEIGHT;
-    final var aspectRatio = clipPane.widthProperty().divide(clipPane.heightProperty());
-
-    viewportWidth.set(clipPane.getWidth());
-
-    viewMinX.bind(viewX);
-    viewMinY.bind(viewY);
-    final var translate = Transform.translate(0, 0);
-    final var scale = Transform.scale(zoom.get(), zoom.get(), translate.getX(), translate.getY());
-    rootPane.getTransforms().addAll(translate, scale);
+    clipPane
+        .widthProperty()
+        .addListener((observable, oldValue, newValue) -> scale.setPivotX(0.5 * (double) newValue));
+    clipPane
+        .heightProperty()
+        .addListener((observable, oldValue, newValue) -> scale.setPivotY(0.5 * (double) newValue));
 
     viewX.addListener(
-        (observable, oldValue, newValue) -> {
-          translate.setX((double) newValue);
-          // scale.setPivotX((double) newValue);
-        });
+        (observable, oldValue, newValue) -> viewTranslate.setX((double) newValue / scale.getX()));
     viewY.addListener(
-        (observable, oldValue, newValue) -> {
-          translate.setY((double) newValue);
-          // scale.setPivotY((double) newValue);
-        });
+        (observable, oldValue, newValue) -> viewTranslate.setY((double) newValue / scale.getY()));
     zoom.addListener(
         (observable, oldValue, newValue) -> {
           scale.setX((double) newValue);
@@ -169,59 +151,18 @@ public class MapEditorMapView {
     parent.addEventFilter(
         ScrollEvent.SCROLL,
         event -> {
-          log.info(
-              "sx: {} sy: {} c: {} d: {}",
-              event.getScreenY(),
-              event.getScreenY(),
-              getCoordsPosition(event),
-              event.getDeltaY());
           if (event.getDeltaY() == 0) {
             log.warn("Received garbage data in scroll event");
             return;
           }
-          /*final var ZOOM_COEFFICIENT = 0.001;
-          final var MIN_ZOOM = 0.1;
-          final var MAX_ZOOM = 5;
-          final var ZOOM_ORIGIN = Vector2.zero();
-          // new Vector2(floorF1.getImage().getWidth(), floorF1.getImage().getHeight());
-
-          final var eventOrigin = getCoordsPosition(event);
-          final var nodeOrigin = new Vector2(viewX.get(), viewY.get());
-
-          eventOrigin.subtract(ZOOM_ORIGIN);
-          nodeOrigin.subtract(ZOOM_ORIGIN);
-
-          log.info("e: {} n: {}", eventOrigin, nodeOrigin);
-
-          final var zoomDelta = 1 + ZOOM_COEFFICIENT * event.getDeltaY();
-          var newZoom = zoom.get() * zoomDelta;
-          if (newZoom > MAX_ZOOM) newZoom = MAX_ZOOM;
-          else if (newZoom < MIN_ZOOM) newZoom = MIN_ZOOM;
-
-          // normalize, rescale, then offset zoomOffset
-          eventOrigin.multiply(1 - zoomDelta);
-          log.info("e: {} n: {}", eventOrigin, nodeOrigin);
-
-          translateView(eventOrigin.getX(), eventOrigin.getY());
-
-          zoom.set(newZoom);*/
           final var ZOOM_COEFFICIENT = 0.001;
           final var MIN_ZOOM = 0.1;
           final var MAX_ZOOM = 5;
-
-          final var eventOrigin = new Vector2(event.getX(), event.getY());
-          final var nodeOrigin = new Vector2(viewX.get(), viewY.get());
-          final var zoomOffset = Vector2.minus(nodeOrigin, eventOrigin);
 
           final var zoomDelta = ZOOM_COEFFICIENT * event.getDeltaY();
           var newZoom = zoom.get() + zoomDelta;
           if (newZoom > MAX_ZOOM) newZoom = MAX_ZOOM;
           else if (newZoom < MIN_ZOOM) newZoom = MIN_ZOOM;
-
-          // normalize, rescale, then offset zoomOffset
-          zoomOffset.divide(zoom.get()).multiply(newZoom).add(eventOrigin);
-          // viewX.set(zoomOffset.getX());
-          // viewY.set(zoomOffset.getY());
 
           zoom.set(newZoom);
           event.consume();
@@ -238,9 +179,6 @@ public class MapEditorMapView {
     Main.getRepo().getNodes().values().forEach(this::addNode);
     Main.getRepo().getEdges().forEach(this::addEdge);
     log.info("Populated. {}ms", startTime.until(Instant.now(), ChronoUnit.MILLIS));
-
-    // zoom out a bit for the user's convenience
-    // zoom.set(0.4);
 
     // set up interaction logic
     clipPane.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onMapClicked);
