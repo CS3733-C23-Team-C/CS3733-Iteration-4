@@ -10,6 +10,11 @@ public enum Screen {
   SERVICE_REQUEST_AUDIO("views/Audio.fxml"),
   SERVICE_REQUESTS("views/ServiceRequests.fxml"),
   HOME("views/Home.fxml"),
+
+  FORGOT_PASSWORD("views/ForgotPassword.fxml"),
+
+  FORGOT_PASSWORD_SECOND_SCREEN("views/ForgotPasswordSecondScreen.fxml"),
+
   SERVICE_REQUEST_TRANSPORTATION("views/Transportation.fxml"),
   SERVICE_REQUEST_CLEANING("views/Cleaning.fxml"),
   SERVICE_REQUEST_SECURITY("views/Security.fxml"),

@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.C23.teamC.database;
 
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Map;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
@@ -32,9 +34,13 @@ public interface RepoFacade2 {
 
   ReadOnlyMapProperty<Integer, MessagesEntity> getMessages();
 
+  AlertEntity getAlert(Integer id);
+
   Map<Integer, MessagesEntity> getMessages(String id);
 
   Map<Integer, MessagesEntity> getMessages(String id, int lastid);
+
+  ReadOnlyMapProperty getAlerts();
 
   // Add method
   // Submissions
@@ -60,6 +66,8 @@ public interface RepoFacade2 {
   boolean addMove(MoveEntity submission);
 
   void addMessage(MessagesEntity message);
+
+  void addAlert(AlertEntity alert);
 
   // Get single methods
   // Submissions
@@ -127,6 +135,8 @@ public interface RepoFacade2 {
 
   void deleteMessage(MessagesEntity entity);
 
+  void deleteAlert(AlertEntity entity);
+
   // Submission methods
   StaffEntity getStaff(String Staffid, String password);
 
@@ -134,11 +144,17 @@ public interface RepoFacade2 {
 
   int newID();
 
+  BufferedImage getImage(int id);
+
+  int setImage(String filepath) throws IOException;
+
   void importAll();
 
   int generateMessageID();
 
   void threadRefresh(int delay);
+
+  StaffEntity getStaff3(String firstName, String lastName, String staffId);
 
   void refreshMessages();
 }
