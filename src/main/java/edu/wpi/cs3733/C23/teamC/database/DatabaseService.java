@@ -6,15 +6,12 @@ import edu.wpi.cs3733.C23.teamC.database.dao.MoveDAO;
 import edu.wpi.cs3733.C23.teamC.database.dao.NodeDAO;
 import edu.wpi.cs3733.C23.teamC.database.dao.StaffDAO;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
-
 import edu.wpi.cs3733.C23.teamC.objects.orm.*;
+import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
-import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
