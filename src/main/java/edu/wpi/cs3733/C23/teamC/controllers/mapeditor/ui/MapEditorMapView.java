@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.C23.teamC.controllers.mapeditor.ui;
 
 import edu.wpi.cs3733.C23.teamC.Main;
+import edu.wpi.cs3733.C23.teamC.controllers.mapeditor.dialogs.ErrorMessage;
 import edu.wpi.cs3733.C23.teamC.controllers.mapeditor.ui.gfx.EdgeGFX;
 import edu.wpi.cs3733.C23.teamC.controllers.mapeditor.ui.gfx.NodeGFX;
 import edu.wpi.cs3733.C23.teamC.database.RepoFacade2;
@@ -74,6 +75,7 @@ public class MapEditorMapView {
   public MapEditorMapView(Pane parent) {
     final var startTime = Instant.now();
     log.info("Map Editor map view initializing... {}", startTime.toString());
+    Thread.currentThread().setUncaughtExceptionHandler(ErrorMessage::handleUncaughtException);
     // in  hindsight, I should have just used a ScrollPane for panning... but I already have the pan
     // code working. I'm not going to change it now. Right now it's just used for clipping.
     clipPane = new ScrollPane();
@@ -184,7 +186,7 @@ public class MapEditorMapView {
     gfx.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> onNodeClicked(event, node, gfx));
     nodes.put(node, gfx);
     nodeGroup.getChildren().add(gfx);
-    System.out.println("Node added");
+    log.info("Node added");
   }
 
   private void removeNode(NodeEntity node) {
@@ -193,7 +195,7 @@ public class MapEditorMapView {
     nodes.remove(node);
     nodeGroup.getChildren().remove(gfx);
     selectedNodes.remove(node);
-    System.out.println("Node removed");
+    log.info("Node removed");
   }
 
   private void addEdge(EdgeEntity edge) {
@@ -201,7 +203,7 @@ public class MapEditorMapView {
     gfx.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> onEdgeClicked(event, edge, gfx));
     edges.put(edge, gfx);
     edgeGroup.getChildren().add(gfx);
-    System.out.println("Edge added");
+    log.info("Edge added");
   }
 
   private void removeEdge(EdgeEntity edge) {
@@ -210,7 +212,7 @@ public class MapEditorMapView {
     edges.remove(edge);
     edgeGroup.getChildren().remove(gfx);
     selectedEdges.remove(edge);
-    System.out.println("Edge removed");
+    log.info("Edge removed");
   }
 
   private void bindFloorVisibility(ImageView floorImage, Floor associatedFloor) {
@@ -355,7 +357,9 @@ public class MapEditorMapView {
   private void endDragSelection() {
     log.info("Ending drag selection");
     if (hasDragMoved) {
-      nodesToMove.keySet().forEach(this::repairID);
+      for (NodeEntity node : Set.copyOf(nodesToMove.keySet())) {
+        repairID(node);
+      }
     }
   }
 
@@ -380,25 +384,25 @@ public class MapEditorMapView {
       final var n1Edges =
           Main.getRepo().getEdges().stream()
               .filter(edge -> edge.getNode1ID().equals(node.getNodeID()))
-              .toList();
+              .collect(Collectors.toSet());
       final var n2Edges =
           Main.getRepo().getEdges().stream()
               .filter(edge -> edge.getNode2ID().equals(node.getNodeID()))
-              .toList();
+              .collect(Collectors.toSet());
       final var moves =
           Main.getRepo().getMoves().stream()
               .filter(move -> move.getNode().getNodeID().equals(node.getNodeID()))
-              .toList();
+              .collect(Collectors.toSet());
 
       n1Edges.forEach(
           edge -> {
-            System.out.println("Updating edge " + edge.getNode1ID() + " " + edge.getNode2ID());
+            log.info("Updating edge " + edge.getNode1ID() + " " + edge.getNode2ID());
             Main.getRepo().deleteEdge(edge);
             edge.setNode1(newNode);
           });
       n2Edges.forEach(
           edge -> {
-            System.out.println("Updating edge " + edge.getNode1ID() + " " + edge.getNode2ID());
+            log.info("Updating edge " + edge.getNode1ID() + " " + edge.getNode2ID());
             Main.getRepo().deleteEdge(edge);
             edge.setNode2(newNode);
           });
@@ -475,20 +479,12 @@ public class MapEditorMapView {
     // remove the deleted node, as we don't want to create edges to it.
     nodes.remove(node);
 
-    // recreate the graph. if you were to include the original edges, this graph would be
-    // transitive.
-    // unfortunately this is O(n^2), but we really shouldn't see high enough values of n to care.
-    final var newEdges = new HashSet<EdgeEntity>();
-    for (NodeEntity node1 : nodes) {
-      for (NodeEntity node2 : nodes) {
-        newEdges.add(new EdgeEntity(node1, node2));
-      }
-    }
-
     // remove the old edges
     edges.forEach(Main.getRepo()::deleteEdge);
-    // add the new ones
-    newEdges.forEach(Main.getRepo()::addEdge);
+
+    // recreate the graph. if you were to include the original edges, this graph would be
+    // transitive.
+    connectNodes(nodes);
 
     // finally, delete the node.
     Main.getRepo().deleteNode(node);
@@ -502,7 +498,7 @@ public class MapEditorMapView {
     var numSelected = selectedNodes.size();
     final var connect =
         new MenuItem(String.format("Connect %d node%s", numSelected, numSelected == 1 ? "" : "s"));
-    connect.setOnAction(actionEvent -> connectSelectedEdges());
+    connect.setOnAction(actionEvent -> connectNodes(selectedNodes));
     connect.setDisable(numSelected < 2);
     numSelected += selectedEdges.size();
     final var delete =
@@ -517,7 +513,20 @@ public class MapEditorMapView {
     contextMenu.setAutoHide(true);
   }
 
-  private void connectSelectedEdges() {}
+  private void connectNodes(Set<NodeEntity> nodes) {
+    // we're using a hashset here because we want to check deep equality here, rather than checking
+    // for the same object.
+    final var edges = new HashSet<EdgeEntity>();
+    // unfortunately this is O(n^2), but we really shouldn't see high enough values of n to care.
+    for (NodeEntity node1 : nodes) {
+      for (NodeEntity node2 : nodes) {
+        if (node1.equals(node2)) continue;
+        edges.add(new EdgeEntity(node1, node2));
+      }
+    }
+
+    edges.forEach(Main.getRepo()::addEdge);
+  }
 
   // left-click on the map: deselect everything
   // left-click and drag on the map: deselect everything and begin rectangle select
@@ -525,7 +534,7 @@ public class MapEditorMapView {
   // middle-click and drag on the map: pan map
 
   private void onMapClicked(MouseEvent event) {
-    System.out.println("Map clicked.");
+    log.info("Map clicked.");
     switch (state) {
       case IDLE -> {
         switch (event.getButton()) {
