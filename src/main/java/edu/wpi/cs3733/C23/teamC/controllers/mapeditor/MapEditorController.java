@@ -212,17 +212,17 @@ public class MapEditorController {
     // I'm not entirely sure why this works, but it seems to be related to some interaction between
     // the Hibernate
     // threads and the JavaFX Application thread
-    new Thread(
-            () -> {
-              final var converter = new MapEditorTableView.NodeConverter();
-              for (EdgeEntity edge : Main.getRepo().getEdges()) {
-                String str = converter.toString(edge.node1Property().get());
-                edge.node1Property().set(converter.fromString(str));
-                str = converter.toString(edge.node2Property().get());
-                edge.node2Property().set(converter.fromString(str));
-              }
-            })
-        .start();
+    /*new Thread(
+        () -> {
+          final var converter = new MapEditorTableView.NodeConverter();
+          for (EdgeEntity edge : Main.getRepo().getEdges()) {
+            String str = converter.toString(edge.node1IDProperty().get());
+            edge.node1IDProperty().set(converter.fromString(str));
+            str = converter.toString(edge.node2IDProperty().get());
+            edge.node2IDProperty().set(converter.fromString(str));
+          }
+        })
+    .start();*/
   }
 
   private enum MoveState {
@@ -284,7 +284,7 @@ public class MapEditorController {
   private void repairEdgesAndDelete(NodeEntity node) {
     final var hasMoves =
         Main.getRepo().getMoves().stream()
-            .anyMatch(move -> move.getNode().getNodeID().equals(node.getNodeID()));
+            .anyMatch(move -> move.getNodeID().equals(node.getNodeID()));
     if (hasMoves) {
       final var alert =
           new Alert(
@@ -299,7 +299,7 @@ public class MapEditorController {
 
       final var moves =
           Main.getRepo().getMoves().stream()
-              .filter(move -> move.getNode().getNodeID().equals(node.getNodeID()))
+              .filter(move -> move.getNodeID().equals(node.getNodeID()))
               .collect(Collectors.toSet());
       moves.forEach(Main.getRepo()::deleteMove);
     }

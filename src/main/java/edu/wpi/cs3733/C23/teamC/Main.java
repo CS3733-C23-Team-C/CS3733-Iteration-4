@@ -25,6 +25,7 @@ public class Main extends Thread {
     db.importAll();
     AutoUpdate updater = new AutoUpdate();
     updaterThread = new Thread(updater, "AutoUpdater");
+
     // updaterThread.start();
 
     // System.out.println(db.getStaff("admin").getAlerts());
@@ -33,6 +34,9 @@ public class Main extends Thread {
     System.out.println("GOOOD!" + db.getStaff("admin").getAlertstaff().size());
     //    for (AlertstaffEntity alert : db.getStaff("admin").getAlertstaff()) {
     //      System.out.println(alert.getAlert().getMessage());
+    updaterThread.start();
+    App.launch(App.class, args);
+
     //    }
     updater.stop();
   }

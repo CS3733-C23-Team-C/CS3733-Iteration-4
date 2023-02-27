@@ -56,59 +56,59 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <VBox alignment="TOP_CENTER">
+                              <VBox alignment="TOP_CENTER" stylesheets="@../styles/hoverText.css">
                                  <children>
                                     <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Team Members">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Text>
-                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Kseniia Romanova - Front End Feature Engineer">
+                                    <Text fill="#012d5a" onMouseClicked="#infoKseniia" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Kseniia Romanova - Front End Feature Engineer">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Text>
-                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Aidan Syrgak Uulu - Project Manager">
+                                    <Text fill="#012d5a" onMouseClicked="#infoAidan" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Aidan Syrgak Uulu - Project Manager">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Text>
-                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="John Hall - Documentation Analyst">
+                                    <Text fill="#012d5a" onMouseClicked="#infoJohn" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="John Hall - Documentation Analyst">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Text>
-                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Sam David - Assistant Lead Software Engineer">
+                                    <Text fill="#012d5a" onMouseClicked="#infoSam" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Sam David - Assistant Lead Software Engineer">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Text>
-                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Alexander Rickards - Product Owner">
+                                    <Text fill="#012d5a" onMouseClicked="#infoAlex" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Alexander Rickards - Product Owner">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Text>
-                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Spencer Dill - Back End Feature Engineer">
+                                    <Text fill="#012d5a" onMouseClicked="#infoSpencer" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Spencer Dill - Back End Feature Engineer">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Text>
-                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Christopher Johnson - Assistant Lead Software Engineer">
+                                    <Text fill="#012d5a" onMouseClicked="#infoChris" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Christopher Johnson - Assistant Lead Software Engineer">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Text>
-                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Owen Rago - Back End Database Engineer">
+                                    <Text fill="#012d5a" onMouseClicked="#infoOwen" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Owen Rago - Back End Database Engineer">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Text>
-                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="David Rosenstein - Lead Software Engineer">
+                                    <Text fill="#012d5a" onMouseClicked="#infoDavid" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="David Rosenstein - Lead Software Engineer">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
                                     </Text>
-                                    <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Preston Van Fleet - Scrum Master">
+                                    <Text fill="#012d5a" onMouseClicked="#infoPreston" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body" text="Preston Van Fleet - Scrum Master">
                                        <font>
                                           <Font size="15.0" />
                                        </font>
@@ -116,6 +116,30 @@
                                  </children>
                               </VBox>
                               <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Thank you Andrew Shinn and Brigham and Women's Hospital for your time and input!">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                           </children>
+                        </VBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" maxWidth="800.0" minWidth="300.0" spacing="20.0" VBox.vgrow="ALWAYS">
+                     <children>
+                        <VBox alignment="TOP_CENTER" spacing="30.0" HBox.hgrow="ALWAYS" />
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </HBox>
+                  <HBox alignment="CENTER" minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                     <children>
+                        <VBox alignment="TOP_CENTER" spacing="30.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="The Brigham &amp; Women's Hospital map and data used in the application are copyrighted and provided for the sole use of educational purposes.">
                                  <font>
                                     <Font size="15.0" />
                                  </font>

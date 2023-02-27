@@ -1,6 +1,8 @@
 package edu.wpi.cs3733.C23.teamC.database;
 
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.Map;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
@@ -134,11 +136,17 @@ public interface RepoFacade2 {
 
   int newID();
 
+  BufferedImage getImage(int id);
+
+  int setImage(String filepath) throws IOException;
+
   void importAll();
 
   int generateMessageID();
 
   void threadRefresh(int delay);
+
+  StaffEntity getStaff3(String firstName, String lastName, String staffId);
 
   void refreshMessages();
 }

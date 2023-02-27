@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Objects;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Cascade;
@@ -22,95 +23,89 @@ import org.hibernate.annotations.Cascade;
 @IdClass(MoveEntity.PK.class)
 public class MoveEntity implements Persistent, CSVExportable {
   public static class PK implements Serializable {
-    @Getter @Setter private NodeEntity node;
-    @Getter @Setter private LocationnameEntity location;
+    @Getter @Setter private String nodeID;
+    @Getter @Setter private String longName;
     @Getter @Setter private Date movedate;
 
     @Override
     public int hashCode() {
-      return Objects.hash(node, location, movedate);
+      return Objects.hash(nodeID, longName, movedate);
     }
 
     @Override
     public boolean equals(Object obj) {
       if (obj == this) return true;
       if (obj instanceof PK other) {
-        return Objects.equals(node, other.node)
-            && Objects.equals(location, other.location)
+        return Objects.equals(nodeID, other.nodeID)
+            && Objects.equals(longName, other.longName)
             && Objects.equals(movedate, other.movedate);
       }
       return false;
     }
   }
 
-  private final SimpleObjectProperty<NodeEntity> node = new SimpleObjectProperty<>();
-  private final SimpleObjectProperty<LocationnameEntity> location = new SimpleObjectProperty<>();
+  private final SimpleStringProperty nodeID = new SimpleStringProperty();
+  private final SimpleStringProperty longName = new SimpleStringProperty();
   private final SimpleObjectProperty<Date> movedate = new SimpleObjectProperty<>();
 
   public MoveEntity() {}
 
   public MoveEntity(NodeEntity node, LocationnameEntity location, Date moveDate) {
-    setNode(node);
-    setLocation(location);
-    setMovedate(moveDate);
+    this(node.getNodeID(), location.getLongname(), moveDate);
   }
 
-  @Deprecated(forRemoval = true)
   public MoveEntity(String node, String longname, Date moveDate) {
-    this(Main.getRepo().getNode(node), Main.getRepo().getLocationname(longname), moveDate);
+    setNodeID(node);
+    setLongName(longname);
+    setMovedate(moveDate);
   }
 
   @Override
   public void enablePersistence(DAOFacade orm) {
     final InvalidationListener listener = evt -> orm.merge(this);
-    node.addListener(listener);
-    location.addListener(listener);
+    nodeID.addListener(listener);
+    longName.addListener(listener);
     movedate.addListener(listener);
   }
 
   @Id
-  @ManyToOne
-  @JoinColumn(name = "nodeid")
+  @Column(name = "nodeid")
   @Cascade(org.hibernate.annotations.CascadeType.REFRESH)
-  public NodeEntity getNode() {
-    return node.get();
-  }
-
-  public void setNode(NodeEntity node) {
-    this.node.set(node);
-  }
-
-  public SimpleObjectProperty<NodeEntity> nodeProperty() {
-    return node;
-  }
-
-  // Caused by: org.hibernate.MappingException: Column 'nodeid' is duplicated in mapping for entity
-  // 'edu.wpi.cs3733.C23.teamC.objects.hibernate.MoveEntity' (use '@Column(insertable=false,
-  // updatable=false)' when mapping multiple properties to the same column)
-  @Transient
   public String getNodeID() {
-    return getNode().getNodeID();
+    return nodeID.get();
+  }
+
+  public void setNodeID(String nodeID) {
+    this.nodeID.set(nodeID);
+  }
+
+  public SimpleStringProperty nodeIDProperty() {
+    return nodeID;
+  }
+
+  @Transient
+  public NodeEntity getNode() {
+    return Main.getRepo().getNode(getNodeID());
   }
 
   @Id
-  @ManyToOne
-  @JoinColumn(name = "longname")
+  @Column(name = "longname")
   @Cascade(org.hibernate.annotations.CascadeType.REFRESH)
-  public LocationnameEntity getLocation() {
-    return location.get();
+  public String getLongName() {
+    return longName.get();
   }
 
-  public void setLocation(LocationnameEntity location) {
-    this.location.set(location);
+  public void setLongName(String longName) {
+    this.longName.set(longName);
   }
 
-  public SimpleObjectProperty<LocationnameEntity> locationProperty() {
-    return location;
+  public SimpleStringProperty longNameProperty() {
+    return longName;
   }
 
   @Transient
-  public String getLongName() {
-    return getLocation().getLongname();
+  public LocationnameEntity getLocationName() {
+    return Main.getRepo().getLocationname(getLongName());
   }
 
   @Id
@@ -133,13 +128,13 @@ public class MoveEntity implements Persistent, CSVExportable {
     else if (obj == this) return true;
     else if (obj instanceof MoveEntity that) {
       return Persistent.compareProperties(
-          this, that, MoveEntity::getNode, MoveEntity::getLocation, MoveEntity::getLongName);
+          this, that, MoveEntity::getNodeID, MoveEntity::getLongName, MoveEntity::getMovedate);
     } else return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(getNode(), getLocation(), getLongName());
+    return Objects.hash(getNodeID(), getLongName(), getMovedate());
   }
 
   @Override
