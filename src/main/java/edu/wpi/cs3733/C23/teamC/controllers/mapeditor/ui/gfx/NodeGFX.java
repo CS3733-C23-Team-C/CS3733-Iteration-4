@@ -10,8 +10,13 @@ import java.util.Comparator;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ObservableBooleanValue;
-import javafx.scene.control.Label;
+import javafx.beans.value.ObservableDoubleValue;
+import javafx.geometry.VPos;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+import javafx.scene.transform.Scale;
+import javafx.scene.transform.Transform;
 import lombok.Getter;
 
 public class NodeGFX extends GFXBase {
@@ -19,24 +24,25 @@ public class NodeGFX extends GFXBase {
   private static final double RADIUS = 6;
 
   @Getter private final Circle circle;
-  @Getter private final Label label;
+  @Getter private final Text label;
 
   public NodeGFX(
-      NodeEntity node, ObservableBooleanValue showLabel, ObjectProperty<Floor> shownFloor) {
+      NodeEntity node,
+      ObservableBooleanValue showLabel,
+      ObjectProperty<Floor> shownFloor,
+      ObservableDoubleValue scale) {
     getStyleClass().addAll("selectable", STYLE_CLASS);
     circle = new Circle(RADIUS);
-    label = new Label();
+    label = new Text();
 
     translateXProperty().bind(node.xcoordProperty());
     translateYProperty().bind(node.ycoordProperty());
 
-    label.setLabelFor(circle);
     label
         .textProperty()
         .bind(
             Bindings.createStringBinding(
                 () -> {
-                  System.out.println("Computing node name.");
                   final var builder = new StringBuilder(node.getNodeID());
                   builder.append("\n");
                   final var moves =
@@ -78,8 +84,16 @@ public class NodeGFX extends GFXBase {
                 Main.getRepo().getMoves()));
     label.visibleProperty().bind(showLabel);
     label.managedProperty().bind(showLabel);
+    label.setTextAlignment(TextAlignment.LEFT);
+    label.setTextOrigin(VPos.TOP);
 
-    label.setTranslateX(RADIUS);
+    final var tform = new Scale(1, 1, 0, 0);
+    scale.addListener(
+        observable -> {
+          tform.setX(1 / scale.get());
+          tform.setY(1 / scale.get());
+        });
+    label.getTransforms().addAll(Transform.translate(1.5 * RADIUS, 0), tform);
 
     getChildren().addAll(circle, label);
 

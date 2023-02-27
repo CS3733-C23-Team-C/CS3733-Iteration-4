@@ -183,7 +183,7 @@ public class MapEditorMapView {
   }
 
   private void addNode(NodeEntity node) {
-    final var gfx = new NodeGFX(node, showLabels, shownFloor);
+    final var gfx = new NodeGFX(node, showLabels, shownFloor, zoom);
     gfx.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> onNodeClicked(event, node, gfx));
     nodes.put(node, gfx);
     nodeGroup.getChildren().add(gfx);

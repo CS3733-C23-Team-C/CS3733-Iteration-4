@@ -50,7 +50,7 @@ public class UIModelImpl implements UIModel {
         entity ->
             new NodeElement(
                 this,
-                new NodeGFX(entity, showLabels, shownFloor),
+                new NodeGFX(entity, showLabels, shownFloor, null),
                 new NodeRow(nodeTableView, entity),
                 entity);
     final Function<EdgeEntity, EdgeElement> edgeElementFactory =
