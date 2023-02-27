@@ -9,19 +9,22 @@ import edu.wpi.cs3733.C23.teamC.objects.ImageLoader;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.EdgeEntity;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.NodeEntity;
 import edu.wpi.cs3733.C23.teamC.objects.math.Vector2;
+import jakarta.persistence.PersistenceException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
@@ -171,6 +174,7 @@ public class MapEditorMapView {
     clipPane.addEventHandler(MouseEvent.MOUSE_PRESSED, this::onMapClicked);
     clipPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, this::onMouseDragged);
     clipPane.addEventHandler(MouseEvent.MOUSE_RELEASED, this::onMouseReleased);
+    clipPane.addEventHandler(KeyEvent.KEY_PRESSED, this::onMapKeyPressed);
 
     log.info("Initialized. {}ms", startTime.until(Instant.now(), ChronoUnit.MILLIS));
   }
@@ -188,6 +192,7 @@ public class MapEditorMapView {
     // gfx.removeEventHandler(MouseEvent.MOUSE_PRESSED, this::onNodeClicked);
     nodes.remove(node);
     nodeGroup.getChildren().remove(gfx);
+    selectedNodes.remove(node);
     System.out.println("Node removed");
   }
 
@@ -204,6 +209,7 @@ public class MapEditorMapView {
     // gfx.removeEventHandler(MouseEvent.MOUSE_PRESSED, this::onEdgeClicked);
     edges.remove(edge);
     edgeGroup.getChildren().remove(gfx);
+    selectedEdges.remove(edge);
     System.out.println("Edge removed");
   }
 
@@ -248,6 +254,24 @@ public class MapEditorMapView {
   private void deselectEverything() {
     Set.copyOf(selectedNodes).forEach(this::deselect);
     Set.copyOf(selectedEdges).forEach(this::deselect);
+  }
+
+  private void deleteSelected() {
+    Set.copyOf(selectedEdges).forEach(Main.getRepo()::deleteEdge);
+    Set.copyOf(selectedNodes).forEach(this::repairEdgesAndDelete);
+  }
+
+  private void createNode(Vector2 position) {
+    final var x = (int) position.getX();
+    final var y = (int) position.getY();
+    Main.getRepo()
+        .addNode(
+            new NodeEntity(
+                String.format("%sX%04dY%04d", shownFloor.get(), x, y),
+                x,
+                y,
+                shownFloor.get().toString(),
+                ""));
   }
 
   private final Vector2 anchor = Vector2.zero();
@@ -299,6 +323,7 @@ public class MapEditorMapView {
 
   private final Vector2 dragOrigin = Vector2.zero();
   private final Map<NodeEntity, Vector2> nodesToMove = new IdentityHashMap<>();
+  private boolean hasDragMoved = false;
 
   private void beginDragSelection(Vector2 origin) {
     log.info("Beginning drag selection");
@@ -313,6 +338,7 @@ public class MapEditorMapView {
           mapper.accept(edge.getNode1());
           mapper.accept(edge.getNode2());
         });
+    hasDragMoved = false;
   }
 
   private void updateDragSelection(Vector2 position) {
@@ -323,10 +349,71 @@ public class MapEditorMapView {
           node.setXcoord((int) Math.round(origin.getX() + delta.getX()));
           node.setYcoord((int) Math.round(origin.getY() + delta.getY()));
         });
+    hasDragMoved = true;
   }
 
   private void endDragSelection() {
     log.info("Ending drag selection");
+    if (hasDragMoved) {
+      nodesToMove.keySet().forEach(this::repairID);
+    }
+  }
+
+  private void repairID(NodeEntity node) {
+    if (node.getNodeID()
+        .equals(
+            String.format(
+                "%sX%04dY%04d", node.getFloor().toString(), node.getXcoord(), node.getYcoord())))
+      return;
+
+    var newNode =
+        new NodeEntity(
+            String.format(
+                "%sX%04dY%04d", node.getFloor().toString(), node.getXcoord(), node.getYcoord()),
+            node.getXcoord(),
+            node.getYcoord(),
+            node.getFloor().toString(),
+            node.getBuilding());
+    Main.getRepo().addNode(newNode);
+
+    try {
+      final var n1Edges =
+          Main.getRepo().getEdges().stream()
+              .filter(edge -> edge.getNode1ID().equals(node.getNodeID()))
+              .toList();
+      final var n2Edges =
+          Main.getRepo().getEdges().stream()
+              .filter(edge -> edge.getNode2ID().equals(node.getNodeID()))
+              .toList();
+      final var moves =
+          Main.getRepo().getMoves().stream()
+              .filter(move -> move.getNode().getNodeID().equals(node.getNodeID()))
+              .toList();
+
+      n1Edges.forEach(
+          edge -> {
+            System.out.println("Updating edge " + edge.getNode1ID() + " " + edge.getNode2ID());
+            Main.getRepo().deleteEdge(edge);
+            edge.setNode1(newNode);
+          });
+      n2Edges.forEach(
+          edge -> {
+            System.out.println("Updating edge " + edge.getNode1ID() + " " + edge.getNode2ID());
+            Main.getRepo().deleteEdge(edge);
+            edge.setNode2(newNode);
+          });
+      moves.forEach(
+          move -> {
+            Main.getRepo().deleteMove(move);
+            move.setNodeID(newNode.getNodeID());
+          });
+
+      Main.getRepo().deleteNode(node);
+    } catch (PersistenceException e) {
+      // don't pollute the database
+      Main.getRepo().deleteNode(newNode);
+      log.error("Unable to repair ID", e);
+    }
   }
 
   private final Vector2 dragOffsetVector = Vector2.zero();
@@ -350,6 +437,75 @@ public class MapEditorMapView {
     clipPane.setCursor(Cursor.DEFAULT);
   }
 
+  private void repairEdgesAndDelete(NodeEntity node) {
+    final var hasMoves =
+        Main.getRepo().getMoves().stream()
+            .anyMatch(move -> move.getNodeID().equals(node.getNodeID()));
+    if (hasMoves) {
+      final var alert =
+          new Alert(
+              Alert.AlertType.CONFIRMATION,
+              "Node '"
+                  + node.getNodeID()
+                  + "' has moves associated with it. If you continue, they will be deleted as well.",
+              ButtonType.OK,
+              ButtonType.CANCEL);
+      final var button = alert.showAndWait();
+      if (button.isEmpty() || !button.get().equals(ButtonType.OK)) return;
+
+      final var moves =
+          Main.getRepo().getMoves().stream()
+              .filter(move -> move.getNodeID().equals(node.getNodeID()))
+              .collect(Collectors.toSet());
+      moves.forEach(Main.getRepo()::deleteMove);
+    }
+
+    final var edges = node.getEdges();
+
+    // find all nodes connected to this node. all nodes in this set are reachable from any other
+    // node in the set.
+    final var nodes = new HashSet<NodeEntity>();
+
+    edges.forEach(
+        edge -> {
+          nodes.add(edge.getNode1());
+          nodes.add(edge.getNode2());
+        });
+
+    // remove the deleted node, as we don't want to create edges to it.
+    nodes.remove(node);
+
+    // recreate the graph. if you were to include the original edges, this graph would be
+    // transitive.
+    // unfortunately this is O(n^2), but we really shouldn't see high enough values of n to care.
+    final var newEdges = new HashSet<EdgeEntity>();
+    for (NodeEntity node1 : nodes) {
+      for (NodeEntity node2 : nodes) {
+        newEdges.add(new EdgeEntity(node1, node2));
+      }
+    }
+
+    // remove the old edges
+    edges.forEach(Main.getRepo()::deleteEdge);
+    // add the new ones
+    newEdges.forEach(Main.getRepo()::addEdge);
+
+    // finally, delete the node.
+    Main.getRepo().deleteNode(node);
+  }
+
+  private final ContextMenu contextMenu = new ContextMenu();
+
+  private void beginMapContextMenu(MouseEvent event) {
+    final var addNode = new MenuItem("Add Node");
+    addNode.setOnAction(actionEvent -> createNode(getCoordsPosition(event)));
+    contextMenu.getItems().setAll(addNode);
+
+    final var clickPoint = getScreenPosition(event);
+    contextMenu.show(clipPane.getScene().getWindow(), clickPoint.getX(), clickPoint.getY());
+    contextMenu.setAutoHide(true);
+  }
+
   // left-click on the map: deselect everything
   // left-click and drag on the map: deselect everything and begin rectangle select
   // shift-left-click and drag on the map: begin rectangle select
@@ -371,6 +527,9 @@ public class MapEditorMapView {
           case MIDDLE -> {
             state = State.PANNING_MAP;
             beginPanMap(getScreenPosition(event));
+          }
+          case SECONDARY -> {
+            beginMapContextMenu(event);
           }
         }
       }
@@ -462,6 +621,13 @@ public class MapEditorMapView {
       case SELECTING -> endRectangleSelect();
     }
     state = State.IDLE;
+  }
+
+  private void onMapKeyPressed(KeyEvent event) {
+    switch (event.getCode()) {
+      case BACK_SPACE, DELETE -> deleteSelected();
+      default -> {}
+    }
   }
 
   private Vector2 screenToCoords(double screenX, double screenY) {

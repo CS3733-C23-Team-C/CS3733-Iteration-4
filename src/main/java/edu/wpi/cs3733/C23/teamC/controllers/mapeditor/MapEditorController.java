@@ -13,6 +13,7 @@ import edu.wpi.cs3733.C23.teamC.objects.hibernate.EdgeEntity;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.LocationnameEntity;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.MoveEntity;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.NodeEntity;
+import jakarta.persistence.PersistenceException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -240,7 +241,6 @@ public class MapEditorController {
   }
 
   public static void repairID(NodeEntity node) {
-    /*
     var newNode =
         new NodeEntity(
             String.format(
@@ -251,34 +251,37 @@ public class MapEditorController {
             node.getBuilding());
     Main.getRepo().addNode(newNode);
 
-    final var n1Edges =
-        Main.getRepo().getEdges().stream()
-            .filter(edge -> edge.getNode1().getNodeID().equals(node.getNodeID()))
-            .toList();
-    final var n2Edges =
-        Main.getRepo().getEdges().stream()
-            .filter(edge -> edge.getNode2().getNodeID().equals(node.getNodeID()))
-            .toList();
-    final var moves =
-        Main.getRepo().getMoves().stream()
-            .filter(move -> move.getNode().getNodeID().equals(node.getNodeID()))
-            .collect(Collectors.toSet());
+    try {
+      final var n1Edges =
+          Main.getRepo().getEdges().stream()
+              .filter(edge -> edge.getNode1ID().equals(node.getNodeID()))
+              .toList();
+      final var n2Edges =
+          Main.getRepo().getEdges().stream()
+              .filter(edge -> edge.getNode2ID().equals(node.getNodeID()))
+              .toList();
+      final var moves =
+          Main.getRepo().getMoves().stream()
+              .filter(move -> move.getNode().getNodeID().equals(node.getNodeID()))
+              .collect(Collectors.toSet());
 
-    n1Edges.forEach(
-        edge -> {
-          System.out.println(
-              "Updating edge " + edge.getNode1().getNodeID() + " " + edge.getNode2().getNodeID());
-          edge.setNode1(newNode);
-        });
-    n2Edges.forEach(
-        edge -> {
-          System.out.println(
-              "Updating edge " + edge.getNode1().getNodeID() + " " + edge.getNode2().getNodeID());
-          edge.setNode2(newNode);
-        });
-    moves.forEach(move -> move.setNode(newNode));
+      n1Edges.forEach(
+          edge -> {
+            System.out.println("Updating edge " + edge.getNode1ID() + " " + edge.getNode2ID());
+            edge.setNode1(newNode);
+          });
+      n2Edges.forEach(
+          edge -> {
+            System.out.println("Updating edge " + edge.getNode1ID() + " " + edge.getNode2ID());
+            edge.setNode2(newNode);
+          });
+      moves.forEach(move -> move.setNodeID(newNode.getNodeID()));
 
-    Main.getRepo().deleteNode(node);*/
+      Main.getRepo().deleteNode(node);
+    } catch (PersistenceException e) {
+      // don't pollute the database
+      Main.getRepo().deleteNode(newNode);
+    }
   }
 
   private void repairEdgesAndDelete(NodeEntity node) {
