@@ -497,14 +497,27 @@ public class MapEditorMapView {
   private final ContextMenu contextMenu = new ContextMenu();
 
   private void beginMapContextMenu(MouseEvent event) {
-    final var addNode = new MenuItem("Add Node");
+    final var addNode = new MenuItem("Add node");
     addNode.setOnAction(actionEvent -> createNode(getCoordsPosition(event)));
-    contextMenu.getItems().setAll(addNode);
+    var numSelected = selectedNodes.size();
+    final var connect =
+        new MenuItem(String.format("Connect %d node%s", numSelected, numSelected == 1 ? "" : "s"));
+    connect.setOnAction(actionEvent -> connectSelectedEdges());
+    connect.setDisable(numSelected < 2);
+    numSelected += selectedEdges.size();
+    final var delete =
+        new MenuItem(String.format("Delete %d item%s", numSelected, numSelected == 1 ? "" : "s"));
+    delete.setOnAction(actionEvent -> deleteSelected());
+    delete.setDisable(numSelected == 0);
+
+    contextMenu.getItems().setAll(addNode, connect, delete);
 
     final var clickPoint = getScreenPosition(event);
     contextMenu.show(clipPane.getScene().getWindow(), clickPoint.getX(), clickPoint.getY());
     contextMenu.setAutoHide(true);
   }
+
+  private void connectSelectedEdges() {}
 
   // left-click on the map: deselect everything
   // left-click and drag on the map: deselect everything and begin rectangle select
