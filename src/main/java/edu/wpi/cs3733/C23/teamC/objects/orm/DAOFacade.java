@@ -27,4 +27,9 @@ public interface DAOFacade {
       throws PersistenceException;
 
   <E> void refresh(E entity) throws PersistenceException;
+
+  // merges only if the current thread is not the auto updater thread. this prevents potentially
+  // stale data from being
+  // written back to the database during a refresh operation.
+  <E> void mergeOnlyWhenManual(E entity) throws PersistenceException;
 }

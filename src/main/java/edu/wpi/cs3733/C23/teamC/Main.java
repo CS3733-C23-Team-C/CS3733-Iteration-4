@@ -30,6 +30,7 @@ public class Main extends Thread {
     App.launch(App.class, args);
     //    }
     updater.stop();
+    updaterThread.interrupt();
   }
 
   // shortcut: psvm
