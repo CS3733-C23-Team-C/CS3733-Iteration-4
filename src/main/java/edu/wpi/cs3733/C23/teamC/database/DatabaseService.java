@@ -518,6 +518,28 @@ public class DatabaseService implements RepoFacade2 {
     return id;
   }
 
+  public int getNewAlertID() {
+    Session session = orm.getSession();
+    Transaction tx = null;
+
+    int id = 0;
+
+    try {
+      tx = session.beginTransaction();
+      List n = session.createNativeQuery("SELECT MAX(cdb.alerts.alertid) FROM cdb.pics").list();
+      if (n != null) {
+        id = (int) n.get(0);
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return id;
+  }
+
   @Override
   public void importAll() {
     // nothing to be done, this is handled in the constructor
