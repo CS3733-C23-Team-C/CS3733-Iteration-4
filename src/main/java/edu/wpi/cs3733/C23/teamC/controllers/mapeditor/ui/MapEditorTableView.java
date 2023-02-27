@@ -139,7 +139,7 @@ public class MapEditorTableView {
   }
 
   private void removeLocation(LocationnameEntity locationname) {
-    locationNameTableView.getItems().add(locationname);
+    locationNameTableView.getItems().remove(locationname);
   }
 
   private void initializeNodeTable() {
