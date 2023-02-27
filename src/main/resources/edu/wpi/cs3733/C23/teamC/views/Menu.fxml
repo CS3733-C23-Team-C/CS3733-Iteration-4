@@ -64,6 +64,11 @@
                   <Circle fx:id="newMessageCircle" fill="#f6bd38" nodeOrientation="LEFT_TO_RIGHT" radius="6.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
                </graphic>
             </MFXButton>
+            <MFXButton fx:id="graphButton" maxWidth="1.7976931348623157E308" onAction="#goToGraph" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="Graph" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </MFXButton>
             <MFXButton fx:id="creditsButton" maxWidth="1.7976931348623157E308" onAction="#goToCreditsPage" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="Credits" textFill="WHITE">
                <font>
                   <Font size="18.0" />

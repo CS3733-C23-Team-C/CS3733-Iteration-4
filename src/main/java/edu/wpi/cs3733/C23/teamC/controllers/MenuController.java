@@ -116,6 +116,10 @@ public class MenuController {
     Navigation.navigate(Screen.ABOUT_PAGE);
   }
 
+  public void goToGraph(ActionEvent actionEvent) {
+    Navigation.navigate(Screen.GRAPH);
+  }
+
   public static void messageNotiOn() {
     sNewMessageCircle.setVisible(true);
   }
