@@ -161,6 +161,8 @@ public interface RepoFacade2 {
 
   void refreshMessages();
 
+  int getNewAlertID();
+
   static <K, E> MapChangeListener<K, E> createMapListener(
       Consumer<E> addCallback, Consumer<E> removeCallback) {
     return change -> {
