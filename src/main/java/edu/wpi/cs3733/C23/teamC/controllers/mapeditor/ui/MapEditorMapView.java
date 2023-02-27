@@ -133,27 +133,58 @@ public class MapEditorMapView {
     clipPane.addEventFilter(
         ScrollEvent.SCROLL,
         event -> {
+          log.info("Scroll event");
           if (event.getDeltaY() == 0) return;
           final var ZOOM_COEFFICIENT = 0.003;
           final var MIN_ZOOM = 0.1;
           final var MAX_ZOOM = 5;
 
-          /*final var eventOrigin = new Vector2(event.getX(), event.getY());
-          final var nodeOrigin = new Vector2(viewX.get(), viewY.get());
-
-          // final var zoomOffset = Vector2.minus(nodeOrigin, eventOrigin);
-          final var zoomPoint =
-              new Vector2(rootPane.screenToLocal(event.getScreenX(), event.getScreenY()));*/
           final var zoomDelta = 1 + ZOOM_COEFFICIENT * event.getDeltaY();
           var newZoom = zoom.get() * zoomDelta;
           if (newZoom > MAX_ZOOM) newZoom = MAX_ZOOM;
           else if (newZoom < MIN_ZOOM) newZoom = MIN_ZOOM;
 
-          /*final var zoomPointDelta = zoomPoint.multiply(zoomDelta);
-          viewX.set(viewX.get() + zoomPointDelta.getX());
-          viewY.set(viewY.get() + zoomPointDelta.getY());*/
-
+          final var originalPoint = getCoordsPosition(event);
           zoom.set(newZoom);
+          rootPane.layout();
+
+          var newPoint = getCoordsPosition(event);
+          var lastXError = newPoint.getX() - originalPoint.getX();
+          var lastYError = newPoint.getY() - originalPoint.getY();
+          // naive initial correction
+          var lastXCorrection = lastXError;
+          var lastYCorrection = lastYError;
+          translateView(lastXCorrection, lastYCorrection);
+
+          // apply gradient descent
+          /*final double TOLERANCE = 20;
+          for (int i = 0; i < 30; i++) {
+            newPoint = getCoordsPosition(event);
+            var xError = newPoint.getX() - originalPoint.getX();
+            var yError = newPoint.getY() - originalPoint.getY();
+
+            if (Math.abs(xError) < TOLERANCE && Math.abs(yError) < TOLERANCE) break;
+
+            final var xDeriv = (Math.abs(xError) - Math.abs(lastXError)) / lastXCorrection;
+            final var yDeriv = (Math.abs(yError) - Math.abs(lastYError)) / lastYCorrection;
+
+            final var xCorrection = Math.copySign(10 * zoom.get(), lastXCorrection * xDeriv);
+            final var yCorrection = Math.copySign(10 * zoom.get(), lastYCorrection * yDeriv);
+
+            log.info(
+                "ex: {} ey: {} dx: {} dy: {} cx: {} cy: {}",
+                xError,
+                yError,
+                xDeriv,
+                yDeriv,
+                xCorrection,
+                yCorrection);
+
+            translateView(xCorrection, yCorrection);
+
+            lastXCorrection = xCorrection;
+            lastYCorrection = yCorrection;
+          }*/
 
           event.consume();
         });
@@ -180,6 +211,17 @@ public class MapEditorMapView {
     clipPane.addEventHandler(KeyEvent.KEY_PRESSED, this::onMapKeyPressed);
 
     log.info("Initialized. {}ms", startTime.until(Instant.now(), ChronoUnit.MILLIS));
+  }
+
+  private double constrain(double number, double low, double high) {
+    if (number > high) return high;
+    else return Math.max(number, low);
+  }
+
+  private void translateView(double x, double y) {
+    viewX.set(viewX.get() + x);
+    viewY.set(viewY.get() + y);
+    rootPane.layout();
   }
 
   private void addNode(NodeEntity node) {
@@ -676,7 +718,15 @@ public class MapEditorMapView {
     return screenToCoords(event.getScreenX(), event.getScreenY());
   }
 
+  private Vector2 getCoordsPosition(ScrollEvent event) {
+    return screenToCoords(event.getScreenX(), event.getScreenY());
+  }
+
   private Vector2 getScreenPosition(MouseEvent event) {
+    return new Vector2(event.getScreenX(), event.getScreenY());
+  }
+
+  private Vector2 getScreenPosition(ScrollEvent event) {
     return new Vector2(event.getScreenX(), event.getScreenY());
   }
 
