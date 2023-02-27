@@ -1,4 +1,3 @@
 package edu.wpi.capybara.controllers.mapeditor;
 
-public class MoveController {
-}
+public class MoveController {}
