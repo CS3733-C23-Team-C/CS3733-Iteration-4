@@ -292,11 +292,11 @@ public class MapEditorMapView {
     this.anchor.setX(anchor.getX());
     this.anchor.setY(anchor.getY());
     recalculateRectangleCoords(this.anchor, anchor);
-    selectionRectangle.setVisible(true);
   }
 
   private void updateRectangleSelect(Vector2 extent) {
     log.info("Updating rectangle select");
+    selectionRectangle.setVisible(true);
     recalculateRectangleCoords(anchor, extent);
   }
 
