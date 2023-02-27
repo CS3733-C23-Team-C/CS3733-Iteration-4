@@ -23,23 +23,32 @@ public class AlertEntity implements Persistent {
   private final SimpleObjectProperty<Date> date = new SimpleObjectProperty<>();
   private final SimpleStringProperty message = new SimpleStringProperty();
 
+  private InvalidationListener listener;
+
+  @Override
+  public void enablePersistence(DAOFacade orm) {
+    listener = evt -> orm.mergeOnlyWhenManual(this);
+    alertid.addListener(listener);
+    date.addListener(listener);
+    message.addListener(listener);
+  }
+
+  @Override
+  public void disablePersistence() {
+    if (listener != null) {
+      alertid.removeListener(listener);
+      date.removeListener(listener);
+      message.removeListener(listener);
+      listener = null;
+    }
+  }
+
   public AlertEntity() {}
 
   public AlertEntity(int alertid, Date date, String message) {
     setAlertid(alertid);
     setDate(date);
     setMessage(message);
-  }
-
-  @Override
-  public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener =
-        evt -> {
-          if (Thread.currentThread() != Main.getUpdaterThread()) orm.merge(this);
-        };
-    alertid.addListener(listener);
-    date.addListener(listener);
-    message.addListener(listener);
   }
 
   @Override
