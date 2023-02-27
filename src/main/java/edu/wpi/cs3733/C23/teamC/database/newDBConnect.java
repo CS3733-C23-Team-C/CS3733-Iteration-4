@@ -468,4 +468,9 @@ public class newDBConnect implements RepoFacade {
   public String getUser(MFXTextField staffID) {
     return null;
   }
+
+  @Override
+  public AlertEntity getAlert(int id) {
+    return null;
+  }
 }
