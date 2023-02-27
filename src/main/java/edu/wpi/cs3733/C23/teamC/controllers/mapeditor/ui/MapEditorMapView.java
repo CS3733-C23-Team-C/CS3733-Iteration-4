@@ -138,10 +138,8 @@ public class MapEditorMapView {
         .heightProperty()
         .addListener((observable, oldValue, newValue) -> scale.setPivotY(0.5 * (double) newValue));
 
-    viewX.addListener(
-        (observable, oldValue, newValue) -> viewTranslate.setX((double) newValue / scale.getX()));
-    viewY.addListener(
-        (observable, oldValue, newValue) -> viewTranslate.setY((double) newValue / scale.getY()));
+    viewX.addListener((observable, oldValue, newValue) -> viewTranslate.setX((double) newValue));
+    viewY.addListener((observable, oldValue, newValue) -> viewTranslate.setY((double) newValue));
     zoom.addListener(
         (observable, oldValue, newValue) -> {
           scale.setX((double) newValue);
@@ -197,9 +195,8 @@ public class MapEditorMapView {
   }
 
   private void translateView(double x, double y) {
-    viewX.set(viewX.get() + x);
-    viewY.set(viewY.get() + y);
-    rootPane.layout();
+    viewX.set(viewX.get() + x / zoom.get());
+    viewY.set(viewY.get() + y / zoom.get());
   }
 
   private void addNode(NodeEntity node) {
@@ -455,20 +452,23 @@ public class MapEditorMapView {
     }
   }
 
-  private final Vector2 dragOffsetVector = Vector2.zero();
+  private Vector2 lastDragPosition = null;
 
   private void beginPanMap(Vector2 origin) {
-    log.info("Beginning pan map");
-    dragOffsetVector.setX(origin.getX() - viewX.get());
-    dragOffsetVector.setY(origin.getY() - viewY.get());
+    log.info("Beginning pan map. Origin: {}", origin);
+    // lastDragPosition.setX(origin.getX());
+    // lastDragPosition.setY(origin.getY());
+    lastDragPosition = null;
     clipPane.setCursor(Cursor.CLOSED_HAND);
   }
 
   private void updatePanMap(Vector2 position) {
-    log.debug("Updating pan map");
-    final var newView = Vector2.minus(position, dragOffsetVector);
-    viewX.set(newView.getX());
-    viewY.set(newView.getY());
+    log.info("Updating pan map. Position: {}", position);
+    if (lastDragPosition == null) lastDragPosition = new Vector2(position);
+    final var newView = Vector2.minus(position, lastDragPosition);
+    translateView(newView.getX(), newView.getY());
+    lastDragPosition.setX(position.getX());
+    lastDragPosition.setY(position.getY());
   }
 
   private void endPanMap() {
