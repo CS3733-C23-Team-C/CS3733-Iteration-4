@@ -27,6 +27,8 @@ public class AddLocationNameDialog extends FXMLDialog<Void> {
     shortName.prefWidthProperty().bind(pane.widthProperty());
     locationType.prefWidthProperty().bind(pane.widthProperty());
 
+    longName.requestFocus();
+
     final var ok = pane.lookupButton(okButton);
     ok.addEventHandler(
         ActionEvent.ACTION,
