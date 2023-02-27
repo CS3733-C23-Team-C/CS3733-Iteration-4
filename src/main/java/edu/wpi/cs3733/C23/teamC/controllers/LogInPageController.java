@@ -100,4 +100,8 @@ public class LogInPageController {
   public void signUp(MouseEvent mouseEvent) {
     Navigation.navigate(Screen.SIGN_UP_PAGE);
   }
+
+  public void goToForgot(MouseEvent mouseEvent) {
+    Navigation.navigate(Screen.FORGOT_PASSWORD);
+  }
 }

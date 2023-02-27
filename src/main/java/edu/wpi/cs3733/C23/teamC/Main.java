@@ -25,8 +25,10 @@ public class Main extends Thread {
     db.importAll();
     AutoUpdate updater = new AutoUpdate();
     updaterThread = new Thread(updater, "AutoUpdater");
+
     updaterThread.start();
     App.launch(App.class, args);
+    //    }
     updater.stop();
     updaterThread.interrupt();
   }

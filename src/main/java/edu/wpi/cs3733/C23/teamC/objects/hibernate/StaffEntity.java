@@ -1,26 +1,34 @@
 package edu.wpi.cs3733.C23.teamC.objects.hibernate;
 
+import edu.wpi.cs3733.C23.teamC.Main;
 import edu.wpi.cs3733.C23.teamC.database.CSVExportable;
 import edu.wpi.cs3733.C23.teamC.database.CSVImporter;
 import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
 import edu.wpi.cs3733.C23.teamC.objects.orm.Persistent;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Objects;
 import javafx.beans.InvalidationListener;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 @Entity
 @Table(name = "staff", schema = "cdb", catalog = "teamcdb")
 public class StaffEntity implements Persistent, CSVExportable {
+
   private final SimpleStringProperty staffid = new SimpleStringProperty();
   private final SimpleStringProperty firstname = new SimpleStringProperty();
   private final SimpleStringProperty lastname = new SimpleStringProperty();
   private final SimpleStringProperty password = new SimpleStringProperty();
   private final SimpleStringProperty role = new SimpleStringProperty();
   private final SimpleStringProperty notes = new SimpleStringProperty();
+  private final SimpleIntegerProperty picid = new SimpleIntegerProperty();
 
   public StaffEntity() {}
 
@@ -31,6 +39,23 @@ public class StaffEntity implements Persistent, CSVExportable {
     setLastname(lastname);
     setRole(role);
     setPassword(password);
+  }
+
+  public StaffEntity(
+      String staffid,
+      String firstname,
+      String lastname,
+      String role,
+      String password,
+      String notes,
+      int picid) {
+    setStaffid(staffid);
+    setFirstname(firstname);
+    setLastname(lastname);
+    setRole(role);
+    setPassword(password);
+    setNotes(notes);
+    setPicid(picid);
   }
 
   private InvalidationListener listener;
@@ -44,6 +69,7 @@ public class StaffEntity implements Persistent, CSVExportable {
     password.addListener(listener);
     role.addListener(listener);
     notes.addListener(listener);
+    picid.addListener(listener);
   }
 
   @Override
@@ -72,7 +98,8 @@ public class StaffEntity implements Persistent, CSVExportable {
           StaffEntity::getLastname,
           StaffEntity::getPassword,
           StaffEntity::getRole,
-          StaffEntity::getNotes);
+          StaffEntity::getNotes,
+          StaffEntity::getPicid);
     } else return false;
   }
 
@@ -159,6 +186,71 @@ public class StaffEntity implements Persistent, CSVExportable {
 
   public void setNotes(String notes) {
     this.notes.set(notes);
+  }
+
+  @Column(name = "picid")
+  public int getPicid() {
+    return picid.get();
+  }
+
+  public SimpleIntegerProperty picidProperty() {
+    return picid;
+  }
+
+  public void setPicid(int picid) {
+    this.picid.set(picid);
+  }
+
+  public List<AlertEntity> allAlerts() {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+    List<AlertEntity> ret = new ArrayList<>();
+
+    try {
+      tx = session.beginTransaction();
+      Query q =
+          session.createNativeQuery(
+              "SELECT a.alertid"
+                  + " FROM cdb.staff AS s, cdb.alertstaff AS sa, cdb.alerts AS a "
+                  + "WHERE s.staffid = sa.staff AND sa.alert = a.alertid AND s.staffid = :id");
+      q.setParameter("id", getStaffid());
+      List l = q.list();
+      for (Iterator iterator = l.iterator(); iterator.hasNext(); ) {
+        ret.add(Main.db.getAlert((int) iterator.next()));
+      }
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return ret;
+  }
+
+  public List<AlertEntity> allNotReadAlerts() {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+    List<AlertEntity> ret = new ArrayList<>();
+
+    try {
+      tx = session.beginTransaction();
+      Query q =
+          session.createNativeQuery(
+              "SELECT a.alertid"
+                  + " FROM cdb.staff AS s, cdb.alertstaff AS sa, cdb.alerts AS a "
+                  + "WHERE s.staffid = sa.staff AND sa.alert = a.alertid AND s.staffid = :id AND sa.seen = FALSE");
+      q.setParameter("id", getStaffid());
+      List l = q.list();
+      for (Iterator iterator = l.iterator(); iterator.hasNext(); ) {
+        ret.add(Main.db.getAlert((int) iterator.next()));
+      }
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return ret;
   }
 
   @Override

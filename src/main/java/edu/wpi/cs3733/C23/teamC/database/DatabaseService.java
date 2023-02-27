@@ -6,16 +6,22 @@ import edu.wpi.cs3733.C23.teamC.database.dao.MoveDAO;
 import edu.wpi.cs3733.C23.teamC.database.dao.NodeDAO;
 import edu.wpi.cs3733.C23.teamC.database.dao.StaffDAO;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
-import edu.wpi.cs3733.C23.teamC.objects.orm.*;
+import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
+import javax.imageio.ImageIO;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 // this would be about 20 lines long if java supported composition in addition to inheritance
 @Slf4j
@@ -32,6 +38,7 @@ public class DatabaseService implements RepoFacade2 {
   private final EdgeDAO edgeDAO;
   private final MoveDAO moveDAO;
   private MessageDAO messageDAO;
+  private AlertDAO alertDAO;
 
   public DatabaseService(DAOFacade orm) {
     log.info("Initializing database service.");
@@ -58,6 +65,8 @@ public class DatabaseService implements RepoFacade2 {
     moveDAO = MoveDAO.initialize(orm);
     log.info("Importing messages.");
     messageDAO = new MessageDAO(orm);
+    log.info("Importing alerts.");
+    alertDAO = new AlertDAO(orm);
     log.info("Initialization complete.");
   }
 
@@ -114,6 +123,11 @@ public class DatabaseService implements RepoFacade2 {
   @Override
   public ReadOnlyMapProperty<Integer, MessagesEntity> getMessages() {
     return messageDAO.getAll();
+  }
+
+  @Override
+  public ReadOnlyMapProperty getAlerts() {
+    return alertDAO.getAll();
   }
 
   @Override
@@ -200,6 +214,11 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
+  public void addAlert(AlertEntity alert) {
+    alertDAO.add(alert);
+  }
+
+  @Override
   public AudiosubmissionEntity getAudio(Integer id) {
     return audioSubmissionDAO.get(id);
   }
@@ -242,6 +261,11 @@ public class DatabaseService implements RepoFacade2 {
   @Override
   public MessagesEntity getMessage(Integer id) {
     return messageDAO.get(id);
+  }
+
+  @Override
+  public AlertEntity getAlert(Integer id) {
+    return alertDAO.get(id);
   }
 
   @Override
@@ -355,6 +379,11 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
+  public void deleteAlert(AlertEntity entity) {
+    alertDAO.delete(entity);
+  }
+
+  @Override
   public StaffEntity getStaff(String staffId, String password) {
     return staffDAO.get(staffId, password);
   }
@@ -362,6 +391,11 @@ public class DatabaseService implements RepoFacade2 {
   @Override
   public StaffEntity getStaff2(String firstName, String lastName) {
     return staffDAO.find(firstName, lastName);
+  }
+
+  @Override
+  public StaffEntity getStaff3(String firstName, String lastName, String staffId) {
+    return staffDAO.find(firstName, lastName, staffId);
   }
 
   @Override
@@ -399,6 +433,80 @@ public class DatabaseService implements RepoFacade2 {
       if (n != null) {
         id = (int) n.get(0);
         id++;
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return id;
+  }
+
+  @Override
+  public BufferedImage getImage(int id) {
+    Session session = getSession();
+    Transaction tx = null;
+
+    try {
+      tx = session.beginTransaction();
+      Query q =
+          session.createNativeQuery(
+              "SELECT cdb.pics.pic FROM cdb.pics WHERE cdb.pics.picnum = :id ");
+      q.setParameter("id", id);
+      System.out.println(q.getQueryString());
+      byte[] b = (byte[]) q.list().get(0);
+      ByteArrayInputStream inStreambj = new ByteArrayInputStream(b);
+      try {
+        BufferedImage newImage = ImageIO.read(inStreambj);
+        return newImage;
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return null;
+  }
+
+  @Override
+  public int setImage(String filepath) throws IOException {
+    Session session = getSession();
+    Transaction tx = null;
+
+    byte[] bytes = Files.readAllBytes(Paths.get(filepath));
+
+    try {
+      tx = session.beginTransaction();
+      Query q = session.createNativeQuery("INSERT INTO cdb.pics values (:id, :bytes)");
+      q.setParameter("bytes", bytes);
+      q.setParameter("id", getMaxImageID() + 1);
+      q.executeUpdate();
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return getMaxImageID();
+  }
+
+  private int getMaxImageID() {
+    Session session = orm.getSession();
+    Transaction tx = null;
+
+    int id = 0;
+
+    try {
+      tx = session.beginTransaction();
+      List n = session.createNativeQuery("SELECT MAX(cdb.pics.picnum) FROM cdb.pics").list();
+      if (n != null) {
+        id = (int) n.get(0);
       }
       tx.commit();
     } catch (HibernateException e) {
@@ -449,6 +557,8 @@ public class DatabaseService implements RepoFacade2 {
       staffDAO = new StaffDAO(orm);
       Thread.sleep(delay * 1000L);
       transportationSubmissionDAO = new TransportationSubmissionDAO(orm);
+      Thread.sleep(delay * 1000L);
+      alertDAO = new AlertDAO(orm);
     } catch (InterruptedException e) {
       log.info("Shutting down auto-update.");
     }

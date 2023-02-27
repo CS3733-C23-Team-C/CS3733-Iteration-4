@@ -2,19 +2,11 @@ package edu.wpi.cs3733.C23.teamC.database;
 
 import edu.wpi.cs3733.C23.teamC.Main;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.AudiosubmissionEntity;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.CleaningsubmissionEntity;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.ComputersubmissionEntity;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.EdgeEntity;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.LocationnameEntity;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.MessagesEntity;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.MoveEntity;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.NodeEntity;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.SecuritysubmissionEntity;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.StaffEntity;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.TransportationsubmissionEntity;
+import io.github.palexdev.materialfx.controls.MFXTextField;
 import jakarta.persistence.PersistenceException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -311,6 +303,15 @@ public class newDBConnect implements RepoFacade {
     return null;
   }
 
+  public StaffEntity getStaff3(String firstName, String lastName, String staffId) {
+    for (StaffEntity s : staff.getStaff().values()) {
+      if (s.getFirstname().equals(firstName) && s.getLastname().equals(lastName)) {
+        return s;
+      }
+    }
+    return null;
+  }
+
   @Override
   public MessagesEntity getMessage(int messageid) {
     return message.getMessage(messageid);
@@ -461,5 +462,15 @@ public class newDBConnect implements RepoFacade {
   @Override
   public void refreshMessages() {
     message = new MessagesDAOImpl();
+  }
+
+  @Override
+  public String getUser(MFXTextField staffID) {
+    return null;
+  }
+
+  @Override
+  public AlertEntity getAlert(int id) {
+    return null;
   }
 }
