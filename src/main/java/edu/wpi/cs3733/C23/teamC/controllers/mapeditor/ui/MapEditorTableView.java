@@ -154,9 +154,8 @@ public class MapEditorTableView {
     final var buildingColumn =
         createTableColumn("Building", NodeEntity::buildingProperty, new DefaultStringConverter());
 
+    // don't allow primary keys to be edited
     nodeIDColumn.setEditable(false);
-    xCoordColumn.setEditable(false);
-    yCoordColumn.setEditable(false);
 
     //noinspection unchecked
     nodeTableView
@@ -175,6 +174,10 @@ public class MapEditorTableView {
             "Start Node ID", EdgeEntity::node1IDProperty, new DefaultStringConverter());
     final var endNodeColumn =
         createTableColumn("End Node ID", EdgeEntity::node2IDProperty, new DefaultStringConverter());
+
+    // don't allow primary keys to be edited
+    startNodeColumn.setEditable(false);
+    endNodeColumn.setEditable(false);
 
     //noinspection unchecked
     edgeTableView.getColumns().setAll(startNodeColumn, endNodeColumn);
@@ -198,6 +201,9 @@ public class MapEditorTableView {
             LocationnameEntity::locationtypeProperty,
             new DefaultStringConverter());
 
+    // don't allow primary keys to be edited
+    longNameColumn.setEditable(false);
+
     //noinspection unchecked
     locationNameTableView.getColumns().setAll(longNameColumn, shortNameColumn, locationTypeColumn);
     locationNameTableView.setEditable(true);
@@ -208,8 +214,14 @@ public class MapEditorTableView {
 
     final var addItem = new MenuItem("Add...");
     addItem.setOnAction(
-        event ->
-            new AddLocationNameDialog(locationNameTableView.getScene().getWindow()).showAndWait());
+        event -> {
+          final var dialog =
+              new AddLocationNameDialog(locationNameTableView.getScene().getWindow());
+          dialog.showAndWait();
+          if (dialog.getResult() != null) {
+            System.out.println(dialog.getResult());
+          }
+        });
     final var deleteItem = new MenuItem("Delete");
     deleteItem.setOnAction(
         event -> {
@@ -235,6 +247,8 @@ public class MapEditorTableView {
                   + "' has moves associated with it. If you continue, they will be deleted as well.",
               ButtonType.OK,
               ButtonType.CANCEL);
+      alert.setTitle("Please Confirm");
+      alert.setHeaderText("Are you sure?");
       final var button = alert.showAndWait();
       if (button.isEmpty() || !button.get().equals(ButtonType.OK)) return;
 
@@ -255,6 +269,11 @@ public class MapEditorTableView {
     final var moveDateColumn =
         createTableColumn("Move Date", MoveEntity::movedateProperty, new SQLDateStringConverter());
 
+    // don't allow primary keys to be edited
+    nodeIDColumn.setEditable(false);
+    longNameColumn.setEditable(false);
+    moveDateColumn.setEditable(false);
+
     //noinspection unchecked
     moveTableView.getColumns().setAll(nodeIDColumn, longNameColumn, moveDateColumn);
     moveTableView.setEditable(true);
@@ -272,6 +291,7 @@ public class MapEditorTableView {
           final var toDelete = List.copyOf(moveTableView.getSelectionModel().getSelectedItems());
           toDelete.forEach(Main.getRepo()::deleteMove);
         });
+
     final var contextMenu = new ContextMenu(addItem, deleteItem);
     moveTableView.setContextMenu(contextMenu);
   }

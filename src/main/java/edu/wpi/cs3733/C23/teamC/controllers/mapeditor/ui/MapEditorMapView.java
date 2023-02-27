@@ -187,7 +187,7 @@ public class MapEditorMapView {
     gfx.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> onNodeClicked(event, node, gfx));
     nodes.put(node, gfx);
     nodeGroup.getChildren().add(gfx);
-    log.info("Node added");
+    log.debug("Node added");
   }
 
   private void removeNode(NodeEntity node) {
@@ -196,7 +196,7 @@ public class MapEditorMapView {
     nodes.remove(node);
     nodeGroup.getChildren().remove(gfx);
     selectedNodes.remove(node);
-    log.info("Node removed");
+    log.debug("Node removed");
   }
 
   private void addEdge(EdgeEntity edge) {
@@ -204,7 +204,7 @@ public class MapEditorMapView {
     gfx.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> onEdgeClicked(event, edge, gfx));
     edges.put(edge, gfx);
     edgeGroup.getChildren().add(gfx);
-    log.info("Edge added");
+    log.debug("Edge added");
   }
 
   private void removeEdge(EdgeEntity edge) {
@@ -213,7 +213,7 @@ public class MapEditorMapView {
     edges.remove(edge);
     edgeGroup.getChildren().remove(gfx);
     selectedEdges.remove(edge);
-    log.info("Edge removed");
+    log.debug("Edge removed");
   }
 
   private void bindFloorVisibility(ImageView floorImage, Floor associatedFloor) {
@@ -275,14 +275,15 @@ public class MapEditorMapView {
   private void createNode(Vector2 position) {
     final var x = (int) position.getX();
     final var y = (int) position.getY();
-    Main.getRepo()
-        .addNode(
-            new NodeEntity(
-                String.format("%sX%04dY%04d", shownFloor.get(), x, y),
-                x,
-                y,
-                shownFloor.get().toString(),
-                ""));
+    final var newNode =
+        new NodeEntity(
+            String.format("%sX%04dY%04d", shownFloor.get(), x, y),
+            x,
+            y,
+            shownFloor.get().toString(),
+            "");
+    Main.getRepo().addNode(newNode);
+    select(newNode);
   }
 
   private final Vector2 anchor = Vector2.zero();
@@ -295,7 +296,7 @@ public class MapEditorMapView {
   }
 
   private void updateRectangleSelect(Vector2 extent) {
-    log.info("Updating rectangle select");
+    log.debug("Updating rectangle select");
     selectionRectangle.setVisible(true);
     recalculateRectangleCoords(anchor, extent);
   }
@@ -319,6 +320,7 @@ public class MapEditorMapView {
   }
 
   private boolean inRectangle(NodeEntity node) {
+    if (node == null) return false;
     final var x = node.getXcoord() - selectionRectangle.getX();
     final var y = node.getYcoord() - selectionRectangle.getY();
     return x >= 0
@@ -329,6 +331,7 @@ public class MapEditorMapView {
   }
 
   private boolean inRectangle(EdgeEntity edge) {
+    if (edge == null) return false;
     return inRectangle(edge.getNode1()) && inRectangle(edge.getNode2());
   }
 
@@ -353,7 +356,7 @@ public class MapEditorMapView {
   }
 
   private void updateDragSelection(Vector2 position) {
-    log.info("Updating drag selection");
+    log.debug("Updating drag selection");
     final var delta = Vector2.minus(position, dragOrigin);
     nodesToMove.forEach(
         (node, origin) -> {
@@ -442,7 +445,7 @@ public class MapEditorMapView {
   }
 
   private void updatePanMap(Vector2 position) {
-    log.info("Updating pan map");
+    log.debug("Updating pan map");
     final var newView = Vector2.minus(position, dragOffsetVector);
     viewX.setValue(newView.getX());
     viewY.setValue(newView.getY());

@@ -4,19 +4,21 @@ import edu.wpi.cs3733.C23.teamC.App;
 import edu.wpi.cs3733.C23.teamC.Main;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.LocationnameEntity;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Window;
 
-public class AddLocationNameDialog extends FXMLDialog<Void> {
+public class AddLocationNameDialog extends FXMLDialog<LocationnameEntity> {
 
   @FXML private MFXTextField longName;
   @FXML private MFXTextField shortName;
   @FXML private MFXTextField locationType;
 
   @FXML private ButtonType okButton;
+  @FXML private ButtonType cancelButton;
 
   public AddLocationNameDialog(Window owner) {
     super(owner, App.class.getResource("views/LocationNameDialog.fxml"));
@@ -33,10 +35,12 @@ public class AddLocationNameDialog extends FXMLDialog<Void> {
     ok.addEventHandler(
         ActionEvent.ACTION,
         event ->
-            Main.getRepo()
-                .addLocationName(
-                    new LocationnameEntity(
-                        longName.getText(), shortName.getText(), locationType.getText())));
+            Platform.runLater(
+                () ->
+                    Main.getRepo()
+                        .addLocationName(
+                            new LocationnameEntity(
+                                longName.getText(), shortName.getText(), locationType.getText()))));
     ok.disableProperty()
         .bind(
             Bindings.createBooleanBinding(
