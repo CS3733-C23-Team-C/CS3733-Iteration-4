@@ -28,11 +28,13 @@ import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import lombok.Getter;
@@ -57,6 +59,7 @@ public class PathfindingController {
   @FXML @Getter private MFXToggleButton locationNames;
   @FXML private MFXButton settingsButton;
   @FXML private Text infoText;
+  @FXML private MFXGenericDialog legendDialog;
   @Getter @Setter private List<PFPlace> placesToAvoid;
   private MapViewController mvc;
   @Getter private List<PFPlace> pfLocations;
@@ -65,6 +68,7 @@ public class PathfindingController {
   @Getter @Setter private MFXGenericDialog currentDialog;
   @Getter @Setter private boolean avoidStairs, preferStairs;
   @Getter private String mapText;
+  boolean legendMaximized = true;
 
   /** Initialize controller by FXML Loader. */
   @FXML
@@ -117,18 +121,10 @@ public class PathfindingController {
     preferStairs = false;
     avoidStairs = false;
     mapText = "";
-    // log.info("done");
-  }
 
-  /*
-  SUBMISSIONS FOR CURRENT/DESTINATION ROOM MUST BE VALID NODE
-  use two of these nodes:L1X2255Y0849,L1X2665Y1043,L1X2445Y1245,L1X1980Y0844,L1X1845Y0844,L1X2310Y1043,L1X1732Y0924,
-  L1X2445Y1043,L1X2445Y1284,L1X2770Y1070,L1X1750Y1284,L1X2130Y1284,L1X2130Y1045,L1X2215Y1045,L1X2220Y0904,L1X2265Y0904,
-  L1X2360Y0849,L1X2130Y0904,L1X2130Y0844,L1X1845Y0924,L1X2300Y0849,L1X1750Y1090,L1X2290Y1284,L1X2320Y1284,L1X2770Y1284,
-  L1X1732Y1019,L1X2065Y1284,L1X2300Y0879,L1X2770Y1160,L1X2185Y0904,L1X2490Y1043,L1X1637Y2116,L1X1702Y2260,L1X1702Y2167,
-  L1X1688Y2167,L1X1666Y2167,L1X1688Y2131,L1X1665Y2116,L1X1720Y2131,L1X2715Y1070,L1X2360Y0799,L1X2220Y0974,L1X1785Y0924,
-  L1X1820Y1284, L1X1965Y1284
-   */
+    legendDialog.setOnMinimize(this::onLegendMinimize);
+    legendDialog.setOnAlwaysOnTop(this::onLegendMinimize);
+  }
 
   public void submitForm() throws FloorDoesNotExistException {
     NodeEntity currRoomNode = currRoom.getValue().getNode(getMoveDate());
@@ -316,7 +312,7 @@ public class PathfindingController {
   }
 
   public Date getMoveDate() {
-    //System.out.println(test);
+    // System.out.println(test);
     return Date.valueOf(dateField.getValue());
   }
 
@@ -388,7 +384,11 @@ public class PathfindingController {
   public void removeCurrentDialog() {
     Set<Node> toRemove = new HashSet<>();
     for (Node child : stackPane.getChildren()) {
-      if (child.getClass() == MFXGenericDialog.class) toRemove.add(child);
+      if (child.getClass() == MFXGenericDialog.class) {
+        MFXGenericDialog dialog = (MFXGenericDialog) child;
+        if (!dialog.getHeaderText().equals("Legend")) toRemove.add(child);
+        // probs not the best way to do this but it works
+      }
     }
     stackPane.getChildren().removeAll(toRemove);
   }
@@ -420,5 +420,53 @@ public class PathfindingController {
 
   public PFPlace getCurrRoom() {
     return currRoom.getValue();
+  }
+
+  public void onLegendMinimize(MouseEvent event) {
+    if (legendMaximized) {
+      legendDialog.setContent(null);
+      legendDialog.setShowMinimize(false);
+      legendDialog.setShowAlwaysOnTop(true);
+      legendMaximized = false;
+    } else {
+      HBox locationBox = new HBox(new Circle(10, Color.BLUE), new Text("Location"));
+      locationBox.setSpacing(5);
+      locationBox.setPrefHeight(30);
+      locationBox.setAlignment(Pos.CENTER_LEFT);
+
+      HBox currentLocationBox = new HBox(new Circle(10, Color.GREEN), new Text("Current Location"));
+      currentLocationBox.setSpacing(5);
+      currentLocationBox.setPrefHeight(30);
+      currentLocationBox.setAlignment(Pos.CENTER_LEFT);
+
+      HBox destinationLocationBox =
+          new HBox(new Circle(10, Color.RED), new Text("Destination Location"));
+      destinationLocationBox.setSpacing(5);
+      destinationLocationBox.setPrefHeight(30);
+      destinationLocationBox.setAlignment(Pos.CENTER_LEFT);
+
+      HBox serviceRequestBox = new HBox(new Circle(10, Color.ORANGE), new Text("Service Request"));
+      serviceRequestBox.setSpacing(5);
+      serviceRequestBox.setPrefHeight(30);
+      serviceRequestBox.setAlignment(Pos.CENTER_LEFT);
+
+      HBox floorChangeBox = new HBox(new Circle(10, Color.PURPLE), new Text("Floor Change"));
+      floorChangeBox.setSpacing(5);
+      floorChangeBox.setPrefHeight(30);
+      floorChangeBox.setAlignment(Pos.CENTER_LEFT);
+
+      VBox legendContent =
+          new VBox(
+              locationBox,
+              currentLocationBox,
+              destinationLocationBox,
+              serviceRequestBox,
+              floorChangeBox);
+
+      legendDialog.setContent(legendContent);
+      legendDialog.setShowMinimize(true);
+      legendDialog.setShowAlwaysOnTop(false);
+      legendMaximized = true;
+    }
   }
 }

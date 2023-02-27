@@ -48,7 +48,7 @@ public class MapViewController {
   private AnchorPane ap;
   private Pane canvasPane;
   @Getter private List<NodeEntity> currentPath;
-  private int lastX, lastY;
+  private double lastX, lastY;
   private double canvasW, canvasH;
   private static final float SCROLL_SPEED = 1f;
   private static final int MOVE_SPEED = 30;
@@ -135,11 +135,13 @@ public class MapViewController {
     canvasPane.addEventHandler(MouseEvent.MOUSE_DRAGGED, this::mapDrag);
     canvasPane.addEventHandler(MouseEvent.MOUSE_RELEASED, this::mapStopDrag);
     canvasPane.addEventHandler(ScrollEvent.SCROLL, this::mapScroll);
+
+    gc.setLineWidth(3);
   }
 
   public void mapStartDrag(MouseEvent event) {
-    lastX = (int) event.getX();
-    lastY = (int) event.getY();
+    lastX = event.getX();
+    lastY = event.getY();
 
     // ap.setCursor(Cursor.CLOSED_HAND);
   }
@@ -192,8 +194,8 @@ public class MapViewController {
       mapY = 0;
     }
 
-    lastX = (int) (event.getX());
-    lastY = (int) (event.getY());
+    lastX = (event.getX());
+    lastY = (event.getY());
 
     drawNodes();
   }
@@ -495,6 +497,8 @@ public class MapViewController {
 
   public void zoom(float factor, double x, double y) {
     float multiplier = factor - 1;
+
+    gc.setLineWidth(scale(3));
 
     long moveX = Math.round((x / canvasW) * mapW * multiplier);
     long moveY = Math.round((y / canvasH) * mapH * multiplier);
