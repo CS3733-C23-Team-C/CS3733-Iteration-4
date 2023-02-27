@@ -9,6 +9,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import org.hibernate.Session;
 import org.hibernate.collection.spi.PersistentSet;
 
 @Entity
@@ -16,7 +17,6 @@ import org.hibernate.collection.spi.PersistentSet;
 public class AlertEntity implements Persistent {
   // private final SimpleObjectProperty<UUID> messageID = new SimpleObjectProperty<>();
 
-  private PersistentSet<AlertstaffEntity> alertstaff = new PersistentSet<AlertstaffEntity>();
   private final SimpleIntegerProperty alertid = new SimpleIntegerProperty();
   private final SimpleObjectProperty<Date> date = new SimpleObjectProperty<>();
   private final SimpleStringProperty message = new SimpleStringProperty();
@@ -95,12 +95,10 @@ public class AlertEntity implements Persistent {
     this.message.set(message);
   }
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "staff")
-  public PersistentSet<AlertstaffEntity> getAlertstaff() {
-    return this.alertstaff;
+  public List<AlertEntity> getAllAlerts(){
+    Session session = Main.db.getSession();
+
+    return null;
   }
 
-  public void setAlertstaff(PersistentSet<AlertstaffEntity> staff) {
-    this.alertstaff = (staff);
-  }
 }

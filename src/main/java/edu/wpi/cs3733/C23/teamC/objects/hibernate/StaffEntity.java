@@ -14,7 +14,6 @@ import org.hibernate.collection.spi.PersistentSet;
 @Table(name = "staff", schema = "cdb", catalog = "teamcdb")
 public class StaffEntity implements Persistent, CSVExportable {
 
-  private PersistentSet<AlertstaffEntity> alertstaff = new PersistentSet<AlertstaffEntity>();
   private final SimpleStringProperty staffid = new SimpleStringProperty();
   private final SimpleStringProperty firstname = new SimpleStringProperty();
   private final SimpleStringProperty lastname = new SimpleStringProperty();
@@ -146,18 +145,6 @@ public class StaffEntity implements Persistent, CSVExportable {
     this.notes.set(notes);
   }
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "alert")
-  public PersistentSet<AlertstaffEntity> getAlertstaff() {
-    return this.alertstaff;
-  }
-
-  //  SimpleSetProperty<AlertstaffEntity> alertsProperty() {
-  //    return alertstaff;
-  //  }
-
-  public void setAlertstaff(PersistentSet<AlertstaffEntity> alerts) {
-    this.alertstaff = alerts;
-  }
 
   @Override
   public String[] toCSV() {
