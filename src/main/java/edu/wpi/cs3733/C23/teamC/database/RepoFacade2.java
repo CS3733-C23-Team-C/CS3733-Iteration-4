@@ -4,8 +4,11 @@ import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Map;
+import java.util.function.Consumer;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
+import javafx.collections.ListChangeListener;
+import javafx.collections.MapChangeListener;
 import org.hibernate.Session;
 
 public interface RepoFacade2 {
@@ -157,4 +160,22 @@ public interface RepoFacade2 {
   StaffEntity getStaff3(String firstName, String lastName, String staffId);
 
   void refreshMessages();
+
+  static <K, E> MapChangeListener<K, E> createMapListener(
+      Consumer<E> addCallback, Consumer<E> removeCallback) {
+    return change -> {
+      if (change.wasAdded()) addCallback.accept(change.getValueAdded());
+      if (change.wasRemoved()) removeCallback.accept(change.getValueRemoved());
+    };
+  }
+
+  static <E> ListChangeListener<E> createListListener(
+      Consumer<E> addCallback, Consumer<E> removeCallback) {
+    return change -> {
+      while (change.next()) {
+        if (change.wasAdded()) change.getAddedSubList().forEach(addCallback);
+        if (change.wasRemoved()) change.getRemoved().forEach(removeCallback);
+      }
+    };
+  }
 }

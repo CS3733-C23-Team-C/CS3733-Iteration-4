@@ -32,11 +32,11 @@ public class DatabaseService implements RepoFacade2 {
   private ComputerSubmissionDAO computerSubmissionDAO;
   private SecuritySubmissionDAO securitySubmissionDAO;
   private TransportationSubmissionDAO transportationSubmissionDAO;
-  private LocationDAO locationDAO;
-  private NodeDAO nodeDAO;
+  private final LocationDAO locationDAO;
+  private final NodeDAO nodeDAO;
   private StaffDAO staffDAO;
-  private EdgeDAO edgeDAO;
-  private MoveDAO moveDAO;
+  private final EdgeDAO edgeDAO;
+  private final MoveDAO moveDAO;
   private MessageDAO messageDAO;
   private AlertDAO alertDAO;
 
@@ -54,15 +54,15 @@ public class DatabaseService implements RepoFacade2 {
     log.info("Importing transportation submissions.");
     transportationSubmissionDAO = new TransportationSubmissionDAO(orm);
     log.info("Importing locations.");
-    locationDAO = new LocationDAO(orm);
+    locationDAO = LocationDAO.initialize(orm);
     log.info("Importing nodes.");
-    nodeDAO = new NodeDAO(orm);
+    nodeDAO = NodeDAO.initialize(orm);
     log.info("Importing staff.");
     staffDAO = new StaffDAO(orm);
     log.info("Importing edges.");
-    edgeDAO = new EdgeDAO(orm);
+    edgeDAO = EdgeDAO.initialize(orm);
     log.info("Importing moves.");
-    moveDAO = new MoveDAO(orm);
+    moveDAO = MoveDAO.initialize(orm);
     log.info("Importing messages.");
     messageDAO = new MessageDAO(orm);
     log.info("Importing alerts.");
@@ -541,14 +541,17 @@ public class DatabaseService implements RepoFacade2 {
       Thread.sleep(delay * 1000L);
       computerSubmissionDAO = new ComputerSubmissionDAO(orm);
       Thread.sleep(delay * 1000L);
-      edgeDAO = new EdgeDAO(orm);
+
+      // please DO NOT change these 4 updates, or it will break a ton of stuff in the map editor.
+      edgeDAO.update();
       Thread.sleep(delay * 1000L);
-      locationDAO = new LocationDAO(orm);
+      locationDAO.update();
       Thread.sleep(delay * 1000L);
-      moveDAO = new MoveDAO(orm);
+      moveDAO.update();
       Thread.sleep(delay * 1000L);
-      nodeDAO = new NodeDAO(orm);
+      nodeDAO.update();
       Thread.sleep(delay * 1000L);
+
       securitySubmissionDAO = new SecuritySubmissionDAO(orm);
       Thread.sleep(delay * 1000L);
       staffDAO = new StaffDAO(orm);
@@ -557,7 +560,7 @@ public class DatabaseService implements RepoFacade2 {
       Thread.sleep(delay * 1000L);
       alertDAO = new AlertDAO(orm);
     } catch (InterruptedException e) {
-      throw new RuntimeException(e);
+      log.info("Shutting down auto-update.");
     }
   }
 

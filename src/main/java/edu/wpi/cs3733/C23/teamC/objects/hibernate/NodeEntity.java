@@ -36,9 +36,11 @@ public class NodeEntity implements Persistent, CSVExportable {
     setBuilding(building);
   }
 
+  private InvalidationListener listener;
+
   @Override
   public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener = evt -> orm.merge(this);
+    listener = evt -> orm.mergeOnlyWhenManual(this);
     nodeID.addListener(listener);
     xcoord.addListener(listener);
     ycoord.addListener(listener);
@@ -46,6 +48,18 @@ public class NodeEntity implements Persistent, CSVExportable {
     building.addListener(listener);
     // xcoord.addListener(evt -> repairID());
     // ycoord.addListener(evt -> repairID());
+  }
+
+  @Override
+  public void disablePersistence() {
+    if (listener != null) {
+      nodeID.removeListener(listener);
+      xcoord.removeListener(listener);
+      ycoord.removeListener(listener);
+      floor.removeListener(listener);
+      building.removeListener(listener);
+      listener = null;
+    }
   }
 
   @Id
@@ -124,8 +138,7 @@ public class NodeEntity implements Persistent, CSVExportable {
     HashSet<EdgeEntity> ret = new HashSet<>();
 
     for (EdgeEntity e : Main.db.getEdges()) {
-      if (e.getNode1().getNodeID().equals(getNodeID())
-          || e.getNode2().getNodeID().equals(getNodeID())) {
+      if (e.getNode1ID().equals(getNodeID()) || e.getNode2ID().equals(getNodeID())) {
         ret.add(e);
       }
     }
