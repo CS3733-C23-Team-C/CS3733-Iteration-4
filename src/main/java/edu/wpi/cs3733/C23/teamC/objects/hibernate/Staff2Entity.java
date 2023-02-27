@@ -35,9 +35,11 @@ public class Staff2Entity implements Persistent, CSVExportable {
     setPassword(password);
   }
 
+  private InvalidationListener listener;
+
   @Override
   public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener = evt -> orm.merge(this);
+    listener = evt -> orm.mergeOnlyWhenManual(this);
     staffid.addListener(listener);
     firstname.addListener(listener);
     lastname.addListener(listener);
@@ -45,6 +47,19 @@ public class Staff2Entity implements Persistent, CSVExportable {
     role.addListener(listener);
     notes.addListener(listener);
     picnum.addListener(listener);
+  }
+
+  @Override
+  public void disablePersistence() {
+    if (listener != null) {
+      staffid.removeListener(listener);
+      firstname.removeListener(listener);
+      lastname.removeListener(listener);
+      password.removeListener(listener);
+      role.removeListener(listener);
+      notes.removeListener(listener);
+      picnum.removeListener(listener);
+    }
   }
 
   @Override

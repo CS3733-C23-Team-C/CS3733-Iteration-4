@@ -31,15 +31,24 @@ public class AlertEntity implements Persistent {
     setMessage(message);
   }
 
+  private InvalidationListener listener;
+
   @Override
   public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener =
-        evt -> {
-          if (Thread.currentThread() != Main.getUpdaterThread()) orm.merge(this);
-        };
+    listener = evt -> orm.mergeOnlyWhenManual(this);
     alertid.addListener(listener);
     date.addListener(listener);
     message.addListener(listener);
+  }
+
+  @Override
+  public void disablePersistence() {
+    if (listener != null) {
+      alertid.removeListener(listener);
+      date.removeListener(listener);
+      message.removeListener(listener);
+      listener = null;
+    }
   }
 
   @Override

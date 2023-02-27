@@ -530,18 +530,25 @@ public class MapEditorMapView {
   private void beginMapContextMenu(MouseEvent event) {
     final var addNode = new MenuItem("Add node");
     addNode.setOnAction(actionEvent -> createNode(getCoordsPosition(event)));
+
     var numSelected = selectedNodes.size();
     final var connect =
         new MenuItem(String.format("Connect %d node%s", numSelected, numSelected == 1 ? "" : "s"));
     connect.setOnAction(actionEvent -> connectNodes(selectedNodes));
     connect.setDisable(numSelected < 2);
+
     numSelected += selectedEdges.size();
     final var delete =
         new MenuItem(String.format("Delete %d item%s", numSelected, numSelected == 1 ? "" : "s"));
     delete.setOnAction(actionEvent -> deleteSelected());
     delete.setDisable(numSelected == 0);
 
-    contextMenu.getItems().setAll(addNode, connect, delete);
+    final var alignHL = new MenuItem("Align horizontally to left node");
+    alignHL.setDisable(!selectedNodes.isEmpty() || selectedEdges.isEmpty());
+    alignHL.setOnAction(
+        actionEvent -> Set.copyOf(selectedEdges).forEach(this::alignHorizontallyToLeft));
+
+    contextMenu.getItems().setAll(addNode, connect, delete, alignHL);
 
     final var clickPoint = getScreenPosition(event);
     contextMenu.show(clipPane.getScene().getWindow(), clickPoint.getX(), clickPoint.getY());
@@ -563,6 +570,29 @@ public class MapEditorMapView {
 
     edges.forEach(Main.getRepo()::addEdge);
   }
+
+  private void alignHorizontallyToLeft(EdgeEntity edge) {
+    final var node1 = edge.getNode1();
+    final var node2 = edge.getNode2();
+
+    NodeEntity leftNode, rightNode;
+    if (node1.getXcoord() < node2.getXcoord()) {
+      leftNode = node1;
+      rightNode = node2;
+    } else {
+      leftNode = node2;
+      rightNode = node1;
+    }
+
+    rightNode.setYcoord(leftNode.getYcoord());
+    repairID(rightNode);
+  }
+
+  private void alignHorizontallyToRight(EdgeEntity edge) {}
+
+  private void alignVerticallyToTop(EdgeEntity edge) {}
+
+  private void alignVerticallyToBottom(EdgeEntity edge) {}
 
   // left-click on the map: deselect everything
   // left-click and drag on the map: deselect everything and begin rectangle select
