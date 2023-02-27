@@ -76,6 +76,24 @@ public class MapEditorTableView {
     Main.getRepo().getLocationNames().values().forEach(this::addLocation);
   }
 
+  public void select(NodeEntity node) {
+    nodeTableView.getSelectionModel().select(node);
+    nodeTableView.scrollTo(node);
+  }
+
+  public void select(EdgeEntity edge) {
+    edgeTableView.getSelectionModel().select(edge);
+    edgeTableView.scrollTo(edge);
+  }
+
+  public void deselect(NodeEntity node) {
+    nodeTableView.getSelectionModel().clearSelection(nodeTableView.getItems().indexOf(node));
+  }
+
+  public void deselect(EdgeEntity edge) {
+    edgeTableView.getSelectionModel().clearSelection(edgeTableView.getItems().indexOf(edge));
+  }
+
   private <K, E> MapChangeListener<K, E> createMapListener(Consumer<E> add, Consumer<E> remove) {
     return change -> {
       if (change.wasAdded()) add.accept(change.getValueAdded());

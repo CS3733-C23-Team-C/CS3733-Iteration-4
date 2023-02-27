@@ -32,6 +32,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.internal.util.collections.IdentitySet;
 
@@ -223,26 +224,34 @@ public class MapEditorMapView {
 
   private final Set<NodeEntity> selectedNodes = new IdentitySet<>();
   private final Set<EdgeEntity> selectedEdges = new IdentitySet<>();
+  @Getter @Setter private Consumer<NodeEntity> onNodeSelected;
+  @Getter @Setter private Consumer<NodeEntity> onNodeDeselected;
+  @Getter @Setter private Consumer<EdgeEntity> onEdgeSelected;
+  @Getter @Setter private Consumer<EdgeEntity> onEdgeDeselected;
 
-  private void select(NodeEntity node) {
+  public void select(NodeEntity node) {
     selectedNodes.add(node);
     nodes.get(node).showAsSelected();
+    if (onNodeSelected != null) onNodeSelected.accept(node);
     log.info("Selected node {}\n", node.getNodeID());
   }
 
-  private void select(EdgeEntity edge) {
+  public void select(EdgeEntity edge) {
     selectedEdges.add(edge);
     edges.get(edge).showAsSelected();
+    if (onEdgeSelected != null) onEdgeSelected.accept(edge);
   }
 
-  private void deselect(NodeEntity node) {
+  public void deselect(NodeEntity node) {
     selectedNodes.remove(node);
     nodes.get(node).showAsDeselected();
+    if (onNodeDeselected != null) onNodeDeselected.accept(node);
   }
 
-  private void deselect(EdgeEntity edge) {
+  public void deselect(EdgeEntity edge) {
     selectedEdges.remove(edge);
     edges.get(edge).showAsDeselected();
+    if (onEdgeDeselected != null) onEdgeDeselected.accept(edge);
   }
 
   private boolean isSelected(NodeEntity node) {
