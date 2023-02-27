@@ -6,7 +6,6 @@ import edu.wpi.cs3733.C23.teamC.database.dao.MoveDAO;
 import edu.wpi.cs3733.C23.teamC.database.dao.NodeDAO;
 import edu.wpi.cs3733.C23.teamC.database.dao.StaffDAO;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
-import edu.wpi.cs3733.C23.teamC.objects.orm.*;
 import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -39,7 +38,6 @@ public class DatabaseService implements RepoFacade2 {
   private EdgeDAO edgeDAO;
   private MoveDAO moveDAO;
   private MessageDAO messageDAO;
-  private AlertstaffDAO alertstaffDAO;
   private AlertDAO alertDAO;
 
   public DatabaseService(DAOFacade orm) {
@@ -59,8 +57,6 @@ public class DatabaseService implements RepoFacade2 {
     locationDAO = new LocationDAO(orm);
     log.info("Importing nodes.");
     nodeDAO = new NodeDAO(orm);
-    alertstaffDAO = new AlertstaffDAO(orm);
-    log.info("Initialization complete.");
     log.info("Importing staff.");
     staffDAO = new StaffDAO(orm);
     log.info("Importing edges.");
@@ -71,7 +67,7 @@ public class DatabaseService implements RepoFacade2 {
     messageDAO = new MessageDAO(orm);
     log.info("Importing alerts.");
     alertDAO = new AlertDAO(orm);
-    log.info("Importing alertstaff");
+    log.info("Initialization complete.");
   }
 
   @Override
@@ -127,6 +123,11 @@ public class DatabaseService implements RepoFacade2 {
   @Override
   public ReadOnlyMapProperty<Integer, MessagesEntity> getMessages() {
     return messageDAO.getAll();
+  }
+
+  @Override
+  public ReadOnlyMapProperty getAlerts() {
+    return alertDAO.getAll();
   }
 
   @Override
@@ -213,6 +214,11 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
+  public void addAlert(AlertEntity alert) {
+    alertDAO.add(alert);
+  }
+
+  @Override
   public AudiosubmissionEntity getAudio(Integer id) {
     return audioSubmissionDAO.get(id);
   }
@@ -255,6 +261,11 @@ public class DatabaseService implements RepoFacade2 {
   @Override
   public MessagesEntity getMessage(Integer id) {
     return messageDAO.get(id);
+  }
+
+  @Override
+  public AlertEntity getAlert(Integer id) {
+    return alertDAO.get(id);
   }
 
   @Override
@@ -365,6 +376,11 @@ public class DatabaseService implements RepoFacade2 {
   @Override
   public void deleteMessage(MessagesEntity entity) {
     messageDAO.delete(entity);
+  }
+
+  @Override
+  public void deleteAlert(AlertEntity entity) {
+    alertDAO.delete(entity);
   }
 
   @Override
@@ -538,6 +554,8 @@ public class DatabaseService implements RepoFacade2 {
       staffDAO = new StaffDAO(orm);
       Thread.sleep(delay * 1000L);
       transportationSubmissionDAO = new TransportationSubmissionDAO(orm);
+      Thread.sleep(delay * 1000L);
+      alertDAO = new AlertDAO(orm);
     } catch (InterruptedException e) {
       throw new RuntimeException(e);
     }

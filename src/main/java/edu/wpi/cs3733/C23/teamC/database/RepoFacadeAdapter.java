@@ -252,6 +252,11 @@ public class RepoFacadeAdapter implements RepoFacade {
   }
 
   @Override
+  public AlertEntity getAlert(int id) {
+    return repo.getAlert(id);
+  }
+
+  @Override
   public Session getSession() {
     return repo.getSession();
   }

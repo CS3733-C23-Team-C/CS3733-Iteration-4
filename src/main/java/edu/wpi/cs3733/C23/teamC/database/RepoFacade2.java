@@ -34,9 +34,13 @@ public interface RepoFacade2 {
 
   ReadOnlyMapProperty<Integer, MessagesEntity> getMessages();
 
+  AlertEntity getAlert(Integer id);
+
   Map<Integer, MessagesEntity> getMessages(String id);
 
   Map<Integer, MessagesEntity> getMessages(String id, int lastid);
+
+  ReadOnlyMapProperty getAlerts();
 
   // Add method
   // Submissions
@@ -62,6 +66,8 @@ public interface RepoFacade2 {
   boolean addMove(MoveEntity submission);
 
   void addMessage(MessagesEntity message);
+
+  void addAlert(AlertEntity alert);
 
   // Get single methods
   // Submissions
@@ -128,6 +134,8 @@ public interface RepoFacade2 {
   void deleteMessage(Integer messageid);
 
   void deleteMessage(MessagesEntity entity);
+
+  void deleteAlert(AlertEntity entity);
 
   // Submission methods
   StaffEntity getStaff(String Staffid, String password);

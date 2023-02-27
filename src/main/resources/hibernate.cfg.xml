@@ -21,7 +21,6 @@
     <mapping class="edu.wpi.cs3733.C23.teamC.objects.hibernate.StaffEntity"/>
     <mapping class="edu.wpi.cs3733.C23.teamC.objects.hibernate.TransportationsubmissionEntity"/>
     <mapping class="edu.wpi.cs3733.C23.teamC.objects.hibernate.AlertEntity"/>
-    <mapping class="edu.wpi.cs3733.C23.teamC.objects.hibernate.AlertstaffEntity"/>
     <!-- <property name="connection.username"/> -->
     <!-- <property name="connection.password"/> -->
 

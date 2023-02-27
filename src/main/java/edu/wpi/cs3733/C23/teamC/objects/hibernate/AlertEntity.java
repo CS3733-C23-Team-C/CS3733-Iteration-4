@@ -9,8 +9,10 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.collection.spi.PersistentSet;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 @Entity
 @Table(name = "alerts", schema = "cdb", catalog = "teamcdb")
@@ -95,10 +97,55 @@ public class AlertEntity implements Persistent {
     this.message.set(message);
   }
 
-  public List<AlertEntity> getAllAlerts(){
+  public List<StaffEntity> allStaff() {
     Session session = Main.db.getSession();
+    Transaction tx = null;
+    List<StaffEntity> ret = new ArrayList<>();
 
-    return null;
+    try {
+      tx = session.beginTransaction();
+      Query q =
+          session.createNativeQuery(
+              "SELECT s.staffid"
+                  + " FROM cdb.staff AS s, cdb.alertstaff AS sa, cdb.alerts AS a "
+                  + "WHERE s.staffid = sa.staff AND sa.alert = a.alertid AND a.alertid = :id");
+      q.setParameter("id", getAlertid());
+      List l = q.list();
+      for (Iterator iterator = l.iterator(); iterator.hasNext(); ) {
+        ret.add(Main.db.getStaff(iterator.next().toString()));
+      }
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return ret;
   }
 
+  public List<StaffEntity> allNotReadStaff() {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+    List<StaffEntity> ret = new ArrayList<>();
+
+    try {
+      tx = session.beginTransaction();
+      Query q =
+          session.createNativeQuery(
+              "SELECT s.staffid, s.firstname, s.lastname, s.role, s.password, s.notes, s.picid"
+                  + " FROM cdb.staff AS s, cdb.alertstaff AS sa, cdb.alerts AS a "
+                  + "WHERE s.staffid = sa.staff AND sa.alert = a.alertid AND a.alertid = :id AND sa.seen = FALSE");
+      q.setParameter("id", getAlertid());
+      List l = q.list();
+      for (Iterator iterator = l.iterator(); iterator.hasNext(); ) {
+        ret.add(Main.db.getStaff(iterator.next().toString()));
+      }
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return ret;
+  }
 }
