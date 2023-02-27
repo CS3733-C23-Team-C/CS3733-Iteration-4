@@ -194,4 +194,26 @@ public class AlertEntity implements Persistent {
       session.close();
     }
   }
+
+  public void markRead(StaffEntity staff) {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+
+    try {
+      tx = session.beginTransaction();
+      Query q =
+          session.createNativeQuery(
+              "UPDATE cdb.alertstaff "
+                  + "SET seen = TRUE "
+                  + "WHERE staff = :staff AND alert = :alert");
+      q.setParameter("staff", staff.getStaffid());
+      q.setParameter("alert", getAlertid());
+      q.executeUpdate();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+  }
 }
