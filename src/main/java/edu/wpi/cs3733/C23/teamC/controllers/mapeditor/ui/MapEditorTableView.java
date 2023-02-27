@@ -217,6 +217,7 @@ public class MapEditorTableView {
               List.copyOf(locationNameTableView.getSelectionModel().getSelectedItems());
           toDelete.forEach(this::deleteLocationName);
         });
+
     final var contextMenu = new ContextMenu(addItem, deleteItem);
     locationNameTableView.setContextMenu(contextMenu);
   }
