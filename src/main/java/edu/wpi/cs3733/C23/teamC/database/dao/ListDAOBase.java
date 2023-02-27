@@ -30,5 +30,10 @@ class ListDAOBase<E extends Persistent> {
   public void delete(E entity) {
     orm.delete(entity);
     entities.remove(entity);
+    entity.disablePersistence();
+  }
+
+  public void update() {
+    getAll().forEach(orm::refresh);
   }
 }

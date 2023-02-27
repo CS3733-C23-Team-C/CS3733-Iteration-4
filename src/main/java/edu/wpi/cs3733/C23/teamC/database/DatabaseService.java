@@ -6,7 +6,6 @@ import edu.wpi.cs3733.C23.teamC.database.dao.MoveDAO;
 import edu.wpi.cs3733.C23.teamC.database.dao.NodeDAO;
 import edu.wpi.cs3733.C23.teamC.database.dao.StaffDAO;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
-import edu.wpi.cs3733.C23.teamC.objects.orm.*;
 import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -33,12 +32,13 @@ public class DatabaseService implements RepoFacade2 {
   private ComputerSubmissionDAO computerSubmissionDAO;
   private SecuritySubmissionDAO securitySubmissionDAO;
   private TransportationSubmissionDAO transportationSubmissionDAO;
-  private LocationDAO locationDAO;
-  private NodeDAO nodeDAO;
+  private final LocationDAO locationDAO;
+  private final NodeDAO nodeDAO;
   private StaffDAO staffDAO;
-  private EdgeDAO edgeDAO;
-  private MoveDAO moveDAO;
+  private final EdgeDAO edgeDAO;
+  private final MoveDAO moveDAO;
   private MessageDAO messageDAO;
+  private AlertDAO alertDAO;
 
   public DatabaseService(DAOFacade orm) {
     log.info("Initializing database service.");
@@ -54,17 +54,19 @@ public class DatabaseService implements RepoFacade2 {
     log.info("Importing transportation submissions.");
     transportationSubmissionDAO = new TransportationSubmissionDAO(orm);
     log.info("Importing locations.");
-    locationDAO = new LocationDAO(orm);
+    locationDAO = LocationDAO.initialize(orm);
     log.info("Importing nodes.");
-    nodeDAO = new NodeDAO(orm);
+    nodeDAO = NodeDAO.initialize(orm);
     log.info("Importing staff.");
     staffDAO = new StaffDAO(orm);
     log.info("Importing edges.");
-    edgeDAO = new EdgeDAO(orm);
+    edgeDAO = EdgeDAO.initialize(orm);
     log.info("Importing moves.");
-    moveDAO = new MoveDAO(orm);
+    moveDAO = MoveDAO.initialize(orm);
     log.info("Importing messages.");
     messageDAO = new MessageDAO(orm);
+    log.info("Importing alerts.");
+    alertDAO = new AlertDAO(orm);
     log.info("Initialization complete.");
   }
 
@@ -121,6 +123,11 @@ public class DatabaseService implements RepoFacade2 {
   @Override
   public ReadOnlyMapProperty<Integer, MessagesEntity> getMessages() {
     return messageDAO.getAll();
+  }
+
+  @Override
+  public ReadOnlyMapProperty getAlerts() {
+    return alertDAO.getAll();
   }
 
   @Override
@@ -207,6 +214,11 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
+  public void addAlert(AlertEntity alert) {
+    alertDAO.add(alert);
+  }
+
+  @Override
   public AudiosubmissionEntity getAudio(Integer id) {
     return audioSubmissionDAO.get(id);
   }
@@ -249,6 +261,11 @@ public class DatabaseService implements RepoFacade2 {
   @Override
   public MessagesEntity getMessage(Integer id) {
     return messageDAO.get(id);
+  }
+
+  @Override
+  public AlertEntity getAlert(Integer id) {
+    return alertDAO.get(id);
   }
 
   @Override
@@ -359,6 +376,11 @@ public class DatabaseService implements RepoFacade2 {
   @Override
   public void deleteMessage(MessagesEntity entity) {
     messageDAO.delete(entity);
+  }
+
+  @Override
+  public void deleteAlert(AlertEntity entity) {
+    alertDAO.delete(entity);
   }
 
   @Override
@@ -496,6 +518,28 @@ public class DatabaseService implements RepoFacade2 {
     return id;
   }
 
+  public int getNewAlertID() {
+    Session session = orm.getSession();
+    Transaction tx = null;
+
+    int id = 0;
+
+    try {
+      tx = session.beginTransaction();
+      List n = session.createNativeQuery("SELECT MAX(cdb.alerts.alertid) FROM cdb.pics").list();
+      if (n != null) {
+        id = (int) n.get(0);
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return id;
+  }
+
   @Override
   public void importAll() {
     // nothing to be done, this is handled in the constructor
@@ -519,21 +563,26 @@ public class DatabaseService implements RepoFacade2 {
       Thread.sleep(delay * 1000L);
       computerSubmissionDAO = new ComputerSubmissionDAO(orm);
       Thread.sleep(delay * 1000L);
-      edgeDAO = new EdgeDAO(orm);
+
+      // please DO NOT change these 4 updates, or it will break a ton of stuff in the map editor.
+      edgeDAO.update();
       Thread.sleep(delay * 1000L);
-      locationDAO = new LocationDAO(orm);
+      locationDAO.update();
       Thread.sleep(delay * 1000L);
-      moveDAO = new MoveDAO(orm);
+      moveDAO.update();
       Thread.sleep(delay * 1000L);
-      nodeDAO = new NodeDAO(orm);
+      nodeDAO.update();
       Thread.sleep(delay * 1000L);
+
       securitySubmissionDAO = new SecuritySubmissionDAO(orm);
       Thread.sleep(delay * 1000L);
       staffDAO = new StaffDAO(orm);
       Thread.sleep(delay * 1000L);
       transportationSubmissionDAO = new TransportationSubmissionDAO(orm);
+      Thread.sleep(delay * 1000L);
+      alertDAO = new AlertDAO(orm);
     } catch (InterruptedException e) {
-      throw new RuntimeException(e);
+      log.info("Shutting down auto-update.");
     }
   }
 

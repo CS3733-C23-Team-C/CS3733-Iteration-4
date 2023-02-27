@@ -79,23 +79,23 @@
                 </Group>
                 <Separator />
                 <Group>
-                    <ToggleButton fx:id="f3Toggle" mnemonicParsing="false" styleClass="ribbonToggle" text="F3">
+                    <ToggleButton fx:id="f3Toggle" mnemonicParsing="false" styleClass="ribbonToggle" text="Floor 3">
                         <toggleGroup>
                             <ToggleGroup fx:id="floors"/>
                         </toggleGroup>
                     </ToggleButton>
                 </Group>
                 <Group>
-                    <ToggleButton fx:id="f2Toggle" mnemonicParsing="false" styleClass="ribbonToggle" text="F2" toggleGroup="$floors" />
+                    <ToggleButton fx:id="f2Toggle" mnemonicParsing="false" styleClass="ribbonToggle" text="Floor 2" toggleGroup="$floors" />
                 </Group>
                 <Group>
-                    <ToggleButton fx:id="f1Toggle" mnemonicParsing="false" styleClass="ribbonToggle" text="F1" toggleGroup="$floors" selected="true" />
+                    <ToggleButton fx:id="f1Toggle" mnemonicParsing="false" styleClass="ribbonToggle" text="Floor 1" toggleGroup="$floors" selected="true" />
                 </Group>
                 <Group>
-                    <ToggleButton fx:id="l1Toggle" mnemonicParsing="false" styleClass="ribbonToggle" text="L1" toggleGroup="$floors" />
+                    <ToggleButton fx:id="l1Toggle" mnemonicParsing="false" styleClass="ribbonToggle" text="Floor L1" toggleGroup="$floors" />
                 </Group>
                 <Group>
-                    <ToggleButton fx:id="l2Toggle" mnemonicParsing="false" styleClass="ribbonToggle" text="L2" toggleGroup="$floors" />
+                    <ToggleButton fx:id="l2Toggle" mnemonicParsing="false" styleClass="ribbonToggle" text="Floor L2" toggleGroup="$floors" />
                 </Group>
                 <Separator />
                 <Group>

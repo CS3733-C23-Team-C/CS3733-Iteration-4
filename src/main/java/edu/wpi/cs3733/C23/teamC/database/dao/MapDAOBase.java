@@ -39,8 +39,13 @@ public class MapDAOBase<K, E extends Persistent> {
   }
 
   public void delete(E entity) {
-    entities.remove(keyGetter.apply(entity), entity);
     orm.delete(entity);
+    entities.remove(keyGetter.apply(entity), entity);
     // todo should we somehow disable persistence?
+    entity.disablePersistence();
+  }
+
+  public void update() {
+    getAll().forEach((k, e) -> orm.refresh(e));
   }
 }
