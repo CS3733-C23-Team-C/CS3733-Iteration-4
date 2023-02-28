@@ -23,23 +23,32 @@ public class AlertEntity implements Persistent {
   private final SimpleObjectProperty<Date> date = new SimpleObjectProperty<>();
   private final SimpleStringProperty message = new SimpleStringProperty();
 
+  private InvalidationListener listener;
+
+  @Override
+  public void enablePersistence(DAOFacade orm) {
+    listener = evt -> orm.mergeOnlyWhenManual(this);
+    alertid.addListener(listener);
+    date.addListener(listener);
+    message.addListener(listener);
+  }
+
+  @Override
+  public void disablePersistence() {
+    if (listener != null) {
+      alertid.removeListener(listener);
+      date.removeListener(listener);
+      message.removeListener(listener);
+      listener = null;
+    }
+  }
+
   public AlertEntity() {}
 
   public AlertEntity(int alertid, Date date, String message) {
     setAlertid(alertid);
     setDate(date);
     setMessage(message);
-  }
-
-  @Override
-  public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener =
-        evt -> {
-          if (Thread.currentThread() != Main.getUpdaterThread()) orm.merge(this);
-        };
-    alertid.addListener(listener);
-    date.addListener(listener);
-    message.addListener(listener);
   }
 
   @Override
@@ -147,5 +156,73 @@ public class AlertEntity implements Persistent {
       session.close();
     }
     return ret;
+  }
+
+  public void addStaff(StaffEntity staff) {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+
+    try {
+      tx = session.beginTransaction();
+      Query q =
+          session.createNativeQuery(
+              "INSERT INTO cdb.alertstaff "
+                  + "(staff, alert, seen)"
+                  + "VALUES (:staff, :alert, FALSE)");
+      q.setParameter("staff", staff.getStaffid());
+      q.setParameter("alert", getAlertid());
+      q.executeUpdate();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+  }
+
+  public void addStaff(List<StaffEntity> staff) {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+
+    try {
+      tx = session.beginTransaction();
+      for (StaffEntity s : staff) {
+        Query q =
+            session.createNativeQuery(
+                "INSERT INTO cdb.alertstaff "
+                    + "(staff, alert, seen)"
+                    + "VALUES (:staff, :alert, FALSE)");
+        q.setParameter("staff", s.getStaffid());
+        q.setParameter("alert", getAlertid());
+        q.executeUpdate();
+      }
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+  }
+
+  public void markRead(StaffEntity staff) {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+
+    try {
+      tx = session.beginTransaction();
+      Query q =
+          session.createNativeQuery(
+              "UPDATE cdb.alertstaff "
+                  + "SET seen = TRUE "
+                  + "WHERE staff = :staff AND alert = :alert");
+      q.setParameter("staff", staff.getStaffid());
+      q.setParameter("alert", getAlertid());
+      q.executeUpdate();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
   }
 }

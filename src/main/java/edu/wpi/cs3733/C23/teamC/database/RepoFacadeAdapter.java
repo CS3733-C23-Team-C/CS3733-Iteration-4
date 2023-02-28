@@ -79,6 +79,11 @@ public class RepoFacadeAdapter implements RepoFacade {
   }
 
   @Override
+  public Map<Integer, AlertEntity> getAlerts() {
+    return repo.getAlerts();
+  }
+
+  @Override
   public void addAudio(AudiosubmissionEntity submission) {
     repo.addAudio(submission);
   }
@@ -131,6 +136,11 @@ public class RepoFacadeAdapter implements RepoFacade {
   @Override
   public void addMessage(MessagesEntity message) {
     repo.addMessage(message);
+  }
+
+  @Override
+  public void addAlert(AlertEntity alert) {
+    repo.addAlert(alert);
   }
 
   @Override
@@ -284,5 +294,10 @@ public class RepoFacadeAdapter implements RepoFacade {
   @Override
   public void refreshMessages() {
     repo.refreshMessages();
+  }
+
+  @Override
+  public int getNewAlertID() {
+    return repo.getNewAlertID();
   }
 }

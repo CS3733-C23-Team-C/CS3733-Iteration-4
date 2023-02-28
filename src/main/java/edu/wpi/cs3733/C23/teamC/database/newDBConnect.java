@@ -162,6 +162,11 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
+  public Map<Integer, AlertEntity> getAlerts() {
+    return null;
+  }
+
+  @Override
   public void addAudio(AudiosubmissionEntity submission) {
     audio.addAudio(submission);
   }
@@ -244,6 +249,9 @@ public class newDBConnect implements RepoFacade {
   public void addMessage(MessagesEntity addition) {
     message.addMessage(addition);
   }
+
+  @Override
+  public void addAlert(AlertEntity alert) {}
 
   @Override
   public AudiosubmissionEntity getAudio(int id) {
@@ -472,5 +480,10 @@ public class newDBConnect implements RepoFacade {
   @Override
   public AlertEntity getAlert(int id) {
     return null;
+  }
+
+  @Override
+  public int getNewAlertID() {
+    return 0;
   }
 }

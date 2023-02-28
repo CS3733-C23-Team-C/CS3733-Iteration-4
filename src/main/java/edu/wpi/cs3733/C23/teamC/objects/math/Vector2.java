@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.C23.teamC.objects.math;
 
+import javafx.geometry.Point2D;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,6 +16,10 @@ public class Vector2 {
   public Vector2(Vector2 other) {
     x = other.x;
     y = other.y;
+  }
+
+  public Vector2(Point2D point) {
+    this(point.getX(), point.getY());
   }
 
   public Vector2 add(Vector2 addend) {
@@ -47,6 +52,10 @@ public class Vector2 {
 
   public static Vector2 minus(Vector2 minuend, Vector2 subtrahend) {
     return new Vector2(minuend).subtract(subtrahend);
+  }
+
+  public static Vector2 zero() {
+    return new Vector2(0, 0);
   }
 
   @Override

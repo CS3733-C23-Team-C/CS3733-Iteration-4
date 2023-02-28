@@ -57,9 +57,11 @@ public class ComputersubmissionEntity extends SubmissionAbs implements Persisten
     setDuedate(duedate);
   }
 
+  private InvalidationListener listener;
+
   @Override
   public void enablePersistence(DAOFacade orm) {
-    final InvalidationListener listener = evt -> orm.merge(this);
+    listener = evt -> orm.mergeOnlyWhenManual(this);
     submissionid.addListener(listener);
     employeeid.addListener(listener);
     assignedid.addListener(listener);
@@ -70,6 +72,23 @@ public class ComputersubmissionEntity extends SubmissionAbs implements Persisten
     urgency.addListener(listener);
     createdate.addListener(listener);
     duedate.addListener(listener);
+  }
+
+  @Override
+  public void disablePersistence() {
+    if (listener != null) {
+      submissionid.removeListener(listener);
+      employeeid.removeListener(listener);
+      assignedid.removeListener(listener);
+      location.removeListener(listener);
+      type.removeListener(listener);
+      notesupdate.removeListener(listener);
+      submissionstatus.removeListener(listener);
+      urgency.removeListener(listener);
+      createdate.removeListener(listener);
+      duedate.removeListener(listener);
+      listener = null;
+    }
   }
 
   @Override

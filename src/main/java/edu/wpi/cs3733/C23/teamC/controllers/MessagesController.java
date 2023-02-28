@@ -3,10 +3,13 @@ package edu.wpi.cs3733.C23.teamC.controllers;
 import edu.wpi.cs3733.C23.teamC.App;
 import edu.wpi.cs3733.C23.teamC.Main;
 import edu.wpi.cs3733.C23.teamC.objects.MessageBox;
+import edu.wpi.cs3733.C23.teamC.objects.SelectedMessage;
+import edu.wpi.cs3733.C23.teamC.objects.hibernate.AlertEntity;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.MessagesEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -24,36 +27,54 @@ public class MessagesController {
   private static MFXButton sReplyButton;
   private static MFXButton sDeleteButton;
   @FXML private MFXButton newMessageButton;
+  @FXML private MFXButton newAlertButton;
   private Map<Integer, MessagesEntity> messages;
+  private List<AlertEntity> alerts;
   private Map<Integer, VBox> messageBoxes = new HashMap<>();
+  private Map<Integer, VBox> alertBoxes = new HashMap<>();
   private MessageBox messageBox = new MessageBox();
-  @Getter private static int selectedID;
-  @Setter @Getter private static int previousID;
   private int highestID;
   private ArrayList<Integer> keyList = new ArrayList<>();
+  @Getter private static SelectedMessage selectedMessage;
+  @Getter @Setter private static SelectedMessage previousMessage;
 
   public void initialize() {
     System.out.println("I am from MessageController.");
+    newAlertButton.managedProperty().bind(newAlertButton.visibleProperty());
+    newAlertButton.setVisible(App.getUser().getRole().equals("admin"));
+
+    alerts = App.getUser().allNotReadAlerts();
     messages = Main.db.getMessages(App.getUser().getStaffid());
     highestID = 0;
-    previousID = Integer.MAX_VALUE;
+    previousMessage = new SelectedMessage("", Integer.MAX_VALUE);
+    selectedMessage = new SelectedMessage("", Integer.MAX_VALUE);
     for (Integer key : messages.keySet()) {
       keyList.add(key);
     }
     keyList.sort(null);
+    displayAlerts();
     displayMessages();
     // System.out.println(MenuController.getSelectedHomeMessage());
-    if (MenuController.getSelectedHomeMessage() != 0) {
-      selectedID = MenuController.getSelectedHomeMessage();
-      VBox selectedMessage = messageBoxes.get(selectedID);
-      selectedMessage.getStyleClass().clear();
-      selectedMessage.getStyleClass().add("selected");
-      messages.get(selectedID).setRead(true);
-      messageBox.setUnreadMessages(messageBox.getUnreadMessages() - 1);
-      previousID = selectedID;
-      MenuController.setSelectedHomeMessage(0);
-      replyButton.setDisable(false);
+    if (MenuController.getSelectedMessage().getSelectedID() != 0) {
+      if (MenuController.getSelectedMessage().getType().equals("Message")) {
+        selectedMessage = MenuController.getSelectedMessage();
+        VBox selectedMessageBox = messageBoxes.get(selectedMessage.getSelectedID());
+        selectedMessageBox.getStyleClass().clear();
+        selectedMessageBox.getStyleClass().add("selected");
+        messages.get(selectedMessage.getSelectedID()).setRead(true);
+        messageBox.setUnreadMessages(messageBox.getUnreadMessages() - 1);
+        replyButton.setDisable(false);
+      } else if (MenuController.getSelectedMessage().getType().equals("Alert")) {
+        selectedMessage = MenuController.getSelectedMessage();
+        VBox selectedAlertBox = alertBoxes.get(selectedMessage.getSelectedID());
+        selectedAlertBox.getStyleClass().clear();
+        selectedAlertBox.getStyleClass().add("selected");
+        replyButton.setDisable(true);
+        deleteButton.setText("Dismiss");
+      }
       deleteButton.setDisable(false);
+      previousMessage = selectedMessage;
+      MenuController.setSelectedMessage(new SelectedMessage("", 0));
     }
     if (messageBox.getUnreadMessages() > 0) MenuController.messageNotiOn();
     else MenuController.messageNotiOff();
@@ -65,7 +86,14 @@ public class MessagesController {
           @Override
           public void handle(ActionEvent event) {
             try {
-              String recipientID = messages.get(selectedID).getSenderid();
+              int selectedID = 0;
+              String recipientID = "";
+              if (selectedMessage.getType().equals("Message")) {
+                selectedID = selectedMessage.getSelectedID();
+                recipientID = messages.get(selectedID).getSenderid();
+              } else if (selectedMessage.getType().equals("Alert")) {
+
+              }
               NewMessageDialogController.showMessageDialogReply(recipientID);
             } catch (Exception e) {
               System.out.println("it broke");
@@ -77,11 +105,29 @@ public class MessagesController {
         new EventHandler<ActionEvent>() {
           @Override
           public void handle(ActionEvent event) {
-            Main.db.deleteMessage(selectedID);
-            VBox deletedMessage = messageBoxes.get(selectedID);
-            vbox.getChildren().remove(deletedMessage);
-            deleteButton.setDisable(true);
-            replyButton.setDisable(true);
+            if (selectedMessage.getType().equals("Message")) {
+              Main.db.deleteMessage(selectedMessage.getSelectedID());
+              VBox deletedMessage = messageBoxes.get(selectedMessage.getSelectedID());
+              vbox.getChildren().remove(deletedMessage);
+              deleteButton.setText("Delete");
+              deleteButton.setDisable(true);
+              replyButton.setDisable(true);
+            } else if (selectedMessage.getType().equals("Alert")) {
+              AlertEntity alert;
+              for (int i = 0; i < alerts.size(); i++) {
+                if (selectedMessage.getSelectedID() == alerts.get(i).getAlertid()) {
+                  alert = alerts.get(i);
+                  alert.markRead(App.getUser());
+                }
+              }
+              VBox deletedMessage = alertBoxes.get(selectedMessage.getSelectedID());
+              vbox.getChildren().remove(deletedMessage);
+              deleteButton.setDisable(true);
+              replyButton.setDisable(true);
+              deleteButton.setText("Delete");
+              messageBox.setUnreadMessages(messageBox.getUnreadMessages() - 1);
+              if (messageBox.getUnreadMessages() == 0) MenuController.messageNotiOff();
+            }
           }
         });
     newMessageButton.setOnAction(
@@ -89,6 +135,14 @@ public class MessagesController {
           @Override
           public void handle(ActionEvent event) {
             NewMessageDialogController.showMessageDialog();
+          }
+        });
+
+    newAlertButton.setOnAction(
+        new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent event) {
+            NewAlertDialogController.showAlertDialog();
           }
         });
     refreshButton.setOnAction(
@@ -103,12 +157,22 @@ public class MessagesController {
         new EventHandler<MouseEvent>() {
           @Override
           public void handle(MouseEvent event) {
-            if (previousID != selectedID && previousID != Integer.MAX_VALUE) {
-              VBox oldBox = messageBoxes.get(previousID);
-              oldBox.getStyleClass().clear();
-              oldBox.getStyleClass().add("read");
+            if ((!previousMessage.getType().equals(selectedMessage.getType())
+                    && previousMessage.getSelectedID() != Integer.MAX_VALUE)
+                || (previousMessage.getType().equals(selectedMessage.getType())
+                    && previousMessage.getSelectedID() != selectedMessage.getSelectedID())) {
+              if (previousMessage.getType().equals("Alert")) {
+                VBox oldBox = alertBoxes.get(previousMessage.getSelectedID());
+                oldBox.getStyleClass().clear();
+                oldBox.getStyleClass().add("alert");
+              } else if (previousMessage.getType().equals("Message")) {
+                VBox oldBox = messageBoxes.get(previousMessage.getSelectedID());
+                oldBox.getStyleClass().clear();
+                oldBox.getStyleClass().add("read");
+              }
             }
-            previousID = selectedID;
+
+            previousMessage = selectedMessage;
             if (messageBox.getUnreadMessages() != 0) MenuController.messageNotiOn();
             else MenuController.messageNotiOff();
             System.out.println(messageBox.getUnreadMessages());
@@ -129,10 +193,24 @@ public class MessagesController {
     System.out.println(messageBox.getUnreadMessages());
   }
 
-  public static void setSelectedMessage(int messageID) {
-    selectedID = messageID;
+  public void displayAlerts() {
+    for (int i = (alerts.size() - 1); i >= 0; i--) {
+      AlertEntity alert = alerts.get(i);
+      VBox newAlert = messageBox.addMessageAlert(alert);
+      alertBoxes.put(alert.getAlertid(), newAlert);
+      vbox.getChildren().add(newAlert);
+      System.out.println(alert.getMessage());
+    }
+  }
+
+  public static void setSelectedMessage(SelectedMessage message) {
+    selectedMessage = message;
     // System.out.println(selectedID);
-    sReplyButton.setDisable(false);
+    if (message.getType().equals("Message")) sReplyButton.setDisable(false);
+    else if (message.getType().equals("Alert")) {
+      sReplyButton.setDisable(true);
+      sDeleteButton.setText("Dismiss");
+    }
     sDeleteButton.setDisable(false);
   }
 
@@ -146,6 +224,8 @@ public class MessagesController {
     }
     keyList.sort(null);
     vbox.getChildren().clear();
+    alerts = App.getUser().allNotReadAlerts();
+    displayAlerts();
     displayMessages();
   }
 }
