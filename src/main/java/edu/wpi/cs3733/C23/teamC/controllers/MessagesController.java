@@ -113,7 +113,6 @@ public class MessagesController {
               deleteButton.setDisable(true);
               replyButton.setDisable(true);
             } else if (selectedMessage.getType().equals("Alert")) {
-              // TODO
               AlertEntity alert;
               for (int i = 0; i < alerts.size(); i++) {
                 if (selectedMessage.getSelectedID() == alerts.get(i).getAlertid()) {
@@ -127,6 +126,7 @@ public class MessagesController {
               replyButton.setDisable(true);
               deleteButton.setText("Delete");
               messageBox.setUnreadMessages(messageBox.getUnreadMessages() - 1);
+              if (messageBox.getUnreadMessages() == 0) MenuController.messageNotiOff();
             }
           }
         });
@@ -135,6 +135,14 @@ public class MessagesController {
           @Override
           public void handle(ActionEvent event) {
             NewMessageDialogController.showMessageDialog();
+          }
+        });
+
+    newAlertButton.setOnAction(
+        new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent event) {
+            NewAlertDialogController.showAlertDialog();
           }
         });
     refreshButton.setOnAction(

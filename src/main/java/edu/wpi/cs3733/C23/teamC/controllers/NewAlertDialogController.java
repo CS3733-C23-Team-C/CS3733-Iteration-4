@@ -3,9 +3,13 @@ package edu.wpi.cs3733.C23.teamC.controllers;
 import edu.wpi.cs3733.C23.teamC.App;
 import edu.wpi.cs3733.C23.teamC.Main;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.AlertEntity;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.MessagesEntity;
+import edu.wpi.cs3733.C23.teamC.objects.hibernate.StaffEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -18,10 +22,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.sql.Timestamp;
-import java.util.Date;
 
 public class NewAlertDialogController {
   private static MFXTextField sReceivingID;
@@ -84,15 +84,21 @@ public class NewAlertDialogController {
   }
 
   public void validateButton() {
-    if (!message.getText().equals(""))
-      sendAlertButton.setDisable(false);
+    if (!message.getText().equals("")) sendAlertButton.setDisable(false);
   }
 
   public void sendAlert() {
-    java.util.Date date = new java.util.Date;
+    java.util.Date date = new java.util.Date();
     int alertID = Main.db.getNewAlertID();
     AlertEntity newAlert =
         new AlertEntity(alertID, new java.sql.Date(date.getTime()), message.getText());
+    Main.db.addAlert(newAlert);
+    Map<String, StaffEntity> staffMap = Main.db.getStaff();
+    List<StaffEntity> staffList = new ArrayList<>();
+    for (StaffEntity staff : staffMap.values()) {
+      staffList.add(staff);
+    }
+    newAlert.addStaff(staffList);
     vbox.setVisible(false);
     sentTxt.setVisible(true);
   }

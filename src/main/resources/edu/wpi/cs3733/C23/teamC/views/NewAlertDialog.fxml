@@ -26,7 +26,7 @@
                   <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;" />
                   <StackPane>
                      <children>
-                        <Text fx:id="sentTxt" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Message Succesfully Sent!" visible="false">
+                        <Text fx:id="sentTxt" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Alert Succesfully Sent!" visible="false">
                            <font>
                               <Font size="16.0" />
                            </font>

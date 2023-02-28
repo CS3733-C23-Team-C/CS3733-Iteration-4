@@ -44,7 +44,8 @@ public class NewMessageDialogController {
           @Override
           public void handle(KeyEvent event) {
             validateButton();
-            if (event.getCode().equals(KeyCode.ENTER) && !sendMessageButton.isDisabled()) sendMessage();
+            if (event.getCode().equals(KeyCode.ENTER) && !sendMessageButton.isDisabled())
+              sendMessage();
           }
         });
 

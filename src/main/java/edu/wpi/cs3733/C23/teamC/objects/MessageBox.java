@@ -189,6 +189,7 @@ public class MessageBox {
     Insets insets = new Insets(10, 5, 10, 5);
     messageTxt.setPadding(insets);
     newAlert.getChildren().addAll(topBox, messageTxt);
+    unreadMessages++;
     return newAlert;
   }
 }
