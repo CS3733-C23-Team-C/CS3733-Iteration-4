@@ -14,6 +14,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javax.swing.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,8 +27,10 @@ public class MenuController {
   @FXML private MFXButton pathfindingButton;
   @FXML private MFXButton mapEditorButton;
   @FXML private MFXButton messagesButton;
+  @FXML private MFXButton moveButton;
   @FXML private Circle newMessageCircle;
   @FXML private MFXButton employeeEditButton;
+  @FXML private MFXButton kioskButton;
   private static MenuButton sUserProfile;
   private static Circle sNewMessageCircle;
   @Getter @Setter private static SelectedMessage selectedMessage;
@@ -49,6 +52,10 @@ public class MenuController {
 
     employeeEditButton.managedProperty().bind(employeeEditButton.visibleProperty());
     employeeEditButton.setVisible(App.getUser().getRole().equals("admin"));
+
+    kioskButton.managedProperty().bind(kioskButton.visibleProperty());
+    kioskButton.setVisible(App.getUser().getRole().equals("admin"));
+
     sNewMessageCircle = newMessageCircle;
     if (HomeController.getUnreadMessagesCount() != 0) {
       MenuController.messageNotiOn();
@@ -119,6 +126,14 @@ public class MenuController {
 
   public void goToAboutPage(ActionEvent actionEvent) {
     Navigation.navigate(Screen.ABOUT_PAGE);
+  }
+
+  public void goToMovePage(ActionEvent actionEvent) {
+    Navigation.navigate(Screen.MOVES);
+  }
+
+  public void goToKiosk(ActionEvent actionEvent) {
+    KioskDialogController.showDialog();
   }
 
   public static void messageNotiOn() {

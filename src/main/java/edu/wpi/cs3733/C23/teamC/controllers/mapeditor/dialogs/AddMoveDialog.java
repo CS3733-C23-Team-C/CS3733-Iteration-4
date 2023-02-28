@@ -77,6 +77,7 @@ public class AddMoveDialog extends FXMLDialog<Void> {
 
   private boolean isInputInvalid() {
     return !Main.getRepo().getNodes().containsKey(nodeField.getText())
-        || !Main.getRepo().getLocationNames().containsKey(locationField.getText());
+        || !Main.getRepo().getLocationNames().containsKey(locationField.getText())
+        || datePicker.getValue() == null;
   }
 }

@@ -1,7 +1,6 @@
 package edu.wpi.cs3733.C23.teamC.objects;
 
 import edu.wpi.cs3733.C23.teamC.Main;
-import edu.wpi.cs3733.C23.teamC.controllers.PathfindingController;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.LocationnameEntity;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.MoveEntity;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.NodeEntity;
@@ -12,7 +11,6 @@ import java.util.Objects;
 import lombok.Getter;
 
 public class PFLocation implements PFPlace {
-  private PathfindingController controller;
   @Getter private LocationnameEntity locationname;
   private List<MoveInformation> moves;
 
@@ -66,8 +64,7 @@ public class PFLocation implements PFPlace {
     }
   }
 
-  public PFLocation(LocationnameEntity locationname, PathfindingController controller) {
-    this.controller = controller;
+  public PFLocation(LocationnameEntity locationname) {
     this.locationname = locationname;
     moves = new ArrayList<>();
 
@@ -145,5 +142,10 @@ public class PFLocation implements PFPlace {
 
   public boolean hasRecentNode(Date date) {
     return mostRecentMoveInformation(date) != null;
+  }
+
+  @Override
+  public int compareTo(PFPlace o) {
+    return getLongname().compareTo(o.getLongname());
   }
 }

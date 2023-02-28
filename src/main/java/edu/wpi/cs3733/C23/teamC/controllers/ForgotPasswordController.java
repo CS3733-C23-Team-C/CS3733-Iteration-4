@@ -7,8 +7,10 @@ import edu.wpi.cs3733.C23.teamC.navigation.Screen;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
+import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -53,6 +55,7 @@ public class ForgotPasswordController extends Throwable {
 
   @FXML
   public void initialize1() {
+    errorTextP1.managedProperty().bind(errorTextP1.visibleProperty());
     errorTextP1.setText("");
   }
 
@@ -88,6 +91,14 @@ public class ForgotPasswordController extends Throwable {
       clearFields();
       errorTextP1.setText("Please fill out all of the above fields");
     }
+  }
+
+  public void enableSendCode(KeyEvent keyEvent) {
+    submitButton.setDisable(
+        Objects.equals(staffID.getText(), "")
+            || Objects.equals(firstNameField.getText(), "")
+            || Objects.equals(lastNameField.getText(), "")
+            || Objects.equals(emailAddress.getText(), ""));
   }
 
   public void backToLogin(MouseEvent mouseEvent) {

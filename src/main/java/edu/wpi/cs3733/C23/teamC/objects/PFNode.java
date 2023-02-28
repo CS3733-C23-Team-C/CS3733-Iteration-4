@@ -36,4 +36,9 @@ public class PFNode implements PFPlace {
   public String toString() {
     return node.getNodeID();
   }
+
+  @Override
+  public int compareTo(PFPlace o) {
+    return getLongname().compareTo(o.getLongname());
+  }
 }
