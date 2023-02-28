@@ -24,7 +24,7 @@ import javafx.scene.text.Text;
 public class MoveController {
   @FXML MFXDatePicker moveDate;
   @FXML MFXFilterComboBox<String> currentLocation;
-  // @FXML MFXTextField newLocation;
+  @FXML MFXFilterComboBox<String> newLocation;
   @FXML MFXButton clear;
   @FXML MFXButton submit;
 
@@ -35,10 +35,11 @@ public class MoveController {
   @FXML
   public void initialize() {
 
-    //moveAdded.setVisible(false);
+    // moveAdded.setVisible(false);
 
     for (LocationnameEntity allLocations : Main.db.getLocationnames().values()) {
       currentLocation.getItems().add(allLocations.getLongname());
+      newLocation.getItems().add(allLocations.getLongname());
     }
 
     currentLocation.setOnAction(
@@ -56,13 +57,21 @@ public class MoveController {
             currentLocation.show();
           }
         });
-    /*newLocation.setOnKeyReleased(
-    new EventHandler<KeyEvent>() {
-      @Override
-      public void handle(KeyEvent event) {
-        validateButton();
-      }
-    });*/
+    newLocation.setOnAction(
+        new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent event) {
+            validateButton();
+          }
+        });
+
+    newLocation.setOnMouseClicked(
+        new EventHandler<MouseEvent>() {
+          @Override
+          public void handle(MouseEvent event) {
+            currentLocation.show();
+          }
+        });
 
     moveDate.setOnAction(
         new EventHandler<ActionEvent>() {
@@ -87,18 +96,19 @@ public class MoveController {
 
   public void clear() {
     currentLocation.clear();
-    // newLocation.clear();
+    newLocation.clear();
     moveDate.clear();
-    moveAdded.setVisible(false);
+    // moveAdded.setVisible(false);
   }
 
   public void submission() {
     Date outputDate = Date.valueOf(moveDate.getValue());
     String currLocation = currentLocation.getValue();
     // String movedLocation = newLocation.getText();
+    String newLocal = newLocation.getValue();
     String nodeID = "";
     for (LocationnameEntity names : Main.db.getLocationnames().values()) {
-      if (currLocation.equals(names.toString())) {
+      if (newLocal.equals(names.toString())) {
         PFLocation location = new PFLocation(names);
         nodeID = location.getNodeId(outputDate);
       }
@@ -108,9 +118,9 @@ public class MoveController {
     MoveEntity newMove = new MoveEntity(nodeID, currLocation, outputDate);
     clear();
     Main.db.addMove(newMove);
-<<<<<<< HEAD
-    moveAdded.setVisible(true);
-=======
+
+    // moveAdded.setVisible(true);
+
     java.util.Date date = new java.util.Date();
     int alertID = Main.db.getNewAlertID();
     AlertEntity newAlert =
@@ -125,6 +135,5 @@ public class MoveController {
       staffList.add(staff);
     }
     newAlert.addStaff(staffList);
->>>>>>> main
   }
 }
