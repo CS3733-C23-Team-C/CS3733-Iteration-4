@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.C23.teamC.controllers.mapeditor.adapters;
+package edu.wpi.cs3733.C23.teamC.controllers.mapeditor.ui;
 
 import java.util.function.Function;
 import javafx.beans.property.Property;

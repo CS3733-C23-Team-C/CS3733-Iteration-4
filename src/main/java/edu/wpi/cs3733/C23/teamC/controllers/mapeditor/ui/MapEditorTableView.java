@@ -2,10 +2,8 @@ package edu.wpi.cs3733.C23.teamC.controllers.mapeditor.ui;
 
 import edu.wpi.cs3733.C23.teamC.Main;
 import edu.wpi.cs3733.C23.teamC.controllers.mapeditor.SQLDateStringConverter;
-import edu.wpi.cs3733.C23.teamC.controllers.mapeditor.adapters.*;
 import edu.wpi.cs3733.C23.teamC.controllers.mapeditor.dialogs.AddLocationNameDialog;
 import edu.wpi.cs3733.C23.teamC.controllers.mapeditor.dialogs.AddMoveDialog;
-import edu.wpi.cs3733.C23.teamC.controllers.mapeditor.ui.elements.*;
 import edu.wpi.cs3733.C23.teamC.objects.Floor;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.EdgeEntity;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.LocationnameEntity;
