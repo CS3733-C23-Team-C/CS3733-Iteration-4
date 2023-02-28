@@ -24,10 +24,13 @@ public class MoveController {
   @FXML MFXButton submit;
 
   @FXML protected Text dateError;
+  @FXML protected Text moveAdded;
   private final ObservableList<String> locations = FXCollections.observableArrayList();
 
   @FXML
   public void initialize() {
+
+    moveAdded.setVisible(false);
 
     for (LocationnameEntity allLocations : Main.db.getLocationnames().values()) {
       currentLocation.getItems().add(allLocations.getLongname());
@@ -81,6 +84,7 @@ public class MoveController {
     currentLocation.clear();
     // newLocation.clear();
     moveDate.clear();
+    moveAdded.setVisible(false);
   }
 
   public void submission() {
@@ -99,5 +103,6 @@ public class MoveController {
     MoveEntity newMove = new MoveEntity(nodeID, currLocation, outputDate);
     clear();
     Main.db.addMove(newMove);
+    moveAdded.setVisible(true);
   }
 }
