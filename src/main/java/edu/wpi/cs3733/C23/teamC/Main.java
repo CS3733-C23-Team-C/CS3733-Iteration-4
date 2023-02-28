@@ -29,6 +29,7 @@ public class Main extends Thread {
     System.out.println(db.getNewAlertID());
     updaterThread.start();
     App.launch(App.class, args);
+
     updater.stop();
     updaterThread.interrupt();
   }
