@@ -42,7 +42,7 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class PathfindingController {
+public class PathfindingController implements MapViewHolder {
 
   @FXML private MFXButton submitButton;
   @FXML private MFXComboBox<PFPlace> currRoom;
@@ -95,11 +95,9 @@ public class PathfindingController {
         new MapViewController(
             nodeDrawer, nodeAnchorPane, canvasPane, this::nodeClickedOnAction, stackPane, this);
     // log.info("2");
-    pfLocations = new ArrayList<>(locations.stream().map((n) -> new PFLocation(n, this)).toList());
+    pfLocations = new ArrayList<>(locations.stream().map(PFLocation::new).sorted().toList());
     // log.info("3");
     dateField.setPopupOffsetX(-70);
-
-    pfLocations.sort(Comparator.comparing(Object::toString));
 
     floorSelect.setItems(FXCollections.observableArrayList("L2", "L1", "1", "2", "3"));
     floorSelect.setText("L1");
@@ -232,7 +230,7 @@ public class PathfindingController {
     for (PFPlace location : pfLocations) {
       if (location.getLongname().equals(locationname.getLongname())) return location;
     }
-    return new PFLocation(locationname, this);
+    return new PFLocation(locationname);
   }
 
   private void nodeClickedOnAction(MouseEvent event, NodeCircle nodeCircle) {
@@ -468,5 +466,13 @@ public class PathfindingController {
       legendDialog.setShowAlwaysOnTop(false);
       legendMaximized = true;
     }
+  }
+
+  public boolean serviceRequestSelected() {
+    return serviceRequest.isSelected();
+  }
+
+  public boolean displayLocationNames() {
+    return locationNames.isSelected();
   }
 }

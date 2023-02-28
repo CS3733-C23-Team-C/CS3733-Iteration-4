@@ -3,7 +3,7 @@ package edu.wpi.cs3733.C23.teamC.objects;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.NodeEntity;
 import java.sql.Date;
 
-public interface PFPlace {
+public interface PFPlace extends Comparable<PFPlace> {
   String getLongname();
 
   String getShortname();

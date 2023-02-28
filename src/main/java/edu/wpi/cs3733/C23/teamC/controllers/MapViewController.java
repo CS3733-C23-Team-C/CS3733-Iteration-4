@@ -2,10 +2,7 @@ package edu.wpi.cs3733.C23.teamC.controllers;
 
 import edu.wpi.cs3733.C23.teamC.Main;
 import edu.wpi.cs3733.C23.teamC.exceptions.FloorDoesNotExistException;
-import edu.wpi.cs3733.C23.teamC.objects.ImageLoader;
-import edu.wpi.cs3733.C23.teamC.objects.NodeCircle;
-import edu.wpi.cs3733.C23.teamC.objects.NodeCircleClickHandler;
-import edu.wpi.cs3733.C23.teamC.objects.SubmissionAbs;
+import edu.wpi.cs3733.C23.teamC.objects.*;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.EdgeEntity;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.NodeEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -39,7 +36,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MapViewController {
 
-  private double mapX, mapY, mapW, mapH;
+  @Getter @Setter private double mapX, mapY, mapW, mapH;
   private Collection<NodeEntity> allNodes;
   private Image currentFloorImage;
   private final Canvas nodeDrawer;
@@ -49,13 +46,13 @@ public class MapViewController {
   private Pane canvasPane;
   @Getter private List<NodeEntity> currentPath;
   private double lastX, lastY;
-  private double canvasW, canvasH;
+  @Getter private double canvasW, canvasH;
   private static final float SCROLL_SPEED = 1f;
   private static final int MOVE_SPEED = 30;
   private static final float DRAG_SPEED = 1f;
   @Getter private boolean isPath;
   private String currentFloor;
-  private final PathfindingController controller;
+  private final MapViewHolder controller;
   private final NodeCircleClickHandler onClick;
   @Setter @Getter private NodeEntity startNode, endNode, selectedNode;
 
@@ -65,7 +62,7 @@ public class MapViewController {
       Pane canvasPane,
       NodeCircleClickHandler onClick,
       StackPane stackPane,
-      PathfindingController controller) {
+      MapViewHolder controller) {
     this.nodeDrawer = nodeDrawer;
     this.ap = ap;
     this.canvasPane = canvasPane;
@@ -286,7 +283,7 @@ public class MapViewController {
         if (nodeInMapView(n)) {
           if (n == startNode || n == endNode || n == selectedNode) continue;
           Set<SubmissionAbs> requests = getServiceRequests(n);
-          if (requests.size() > 0 && controller.getServiceRequest().isSelected()) {
+          if (requests.size() > 0 && controller.serviceRequestSelected()) {
             drawNode(n, requests);
           } else {
             drawNode(n);
@@ -301,7 +298,7 @@ public class MapViewController {
     drawPathText();
   }
 
-  private boolean nodeInMapView(NodeEntity n) {
+  public boolean nodeInMapView(NodeEntity n) {
     return n.getXcoord() > mapX + scale(4)
         && n.getXcoord() < mapX + mapW - scale(4)
         && n.getYcoord() > mapY + scale(4)
@@ -350,12 +347,10 @@ public class MapViewController {
   }
 
   private void drawNodeText(NodeEntity node, Paint color) {
-    if (controller.getLocationNames().isSelected()) {
+    if (controller.displayLocationNames()) {
       Text locationNameText = new Text(node.getShortName());
       double x = locToMapX(node.getXcoord());
       double y = locToMapY(node.getYcoord()) - scale(5);
-      System.out.println(
-          "x- " + x + " w-" + locationNameText.getBoundsInLocal().getWidth() + " cw-" + canvasW);
       if (x < 0 || x + locationNameText.getBoundsInLocal().getWidth() > canvasW) return;
       if (y - locationNameText.getFont().getSize() < 0 || y > canvasH) return;
       locationNameText.setX(x);
@@ -495,8 +490,9 @@ public class MapViewController {
     return (baseValue) * multiplier;
   }
 
-  public void zoom(float factor, double x, double y) {
+  public boolean zoom(float factor, double x, double y) {
     float multiplier = factor - 1;
+    boolean retVal = true;
 
     gc.setLineWidth(scale(3));
 
@@ -514,6 +510,8 @@ public class MapViewController {
 
       mapW = 5000;
       mapH *= diff;
+
+      retVal = false;
     }
 
     if (mapH > 3400) {
@@ -521,6 +519,7 @@ public class MapViewController {
 
       mapH = 3400;
       mapW *= diff;
+      retVal = false;
     }
 
     if (mapX < 0) {
@@ -536,6 +535,7 @@ public class MapViewController {
     if (mapY + mapH > 3400) {
       mapY = 3400 - mapH;
     }
+    return retVal;
   }
 
   public void clearPath() {

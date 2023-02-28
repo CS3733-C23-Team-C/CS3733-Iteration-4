@@ -2,21 +2,25 @@ package edu.wpi.cs3733.C23.teamC.controllers;
 
 import edu.wpi.cs3733.C23.teamC.App;
 import edu.wpi.cs3733.C23.teamC.Main;
+import edu.wpi.cs3733.C23.teamC.objects.PFLocation;
+import edu.wpi.cs3733.C23.teamC.objects.PFPlace;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.LocationnameEntity;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.MoveEntity;
+import edu.wpi.cs3733.C23.teamC.objects.hibernate.NodeEntity;
+import edu.wpi.cs3733.C23.teamC.pathfinding.AstarPathfinder;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXComboBox;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
-
 import java.io.IOException;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
-import java.sql.Date;
+import java.util.List;
 import java.util.Locale;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -38,8 +42,10 @@ public class KioskDialogController {
   @FXML private HBox question2, question3, question4;
   @FXML private MFXButton createKioskButton;
   private MFXFilterComboBox<LocationnameEntity> locationBox;
+  private MFXFilterComboBox<PFPlace> startBox, endBox;
   private MFXDatePicker datePicker;
   private ObservableList<LocationnameEntity> locations;
+  private ObservableList<PFPlace> places;
 
   public static void showDialog() {
     dialog = new Stage();
@@ -71,11 +77,16 @@ public class KioskDialogController {
     locations = FXCollections.observableArrayList(Main.getRepo().getLocationNames().values());
     locations.sort(Comparator.comparing(LocationnameEntity::toString));
 
-    reset();
+    List<? extends PFPlace> placesList =
+        Main.db.getLocationnames().values().stream().map(PFLocation::new).sorted().toList();
+    places = FXCollections.observableArrayList(placesList);
+
+    reset(new ActionEvent());
   }
 
   public void onTargetSelection() {
     if (targetField.getValue() == null) return;
+    reset(null);
     if (targetField.getValue().equals("Move")) {
       question2Text.setText("Which location?");
       question2Text.setVisible(true);
@@ -94,19 +105,42 @@ public class KioskDialogController {
       question2.getChildren().add(locationBox);
       question3.getChildren().add(datePicker);
     } else if (targetField.getValue().equals("Custom")) {
+      question2Text.setText("Start Location");
+      question2Text.setVisible(true);
 
+      startBox = new MFXFilterComboBox<>(places);
+      startBox.setPrefSize(137, 50);
+      startBox.setOnAction(this::validate);
+
+      question3Text.setText("End Location");
+      question3Text.setVisible(true);
+
+      endBox = new MFXFilterComboBox<>(places);
+      endBox.setPrefSize(137, 50);
+      endBox.setOnAction(this::validate);
+
+      question2.getChildren().add(startBox);
+      question3.getChildren().add(endBox);
     }
   }
 
-  public void reset() {
+  public void reset(ActionEvent event) {
     question2Text.setVisible(false);
     question3Text.setVisible(false);
     question4Text.setVisible(false);
 
-    question2.getChildren().remove(locationBox);
-    question3.getChildren().remove(datePicker);
+    if (locationBox != null) question2.getChildren().remove(locationBox);
+    if (datePicker != null) question3.getChildren().remove(datePicker);
 
-    targetField.clearSelection();
+    if (startBox != null) question2.getChildren().remove(startBox);
+    if (endBox != null) question3.getChildren().remove(endBox);
+
+    locationBox = null;
+    datePicker = null;
+    startBox = null;
+    endBox = null;
+
+    if (event != null) targetField.clearSelection();
 
     createKioskButton.setDisable(true);
   }
@@ -127,8 +161,15 @@ public class KioskDialogController {
 
       Date date = Date.valueOf(locationDate);
 
+      if (date.before(Date.valueOf(LocalDate.of(2023, 1, 2)))) {
+        question4Text.setText("Cannot use moves on or before 1/1/2023");
+        question4Text.setVisible(true);
+        createKioskButton.setDisable(true);
+        return;
+      }
+
       MoveEntity found = null;
-      for (MoveEntity move: Main.getRepo().getMoves()) {
+      for (MoveEntity move : Main.getRepo().getMoves()) {
         if (move.getLocationName().equals(location) && move.getMovedate().equals(date)) {
           found = move;
           break;
@@ -136,8 +177,20 @@ public class KioskDialogController {
       }
 
       if (found == null) {
-        question4Text.setText("Unable to find move at " + location.getLongname() + " on " + locationDate.format(DateTimeFormatter.ISO_LOCAL_DATE));
+        question4Text.setText(
+            "Unable to find move at "
+                + location.getLongname()
+                + " on "
+                + locationDate.format(DateTimeFormatter.ISO_LOCAL_DATE));
+        question4Text.setVisible(true);
+        createKioskButton.setDisable(true);
+      } else {
+        question4Text.setText("Found Move!");
+        question4Text.setVisible(true);
+        createKioskButton.setDisable(false);
       }
+    } else if (targetField.getValue().equals("Custom")) {
+      createKioskButton.setDisable(!(startBox.getValue() != null && endBox.getValue() != null));
     }
   }
 
@@ -148,8 +201,28 @@ public class KioskDialogController {
   }
 
   public void createKiosk() {
-    //todo set vals for kiosk
-    //todo navigate to kiosk
+    NodeEntity location1, location2;
+
+    if (targetField.getValue() == null) {
+      return;
+    } else if (targetField.getValue().equals("Move")) {
+      PFLocation location = new PFLocation(locationBox.getValue());
+      location2 = location.getNode(Date.valueOf(datePicker.getValue()));
+      location1 = location.getNode(Date.valueOf(datePicker.getValue().minus(1, ChronoUnit.DAYS)));
+    } else if (targetField.getValue().equals("Custom")) {
+      location1 = startBox.getValue().getNode(Date.valueOf(LocalDate.now()));
+      location2 = endBox.getValue().getNode(Date.valueOf(LocalDate.now()));
+    } else {
+      return;
+    }
+
+    AstarPathfinder pathfinder = new AstarPathfinder(Main.db.getNodes(), Main.db.getEdges());
+    List<NodeEntity> path = pathfinder.findPath(location1, location2);
+
+    String sb = "Move of " + location1.getLongName();
+
+    KioskScreen.showKiosk(sb, location1, path);
+
     closeDialog();
   }
 }
