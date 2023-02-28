@@ -27,9 +27,8 @@ public class Main extends Thread {
     updaterThread = new Thread(updater, "AutoUpdater");
 
     System.out.println(db.getNewAlertID());
-    //    updaterThread.start();
-    //    App.launch(App.class, args);
-    //    }
+    updaterThread.start();
+    App.launch(App.class, args);
     updater.stop();
     updaterThread.interrupt();
   }
