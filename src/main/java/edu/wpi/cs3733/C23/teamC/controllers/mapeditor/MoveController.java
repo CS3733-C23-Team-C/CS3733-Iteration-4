@@ -69,7 +69,7 @@ public class MoveController {
         new EventHandler<MouseEvent>() {
           @Override
           public void handle(MouseEvent event) {
-            currentLocation.show();
+            newLocation.show();
           }
         });
 
@@ -127,7 +127,7 @@ public class MoveController {
         new AlertEntity(
             alertID,
             new java.sql.Date(date.getTime()),
-            currLocation + " is moving to " + nodeID + " on " + outputDate.toString());
+            currLocation + " is moving to " + newLocal + " on " + outputDate.toString());
     Main.db.addAlert(newAlert);
     Map<String, StaffEntity> staffMap = Main.db.getStaff();
     List<StaffEntity> staffList = new ArrayList<>();
