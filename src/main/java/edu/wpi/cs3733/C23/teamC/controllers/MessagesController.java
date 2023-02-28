@@ -119,7 +119,7 @@ public class MessagesController {
               for (int i = 0; i < alerts.size(); i++) {
                 if (selectedMessage.getSelectedID() == alerts.get(i).getAlertid()) {
                   alert = alerts.get(i);
-                  // alert.markRead(App.getUser());
+                  alert.markRead(App.getUser());
                 }
               }
               VBox deletedMessage = alertBoxes.get(selectedMessage.getSelectedID());
