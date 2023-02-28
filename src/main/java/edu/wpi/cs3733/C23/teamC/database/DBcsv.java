@@ -11,10 +11,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 public class DBcsv {
 
@@ -73,7 +69,6 @@ public class DBcsv {
     String securitycsv = backup_folder + "\\" + "securitysubmission.csv";
     String computercsv = backup_folder + "\\" + "computersubmission.csv";
     String audiocsv = backup_folder + "\\" + "audiosubmission.csv";
-    String alertstaffcsv = backup_folder + "\\" + "alertstaff.csv";
 
     // Read nodes
     CSVReader nodeReader = new CSVReader(new FileReader(nodecsv));
@@ -100,10 +95,10 @@ public class DBcsv {
     List<String[]> staffBody = staffReader.readAll();
     staffReader.close();
 
-    // Read alertstaff
-    CSVReader alertstaffReader = new CSVReader(new FileReader(alertstaffcsv));
-    List<String[]> alertstaffBody = alertstaffReader.readAll();
-    alertstaffReader.close();
+    // Read alertsaff
+    CSVReader alertStaffReader = new CSVReader(new FileReader(alertstaffcsv));
+    List<String[]> alertStaffBody = alertStaffReader.readAll();
+    alertStaffReader.close();
 
     // Read cleaning
     CSVReader cleaningReader = new CSVReader(new FileReader(cleaningcsv));
@@ -123,22 +118,14 @@ public class DBcsv {
     // Read computer
     CSVReader computerReader = new CSVReader(new FileReader(computercsv));
     List<String[]> computerBody = computerReader.readAll();
-    securityReader.close();
+    computerReader.close();
 
     // Read audio
     CSVReader audioReader = new CSVReader(new FileReader(audiocsv));
     List<String[]> audioBody = audioReader.readAll();
-    securityReader.close();
-
-    // Read alertsaff
-    CSVReader alertStaffReader = new CSVReader(new FileReader(alertstaffcsv));
-    List<String[]> alertStaffBody = alertStaffReader.readAll();
-    securityReader.close();
+    audioReader.close();
 
     // Deletes the database
-
-    Main.db.deleteAlertStaff();
-
     List<ComputersubmissionEntity> computerKeys = List.copyOf(computerSubs.values());
     for (ComputersubmissionEntity computersubmissionEntity : computerKeys) {
       Main.db.deleteComputer(computersubmissionEntity.getSubmissionid());
@@ -164,19 +151,20 @@ public class DBcsv {
       Main.db.deleteCleaning(cleaningsubmissionEntity.getSubmissionid());
     }
 
-    Session session = Main.db.getSession();
-    Transaction tx = null;
-    try {
-      tx = session.beginTransaction();
-      Query q = session.createNativeQuery("DELETE FROM cdb.alertstaff");
-      q.executeUpdate();
-    } catch (HibernateException e) {
-      if (tx != null) tx.rollback();
-      e.printStackTrace();
-    } finally {
-      session.close();
-    }
-    
+    Main.db.deleteAlertStaff();
+    //    Session session = Main.db.getSession();
+    //    Transaction tx = null;
+    //    try {
+    //      tx = session.beginTransaction();
+    //      Query q = session.createNativeQuery("DELETE FROM cdb.alertstaff");
+    //      q.executeUpdate();
+    //    } catch (HibernateException e) {
+    //      if (tx != null) tx.rollback();
+    //      e.printStackTrace();
+    //    } finally {
+    //      session.close();
+    //    }
+
     List<StaffEntity> staffKeys = List.copyOf(staff.values());
     for (StaffEntity staffEntity : staffKeys) {
       Main.db.deleteStaff(staffEntity.getStaffid());
@@ -218,9 +206,7 @@ public class DBcsv {
     csv2DB(staffBody, new StaffEntity.Importer()).forEach(Main.db::addStaff);
 
     // Insert alertstaff
-    //    for (int i = 0; i < alertstaffBody.size(); i++) {
-    //      new AlertStaff(alertstaffBody.get(i));
-    //    }
+    csv2DB(alertStaffBody, new AlertStaff.Importer());
 
     // Insert cleaning
     csv2DB(cleaningBody, new CleaningsubmissionEntity.Importer()).forEach(Main.db::addCleaning);
@@ -237,8 +223,6 @@ public class DBcsv {
 
     // Insert audio
     csv2DB(audioBody, new AudiosubmissionEntity.Importer()).forEach(Main.db::addAudio);
-
-    csv2DB(alertStaffBody, new AlertStaff.Importer());
   }
 
   public static void exportDatabase(String path) throws IOException, CsvException {

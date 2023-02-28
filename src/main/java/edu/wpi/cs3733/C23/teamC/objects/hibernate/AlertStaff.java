@@ -102,6 +102,5 @@ public class AlertStaff implements CSVExportable {
     public AlertStaff fromCSV(String[] csv) {
       return new AlertStaff(csv);
     }
-
   }
 }
