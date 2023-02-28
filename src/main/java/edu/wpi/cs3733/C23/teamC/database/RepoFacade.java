@@ -129,4 +129,6 @@ public interface RepoFacade {
   String getUser(MFXTextField staffID);
 
   AlertEntity getAlert(int id);
+
+  int getNewAlertID();
 }
