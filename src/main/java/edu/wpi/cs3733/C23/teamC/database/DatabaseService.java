@@ -138,22 +138,17 @@ public class DatabaseService implements RepoFacade2 {
 
     try {
       tx = session.beginTransaction();
-      List a =
-          session
-              .createNativeQuery("SELECT a.staff FROM cdb.alertstaff AS a")
-              .list();
-      List b =
-              session
-                      .createNativeQuery("SELECT a.alert FROM cdb.alertstaff AS a")
-                      .list();
-      List c =
-              session
-                      .createNativeQuery("SELECT a.seen FROM cdb.alertstaff AS a")
-                      .list();
+      List a = session.createNativeQuery("SELECT a.staff FROM cdb.alertstaff AS a").list();
+      List b = session.createNativeQuery("SELECT a.alert FROM cdb.alertstaff AS a").list();
+      List c = session.createNativeQuery("SELECT a.seen FROM cdb.alertstaff AS a").list();
       Iterator iteratorb = b.iterator();
       Iterator iteratorc = c.iterator();
       for (Iterator iteratora = a.iterator(); iteratora.hasNext(); ) {
-        AlertStaff temp = new AlertStaff(iteratora.next().toString(), iteratorb.next().toString(), iteratorc.next().toString());
+        AlertStaff temp =
+            new AlertStaff(
+                iteratora.next().toString(),
+                iteratorb.next().toString(),
+                iteratorc.next().toString());
         ret.add(temp);
       }
       tx.commit();

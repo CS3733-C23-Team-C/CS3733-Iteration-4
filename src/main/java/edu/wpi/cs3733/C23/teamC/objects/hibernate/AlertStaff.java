@@ -24,8 +24,8 @@ public class AlertStaff implements CSVExportable {
     seen = Boolean.valueOf(c);
   }
 
-  //Create this with the CSV information
-  public AlertStaff(String[] a){
+  // Create this with the CSV information
+  public AlertStaff(String[] a) {
     staff = a[0];
     alertid = Integer.parseInt(a[1]);
     seen = Boolean.parseBoolean(a[2]);
@@ -35,15 +35,15 @@ public class AlertStaff implements CSVExportable {
 
     try {
       tx = session.beginTransaction();
-        Query q =
-                session.createNativeQuery(
-                        "INSERT INTO cdb.alertstaff "
-                                + "(staff, alert, seen)"
-                                + "VALUES (:staff, :alert, :seen)");
-        q.setParameter("staff", staff);
-        q.setParameter("alert", alertid);
-        q.setParameter("seen", seen);
-        q.executeUpdate();
+      Query q =
+          session.createNativeQuery(
+              "INSERT INTO cdb.alertstaff "
+                  + "(staff, alert, seen)"
+                  + "VALUES (:staff, :alert, :seen)");
+      q.setParameter("staff", staff);
+      q.setParameter("alert", alertid);
+      q.setParameter("seen", seen);
+      q.executeUpdate();
 
     } catch (HibernateException e) {
       if (tx != null) tx.rollback();
@@ -92,8 +92,6 @@ public class AlertStaff implements CSVExportable {
 
   @Override
   public String[] toCSV() {
-    return new String[]{
-            staff, Integer.toString(alertid), Boolean.toString(seen)
-    };
+    return new String[] {staff, Integer.toString(alertid), Boolean.toString(seen)};
   }
 }

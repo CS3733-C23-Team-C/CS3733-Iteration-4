@@ -11,6 +11,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 public class DBcsv {
 
@@ -19,6 +23,7 @@ public class DBcsv {
   public static Map<String, LocationnameEntity> locationNames;
   public static List<MoveEntity> moves;
   public static Map<String, StaffEntity> staff;
+  public static List<AlertStaff> alertstaff;
   public static Map<Integer, TransportationsubmissionEntity> transportationSubs;
   public static Map<Integer, CleaningsubmissionEntity> cleaningSubs;
   public static Map<Integer, SecuritysubmissionEntity> securitySubs;
@@ -31,6 +36,7 @@ public class DBcsv {
     locationNames = Main.db.getLocationnames();
     moves = Main.db.getMoves();
     staff = Main.db.getStaff();
+    alertstaff = Main.db.getAlertStaff();
     transportationSubs = Main.db.getTransportationSubs();
     cleaningSubs = Main.db.getCleaningSubs();
     securitySubs = Main.db.getSecuritySubs();
@@ -45,6 +51,7 @@ public class DBcsv {
     locationNames = Main.db.getLocationnames();
     moves = Main.db.getMoves();
     staff = Main.db.getStaff();
+    alertstaff = Main.db.getAlertStaff();
     transportationSubs = Main.db.getTransportationSubs();
     cleaningSubs = Main.db.getCleaningSubs();
     securitySubs = Main.db.getSecuritySubs();
@@ -60,6 +67,7 @@ public class DBcsv {
     String locationnamecsv = backup_folder + "\\" + "locationname.csv";
     String movecsv = backup_folder + "\\" + "move.csv";
     String staffcsv = backup_folder + "\\" + "staff.csv";
+    String alertstaffcsv = backup_folder + "\\" + "alertstaff.csv";
     String cleaningcsv = backup_folder + "\\" + "cleaningsubmission.csv";
     String transportcsv = backup_folder + "\\" + "transportationsubmission.csv";
     String securitycsv = backup_folder + "\\" + "securitysubmission.csv";
@@ -90,6 +98,11 @@ public class DBcsv {
     CSVReader staffReader = new CSVReader(new FileReader(staffcsv));
     List<String[]> staffBody = staffReader.readAll();
     staffReader.close();
+
+    // Read alertstaff
+    CSVReader alertstaffReader = new CSVReader(new FileReader(alertstaffcsv));
+    List<String[]> alertstaffBody = alertstaffReader.readAll();
+    alertstaffReader.close();
 
     // Read cleaning
     CSVReader cleaningReader = new CSVReader(new FileReader(cleaningcsv));
@@ -142,6 +155,19 @@ public class DBcsv {
       Main.db.deleteCleaning(cleaningsubmissionEntity.getSubmissionid());
     }
 
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+    try {
+      tx = session.beginTransaction();
+      Query q = session.createNativeQuery("DELETE FROM cdb.alertstaff");
+      q.executeUpdate();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    
     List<StaffEntity> staffKeys = List.copyOf(staff.values());
     for (StaffEntity staffEntity : staffKeys) {
       Main.db.deleteStaff(staffEntity.getStaffid());
@@ -182,6 +208,11 @@ public class DBcsv {
     // Insert staff
     csv2DB(staffBody, new StaffEntity.Importer()).forEach(Main.db::addStaff);
 
+    // Insert alertstaff
+    //    for (int i = 0; i < alertstaffBody.size(); i++) {
+    //      new AlertStaff(alertstaffBody.get(i));
+    //    }
+
     // Insert cleaning
     csv2DB(cleaningBody, new CleaningsubmissionEntity.Importer()).forEach(Main.db::addCleaning);
 
@@ -216,6 +247,7 @@ public class DBcsv {
     File locationnamecsv = new File(folder + "\\" + "locationname.csv");
     File movecsv = new File(folder + "\\" + "move.csv");
     File staffcsv = new File(folder + "\\" + "staff.csv");
+    File alertstaffcsv = new File(folder + "\\" + "alertstaff.csv");
     File transportationsubmissioncsv = new File(folder + "\\" + "transportationsubmission.csv");
     File cleaningsubmissioncsv = new File(folder + "\\" + "cleaningsubmission.csv");
     File securitysubmissioncsv = new File(folder + "\\" + "securitysubmission.csv");
@@ -236,6 +268,9 @@ public class DBcsv {
 
     // Create staff
     writeCSV(staff.values(), staffcsv);
+
+    // Create alert staff
+    writeCSV(alertstaff, alertstaffcsv);
 
     // Create transportation
     writeCSV(transportationSubs.values(), transportationsubmissioncsv);
