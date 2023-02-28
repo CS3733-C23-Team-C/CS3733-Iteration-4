@@ -6,7 +6,10 @@ import edu.wpi.cs3733.C23.teamC.objects.MessageBox;
 import edu.wpi.cs3733.C23.teamC.objects.SelectedMessage;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.AlertEntity;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.MessagesEntity;
+import edu.wpi.cs3733.C23.teamC.objects.hibernate.StaffEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXTextField;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +27,7 @@ public class MessagesController {
   @FXML private MFXButton refreshButton;
   @FXML private MFXButton replyButton;
   @FXML private MFXButton deleteButton;
+  @FXML private MFXTextField Filter;
   private static MFXButton sReplyButton;
   private static MFXButton sDeleteButton;
   @FXML private MFXButton newMessageButton;
@@ -227,5 +231,53 @@ public class MessagesController {
     alerts = App.getUser().allNotReadAlerts();
     displayAlerts();
     displayMessages();
+  }
+
+  public void enableFilter() {
+    String filterText = Filter.getText(), filterTextLower = filterText.toLowerCase();
+    vbox.getChildren().clear();
+    messageBoxes = new HashMap<>();
+    alertBoxes = new HashMap<>();
+
+    for (int i = (alerts.size() - 1); i >= 0; i--) {
+      AlertEntity alert = alerts.get(i);
+      if (alertFilterText(alert).contains(filterTextLower)) {
+        VBox newAlert = messageBox.addMessageAlert(alert);
+        alertBoxes.put(alert.getAlertid(), newAlert);
+        vbox.getChildren().add(newAlert);
+        System.out.println(alert.getMessage());
+      }
+    }
+
+    for (int i = (keyList.size() - 1); i >= 0; i--) {
+      MessagesEntity message = messages.get(keyList.get(i));
+      if (messageFilterText(message).contains(filterTextLower)) {
+        VBox newMessage = messageBox.addMessageBox(message);
+        int messageID = message.getMessageid();
+        messageBoxes.put(messageID, newMessage);
+        vbox.getChildren().add(newMessage);
+        if (messageID > highestID) highestID = messageID;
+        // System.out.println(message.getRead());
+      }
+    }
+    System.out.println(messageBox.getUnreadMessages());
+  }
+
+  private String messageFilterText(MessagesEntity message) {
+    StaffEntity sender = Main.db.getStaff(message.getSenderid());
+    String s =
+        message.getMessage()
+            + (sender.getStaffid().equals("SYSTEM")
+                ? ("Service Request System")
+                : (sender.getFirstname() + " " + sender.getLastname()))
+            + (new SimpleDateFormat("MM/dd/yy h:mm a").format(message.getDate()));
+    System.out.println("Testing : " + s);
+    return s.toLowerCase();
+  }
+
+  private String alertFilterText(AlertEntity alert) {
+    String s =
+        alert.getMessage() + (new SimpleDateFormat("MM/dd/yy h:mm a").format(alert.getDate()));
+    return s.toLowerCase();
   }
 }
