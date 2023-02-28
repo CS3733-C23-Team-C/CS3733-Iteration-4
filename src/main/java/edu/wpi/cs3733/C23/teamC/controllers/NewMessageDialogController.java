@@ -3,11 +3,17 @@ package edu.wpi.cs3733.C23.teamC.controllers;
 import edu.wpi.cs3733.C23.teamC.App;
 import edu.wpi.cs3733.C23.teamC.Main;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.MessagesEntity;
+import edu.wpi.cs3733.C23.teamC.objects.hibernate.StaffEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
+import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -22,8 +28,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class NewMessageDialogController {
-  @FXML private MFXTextField receivingID;
-  private static MFXTextField sReceivingID;
+  @FXML private MFXFilterComboBox<String> receivingID;
+  private static MFXFilterComboBox<String> sReceivingID;
   @FXML private MFXTextField message;
   @FXML private MFXButton cancelButton;
   @FXML private MFXButton sendMessageButton;
@@ -31,6 +37,12 @@ public class NewMessageDialogController {
   @FXML private VBox vbox;
 
   public void initialize() {
+    Map<String, StaffEntity> staffMap = Main.db.getStaff();
+    ObservableList<String> staff = FXCollections.observableArrayList();
+    for (StaffEntity s : staffMap.values()) {
+      staff.add(s.getStaffid());
+    }
+    receivingID.getItems().addAll(staff);
     receivingID.setOnKeyReleased(
         new EventHandler<KeyEvent>() {
           @Override
@@ -80,9 +92,12 @@ public class NewMessageDialogController {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-
-    sReceivingID.setText(recipientID);
-    System.out.println(sReceivingID.getText());
+    List<String> staff = sReceivingID.getItems();
+    for (int i = 0; i < staff.size(); i++) {
+      if (recipientID.equals(staff.get(i))) {
+        sReceivingID.selectIndex(i);
+      }
+    }
     dialog.setScene(new Scene(root));
     dialog.showAndWait();
   }

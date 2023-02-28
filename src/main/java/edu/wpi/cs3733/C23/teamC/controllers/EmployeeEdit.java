@@ -8,6 +8,7 @@ import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Objects;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,8 +26,6 @@ public class EmployeeEdit {
   @Getter @Setter private String currNotes;
   @Getter @Setter private String currRole;
 
-  @FXML public MFXButton searchButton;
-
   @FXML public MFXButton updateButton;
 
   @FXML private MFXTextField firstNameField;
@@ -34,39 +33,25 @@ public class EmployeeEdit {
   @FXML private MFXPasswordField passwordField;
   @FXML private MFXTextField notesField;
 
-  @FXML private MFXTextField staffIDField;
+  @FXML private MFXFilterComboBox<String> staffIDField;
 
   @FXML private MFXFilterComboBox<String> ocupationDropDown;
-
-  @FXML private MFXButton fieldsEdit;
-  //  @FXML private MFXButton lastNameEdit;
-  //  @FXML private MFXButton passwordEdit;
-  @FXML private MFXButton fieldsSave;
-  //  @FXML private MFXButton lastNameSave;
-  //  @FXML private MFXButton passwordSave;
-
-  @FXML private Text successFirstName;
-  @FXML private Text successLastName;
-  @FXML private Text successPassword;
-  @FXML private Text staffID;
-  @FXML private Text errorTxt;
-
-  //    if (staffIDField().getText() != "" && staffIDField.getText() != "") {
-  //      String outputUsername = username.getText();
-  //      String outputPassword = password.getText();
-  //      System.out.println("This is the employee username " + outputUsername);
-  //      System.out.println("This is the employee password " + outputPassword);
-  //      s = Main.db.getStaff(outputUsername, outputPassword);
-  //    }
+  @FXML private Text successTxt;
 
   @FXML
   public void initialize() {
-    if (Main.db.getStaff(staffIDField.getText()) != null) {
+    Map<String, StaffEntity> staffMap = Main.db.getStaff();
+    ObservableList<String> staff = FXCollections.observableArrayList();
+    for (StaffEntity s : staffMap.values()) {
+      staff.add(s.getStaffid());
+    }
+    staffIDField.getItems().addAll(staff);
+    if (Main.db.getStaff(staffIDField.getValue()) != null) {
       // staffID.setText("Employee ID: " + App.getUser().getStaffid());
       firstNameField.setText(App.getTempuser().getFirstname());
       lastNameField.setText(App.getTempuser().getLastname());
       passwordField.setText(App.getTempuser().getPassword());
-
+      updateButton.setDisable(false);
       String notes = App.getTempuser().getNotes();
       if (notes == null) notes = "";
       notesField.setText(notes);
@@ -99,8 +84,8 @@ public class EmployeeEdit {
   public void searchEmployeeID(javafx.event.ActionEvent actionEvent) throws IOException {
 
     StaffEntity s = null;
-    if (staffIDField.getText() != null) {
-      String outputID = staffIDField.getText();
+    if (staffIDField.getValue() != null) {
+      String outputID = staffIDField.getValue();
       System.out.print("this is the employee ID" + outputID + "");
       s = Main.db.getStaff(outputID);
 
@@ -117,7 +102,7 @@ public class EmployeeEdit {
   }
 
   public void clearFields() {
-    staffIDField.clear();
+    staffIDField.clearSelection();
     notesField.clear();
 
     firstNameField.clear();
@@ -125,6 +110,8 @@ public class EmployeeEdit {
 
     passwordField.clear();
     ocupationDropDown.setText("staff");
+    updateButton.setDisable(true);
+    successTxt.setVisible(false);
   }
 
   public void update(javafx.event.ActionEvent actionEvent) throws IOException {
@@ -155,6 +142,7 @@ public class EmployeeEdit {
 
       ObservableList<String> options = FXCollections.observableArrayList(getCurrRole());
       final ComboBox comboBox = new ComboBox(options);
+      successTxt.setVisible(true);
     }
   }
 

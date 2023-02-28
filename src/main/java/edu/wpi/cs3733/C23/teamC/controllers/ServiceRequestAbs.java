@@ -103,10 +103,10 @@ public abstract class ServiceRequestAbs {
           }
         });
 
-    requestSpecific.setOnMouseClicked(
-        new EventHandler<MouseEvent>() {
+    requestSpecific.setOnAction(
+        new EventHandler<ActionEvent>() {
           @Override
-          public void handle(MouseEvent event) {
+          public void handle(ActionEvent event) {
             validateButton();
           }
         });

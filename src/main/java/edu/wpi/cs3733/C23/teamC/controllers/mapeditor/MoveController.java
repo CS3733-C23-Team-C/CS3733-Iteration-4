@@ -2,12 +2,17 @@ package edu.wpi.cs3733.C23.teamC.controllers.mapeditor;
 
 import edu.wpi.cs3733.C23.teamC.Main;
 import edu.wpi.cs3733.C23.teamC.objects.PFLocation;
+import edu.wpi.cs3733.C23.teamC.objects.hibernate.AlertEntity;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.LocationnameEntity;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.MoveEntity;
+import edu.wpi.cs3733.C23.teamC.objects.hibernate.StaffEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -103,6 +108,23 @@ public class MoveController {
     MoveEntity newMove = new MoveEntity(nodeID, currLocation, outputDate);
     clear();
     Main.db.addMove(newMove);
+<<<<<<< HEAD
     moveAdded.setVisible(true);
+=======
+    java.util.Date date = new java.util.Date();
+    int alertID = Main.db.getNewAlertID();
+    AlertEntity newAlert =
+        new AlertEntity(
+            alertID,
+            new java.sql.Date(date.getTime()),
+            currLocation + " is moving to " + nodeID + " on " + outputDate.toString());
+    Main.db.addAlert(newAlert);
+    Map<String, StaffEntity> staffMap = Main.db.getStaff();
+    List<StaffEntity> staffList = new ArrayList<>();
+    for (StaffEntity staff : staffMap.values()) {
+      staffList.add(staff);
+    }
+    newAlert.addStaff(staffList);
+>>>>>>> main
   }
 }

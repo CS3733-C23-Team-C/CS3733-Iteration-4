@@ -38,32 +38,14 @@
                         <HBox prefHeight="20.0" prefWidth="200.0" />
                         <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
                             <children>
-                                <VBox alignment="TOP_CENTER" prefHeight="78.0" prefWidth="182.0" HBox.hgrow="ALWAYS">
+                                <VBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
                                     <children>
-                                        <Text fx:id="AssignedEmployeeID" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Seach Employee ID">
+                                        <Text fx:id="AssignedEmployeeID" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Search Staff ID">
                                             <font>
                                                 <Font size="15.0" />
                                             </font>
                                         </Text>
-                                        <MFXTextField fx:id="staffIDField" prefHeight="57.0" prefWidth="152.0">
-                                            <font>
-                                                <Font size="15.0" />
-                                            </font>
-                                        </MFXTextField>
-                                        <HBox alignment="CENTER" minHeight="20.0" prefHeight="20.0">
-                                 <children>
-                                    <MFXButton fx:id="searchButton" minWidth="150.0" onAction="#searchEmployeeID" style="-fx-background-color: #F6BD38;" text="Search" textFill="#012d5a">
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
-                                       <opaqueInsets>
-                                          <Insets top="10.0" />
-                                       </opaqueInsets>
-                                    </MFXButton>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets top="13.0" />
-                                 </VBox.margin></HBox>
+                              <MFXFilterComboBox fx:id="staffIDField" floatMode="ABOVE" floatingTextGap="1.0" onAction="#searchEmployeeID" prefHeight="40.0" prefWidth="148.0" />
                                     </children>
                                 </VBox>
                                 <VBox />
@@ -177,6 +159,11 @@
                                                 <Font size="24.0" />
                                             </font>
                                         </Text>
+                              <Text fx:id="successTxt" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Staff Information Successfully Updated!" visible="false">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Text>
                                     </children>
                                 </StackPane>
                             </children></HBox>
@@ -187,7 +174,7 @@
                                         <Font size="15.0" />
                                     </font>
                                 </MFXButton>
-                        <MFXButton fx:id="updateButton" minWidth="150.0" onAction="#update" style="-fx-background-color: #009CA6;" text="Update" textFill="WHITE">
+                        <MFXButton fx:id="updateButton" disable="true" minWidth="150.0" onAction="#update" style="-fx-background-color: #009CA6;" text="Update" textFill="WHITE">
                            <font>
                               <Font size="15.0" />
                            </font>
