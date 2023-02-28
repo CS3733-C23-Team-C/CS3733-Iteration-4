@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
 <?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.BorderPane?>
@@ -40,7 +41,7 @@
                                           <Insets bottom="2.0" top="10.0" />
                                        </VBox.margin>
                                     </Text>
-                                    <MFXTextField fx:id="receivingID" floatMode="ABOVE" prefHeight="49.0" prefWidth="109.0" promptText="Enter Staff ID" />
+                                    <MFXFilterComboBox fx:id="receivingID" floatMode="ABOVE" floatingTextGap="1.0" prefHeight="32.0" prefWidth="134.0" promptText="Select Staff" searchText="" />
                                     <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Message:">
                                        <VBox.margin>
                                           <Insets bottom="2.0" top="10.0" />

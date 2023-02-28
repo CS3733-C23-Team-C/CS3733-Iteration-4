@@ -2,6 +2,7 @@
 
 <?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.materialfx.controls.MFXScrollPane?>
+<?import io.github.palexdev.materialfx.controls.MFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -24,7 +25,21 @@
                     </Text>
                     <HBox prefHeight="10.0" />
                     <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;" />
-                    <HBox prefHeight="20.0" />
+                    <HBox alignment="CENTER_LEFT" prefHeight="20.0">
+                     <children>
+                              <MFXButton fx:id="refreshButton" style="-fx-background-color: #F6BD38;" text="Refresh">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="20.0" top="15.0" />
+                           </HBox.margin>
+                        </MFXButton>
+                          <MFXTextField fx:id="Filter" onKeyReleased="#enableFilter" prefHeight="40.0" prefWidth="180.0" promptText="Filter..." style="-fx-background-color: transparent; -fx-border-color: #009CA6; -fx-border-width: 0px 0px 4px 0px;" />
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin></HBox>
                     <MFXScrollPane fx:id="scrollPane" fitToWidth="true" style="-fx-background-color: F4F4F4;">
                         <content>
                             <VBox fx:id="vbox" alignment="CENTER" nodeOrientation="RIGHT_TO_LEFT" spacing="10.0">
@@ -37,12 +52,6 @@
                     <HBox alignment="CENTER">
                         <children>
                             <HBox HBox.hgrow="ALWAYS">
-                                <children>
-                                    <MFXButton fx:id="refreshButton" style="-fx-background-color: #F6BD38;" text="Refresh">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font></MFXButton>
-                                </children>
                                 <HBox.margin>
                                     <Insets top="10.0" />
                                 </HBox.margin>
