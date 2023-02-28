@@ -518,6 +518,7 @@ public class DatabaseService implements RepoFacade2 {
     return id;
   }
 
+  @Override
   public int getNewAlertID() {
     Session session = orm.getSession();
     Transaction tx = null;
@@ -526,7 +527,7 @@ public class DatabaseService implements RepoFacade2 {
 
     try {
       tx = session.beginTransaction();
-      List n = session.createNativeQuery("SELECT MAX(cdb.alerts.alertid) FROM cdb.pics").list();
+      List n = session.createNativeQuery("SELECT MAX(cdb.alerts.alertid) FROM cdb.alerts").list();
       if (n != null) {
         id = (int) n.get(0);
       }
@@ -537,7 +538,7 @@ public class DatabaseService implements RepoFacade2 {
     } finally {
       session.close();
     }
-    return id;
+    return id + 1;
   }
 
   @Override
