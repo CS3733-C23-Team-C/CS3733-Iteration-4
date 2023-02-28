@@ -30,6 +30,7 @@ public class MenuController {
   @FXML private MFXButton moveButton;
   @FXML private Circle newMessageCircle;
   @FXML private MFXButton employeeEditButton;
+  @FXML private MFXButton kioskButton;
   private static MenuButton sUserProfile;
   private static Circle sNewMessageCircle;
   @Getter @Setter private static SelectedMessage selectedMessage;
@@ -51,6 +52,10 @@ public class MenuController {
 
     employeeEditButton.managedProperty().bind(employeeEditButton.visibleProperty());
     employeeEditButton.setVisible(App.getUser().getRole().equals("admin"));
+
+    kioskButton.managedProperty().bind(kioskButton.visibleProperty());
+    kioskButton.setVisible(App.getUser().getRole().equals("admin"));
+
     sNewMessageCircle = newMessageCircle;
     if (HomeController.getUnreadMessagesCount() != 0) {
       MenuController.messageNotiOn();
@@ -123,8 +128,13 @@ public class MenuController {
     Navigation.navigate(Screen.ABOUT_PAGE);
   }
 
+<<<<<<< HEAD
   public void goToMovePage(ActionEvent actionEvent) {
     Navigation.navigate(Screen.MOVES);
+=======
+  public void goToKiosk(ActionEvent actionEvent) {
+    KioskDialogController.showDialog();
+>>>>>>> main
   }
 
   public static void messageNotiOn() {

@@ -111,6 +111,10 @@ public class LocationnameEntity implements Persistent, CSVExportable {
     return new String[] {getLongname(), getShortname(), getLocationtype()};
   }
 
+  public String toString() {
+    return getLongname();
+  }
+
   public static class Importer implements CSVImporter<LocationnameEntity> {
     @Override
     public LocationnameEntity fromCSV(String[] csv) {

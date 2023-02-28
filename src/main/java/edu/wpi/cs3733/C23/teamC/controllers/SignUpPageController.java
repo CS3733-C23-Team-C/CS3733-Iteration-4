@@ -40,6 +40,8 @@ public class SignUpPageController {
 
   @FXML
   public void initialize() {
+    errorTxt.managedProperty().bind(errorTxt.visibleProperty());
+    newUserTxt.managedProperty().bind(newUserTxt.visibleProperty());
     System.out.println("I am from the Sign Up Page!");
   }
 

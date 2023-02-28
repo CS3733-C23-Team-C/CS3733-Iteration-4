@@ -463,7 +463,7 @@ public class MapEditorMapView {
   }
 
   private void updatePanMap(Vector2 position) {
-    log.info("Updating pan map. Position: {}", position);
+    log.debug("Updating pan map. Position: {}", position);
     if (lastDragPosition == null) lastDragPosition = new Vector2(position);
     final var newView = Vector2.minus(position, lastDragPosition);
     translateView(newView.getX(), newView.getY());
@@ -530,18 +530,41 @@ public class MapEditorMapView {
   private void beginMapContextMenu(MouseEvent event) {
     final var addNode = new MenuItem("Add node");
     addNode.setOnAction(actionEvent -> createNode(getCoordsPosition(event)));
+
     var numSelected = selectedNodes.size();
     final var connect =
         new MenuItem(String.format("Connect %d node%s", numSelected, numSelected == 1 ? "" : "s"));
     connect.setOnAction(actionEvent -> connectNodes(selectedNodes));
     connect.setDisable(numSelected < 2);
+
     numSelected += selectedEdges.size();
     final var delete =
         new MenuItem(String.format("Delete %d item%s", numSelected, numSelected == 1 ? "" : "s"));
     delete.setOnAction(actionEvent -> deleteSelected());
     delete.setDisable(numSelected == 0);
 
-    contextMenu.getItems().setAll(addNode, connect, delete);
+    final var disable = !selectedNodes.isEmpty() || selectedEdges.isEmpty();
+    final var alignHL = new MenuItem("Align horizontally to left node");
+    alignHL.setDisable(disable);
+    alignHL.setOnAction(
+        actionEvent -> Set.copyOf(selectedEdges).forEach(this::alignHorizontallyToLeft));
+
+    final var alignHR = new MenuItem("Align horizontally to right node");
+    alignHR.setDisable(disable);
+    alignHR.setOnAction(
+        actionEvent -> Set.copyOf(selectedEdges).forEach(this::alignHorizontallyToRight));
+
+    final var alignVT = new MenuItem("Align vertically to top node");
+    alignVT.setDisable(disable);
+    alignVT.setOnAction(
+        actionEvent -> Set.copyOf(selectedEdges).forEach(this::alignVerticallyToTop));
+
+    final var alignVB = new MenuItem("Align vertically to bottom node");
+    alignVB.setDisable(disable);
+    alignVB.setOnAction(
+        actionEvent -> Set.copyOf(selectedEdges).forEach(this::alignVerticallyToBottom));
+
+    contextMenu.getItems().setAll(addNode, connect, delete, alignHL, alignHR, alignVT, alignVB);
 
     final var clickPoint = getScreenPosition(event);
     contextMenu.show(clipPane.getScene().getWindow(), clickPoint.getX(), clickPoint.getY());
@@ -556,12 +579,92 @@ public class MapEditorMapView {
     for (NodeEntity node1 : nodes) {
       for (NodeEntity node2 : nodes) {
         if (node1.equals(node2)) continue;
-        if (edges.contains(new EdgeEntity(node2, node1))) continue;
-        edges.add(new EdgeEntity(node1, node2));
+        final var newEdge = new EdgeEntity(node1, node2);
+        if (edgeExistsIn(edges, newEdge)) continue;
+        // ensure that we don't create duplicate edges.
+        if (edgeExistsIn(Main.getRepo().getEdges(), newEdge)) continue;
+        edges.add(newEdge);
       }
     }
 
     edges.forEach(Main.getRepo()::addEdge);
+  }
+
+  private boolean edgeExistsIn(Collection<EdgeEntity> edges, EdgeEntity edge) {
+    return edges.stream()
+        .anyMatch(
+            e ->
+                e.equals(edge)
+                    || (e.getNode2ID().equals(edge.getNode1ID())
+                        && e.getNode1ID().equals(edge.getNode2ID())));
+  }
+
+  private void alignHorizontallyToLeft(EdgeEntity edge) {
+    final var node1 = edge.getNode1();
+    final var node2 = edge.getNode2();
+
+    NodeEntity leftNode, rightNode;
+    if (node1.getXcoord() < node2.getXcoord()) {
+      leftNode = node1;
+      rightNode = node2;
+    } else {
+      leftNode = node2;
+      rightNode = node1;
+    }
+
+    rightNode.setYcoord(leftNode.getYcoord());
+    repairID(rightNode);
+  }
+
+  private void alignHorizontallyToRight(EdgeEntity edge) {
+    final var node1 = edge.getNode1();
+    final var node2 = edge.getNode2();
+
+    NodeEntity leftNode, rightNode;
+    if (node1.getXcoord() < node2.getXcoord()) {
+      leftNode = node1;
+      rightNode = node2;
+    } else {
+      leftNode = node2;
+      rightNode = node1;
+    }
+
+    leftNode.setYcoord(rightNode.getYcoord());
+    repairID(leftNode);
+  }
+
+  private void alignVerticallyToTop(EdgeEntity edge) {
+    final var node1 = edge.getNode1();
+    final var node2 = edge.getNode2();
+
+    NodeEntity topNode, bottomNode;
+    if (node1.getYcoord() < node2.getYcoord()) {
+      topNode = node1;
+      bottomNode = node2;
+    } else {
+      topNode = node2;
+      bottomNode = node1;
+    }
+
+    bottomNode.setXcoord(topNode.getXcoord());
+    repairID(bottomNode);
+  }
+
+  private void alignVerticallyToBottom(EdgeEntity edge) {
+    final var node1 = edge.getNode1();
+    final var node2 = edge.getNode2();
+
+    NodeEntity topNode, bottomNode;
+    if (node1.getYcoord() < node2.getYcoord()) {
+      topNode = node1;
+      bottomNode = node2;
+    } else {
+      topNode = node2;
+      bottomNode = node1;
+    }
+
+    topNode.setXcoord(bottomNode.getXcoord());
+    repairID(topNode);
   }
 
   // left-click on the map: deselect everything
