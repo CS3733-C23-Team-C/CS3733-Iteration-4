@@ -2,6 +2,7 @@ package edu.wpi.cs3733.C23.teamC.objects.hibernate;
 
 import edu.wpi.cs3733.C23.teamC.Main;
 import edu.wpi.cs3733.C23.teamC.database.CSVExportable;
+import edu.wpi.cs3733.C23.teamC.database.CSVImporter;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -93,5 +94,14 @@ public class AlertStaff implements CSVExportable {
   @Override
   public String[] toCSV() {
     return new String[] {staff, Integer.toString(alertid), Boolean.toString(seen)};
+  }
+
+  public static class Importer implements CSVImporter<AlertStaff> {
+
+    @Override
+    public AlertStaff fromCSV(String[] csv) {
+      return new AlertStaff(csv);
+    }
+
   }
 }

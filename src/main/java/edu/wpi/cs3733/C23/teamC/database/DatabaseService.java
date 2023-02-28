@@ -573,6 +573,23 @@ public class DatabaseService implements RepoFacade2 {
   }
 
   @Override
+  public void deleteAlertStaff() {
+    Session session = orm.getSession();
+    Transaction tx = null;
+
+    try {
+      tx = session.beginTransaction();
+      session.createNativeQuery("DELETE FROM cdb.alertstaff").executeUpdate();
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+  }
+
+  @Override
   public void importAll() {
     // nothing to be done, this is handled in the constructor
   }

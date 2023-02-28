@@ -73,6 +73,7 @@ public class DBcsv {
     String securitycsv = backup_folder + "\\" + "securitysubmission.csv";
     String computercsv = backup_folder + "\\" + "computersubmission.csv";
     String audiocsv = backup_folder + "\\" + "audiosubmission.csv";
+    String alertstaffcsv = backup_folder + "\\" + "alertstaff.csv";
 
     // Read nodes
     CSVReader nodeReader = new CSVReader(new FileReader(nodecsv));
@@ -129,7 +130,15 @@ public class DBcsv {
     List<String[]> audioBody = audioReader.readAll();
     securityReader.close();
 
+    // Read alertsaff
+    CSVReader alertStaffReader = new CSVReader(new FileReader(alertstaffcsv));
+    List<String[]> alertStaffBody = alertStaffReader.readAll();
+    securityReader.close();
+
     // Deletes the database
+
+    Main.db.deleteAlertStaff();
+
     List<ComputersubmissionEntity> computerKeys = List.copyOf(computerSubs.values());
     for (ComputersubmissionEntity computersubmissionEntity : computerKeys) {
       Main.db.deleteComputer(computersubmissionEntity.getSubmissionid());
@@ -228,6 +237,8 @@ public class DBcsv {
 
     // Insert audio
     csv2DB(audioBody, new AudiosubmissionEntity.Importer()).forEach(Main.db::addAudio);
+
+    csv2DB(alertStaffBody, new AlertStaff.Importer());
   }
 
   public static void exportDatabase(String path) throws IOException, CsvException {
