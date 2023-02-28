@@ -473,4 +473,9 @@ public class newDBConnect implements RepoFacade {
   public AlertEntity getAlert(int id) {
     return null;
   }
+
+  @Override
+  public int getNewAlertID() {
+    return 0;
+  }
 }

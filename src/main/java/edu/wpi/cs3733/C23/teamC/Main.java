@@ -26,7 +26,7 @@ public class Main extends Thread {
     AutoUpdate updater = new AutoUpdate();
     updaterThread = new Thread(updater, "AutoUpdater");
 
-    System.out.println(repo.getNewAlertID());
+    System.out.println(db.getNewAlertID());
     //    updaterThread.start();
     //    App.launch(App.class, args);
     //    }
