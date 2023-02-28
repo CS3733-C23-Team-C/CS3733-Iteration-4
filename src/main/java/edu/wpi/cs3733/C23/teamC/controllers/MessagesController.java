@@ -44,7 +44,6 @@ public class MessagesController {
     newAlertButton.setVisible(App.getUser().getRole().equals("admin"));
 
     alerts = App.getUser().allNotReadAlerts();
-    alerts.sort(null);
     messages = Main.db.getMessages(App.getUser().getStaffid());
     highestID = 0;
     previousMessage = new SelectedMessage("", Integer.MAX_VALUE);
@@ -218,7 +217,6 @@ public class MessagesController {
     keyList.sort(null);
     vbox.getChildren().clear();
     alerts = App.getUser().allNotReadAlerts();
-    alerts.sort(null);
     displayAlerts();
     displayMessages();
   }

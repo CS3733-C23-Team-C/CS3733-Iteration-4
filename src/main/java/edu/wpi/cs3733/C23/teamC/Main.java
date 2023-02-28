@@ -1,12 +1,7 @@
 package edu.wpi.cs3733.C23.teamC;
 
 import edu.wpi.cs3733.C23.teamC.database.*;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.AlertEntity;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.StaffEntity;
 import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,23 +26,11 @@ public class Main extends Thread {
     AutoUpdate updater = new AutoUpdate();
     updaterThread = new Thread(updater, "AutoUpdater");
 
-    System.out.println(db.getNewAlertID());
-    //    updaterThread.start();
-    //    App.launch(App.class, args);
+    updaterThread.start();
+    App.launch(App.class, args);
     //    }
     updater.stop();
     updaterThread.interrupt();
-
-    java.util.Date date = new java.util.Date();
-    AlertEntity testAlert =
-        new AlertEntity(repo.getNewAlertID(), new java.sql.Date(date.getTime()), "please");
-    Map<String, StaffEntity> staffMap = db.getStaff();
-    List<StaffEntity> staffList = new ArrayList<>();
-    for (StaffEntity staff : staffMap.values()) {
-      staffList.add(staff);
-    }
-    testAlert.addStaff(staffList);
-    
   }
 
   // shortcut: psvm

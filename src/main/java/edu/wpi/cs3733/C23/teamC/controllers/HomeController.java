@@ -52,7 +52,6 @@ public class HomeController {
     }
     messages = Main.db.getMessages(App.getUser().getStaffid());
     alerts = App.getUser().allNotReadAlerts();
-    alerts.sort(null);
 
     for (Integer key : messages.keySet()) {
       keyList.add(key);
