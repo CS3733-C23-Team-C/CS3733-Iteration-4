@@ -14,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -35,6 +36,7 @@ public class EmployeeEdit {
   @FXML private MFXFilterComboBox<String> staffIDField;
 
   @FXML private MFXFilterComboBox<String> ocupationDropDown;
+  @FXML private Text successTxt;
 
   @FXML
   public void initialize() {
@@ -109,6 +111,7 @@ public class EmployeeEdit {
     passwordField.clear();
     ocupationDropDown.setText("staff");
     updateButton.setDisable(true);
+    successTxt.setVisible(false);
   }
 
   public void update(javafx.event.ActionEvent actionEvent) throws IOException {
@@ -139,6 +142,7 @@ public class EmployeeEdit {
 
       ObservableList<String> options = FXCollections.observableArrayList(getCurrRole());
       final ComboBox comboBox = new ComboBox(options);
+      successTxt.setVisible(true);
     }
   }
 

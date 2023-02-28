@@ -24,8 +24,6 @@ public class SignUpPageController {
   @FXML private MFXPasswordField confirmPassword;
   @FXML private MFXButton signUpButton;
 
-  @FXML private MFXButton backButton;
-
   @FXML private Text errorTxt;
   @FXML private Text newUserTxt;
 
@@ -74,7 +72,6 @@ public class SignUpPageController {
                   outputStaffID, outputFirstname, outputLastname, "staff", outputPassword));
 
           errorTxt.setText("");
-          backButton.setDisable(true);
           staffID.setDisable(true);
           firstName.setDisable(true);
           lastName.setDisable(true);
