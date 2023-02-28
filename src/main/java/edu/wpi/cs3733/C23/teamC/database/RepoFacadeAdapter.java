@@ -305,4 +305,9 @@ public class RepoFacadeAdapter implements RepoFacade {
   public List<AlertStaff> getAlertStaff() {
     return repo.getAlertStaff();
   }
+
+  @Override
+  public void deleteAlertStaff() {
+    repo.deleteAlertStaff();
+  }
 }

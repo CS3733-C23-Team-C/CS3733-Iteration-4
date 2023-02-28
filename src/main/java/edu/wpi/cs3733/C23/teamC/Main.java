@@ -1,9 +1,7 @@
 package edu.wpi.cs3733.C23.teamC;
 
 import edu.wpi.cs3733.C23.teamC.database.*;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.AlertStaff;
 import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,14 +26,8 @@ public class Main extends Thread {
     AutoUpdate updater = new AutoUpdate();
     updaterThread = new Thread(updater, "AutoUpdater");
 
-    //    updaterThread.start();
-    //    App.launch(App.class, args);
-
-    List<AlertStaff> as = db.getAlertStaff();
-
-    for (AlertStaff a : as) {
-      System.out.println(a.toString());
-    }
+    updaterThread.start();
+    App.launch(App.class, args);
 
     updater.stop();
     updaterThread.interrupt();

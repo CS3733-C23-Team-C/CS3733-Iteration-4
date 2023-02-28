@@ -137,4 +137,6 @@ public interface RepoFacade {
   int getNewAlertID();
 
   List<AlertStaff> getAlertStaff();
+
+  void deleteAlertStaff();
 }

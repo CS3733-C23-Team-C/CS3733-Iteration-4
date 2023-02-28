@@ -491,4 +491,7 @@ public class newDBConnect implements RepoFacade {
   public List<AlertStaff> getAlertStaff() {
     return null;
   }
+
+  @Override
+  public void deleteAlertStaff() {}
 }

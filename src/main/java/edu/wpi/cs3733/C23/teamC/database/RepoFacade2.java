@@ -183,4 +183,6 @@ public interface RepoFacade2 {
       }
     };
   }
+
+  void deleteAlertStaff();
 }
