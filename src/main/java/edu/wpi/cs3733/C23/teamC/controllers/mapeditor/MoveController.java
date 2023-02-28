@@ -1,6 +1,7 @@
 package edu.wpi.cs3733.C23.teamC.controllers.mapeditor;
 
 import edu.wpi.cs3733.C23.teamC.Main;
+import edu.wpi.cs3733.C23.teamC.objects.PFLocation;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.LocationnameEntity;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.MoveEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
@@ -18,7 +19,7 @@ import javafx.scene.text.Text;
 public class MoveController {
   @FXML MFXDatePicker moveDate;
   @FXML MFXFilterComboBox<String> currentLocation;
-  @FXML MFXFilterComboBox<String> newLocation;
+  // @FXML MFXTextField newLocation;
   @FXML MFXButton clear;
   @FXML MFXButton submit;
 
@@ -30,7 +31,6 @@ public class MoveController {
 
     for (LocationnameEntity allLocations : Main.db.getLocationnames().values()) {
       currentLocation.getItems().add(allLocations.getLongname());
-      newLocation.getItems().add(allLocations.getLongname());
     }
 
     currentLocation.setOnAction(
@@ -48,21 +48,14 @@ public class MoveController {
             currentLocation.show();
           }
         });
-    newLocation.setOnAction(
-        new EventHandler<ActionEvent>() {
-          @Override
-          public void handle(ActionEvent event) {
-            validateButton();
-          }
-        });
+    /*newLocation.setOnKeyReleased(
+    new EventHandler<KeyEvent>() {
+      @Override
+      public void handle(KeyEvent event) {
+        validateButton();
+      }
+    });*/
 
-    newLocation.setOnMouseClicked(
-        new EventHandler<MouseEvent>() {
-          @Override
-          public void handle(MouseEvent event) {
-            newLocation.show();
-          }
-        });
     moveDate.setOnAction(
         new EventHandler<ActionEvent>() {
           @Override
@@ -80,23 +73,30 @@ public class MoveController {
   public void
       validateButton() { // ensures that information has been filled in before allowing submission
     boolean valid = false;
-    if (newLocation.getValue() != null
-        && currentLocation.getValue() != null
-        && moveDate.getValue() != null) valid = true;
+    if (currentLocation.getValue() != null && moveDate.getValue() != null) valid = true;
     submit.setDisable(!valid);
   }
 
   public void clear() {
     currentLocation.clear();
-    newLocation.clear();
+    // newLocation.clear();
     moveDate.clear();
   }
 
   public void submission() {
     Date outputDate = Date.valueOf(moveDate.getValue());
     String currLocation = currentLocation.getValue();
-    String movedLocation = newLocation.getValue();
-    MoveEntity newMove = new MoveEntity(currLocation, movedLocation, outputDate);
+    // String movedLocation = newLocation.getText();
+    String nodeID = "";
+    for (LocationnameEntity names : Main.db.getLocationnames().values()) {
+      if (currLocation.equals(names.toString())) {
+        PFLocation location = new PFLocation(names);
+        nodeID = location.getNodeId(outputDate);
+      }
+    }
+
+    // System.out.println("nodeid: " + movedLocation);
+    MoveEntity newMove = new MoveEntity(nodeID, currLocation, outputDate);
     clear();
     Main.db.addMove(newMove);
   }

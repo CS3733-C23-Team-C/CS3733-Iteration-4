@@ -42,7 +42,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <MFXDatePicker fx:id="moveDate" />
+                              <MFXDatePicker fx:id="moveDate" prefWidth="200.0" />
                            </children>
                         </VBox>
                      </children>
@@ -54,7 +54,7 @@
                      <children>
                         <VBox HBox.hgrow="ALWAYS">
                            <children>
-                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Current Location*">
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Location*">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -66,16 +66,7 @@
                               </MFXFilterComboBox>
                            </children>
                         </VBox>
-                        <VBox HBox.hgrow="ALWAYS">
-                           <children>
-                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="New Location*">
-                                 <font>
-                                    <Font size="15.0" />
-                                 </font>
-                              </Text>
-                              <MFXFilterComboBox fx:id="newLocation" prefWidth="200.0" />
-                           </children>
-                        </VBox>
+                        <VBox HBox.hgrow="ALWAYS" />
                      </children>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

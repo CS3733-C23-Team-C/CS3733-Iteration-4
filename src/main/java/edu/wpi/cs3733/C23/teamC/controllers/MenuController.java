@@ -128,13 +128,12 @@ public class MenuController {
     Navigation.navigate(Screen.ABOUT_PAGE);
   }
 
-<<<<<<< HEAD
   public void goToMovePage(ActionEvent actionEvent) {
     Navigation.navigate(Screen.MOVES);
-=======
+  }
+
   public void goToKiosk(ActionEvent actionEvent) {
     KioskDialogController.showDialog();
->>>>>>> main
   }
 
   public static void messageNotiOn() {
