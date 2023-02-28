@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.C23.teamC.database;
 
+import edu.wpi.cs3733.C23.teamC.Main;
 import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
 import jakarta.persistence.PersistenceException;
 import java.util.List;
@@ -146,5 +147,11 @@ public class DAOService implements DAOFacade {
         throw e;
       }
     }
+  }
+
+  @Override
+  public <E> void mergeOnlyWhenManual(E entity) throws PersistenceException {
+    if (Thread.currentThread().equals(Main.getUpdaterThread())) return;
+    merge(entity);
   }
 }

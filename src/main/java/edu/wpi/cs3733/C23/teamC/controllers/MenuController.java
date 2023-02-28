@@ -3,6 +3,7 @@ package edu.wpi.cs3733.C23.teamC.controllers;
 import edu.wpi.cs3733.C23.teamC.App;
 import edu.wpi.cs3733.C23.teamC.navigation.Navigation;
 import edu.wpi.cs3733.C23.teamC.navigation.Screen;
+import edu.wpi.cs3733.C23.teamC.objects.SelectedMessage;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,7 +32,7 @@ public class MenuController {
   @FXML private MFXButton employeeEditButton;
   private static MenuButton sUserProfile;
   private static Circle sNewMessageCircle;
-  @Getter @Setter private static int selectedHomeMessage;
+  @Getter @Setter private static SelectedMessage selectedMessage;
 
   public static void setUserProfile() {
     System.out.println(sUserProfile == null);
@@ -51,7 +52,11 @@ public class MenuController {
     employeeEditButton.managedProperty().bind(employeeEditButton.visibleProperty());
     employeeEditButton.setVisible(App.getUser().getRole().equals("admin"));
     sNewMessageCircle = newMessageCircle;
-    if (MenuController.getSelectedHomeMessage() != 0) MenuController.messageNotiOn();
+    if (HomeController.getUnreadMessagesCount() != 0) {
+      MenuController.messageNotiOn();
+      System.out.println("Set Notif on Home Start Up");
+    }
+    selectedMessage = new SelectedMessage("", 0);
   }
 
   public void goToHome(ActionEvent actionEvent) {

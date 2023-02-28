@@ -9,6 +9,7 @@ import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
 import edu.wpi.cs3733.C23.teamC.objects.submissions.SubmissionStatus;
 import io.github.palexdev.materialfx.controls.MFXScrollPane;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,6 +32,7 @@ public class HomeController {
   final String SECRET_PASSWORD = "team coaching";
 
   private Map<Integer, MessagesEntity> messages;
+  private List<AlertEntity> alerts;
 
   @Getter private MessageBox messageBox = new MessageBox();
 
@@ -49,11 +51,13 @@ public class HomeController {
       welcomeTxt.setText(text);
     }
     messages = Main.db.getMessages(App.getUser().getStaffid());
+    alerts = App.getUser().allNotReadAlerts();
 
     for (Integer key : messages.keySet()) {
       keyList.add(key);
     }
     keyList.sort(null);
+    showAlerts();
     showMessages();
 
     findRequests();
@@ -98,6 +102,15 @@ public class HomeController {
         HBox newMessage = messageBox.addHomeMessage(message);
         vbox.getChildren().add(newMessage);
       }
+    }
+  }
+
+  public void showAlerts() {
+    for (int i = (alerts.size() - 1); i >= 0; i--) {
+      AlertEntity alert = alerts.get(i);
+      HBox newAlert = messageBox.addHomeAlert(alert);
+      vbox.getChildren().add(newAlert);
+      System.out.println(alert.getMessage());
     }
   }
 

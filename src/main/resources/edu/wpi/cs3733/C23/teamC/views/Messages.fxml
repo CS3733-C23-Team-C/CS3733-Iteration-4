@@ -66,6 +66,14 @@
                                     <Font size="18.0" />
                                  </font>
                                     </MFXButton>
+                              <MFXButton fx:id="newAlertButton" style="-fx-background-color: #012D5A;" text="New Alert" textFill="WHITE">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </MFXButton>
                                     <MFXButton fx:id="newMessageButton" style="-fx-background-color: #012D5A;" text="New Message" textFill="WHITE">
                                         <HBox.margin>
                                             <Insets left="10.0" />

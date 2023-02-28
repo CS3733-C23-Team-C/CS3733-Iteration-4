@@ -84,7 +84,7 @@
                         <Insets bottom="10.0" top="10.0" />
                      </padding>
                   </HBox>
-                  <MFXScrollPane fx:id="scrollPane" fitToWidth="true" minHeight="90.0" prefHeight="200.0" style="-fx-background-color: #F4F4F4;">
+                  <MFXScrollPane fx:id="scrollPane" fitToWidth="true" minHeight="150.0" prefHeight="200.0" style="-fx-background-color: #F4F4F4;">
                      <content>
                         <VBox fx:id="vbox" alignment="CENTER" spacing="5.0">
                            <padding>
