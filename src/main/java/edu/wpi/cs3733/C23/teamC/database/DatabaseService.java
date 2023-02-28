@@ -1,5 +1,6 @@
 package edu.wpi.cs3733.C23.teamC.database;
 
+import edu.wpi.cs3733.C23.teamC.Main;
 import edu.wpi.cs3733.C23.teamC.database.dao.*;
 import edu.wpi.cs3733.C23.teamC.database.dao.EdgeDAO;
 import edu.wpi.cs3733.C23.teamC.database.dao.MoveDAO;
@@ -11,9 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyMapProperty;
 import javax.imageio.ImageIO;
@@ -128,6 +127,43 @@ public class DatabaseService implements RepoFacade2 {
   @Override
   public ReadOnlyMapProperty getAlerts() {
     return alertDAO.getAll();
+  }
+
+  @Override
+  public List<AlertStaff> getAlertStaff() {
+    Session session = Main.db.getSession();
+    Transaction tx = null;
+
+    List<AlertStaff> ret = new ArrayList<AlertStaff>();
+
+    try {
+      tx = session.beginTransaction();
+      List a =
+          session
+              .createNativeQuery("SELECT a.staff FROM cdb.alertstaff AS a")
+              .list();
+      List b =
+              session
+                      .createNativeQuery("SELECT a.alert FROM cdb.alertstaff AS a")
+                      .list();
+      List c =
+              session
+                      .createNativeQuery("SELECT a.seen FROM cdb.alertstaff AS a")
+                      .list();
+      Iterator iteratorb = b.iterator();
+      Iterator iteratorc = c.iterator();
+      for (Iterator iteratora = a.iterator(); iteratora.hasNext(); ) {
+        AlertStaff temp = new AlertStaff(iteratora.next().toString(), iteratorb.next().toString(), iteratorc.next().toString());
+        ret.add(temp);
+      }
+      tx.commit();
+    } catch (HibernateException e) {
+      if (tx != null) tx.rollback();
+      e.printStackTrace();
+    } finally {
+      session.close();
+    }
+    return ret;
   }
 
   @Override

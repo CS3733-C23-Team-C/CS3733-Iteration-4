@@ -135,4 +135,6 @@ public interface RepoFacade {
   AlertEntity getAlert(int id);
 
   int getNewAlertID();
+
+  List<AlertStaff> getAlertStaff();
 }

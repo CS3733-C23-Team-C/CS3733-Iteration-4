@@ -300,4 +300,9 @@ public class RepoFacadeAdapter implements RepoFacade {
   public int getNewAlertID() {
     return repo.getNewAlertID();
   }
+
+  @Override
+  public List<AlertStaff> getAlertStaff() {
+    return repo.getAlertStaff();
+  }
 }
