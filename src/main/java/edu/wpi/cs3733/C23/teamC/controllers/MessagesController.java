@@ -41,6 +41,7 @@ public class MessagesController {
   private ArrayList<Integer> keyList = new ArrayList<>();
   @Getter private static SelectedMessage selectedMessage;
   @Getter @Setter private static SelectedMessage previousMessage;
+  @Getter @Setter private static int totalUnread;
 
   public void initialize() {
     System.out.println("I am from MessageController.");
@@ -50,6 +51,7 @@ public class MessagesController {
     alerts = App.getUser().allNotReadAlerts();
     messages = Main.db.getMessages(App.getUser().getStaffid());
     highestID = 0;
+    totalUnread = 0;
     previousMessage = new SelectedMessage("", Integer.MAX_VALUE);
     selectedMessage = new SelectedMessage("", Integer.MAX_VALUE);
     for (Integer key : messages.keySet()) {
@@ -59,14 +61,14 @@ public class MessagesController {
     displayAlerts();
     displayMessages();
     // System.out.println(MenuController.getSelectedHomeMessage());
-    if (MenuController.getSelectedMessage().getSelectedID() != 0) {
+    if (totalUnread != 0) {
       if (MenuController.getSelectedMessage().getType().equals("Message")) {
         selectedMessage = MenuController.getSelectedMessage();
         VBox selectedMessageBox = messageBoxes.get(selectedMessage.getSelectedID());
         selectedMessageBox.getStyleClass().clear();
         selectedMessageBox.getStyleClass().add("selected");
         messages.get(selectedMessage.getSelectedID()).setRead(true);
-        messageBox.setUnreadMessages(messageBox.getUnreadMessages() - 1);
+        totalUnread--;
         replyButton.setDisable(false);
       } else if (MenuController.getSelectedMessage().getType().equals("Alert")) {
         selectedMessage = MenuController.getSelectedMessage();
@@ -80,7 +82,7 @@ public class MessagesController {
       previousMessage = selectedMessage;
       MenuController.setSelectedMessage(new SelectedMessage("", 0));
     }
-    if (messageBox.getUnreadMessages() > 0) MenuController.messageNotiOn();
+    if (totalUnread > 0) MenuController.messageNotiOn();
     else MenuController.messageNotiOff();
     sReplyButton = replyButton;
     sDeleteButton = deleteButton;
@@ -116,12 +118,14 @@ public class MessagesController {
               deleteButton.setText("Delete");
               deleteButton.setDisable(true);
               replyButton.setDisable(true);
+              messages.remove(selectedMessage.getSelectedID());
             } else if (selectedMessage.getType().equals("Alert")) {
               AlertEntity alert;
               for (int i = 0; i < alerts.size(); i++) {
                 if (selectedMessage.getSelectedID() == alerts.get(i).getAlertid()) {
                   alert = alerts.get(i);
                   alert.markRead(App.getUser());
+                  alerts.remove(i);
                 }
               }
               VBox deletedMessage = alertBoxes.get(selectedMessage.getSelectedID());
@@ -129,8 +133,9 @@ public class MessagesController {
               deleteButton.setDisable(true);
               replyButton.setDisable(true);
               deleteButton.setText("Delete");
-              messageBox.setUnreadMessages(messageBox.getUnreadMessages() - 1);
-              if (messageBox.getUnreadMessages() == 0) MenuController.messageNotiOff();
+              totalUnread--;
+              selectedMessage = new SelectedMessage("", Integer.MAX_VALUE);
+              if (totalUnread == 0) MenuController.messageNotiOff();
             }
           }
         });
@@ -177,9 +182,9 @@ public class MessagesController {
             }
 
             previousMessage = selectedMessage;
-            if (messageBox.getUnreadMessages() != 0) MenuController.messageNotiOn();
+            if (totalUnread != 0) MenuController.messageNotiOn();
             else MenuController.messageNotiOff();
-            System.out.println(messageBox.getUnreadMessages());
+            System.out.println("Unread: " + totalUnread);
           }
         });
   }
@@ -194,7 +199,6 @@ public class MessagesController {
       if (messageID > highestID) highestID = messageID;
       // System.out.println(message.getRead());
     }
-    System.out.println(messageBox.getUnreadMessages());
   }
 
   public void displayAlerts() {
@@ -203,7 +207,6 @@ public class MessagesController {
       VBox newAlert = messageBox.addMessageAlert(alert);
       alertBoxes.put(alert.getAlertid(), newAlert);
       vbox.getChildren().add(newAlert);
-      System.out.println(alert.getMessage());
     }
   }
 
@@ -229,6 +232,7 @@ public class MessagesController {
     keyList.sort(null);
     vbox.getChildren().clear();
     alerts = App.getUser().allNotReadAlerts();
+    totalUnread = 0;
     displayAlerts();
     displayMessages();
   }
@@ -238,6 +242,7 @@ public class MessagesController {
     vbox.getChildren().clear();
     messageBoxes = new HashMap<>();
     alertBoxes = new HashMap<>();
+    previousMessage = new SelectedMessage("", Integer.MAX_VALUE);
 
     for (int i = (alerts.size() - 1); i >= 0; i--) {
       AlertEntity alert = alerts.get(i);
@@ -245,7 +250,8 @@ public class MessagesController {
         VBox newAlert = messageBox.addMessageAlert(alert);
         alertBoxes.put(alert.getAlertid(), newAlert);
         vbox.getChildren().add(newAlert);
-        System.out.println(alert.getMessage());
+        totalUnread--;
+        // System.out.println(alert.getMessage());
       }
     }
 
@@ -253,6 +259,7 @@ public class MessagesController {
       MessagesEntity message = messages.get(keyList.get(i));
       if (messageFilterText(message).contains(filterTextLower)) {
         VBox newMessage = messageBox.addMessageBox(message);
+        if (!message.getRead()) totalUnread--;
         int messageID = message.getMessageid();
         messageBoxes.put(messageID, newMessage);
         vbox.getChildren().add(newMessage);
@@ -260,7 +267,7 @@ public class MessagesController {
         // System.out.println(message.getRead());
       }
     }
-    System.out.println(messageBox.getUnreadMessages());
+    System.out.println(totalUnread);
   }
 
   private String messageFilterText(MessagesEntity message) {
@@ -271,7 +278,7 @@ public class MessagesController {
                 ? ("Service Request System")
                 : (sender.getFirstname() + " " + sender.getLastname()))
             + (new SimpleDateFormat("MM/dd/yy h:mm a").format(message.getDate()));
-    System.out.println("Testing : " + s);
+    // System.out.println("Testing : " + s);
     return s.toLowerCase();
   }
 

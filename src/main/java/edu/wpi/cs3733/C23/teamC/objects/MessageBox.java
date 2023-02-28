@@ -107,7 +107,7 @@ public class MessageBox {
       newMessage.getStyleClass().add("read");
     } else {
       newMessage.getStyleClass().add("unread");
-      unreadMessages++;
+      MessagesController.setTotalUnread(MessagesController.getTotalUnread() + 1);
     }
     newMessage.getStylesheets().add("edu/wpi/cs3733/C23/teamC/styles/message.css");
     newMessage.setOnMouseClicked(
@@ -116,7 +116,7 @@ public class MessageBox {
           public void handle(MouseEvent event) {
             if (!message.getRead()) {
               message.setRead(true);
-              unreadMessages--;
+              MessagesController.setTotalUnread(MessagesController.getTotalUnread() - 1);
             }
             newMessage.getStyleClass().clear();
             newMessage.getStyleClass().add("selected");
@@ -189,7 +189,7 @@ public class MessageBox {
     Insets insets = new Insets(10, 5, 10, 5);
     messageTxt.setPadding(insets);
     newAlert.getChildren().addAll(topBox, messageTxt);
-    unreadMessages++;
+    MessagesController.setTotalUnread(MessagesController.getTotalUnread() + 1);
     return newAlert;
   }
 }
