@@ -2,11 +2,11 @@ package edu.wpi.cs3733.C23.teamC.controllers.mapeditor;
 
 import edu.wpi.cs3733.C23.teamC.Main;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.LocationnameEntity;
+import edu.wpi.cs3733.C23.teamC.objects.hibernate.MoveEntity;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import java.sql.Date;
-import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -29,10 +29,9 @@ public class MoveController {
   public void initialize() {
 
     for (LocationnameEntity allLocations : Main.db.getLocationnames().values()) {
-      locations.add(allLocations.getLongname());
+      currentLocation.getItems().add(allLocations.getLongname());
+      newLocation.getItems().add(allLocations.getLongname());
     }
-
-    Map<String, LocationnameEntity> nodes = Main.db.getLocationnames();
 
     currentLocation.setOnAction(
         new EventHandler<ActionEvent>() {
@@ -91,5 +90,14 @@ public class MoveController {
     currentLocation.clear();
     newLocation.clear();
     moveDate.clear();
+  }
+
+  public void submission() {
+    Date outputDate = Date.valueOf(moveDate.getValue());
+    String currLocation = currentLocation.getValue();
+    String movedLocation = newLocation.getValue();
+    MoveEntity newMove = new MoveEntity(currLocation, movedLocation, outputDate);
+    clear();
+    Main.db.addMove(newMove);
   }
 }

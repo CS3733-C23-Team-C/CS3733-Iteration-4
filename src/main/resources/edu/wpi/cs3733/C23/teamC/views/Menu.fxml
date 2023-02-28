@@ -74,7 +74,7 @@
                   <Font size="18.0" />
                </font>
             </MFXButton>
-            <MFXButton fx:id="moveButton" maxWidth="1.7976931348623157E308" onAction="#goToMovePage" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="Move" textFill="WHITE">
+            <MFXButton fx:id="moveButton" maxWidth="1.7976931348623157E308" onAction="#goToMovePage" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="Add Moves" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>

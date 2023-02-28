@@ -26,6 +26,7 @@ public class MenuController {
   @FXML private MFXButton pathfindingButton;
   @FXML private MFXButton mapEditorButton;
   @FXML private MFXButton messagesButton;
+  @FXML private MFXButton moveButton;
   @FXML private Circle newMessageCircle;
   @FXML private MFXButton employeeEditButton;
   private static MenuButton sUserProfile;
