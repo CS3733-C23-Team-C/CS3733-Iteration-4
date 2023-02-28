@@ -2,10 +2,15 @@ package edu.wpi.cs3733.C23.teamC.controllers.mapeditor.dialogs;
 
 import edu.wpi.cs3733.C23.teamC.App;
 import edu.wpi.cs3733.C23.teamC.Main;
+import edu.wpi.cs3733.C23.teamC.objects.hibernate.AlertEntity;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.MoveEntity;
+import edu.wpi.cs3733.C23.teamC.objects.hibernate.StaffEntity;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -45,6 +50,24 @@ public class AddMoveDialog extends FXMLDialog<Void> {
                           * 1000) // days to milliseconds
                   );
           Main.getRepo().addMove(move);
+          java.util.Date date = new java.util.Date();
+          int alertID = Main.db.getNewAlertID();
+          AlertEntity newAlert =
+              new AlertEntity(
+                  alertID,
+                  new java.sql.Date(date.getTime()),
+                  locationField.getText()
+                      + " is moving to "
+                      + nodeField.getText()
+                      + " on "
+                      + datePicker.getValue().toString());
+          Main.db.addAlert(newAlert);
+          Map<String, StaffEntity> staffMap = Main.db.getStaff();
+          List<StaffEntity> staffList = new ArrayList<>();
+          for (StaffEntity staff : staffMap.values()) {
+            staffList.add(staff);
+          }
+          newAlert.addStaff(staffList);
         });
     ok.disableProperty()
         .bind(
