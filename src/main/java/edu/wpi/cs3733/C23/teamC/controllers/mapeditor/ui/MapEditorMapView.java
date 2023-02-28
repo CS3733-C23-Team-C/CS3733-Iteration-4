@@ -579,12 +579,24 @@ public class MapEditorMapView {
     for (NodeEntity node1 : nodes) {
       for (NodeEntity node2 : nodes) {
         if (node1.equals(node2)) continue;
-        if (edges.contains(new EdgeEntity(node2, node1))) continue;
-        edges.add(new EdgeEntity(node1, node2));
+        final var newEdge = new EdgeEntity(node1, node2);
+        if (edgeExistsIn(edges, newEdge)) continue;
+        // ensure that we don't create duplicate edges.
+        if (edgeExistsIn(Main.getRepo().getEdges(), newEdge)) continue;
+        edges.add(newEdge);
       }
     }
 
     edges.forEach(Main.getRepo()::addEdge);
+  }
+
+  private boolean edgeExistsIn(Collection<EdgeEntity> edges, EdgeEntity edge) {
+    return edges.stream()
+        .anyMatch(
+            e ->
+                e.equals(edge)
+                    || (e.getNode2ID().equals(edge.getNode1ID())
+                        && e.getNode1ID().equals(edge.getNode2ID())));
   }
 
   private void alignHorizontallyToLeft(EdgeEntity edge) {
