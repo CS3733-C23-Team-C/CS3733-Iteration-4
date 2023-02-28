@@ -30,7 +30,7 @@ public class MoveController {
   @FXML
   public void initialize() {
 
-    moveAdded.setVisible(false);
+    //moveAdded.setVisible(false);
 
     for (LocationnameEntity allLocations : Main.db.getLocationnames().values()) {
       currentLocation.getItems().add(allLocations.getLongname());
