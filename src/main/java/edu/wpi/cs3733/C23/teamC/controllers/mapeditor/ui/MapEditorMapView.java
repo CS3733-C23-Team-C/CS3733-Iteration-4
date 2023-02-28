@@ -463,7 +463,7 @@ public class MapEditorMapView {
   }
 
   private void updatePanMap(Vector2 position) {
-    log.info("Updating pan map. Position: {}", position);
+    log.debug("Updating pan map. Position: {}", position);
     if (lastDragPosition == null) lastDragPosition = new Vector2(position);
     final var newView = Vector2.minus(position, lastDragPosition);
     translateView(newView.getX(), newView.getY());
