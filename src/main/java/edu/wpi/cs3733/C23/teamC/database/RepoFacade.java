@@ -36,6 +36,8 @@ public interface RepoFacade {
 
   Map<Integer, MessagesEntity> getMessages(String id, int lastid);
 
+  Map<Integer, AlertEntity> getAlerts();
+
   // Add method
   // Submissions
   void addAudio(AudiosubmissionEntity submission);
@@ -60,6 +62,8 @@ public interface RepoFacade {
   boolean addMove(MoveEntity submission);
 
   void addMessage(MessagesEntity message);
+
+  void addAlert(AlertEntity alert);
 
   // Get single methods
   // Submissions

@@ -28,7 +28,7 @@ public class Main extends Thread {
 
     updaterThread.start();
     App.launch(App.class, args);
-    //    }
+
     updater.stop();
     updaterThread.interrupt();
   }
