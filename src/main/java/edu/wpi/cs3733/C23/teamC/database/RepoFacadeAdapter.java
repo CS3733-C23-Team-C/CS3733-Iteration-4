@@ -285,4 +285,9 @@ public class RepoFacadeAdapter implements RepoFacade {
   public void refreshMessages() {
     repo.refreshMessages();
   }
+
+  @Override
+  public int getNewAlertID() {
+    return repo.getNewAlertID();
+  }
 }

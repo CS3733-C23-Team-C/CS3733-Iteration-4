@@ -518,6 +518,7 @@ public class DatabaseService implements RepoFacade2 {
     return id;
   }
 
+  @Override
   public int getNewAlertID() {
     Session session = orm.getSession();
     Transaction tx = null;
