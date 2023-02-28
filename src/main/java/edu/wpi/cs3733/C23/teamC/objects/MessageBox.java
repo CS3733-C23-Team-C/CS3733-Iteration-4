@@ -5,6 +5,7 @@ import edu.wpi.cs3733.C23.teamC.controllers.MenuController;
 import edu.wpi.cs3733.C23.teamC.controllers.MessagesController;
 import edu.wpi.cs3733.C23.teamC.navigation.Navigation;
 import edu.wpi.cs3733.C23.teamC.navigation.Screen;
+import edu.wpi.cs3733.C23.teamC.objects.hibernate.AlertEntity;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.MessagesEntity;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.StaffEntity;
 import java.text.SimpleDateFormat;
@@ -39,7 +40,8 @@ public class MessageBox {
         new EventHandler<MouseEvent>() {
           @Override
           public void handle(MouseEvent event) {
-            MenuController.setSelectedHomeMessage(message.getMessageid());
+            MenuController.setSelectedMessage(
+                new SelectedMessage("Message", message.getMessageid()));
             Navigation.navigate(Screen.MESSAGES);
           }
         });
@@ -66,6 +68,37 @@ public class MessageBox {
     return newMessage;
   }
 
+  public HBox addHomeAlert(AlertEntity alert) {
+    HBox newAlert = new HBox();
+    newAlert.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+    newAlert.setId(Integer.toString(alert.getAlertid()));
+    newAlert.getStyleClass().add("alert");
+    unreadMessages++;
+    newAlert.getStylesheets().add("edu/wpi/cs3733/C23/teamC/styles/message.css");
+    newAlert.setOnMouseClicked(
+        new EventHandler<MouseEvent>() {
+          @Override
+          public void handle(MouseEvent event) {
+            MenuController.setSelectedMessage(new SelectedMessage("Alert", alert.getAlertid()));
+            Navigation.navigate(Screen.MESSAGES);
+          }
+        });
+    HBox textBox = new HBox();
+    textBox.setAlignment(Pos.CENTER_LEFT);
+    Label label = new Label();
+    label.setText("ALERT: " + alert.getMessage());
+    textBox.getChildren().add(label);
+    HBox dateBox = new HBox();
+    dateBox.setAlignment(Pos.CENTER_RIGHT);
+    Text date = new Text();
+    date.setText(new SimpleDateFormat("MM/dd/yy").format(alert.getDate()));
+    dateBox.getChildren().add(date);
+    HBox spacerBox = new HBox();
+    HBox.setHgrow(spacerBox, Priority.ALWAYS);
+    newAlert.getChildren().addAll(textBox, spacerBox, dateBox);
+    return newAlert;
+  }
+
   public VBox addMessageBox(MessagesEntity message) {
     VBox newMessage = new VBox();
     newMessage.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
@@ -87,7 +120,8 @@ public class MessageBox {
             }
             newMessage.getStyleClass().clear();
             newMessage.getStyleClass().add("selected");
-            MessagesController.setSelectedMessage(message.getMessageid());
+            MessagesController.setSelectedMessage(
+                new SelectedMessage("Message", message.getMessageid()));
           }
         });
     HBox topBox = new HBox();
@@ -118,5 +152,44 @@ public class MessageBox {
     messageTxt.setPadding(insets);
     newMessage.getChildren().addAll(topBox, messageTxt);
     return newMessage;
+  }
+
+  public VBox addMessageAlert(AlertEntity alert) {
+    VBox newAlert = new VBox();
+    newAlert.setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+    newAlert.setId(Integer.toString(alert.getAlertid()));
+    newAlert.getStyleClass().add("alert");
+    newAlert.getStylesheets().add("edu/wpi/cs3733/C23/teamC/styles/message.css");
+    newAlert.setOnMouseClicked(
+        new EventHandler<MouseEvent>() {
+          @Override
+          public void handle(MouseEvent event) {
+            newAlert.getStyleClass().clear();
+            newAlert.getStyleClass().add("selected");
+            MessagesController.setSelectedMessage(new SelectedMessage("Alert", alert.getAlertid()));
+          }
+        });
+    HBox topBox = new HBox();
+    HBox fromTextBox = new HBox();
+    HBox spacer = new HBox();
+    HBox dateBox = new HBox();
+    Text fromText = new Text();
+    fromText.setFont(Font.font(16));
+    fromText.setText("New Alert:");
+    fromTextBox.getChildren().add(fromText);
+    Text date = new Text();
+    date.setFont(Font.font(16));
+    date.setText(new SimpleDateFormat("MM/dd/yy").format(alert.getDate()));
+    dateBox.getChildren().add(date);
+    HBox.setHgrow(spacer, Priority.ALWAYS);
+    topBox.getChildren().addAll(fromTextBox, spacer, dateBox);
+    Label messageTxt = new Label();
+    messageTxt.setText(alert.getMessage());
+    messageTxt.setWrapText(true);
+    Insets insets = new Insets(10, 5, 10, 5);
+    messageTxt.setPadding(insets);
+    newAlert.getChildren().addAll(topBox, messageTxt);
+    unreadMessages++;
+    return newAlert;
   }
 }
