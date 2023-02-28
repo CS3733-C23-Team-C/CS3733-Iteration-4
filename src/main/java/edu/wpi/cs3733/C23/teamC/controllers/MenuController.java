@@ -50,6 +50,10 @@ public class MenuController {
 
     employeeEditButton.managedProperty().bind(employeeEditButton.visibleProperty());
     employeeEditButton.setVisible(App.getUser().getRole().equals("admin"));
+
+    kioskButton.managedProperty().bind(kioskButton.visibleProperty());
+    kioskButton.setVisible(App.getUser().getRole().equals("admin"));
+
     sNewMessageCircle = newMessageCircle;
     if (HomeController.getUnreadMessagesCount() != 0) {
       MenuController.messageNotiOn();
