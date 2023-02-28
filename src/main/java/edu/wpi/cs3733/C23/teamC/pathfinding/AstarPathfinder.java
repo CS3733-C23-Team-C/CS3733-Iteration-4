@@ -3,7 +3,9 @@ package edu.wpi.cs3733.C23.teamC.pathfinding;
 import edu.wpi.cs3733.C23.teamC.controllers.PathfindingController;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.EdgeEntity;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.NodeEntity;
+import edu.wpi.cs3733.C23.teamC.pathfinding.costs.ElevatorCost;
 import edu.wpi.cs3733.C23.teamC.pathfinding.costs.PathfindingCost;
+import edu.wpi.cs3733.C23.teamC.pathfinding.costs.StairsCost;
 import edu.wpi.cs3733.C23.teamC.pathfinding.skips.PathfindingSkip;
 import java.util.*;
 import java.util.function.Function;
@@ -129,7 +131,7 @@ public class AstarPathfinder implements PathfindingAlgorithm {
         if (closedList.contains(otherNode)) continue;
 
         boolean addNode = true;
-        for (PathfindingSkip skip : controller.getSkips()) {
+        for (PathfindingSkip skip : getSkips()) {
           if (skip.shouldSkip(current, otherNode)) {
             // System.out.println("Skipping " + otherNode);
             addNode = false;
@@ -162,7 +164,7 @@ public class AstarPathfinder implements PathfindingAlgorithm {
   private double cost(NodeEntity current, NodeEntity n, NodeEntity goal) {
     double additionalCost = 0;
 
-    for (PathfindingCost cost : controller.getCosts()) {
+    for (PathfindingCost cost : getCosts()) {
       if (cost.doesUseCost(current, n)) additionalCost += cost.calculateCost(current, n);
     }
 
@@ -195,6 +197,12 @@ public class AstarPathfinder implements PathfindingAlgorithm {
     this.controller = controller;
   }
 
+  public AstarPathfinder(Map<String, NodeEntity> nodes, List<EdgeEntity> edges) {
+    this.nodes = nodes;
+    this.edges = edges;
+    this.controller = null;
+  }
+
   @Override
   public String toString() {
     return "A* Algorithm";
@@ -207,5 +215,17 @@ public class AstarPathfinder implements PathfindingAlgorithm {
     if (floor.equals("2")) return 2;
     if (floor.equals("3")) return 3;
     return 0;
+  }
+
+  private Collection<PathfindingCost> getCosts() {
+    if (controller != null) return controller.getCosts();
+
+    return List.of(new ElevatorCost(), new StairsCost());
+  }
+
+  private Collection<PathfindingSkip> getSkips() {
+    if (controller != null) return controller.getSkips();
+
+    return List.of();
   }
 }

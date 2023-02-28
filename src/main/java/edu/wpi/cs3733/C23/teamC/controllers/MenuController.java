@@ -28,6 +28,7 @@ public class MenuController {
   @FXML private MFXButton messagesButton;
   @FXML private Circle newMessageCircle;
   @FXML private MFXButton employeeEditButton;
+  @FXML private MFXButton kioskButton;
   private static MenuButton sUserProfile;
   private static Circle sNewMessageCircle;
   @Getter @Setter private static SelectedMessage selectedMessage;
@@ -119,6 +120,10 @@ public class MenuController {
 
   public void goToAboutPage(ActionEvent actionEvent) {
     Navigation.navigate(Screen.ABOUT_PAGE);
+  }
+
+  public void goToKiosk(ActionEvent actionEvent) {
+    KioskDialogController.showDialog();
   }
 
   public static void messageNotiOn() {

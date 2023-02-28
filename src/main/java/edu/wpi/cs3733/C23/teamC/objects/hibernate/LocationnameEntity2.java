@@ -82,4 +82,8 @@ public class LocationnameEntity2 {
   public int hashCode() {
     return Objects.hash(longname, shortname, locationtype);
   }
+
+  public String toString() {
+    return longname;
+  }
 }
