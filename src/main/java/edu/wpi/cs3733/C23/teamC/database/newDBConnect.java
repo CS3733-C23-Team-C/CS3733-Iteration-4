@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.C23.teamC.database;
 
 import edu.wpi.cs3733.C23.teamC.Main;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
+import edu.wpi.cs3733.C23.teamC.database.hibernate.*;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import jakarta.persistence.PersistenceException;
 import java.util.HashMap;
