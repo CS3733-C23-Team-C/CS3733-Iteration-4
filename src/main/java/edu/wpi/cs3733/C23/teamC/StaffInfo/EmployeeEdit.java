@@ -38,6 +38,42 @@ public class EmployeeEdit {
   @FXML private MFXFilterComboBox<String> ocupationDropDown;
   @FXML private Text successTxt;
 
+  @FXML private MFXButton fieldsEdit;
+  //  @FXML private MFXButton lastNameEdit;
+  //  @FXML private MFXButton passwordEdit;
+  @FXML private MFXButton fieldsSave;
+  //  @FXML private MFXButton lastNameSave;
+  //  @FXML private MFXButton passwordSave;
+
+  @FXML private Text successFirstName;
+  @FXML private Text successLastName;
+  @FXML private Text successPassword;
+  @FXML private Text staffID;
+  @FXML private Text errorTxt;
+
+  //    if (staffIDField().getText() != "" && staffIDField.getText() != "") {
+  //      String outputUsername = username.getText();
+  //      String outputPassword = password.getText();
+  //      System.out.println("This is the employee username " + outputUsername);
+  //      System.out.println("This is the employee password " + outputPassword);
+  //      s = Main.db.getStaff(outputUsername, outputPassword);
+
+  //  public static void screen() {
+  //    int duration = 3; // Duration of timer in seconds
+  //    ScreenSaver timerThread = new ScreenSaver(duration);
+  //    Thread thread = new Thread(timerThread);
+  //    thread.start();
+  //
+  //    try {
+  //      Thread.sleep(duration * 1000 + 100); // Sleep for a bit longer than the timer duration
+  //    } catch (InterruptedException e) {
+  //      e.printStackTrace();
+  //    }
+  //    System.out.println("this thread is about to be killed");
+  //
+  //    thread.interrupt();
+  //  }
+
   @FXML
   public void initialize() {
     Map<String, StaffEntity> staffMap = Main.db.getStaff();

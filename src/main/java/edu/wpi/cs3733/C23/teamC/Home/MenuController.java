@@ -82,7 +82,24 @@ public class MenuController {
   }
 
   public void goToEmployeeEdit(ActionEvent actionEvent) {
+
     Navigation.navigate(Screen.EMPLOYEE_EDIT);
+
+    //    Screen test;
+    //    test = Screen.EMPLOYEE_EDIT;
+    //
+    //    int duration = 3; // Duration of timer in seconds
+    //    ScreenSaver timerThread = new ScreenSaver(duration);
+    //    Thread thread = new Thread(timerThread);
+    //    thread.start(test);
+
+    //    try {
+    //      Thread.sleep(duration * 1000 + 100); // Sleep for a bit longer than the timer duration
+    //    } catch (InterruptedException e) {
+    //      e.printStackTrace();
+    //    }
+    // System.out.println("this thread is about to be killed");
+    // thread.interrupt();
   }
 
   public void showAssignedRequests(ActionEvent actionEvent) {

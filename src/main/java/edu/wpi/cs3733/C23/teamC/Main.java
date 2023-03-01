@@ -12,6 +12,7 @@ public class Main extends Thread {
   @Getter @Setter private static RepoFacade2 repo;
 
   @Getter private static Thread updaterThread;
+  @Getter private static Thread screenTimeout;
 
   public static void main(String[] args) {
     //    DatabaseConnect.connect();
@@ -25,8 +26,8 @@ public class Main extends Thread {
     db.importAll();
     AutoUpdate updater = new AutoUpdate();
     updaterThread = new Thread(updater, "AutoUpdater");
-
     updaterThread.start();
+
     App.launch(App.class, args);
 
     updater.stop();

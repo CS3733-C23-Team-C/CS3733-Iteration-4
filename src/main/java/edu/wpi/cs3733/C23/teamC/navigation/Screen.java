@@ -15,6 +15,8 @@ public enum Screen {
 
   FORGOT_PASSWORD_SECOND_SCREEN("views/ForgotPasswordSecondScreen.fxml"),
 
+  SCREEN_SAVER("views/ScreenSaver.fxml"),
+
   SERVICE_REQUEST_TRANSPORTATION("views/Transportation.fxml"),
   SERVICE_REQUEST_CLEANING("views/Cleaning.fxml"),
   SERVICE_REQUEST_SECURITY("views/Security.fxml"),
@@ -23,6 +25,7 @@ public enum Screen {
   EMPLOYEE_EDIT("views/EmployeeEdit.fxml"),
 
   LOG_IN_PAGE("views/LogInPage.fxml"),
+  LOG_IN_PAGE_BUTTON("views/ScreenSaver.fxml"),
 
   SIGN_UP_PAGE("views/SignUpPage.fxml"),
 
