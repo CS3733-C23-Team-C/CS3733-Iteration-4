@@ -256,7 +256,13 @@ public class StaffEntity implements Persistent, CSVExportable {
   @Override
   public String[] toCSV() {
     return new String[] {
-      getStaffid(), getFirstname(), getLastname(), getRole(), getPassword(), getNotes()
+      getStaffid(),
+      getFirstname(),
+      getLastname(),
+      getRole(),
+      getPassword(),
+      getNotes(),
+      Integer.toString(getPicid())
     };
   }
 
@@ -269,9 +275,10 @@ public class StaffEntity implements Persistent, CSVExportable {
       String lastname = csv[2];
       String role = csv[3];
       String password = csv[4];
-      // String notes = csv[5];
+      String notes = csv[5];
+      int picid = Integer.parseInt(csv[6]);
 
-      return new StaffEntity(staffid, firstname, lastname, role, password);
+      return new StaffEntity(staffid, firstname, lastname, role, password, notes, picid);
     }
   }
 }
