@@ -31,6 +31,7 @@ public class MenuController {
   @FXML private Circle newMessageCircle;
   @FXML private MFXButton employeeEditButton;
   @FXML private MFXButton kioskButton;
+  @FXML private MFXButton graphsButton;
   private static MenuButton sUserProfile;
   private static Circle sNewMessageCircle;
   @Getter @Setter private static SelectedMessage selectedMessage;
@@ -128,24 +129,23 @@ public class MenuController {
     Navigation.navigate(Screen.ABOUT_PAGE);
   }
 
-
   public void goToGraph(ActionEvent actionEvent) {
     Navigation.navigate(Screen.GRAPH);
   }
-    public void goToMovePage (ActionEvent actionEvent){
-      Navigation.navigate(Screen.MOVES);
-    }
 
-    public void goToKiosk (ActionEvent actionEvent){
-      KioskDialogController.showDialog();
-    }
+  public void goToMovePage(ActionEvent actionEvent) {
+    Navigation.navigate(Screen.MOVES);
+  }
 
-    public static void messageNotiOn () {
-      sNewMessageCircle.setVisible(true);
-    }
+  public void goToKiosk(ActionEvent actionEvent) {
+    KioskDialogController.showDialog();
+  }
 
-    public static void messageNotiOff () {
-      sNewMessageCircle.setVisible(false);
-    }
+  public static void messageNotiOn() {
+    sNewMessageCircle.setVisible(true);
+  }
 
+  public static void messageNotiOff() {
+    sNewMessageCircle.setVisible(false);
+  }
 }
