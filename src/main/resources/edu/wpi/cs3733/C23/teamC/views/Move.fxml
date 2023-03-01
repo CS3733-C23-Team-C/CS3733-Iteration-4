@@ -59,7 +59,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <MFXFilterComboBox fx:id="currentLocation" prefWidth="200.0">
+                              <MFXFilterComboBox fx:id="currentLocation" prefWidth="200.0" style="-fx-font-size: 15;">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
@@ -73,7 +73,7 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <MFXFilterComboBox fx:id="newLocation" prefWidth="200.0" />
+                              <MFXFilterComboBox fx:id="newLocation" prefWidth="200.0" style="-fx-font-size: 15;" />
                            </children></VBox>
                      </children>
                      <padding>

@@ -392,6 +392,9 @@ public class newDBConnect implements RepoFacade {
     message.deleteMessage(id);
   }
 
+  @Override
+  public void deleteAlert(AlertEntity entity) {}
+
   public void threadRefresh(int delay) {
     try {
       System.out.println("Auto update!");
@@ -486,4 +489,12 @@ public class newDBConnect implements RepoFacade {
   public int getNewAlertID() {
     return 0;
   }
+
+  @Override
+  public List<AlertStaff> getAlertStaff() {
+    return null;
+  }
+
+  @Override
+  public void deleteAlertStaff() {}
 }
