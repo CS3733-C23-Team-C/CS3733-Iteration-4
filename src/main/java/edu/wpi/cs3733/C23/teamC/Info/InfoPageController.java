@@ -63,7 +63,8 @@ public class InfoPageController {
             + "- You can delete the selected items by right-clicking the map and selecting Delete\n"
             + "- You can click and drag edges and nodes to move them around\n"
             + "- Moves and locations can be created via the right-click menu on the corresponding \ntable view\n"
-            + "- You can align nodes by selecting a single edge and using the align options in the \nright-click menu");
+            + "- You can align nodes by selecting a single edge and using the align options in the \nright-click menu"
+            + "- You can pan the map by middle-clicking and dragging, and zoom by scrolling");
   }
 
   public void goToHelpEmployee(ActionEvent actionEvent) {
