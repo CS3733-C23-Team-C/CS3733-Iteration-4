@@ -69,7 +69,7 @@ public class MoveController {
         new EventHandler<MouseEvent>() {
           @Override
           public void handle(MouseEvent event) {
-            currentLocation.show();
+            newLocation.show();
           }
         });
 
