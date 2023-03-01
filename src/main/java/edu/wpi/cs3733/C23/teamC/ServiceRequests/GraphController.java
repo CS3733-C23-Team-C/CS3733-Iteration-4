@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.C23.teamC.controllers;
+package edu.wpi.cs3733.C23.teamC.ServiceRequests;
 
 import edu.wpi.cs3733.C23.teamC.Main;
 import edu.wpi.cs3733.C23.teamC.Main.*;
