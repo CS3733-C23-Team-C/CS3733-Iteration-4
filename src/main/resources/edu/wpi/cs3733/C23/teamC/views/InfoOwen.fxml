@@ -40,7 +40,7 @@
                            <children>
                               <ImageView fitHeight="161.0" fitWidth="209.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
                                  <image>
-                                    <Image url="@../../../../../../../../../../../../Downloads/IMG_2811.jpg" />
+                                    <Image url="@../images/teamPics/Owen_Picture.jpg" />
                                  </image></ImageView>
                            </children>
                            <HBox.margin>

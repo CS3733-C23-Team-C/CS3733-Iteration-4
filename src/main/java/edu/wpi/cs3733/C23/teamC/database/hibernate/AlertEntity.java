@@ -1,9 +1,13 @@
 package edu.wpi.cs3733.C23.teamC.database.hibernate;
 
 import edu.wpi.cs3733.C23.teamC.Main;
+import edu.wpi.cs3733.C23.teamC.database.CSVExportable;
+import edu.wpi.cs3733.C23.teamC.database.CSVImporter;
 import edu.wpi.cs3733.C23.teamC.database.orm.DAOFacade;
 import edu.wpi.cs3733.C23.teamC.database.orm.Persistent;
 import jakarta.persistence.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -16,7 +20,7 @@ import org.hibernate.query.Query;
 
 @Entity
 @Table(name = "alerts", schema = "cdb", catalog = "teamcdb")
-public class AlertEntity implements Persistent {
+public class AlertEntity implements Persistent, CSVExportable {
   // private final SimpleObjectProperty<UUID> messageID = new SimpleObjectProperty<>();
 
   private final SimpleIntegerProperty alertid = new SimpleIntegerProperty();
@@ -223,6 +227,33 @@ public class AlertEntity implements Persistent {
       e.printStackTrace();
     } finally {
       session.close();
+    }
+  }
+
+  @Override
+  public String[] toCSV() {
+    return new String[] {Integer.toString(getAlertid()), getMessage(), getDate().toString()};
+  }
+
+  public static class Importer implements CSVImporter<AlertEntity> {
+    @Override
+    public AlertEntity fromCSV(String[] csv) {
+
+      int alertid = Integer.parseInt(csv[0]);
+      String message = csv[1];
+      java.sql.Date alertdate;
+
+      try {
+        String startDate = csv[2];
+        SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date date = sdf1.parse(startDate);
+        alertdate = new java.sql.Date(date.getTime());
+      } catch (ParseException e) {
+        throw new IllegalArgumentException(e);
+      }
+
+      // Constructor order is wrong
+      return new AlertEntity(alertid, alertdate, message);
     }
   }
 }
