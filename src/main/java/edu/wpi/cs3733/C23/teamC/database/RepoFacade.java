@@ -111,6 +111,8 @@ public interface RepoFacade {
 
   void deleteMessage(int messageid);
 
+  void deleteAlert(AlertEntity entity);
+
   // Submission methods
   StaffEntity getStaff(String Staffid, String password);
 

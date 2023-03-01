@@ -244,6 +244,11 @@ public class RepoFacadeAdapter implements RepoFacade {
   }
 
   @Override
+  public void deleteAlert(AlertEntity entity) {
+    repo.deleteAlert(entity);
+  }
+
+  @Override
   public StaffEntity getStaff(String Staffid, String password) {
     return repo.getStaff(Staffid, password);
   }

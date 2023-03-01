@@ -19,6 +19,7 @@ public class DBcsv {
   public static Map<String, LocationnameEntity> locationNames;
   public static List<MoveEntity> moves;
   public static Map<String, StaffEntity> staff;
+  public static Map<Integer, AlertEntity> alert;
   public static List<AlertStaff> alertstaff;
   public static Map<Integer, TransportationsubmissionEntity> transportationSubs;
   public static Map<Integer, CleaningsubmissionEntity> cleaningSubs;
@@ -32,6 +33,7 @@ public class DBcsv {
     locationNames = Main.db.getLocationnames();
     moves = Main.db.getMoves();
     staff = Main.db.getStaff();
+    alert = Main.db.getAlerts();
     alertstaff = Main.db.getAlertStaff();
     transportationSubs = Main.db.getTransportationSubs();
     cleaningSubs = Main.db.getCleaningSubs();
@@ -47,6 +49,7 @@ public class DBcsv {
     locationNames = Main.db.getLocationnames();
     moves = Main.db.getMoves();
     staff = Main.db.getStaff();
+    alert = Main.db.getAlerts();
     alertstaff = Main.db.getAlertStaff();
     transportationSubs = Main.db.getTransportationSubs();
     cleaningSubs = Main.db.getCleaningSubs();
@@ -63,6 +66,7 @@ public class DBcsv {
     String locationnamecsv = backup_folder + "\\" + "locationname.csv";
     String movecsv = backup_folder + "\\" + "move.csv";
     String staffcsv = backup_folder + "\\" + "staff.csv";
+    String alertcsv = backup_folder + "\\" + "alert.csv";
     String alertstaffcsv = backup_folder + "\\" + "alertstaff.csv";
     String cleaningcsv = backup_folder + "\\" + "cleaningsubmission.csv";
     String transportcsv = backup_folder + "\\" + "transportationsubmission.csv";
@@ -74,6 +78,7 @@ public class DBcsv {
     CSVReader nodeReader = new CSVReader(new FileReader(nodecsv));
     List<String[]> nodeBody = nodeReader.readAll();
     nodeReader.close();
+    System.out.println("Read nodes");
 
     // Read edges
     CSVReader edgeReader = new CSVReader(new FileReader(edgecsv));
@@ -94,6 +99,12 @@ public class DBcsv {
     CSVReader staffReader = new CSVReader(new FileReader(staffcsv));
     List<String[]> staffBody = staffReader.readAll();
     staffReader.close();
+
+    // Read alert
+    CSVReader alertReader = new CSVReader(new FileReader(alertcsv));
+    List<String[]> alertBody = alertReader.readAll();
+    alertReader.close();
+    System.out.println("Read alert");
 
     // Read alertsaff
     CSVReader alertStaffReader = new CSVReader(new FileReader(alertstaffcsv));
@@ -152,18 +163,11 @@ public class DBcsv {
     }
 
     Main.db.deleteAlertStaff();
-    //    Session session = Main.db.getSession();
-    //    Transaction tx = null;
-    //    try {
-    //      tx = session.beginTransaction();
-    //      Query q = session.createNativeQuery("DELETE FROM cdb.alertstaff");
-    //      q.executeUpdate();
-    //    } catch (HibernateException e) {
-    //      if (tx != null) tx.rollback();
-    //      e.printStackTrace();
-    //    } finally {
-    //      session.close();
-    //    }
+
+    List<AlertEntity> alertKeys = List.copyOf(alert.values());
+    for (AlertEntity alertEntity : alertKeys) {
+      Main.db.deleteAlert(alertEntity);
+    }
 
     List<StaffEntity> staffKeys = List.copyOf(staff.values());
     for (StaffEntity staffEntity : staffKeys) {
@@ -205,6 +209,9 @@ public class DBcsv {
     // Insert staff
     csv2DB(staffBody, new StaffEntity.Importer()).forEach(Main.db::addStaff);
 
+    // Insert alert
+    csv2DB(alertBody, new AlertEntity.Importer()).forEach(Main.db::addAlert);
+
     // Insert alertstaff
     csv2DB(alertStaffBody, new AlertStaff.Importer());
 
@@ -242,6 +249,7 @@ public class DBcsv {
     File locationnamecsv = new File(folder + "\\" + "locationname.csv");
     File movecsv = new File(folder + "\\" + "move.csv");
     File staffcsv = new File(folder + "\\" + "staff.csv");
+    File alertcsv = new File(folder + "\\" + "alert.csv");
     File alertstaffcsv = new File(folder + "\\" + "alertstaff.csv");
     File transportationsubmissioncsv = new File(folder + "\\" + "transportationsubmission.csv");
     File cleaningsubmissioncsv = new File(folder + "\\" + "cleaningsubmission.csv");
@@ -263,6 +271,9 @@ public class DBcsv {
 
     // Create staff
     writeCSV(staff.values(), staffcsv);
+
+    // Create alert
+    writeCSV(alert.values(), alertcsv);
 
     // Create alert staff
     writeCSV(alertstaff, alertstaffcsv);
