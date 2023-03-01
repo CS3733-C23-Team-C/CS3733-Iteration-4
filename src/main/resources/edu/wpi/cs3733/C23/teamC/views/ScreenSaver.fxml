@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane fx:id="LoginStackPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.controllers.LoginPageButton">
+    <children>
+        <BorderPane fx:id="loginPane" prefHeight="400.0" prefWidth="600.0">
+            <center>
+                <HBox BorderPane.alignment="CENTER">
+                    <children>
+                        <VBox alignment="CENTER" style="-fx-background-color: #012D5A;" HBox.hgrow="ALWAYS">
+                            <children>
+                                <ImageView fitHeight="105.0" fitWidth="85.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../images/logo.PNG" />
+                                    </image>
+                                </ImageView>
+                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="BWH">
+                                    <font>
+                                        <Font size="24.0" />
+                                    </font>
+                                </Text>
+                                <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Brigham and Women's Hospital" textAlignment="CENTER" wrappingWidth="201.759765625">
+                                    <font>
+                                        <Font size="20.0" />
+                                    </font>
+                                </Text>
+                        <MFXButton fx:id="logButton" onAction="#loginButton" prefHeight="34.0" prefWidth="112.0" style="-fx-background-color: #F6BD38;" text="Log In">
+                           <VBox.margin>
+                              <Insets top="15.0" />
+                           </VBox.margin>
+                        </MFXButton>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </center>
+        </BorderPane>
+    </children>
+</StackPane>

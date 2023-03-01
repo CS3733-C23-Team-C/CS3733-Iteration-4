@@ -1,40 +1,48 @@
 package edu.wpi.cs3733.C23.teamC.controllers;
+
+import edu.wpi.cs3733.C23.teamC.navigation.Navigation;
 import edu.wpi.cs3733.C23.teamC.navigation.Screen;
-import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-public class ScreenSaver implements Runnable {
-  private int duration;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+public class ScreenSaver extends Thread {
+  private final int duration;
+  private static LocalTime lastMove;
 
   public ScreenSaver(int duration) {
     this.duration = duration;
   }
 
+  //  @Override
+  //  public void run() {
+  //    log.info("Screensaver shmovving");
+  //    try {
+  //      while (true) {
+  //        Thread.sleep(1000L * duration);
+  //        if (!hasMoved) {
+  //          Navigation.navigate(Screen.LOG_IN_PAGE_BUTTON);
+  //          log.info("SCREENSAVER ACTIVATED");
+  //        }
+  //
+  //        setMoved(false);
+  //      }
+  //    } catch (InterruptedException e) {
+  //      log.info("Ending Screensaver Thread");
+  //      this.interrupt();
+  //    }
+  //  }
 
-  public void start(FXML test) {
-
-    test.setOnMouseMoved(new EventHandler<MouseEvent>() {
-      @Override
-      public void handle(MouseEvent event) {
-        label.setText("Mouse moved to (" + event.getX() + ", " + event.getY() + ")");
-      }
-
-
-      public void run() {
-
-
-    try {
-      System.out.println("Timer started...");
-      Thread.sleep(duration * 1000);
-      System.out.println("Timer ended.");
-    } catch (InterruptedException e) {
-      System.out.println("Timer interrupted.");
-      return;
+  public void run() {
+    if (lastMove == null) return;
+    if (lastMove.plus(duration, ChronoUnit.SECONDS).isBefore(LocalTime.now())) {
+      Navigation.navigate(Screen.LOG_IN_PAGE);
+      Navigation.navigate(Screen.LOG_IN_PAGE_BUTTON);
     }
+  }
+
+  public static synchronized void setMoved(boolean moved) {
+    lastMove = LocalTime.now();
   }
 }

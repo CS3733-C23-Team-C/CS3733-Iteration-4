@@ -1,11 +1,12 @@
 package edu.wpi.cs3733.C23.teamC;
 
+import edu.wpi.cs3733.C23.teamC.controllers.ScreenSaver;
 import edu.wpi.cs3733.C23.teamC.navigation.Navigation;
 import edu.wpi.cs3733.C23.teamC.navigation.Screen;
 import edu.wpi.cs3733.C23.teamC.objects.ImageLoader;
 import edu.wpi.cs3733.C23.teamC.objects.hibernate.StaffEntity;
-import java.io.IOException;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -14,11 +15,18 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 @Slf4j
 public class App extends Application {
 
   @Setter @Getter private static Stage primaryStage;
   @Setter @Getter private static BorderPane rootPane;
+
+  private ScheduledExecutorService runEveryFiveSec;
 
   // @Getter private static SubmissionCollector totalSubmissions = new SubmissionCollector();
 
@@ -31,6 +39,15 @@ public class App extends Application {
     log.info("Starting Up");
     user = new StaffEntity();
     ImageLoader.loadImages();
+
+    ScreenSaver screenSaver = new ScreenSaver(60);
+    Platform.runLater(screenSaver);
+
+    runEveryFiveSec = Executors.newSingleThreadScheduledExecutor();
+    runEveryFiveSec.scheduleAtFixedRate(
+        () -> Platform.runLater(screenSaver), 5, 5, TimeUnit.SECONDS);
+
+    ScreenSaver.setMoved(true);
     //    user.setStaffid("0000");
     //    user.setFirstname("Joe");
     //    user.setLastname("Mama");
@@ -60,6 +77,7 @@ public class App extends Application {
   @Override
   public void stop() {
     log.info("Shutting Down");
+    runEveryFiveSec.shutdown();
   }
 
   public static void setUser(StaffEntity newUser) {

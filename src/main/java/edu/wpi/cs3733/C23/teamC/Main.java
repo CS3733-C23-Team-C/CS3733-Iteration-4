@@ -28,10 +28,6 @@ public class Main extends Thread {
     updaterThread = new Thread(updater, "AutoUpdater");
     updaterThread.start();
 
-    //    ScreenSaver screenSaver = new ScreenSaver();
-    //    screenTimeout = new Thread(screenSaver, "ScreenSaverTimer");
-    //    screenTimeout.start();
-
     App.launch(App.class, args);
     //    }
     updater.stop();

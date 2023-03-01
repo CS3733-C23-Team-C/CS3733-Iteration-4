@@ -72,13 +72,13 @@ public class MenuController {
 
     Navigation.navigate(Screen.EMPLOYEE_EDIT);
 
-    Screen test;
-    test = Screen.EMPLOYEE_EDIT;
-
-    int duration = 3; // Duration of timer in seconds
-    ScreenSaver timerThread = new ScreenSaver(duration);
-    Thread thread = new Thread(timerThread);
-    thread.start(test);
+    //    Screen test;
+    //    test = Screen.EMPLOYEE_EDIT;
+    //
+    //    int duration = 3; // Duration of timer in seconds
+    //    ScreenSaver timerThread = new ScreenSaver(duration);
+    //    Thread thread = new Thread(timerThread);
+    //    thread.start(test);
 
     //    try {
     //      Thread.sleep(duration * 1000 + 100); // Sleep for a bit longer than the timer duration
@@ -86,7 +86,7 @@ public class MenuController {
     //      e.printStackTrace();
     //    }
     // System.out.println("this thread is about to be killed");
-       thread.interrupt();
+    // thread.interrupt();
   }
 
   public void showAssignedRequests(ActionEvent actionEvent) {
