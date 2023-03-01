@@ -32,6 +32,7 @@ public class GraphController {
   @FXML private NumberAxis Yaxis;
   @FXML private MFXButton ClearButton;
   private StaffEntity user;
+  private ObservableList<String> staff = FXCollections.observableArrayList();
   //  @FXML private Text ErrorMessage;
 
   public void initialize() {
@@ -49,19 +50,18 @@ public class GraphController {
       AllEmployees.setVisible(false);
       AllEmployee.setVisible(false);
     }
-    staffIDField.setText(user.getStaffid());
     GraphButton.setDisable(true);
+
+    for (int i = 0; i < staff.size(); i++) {
+      if (user.getStaffid().equals(staff.get(i))) staffIDField.selectIndex(i);
+    }
   }
 
   public void
       validateButton() { // ensures that information has been filled in before allowing submission
     boolean valid = false;
-    if (StartDate.getValue() != null
-        && EndDate.getValue() != null
-        && request.getValue() != null
-        && (AllEmployees.isSelected()
-            || staffIDField.getValue() != null
-            || staffIDField.isDisabled())) valid = true;
+    if (StartDate.getValue() != null && EndDate.getValue() != null && request.getValue() != null)
+      valid = true;
     GraphButton.setDisable(!valid);
   }
 
@@ -85,15 +85,12 @@ public class GraphController {
     // Staff ID
     if (AllEmployees.isVisible() && AllEmployees.isSelected()) {
       Person = "All";
-    } else if (Main.db.getStaff(EMID) == null) {
-      // ErrorMessage.setText("This user Does on Excise.");
-      // ErrorMessage.setVisible(true);
-      return;
     } else {
       if (staffIDField.isDisable()) {
         Person = userID;
       } else {
         Person = staffIDField.getValue();
+        System.out.println("here");
       }
       ThePerson =
           Main.db.getStaff(Person).getFirstname() + " " + Main.db.getStaff(Person).getLastname();
