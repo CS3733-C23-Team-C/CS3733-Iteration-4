@@ -1,6 +1,6 @@
 package edu.wpi.cs3733.C23.teamC.database;
 
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
+import edu.wpi.cs3733.C23.teamC.database.hibernate.*;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +36,8 @@ public interface RepoFacade {
 
   Map<Integer, MessagesEntity> getMessages(String id, int lastid);
 
+  Map<Integer, AlertEntity> getAlerts();
+
   // Add method
   // Submissions
   void addAudio(AudiosubmissionEntity submission);
@@ -60,6 +62,8 @@ public interface RepoFacade {
   boolean addMove(MoveEntity submission);
 
   void addMessage(MessagesEntity message);
+
+  void addAlert(AlertEntity alert);
 
   // Get single methods
   // Submissions
@@ -129,4 +133,6 @@ public interface RepoFacade {
   String getUser(MFXTextField staffID);
 
   AlertEntity getAlert(int id);
+
+  int getNewAlertID();
 }

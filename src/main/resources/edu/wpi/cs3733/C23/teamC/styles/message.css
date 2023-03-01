@@ -35,3 +35,17 @@
     -fx-border-width: 3;
     -fx-padding: 5, 5, 5, 5;
 }
+
+.alert{
+    -fx-border-color: #A61E00;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-inserts: 0;
+    -fx-border-radius: 10;
+    -fx-border-width: 3;
+    -fx-padding: 5, 5, 5, 5;
+}
+
+.alert:hover{
+    -fx-border-color: #012D5A;
+}

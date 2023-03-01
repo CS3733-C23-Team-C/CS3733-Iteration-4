@@ -34,9 +34,12 @@ public enum Screen {
 
   ASSIGNED_REQUESTS("views/AssignedRequests.fxml"),
 
+
   GRAPH("views/Graphing.fxml"),
 
-  MESSAGES("views/Messages.fxml");
+  MESSAGES("views/Messages.fxml"),
+
+  MOVES("views/Move.fxml");
 
   private final String filename;
 

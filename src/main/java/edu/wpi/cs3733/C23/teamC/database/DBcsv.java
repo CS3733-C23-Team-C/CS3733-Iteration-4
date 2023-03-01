@@ -4,7 +4,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import edu.wpi.cs3733.C23.teamC.Main;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
+import edu.wpi.cs3733.C23.teamC.database.hibernate.*;
 import java.io.*;
 import java.text.ParseException;
 import java.time.LocalDate;

@@ -5,8 +5,8 @@ import edu.wpi.cs3733.C23.teamC.database.dao.EdgeDAO;
 import edu.wpi.cs3733.C23.teamC.database.dao.MoveDAO;
 import edu.wpi.cs3733.C23.teamC.database.dao.NodeDAO;
 import edu.wpi.cs3733.C23.teamC.database.dao.StaffDAO;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
-import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
+import edu.wpi.cs3733.C23.teamC.database.hibernate.*;
+import edu.wpi.cs3733.C23.teamC.database.orm.DAOFacade;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
@@ -518,6 +518,7 @@ public class DatabaseService implements RepoFacade2 {
     return id;
   }
 
+  @Override
   public int getNewAlertID() {
     Session session = orm.getSession();
     Transaction tx = null;
@@ -526,7 +527,7 @@ public class DatabaseService implements RepoFacade2 {
 
     try {
       tx = session.beginTransaction();
-      List n = session.createNativeQuery("SELECT MAX(cdb.alerts.alertid) FROM cdb.pics").list();
+      List n = session.createNativeQuery("SELECT MAX(cdb.alerts.alertid) FROM cdb.alerts").list();
       if (n != null) {
         id = (int) n.get(0);
       }
@@ -537,7 +538,7 @@ public class DatabaseService implements RepoFacade2 {
     } finally {
       session.close();
     }
-    return id;
+    return id + 1;
   }
 
   @Override
