@@ -55,10 +55,15 @@ public class InfoPageController {
     vboxText.setAlignment(Pos.TOP_LEFT);
     infoMessage.setText(
         "Map Editor Page\n\n"
-            + "- Can be used to create/delete nodes, edges, and moves\n"
-            + "- Select multiple objects by using shift + left click\n"
-            + "- Right click to select add or delete\n"
-            + "- Nodes, edges, and moves can be created through the pane on the right");
+            + "- Can be used to create/delete nodes, edges, moves, and locations\n"
+            + "- Select nodes and edges by clicking on them or by clicking and dragging on the map\n"
+            + "- Selecting something will deselect everything else. You can override this by holding \nSHIFT\n"
+            + "- Create nodes by right-clicking on the map > Add Node. Don't forget to assign a building \nusing the table view!\n"
+            + "- To create edges, select the nodes you want to connect and right-click > Connect Nodes\n"
+            + "- You can delete the selected items by right-clicking the map and selecting Delete\n"
+            + "- You can click and drag edges and nodes to move them around\n"
+            + "- Moves and locations can be created via the right-click menu on the corresponding \ntable view\n"
+            + "- You can align nodes by selecting a single edge and using the align options in the \nright-click menu");
   }
 
   public void goToHelpEmployee(ActionEvent actionEvent) {
