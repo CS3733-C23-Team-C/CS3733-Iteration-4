@@ -14,6 +14,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.text.Text;
 
 public class GraphController {
 
@@ -26,9 +27,27 @@ public class GraphController {
   @FXML private LineChart<String, Integer> CoolGraph;
   @FXML private CategoryAxis Xaxis;
   @FXML private NumberAxis Yaxis;
+  @FXML private MFXButton ClearButton;
+  @FXML private Text ErrorMessage;
 
   public void initialize() {
     request.getItems().addAll("ALL", "Audio", "Cleaning", "Computer", "Transportation", "Security");
+  }
+
+  public void
+      validateButton() { // ensures that information has been filled in before allowing submission
+    boolean valid = false;
+    if (StartDate.getValue() != null
+        && EndDate.getValue() != null
+        && request.getValue() != null
+        && (AllEmployees.isSelected() == true || !assignedStaffID.getText().equals("")))
+      valid = true;
+    GraphButton.setDisable(!valid);
+  }
+
+  public void ClearGraph() {
+    CoolGraph.getData().clear();
+    CoolGraph.setVisible(false);
   }
 
   public void MakeGraph() throws ParseException {
@@ -42,6 +61,8 @@ public class GraphController {
     if (AllEmployees.isSelected()) {
       Person = "All";
     } else if (Main.db.getStaff(EMID) == null) {
+      ErrorMessage.setText("This user Does on Excise.");
+      ErrorMessage.setVisible(true);
       return;
     } else {
       Person = assignedStaffID.getText();
@@ -55,21 +76,19 @@ public class GraphController {
     LocalDate GetEDate = EndDate.getValue();
     Date Enddate = Date.from(GetEDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-    Xaxis.setLabel("Date");
+    if (Startdate.compareTo(Enddate) > 0) {
+      ErrorMessage.setText("The End date is before the Start Date.");
+      ErrorMessage.setVisible(true);
+      return;
+    }
+
+    Xaxis.setLabel("Dates");
     // Xaxis.setAutoRanging(true);
-    Yaxis.setLabel("Number of assigned requests");
+    Yaxis.setLabel("Requests");
     // Yaxis.setAutoRanging(true);
     String formatedStartDate = new SimpleDateFormat("yyyy-MM-dd").format(Startdate);
     String formatedEndDate = new SimpleDateFormat("yyyy-MM-dd").format(Enddate);
-    CoolGraph.setTitle(
-        "Chart of "
-            + request
-            + " From "
-            + formatedStartDate
-            + " to "
-            + formatedEndDate
-            + " for "
-            + ThePerson);
+    CoolGraph.setTitle("Chart of Request");
 
     XYChart.Series series1 = new XYChart.Series();
     series1.setName("Portfolio 1");
@@ -129,18 +148,20 @@ public class GraphController {
         }
 
         while (idate.compareTo(Enddate) != 0) {
-          theDate = idate.toString();
+          theDate = new SimpleDateFormat("dd/MM").format(idate);
 
           if (map.get(idate) != null) {
             series1.getData().add(new XYChart.Data(theDate, map.get(idate)));
-          }
+          } else series1.getData().add(new XYChart.Data(theDate, 0));
 
           Calendar calendar = Calendar.getInstance();
           calendar.setTime(idate);
           calendar.add(Calendar.DATE, 1);
           idate = calendar.getTime();
         }
-
+        String sDate = new SimpleDateFormat("dd/MM").format(Startdate);
+        String eDate = new SimpleDateFormat("dd/MM").format(Enddate);
+        series1.setName(Request + " From " + sDate + " to " + eDate + " for " + Person);
       }
 
       // Audio
@@ -156,17 +177,20 @@ public class GraphController {
         }
 
         while (idate.compareTo(Enddate) != 0) {
-          theDate = idate.toString();
+          theDate = new SimpleDateFormat("dd/MM").format(idate);
 
           if (map.get(idate) != null) {
             series1.getData().add(new XYChart.Data(theDate, map.get(idate)));
-          }
+          } else series1.getData().add(new XYChart.Data(theDate, 0));
 
           Calendar calendar = Calendar.getInstance();
           calendar.setTime(idate);
           calendar.add(Calendar.DATE, 1);
           idate = calendar.getTime();
         }
+        String sDate = new SimpleDateFormat("dd/MM").format(Startdate);
+        String eDate = new SimpleDateFormat("dd/MM").format(Enddate);
+        series1.setName(Request + " From " + sDate + " to " + eDate + " for " + Person);
       }
 
       // Cleaning
@@ -184,17 +208,20 @@ public class GraphController {
         }
 
         while (idate.compareTo(Enddate) != 0) {
-          theDate = idate.toString();
+          theDate = new SimpleDateFormat("dd/MM").format(idate);
 
           if (map.get(idate) != null) {
             series1.getData().add(new XYChart.Data(theDate, map.get(idate)));
-          }
+          } else series1.getData().add(new XYChart.Data(theDate, 0));
 
           Calendar calendar = Calendar.getInstance();
           calendar.setTime(idate);
           calendar.add(Calendar.DATE, 1);
           idate = calendar.getTime();
         }
+        String sDate = new SimpleDateFormat("dd/MM").format(Startdate);
+        String eDate = new SimpleDateFormat("dd/MM").format(Enddate);
+        series1.setName(Request + " From " + sDate + " to " + eDate + " for " + Person);
 
       }
 
@@ -213,17 +240,20 @@ public class GraphController {
         }
 
         while (idate.compareTo(Enddate) != 0) {
-          theDate = idate.toString();
+          theDate = new SimpleDateFormat("dd/MM").format(idate);
 
           if (map.get(idate) != null) {
             series1.getData().add(new XYChart.Data(theDate, map.get(idate)));
-          }
+          } else series1.getData().add(new XYChart.Data(theDate, 0));
 
           Calendar calendar = Calendar.getInstance();
           calendar.setTime(idate);
           calendar.add(Calendar.DATE, 1);
           idate = calendar.getTime();
         }
+        String sDate = new SimpleDateFormat("dd/MM").format(Startdate);
+        String eDate = new SimpleDateFormat("dd/MM").format(Enddate);
+        series1.setName(Request + " From " + sDate + " to " + eDate + " for " + Person);
 
         // Transports
       } else if (Request.equals("Transportation")) {
@@ -240,17 +270,20 @@ public class GraphController {
         }
 
         while (idate.compareTo(Enddate) != 0) {
-          theDate = idate.toString();
+          theDate = new SimpleDateFormat("dd/MM").format(idate);
 
           if (map.get(idate) != null) {
             series1.getData().add(new XYChart.Data(theDate, map.get(idate)));
-          }
+          } else series1.getData().add(new XYChart.Data(theDate, 0));
 
           Calendar calendar = Calendar.getInstance();
           calendar.setTime(idate);
           calendar.add(Calendar.DATE, 1);
           idate = calendar.getTime();
         }
+        String sDate = new SimpleDateFormat("dd/MM").format(Startdate);
+        String eDate = new SimpleDateFormat("dd/MM").format(Enddate);
+        series1.setName(Request + " From " + sDate + " to " + eDate + " for " + Person);
 
         // Security
       } else if (Request.equals("Security")) {
@@ -266,17 +299,20 @@ public class GraphController {
         }
 
         while (idate.compareTo(Enddate) != 0) {
-          theDate = idate.toString();
+          theDate = new SimpleDateFormat("dd/MM").format(idate);
 
           if (map.get(idate) != null) {
             series1.getData().add(new XYChart.Data(theDate, map.get(idate)));
-          }
+          } else series1.getData().add(new XYChart.Data(theDate, 0));
 
           Calendar calendar = Calendar.getInstance();
           calendar.setTime(idate);
           calendar.add(Calendar.DATE, 1);
           idate = calendar.getTime();
         }
+        String sDate = new SimpleDateFormat("dd/MM").format(Startdate);
+        String eDate = new SimpleDateFormat("dd/MM").format(Enddate);
+        series1.setName(Request + " From " + sDate + " to " + eDate + " for " + Person);
       }
     }
 
@@ -317,17 +353,20 @@ public class GraphController {
         }
 
         while (idate.compareTo(Enddate) != 0) {
-          theDate = idate.toString();
+          theDate = new SimpleDateFormat("dd/MM").format(idate);
 
           if (map.get(idate) != null) {
             series1.getData().add(new XYChart.Data(theDate, map.get(idate)));
-          }
+          } else series1.getData().add(new XYChart.Data(theDate, 0));
 
           Calendar calendar = Calendar.getInstance();
           calendar.setTime(idate);
           calendar.add(Calendar.DATE, 1);
           idate = calendar.getTime();
         }
+        String sDate = new SimpleDateFormat("dd/MM").format(Startdate);
+        String eDate = new SimpleDateFormat("dd/MM").format(Enddate);
+        series1.setName(Request + " From " + sDate + " to " + eDate + " for ALL");
 
       }
 
@@ -342,17 +381,20 @@ public class GraphController {
         }
 
         while (idate.compareTo(Enddate) != 0) {
-          theDate = idate.toString();
+          theDate = new SimpleDateFormat("dd/MM").format(idate);
 
           if (map.get(idate) != null) {
             series1.getData().add(new XYChart.Data(theDate, map.get(idate)));
-          }
+          } else series1.getData().add(new XYChart.Data(theDate, 0));
 
           Calendar calendar = Calendar.getInstance();
           calendar.setTime(idate);
           calendar.add(Calendar.DATE, 1);
           idate = calendar.getTime();
         }
+        String sDate = new SimpleDateFormat("dd/MM").format(Startdate);
+        String eDate = new SimpleDateFormat("dd/MM").format(Enddate);
+        series1.setName(Request + " From " + sDate + " to " + eDate + " for ALL");
       }
 
       // Cleaning
@@ -368,17 +410,20 @@ public class GraphController {
         }
 
         while (idate.compareTo(Enddate) != 0) {
-          theDate = idate.toString();
+          theDate = new SimpleDateFormat("dd/MM").format(idate);
 
           if (map.get(idate) != null) {
             series1.getData().add(new XYChart.Data(theDate, map.get(idate)));
-          }
+          } else series1.getData().add(new XYChart.Data(theDate, 0));
 
           Calendar calendar = Calendar.getInstance();
           calendar.setTime(idate);
           calendar.add(Calendar.DATE, 1);
           idate = calendar.getTime();
         }
+        String sDate = new SimpleDateFormat("dd/MM").format(Startdate);
+        String eDate = new SimpleDateFormat("dd/MM").format(Enddate);
+        series1.setName(Request + " From " + sDate + " to " + eDate + " for ALL");
 
       }
 
@@ -395,17 +440,20 @@ public class GraphController {
         }
 
         while (idate.compareTo(Enddate) != 0) {
-          theDate = idate.toString();
+          theDate = new SimpleDateFormat("dd/MM").format(idate);
 
           if (map.get(idate) != null) {
             series1.getData().add(new XYChart.Data(theDate, map.get(idate)));
-          }
+          } else series1.getData().add(new XYChart.Data(theDate, 0));
 
           Calendar calendar = Calendar.getInstance();
           calendar.setTime(idate);
           calendar.add(Calendar.DATE, 1);
           idate = calendar.getTime();
         }
+        String sDate = new SimpleDateFormat("dd/MM").format(Startdate);
+        String eDate = new SimpleDateFormat("dd/MM").format(Enddate);
+        series1.setName(Request + " From " + sDate + " to " + eDate + " for ALL");
 
         // Transports
       } else if (Request.equals("Transportation")) {
@@ -420,17 +468,20 @@ public class GraphController {
         }
 
         while (idate.compareTo(Enddate) != 0) {
-          theDate = idate.toString();
+          theDate = new SimpleDateFormat("dd/MM").format(idate);
 
           if (map.get(idate) != null) {
             series1.getData().add(new XYChart.Data(theDate, map.get(idate)));
-          }
+          } else series1.getData().add(new XYChart.Data(theDate, 0));
 
           Calendar calendar = Calendar.getInstance();
           calendar.setTime(idate);
           calendar.add(Calendar.DATE, 1);
           idate = calendar.getTime();
         }
+        String sDate = new SimpleDateFormat("dd/MM").format(Startdate);
+        String eDate = new SimpleDateFormat("dd/MM").format(Enddate);
+        series1.setName(Request + " From " + sDate + " to " + eDate + " for ALL");
 
         // Security
       } else if (Request.equals("Security")) {
@@ -444,21 +495,25 @@ public class GraphController {
         }
 
         while (idate.compareTo(Enddate) != 0) {
-          theDate = idate.toString();
+          theDate = new SimpleDateFormat("dd/MM").format(idate);
 
           if (map.get(idate) != null) {
             series1.getData().add(new XYChart.Data(theDate, map.get(idate)));
-          }
+          } else series1.getData().add(new XYChart.Data(theDate, 0));
 
           Calendar calendar = Calendar.getInstance();
           calendar.setTime(idate);
           calendar.add(Calendar.DATE, 1);
           idate = calendar.getTime();
         }
+        String sDate = new SimpleDateFormat("dd/MM").format(Startdate);
+        String eDate = new SimpleDateFormat("dd/MM").format(Enddate);
+        series1.setName(Request + " From " + sDate + " to " + eDate + " for ALL");
       }
     }
 
     CoolGraph.getData().addAll(series1);
     CoolGraph.setVisible(true);
+    ErrorMessage.setVisible(false);
   }
 }

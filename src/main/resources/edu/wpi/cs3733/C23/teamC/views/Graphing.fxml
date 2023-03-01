@@ -121,11 +121,11 @@
                                 <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                             </padding>
                         </HBox>
-                        <HBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0">
+                        <HBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0">
                             <children>
                         <LineChart fx:id="CoolGraph" visible="false">
                            <xAxis>
-                              <CategoryAxis fx:id="Xaxis" side="BOTTOM" animated="false"/>
+                              <CategoryAxis fx:id="Xaxis" animated="false" side="BOTTOM" />
                            </xAxis>
                            <yAxis>
                               <NumberAxis fx:id="Yaxis" side="LEFT" />
@@ -134,6 +134,11 @@
                             </children></HBox>
                         <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
                             <children>
+                        <MFXButton fx:id="ClearGraph" minWidth="150.0" onAction="#ClearGraph" style="-fx-background-color: #012D5A;" text="Clear Graph" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </MFXButton>
                                 <MFXButton fx:id="GraphButton" minWidth="150.0" onAction="#MakeGraph" style="-fx-background-color: #009CA6;" text="Make Graph" textFill="WHITE">
                                     <font>
                                         <Font size="15.0" />
