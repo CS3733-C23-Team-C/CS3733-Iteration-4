@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.C23.teamC.database.dao;
 
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.EdgeEntity;
-import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
+import edu.wpi.cs3733.C23.teamC.database.hibernate.EdgeEntity;
+import edu.wpi.cs3733.C23.teamC.database.orm.DAOFacade;
 
 public final class EdgeDAO extends ListDAOBase<EdgeEntity> {
   private static EdgeDAO instance;
