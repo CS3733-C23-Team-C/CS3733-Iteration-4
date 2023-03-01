@@ -19,7 +19,7 @@
 
 <BorderPane onKeyPressed="#keyPress" prefHeight="498.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.Pathfinding.KioskScreen">
    <top>
-      <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" onKeyPressed="#keyPress" prefHeight="150.0" spacing="10.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" onKeyPressed="#keyPress" prefHeight="100.0" spacing="10.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER">
          <children>
             <ImageView fitHeight="92.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -35,9 +35,9 @@
       </HBox>
    </top>
    <bottom>
-      <StackPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" BorderPane.alignment="CENTER">
+      <StackPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="100.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="150.0" onKeyPressed="#keyPress" prefHeight="150.0" spacing="10.0" style="-fx-background-color: #012D5A;">
+            <HBox alignment="CENTER" onKeyPressed="#keyPress" spacing="10.0" style="-fx-background-color: #012D5A;">
                <children>
                   <Text fx:id="rightNode" fill="WHITE" onKeyPressed="#keyPress" strokeType="OUTSIDE" strokeWidth="0.0" text="Right Node" textAlignment="CENTER">
                      <font>
@@ -51,13 +51,13 @@
                   </ImageView>
                </children>
             </HBox>
-            <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+            <HBox alignment="BOTTOM_RIGHT" spacing="5.0">
                <children>
                   <MFXButton onAction="#changeSides" text="Side" />
                   <MFXButton onAction="#switchEdge" text="Edge" />
                </children>
                <StackPane.margin>
-                  <Insets bottom="5.0" />
+                  <Insets bottom="5.0" right="5.0" />
                </StackPane.margin>
             </HBox>
          </children>
