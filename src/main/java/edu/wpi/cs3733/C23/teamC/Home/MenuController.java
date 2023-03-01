@@ -31,6 +31,7 @@ public class MenuController {
   @FXML private Circle newMessageCircle;
   @FXML private MFXButton employeeEditButton;
   @FXML private MFXButton kioskButton;
+  @FXML private MFXButton graphsButton;
   private static MenuButton sUserProfile;
   private static Circle sNewMessageCircle;
   @Getter @Setter private static SelectedMessage selectedMessage;
