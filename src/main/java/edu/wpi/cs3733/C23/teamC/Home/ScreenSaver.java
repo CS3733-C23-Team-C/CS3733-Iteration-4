@@ -1,10 +1,11 @@
-package edu.wpi.cs3733.C23.teamC.controllers;
+package edu.wpi.cs3733.C23.teamC.Home;
 
 import edu.wpi.cs3733.C23.teamC.navigation.Navigation;
 import edu.wpi.cs3733.C23.teamC.navigation.Screen;
+import lombok.extern.slf4j.Slf4j;
+
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class ScreenSaver extends Thread {

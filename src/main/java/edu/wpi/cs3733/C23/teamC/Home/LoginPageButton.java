@@ -1,4 +1,4 @@
-package edu.wpi.cs3733.C23.teamC.controllers;
+package edu.wpi.cs3733.C23.teamC.Home;
 
 import edu.wpi.cs3733.C23.teamC.navigation.Navigation;
 import edu.wpi.cs3733.C23.teamC.navigation.Screen;

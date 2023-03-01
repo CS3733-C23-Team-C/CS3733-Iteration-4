@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.C23.teamC.navigation;
 
 import edu.wpi.cs3733.C23.teamC.App;
-import edu.wpi.cs3733.C23.teamC.controllers.ScreenSaver;
+import edu.wpi.cs3733.C23.teamC.Home.ScreenSaver;
 import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 
