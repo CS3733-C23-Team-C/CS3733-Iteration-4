@@ -35,7 +35,7 @@
                            <children>
                               <ImageView fitHeight="249.0" fitWidth="172.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="C:\Users\Preston Van Fleet\Downloads\AppPic.jpg" />
+                                    <Image url="C:\Users\Preston Van Fleet\Documents\GitHub\CS3733-Iteration-4\src\main\resources\edu\wpi\cs3733\C23\teamC\images\teamPics\AppPic.jpg" />
                                  </image></ImageView>
                            </children>
                            <HBox.margin>
