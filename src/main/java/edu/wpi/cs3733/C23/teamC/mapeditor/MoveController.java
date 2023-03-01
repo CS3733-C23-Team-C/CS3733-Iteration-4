@@ -104,7 +104,6 @@ public class MoveController {
     String currLocation = currentLocation.getValue();
     // String movedLocation = newLocation.getText();
     String newLocal = newLocation.getValue();
-    String nodeID = "";
     /*for (LocationnameEntity names : Main.db.getLocationnames().values()) {
       if (newLocal.equals(names.toString())) {
         PFLocation location = new PFLocation(names);
@@ -113,7 +112,7 @@ public class MoveController {
     }*/
 
     // System.out.println("nodeid: " + movedLocation);
-    MoveEntity newMove = new MoveEntity(nodeID, currLocation, outputDate);
+    MoveEntity newMove = new MoveEntity(newLocal, currLocation, outputDate);
     clear();
     Main.db.addMove(newMove);
 
