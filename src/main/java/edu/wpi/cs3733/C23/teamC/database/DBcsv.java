@@ -4,7 +4,7 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import edu.wpi.cs3733.C23.teamC.Main;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
+import edu.wpi.cs3733.C23.teamC.database.hibernate.*;
 import java.io.*;
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -19,6 +19,8 @@ public class DBcsv {
   public static Map<String, LocationnameEntity> locationNames;
   public static List<MoveEntity> moves;
   public static Map<String, StaffEntity> staff;
+  public static Map<Integer, AlertEntity> alert;
+  public static List<AlertStaff> alertstaff;
   public static Map<Integer, TransportationsubmissionEntity> transportationSubs;
   public static Map<Integer, CleaningsubmissionEntity> cleaningSubs;
   public static Map<Integer, SecuritysubmissionEntity> securitySubs;
@@ -31,6 +33,8 @@ public class DBcsv {
     locationNames = Main.db.getLocationnames();
     moves = Main.db.getMoves();
     staff = Main.db.getStaff();
+    alert = Main.db.getAlerts();
+    alertstaff = Main.db.getAlertStaff();
     transportationSubs = Main.db.getTransportationSubs();
     cleaningSubs = Main.db.getCleaningSubs();
     securitySubs = Main.db.getSecuritySubs();
@@ -45,6 +49,8 @@ public class DBcsv {
     locationNames = Main.db.getLocationnames();
     moves = Main.db.getMoves();
     staff = Main.db.getStaff();
+    alert = Main.db.getAlerts();
+    alertstaff = Main.db.getAlertStaff();
     transportationSubs = Main.db.getTransportationSubs();
     cleaningSubs = Main.db.getCleaningSubs();
     securitySubs = Main.db.getSecuritySubs();
@@ -60,6 +66,8 @@ public class DBcsv {
     String locationnamecsv = backup_folder + "\\" + "locationname.csv";
     String movecsv = backup_folder + "\\" + "move.csv";
     String staffcsv = backup_folder + "\\" + "staff.csv";
+    String alertcsv = backup_folder + "\\" + "alert.csv";
+    String alertstaffcsv = backup_folder + "\\" + "alertstaff.csv";
     String cleaningcsv = backup_folder + "\\" + "cleaningsubmission.csv";
     String transportcsv = backup_folder + "\\" + "transportationsubmission.csv";
     String securitycsv = backup_folder + "\\" + "securitysubmission.csv";
@@ -70,6 +78,7 @@ public class DBcsv {
     CSVReader nodeReader = new CSVReader(new FileReader(nodecsv));
     List<String[]> nodeBody = nodeReader.readAll();
     nodeReader.close();
+    System.out.println("Read nodes");
 
     // Read edges
     CSVReader edgeReader = new CSVReader(new FileReader(edgecsv));
@@ -91,6 +100,17 @@ public class DBcsv {
     List<String[]> staffBody = staffReader.readAll();
     staffReader.close();
 
+    // Read alert
+    CSVReader alertReader = new CSVReader(new FileReader(alertcsv));
+    List<String[]> alertBody = alertReader.readAll();
+    alertReader.close();
+    System.out.println("Read alert");
+
+    // Read alertsaff
+    CSVReader alertStaffReader = new CSVReader(new FileReader(alertstaffcsv));
+    List<String[]> alertStaffBody = alertStaffReader.readAll();
+    alertStaffReader.close();
+
     // Read cleaning
     CSVReader cleaningReader = new CSVReader(new FileReader(cleaningcsv));
     List<String[]> cleaningBody = cleaningReader.readAll();
@@ -109,12 +129,12 @@ public class DBcsv {
     // Read computer
     CSVReader computerReader = new CSVReader(new FileReader(computercsv));
     List<String[]> computerBody = computerReader.readAll();
-    securityReader.close();
+    computerReader.close();
 
     // Read audio
     CSVReader audioReader = new CSVReader(new FileReader(audiocsv));
     List<String[]> audioBody = audioReader.readAll();
-    securityReader.close();
+    audioReader.close();
 
     // Deletes the database
     List<ComputersubmissionEntity> computerKeys = List.copyOf(computerSubs.values());
@@ -140,6 +160,13 @@ public class DBcsv {
     List<CleaningsubmissionEntity> cleaningKeys = List.copyOf(cleaningSubs.values());
     for (CleaningsubmissionEntity cleaningsubmissionEntity : cleaningKeys) {
       Main.db.deleteCleaning(cleaningsubmissionEntity.getSubmissionid());
+    }
+
+    Main.db.deleteAlertStaff();
+
+    List<AlertEntity> alertKeys = List.copyOf(alert.values());
+    for (AlertEntity alertEntity : alertKeys) {
+      Main.db.deleteAlert(alertEntity);
     }
 
     List<StaffEntity> staffKeys = List.copyOf(staff.values());
@@ -182,6 +209,12 @@ public class DBcsv {
     // Insert staff
     csv2DB(staffBody, new StaffEntity.Importer()).forEach(Main.db::addStaff);
 
+    // Insert alert
+    csv2DB(alertBody, new AlertEntity.Importer()).forEach(Main.db::addAlert);
+
+    // Insert alertstaff
+    csv2DB(alertStaffBody, new AlertStaff.Importer());
+
     // Insert cleaning
     csv2DB(cleaningBody, new CleaningsubmissionEntity.Importer()).forEach(Main.db::addCleaning);
 
@@ -216,6 +249,8 @@ public class DBcsv {
     File locationnamecsv = new File(folder + "\\" + "locationname.csv");
     File movecsv = new File(folder + "\\" + "move.csv");
     File staffcsv = new File(folder + "\\" + "staff.csv");
+    File alertcsv = new File(folder + "\\" + "alert.csv");
+    File alertstaffcsv = new File(folder + "\\" + "alertstaff.csv");
     File transportationsubmissioncsv = new File(folder + "\\" + "transportationsubmission.csv");
     File cleaningsubmissioncsv = new File(folder + "\\" + "cleaningsubmission.csv");
     File securitysubmissioncsv = new File(folder + "\\" + "securitysubmission.csv");
@@ -236,6 +271,12 @@ public class DBcsv {
 
     // Create staff
     writeCSV(staff.values(), staffcsv);
+
+    // Create alert
+    writeCSV(alert.values(), alertcsv);
+
+    // Create alert staff
+    writeCSV(alertstaff, alertstaffcsv);
 
     // Create transportation
     writeCSV(transportationSubs.values(), transportationsubmissioncsv);

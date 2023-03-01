@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.C23.teamC.database;
 
 import edu.wpi.cs3733.C23.teamC.Main;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
+import edu.wpi.cs3733.C23.teamC.database.hibernate.*;
 import io.github.palexdev.materialfx.controls.MFXTextField;
 import jakarta.persistence.PersistenceException;
 import java.util.HashMap;
@@ -162,6 +162,11 @@ public class newDBConnect implements RepoFacade {
   }
 
   @Override
+  public Map<Integer, AlertEntity> getAlerts() {
+    return null;
+  }
+
+  @Override
   public void addAudio(AudiosubmissionEntity submission) {
     audio.addAudio(submission);
   }
@@ -244,6 +249,9 @@ public class newDBConnect implements RepoFacade {
   public void addMessage(MessagesEntity addition) {
     message.addMessage(addition);
   }
+
+  @Override
+  public void addAlert(AlertEntity alert) {}
 
   @Override
   public AudiosubmissionEntity getAudio(int id) {
@@ -384,6 +392,9 @@ public class newDBConnect implements RepoFacade {
     message.deleteMessage(id);
   }
 
+  @Override
+  public void deleteAlert(AlertEntity entity) {}
+
   public void threadRefresh(int delay) {
     try {
       System.out.println("Auto update!");
@@ -473,4 +484,17 @@ public class newDBConnect implements RepoFacade {
   public AlertEntity getAlert(int id) {
     return null;
   }
+
+  @Override
+  public int getNewAlertID() {
+    return 0;
+  }
+
+  @Override
+  public List<AlertStaff> getAlertStaff() {
+    return null;
+  }
+
+  @Override
+  public void deleteAlertStaff() {}
 }

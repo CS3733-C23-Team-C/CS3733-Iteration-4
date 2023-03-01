@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="homeStackPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.controllers.HomeController">
+<StackPane fx:id="homeStackPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.Home.HomeController">
    <children>
       <BorderPane fx:id="homePagePane" prefHeight="600.0" prefWidth="800.0">
          <top>
@@ -32,11 +32,11 @@
                         <Insets bottom="-10.0" top="-10.0" />
                      </VBox.margin>
                   </HBox>
-                  <HBox VBox.vgrow="ALWAYS">
+                  <HBox>
                      <children>
                         <VBox fx:id="messagesBox" alignment="CENTER" onMousePressed="#showMessage" styleClass="text" stylesheets="@../styles/home_style.css" HBox.hgrow="ALWAYS">
                            <children>
-                              <Text fx:id="newMessageTxt" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="X">
+                              <Text fx:id="newMessageTxt" fill="#009ca6" strokeType="OUTSIDE" strokeWidth="0.0" text="X">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
@@ -53,7 +53,7 @@
                         </VBox>
                         <VBox fx:id="assignedBox" alignment="CENTER" onMousePressed="#showAssigned" styleClass="text" stylesheets="@../styles/home_style.css" HBox.hgrow="ALWAYS">
                            <children>
-                              <Text fx:id="assignedTxt" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="X">
+                              <Text fx:id="assignedTxt" fill="#009ca6" strokeType="OUTSIDE" strokeWidth="0.0" text="X">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
@@ -67,7 +67,7 @@
                         </VBox>
                         <VBox fx:id="pendingBox" alignment="CENTER" onMousePressed="#showPending" HBox.hgrow="ALWAYS">
                            <children>
-                              <Text fx:id="pendingTxt" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="X">
+                              <Text fx:id="pendingTxt" fill="#009ca6" strokeType="OUTSIDE" strokeWidth="0.0" text="X">
                                  <font>
                                     <Font size="40.0" />
                                  </font>
@@ -84,7 +84,7 @@
                         <Insets bottom="10.0" top="10.0" />
                      </padding>
                   </HBox>
-                  <MFXScrollPane fx:id="scrollPane" fitToWidth="true" minHeight="90.0" prefHeight="200.0" style="-fx-background-color: #F4F4F4;">
+                  <MFXScrollPane fx:id="scrollPane" fitToWidth="true" minHeight="150.0" style="-fx-background-color: #F4F4F4;">
                      <content>
                         <VBox fx:id="vbox" alignment="CENTER" spacing="5.0">
                            <padding>

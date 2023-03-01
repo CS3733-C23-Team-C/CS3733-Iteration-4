@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.controllers.MenuController">
+<BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.Home.MenuController">
    <center>
       <VBox alignment="TOP_CENTER" minWidth="200.0" prefHeight="377.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #012D5A;">
          <children>
@@ -63,6 +63,22 @@
                <graphic>
                   <Circle fx:id="newMessageCircle" fill="#f6bd38" nodeOrientation="LEFT_TO_RIGHT" radius="6.0" stroke="BLACK" strokeType="INSIDE" visible="false" />
                </graphic>
+            </MFXButton>
+            <MFXButton fx:id="moveButton" maxWidth="1.7976931348623157E308" onAction="#goToMovePage" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="Add Moves" textFill="WHITE">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </MFXButton>
+            <MFXButton fx:id="kioskButton" maxWidth="1.7976931348623157E308" onAction="#goToKiosk" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="Kiosk Mode" textFill="WHITE">
+
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </MFXButton>
+            <MFXButton fx:id="graphsButton" maxWidth="1.7976931348623157E308" onAction="#goToGraph" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="Graphs" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
             </MFXButton>
             <MFXButton fx:id="creditsButton" maxWidth="1.7976931348623157E308" onAction="#goToCreditsPage" style="-fx-background-color: transparent;" stylesheets="@../styles/menu.css" text="Credits" textFill="WHITE">
                <font>

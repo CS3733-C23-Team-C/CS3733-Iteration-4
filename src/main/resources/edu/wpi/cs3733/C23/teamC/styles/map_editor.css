@@ -4,6 +4,7 @@
     -fx-border-width: 0 0 0 10;
     -fx-border-style: none;
     -fx-border-color: #00000000;
+    -fx-font-size: 20;
 }
 
 .ribbonToggle:hover {
@@ -29,4 +30,37 @@
 .selectable:selected * {
     -fx-stroke: #009CA6;
     -fx-fill: #009CA6;
+}
+
+.mapEditorEdge * {
+    -fx-stroke: blue;
+    -fx-fill: white;
+}
+
+/*.mapEditorEdge:hideNode1 line {*/
+/*    -fx-stroke: linear-gradient(#00000000, red);*/
+/*}*/
+
+/*.mapEditorEdge:hideNode2 line {*/
+/*    -fx-stroke: linear-gradient(red, #00000000);*/
+/*}*/
+
+/*.mapEditorEdge:hideNode1:hover line {*/
+/*    -fx-stroke: linear-gradient(#00000000, #F6BD38);*/
+/*}*/
+
+/*.mapEditorEdge:hideNode2:hover line {*/
+/*    -fx-stroke: linear-gradient(#F6BD38, #00000000);*/
+/*}*/
+
+.mapEditorEdge circle {
+    -fx-fill: #00000000;
+}
+
+.mapEditorSelect {
+    -fx-fill: #009CA640;
+    -fx-stroke: #009CA6;
+    -fx-stroke-width: 2;
+    -fx-arc-height: 5;
+    -fx-arc-width: 5;
 }

@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.C23.teamC.database.dao;
 
-import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
-import edu.wpi.cs3733.C23.teamC.objects.orm.Persistent;
+import edu.wpi.cs3733.C23.teamC.database.orm.DAOFacade;
+import edu.wpi.cs3733.C23.teamC.database.orm.Persistent;
 import java.util.function.Function;
 import javafx.beans.property.ReadOnlyMapProperty;
 import javafx.beans.property.ReadOnlyMapWrapper;
@@ -39,8 +39,13 @@ public class MapDAOBase<K, E extends Persistent> {
   }
 
   public void delete(E entity) {
-    entities.remove(keyGetter.apply(entity), entity);
     orm.delete(entity);
+    entities.remove(keyGetter.apply(entity), entity);
     // todo should we somehow disable persistence?
+    entity.disablePersistence();
+  }
+
+  public void update() {
+    getAll().forEach((k, e) -> orm.refresh(e));
   }
 }

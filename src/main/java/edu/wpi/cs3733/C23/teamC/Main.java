@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.C23.teamC;
 
 import edu.wpi.cs3733.C23.teamC.database.*;
-import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
+import edu.wpi.cs3733.C23.teamC.database.orm.DAOFacade;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,8 +29,9 @@ public class Main extends Thread {
     updaterThread.start();
 
     App.launch(App.class, args);
-    //    }
+
     updater.stop();
+    updaterThread.interrupt();
   }
 
   // shortcut: psvm

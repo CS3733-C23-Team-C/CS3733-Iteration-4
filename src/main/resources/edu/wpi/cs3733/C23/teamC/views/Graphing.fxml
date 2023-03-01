@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXCheckbox?>
+<?import io.github.palexdev.materialfx.controls.MFXDatePicker?>
+<?import io.github.palexdev.materialfx.controls.MFXFilterComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane fx:id="transportationStackPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.ServiceRequests.GraphController">
+    <children>
+        <BorderPane fx:id="transportationPane">
+            <top>
+                <HBox prefHeight="20.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER" />
+            </top>
+            <center>
+                <VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+                    <BorderPane.margin>
+                        <Insets />
+                    </BorderPane.margin>
+                    <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" />
+                    </padding>
+                    <children>
+                        <HBox prefHeight="10.0" prefWidth="200.0" />
+                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Graph">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </Text>
+                        <HBox prefHeight="10.0" prefWidth="200.0" />
+                        <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;" />
+                        <HBox prefHeight="20.0" prefWidth="200.0" />
+                        <HBox minWidth="300.0" spacing="350.0" style="-fx-background-color: #E7E7E7;">
+                            <children>
+                                <VBox HBox.hgrow="NEVER">
+                                    <children>
+                                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Start Date">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </Text>
+                                        <MFXDatePicker fx:id="StartDate" onAction="#validateButton" prefHeight="45.0" prefWidth="200.0">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </MFXDatePicker>
+                                    </children>
+                                </VBox>
+                        <VBox>
+                           <children>
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="End Date">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                              <MFXDatePicker fx:id="EndDate" onAction="#validateButton" prefHeight="45.0" prefWidth="200.0">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </MFXDatePicker>
+                           </children>
+                        </VBox>
+                            </children>
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                            </padding>
+                        </HBox>
+                        <HBox minWidth="300.0" spacing="350.0" style="-fx-background-color: #E7E7E7;">
+                            <children>
+                                <VBox HBox.hgrow="NEVER">
+                                    <children>
+                                        <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Staff ID">
+                                            <font>
+                                                <Font size="15.0" />
+                                            </font>
+                                        </Text>
+                              <MFXFilterComboBox fx:id="staffIDField" onAction="#validateButton" prefHeight="40.0" prefWidth="201.0" />
+                              <Text fx:id="AllEmployee" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="All Employees">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                              <MFXCheckbox fx:id="AllEmployees" onAction="#validateButton" />
+                                    </children>
+                                </VBox>
+                        <VBox>
+                           <children>
+                              <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Request">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </Text>
+                              <MFXFilterComboBox fx:id="request" onAction="#validateButton" prefWidth="200.0">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font>
+                              </MFXFilterComboBox>
+                           </children>
+                        </VBox>
+                            </children>
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                            </padding>
+                        </HBox>
+                        <HBox minWidth="300.0" spacing="20.0" style="-fx-background-color: #E7E7E7;">
+                            <padding>
+                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                            </padding>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="600.0" prefWidth="800.0">
+                            <children>
+                        <LineChart fx:id="CoolGraph" visible="false">
+                           <xAxis>
+                              <CategoryAxis fx:id="Xaxis" animated="false" side="BOTTOM" />
+                           </xAxis>
+                           <yAxis>
+                              <NumberAxis fx:id="Yaxis" side="LEFT" />
+                           </yAxis>
+                        </LineChart>
+                            </children></HBox>
+                        <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+                            <children>
+                        <MFXButton fx:id="ClearGraph" minWidth="150.0" onAction="#ClearGraph" style="-fx-background-color: #012D5A;" text="Clear Graph" textFill="WHITE">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </MFXButton>
+                                <MFXButton fx:id="GraphButton" minWidth="150.0" onAction="#MakeGraph" style="-fx-background-color: #009CA6;" text="Make Graph" textFill="WHITE">
+                                    <font>
+                                        <Font size="15.0" />
+                                    </font>
+                                </MFXButton>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </center>
+        </BorderPane>
+    </children>
+</StackPane>

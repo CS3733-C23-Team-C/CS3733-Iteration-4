@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.C23.teamC.database.dao;
 
-import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
-import edu.wpi.cs3733.C23.teamC.objects.orm.Persistent;
+import edu.wpi.cs3733.C23.teamC.database.orm.DAOFacade;
+import edu.wpi.cs3733.C23.teamC.database.orm.Persistent;
 import javafx.beans.property.ReadOnlyListProperty;
 import javafx.beans.property.ReadOnlyListWrapper;
 import javafx.collections.FXCollections;
@@ -30,5 +30,10 @@ class ListDAOBase<E extends Persistent> {
   public void delete(E entity) {
     orm.delete(entity);
     entities.remove(entity);
+    entity.disablePersistence();
+  }
+
+  public void update() {
+    getAll().forEach(orm::refresh);
   }
 }
