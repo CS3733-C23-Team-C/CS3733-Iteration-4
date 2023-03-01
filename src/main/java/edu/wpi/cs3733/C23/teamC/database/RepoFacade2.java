@@ -3,6 +3,7 @@ package edu.wpi.cs3733.C23.teamC.database;
 import edu.wpi.cs3733.C23.teamC.database.hibernate.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import javafx.beans.property.ReadOnlyListProperty;
@@ -44,6 +45,8 @@ public interface RepoFacade2 {
   Map<Integer, MessagesEntity> getMessages(String id, int lastid);
 
   ReadOnlyMapProperty getAlerts();
+
+  List<AlertStaff> getAlertStaff();
 
   // Add method
   // Submissions
@@ -180,4 +183,6 @@ public interface RepoFacade2 {
       }
     };
   }
+
+  void deleteAlertStaff();
 }
