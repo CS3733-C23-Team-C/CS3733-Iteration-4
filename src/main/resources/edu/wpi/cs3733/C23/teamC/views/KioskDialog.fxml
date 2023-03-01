@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXComboBox?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.Pathfinding.KioskDialogController">
+   <center>
+      <VBox alignment="TOP_CENTER" prefHeight="478.0" prefWidth="537.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="10.0" />
+            <Text fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Kiosk Builder">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Text>
+            <HBox prefHeight="10.0" />
+            <VBox minHeight="10.0" style="-fx-background-color: #F6BD38;" />
+            <HBox prefHeight="10.0" />
+            <VBox spacing="10.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <HBox alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="445.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="What would you like to build a kiosk from?">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Text>
+                        <Pane prefHeight="51.0" prefWidth="50.0" />
+                        <MFXComboBox fx:id="targetField" onAction="#onTargetSelection" prefHeight="50.0" prefWidth="137.0" promptText="Build">
+                           <font>
+                              <Font size="15.0" />
+                           </font></MFXComboBox>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="question2" alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="445.0" spacing="5.0">
+                     <children>
+                        <Text fx:id="question2Text" strokeType="OUTSIDE" strokeWidth="0.0" text="Question 2 Text">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Text>
+                        <Pane prefHeight="51.0" prefWidth="50.0" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="question3" alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="445.0">
+                     <children>
+                        <Text fx:id="question3Text" strokeType="OUTSIDE" strokeWidth="0.0" text="Question 3 Text">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Text>
+                        <Pane prefHeight="51.0" prefWidth="50.0" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="question4" alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="445.0">
+                     <children>
+                        <Text fx:id="question4Text" strokeType="OUTSIDE" strokeWidth="0.0" text="Question 4 Text">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Text>
+                        <Pane prefHeight="51.0" prefWidth="50.0" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="51.0" prefWidth="445.0" />
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
+            <HBox prefHeight="10.0" />
+            <HBox alignment="CENTER" prefHeight="30.0" prefWidth="445.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <MFXButton fx:id="resetButton" onAction="#reset" style="-fx-background-color: #009CA6;" text="Reset" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font></MFXButton>
+                  <Pane prefHeight="30.0" prefWidth="27.0" />
+                  <MFXButton fx:id="cancelButton" onAction="#closeDialog" style="-fx-background-color: #009CA6;" text="Cancel" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font></MFXButton>
+                  <Pane prefHeight="30.0" prefWidth="27.0" />
+                  <MFXButton fx:id="createKioskButton" onAction="#createKiosk" style="-fx-background-color: #009CA6;" text="Build" textFill="WHITE">
+                     <font>
+                        <Font size="15.0" />
+                     </font></MFXButton>
+               </children>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" />
+         </padding>
+      </VBox>
+   </center>
+   <top>
+      <HBox prefHeight="20.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER" />
+   </top>
+</BorderPane>

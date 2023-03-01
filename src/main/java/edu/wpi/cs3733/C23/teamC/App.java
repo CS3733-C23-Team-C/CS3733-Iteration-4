@@ -1,9 +1,9 @@
 package edu.wpi.cs3733.C23.teamC;
 
+import edu.wpi.cs3733.C23.teamC.Pathfinding.ImageLoader;
+import edu.wpi.cs3733.C23.teamC.database.hibernate.StaffEntity;
 import edu.wpi.cs3733.C23.teamC.navigation.Navigation;
 import edu.wpi.cs3733.C23.teamC.navigation.Screen;
-import edu.wpi.cs3733.C23.teamC.objects.ImageLoader;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.StaffEntity;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

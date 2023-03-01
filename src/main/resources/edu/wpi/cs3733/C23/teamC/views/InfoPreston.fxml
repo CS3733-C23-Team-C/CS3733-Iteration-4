@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="transportationStackPane" minHeight="400.0" minWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.controllers.InfoPrestonController">
+<StackPane fx:id="transportationStackPane" minHeight="400.0" minWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.Info.InfoPrestonController">
    <children>
       <BorderPane fx:id="transportationPane">
          <top>
@@ -53,17 +53,17 @@
                                     <Insets />
                                  </VBox.margin>
                               </Text>
-                              <Text fx:id="infoMessage1" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Major:">
+                              <Text fx:id="infoMessage1" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Major: Computer Science">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="infoMessage11" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Hobby: ">
+                              <Text fx:id="infoMessage11" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Hobby: Football">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="infoMessage111" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Favourite Food: ">
+                              <Text fx:id="infoMessage111" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Favourite Food: Buffalo Wings">
                                  <font>
                                     <Font size="15.0" />
                                  </font>

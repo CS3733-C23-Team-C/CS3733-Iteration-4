@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.C23.teamC.database.dao;
 
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.SecuritysubmissionEntity;
-import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
+import edu.wpi.cs3733.C23.teamC.database.hibernate.SecuritysubmissionEntity;
+import edu.wpi.cs3733.C23.teamC.database.orm.DAOFacade;
 
 public class SecuritySubmissionDAO extends MapDAOBase<Integer, SecuritysubmissionEntity> {
   public SecuritySubmissionDAO(DAOFacade orm) {

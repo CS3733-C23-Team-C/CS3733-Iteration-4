@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.C23.teamC.database.dao;
 
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.StaffEntity;
-import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
+import edu.wpi.cs3733.C23.teamC.database.hibernate.StaffEntity;
+import edu.wpi.cs3733.C23.teamC.database.orm.DAOFacade;
 import java.util.Collection;
 
 public class StaffDAO extends MapDAOBase<String, StaffEntity> {

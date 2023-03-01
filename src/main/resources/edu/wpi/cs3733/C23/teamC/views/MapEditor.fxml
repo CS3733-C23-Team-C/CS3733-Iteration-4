@@ -20,7 +20,7 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.control.Separator?>
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.controllers.mapeditor.MapEditorController" stylesheets="@../styles/map_editor.css">
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.mapeditor.MapEditorController" stylesheets="@../styles/map_editor.css">
     <center>
         <AnchorPane prefHeight="400.0" prefWidth="1200.0">
             <SplitPane AnchorPane.leftAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0"> <!-- this is an awful, terrible kludge, but it keeps the map view from flying around everywhere and clipping through things -->
