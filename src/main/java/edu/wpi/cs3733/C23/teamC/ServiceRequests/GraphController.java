@@ -1,14 +1,16 @@
 package edu.wpi.cs3733.C23.teamC.ServiceRequests;
 
+import edu.wpi.cs3733.C23.teamC.App;
 import edu.wpi.cs3733.C23.teamC.Main;
-import edu.wpi.cs3733.C23.teamC.Main.*;
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.*;
+import edu.wpi.cs3733.C23.teamC.database.hibernate.*;
 import io.github.palexdev.materialfx.controls.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
@@ -21,17 +23,34 @@ public class GraphController {
   @FXML private MFXDatePicker StartDate;
   @FXML private MFXDatePicker EndDate;
   @FXML private MFXComboBox<String> request;
-  @FXML private MFXTextField assignedStaffID;
+  @FXML private MFXFilterComboBox<String> staffIDField;
   @FXML private MFXCheckbox AllEmployees;
   @FXML private MFXButton GraphButton;
+  @FXML private Text AllEmployee;
   @FXML private LineChart<String, Integer> CoolGraph;
   @FXML private CategoryAxis Xaxis;
   @FXML private NumberAxis Yaxis;
   @FXML private MFXButton ClearButton;
-  @FXML private Text ErrorMessage;
+  private StaffEntity user;
+  //  @FXML private Text ErrorMessage;
 
   public void initialize() {
     request.getItems().addAll("ALL", "Audio", "Cleaning", "Computer", "Transportation", "Security");
+
+    Map<String, StaffEntity> staffMap = Main.db.getStaff();
+    ObservableList<String> staff = FXCollections.observableArrayList();
+    for (StaffEntity s : staffMap.values()) {
+      staff.add(s.getStaffid());
+    }
+    staffIDField.getItems().addAll(staff);
+    user = App.getUser();
+    if (!user.getRole().equals("admin")) {
+      staffIDField.setDisable(true);
+      AllEmployees.setVisible(false);
+      AllEmployee.setVisible(false);
+    }
+    staffIDField.setText(user.getStaffid());
+    GraphButton.setDisable(true);
   }
 
   public void
@@ -40,8 +59,9 @@ public class GraphController {
     if (StartDate.getValue() != null
         && EndDate.getValue() != null
         && request.getValue() != null
-        && (AllEmployees.isSelected() == true || !assignedStaffID.getText().equals("")))
-      valid = true;
+        && (AllEmployees.isSelected()
+            || staffIDField.getValue() != null
+            || staffIDField.isDisabled())) valid = true;
     GraphButton.setDisable(!valid);
   }
 
@@ -51,21 +71,30 @@ public class GraphController {
   }
 
   public void MakeGraph() throws ParseException {
-
-    String EMID = assignedStaffID.getText();
+    String userID = user.getStaffid();
+    String EMID;
+    if (staffIDField.isDisable()) {
+      EMID = userID;
+    } else {
+      EMID = staffIDField.getValue();
+    }
     String Person = "";
     String Request = request.getValue();
     String ThePerson = "ALL";
 
     // Staff ID
-    if (AllEmployees.isSelected()) {
+    if (AllEmployees.isVisible() && AllEmployees.isSelected()) {
       Person = "All";
     } else if (Main.db.getStaff(EMID) == null) {
-      ErrorMessage.setText("This user Does on Excise.");
-      ErrorMessage.setVisible(true);
+      // ErrorMessage.setText("This user Does on Excise.");
+      // ErrorMessage.setVisible(true);
       return;
     } else {
-      Person = assignedStaffID.getText();
+      if (staffIDField.isDisable()) {
+        Person = userID;
+      } else {
+        Person = staffIDField.getValue();
+      }
       ThePerson =
           Main.db.getStaff(Person).getFirstname() + " " + Main.db.getStaff(Person).getLastname();
     }
@@ -77,8 +106,8 @@ public class GraphController {
     Date Enddate = Date.from(GetEDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
     if (Startdate.compareTo(Enddate) > 0) {
-      ErrorMessage.setText("The End date is before the Start Date.");
-      ErrorMessage.setVisible(true);
+      // ErrorMessage.setText("The End date is before the Start Date.");
+      // ErrorMessage.setVisible(true);
       return;
     }
 
@@ -514,6 +543,6 @@ public class GraphController {
 
     CoolGraph.getData().addAll(series1);
     CoolGraph.setVisible(true);
-    ErrorMessage.setVisible(false);
+    // ErrorMessage.setVisible(false);
   }
 }
