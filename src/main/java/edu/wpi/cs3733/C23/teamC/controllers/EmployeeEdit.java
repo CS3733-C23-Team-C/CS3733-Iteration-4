@@ -7,8 +7,6 @@ import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
 import io.github.palexdev.materialfx.controls.MFXPasswordField;
 import io.github.palexdev.materialfx.controls.MFXTextField;
-import java.io.IOException;
-import java.util.Objects;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,6 +14,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.text.Text;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.io.IOException;
+import java.util.Objects;
 
 public class EmployeeEdit {
 
@@ -57,7 +58,22 @@ public class EmployeeEdit {
   //      System.out.println("This is the employee username " + outputUsername);
   //      System.out.println("This is the employee password " + outputPassword);
   //      s = Main.db.getStaff(outputUsername, outputPassword);
-  //    }
+
+  public static void screen() {
+    int duration = 3; // Duration of timer in seconds
+    ScreenSaver timerThread = new ScreenSaver(duration);
+    Thread thread = new Thread(timerThread);
+    thread.start();
+
+    try {
+      Thread.sleep(duration * 1000 + 100); // Sleep for a bit longer than the timer duration
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    System.out.println("this thread is about to be killed");
+
+    thread.interrupt();
+  }
 
   @FXML
   public void initialize() {
