@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="transportationStackPane" minHeight="400.0" minWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.controllers.InfoSpencerController">
+<StackPane fx:id="transportationStackPane" minHeight="400.0" minWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.Info.InfoSpencerController">
    <children>
       <BorderPane fx:id="transportationPane">
          <top>
@@ -62,12 +62,12 @@
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="infoMessage11" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Hobby: Hanging out with Friends">
+                              <Text fx:id="infoMessage11" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Hobby: Hanging out with friends">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
                               </Text>
-                              <Text fx:id="infoMessage111" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Favourite Food: Pizza ">
+                              <Text fx:id="infoMessage111" fill="#012d5a" strokeType="OUTSIDE" strokeWidth="0.0" text="Favourite Food: Pizza">
                                  <font>
                                     <Font size="15.0" />
                                  </font>
