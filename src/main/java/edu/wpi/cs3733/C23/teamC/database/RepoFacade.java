@@ -111,6 +111,8 @@ public interface RepoFacade {
 
   void deleteMessage(int messageid);
 
+  void deleteAlert(AlertEntity entity);
+
   // Submission methods
   StaffEntity getStaff(String Staffid, String password);
 
@@ -135,4 +137,8 @@ public interface RepoFacade {
   AlertEntity getAlert(int id);
 
   int getNewAlertID();
+
+  List<AlertStaff> getAlertStaff();
+
+  void deleteAlertStaff();
 }
