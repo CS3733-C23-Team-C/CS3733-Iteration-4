@@ -11,7 +11,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.controllers.MenuController">
+<BorderPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.Home.MenuController">
    <center>
       <VBox alignment="TOP_CENTER" minWidth="200.0" prefHeight="377.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: #012D5A;">
          <children>

@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.C23.teamC.database;
 
 import edu.wpi.cs3733.C23.teamC.Main;
-import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
+import edu.wpi.cs3733.C23.teamC.database.orm.DAOFacade;
 import jakarta.persistence.PersistenceException;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;

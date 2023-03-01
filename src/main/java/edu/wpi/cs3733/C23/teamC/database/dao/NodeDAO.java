@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.C23.teamC.database.dao;
 
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.NodeEntity;
-import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
+import edu.wpi.cs3733.C23.teamC.database.hibernate.NodeEntity;
+import edu.wpi.cs3733.C23.teamC.database.orm.DAOFacade;
 
 public final class NodeDAO extends MapDAOBase<String, NodeEntity> {
   private static NodeDAO instance;
