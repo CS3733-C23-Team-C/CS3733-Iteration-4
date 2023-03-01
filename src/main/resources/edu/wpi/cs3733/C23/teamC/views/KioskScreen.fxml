@@ -5,6 +5,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -16,30 +18,40 @@
 <?import javafx.scene.text.Text?>
 
 <BorderPane onKeyPressed="#keyPress" prefHeight="498.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.wpi.cs3733.C23.teamC.controllers.KioskScreen">
-   <left>
-      <VBox alignment="CENTER" minWidth="200.0" onKeyPressed="#keyPress" prefWidth="200.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER">
+   <top>
+      <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="-Infinity" onKeyPressed="#keyPress" prefHeight="150.0" spacing="10.0" style="-fx-background-color: #012D5A;" BorderPane.alignment="CENTER">
          <children>
-            <Text fx:id="leftNode" fill="WHITE" onKeyPressed="#keyPress" strokeType="OUTSIDE" strokeWidth="0.0" text="Left Node" textAlignment="CENTER" wrappingWidth="180.0">
+            <ImageView fitHeight="92.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/left_arrow.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="leftNode" fill="WHITE" onKeyPressed="#keyPress" strokeType="OUTSIDE" strokeWidth="0.0" text="Left Node" textAlignment="CENTER">
                <font>
-                  <Font size="18.0" />
+                  <Font name="System Bold" size="36.0" />
                </font>
             </Text>
          </children>
-      </VBox>
-   </left>
-   <right>
-      <StackPane BorderPane.alignment="CENTER">
+      </HBox>
+   </top>
+   <bottom>
+      <StackPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="150.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="CENTER" minWidth="200.0" onKeyPressed="#keyPress" prefWidth="200.0" style="-fx-background-color: #012D5A;">
+            <HBox alignment="CENTER" maxHeight="-Infinity" minHeight="150.0" onKeyPressed="#keyPress" prefHeight="150.0" spacing="10.0" style="-fx-background-color: #012D5A;">
                <children>
-                  <Text fx:id="rightNode" fill="WHITE" onKeyPressed="#keyPress" strokeType="OUTSIDE" strokeWidth="0.0" text="Right Node" textAlignment="CENTER" wrappingWidth="180.0">
+                  <Text fx:id="rightNode" fill="WHITE" onKeyPressed="#keyPress" strokeType="OUTSIDE" strokeWidth="0.0" text="Right Node" textAlignment="CENTER">
                      <font>
-                        <Font size="18.0" />
+                        <Font name="System Bold" size="36.0" />
                      </font>
                   </Text>
+                  <ImageView fitHeight="92.0" fitWidth="115.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/right_arrow.png" />
+                     </image>
+                  </ImageView>
                </children>
-            </VBox>
-            <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
+            </HBox>
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="5.0">
                <children>
                   <MFXButton onAction="#changeSides" text="Side" />
                   <MFXButton onAction="#switchEdge" text="Edge" />
@@ -50,7 +62,7 @@
             </HBox>
          </children>
       </StackPane>
-   </right>
+   </bottom>
    <center>
       <VBox alignment="TOP_CENTER" onKeyPressed="#keyPress" spacing="10.0">
          <children>
