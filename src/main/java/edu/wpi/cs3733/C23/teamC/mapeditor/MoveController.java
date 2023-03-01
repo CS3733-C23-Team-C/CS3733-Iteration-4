@@ -1,11 +1,7 @@
 package edu.wpi.cs3733.C23.teamC.mapeditor;
 
 import edu.wpi.cs3733.C23.teamC.Main;
-import edu.wpi.cs3733.C23.teamC.Pathfinding.PFLocation;
-import edu.wpi.cs3733.C23.teamC.database.hibernate.AlertEntity;
-import edu.wpi.cs3733.C23.teamC.database.hibernate.LocationnameEntity;
-import edu.wpi.cs3733.C23.teamC.database.hibernate.MoveEntity;
-import edu.wpi.cs3733.C23.teamC.database.hibernate.StaffEntity;
+import edu.wpi.cs3733.C23.teamC.database.hibernate.*;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import io.github.palexdev.materialfx.controls.MFXDatePicker;
 import io.github.palexdev.materialfx.controls.MFXFilterComboBox;
@@ -39,7 +35,9 @@ public class MoveController {
 
     for (LocationnameEntity allLocations : Main.db.getLocationnames().values()) {
       currentLocation.getItems().add(allLocations.getLongname());
-      newLocation.getItems().add(allLocations.getLongname());
+    }
+    for (NodeEntity allNodes : Main.db.getNodes().values()) {
+      newLocation.getItems().add(allNodes.getNodeID());
     }
 
     currentLocation.setOnAction(
@@ -107,12 +105,12 @@ public class MoveController {
     // String movedLocation = newLocation.getText();
     String newLocal = newLocation.getValue();
     String nodeID = "";
-    for (LocationnameEntity names : Main.db.getLocationnames().values()) {
+    /*for (LocationnameEntity names : Main.db.getLocationnames().values()) {
       if (newLocal.equals(names.toString())) {
         PFLocation location = new PFLocation(names);
         nodeID = location.getNodeId(outputDate);
       }
-    }
+    }*/
 
     // System.out.println("nodeid: " + movedLocation);
     MoveEntity newMove = new MoveEntity(nodeID, currLocation, outputDate);
