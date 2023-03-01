@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.C23.teamC.database.dao;
 
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.AudiosubmissionEntity;
-import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
+import edu.wpi.cs3733.C23.teamC.database.hibernate.AudiosubmissionEntity;
+import edu.wpi.cs3733.C23.teamC.database.orm.DAOFacade;
 
 public class AudioSubmissionDAO extends MapDAOBase<Integer, AudiosubmissionEntity> {
   public AudioSubmissionDAO(DAOFacade orm) {

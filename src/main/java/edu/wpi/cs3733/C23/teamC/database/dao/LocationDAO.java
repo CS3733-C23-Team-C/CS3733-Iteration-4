@@ -1,7 +1,7 @@
 package edu.wpi.cs3733.C23.teamC.database.dao;
 
-import edu.wpi.cs3733.C23.teamC.objects.hibernate.LocationnameEntity;
-import edu.wpi.cs3733.C23.teamC.objects.orm.DAOFacade;
+import edu.wpi.cs3733.C23.teamC.database.hibernate.LocationnameEntity;
+import edu.wpi.cs3733.C23.teamC.database.orm.DAOFacade;
 
 public final class LocationDAO extends MapDAOBase<String, LocationnameEntity> {
   private static LocationDAO instance;
